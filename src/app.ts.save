@@ -1,0 +1,47 @@
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 3000
+0|creator- | Server running on port 4000
+0|creator- | Server running on port 4000
+0|creator- | Server running on port 3000
+
+/root/.pm2/logs/creator-os-backend-error.log last 15 lines:
+0|creator- | - /root/dist/app.js
+0|creator- | - /root/dist/server.js
+0|creator- |     at Function._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+0|creator- |     at Hook._require.Module.require (/usr/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+0|creator- |     at require (node:internal/modules/helpers:135:16)
+0|creator- |     at Object.<anonymous> (/root/dist/app.js:6:32)
+0|creator- |     at Module._compile (node:internal/modules/cjs/loader:1688:14)
+0|creator- |     at Object..js (node:internal/modules/cjs/loader:1820:10)
+0|creator- |     at Module.load (node:internal/modules/cjs/loader:1423:32)
+
+0|creator- |     at Function._load (node:internal/modules/cjs/loader:1246:12)
+0|creator- |     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+0|creator- |     at wrapModuleLoad (node:internal/modules/cjs/loader:235:24) {
+0|creator- |   code: 'MODULE_NOT_FOUND',
+0|creator- |   requireStack: [ '/root/dist/app.js', '/root/dist/server.js' ]
+0|creator- | }
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import authRouter from './routes/auth';
+
+dotenv.config();
+
+const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/auth', authRouter);
+
+app.get('/health', (req: Request, res: Response) => {
+  res.send('OK');
+});
+
+export = app;
