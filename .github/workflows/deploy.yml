@@ -1,3 +1,12 @@
+name: Deploy Nexus COS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # ← Allows manual triggering
+
+
 name: Nexus COS Auto-Deploy
 
 on:
