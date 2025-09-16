@@ -1,18 +1,10 @@
-name: Deploy Nexus COS
+name: Deploy Nexus COS  # Single name for the workflow
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:  # ← Allows manual triggering
-
-
-name: Nexus COS Auto-Deploy
-
-on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # ← Enables manual triggering
 
 jobs:
   deploy:
@@ -25,32 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '18'  # Adjust to your Node.js version
 
       - name: Install Dependencies
-        run: |
-          npm install
+        run: npm ci --omit=dev
 
-      - name: Copy SSH Key for VPS
-        uses: webfactory/ssh-agent@v0.8.1
-        with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
-
-      - name: Deploy to VPS
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /var/www/nexus-cos
-            git fetch --all
-            git reset --hard origin/main
-            npm install
-            pm2 restart all
-            pm2 save
-          EOF
-
-      - name: (Optional) Run Playwright Tests
-        if: ${{ secrets.PLAYWRIGHT_ENABLE == 'true' }}
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /var/www/nexus-cos
-            npx playwright test
-          EOF
+      - name: Run Deployment Script
+        run: ./deploy_nexus_cos.sh
