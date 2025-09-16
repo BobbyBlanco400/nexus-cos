@@ -1,0 +1,20 @@
+[Unit]
+Description=Nexus COS Python FastAPI Backend
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/home/runner/work/nexus-cos/nexus-cos/backend
+Environment=PYTHONPATH=/home/runner/work/nexus-cos/nexus-cos/backend
+ExecStart=/home/runner/work/nexus-cos/nexus-cos/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 3001
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nexus-python
+
+[Install]
+WantedBy=multi-user.target
