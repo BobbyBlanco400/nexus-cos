@@ -1,20 +1,11 @@
-Hi GitHub Copilot Code Agent,
+# GitHub Copilot Code Agent Instructions
 
-We are deploying the Nexus COS OS rebuild to a new server and URL. 
-The repository contains backend (Python), frontend (Node.js), and mobile apps.
+Task: Complete Nexus COS rebuild & deployment for new server/URL.
 
-- Backend: backend/app/main.py
-- Frontend: frontend/app.js
-- Mobile API: mobile/app.js
-
-Requirements for deployment:
-1. Pull latest code from the main branch.
-2. Install all dependencies correctly for backend, frontend, and mobile.
-3. Start all processes using PM2 as a single root process (nexus-cos) with sub-processes inside it.
-4. Handle rollback to the previous commit if deployment fails.
-5. Use environment variables from .env.
-6. Output detailed logs of each deployment step.
-7. Ensure the deployment is a clean one-shot and includes all submodules and monorepos.
-8. Include any missing dependency installations automatically.
-
-Please generate a ready-to-run deployment script that accomplishes this.
+1. Update the server URL and environment variables.
+2. Fix all Node.js dependencies (including rnpm) and backend Python dependencies.
+3. Ensure .github/workflows/deploy.yml has a correct workflow_dispatch trigger.
+4. Ensure deploy_nexus_cos.sh runs without errors.
+5. Test both backend and frontend builds locally.
+6. Commit fixes and create a PR to main, or merge if possible.
+7. Ensure app is fully deployable.
