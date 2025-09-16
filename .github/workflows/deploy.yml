@@ -1,10 +1,10 @@
-name: Deploy Nexus COS  # Single name for the workflow
+name: Deploy Nexus COS
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:  # ← Enables manual triggering
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   deploy:
@@ -17,10 +17,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Adjust to your Node.js version
+          node-version: 20
 
-      - name: Install Dependencies
-        run: npm ci --omit=dev
+      - name: Install RNPM globally
+        run: npm install -g rnpm
 
-      - name: Run Deployment Script
-        run: ./deploy_nexus_cos.sh
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Install Mobile Dependencies
+        run: |
+          cd mobile
+          npm install
+          rnpm link
