@@ -5,8 +5,7 @@
     "dev": "pnpm --stream -r dev",
     "build": "pnpm --stream -r build",
     "test": "pnpm --stream -r test",
-    "lint": "pnpm --stream -r lint",
-    "prepare": "husky install"
+    "lint": "pnpm --stream -r lint"
   },
   "workspaces": [
     "frontend",
