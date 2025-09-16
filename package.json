@@ -8,12 +8,6 @@
     "lint": "pnpm --stream -r lint",
     "prepare": "husky install"
   },
-  "workspaces": [
-    "frontend",
-    "admin",
-    "backend",
-    "services/*"
-  ],
   "devDependencies": {
     "@types/node": "^20.10.5",
     "concurrently": "^8.2.2",

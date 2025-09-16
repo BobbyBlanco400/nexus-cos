@@ -1,0 +1,33 @@
+# Systemd service template for Nexus COS Backend
+# Copy to /etc/systemd/system/nexus-cos-backend.service
+
+[Unit]
+Description=Nexus COS Backend API Service
+After=network.target postgresql.service
+Wants=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/nexus-cos/backend
+Environment=PATH=/var/www/nexus-cos/backend/venv/bin
+Environment=PYTHONPATH=/var/www/nexus-cos/backend
+EnvironmentFile=/var/www/nexus-cos/backend/.env
+ExecStart=/var/www/nexus-cos/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=5
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/nexus-cos
+
+[Install]
+WantedBy=multi-user.target
