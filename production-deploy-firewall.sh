@@ -22,11 +22,12 @@ Description=Nexus COS Node.js Backend
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /root/nexus-cos/backend/src/index.js
+ExecStart=/usr/bin/npx ts-node src/server.ts
 Restart=always
 User=root
 WorkingDirectory=/root/nexus-cos/backend
 Environment=NODE_ENV=production
+Environment=PORT=3000
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=nexus-backend
@@ -42,7 +43,7 @@ Description=Nexus COS Python FastAPI Backend
 After=network.target
 
 [Service]
-ExecStart=/root/nexus-cos/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+ExecStart=/usr/bin/python3 -m uvicorn app.main:app --host 0.0.0.0 --port 3001
 Restart=always
 User=root
 WorkingDirectory=/root/nexus-cos/backend
@@ -97,7 +98,7 @@ server {
     }
 
     location /py/ {
-        proxy_pass http://127.0.0.1:8000/;
+        proxy_pass http://127.0.0.1:3001/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
