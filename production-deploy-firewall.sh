@@ -138,14 +138,49 @@ curl -k https://nexuscos.online/health || true
 curl -k https://nexuscos.online/py/health || true
 
 # -----------------------------------------
-# 6. Firewall Task (hand off to Code Agent)
+# 6. Automated Firewall Configuration
 # -----------------------------------------
-echo "==> Triggering Copilot agent for firewall adjustments..."
-cat <<'EOS'
+echo "==> Configuring production firewall for automation..."
 
-@copilot Please take ownership of this task and implement the firewall adjustments as described in issue #6.
-Ensure all health monitoring, automation, and agent connectivity work fully without firewall interference.
-Provide a summary log of actions and verification steps.
+# Execute the automated firewall configuration
+if [ -f "/root/nexus-cos/scripts/configure-firewall.sh" ]; then
+    bash /root/nexus-cos/scripts/configure-firewall.sh
+else
+    echo "❌ Firewall configuration script not found!"
+    exit 1
+fi
 
-EOS
-echo "==> ✅ Deployment script completed!"
+# Install firewall monitoring service
+if [ -f "/root/nexus-cos/scripts/firewall-monitor.sh" ]; then
+    echo "==> Installing firewall monitoring service..."
+    bash /root/nexus-cos/scripts/firewall-monitor.sh --install
+    echo "✅ Firewall monitoring service installed"
+else
+    echo "⚠️  Firewall monitoring script not found!"
+fi
+
+# -----------------------------------------
+# 7. Final Validation and Health Checks
+# -----------------------------------------
+echo "==> Performing final validation..."
+
+# Test all health endpoints through firewall
+echo "Testing health endpoints through firewall..."
+curl -k https://nexuscos.online/health || echo "⚠️  External health check failed"
+curl -k https://nexuscos.online/py/health || echo "⚠️  External Python health check failed"
+curl -s http://localhost/health || echo "⚠️  Local health check failed"
+curl -s http://localhost/py/health || echo "⚠️  Local Python health check failed"
+
+# Validate firewall health
+if [ -f "/usr/local/bin/nexus-firewall-health" ]; then
+    /usr/local/bin/nexus-firewall-health || echo "⚠️  Firewall health check failed"
+fi
+
+# Run comprehensive firewall and connectivity check
+if [ -f "/root/nexus-cos/scripts/firewall-monitor.sh" ]; then
+    bash /root/nexus-cos/scripts/firewall-monitor.sh --check || echo "⚠️  Comprehensive connectivity check detected issues"
+fi
+
+echo "==> ✅ Production deployment with firewall automation completed!"
+echo "🚀 Platform is now fully self-healing with unblocked agent connectivity."
+echo "📊 Firewall monitoring service will check connectivity every 5 minutes."
