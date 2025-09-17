@@ -115,6 +115,8 @@ public
 # Temporary folders
 tmp/
 temp/
+test_env/
+**/test_env/
 
 # Mobile builds
 *.apk
