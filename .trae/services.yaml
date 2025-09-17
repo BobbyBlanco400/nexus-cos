@@ -1,0 +1,86 @@
+# TRAE Solo Service Definitions
+# Detailed service configuration for orchestration
+
+services:
+  backend-node:
+    image: "node:20-alpine"
+    working_dir: "/app/backend"
+    command: ["npx", "ts-node", "src/server.ts"]
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - "./backend:/app/backend"
+      - "/app/backend/node_modules"
+    depends_on:
+      - database
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  backend-python:
+    image: "python:3.12-alpine"
+    working_dir: "/app/backend"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3001"]
+    ports:
+      - "3001:3001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=3001
+    volumes:
+      - "./backend:/app/backend"
+    depends_on:
+      - database
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    image: "nginx:alpine"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./frontend/dist:/usr/share/nginx/html"
+      - "./deployment/nginx:/etc/nginx/conf.d"
+      - "/etc/letsencrypt:/etc/letsencrypt:ro"
+    depends_on:
+      - backend-node
+      - backend-python
+    restart: unless-stopped
+
+  database:
+    image: "postgres:15-alpine"
+    environment:
+      POSTGRES_DB: nexus_cos
+      POSTGRES_USER: nexus_user
+      POSTGRES_PASSWORD: nexus_password
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "./backend/migrations:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus_user -d nexus_cos"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
