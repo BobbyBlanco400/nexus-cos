@@ -6,14 +6,20 @@
     "start": "ts-node src/server.ts",
     "dev": "ts-node src/server.ts",
     "build": "echo 'Using ts-node for runtime'",
-    "test": "jest __tests__"
+    "test": "jest __tests__",
+    "trae:start": "ts-node src/server.ts",
+    "trae:health": "curl -f http://localhost:3000/health"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.17.2"
+    "mongoose": "^8.17.2",
+    "dotenv": "^16.3.1",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "prom-client": "^15.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
@@ -22,5 +28,11 @@
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "trae": {
+    "type": "nodejs",
+    "port": 3000,
+    "healthcheck": "/health",
+    "dependencies": ["database"]
   }
 }
