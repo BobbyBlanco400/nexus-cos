@@ -1,0 +1,83 @@
+# Prometheus configuration for Nexus COS Extended
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Core Backend Services
+  - job_name: 'nexus-backend-node'
+    static_configs:
+      - targets: ['backend-node:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    
+  - job_name: 'nexus-backend-python'
+    static_configs:
+      - targets: ['backend-python:3001']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Extended Modules
+  - job_name: 'nexus-v-suite'
+    static_configs:
+      - targets: ['v-suite:3101']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'nexus-creator-hub'
+    static_configs:
+      - targets: ['creator-hub:3102']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'nexus-puaboverse'
+    static_configs:
+      - targets: ['puaboverse:3103']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'nexus-boom-boom-room'
+    static_configs:
+      - targets: ['boom-boom-room:3104']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'nexus-studio-ai'
+    static_configs:
+      - targets: ['studio-ai:3105']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'nexus-ott-frontend'
+    static_configs:
+      - targets: ['ott-frontend:3106']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Infrastructure Services
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  # Self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node exporter for system metrics (if available)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']
+    scrape_interval: 60s

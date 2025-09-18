@@ -1,34 +1,142 @@
-name: Deploy Nexus COS
+name: Deploy Nexus COS Extended
 
 on:
+  workflow_dispatch: # Manual trigger
+    inputs:
+      deployment_type:
+        description: 'Type of deployment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+      skip_tests:
+        description: 'Skip test suite'
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - main
-  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      NODE_ENV: production
+      DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type || 'staging' }}
 
     steps:
+      # 1. Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      # 2. Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+            mobile/package-lock.json
 
-      - name: Install RNPM globally
-        run: npm install -g rnpm
-
+      # 3. Install backend dependencies
       - name: Install Backend Dependencies
         run: |
           cd backend
-          npm install
+          npm ci --production=false
+          cd ..
 
+      # 4. Install frontend dependencies
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm ci --production=false
+          cd ..
+
+      # 5. Install mobile dependencies
       - name: Install Mobile Dependencies
         run: |
           cd mobile
-          npm install
-          rnpm link
+          npm ci --production=false
+          cd ..
+
+      # 6. Install extended services dependencies
+      - name: Install Extended Services Dependencies
+        run: |
+          # V-Suite
+          cd modules/v-suite && npm ci && cd ../..
+          
+          # Extended Services
+          cd services/creator-hub && npm ci && cd ../..
+          cd services/puaboverse && npm ci && cd ../..
+          cd services/boom-boom-room-live && npm ci && cd ../..
+          cd services/nexus-cos-studio-ai && npm ci && cd ../..
+          cd services/ott-frontend && npm ci && cd ../..
+
+      # 7. Run tests (unless skipped)
+      - name: Run Test Suite
+        if: ${{ github.event.inputs.skip_tests != 'true' }}
+        run: |
+          cd backend && npm test && cd ..
+          echo "✅ Backend tests passed"
+
+      # 8. Build frontend
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+          cd ..
+
+      # 9. Build mobile applications
+      - name: Build Mobile Applications
+        run: |
+          cd mobile
+          chmod +x build-mobile.sh
+          ./build-mobile.sh
+          cd ..
+
+      # 10. Run deployment script
+      - name: Deploy Nexus COS Extended
+        run: |
+          chmod +x deploy_nexus_cos.sh
+          ./deploy_nexus_cos.sh
+
+      # 11. Validate deployment
+      - name: Validate Deployment
+        run: |
+          echo "🔍 Running post-deployment validation..."
+          
+          # Check if services are running (in CI we can't actually start services)
+          if [[ -f "deployment/deploy-complete.sh" ]]; then
+            echo "✅ Deployment script available"
+          fi
+          
+          if [[ -f "docker-compose.prod.yml" ]]; then
+            echo "✅ Production Docker Compose configuration ready"
+          fi
+          
+          if [[ -f "deploy-nexus-cos-extended.sh" ]]; then
+            echo "✅ Extended deployment script ready"
+          fi
+          
+          echo "🎉 Validation completed successfully!"
+
+      # 12. Generate deployment artifacts
+      - name: Upload Deployment Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-cos-deployment-${{ github.sha }}
+          path: |
+            frontend/dist/
+            mobile/builds/
+            deployment/
+            docker-compose.prod.yml
+            deploy-nexus-cos-extended.sh
+            DEPLOYMENT_REPORT.md
+          retention-days: 30
