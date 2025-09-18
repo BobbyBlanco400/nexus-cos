@@ -241,6 +241,40 @@ services:
     networks:
       - nexus-network
 
+  # PUABO Integrations
+  puabo-cos:
+    build: ./puabo-integrations/puabo-cos
+    container_name: nexus-puabo-cos
+    environment:
+      - PORT=3201
+    ports:
+      - "3201:3201"
+    restart: unless-stopped
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3201/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  node-auth-api:
+    build: ./puabo-integrations/node-auth-api  
+    container_name: nexus-node-auth-api
+    environment:
+      - PORT=3204
+      - JWT_SECRET=${JWT_SECRET:-nexus_jwt_secret_key}
+    ports:
+      - "3204:3204"
+    restart: unless-stopped
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3204/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
