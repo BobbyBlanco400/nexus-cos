@@ -46,7 +46,7 @@ jobs:
       # 5. Install frontend dependencies
       - name: Install frontend dependencies
         run: |
-          cd web
+          cd frontend
           npm ci --omit=dev
           cd ..
 
