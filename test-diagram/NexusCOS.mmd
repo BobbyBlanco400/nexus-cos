@@ -1,0 +1,56 @@
+graph LR
+    %% Core System Modules
+    NexusCore[🔄 Nexus Core<br/>System Orchestrator] --> |manages| BackendNode[⚡ Node.js Backend<br/>API Gateway]
+    NexusCore --> |manages| BackendPython[🐍 Python Backend<br/>FastAPI Services]
+    NexusCore --> |manages| Frontend[🎨 React Frontend<br/>User Interface]
+    NexusCore --> |manages| Database[(📊 PostgreSQL<br/>Data Storage)]
+    
+    %% Extended Modules
+    BackendNode --> |powers| CreatorHub[🎯 Creator Hub<br/>Content Management]
+    BackendNode --> |powers| VSuite[💼 V-Suite<br/>Business Tools]
+    BackendNode --> |powers| PuaboVerse[🌐 PuaboVerse<br/>Virtual Worlds]
+    
+    %% Frontend Connections
+    Frontend --> |connects| AdminPanel[⚙️ Admin Panel<br/>System Control]
+    Frontend --> |connects| CreatorDash[📈 Creator Dashboard<br/>Analytics & Insights]
+    Frontend --> |connects| MobileApp[📱 Mobile App<br/>Cross-Platform]
+    
+    %% Infrastructure
+    LoadBalancer[🔀 Nginx<br/>Load Balancer] --> Frontend
+    LoadBalancer --> BackendNode
+    LoadBalancer --> BackendPython
+    
+    SSL[🔒 SSL/TLS<br/>Let's Encrypt] --> LoadBalancer
+    
+    %% Monitoring & Health
+    Monitor[📊 Health Monitor<br/>System Status] --> |watches| BackendNode
+    Monitor --> |watches| BackendPython
+    Monitor --> |watches| Database
+    Monitor --> |watches| Frontend
+    
+    %% External Integrations
+    Notifications[📢 Notifications<br/>Slack + Email] --> NexusCore
+    
+    %% Click handlers for interactive navigation
+    click NexusCore "https://nexuscos.online" "Open Nexus COS Main Portal"
+    click Frontend "https://nexuscos.online" "Access Frontend Application"
+    click BackendNode "https://nexuscos.online/api/node/health" "Check Node.js API Health"
+    click BackendPython "https://nexuscos.online/api/python/health" "Check Python API Health"
+    click AdminPanel "https://nexuscos.online/admin" "Access Admin Panel"
+    click CreatorDash "https://nexuscos.online/creator" "Access Creator Dashboard"
+    click CreatorHub "https://nexuscos.online/api/creator-hub/status" "Creator Hub Status"
+    click VSuite "https://nexuscos.online/api/v-suite/status" "V-Suite Status"
+    click PuaboVerse "https://nexuscos.online/api/puaboverse/status" "PuaboVerse Status"
+    click Database "https://nexuscos.online/health/database" "Database Health Check"
+    click Monitor "https://nexuscos.online/health" "System Health Dashboard"
+    
+    %% Styling
+    classDef coreModule fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    classDef extendedModule fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef infraModule fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef dataModule fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    
+    class NexusCore,BackendNode,BackendPython,Frontend coreModule
+    class CreatorHub,VSuite,PuaboVerse,AdminPanel,CreatorDash,MobileApp extendedModule
+    class LoadBalancer,SSL,Monitor,Notifications infraModule
+    class Database dataModule
