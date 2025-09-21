@@ -322,6 +322,46 @@ npm run trae:health
 - **Health**: `npm run trae:health`
 - **Status**: `npm run trae:status`
 
+## 🔧 Troubleshooting
+
+### Backend Service Logs
+
+The system uses systemd services for backend management. To check logs:
+
+```bash
+# Check logs using the helper script
+./check-backend-logs.sh                    # Both backends
+./check-backend-logs.sh --node             # Node.js only
+./check-backend-logs.sh --python           # Python only
+
+# Direct systemd commands
+ssh root@75.208.155.161 'journalctl -u nexus-backend-node -n 20 --no-pager'
+ssh root@75.208.155.161 'journalctl -u nexus-backend-python -n 20 --no-pager'
+
+# Follow logs in real-time
+ssh root@75.208.155.161 'journalctl -u nexus-backend-node -f'
+```
+
+### Service Management
+
+```bash
+# Check service status
+ssh root@75.208.155.161 'systemctl status nexus-backend-node'
+ssh root@75.208.155.161 'systemctl status nexus-backend-python'
+
+# Restart services
+ssh root@75.208.155.161 'systemctl restart nexus-backend-node'
+ssh root@75.208.155.161 'systemctl restart nexus-backend-python'
+```
+
+### Common Issues
+
+1. **"boomroom-backend not found"**: This service name was incorrect. Use `nexus-backend-node` or `nexus-backend-python` instead.
+2. **PM2 not found**: The system uses systemd services, not PM2. Use `journalctl` commands instead.
+3. **Wrong IP address**: Use `75.208.155.161` (not `74.208.155.161`) based on deployment configuration.
+
+See `BACKEND_LOGS_FIX.md` for detailed troubleshooting information.
+
 ## 📄 License
 
 This project is licensed under the MIT License.
