@@ -1,0 +1,84 @@
+# Nexus COS Services Configuration for PM2 Deployment
+# This file defines all backend services for automated PM2/Nginx deployment
+
+services:
+  - name: nexus-backend
+    script: backend/src/server.ts
+    interpreter: ts-node
+    port: 3001
+    pm2_name: nexus-backend
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3001
+
+  - name: nexus-cos-api
+    script: backend/app/main.py
+    interpreter: python
+    port: 3002
+    pm2_name: nexus-cos-api
+    cwd: /home/runner/work/nexus-cos/nexus-cos/backend
+    env:
+      PYTHONUNBUFFERED: "1"
+    interpreter_args: -m uvicorn app.main:app --host 0.0.0.0 --port 3002
+
+  - name: boomroom-backend
+    script: extended/v-suite/server.js
+    interpreter: node
+    port: 3003
+    pm2_name: boomroom-backend
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3003
+
+  - name: creator-hub
+    script: extended/creator-hub/server.js
+    interpreter: node
+    port: 3020
+    pm2_name: creator-hub
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3020
+
+  - name: puaboverse
+    script: extended/puaboverse/server.js
+    interpreter: node
+    port: 3030
+    pm2_name: puaboverse
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3030
+
+# Nginx configuration
+nginx:
+  server_name: nexuscos.online
+  frontend_root: /var/www/nexus-cos
+  frontend_index: index.html
+  ssl_enabled: true
+  
+# PM2 configuration
+pm2:
+  startup: true
+  save: true
+  max_memory_restart: 500M
+  
+# Health check endpoints
+health_checks:
+  - service: nexus-backend
+    endpoint: /health
+    expected_response: '{"status":"ok"}'
+  - service: nexus-cos-api
+    endpoint: /health
+    expected_response: '{"status":"ok"}'
+  - service: boomroom-backend
+    endpoint: /health
+    expected_response: '{"status":"ok"}'
+  - service: creator-hub
+    endpoint: /health
+    expected_response: '{"status":"ok"}'
+  - service: puaboverse
+    endpoint: /health
+    expected_response: '{"status":"ok"}'
