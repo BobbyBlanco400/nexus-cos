@@ -122,3 +122,7 @@ test_env/
 *.apk
 *.ipa
 builds/
+
+# PM2 deployment artifacts
+/tmp/pm2-*.json
+test-nginx-config.sh
