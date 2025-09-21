@@ -22,11 +22,12 @@ Description=Nexus COS Node.js Backend
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /root/nexus-cos/backend/src/index.js
+ExecStart=/usr/bin/npx ts-node src/server.ts
 Restart=always
 User=root
 WorkingDirectory=/root/nexus-cos/backend
 Environment=NODE_ENV=production
+Environment=PORT=3000
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=nexus-backend

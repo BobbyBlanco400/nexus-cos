@@ -14,7 +14,7 @@ files=(
     "quick-launch.sh" 
     "test-master-fix.sh"
     "TRAE_SOLO_DEPLOYMENT_GUIDE.md"
-    "backend/server.js"
+    "backend/src/server.ts"
     "trae-solo.yaml"
     ".trae/environment.env"
     ".trae/services.yaml"

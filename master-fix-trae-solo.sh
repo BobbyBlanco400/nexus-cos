@@ -396,7 +396,7 @@ WorkingDirectory=$DEPLOY_PATH/backend
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=DATABASE_URL=postgresql://nexus_user:nexus_secure_password@localhost:5432/nexus_cos
-ExecStart=/usr/bin/node src/server.js
+ExecStart=/usr/bin/npx ts-node src/server.ts
 Restart=always
 RestartSec=10
 
