@@ -445,32 +445,75 @@ EOF
 
 # Deploy frontend
 deploy_frontend() {
-    print_step "Deploying frontend application..."
-    
-    cd "$DEPLOY_PATH/frontend"
-    
-    # Build frontend if not already built
-    if [ ! -d "dist" ]; then
-        npm run build
-    fi
+    print_step "Deploying frontend applications..."
     
     # Create public directory structure
-    mkdir -p /var/www/nexuscos
-    cp -r dist/* /var/www/nexuscos/
+    mkdir -p /var/www/nexuscos/admin
+    mkdir -p /var/www/nexuscos/creator-hub
+    mkdir -p /var/www/nexuscos/frontend/dist
+    mkdir -p /var/www/nexuscos/diagram
+    
+    # Deploy main frontend if it exists
+    if [ -d "$DEPLOY_PATH/frontend" ]; then
+        cd "$DEPLOY_PATH/frontend"
+        
+        # Build frontend if not already built
+        if [ ! -d "dist" ]; then
+            npm install
+            npm run build
+        fi
+        
+        cp -r dist/* /var/www/nexuscos/frontend/dist/
+        print_status "Main frontend deployed"
+    fi
+    
+    # Deploy admin panel React application
+    if [ -d "$DEPLOY_PATH/admin" ]; then
+        cd "$DEPLOY_PATH/admin"
+        
+        # Build admin if not already built
+        if [ ! -d "build" ]; then
+            npm install
+            npm run build
+        fi
+        
+        cp -r build/* /var/www/nexuscos/admin/
+        print_status "Admin panel deployed"
+    fi
+    
+    # Deploy creator hub React application  
+    if [ -d "$DEPLOY_PATH/creator-hub" ]; then
+        cd "$DEPLOY_PATH/creator-hub"
+        
+        # Build creator-hub if not already built
+        if [ ! -d "build" ]; then
+            npm install
+            npm run build
+        fi
+        
+        cp -r build/* /var/www/nexuscos/creator-hub/
+        print_status "Creator hub deployed"
+    fi
     
     # Copy diagram to public directory
-    mkdir -p /var/www/nexuscos/diagram
-    cp -r "$DEPLOY_PATH/diagram/"* /var/www/nexuscos/diagram/
+    if [ -d "$DEPLOY_PATH/diagram" ]; then
+        cp -r "$DEPLOY_PATH/diagram/"* /var/www/nexuscos/diagram/
+        print_status "Interactive diagram deployed"
+    fi
     
-    print_success "Frontend deployed to /var/www/nexuscos"
-    notify "✅ Frontend application deployed"
+    # Set proper permissions
+    chown -R www-data:www-data /var/www/nexuscos 2>/dev/null || print_warning "Could not set www-data ownership"
+    chmod -R 755 /var/www/nexuscos
+    
+    print_success "All frontend applications deployed to /var/www/nexuscos"
+    notify "✅ Frontend applications deployed (admin, creator-hub, main)"
 }
 
 # Configure Nginx
 configure_nginx() {
     print_step "Configuring Nginx reverse proxy..."
     
-    # Create Nginx configuration
+    # Create optimized Nginx configuration for React SPAs
     cat > /etc/nginx/sites-available/nexuscos << 'EOF'
 server {
     listen 80;
@@ -488,15 +531,72 @@ server {
     ssl_prefer_server_ciphers on;
 
     root /var/www/nexuscos;
-    index index.html;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
-    # Frontend routes
-    location / {
-        try_files $uri $uri/ /index.html;
+    # Default redirect to admin panel
+    location = / {
+        return 301 /admin/;
+    }
+
+    # Admin Panel React Application
+    location /admin/ {
+        alias /var/www/nexuscos/admin/;
+        index index.html;
+        
+        # Handle React Router - try files, then fallback to index.html
+        try_files $uri $uri/ @admin_fallback;
+        
+        # Cache static assets
+        location ~ ^/admin/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            alias /var/www/nexuscos/admin/static/;
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+            add_header Access-Control-Allow-Origin "*";
+        }
+    }
+    
+    # Admin fallback for React Router
+    location @admin_fallback {
+        rewrite ^/admin/(.*)$ /admin/index.html last;
+    }
+
+    # Creator Hub React Application  
+    location /creator-hub/ {
+        alias /var/www/nexuscos/creator-hub/;
+        index index.html;
+        
+        # Handle React Router - try files, then fallback to index.html
+        try_files $uri $uri/ @creator_fallback;
+        
+        # Cache static assets
+        location ~ ^/creator-hub/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            alias /var/www/nexuscos/creator-hub/static/;
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+            add_header Access-Control-Allow-Origin "*";
+        }
+    }
+    
+    # Creator Hub fallback for React Router
+    location @creator_fallback {
+        rewrite ^/creator-hub/(.*)$ /creator-hub/index.html last;
+    }
+
+    # Main frontend application (optional)
+    location /app/ {
+        alias /var/www/nexuscos/frontend/dist/;
+        index index.html;
+        try_files $uri $uri/ /app/index.html;
     }
 
     # Interactive module map
     location /diagram/ {
+        alias /var/www/nexuscos/diagram/;
         try_files $uri $uri/ =404;
         add_header Cache-Control "no-cache, no-store, must-revalidate";
     }
@@ -523,17 +623,33 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # General API endpoints
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
     # Health check endpoints
     location /health {
         proxy_pass http://127.0.0.1:3000/health;
         proxy_set_header Host $host;
     }
-
-    # Security headers
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-Content-Type-Options "nosniff";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header Referrer-Policy "strict-origin-when-cross-origin";
+    
+    # Block access to sensitive files
+    location ~ /\. {
+        deny all;
+    }
+    
+    location ~ /(README|CHANGELOG|LICENSE|COPYING) {
+        deny all;
+    }
 }
 EOF
 
