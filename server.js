@@ -37,6 +37,11 @@ const userRoutes = require("./routes/user");
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
+// Catch-all route to prevent 404 errors
+app.use((req, res) => {
+  res.status(200).send('Nexus COS is running!');
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
