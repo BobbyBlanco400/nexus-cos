@@ -1,0 +1,46 @@
+main:
+  path: /
+  proxy: 'http://nexus-frontend:3000' 
+admin:
+  path: /admin
+  proxy: 'http://nexus-admin:3000' 
+creator-hub:
+  path: /creator-hub
+  proxy: 'http://creator-hub:4000' 
+puaboverse:
+  path: /puaboverse
+  proxy: 'http://puaboverse:4100' 
+v-suite:
+  screen:
+    path: /v-suite/screen
+    proxy: 'http://v-screen:4200' 
+  caster:
+    path: /v-suite/caster
+    proxy: 'http://v-caster:4300' 
+  prompter:
+    path: /v-suite/prompter
+    proxy: 'http://v-prompter:4400' 
+  stage:
+    path: /v-suite/stage
+    proxy: 'http://v-stage:4500' 
+  hollywood:
+    path: /v-suite/hollywood
+    proxy: 'http://v-hollywood:4600' 
+metavision:
+  path: /metavision
+  proxy: 'http://metavision:4700' 
+metatwin:
+  path: /metatwin
+  proxy: 'http://metatwin:4800' 
+watch:
+  path: /watch
+  proxy: 'http://ott-frontend:4900' 
+boomroom:
+  path: /live/boomroom
+  proxy: 'http://boomroom:5000' 
+studio:
+  path: /studio
+  proxy: 'http://studio-ai:5100' 
+dev:
+  path: /dev
+  proxy: 'http://dev-console:5200'

@@ -1,0 +1,44 @@
+# Essential NEXUS COS Python Backend Dependencies
+# FastAPI and ASGI server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# HTTP and networking
+httpx==0.25.2
+requests==2.31.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+
+# Authentication and security
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+cryptography>=46.0.0
+
+# Data processing and validation
+pydantic==2.5.2
+pydantic-settings==2.1.0
+
+# Utilities and helpers
+python-dotenv==1.0.0
+
+# Date and time
+python-dateutil==2.8.2
+
+# Monitoring and logging
+loguru==0.7.2
+
+# Rate limiting and middleware
+slowapi==0.1.9
+starlette==0.27.0
+
+# CORS and security
+fastapi-cors==0.0.6
+
+# JSON handling
+orjson==3.9.10
+
+# Environment and deployment
+python-dotenv==1.0.0

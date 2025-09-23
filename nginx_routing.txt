@@ -1,0 +1,2 @@
+===== NGINX CONFIG =====
+❌ Nginx config not found at /etc/nginx/sites-enabled/nexus-cos.conf

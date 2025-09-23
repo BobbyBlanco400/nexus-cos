@@ -1,0 +1,11 @@
+# GitHub Copilot Code Agent Instructions
+
+Task: Complete Nexus COS rebuild & deployment for new server/URL.
+
+1. Update the server URL and environment variables.
+2. Fix all Node.js dependencies (including rnpm) and backend Python dependencies.
+3. Ensure .github/workflows/deploy.yml has a correct workflow_dispatch trigger.
+4. Ensure deploy_nexus_cos.sh runs without errors.
+5. Test both backend and frontend builds locally.
+6. Commit fixes and create a PR to main, or merge if possible.
+7. Ensure app is fully deployable.

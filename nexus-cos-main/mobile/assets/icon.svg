@@ -1,0 +1,28 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3c72;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a5298;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="512" cy="512" r="480" fill="url(#bgGradient)" stroke="#4ecdc4" stroke-width="8"/>
+  
+  <!-- Main N Letter -->
+  <path d="M 280 300 L 280 720 L 340 720 L 340 420 L 680 720 L 740 720 L 740 300 L 680 300 L 680 600 L 340 300 Z" fill="url(#nGradient)" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- COS Text -->
+  <text x="512" y="820" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="#4ecdc4">COS</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="200" cy="200" r="20" fill="#4ecdc4" opacity="0.6"/>
+  <circle cx="824" cy="200" r="15" fill="#667eea" opacity="0.6"/>
+  <circle cx="200" cy="824" r="15" fill="#764ba2" opacity="0.6"/>
+  <circle cx="824" cy="824" r="20" fill="#4ecdc4" opacity="0.6"/>
+</svg>

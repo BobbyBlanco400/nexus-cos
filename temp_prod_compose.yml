@@ -1,0 +1,312 @@
+version: '3.8'
+
+services:
+  # Database Services
+  postgres:
+    image: postgres:15-alpine
+    container_name: nexus-postgres
+    environment:
+      POSTGRES_DB: nexus_cos
+      POSTGRES_USER: ${POSTGRES_USER:-nexus_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Momoney2025$$}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - nexus-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nexus_admin} -d nexus_cos"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Suite Microservices
+  v-screen:
+    build:
+      context: ./modules/v-screen
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-screen
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${V_SCREEN_API_KEY}
+    ports:
+      - "3010:3010"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  v-stage:
+    build:
+      context: ./modules/v-stage
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-stage
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3011
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${V_STAGE_API_KEY}
+    ports:
+      - "3011:3011"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3011/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  v-caster:
+    build:
+      context: ./modules/v-caster
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-caster
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${V_CASTER_API_KEY}
+      RTMP_SERVER_URL: ${RTMP_SERVER_URL}
+    ports:
+      - "3012:3012"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3012/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
+  # Additional Services
+  glitch:
+    build:
+      context: ./modules/glitch
+      dockerfile: Dockerfile
+    container_name: nexus-cos-glitch
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3020
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3020:3020"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3020/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  puaboai-sdk:
+    build:
+      context: ./modules/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: nexus-cos-puaboai-sdk
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3030
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      PUABOVERSE_API_KEY: ${PUABOVERSE_API_KEY}
+    ports:
+      - "3030:3030"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  puabomusicchain:
+    build:
+      context: ./modules/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: nexus-cos-puabomusicchain
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3040
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3040:3040"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3040/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  pv-keys:
+    build:
+      context: ./modules/pv-keys
+      dockerfile: Dockerfile
+    container_name: nexus-cos-pv-keys
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3050
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3050:3050"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3050/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  streamcore:
+    build:
+      context: ./modules/streamcore
+      dockerfile: Dockerfile
+    container_name: nexus-cos-streamcore
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3060
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nexus_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3060:3060"
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3060/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+networks:
+  nexus-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

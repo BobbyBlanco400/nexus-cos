@@ -1,0 +1,26 @@
+v-stage:
+    build:
+      context: ./modules/v-stage
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-stage
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3046
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+      VIRTUAL_SETS_ENABLED: "true"
+      LIVE_STREAMING_INTEGRATION: "true"
+      RENDER_QUALITY: "high"
+    ports:
+      - 3046:3046
+    networks:
+      - nexus-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./modules/v-stage/sets:/app/sets
+      - ./modules/v-stage/assets:/app/assets
+      - ./modules/v-stage/logs:/app/logs

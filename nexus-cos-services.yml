@@ -1,0 +1,112 @@
+# Nexus COS Services Configuration
+# This file defines all backend services and their deployment settings
+
+version: '1.0'
+environment:
+  NODE_ENV: production
+  PM2_HOME: /root/.pm2
+
+global_settings:
+  log_rotation: true
+  max_memory_restart: 1G
+  autorestart: true
+  watch: false
+  merge_logs: true
+  error_file: /var/log/nexus-cos/error.log
+  out_file: /var/log/nexus-cos/out.log
+
+services:
+  nexus-backend:
+    name: nexus-backend-node
+    script: ./backend/server.js
+    port: 3001
+    interpreter: node
+    instances: 1
+    exec_mode: fork
+    env:
+      PORT: 3001
+      DATABASE_URL: mongodb://127.0.0.1:27017/nexus-cos
+    health_endpoint: /health
+    dependencies:
+      - mongodb
+      - redis
+
+  nexus-cos-api:
+    name: nexus-cos-api
+    script: ./backend/main.py
+    port: 3002
+    interpreter: python3
+    instances: 1
+    exec_mode: fork
+    env:
+      PORT: 3002
+      PYTHONPATH: ./backend
+    health_endpoint: /health
+    dependencies:
+      - mongodb
+      - redis
+
+  boomroom-backend:
+    name: boomroom-backend
+    script: ./backend/boom_server.js
+    port: 3003
+    interpreter: node
+    instances: 1
+    exec_mode: fork
+    env:
+      PORT: 3003
+      SOCKET_PORT: 3004
+    health_endpoint: /api/health
+    dependencies:
+      - mongodb
+      - redis
+
+  creator-hub:
+    name: creator-hub
+    script: ./services/creator-hub/server.js
+    port: 3020
+    interpreter: node
+    instances: 1
+    exec_mode: fork
+    env:
+      PORT: 3020
+      MEDIA_STORAGE: /var/nexus-cos/media
+    health_endpoint: /health
+    dependencies:
+      - mongodb
+      - redis
+      - ffmpeg
+
+  puaboverse:
+    name: puaboverse
+    script: ./services/puaboverse/server.js
+    port: 3030
+    interpreter: node
+    instances: 1
+    exec_mode: fork
+    env:
+      PORT: 3030
+      SOCKET_PORT: 3031
+      VIRTUAL_ENV: /var/nexus-cos/venv
+    health_endpoint: /health
+    dependencies:
+      - mongodb
+      - redis
+      - python3
+
+nginx:
+  ssl:
+    enabled: true
+    cert_path: /etc/ssl/certs/nexus-cos.crt
+    key_path: /etc/ssl/private/nexus-cos.key
+  client_max_body_size: 100M
+  proxy_timeout: 300s
+  gzip: true
+  static_assets:
+    path: /var/www/nexus-cos/static
+    cache_time: 7d
+  security_headers:
+    X-Frame-Options: SAMEORIGIN
+    X-XSS-Protection: "1; mode=block"
+    X-Content-Type-Options: nosniff
+    Content-Security-Policy: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: *.nexus-cos.com"

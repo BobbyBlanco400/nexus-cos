@@ -1,0 +1,329 @@
+name: nexus-cos-extended
+version: "3.9"
+
+services:
+  # Core Infrastructure
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nexus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD environment variable is required}
+      POSTGRES_DB: ${POSTGRES_DB:-nexus_cos}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nexus}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_pass}
+    volumes:
+      - redis_data:/data
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Reverse Proxy
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nexus-cos-extended.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - ott-frontend
+      - creator-hub
+      - puaboverse
+    networks: [nexus_net]
+
+  # OTT Frontend - Main Landing Page
+  ott-frontend:
+    build: 
+      context: ./src/modules/ott-frontend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DOMAIN=${DOMAIN}
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - REDIS_URL=redis://redis:6379
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    volumes:
+      - ./data/uploads:/app/uploads
+      - ./data/media:/app/media
+    depends_on:
+      - postgres
+      - redis
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PUABOverse - User Identity & Virtual Economy
+  puaboverse:
+    build:
+      context: ./src/modules/puaboverse
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    depends_on:
+      - postgres
+      - redis
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Creator Hub - Project Dashboard & Asset Manager
+  creator-hub:
+    build:
+      context: ./src/modules/creator-hub
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+      - UPLOAD_PATH=/app/uploads
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    volumes:
+      - ./data/uploads:/app/uploads
+      - ./data/projects:/app/projects
+    depends_on:
+      - postgres
+      - puaboverse
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Suite Services
+  v-screen:
+    build:
+      context: ./src/v-suite/v-screen
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - HOLLYWOOD_EDITION=true
+      - RENDER_PATH=/app/renders
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    volumes:
+      - ./data/v-suite/v-screen:/app/renders
+      - ./data/assets:/app/assets
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-stage:
+    build:
+      context: ./src/v-suite/v-stage
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - WEBSOCKET_PORT=3001
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data/v-suite/v-stage:/app/stages
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-caster-pro:
+    build:
+      context: ./src/v-suite/v-caster-pro
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - RTMP_PORT=1935
+      - STREAMING_KEY=${OTT_STREAMING_KEY}
+      - KEI_AI_KEY=${KEI_AI_KEY}
+    ports:
+      - "1935:1935"
+      - "8080:8080"
+    volumes:
+      - ./data/v-suite/streams:/app/streams
+      - ./data/v-suite/recordings:/app/recordings
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-prompter-pro:
+    build:
+      context: ./src/v-suite/v-prompter-pro
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - KEI_AI_KEY=${KEI_AI_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data/v-suite/scripts:/app/scripts
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-hollywood-studio:
+    build:
+      context: ./src/v-suite/v-hollywood-studio
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - REALISM_ENGINE=true
+      - RENDER_QUEUE_SIZE=10
+      - KEI_AI_KEY=${KEI_AI_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data/v-suite/hollywood:/app/hollywood
+      - ./data/renders:/app/renders
+      - ./data/assets:/app/assets
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Boom Boom Room Live - Interactive Live Club
+  boom-boom-room-live:
+    build:
+      context: ./src/modules/boom-boom-room-live
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - WEBSOCKET_PORT=${BBR_WEBSOCKET_PORT:-3001}
+      - TIPPING_WALLET_KEY=${BBR_TIPPING_WALLET_KEY}
+      - KEI_AI_KEY=${KEI_AI_KEY}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+    ports:
+      - "3002:3001"
+    depends_on:
+      - postgres
+      - redis
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nexus COS Studio AI - Browser-based Recording Suite
+  nexus-cos-studio-ai:
+    build:
+      context: ./src/modules/nexus-cos-studio-ai
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - WORKSPACE_PATH=/app/workspaces
+      - RENDER_QUEUE_SIZE=${STUDIO_AI_RENDER_QUEUE_SIZE:-10}
+      - KEI_AI_KEY=${KEI_AI_KEY}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-nexus_cos}
+    volumes:
+      - ./data/studio-workspaces:/app/workspaces
+      - ./data/audio-masters:/app/masters
+    depends_on:
+      - postgres
+      - redis
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Kei AI Integration Service
+  kei-ai-orchestrator:
+    build:
+      context: ./services/kei-ai
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - KEI_AI_KEY=${KEI_AI_KEY}
+      - KEI_AI_ENDPOINT=${KEI_AI_ENDPOINT:-https://api.kei.ai/v1}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    networks: [nexus_net]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5050/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monitoring & Analytics
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin123}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    networks: [nexus_net]
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    networks: [nexus_net]
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:
+  prometheus_data:
+
+networks:
+  nexus_net:
+    driver: bridge

@@ -1,0 +1,54 @@
+version: '3.8'
+
+networks:
+  frontend-network:
+    driver: bridge
+    external: true
+    name: nexus-cos-network
+
+volumes:
+  app-data:
+  user-sessions:
+
+services:
+  # Admin Panel Application
+  admin-panel-app:
+    build:
+      context: ./apps/admin-panel
+      dockerfile: Dockerfile
+    container_name: admin-panel-frontend
+    ports:
+      - "80:3000"
+    environment:
+      - REACT_APP_API_URL=http://nexus-backend-api:3001
+      - REACT_APP_ADMIN_SERVICE=http://nexus-admin-service:3049
+      - REACT_APP_SERVICE_REGISTRY=http://nexus-service-registry:8500
+    volumes:
+      - app-data:/app/data
+    networks:
+      - frontend-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Creator Dashboard Application
+  creator-dashboard-app:
+    build:
+      context: ./apps/creator-dashboard
+      dockerfile: Dockerfile
+    container_name: creator-dashboard-frontend
+    ports:
+      - "81:3000"
+    environment:
+      - REACT_APP_API_URL=http://nexus-backend-api:3001
+    networks:
+      - frontend-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

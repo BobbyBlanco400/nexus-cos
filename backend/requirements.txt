@@ -1,0 +1,143 @@
+# NEXUS COS Python Backend Dependencies
+# FastAPI and ASGI server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+gunicorn==21.2.0
+
+# HTTP and networking
+httpx==0.25.2
+requests==2.31.0
+aiohttp==3.9.1
+websockets==12.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+alembic==1.13.1
+psycopg2-binary==2.9.9
+aiopg==1.4.0
+redis==5.0.1
+aioredis==2.0.1
+
+# Authentication and security
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+cryptography==46.0.1
+
+# Data processing and validation
+pydantic==2.5.2
+pydantic-settings==2.1.0
+marshmallow==3.20.1
+cerberus==1.3.5
+
+# Utilities and helpers
+python-dotenv==1.0.0
+click==8.1.7
+rich==13.7.0
+typer==0.9.0
+
+# Date and time
+python-dateutil==2.8.2
+pytz==2023.3
+arrow==1.3.0
+
+# File handling and processing
+pillow==10.1.0
+openpyxl==3.1.2
+pandas==2.1.4
+numpy==1.26.2
+
+# Monitoring and logging
+psutil==5.9.6
+loguru==0.7.2
+prometheus-client==0.19.0
+
+# Rate limiting and middleware
+slowapi==0.1.9
+starlette==0.27.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2
+factory-boy==3.3.0
+
+# Development tools
+black==23.11.0
+flake8==6.1.0
+isort==5.12.0
+mypy==1.7.1
+pre-commit==3.6.0
+
+# AI/ML (optional)
+scikit-learn==1.3.2
+tensorflow==2.15.0
+torch==2.1.1
+transformers==4.36.2
+
+# API documentation
+fastapi-users==12.1.2
+fastapi-pagination==0.12.13
+
+# Background tasks
+celery==5.3.4
+rq==1.15.1
+
+# Email
+fastapi-mail==1.4.1
+
+# File uploads and storage
+aiofiles==23.2.1
+boto3==1.34.0
+
+# Caching
+cachetools==5.3.2
+
+# Configuration
+pyyaml==6.0.1
+toml==0.10.2
+
+# Health checks and monitoring
+healthcheck==1.3.3
+
+# CORS and security
+fastapi-cors==0.0.6
+
+# WebSocket support
+fastapi-websocket-pubsub==0.3.0
+
+# JSON handling
+orjson==3.9.10
+ujson==5.8.0
+
+# HTTP client with async support
+httpcore==1.0.2
+
+# Environment and deployment
+supervisor==4.2.5
+
+# Performance monitoring
+py-spy==0.3.14
+
+# Database migrations
+yoyo-migrations==8.2.0
+
+# Task scheduling
+apscheduler==3.10.4
+
+# Message queuing
+kombu==5.3.4
+
+# Serialization
+msgpack==1.0.7
+
+# Compression
+zstandard==0.22.0
+
+# Metrics and telemetry
+opentelemetry-api==1.21.0
+opentelemetry-sdk==1.21.0
+
+# Development server
+watchfiles==0.21.0

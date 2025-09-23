@@ -1,0 +1,12 @@
+root       71179  0.0  0.5 22325624 42224 ?      Sl   Sep17   1:02 node /root/nexus-streamcore/node_modules/.bin/vite
+root       71186  0.0  0.0 1236976 5312 ?        Sl   Sep17   3:48 /root/nexus-streamcore/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.25.9 --ping
+root      379894  0.0  0.2 11603252 24184 ?      Ssl  Sep19   0:00 node /usr/bin/serve -s build -l 3000
+root      929814  0.1  0.5 1073692 43740 ?       Ssl  Sep19   4:16 node /opt/nexus-cos/backend/app.js
+root     1886592  0.7  0.7 327552 63960 ?        Sl   22:07   0:04 node server.js
+root     1886595  0.1  1.0 10856168 81180 ?      Sl   22:07   0:01 node server.js
+root     1886604  0.1  0.8 349864 69880 ?        Sl   22:07   0:00 node server.js
+root     1886753  0.3  0.7 326220 62164 ?        Sl   22:07   0:02 node server.js
+root     1886818  0.1  0.8 349844 69488 ?        Sl   22:07   0:00 node server.js
+root     1886886  0.0  0.7 10768096 62332 ?      Sl   22:07   0:00 node server.js
+root     1886901  0.5  1.1 399736 93744 ?        Sl   22:07   0:03 node server.js
+root     1895035  0.0  0.0   7764  3360 ?        Ss   22:18   0:00 bash -c ps auxww | grep [n]ode > /tmp/node_processes.txt

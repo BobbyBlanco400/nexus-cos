@@ -1,0 +1,14 @@
+NAMES                        STATUS
+nexus-cos-backend            Up 23 minutes
+nexus-cos-mongodb            Up 24 minutes (healthy)
+nexus-cos-puaboai-sdk        Up 24 minutes
+nexus-cos-streamcore         Up 24 minutes
+nexus-cos-v-caster           Up 24 minutes
+nexus-cos-v-screen           Up 24 minutes
+nexus-cos-pv-keys            Up 24 minutes
+nexus-cos-v-stage            Up 13 seconds (health: starting)
+nexus-cos-puabomusicchain    Up 24 minutes
+nexus-cos-glitch             Restarting (1) 25 seconds ago
+nexus-cos-redis              Up 24 minutes (healthy)
+admin-panel-frontend         Up 3 hours (healthy)
+creator-dashboard-frontend   Up 29 hours (healthy)

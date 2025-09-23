@@ -1,0 +1,49 @@
+===== MODULE BUILD STATUS =====
+
+-- studio --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- metavision --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- streamcore --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- v-suite --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- creator-hub --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- puaboverse --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- pay --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- store --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- admin-console --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- developer-console --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- boom-boom-room-live --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild
+
+-- v-hollywood-studio-engine --
+❌ Build missing, attempting rebuild...
+❌ No package.json, cannot rebuild

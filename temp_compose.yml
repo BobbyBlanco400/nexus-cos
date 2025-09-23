@@ -1,0 +1,232 @@
+version: '3.8'
+
+services:
+  
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: nexus-cos-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexus-network
+
+  mongodb:
+    image: mongo:4.4
+    container_name: nexus-cos-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: /bin/sh -c "echo 'db.runCommand(\"ping\").ok' | mongo localhost:27017/test --quiet"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexus-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexus-cos-backend
+    restart: unless-stopped
+    environment:
+      PORT: 8000
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 8000:8000
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+  glitch:
+    build:
+      context: ./modules/glitch
+      dockerfile: Dockerfile
+    container_name: nexus-cos-glitch
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 3001:3001
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  puaboai-sdk:
+    build:
+      context: ./modules/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: nexus-cos-puaboai-sdk
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 3002:3002
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  puabomusicchain:
+    build:
+      context: ./modules/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: nexus-cos-puabomusicchain
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 3003:3003
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  v-caster:
+    build:
+      context: ./modules/v-caster
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-caster
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3040
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+      AI_MODEL: gpt-4
+      VOICE_PROVIDER: elevenlabs
+    ports:
+      - 3040:3040
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  v-screen:
+    build:
+      context: ./modules/v-screen
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-screen
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3045
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+      TELEPROMPTER_SPEED: medium
+      DISPLAY_MODE: full
+    ports:
+      - 3045:3045
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  pv-keys:
+    build:
+      context: ./modules/pv-keys
+      dockerfile: Dockerfile
+    container_name: nexus-cos-pv-keys
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3050
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 3050:3050
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  streamcore:
+    build:
+      context: ./modules/streamcore
+      dockerfile: Dockerfile
+    container_name: nexus-cos-streamcore
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3060
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - 3060:3060
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  v-stage:
+    build:
+      context: ./modules/v-stage
+      dockerfile: Dockerfile
+    container_name: nexus-cos-v-stage
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3046
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/nexus
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your_jwt_secret
+      VIRTUAL_SETS_ENABLED: true
+      LIVE_STREAMING_INTEGRATION: true
+      RENDER_QUALITY: high
+    ports:
+      - 3046:3046
+    networks:
+      - nexus-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./modules/v-stage/sets:/app/sets
+      - ./modules/v-stage/assets:/app/assets
+      - ./modules/v-stage/logs:/app/logs
+
+networks:
+  nexus-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  mongodb_data:

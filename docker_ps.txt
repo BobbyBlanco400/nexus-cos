@@ -1,0 +1,14 @@
+CONTAINER ID   NAMES                        PORTS
+cd32f2afece8   nexus-cos-backend            0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+bd8838073284   nexus-cos-glitch             
+4d1a5b032c3b   nexus-cos-redis              6379/tcp
+66d251b43c45   nexus-cos-puabomusicchain    3000/tcp, 0.0.0.0:3003->3003/tcp, [::]:3003->3003/tcp
+fe47ac8d6971   nexus-cos-v-caster           3000/tcp, 0.0.0.0:3040->3040/tcp, [::]:3040->3040/tcp
+2385cfc1be1f   nexus-cos-streamcore         3000/tcp, 0.0.0.0:3060->3060/tcp, [::]:3060->3060/tcp
+5186402f763c   nexus-cos-v-screen           3000/tcp, 0.0.0.0:3045->3045/tcp, [::]:3045->3045/tcp
+c76aa3ed206d   nexus-cos-mongodb            27017/tcp
+97f6962b3319   nexus-cos-puaboai-sdk        3000/tcp, 0.0.0.0:3002->3002/tcp, [::]:3002->3002/tcp
+2a0cdab498de   nexus-cos-v-stage            0.0.0.0:5100->3046/tcp, [::]:5100->3046/tcp
+06ba002bb010   nexus-cos-pv-keys            3000/tcp, 0.0.0.0:3050->3050/tcp, [::]:3050->3050/tcp
+f43bf1eac07f   admin-panel-frontend         80/tcp, 0.0.0.0:82->3000/tcp, [::]:82->3000/tcp
+1c5357c9b093   creator-dashboard-frontend   80/tcp, 0.0.0.0:81->3000/tcp, [::]:81->3000/tcp

@@ -1,0 +1,465 @@
+version: '3.8'
+
+networks:
+  nexus-cos-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  nexus-cos-data:
+  puabo-media-storage:
+  blockchain-data:
+  user-profiles:
+  streaming-cache:
+  ai-models:
+  ssl-certs:
+  nginx-logs:
+
+services:
+  # ===========================================
+  # CORE INFRASTRUCTURE SERVICES
+  # ===========================================
+  
+  # API Gateway & Load Balancer
+  nginx-gateway:
+    image: nginx:alpine
+    container_name: nexus-cos-gateway
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nexus-cos.conf:/etc/nginx/nginx.conf
+      - ssl-certs:/etc/ssl/certs
+      - nginx-logs:/var/log/nginx
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.10
+    depends_on:
+      - puabo-os-frontend
+      - nexus-backend-api
+      - service-registry
+    restart: unless-stopped
+
+  # Service Discovery & Registry
+  service-registry:
+    image: consul:latest
+    container_name: nexus-service-registry
+    ports:
+      - "8500:8500"
+    volumes:
+      - ./consul/config:/consul/config
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.11
+    restart: unless-stopped
+
+  # Database Services
+  nexus-database:
+    image: postgres:15
+    container_name: nexus-cos-database
+    environment:
+      POSTGRES_DB: nexus_cos
+      POSTGRES_USER: nexus_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - nexus-cos-data:/var/lib/postgresql/data
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.12
+    restart: unless-stopped
+
+  # Redis Cache
+  nexus-cache:
+    image: redis:alpine
+    container_name: nexus-cos-cache
+    volumes:
+      - streaming-cache:/data
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.13
+    restart: unless-stopped
+
+  # ===========================================
+  # PUABO OS V200 CORE MODULES
+  # ===========================================
+
+  # PUABO OS Frontend (Main OS Interface)
+  puabo-os-frontend:
+    build:
+      context: ./nexuscos_repos/puabo-os-2025
+      dockerfile: Dockerfile
+    container_name: puabo-os-interface
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://nexus-backend-api:3001
+      - REACT_APP_STREAMING_URL=http://streamcore-service:3002
+    volumes:
+      - user-profiles:/app/data/profiles
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.20
+    depends_on:
+      - nexus-backend-api
+      - service-registry
+    restart: unless-stopped
+
+  # PUABOAI SDK Service
+  puaboai-sdk:
+    build:
+      context: ./modules/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: puaboai-engine
+    ports:
+      - "3010:3010"
+    environment:
+      - AI_MODEL_PATH=/app/models
+      - TELEPROMPTER_SYNC_ENABLED=true
+    volumes:
+      - ai-models:/app/models
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.30
+    restart: unless-stopped
+
+  # V-Caster Module
+  v-caster:
+    build:
+      context: ./modules/v-caster
+      dockerfile: Dockerfile
+    container_name: v-caster-service
+    ports:
+      - "3011:3011"
+    environment:
+      - STREAMING_BACKEND=http://streamcore-service:3002
+      - AI_SDK_URL=http://puaboai-engine:3010
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.31
+    depends_on:
+      - streamcore
+      - puaboai-sdk
+    restart: unless-stopped
+
+  # StreamCore Engine
+  streamcore:
+    build:
+      context: ./modules/streamcore
+      dockerfile: Dockerfile
+    container_name: streamcore-service
+    ports:
+      - "3002:3002"
+      - "1935:1935"  # RTMP
+    environment:
+      - RTMP_ENABLED=true
+      - MULTI_CAMERA_SYNC=true
+      - OVERLAY_MANAGEMENT=true
+    volumes:
+      - streaming-cache:/app/cache
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.32
+    restart: unless-stopped
+
+  # V-Screen (with V-Prompter Pro & Hollywood Edition)
+  v-screen:
+    build:
+      context: ./modules/v-screen
+      dockerfile: Dockerfile
+    container_name: v-screen-service
+    ports:
+      - "3012:3012"
+    environment:
+      - PROMPTER_PRO_ENABLED=true
+      - HOLLYWOOD_EDITION=true
+      - AI_SYNC_URL=http://puaboai-engine:3010
+      - STUDIO_INTEGRATION=true
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.33
+    depends_on:
+      - puaboai-sdk
+      - v-stage
+    restart: unless-stopped
+
+  # V-Stage Virtual Studio
+  v-stage:
+    build:
+      context: ./modules/v-stage
+      dockerfile: Dockerfile
+    container_name: v-stage-service
+    ports:
+      - "3013:3013"
+    environment:
+      - VIRTUAL_SETS_ENABLED=true
+      - LIVE_STREAMING_INTEGRATION=true
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.34
+    restart: unless-stopped
+
+  # PV-Keys Control System
+  pv-keys:
+    build:
+      context: ./modules/pv-keys
+      dockerfile: Dockerfile
+    container_name: pv-keys-service
+    ports:
+      - "3014:3014"
+    environment:
+      - HARDWARE_MAPPING=true
+      - VIRTUAL_KEYS=true
+      - LIVE_CONTROL=true
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.35
+    restart: unless-stopped
+
+  # PUABOMusicChain Blockchain
+  puabomusicchain:
+    build:
+      context: ./modules/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: puabomusicchain-service
+    ports:
+      - "3015:3015"
+      - "8545:8545"  # Ethereum RPC
+    environment:
+      - BLOCKCHAIN_ENABLED=true
+      - NFT_MINTING=true
+      - ROYALTY_TRACKING=true
+    volumes:
+      - blockchain-data:/app/blockchain
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.36
+    restart: unless-stopped
+
+  # Glitch: Code of Chaos Frontend
+  glitch-frontend:
+    build:
+      context: ./modules/glitch
+      dockerfile: Dockerfile
+    container_name: glitch-experience
+    ports:
+      - "3016:3016"
+    environment:
+      - IMMERSIVE_MODE=true
+      - PUABOVERSE_INTEGRATION=true
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.37
+    restart: unless-stopped
+
+  # ===========================================
+  # BACKEND MICROSERVICES
+  # ===========================================
+
+  # Main Backend API
+  nexus-backend-api:
+    build:
+      context: ./nexus-cos-main/backend
+      dockerfile: Dockerfile
+    container_name: nexus-backend-service
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://nexus_admin:${DB_PASSWORD}@nexus-database:5432/nexus_cos
+      - REDIS_URL=redis://nexus-cache:6379
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.40
+    depends_on:
+      - nexus-database
+      - nexus-cache
+    restart: unless-stopped
+
+  # Authentication Service
+  auth-service:
+    build:
+      context: ./services/auth
+      dockerfile: Dockerfile
+    container_name: nexus-auth-service
+    ports:
+      - "3041:3041"
+    environment:
+      - DATABASE_URL=postgresql://nexus_admin:${DB_PASSWORD}@nexus-database:5432/nexus_cos
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.41
+    depends_on:
+      - nexus-database
+    restart: unless-stopped
+
+  # Profile Management Service
+  profile-service:
+    build:
+      context: ./services/profile
+      dockerfile: Dockerfile
+    container_name: nexus-profile-service
+    ports:
+      - "3042:3042"
+    volumes:
+      - user-profiles:/app/data
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.42
+    depends_on:
+      - nexus-database
+    restart: unless-stopped
+
+  # Streaming Management Service
+  streaming-service:
+    build:
+      context: ./services/streaming
+      dockerfile: Dockerfile
+    container_name: nexus-streaming-service
+    ports:
+      - "3043:3043"
+    environment:
+      - STREAMCORE_URL=http://streamcore-service:3002
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.43
+    depends_on:
+      - streamcore
+    restart: unless-stopped
+
+  # TV/Radio Service
+  tvradio-service:
+    build:
+      context: ./services/tvradio
+      dockerfile: Dockerfile
+    container_name: nexus-tvradio-service
+    ports:
+      - "3044:3044"
+    volumes:
+      - puabo-media-storage:/app/media
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.44
+    restart: unless-stopped
+
+  # Music/Media Service
+  musicmedia-service:
+    build:
+      context: ./services/musicmedia
+      dockerfile: Dockerfile
+    container_name: nexus-musicmedia-service
+    ports:
+      - "3045:3045"
+    volumes:
+      - puabo-media-storage:/app/media
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.45
+    depends_on:
+      - puabomusicchain
+    restart: unless-stopped
+
+  # Monetization Service
+  monetization-service:
+    build:
+      context: ./services/monetization
+      dockerfile: Dockerfile
+    container_name: nexus-monetization-service
+    ports:
+      - "3046:3046"
+    environment:
+      - BLOCKCHAIN_URL=http://puabomusicchain-service:3015
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.46
+    depends_on:
+      - puabomusicchain
+    restart: unless-stopped
+
+  # BLAC Lending Service
+  blac-service:
+    build:
+      context: ./services/blac
+      dockerfile: Dockerfile
+    container_name: nexus-blac-service
+    ports:
+      - "3047:3047"
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.47
+    depends_on:
+      - nexus-database
+    restart: unless-stopped
+
+  # Notifications Service
+  notifications-service:
+    build:
+      context: ./services/notifications
+      dockerfile: Dockerfile
+    container_name: nexus-notifications-service
+    ports:
+      - "3048:3048"
+    environment:
+      - REDIS_URL=redis://nexus-cache:6379
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.48
+    depends_on:
+      - nexus-cache
+    restart: unless-stopped
+
+  # Admin Service
+  admin-service:
+    build:
+      context: ./services/admin
+      dockerfile: Dockerfile
+    container_name: nexus-admin-service
+    ports:
+      - "3049:3049"
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.49
+    depends_on:
+      - nexus-database
+    restart: unless-stopped
+
+  # ===========================================
+  # MONITORING & HEALTH SERVICES
+  # ===========================================
+
+  # Health Monitor
+  health-monitor:
+    image: prom/prometheus
+    container_name: nexus-health-monitor
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.90
+    restart: unless-stopped
+
+  # Log Aggregator
+  log-aggregator:
+    image: grafana/grafana
+    container_name: nexus-log-aggregator
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    networks:
+      nexus-cos-network:
+        ipv4_address: 172.20.0.91
+    restart: unless-stopped
+
+# ===========================================
+# ENVIRONMENT VARIABLES
+# ===========================================
+# Create .env file with:
+# DB_PASSWORD=your_secure_db_password
+# JWT_SECRET=your_jwt_secret_key
+# GRAFANA_PASSWORD=your_grafana_password

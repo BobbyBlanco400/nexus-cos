@@ -1,0 +1,2 @@
+import authRouter from './routes/auth';
+app.use('/auth', authRouter);

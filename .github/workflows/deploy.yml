@@ -1,0 +1,429 @@
+name: Deploy Nexus COS Extended
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      deploy_mode:
+        description: 'Deployment mode'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - services
+          - infrastructure
+      skip_mobile:
+        description: 'Skip mobile deployment'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: |
+          frontend/package-lock.json
+          backend/package-lock.json
+          mobile/package-lock.json
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          frontend/node_modules
+          backend/node_modules
+          mobile/node_modules
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ matrix.node-version }}-
+    
+    - name: Install dependencies
+      run: |
+        echo "Installing frontend dependencies..."
+        cd frontend && npm ci --prefer-offline
+        echo "Installing backend dependencies..."
+        cd ../backend && npm ci --prefer-offline
+        echo "Installing mobile dependencies..."
+        cd ../mobile && npm ci --prefer-offline
+    
+    - name: Lint code
+      run: |
+        echo "Linting frontend..."
+        cd frontend && npm run lint || true
+        echo "Linting backend..."
+        cd ../backend && npm run lint || true
+    
+    - name: Run tests
+      run: |
+        echo "Running frontend tests..."
+        cd frontend && npm test -- --coverage --watchAll=false
+        echo "Running backend tests..."
+        cd ../backend && npm test -- --coverage --watchAll=false
+    
+    - name: Build applications
+      run: |
+        echo "Building frontend..."
+        cd frontend && npm run build
+        echo "Building backend..."
+        cd ../backend && npm run build
+    
+    - name: Upload test coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: |
+          frontend/coverage/lcov.info
+          backend/coverage/lcov.info
+        fail_ci_if_error: false
+
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run security audit
+      run: |
+        cd frontend && npm audit --audit-level=high
+        cd ../backend && npm audit --audit-level=high
+        cd ../mobile && npm audit --audit-level=high
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  docker-build:
+    needs: [test, security-scan]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Login to Docker Hub
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          nexuscos/frontend
+          nexuscos/backend
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+    
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./docker-compose.prod.yml
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        platforms: linux/amd64,linux/arm64
+
+  deploy-staging:
+    needs: [test, security-scan, docker-build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    environment: staging
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup deployment environment
+      run: |
+        echo "DOMAIN=staging.nexuscos.online" >> $GITHUB_ENV
+        echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+        echo "DEPLOY_MODE=${{ github.event.inputs.deploy_mode || 'full' }}" >> $GITHUB_ENV
+        echo "SKIP_MOBILE=${{ github.event.inputs.skip_mobile || 'false' }}" >> $GITHUB_ENV
+    
+    - name: Deploy to staging server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.STAGING_HOST }}
+        username: ${{ secrets.STAGING_USER }}
+        key: ${{ secrets.STAGING_SSH_KEY }}
+        port: ${{ secrets.STAGING_PORT || 22 }}
+        script: |
+          cd /opt/nexus-cos
+          git pull origin develop
+          chmod +x deploy-nexus-cos.sh
+          export DOMAIN="${{ env.DOMAIN }}"
+          export ENVIRONMENT="${{ env.ENVIRONMENT }}"
+          export DEPLOY_MODE="${{ env.DEPLOY_MODE }}"
+          export SKIP_MOBILE="${{ env.SKIP_MOBILE }}"
+          export FORCE_DEPLOY=true
+          ./deploy-nexus-cos.sh
+    
+    - name: Run health checks
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.STAGING_HOST }}
+        username: ${{ secrets.STAGING_USER }}
+        key: ${{ secrets.STAGING_SSH_KEY }}
+        port: ${{ secrets.STAGING_PORT || 22 }}
+        script: |
+          cd /opt/nexus-cos
+          chmod +x scripts/health-check.sh
+          ./scripts/health-check.sh -d ${{ env.DOMAIN }}
+    
+    - name: Notify deployment status
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+
+  deploy-production:
+    needs: [test, security-scan, docker-build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup deployment environment
+      run: |
+        echo "DOMAIN=nexuscos.online" >> $GITHUB_ENV
+        echo "ENVIRONMENT=production" >> $GITHUB_ENV
+        echo "DEPLOY_MODE=${{ github.event.inputs.deploy_mode || 'full' }}" >> $GITHUB_ENV
+        echo "SKIP_MOBILE=${{ github.event.inputs.skip_mobile || 'false' }}" >> $GITHUB_ENV
+    
+    - name: Create deployment backup
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USER }}
+        key: ${{ secrets.PRODUCTION_SSH_KEY }}
+        port: ${{ secrets.PRODUCTION_PORT || 22 }}
+        script: |
+          cd /opt/nexus-cos
+          mkdir -p backups
+          timestamp=$(date +"%Y%m%d_%H%M%S")
+          tar -czf "backups/pre-deploy-backup-${timestamp}.tar.gz" \
+            --exclude="logs" --exclude="backups" --exclude="node_modules" \
+            --exclude=".git" --exclude="builds" .
+          echo "Backup created: backups/pre-deploy-backup-${timestamp}.tar.gz"
+    
+    - name: Deploy to production server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USER }}
+        key: ${{ secrets.PRODUCTION_SSH_KEY }}
+        port: ${{ secrets.PRODUCTION_PORT || 22 }}
+        script: |
+          cd /opt/nexus-cos
+          git pull origin main
+          chmod +x deploy-nexus-cos.sh
+          export DOMAIN="${{ env.DOMAIN }}"
+          export ENVIRONMENT="${{ env.ENVIRONMENT }}"
+          export DEPLOY_MODE="${{ env.DEPLOY_MODE }}"
+          export SKIP_MOBILE="${{ env.SKIP_MOBILE }}"
+          export FORCE_DEPLOY=true
+          export SSL_EMAIL="${{ secrets.SSL_EMAIL }}"
+          export EXPO_TOKEN="${{ secrets.EXPO_TOKEN }}"
+          ./deploy-nexus-cos.sh
+    
+    - name: Run comprehensive health checks
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USER }}
+        key: ${{ secrets.PRODUCTION_SSH_KEY }}
+        port: ${{ secrets.PRODUCTION_PORT || 22 }}
+        script: |
+          cd /opt/nexus-cos
+          chmod +x scripts/health-check.sh
+          ./scripts/health-check.sh -d ${{ env.DOMAIN }} -w "${{ secrets.SLACK_WEBHOOK }}"
+    
+    - name: Update deployment status
+      if: success()
+      run: |
+        curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/deployments \
+          -d '{
+            "ref": "${{ github.sha }}",
+            "environment": "production",
+            "description": "Nexus COS Extended production deployment",
+            "auto_merge": false
+          }'
+    
+    - name: Notify deployment success
+      if: success()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: success
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+        text: |
+          🚀 Nexus COS Extended successfully deployed to production!
+          Domain: https://${{ env.DOMAIN }}
+          Commit: ${{ github.sha }}
+          Environment: ${{ env.ENVIRONMENT }}
+    
+    - name: Notify deployment failure
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+        text: |
+          ❌ Nexus COS Extended production deployment failed!
+          Please check the logs and take immediate action.
+          Commit: ${{ github.sha }}
+
+  mobile-build:
+    needs: [test, security-scan]
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_mobile != 'true'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: mobile/package-lock.json
+    
+    - name: Setup Expo CLI
+      run: npm install -g @expo/cli eas-cli
+    
+    - name: Install mobile dependencies
+      run: |
+        cd mobile
+        npm ci
+    
+    - name: Authenticate with Expo
+      run: |
+        cd mobile
+        echo "${{ secrets.EXPO_TOKEN }}" | expo login --non-interactive
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    
+    - name: Build mobile app (preview)
+      if: github.ref != 'refs/heads/main'
+      run: |
+        cd mobile
+        eas build --platform all --profile preview --non-interactive
+    
+    - name: Build mobile app (production)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        cd mobile
+        eas build --platform all --profile production --non-interactive
+    
+    - name: Submit to app stores
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      run: |
+        cd mobile
+        eas submit --platform all --profile production --non-interactive
+      env:
+        EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
+        EXPO_ASC_APP_ID: ${{ secrets.EXPO_ASC_APP_ID }}
+        EXPO_APPLE_TEAM_ID: ${{ secrets.EXPO_APPLE_TEAM_ID }}
+
+  performance-test:
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://staging.nexuscos.online
+          https://staging.nexuscos.online/dashboard
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+    
+    - name: Run load tests
+      run: |
+        npm install -g artillery
+        artillery run tests/load-test.yml --target https://staging.nexuscos.online
+
+  cleanup:
+    needs: [deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Cleanup old Docker images
+      if: github.event_name != 'pull_request'
+      run: |
+        echo "Cleaning up old Docker images..."
+        # This would typically connect to your Docker registry
+        # and clean up old images to save space

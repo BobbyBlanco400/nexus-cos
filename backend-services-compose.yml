@@ -1,0 +1,369 @@
+version: '3.8'
+
+# Backend Microservices Architecture with API Gateway
+# Complete NEXUS COS Backend Infrastructure
+
+networks:
+  backend-network:
+    driver: bridge
+    external: true
+    name: nexus-cos-main_nexus-cos-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  mongodb-data:
+  api-logs:
+  service-configs:
+
+services:
+  # ===========================================
+  # CORE INFRASTRUCTURE
+  # ===========================================
+
+  # PostgreSQL Database
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: nexus-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=nexus_cos
+      - POSTGRES_USER=nexus_admin
+      - POSTGRES_PASSWORD=nexus_secure_2025
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.10
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus_admin -d nexus_cos"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Redis Cache
+  redis-cache:
+    image: redis:7-alpine
+    container_name: nexus-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.11
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MongoDB for Content
+  mongodb:
+    image: mongo:6
+    container_name: nexus-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=nexus_admin
+      - MONGO_INITDB_ROOT_PASSWORD=nexus_secure_2025
+      - MONGO_INITDB_DATABASE=nexus_content
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.12
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ===========================================
+  # API GATEWAY & CORE SERVICES
+  # ===========================================
+
+  # Main API Gateway
+  nexus-api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: nexus-api-gateway
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - GATEWAY_PORT=3001
+      - POSTGRES_URL=postgresql://nexus_admin:nexus_secure_2025@postgres-db:5432/nexus_cos
+      - REDIS_URL=redis://redis-cache:6379
+      - MONGODB_URL=mongodb://nexus_admin:nexus_secure_2025@mongodb:27017/nexus_content
+      - JWT_SECRET=nexus_jwt_secret_2025
+      - SERVICE_REGISTRY_URL=http://nexus-service-registry:8500
+    volumes:
+      - api-logs:/app/logs
+      - service-configs:/app/config
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.20
+    depends_on:
+      - postgres-db
+      - redis-cache
+      - mongodb
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Service Registry (Consul)
+  nexus-service-registry:
+    image: consul:latest
+    container_name: nexus-service-registry
+    ports:
+      - "8500:8500"
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    volumes:
+      - ./consul/backend-config:/consul/config
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.21
+    restart: unless-stopped
+    command: >
+      consul agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
+      -datacenter=backend-dc -config-dir=/consul/config
+
+  # ===========================================
+  # BACKEND MICROSERVICES
+  # ===========================================
+
+  # User Management Service
+  nexus-user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    container_name: nexus-user-service
+    ports:
+      - "3041:3041"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3041
+      - POSTGRES_URL=postgresql://nexus_admin:nexus_secure_2025@postgres-db:5432/nexus_cos
+      - REDIS_URL=redis://redis-cache:6379
+      - JWT_SECRET=nexus_jwt_secret_2025
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.30
+    depends_on:
+      - postgres-db
+      - redis-cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3041/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Content Management Service
+  nexus-content-service:
+    build:
+      context: ./services/content-service
+      dockerfile: Dockerfile
+    container_name: nexus-content-service
+    ports:
+      - "3042:3042"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3042
+      - MONGODB_URL=mongodb://nexus_admin:nexus_secure_2025@mongodb:27017/nexus_content
+      - REDIS_URL=redis://redis-cache:6379
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.31
+    depends_on:
+      - mongodb
+      - redis-cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3042/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Streaming Service
+  nexus-streaming-service:
+    build:
+      context: ./services/streaming-service
+      dockerfile: Dockerfile
+    container_name: nexus-streaming-service
+    ports:
+      - "3043:3043"
+      - "1936:1935"  # RTMP
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3043
+      - RTMP_PORT=1935
+      - STREAMCORE_URL=http://streamcore-service:3002
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.32
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3043/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # TV & Radio Service
+  nexus-tvradio-service:
+    build:
+      context: ./services/tvradio-service
+      dockerfile: Dockerfile
+    container_name: nexus-tvradio-service
+    ports:
+      - "3044:3044"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3044
+      - STREAMING_SERVICE_URL=http://nexus-streaming-service:3043
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.33
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3044/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Music & Media Service
+  nexus-musicmedia-service:
+    build:
+      context: ./services/musicmedia-service
+      dockerfile: Dockerfile
+    container_name: nexus-musicmedia-service
+    ports:
+      - "3045:3045"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3045
+      - MONGODB_URL=mongodb://nexus_admin:nexus_secure_2025@mongodb:27017/nexus_content
+      - BLOCKCHAIN_SERVICE_URL=http://puabomusicchain-service:3015
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.34
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3045/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monetization Service
+  nexus-monetization-service:
+    build:
+      context: ./services/monetization-service
+      dockerfile: Dockerfile
+    container_name: nexus-monetization-service
+    ports:
+      - "3046:3046"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3046
+      - POSTGRES_URL=postgresql://nexus_admin:nexus_secure_2025@postgres-db:5432/nexus_cos
+      - PAYMENT_GATEWAY_ENABLED=true
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.35
+    depends_on:
+      - postgres-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3046/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # BLAC Service
+  nexus-blac-service:
+    build:
+      context: ./services/blac-service
+      dockerfile: Dockerfile
+    container_name: nexus-blac-service
+    ports:
+      - "3047:3047"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3047
+      - POSTGRES_URL=postgresql://nexus_admin:nexus_secure_2025@postgres-db:5432/nexus_cos
+      - FINANCIAL_FEATURES_ENABLED=true
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.36
+    depends_on:
+      - postgres-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3047/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Analytics Service
+  nexus-analytics-service:
+    build:
+      context: ./services/analytics-service
+      dockerfile: Dockerfile
+    container_name: nexus-analytics-service
+    ports:
+      - "3048:3048"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3048
+      - MONGODB_URL=mongodb://nexus_admin:nexus_secure_2025@mongodb:27017/nexus_content
+      - REDIS_URL=redis://redis-cache:6379
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.37
+    depends_on:
+      - mongodb
+      - redis-cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3048/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Admin Service
+  nexus-admin-service:
+    build:
+      context: ./services/admin-service
+      dockerfile: Dockerfile
+    container_name: nexus-admin-service
+    ports:
+      - "3049:3049"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_PORT=3049
+      - POSTGRES_URL=postgresql://nexus_admin:nexus_secure_2025@postgres-db:5432/nexus_cos
+      - ADMIN_FEATURES_ENABLED=true
+    networks:
+      backend-network:
+        ipv4_address: 172.20.2.38
+    depends_on:
+      - postgres-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3049/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
