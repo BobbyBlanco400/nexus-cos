@@ -367,4 +367,4 @@ web-build/
 *.tsbuildinfo
 
 # Turborepo
-.turbo
+.turbo.cache/puppeteer/
