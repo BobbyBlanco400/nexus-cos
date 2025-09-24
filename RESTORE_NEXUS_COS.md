@@ -83,27 +83,57 @@ npm install
 
 ## 🚀 Setup Instructions
 
-### 1. Unpack the Snapshot
+### Option A: Complete One-Command Restore & Deploy
+
+```bash
+# Complete automated restore and deployment (completes the problem statement command)
+cd ~ && \
+echo "[$(date +'%Y-%m-%d %H:%M:%S %Z')] Starting Nexus COS restore..." && \
+curl -L -o nexus-cos-final-snapshot.zip "https://transfer.sh/abc123/nexus-cos-final-snapshot.zip" && \
+unzip -o nexus-cos-final-snapshot.zip -d nexus-cos && \
+cd nexus-cos && \
+echo "[$(date +'%Y-%m-%d %H:%M:%S %Z')] Initial setup and dependency installation..." && \
+if [ -d "nexus-cos-final-snapshot" ]; then mv nexus-cos-final-snapshot/* . 2>/dev/null || true; mv nexus-cos-final-snapshot/.[^.]* . 2>/dev/null || true; rmdir nexus-cos-final-snapshot 2>/dev/null || true; fi && \
+npm install && \
+git lfs install 2>/dev/null || true && \
+git lfs pull 2>/dev/null || true && \
+chmod +x *.sh 2>/dev/null || true && \
+./master-fix-trae-solo.sh && \
+echo "[$(date +'%Y-%m-%d %H:%M:%S %Z')] ✅ Nexus COS restore and deployment completed successfully!"
+```
+
+### Option B: Use Complete Restore Script
+
+```bash
+# Download and run the complete restore script
+curl -L https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/restore-and-deploy.sh -o restore-and-deploy.sh
+chmod +x restore-and-deploy.sh
+./restore-and-deploy.sh
+```
+
+### Option C: Manual Step-by-Step Setup
+
+#### 1. Unpack the Snapshot
 
 ```bash
 unzip nexus-cos-final-snapshot.zip -d nexus-cos
 cd nexus-cos
 ```
 
-### 2. Install Dependencies
+#### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Rebuild with Git LFS (if needed)
+#### 3. Rebuild with Git LFS (if needed)
 
 ```bash
 git lfs install
 git lfs pull
 ```
 
-### 4. Deploy with TRAE SOLO
+#### 4. Deploy with TRAE SOLO
 
 ```bash
 # Run the master deployment script
