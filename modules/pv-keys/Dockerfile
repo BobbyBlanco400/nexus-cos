@@ -16,6 +16,10 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy source code
 COPY . .
 
+RUN ls -R /app
+
+RUN chown -R nexus:nodejs /app
+
 # Create logs directory
 RUN mkdir -p logs && chown -R nexus:nodejs logs
 

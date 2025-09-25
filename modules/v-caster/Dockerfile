@@ -4,7 +4,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install FFmpeg for video processing
-RUN apk add --no-cache ffmpeg
+RUN apk add --no-cache ffmpeg curl
 
 # Copy package files
 COPY package*.json ./

@@ -3,6 +3,7 @@ const cors = require('cors');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+const bcrypt = require('bcryptjs');
 const logger = require('./src/utils/logger');
 
 const app = express();

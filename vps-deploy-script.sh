@@ -41,11 +41,12 @@ ufw allow 4002
 ufw allow 8080
 echo "y" | ufw enable
 
-echo "📥 Setting up project files..."
+echo "📦 Unzipping project snapshot..."
+unzip -o /tmp/nexus-cos-vps-deploy.zip -d /tmp/nexus-cos-upload
 # Copy uploaded project files
 if [ -d "/tmp/nexus-cos-upload" ]; then
     echo "Copying uploaded project files..."
-    cp -r /tmp/nexus-cos-upload/* .
+    cp -r /tmp/nexus-cos-upload/nexus-cos/* .
     rm -rf /tmp/nexus-cos-upload
 else
     echo "No uploaded files found, creating basic structure..."

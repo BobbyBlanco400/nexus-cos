@@ -123,8 +123,7 @@ const pubnub = new PubNub({
 })
 
 // AI Services
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+const openai = new OpenAI({\n  apiKey: process.env.KEI_AI_KEY,\n  baseURL: process.env.KEI_AI_ENDPOINT\n});
 })
 
 const anthropic = new Anthropic({

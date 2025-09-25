@@ -1,0 +1,1180 @@
+Temporary directory created: temp-nexus-cos-deploy
+Processing items in . : 201 items found after filtering
+Created directory: temp-nexus-cos-deploy\.github
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\.github : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\.github\workflows
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\.github\workflows : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\.github\workflows\deploy.yml
+Created directory: temp-nexus-cos-deploy\.trae
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\.trae : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\.trae\environment.env
+Copied file: temp-nexus-cos-deploy\.trae\services.yaml
+Created directory: temp-nexus-cos-deploy\apps
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\apps\admin-panel
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\apps\admin-panel\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel\public : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\public\index.html
+Created directory: temp-nexus-cos-deploy\apps\admin-panel\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel\src : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\apps\admin-panel\src\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel\src\components : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\components\Dashboard.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\components\Login.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\components\Navigation.js
+Created directory: temp-nexus-cos-deploy\apps\admin-panel\src\lib
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel\src\lib : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\lib\supabase.js
+Created directory: temp-nexus-cos-deploy\apps\admin-panel\src\store
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\admin-panel\src\store : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\store\authSlice.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\store\store.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\App.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\src\index.js
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\Dockerfile
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\package-lock.json
+Copied file: temp-nexus-cos-deploy\apps\admin-panel\package.json
+Created directory: temp-nexus-cos-deploy\apps\creator-dashboard
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\creator-dashboard : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\apps\creator-dashboard\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\creator-dashboard\public : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\public\index.html
+Created directory: temp-nexus-cos-deploy\apps\creator-dashboard\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\creator-dashboard\src : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\apps\creator-dashboard\src\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\apps\creator-dashboard\src\components : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\src\components\Dashboard.js
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\src\components\Sidebar.js
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\src\App.js
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\src\index.js
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\Dockerfile
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\package-lock.json
+Copied file: temp-nexus-cos-deploy\apps\creator-dashboard\package.json
+Created directory: temp-nexus-cos-deploy\assets
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\assets : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\assets\branding
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\assets\branding : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\assets\branding\favicon.svg
+Copied file: temp-nexus-cos-deploy\assets\branding\logo.svg
+Copied file: temp-nexus-cos-deploy\assets\favicon.svg
+Copied file: temp-nexus-cos-deploy\assets\nexus-cos-logo.svg
+Created directory: temp-nexus-cos-deploy\backend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\backend : 9 items found after filtering
+Copied file: temp-nexus-cos-deploy\backend\app.js
+Copied file: temp-nexus-cos-deploy\backend\Dockerfile
+Copied file: temp-nexus-cos-deploy\backend\health.js
+Copied file: temp-nexus-cos-deploy\backend\health.py
+Copied file: temp-nexus-cos-deploy\backend\main.py
+Copied file: temp-nexus-cos-deploy\backend\package-lock.json
+Copied file: temp-nexus-cos-deploy\backend\package.json
+Copied file: temp-nexus-cos-deploy\backend\requirements-minimal.txt
+Copied file: temp-nexus-cos-deploy\backend\requirements.txt
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend : 12 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\controllers : 6 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\performerController.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\streamController.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\subscriptionController.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\tipController.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\userController.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\controllers\walletController.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\middleware
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\middleware : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\middleware\auth.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\middleware\errorHandler.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\middleware\rateLimiter.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\middleware\validation.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\models
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\models : 6 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\Stream.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\SubscriptionTier.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\Tip.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\User.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\UserSubscription.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\models\Wallet.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\prisma
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\prisma : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\prisma\schema.prisma
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\routes : 10 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\auth.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\performers.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\streaming.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\streams.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\subscriptions.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\tipping.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\tips.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\users.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\wallet.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\routes\webhooks.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\scripts
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\scripts : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\scripts\seedSubscriptionTiers.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\backend\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\backend\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\utils\logger.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\.env
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\.env.example
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\app.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\package.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\backend\server.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend : 12 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next : 11 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\swc
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\swc : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\swc\plugins
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\swc\plugins : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\swc\plugins\v7_windows_x86_64_0.106.15
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\swc\plugins\v7_windows_x86_64_0.106.15 : 0 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack : 6 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\client-development : 13 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\0.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\1.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\10.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\2.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\3.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\4.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\5.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\6.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\7.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\8.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\9.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\index.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development\index.pack.gz.old
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development-fallback
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\client-development-fallback : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development-fallback\0.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development-fallback\1.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-development-fallback\index.pack.gz.old
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\client-production : 5 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production\0.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production\1.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production\2.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production\index.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\client-production\index.pack.old
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\edge-server-production
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\edge-server-production : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\edge-server-production\0.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\edge-server-production\index.pack
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\server-development : 11 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\0.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\1.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\2.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\3.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\4.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\5.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\6.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\7.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\8.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\index.pack.gz
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-development\index.pack.gz.old
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-production
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\cache\webpack\server-production : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-production\0.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\webpack\server-production\index.pack
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\cache\.tsbuildinfo
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server : 17 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\api : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\api\stripe : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-checkout-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-checkout-session : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-checkout-session\route.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-checkout-session\route.js.nft.json
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-portal-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-portal-session : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-portal-session\route.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\create-portal-session\route.js.nft.json
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\webhook
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\api\stripe\webhook : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\webhook\route.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\api\stripe\webhook\route.js.nft.json
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\streams
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\streams : 4 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\streams\[streamId]
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\streams\[streamId] : 0 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\streams\page.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\streams\page.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\streams\page_client-reference-manifest.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\subscription : 4 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\success
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\subscription\success : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\success\page.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\success\page.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\success\page_client-reference-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\page.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\page.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\subscription\page_client-reference-manifest.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\_not-found
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\app\_not-found : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\_not-found\page.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\_not-found\page.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\_not-found\page_client-reference-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\page.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\page.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app\page_client-reference-manifest.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\chunks : 8 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\276.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\325.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\434.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\682.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\819.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\843.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\859.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\chunks\font-manifest.json
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\pages : 6 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_app.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_app.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_document.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_document.js.nft.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_error.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages\_error.js.nft.json
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\vendor-chunks
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\server\vendor-chunks : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\vendor-chunks\@swc.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\vendor-chunks\clsx.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\vendor-chunks\next.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\vendor-chunks\tailwind-merge.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\app-paths-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\font-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\interception-route-rewrite-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\middleware-build-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\middleware-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\middleware-react-loadable-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\next-font-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\next-font-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\pages-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\server-reference-manifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\server-reference-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\webpack-runtime.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\server\_error.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static : 6 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\-zPJFZvelRStz8Df5A8AG
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\-zPJFZvelRStz8Df5A8AG : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\-zPJFZvelRStz8Df5A8AG\_buildManifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\-zPJFZvelRStz8Df5A8AG\_ssgManifest.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks : 19 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\streams
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app\streams : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\streams\[streamId]
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app\streams\[streamId] : 0 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\streams\page-a5e664fc277943d2.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\subscription
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app\subscription : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\subscription\success
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app\subscription\success : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\subscription\success\page-1ec8f495ee3db1f4.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\subscription\page-68b32faaacb99e7d.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\_not-found
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\app\_not-found : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\_not-found\page-112355ee1f96ef0d.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\layout-6631292bab9394cc.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\layout.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\page-73f0879999fba7b6.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\app\page.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\fallback : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\fallback\pages : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\pages\_app.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\pages\_error.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\amp.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\main.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\react-refresh.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fallback\webpack.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\chunks\pages : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\pages\_app-72b849fbd24ac258.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\pages\_app.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\pages\_error-7ba65e1336b92748.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\pages\_error.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\117-f01d1cd19473cb7e.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\137-7c01c277e0f0cc48.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\145-d20fe0f53bfe8937.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\648-f43eacd662d0dc31.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\831-e02994e889dcadd8.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\fd9d1056-5176ebcbed9a8724.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\framework-d1703057b07599d4.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\main-770db895db561a48.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\main-app-11e7741424813d35.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\main.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\polyfills-42372ed130431b0a.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\polyfills.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\react-refresh.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\webpack-b7d8c3e2e7ae3b9c.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\webpack.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\chunks\_error.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\css
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\css : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\css\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\css\app : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\css\app\layout.css
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\css\5dcae90e6d0e670a.css
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\development
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\development : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\development\_buildManifest.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\development\_ssgManifest.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\media : 8 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\19cfc7226ec3afaa-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\21350d82a1f187e9-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\8e9860b6e62d6359-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\9a4ee768fed045da-s.p.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\ba9851c3c22cd980-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\c5fe6dc8356a8c31-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\df0a9ae256c0569c-s.woff2
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\media\e4af272ccee01ff0-s.p.woff2
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\webpack : 9 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\static\webpack\app : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\app\layout.2e9087efdd2d97b5.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\app\layout.dbe6c3ddd127c971.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\app\page.56c997d34923b964.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\app\page.61de43b58577e71e.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\2e9087efdd2d97b5.webpack.hot-update.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\56c997d34923b964.webpack.hot-update.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\61de43b58577e71e.webpack.hot-update.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\dbe6c3ddd127c971.webpack.hot-update.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\webpack.2e9087efdd2d97b5.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\webpack.56c997d34923b964.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\webpack.61de43b58577e71e.hot-update.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\static\webpack\webpack.dbe6c3ddd127c971.hot-update.js
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\api : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\api\stripe : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-checkout-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-checkout-session : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-checkout-session\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-portal-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-portal-session : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\create-portal-session\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\webhook
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\api\stripe\webhook : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\api\stripe\webhook\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\streams
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\streams : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\streams\[streamId]
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\streams\[streamId] : 0 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\streams\page.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\subscription
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\subscription : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\subscription\success
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\.next\types\app\subscription\success : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\subscription\success\page.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\subscription\page.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\layout.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\app\page.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\types\package.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\app-build-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\build-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\fallback-build-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\package.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\react-loadable-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\routes-manifest.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\.next\trace
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\api : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\api\stripe : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\create-checkout-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\api\stripe\create-checkout-session : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\create-checkout-session\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\create-portal-session
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\api\stripe\create-portal-session : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\create-portal-session\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\webhook
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\api\stripe\webhook : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\api\stripe\webhook\route.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\streams
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\streams : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\streams\[streamId]
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\streams\[streamId] : 0 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\streams\page.tsx
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\subscription
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\subscription : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\subscription\success
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\app\subscription\success : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\subscription\success\page.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\subscription\page.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\globals.css
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\layout.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\page.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\app\providers.tsx
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\components : 8 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\gamification
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\components\gamification : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\gamification\TipLeaderboard.tsx
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\subscription
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\components\subscription : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\subscription\TierSelection.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\ErrorBoundary.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\LoadingSpinner.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\StreamsPage.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\SubscriptionTiers.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\TippingInterface.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\components\VRStreamViewer.tsx
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\contexts : 6 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\AuthContext.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\LoadingContext.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\SocketContext.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\StreamContext.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\ThemeContext.tsx
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\contexts\TipContext.tsx
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\lib : 7 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\access-control.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\api.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\nexus-integration.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\stripe-checkout.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\subscription-tiers.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\tipping-system.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\lib\utils.ts
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\public : 3 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public\icons
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\public\icons : 0 items found after filtering
+Created directory: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public\images
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\da-boom-boom-room\frontend\public\images : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public\images\hero-bg.svg
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public\images\nexus-cos-logo.svg
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\public\favicon.ico
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\next-env.d.ts
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\next.config.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\package-lock.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\package.json
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\tailwind.config.js
+Copied file: temp-nexus-cos-deploy\da-boom-boom-room\frontend\tsconfig.json
+Created directory: temp-nexus-cos-deploy\database
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\database : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\database\init
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\database\init : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\database\init\01-create-tables.sql
+Created directory: temp-nexus-cos-deploy\deploy
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\deploy : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\deploy\deploy.sh
+Copied file: temp-nexus-cos-deploy\deploy\ssh-config.json
+Copied file: temp-nexus-cos-deploy\deploy\vps-setup.sh
+Created directory: temp-nexus-cos-deploy\extracted_certs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\extracted_certs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\extracted_certs\intermediate1.cer
+Copied file: temp-nexus-cos-deploy\extracted_certs\intermediate2.cer
+Created directory: temp-nexus-cos-deploy\frontend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\frontend\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\public : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\frontend\public\index.html
+Copied file: temp-nexus-cos-deploy\frontend\public\manifest.json
+Created directory: temp-nexus-cos-deploy\frontend\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src : 6 items found after filtering
+Created directory: temp-nexus-cos-deploy\frontend\src\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src\components : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\frontend\src\components\Layout
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src\components\Layout : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\frontend\src\components\Layout\Header.js
+Created directory: temp-nexus-cos-deploy\frontend\src\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src\pages : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\frontend\src\pages\Dashboard.js
+Copied file: temp-nexus-cos-deploy\frontend\src\pages\Home.js
+Copied file: temp-nexus-cos-deploy\frontend\src\pages\VScreen.js
+Copied file: temp-nexus-cos-deploy\frontend\src\pages\VStage.js
+Created directory: temp-nexus-cos-deploy\frontend\src\services
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src\services : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\frontend\src\services\api.js
+Created directory: temp-nexus-cos-deploy\frontend\src\styles
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\frontend\src\styles : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\frontend\src\styles\global.css
+Copied file: temp-nexus-cos-deploy\frontend\src\styles\theme.css
+Copied file: temp-nexus-cos-deploy\frontend\src\App.js
+Copied file: temp-nexus-cos-deploy\frontend\src\index.js
+Copied file: temp-nexus-cos-deploy\frontend\.env
+Copied file: temp-nexus-cos-deploy\frontend\Dockerfile
+Copied file: temp-nexus-cos-deploy\frontend\nginx.conf
+Copied file: temp-nexus-cos-deploy\frontend\package-lock.json
+Copied file: temp-nexus-cos-deploy\frontend\package.json
+Created directory: temp-nexus-cos-deploy\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\logs : 6 items found after filtering
+Copied file: temp-nexus-cos-deploy\logs\deploy.log
+Copied file: temp-nexus-cos-deploy\logs\deployment-validation-2025-09-18_09-56-11.log
+Copied file: temp-nexus-cos-deploy\logs\deployment-validation-2025-09-18_10-04-13.log
+Copied file: temp-nexus-cos-deploy\logs\deployment-validation-2025-09-18_10-15-14.log
+Copied file: temp-nexus-cos-deploy\logs\deployment-validation-2025-09-18_23-44-48.log
+Copied file: temp-nexus-cos-deploy\logs\microservices-test.log
+Created directory: temp-nexus-cos-deploy\mobile
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\mobile : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\mobile\theme.js
+Created directory: temp-nexus-cos-deploy\modules
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules : 9 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\glitch
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\glitch : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\glitch\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\glitch\package.json
+Copied file: temp-nexus-cos-deploy\modules\glitch\server.js
+Created directory: temp-nexus-cos-deploy\modules\puaboai-sdk
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\puaboai-sdk : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\puaboai-sdk\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\puaboai-sdk\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\logs\puaboverse-error.log
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\logs\puaboverse.log
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\package-lock.json
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\package.json
+Copied file: temp-nexus-cos-deploy\modules\puaboai-sdk\server.js
+Created directory: temp-nexus-cos-deploy\modules\puabomusicchain
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\puabomusicchain : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\puabomusicchain\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\puabomusicchain\package.json
+Copied file: temp-nexus-cos-deploy\modules\puabomusicchain\server.js
+Created directory: temp-nexus-cos-deploy\modules\pv-keys
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\pv-keys : 4 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\pv-keys\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\pv-keys\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\pv-keys\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\pv-keys\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\pv-keys\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\modules\pv-keys\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\pv-keys\package.json
+Copied file: temp-nexus-cos-deploy\modules\pv-keys\server.js
+Created directory: temp-nexus-cos-deploy\modules\streamcore
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\streamcore : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\streamcore\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\streamcore\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\streamcore\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\modules\streamcore\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\modules\streamcore\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\streamcore\package-lock.json
+Copied file: temp-nexus-cos-deploy\modules\streamcore\package.json
+Copied file: temp-nexus-cos-deploy\modules\streamcore\server.js
+Created directory: temp-nexus-cos-deploy\modules\v-caster
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-caster : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\v-caster\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-caster\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\v-caster\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-caster\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\v-caster\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\modules\v-caster\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\v-caster\package.json
+Copied file: temp-nexus-cos-deploy\modules\v-caster\routes.js
+Copied file: temp-nexus-cos-deploy\modules\v-caster\server.js
+Created directory: temp-nexus-cos-deploy\modules\v-screen
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-screen : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\v-screen\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-screen\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\v-screen\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-screen\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\v-screen\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\modules\v-screen\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\v-screen\package.json
+Copied file: temp-nexus-cos-deploy\modules\v-screen\routes.js
+Copied file: temp-nexus-cos-deploy\modules\v-screen\server.js
+Created directory: temp-nexus-cos-deploy\modules\v-stage
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-stage : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\v-stage\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\v-stage\package.json
+Copied file: temp-nexus-cos-deploy\modules\v-stage\server.js
+Created directory: temp-nexus-cos-deploy\modules\v-suite
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-suite : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\modules\v-suite\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\modules\v-suite\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\modules\v-suite\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\modules\v-suite\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\modules\v-suite\Dockerfile
+Copied file: temp-nexus-cos-deploy\modules\v-suite\package-lock.json
+Copied file: temp-nexus-cos-deploy\modules\v-suite\package.json
+Copied file: temp-nexus-cos-deploy\modules\v-suite\server.js
+Created directory: temp-nexus-cos-deploy\monitoring
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\monitoring\grafana
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring\grafana : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\monitoring\grafana\provisioning
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring\grafana\provisioning : 2 items found after filtering
+Created directory: temp-nexus-cos-deploy\monitoring\grafana\provisioning\dashboards
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring\grafana\provisioning\dashboards : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\monitoring\grafana\provisioning\dashboards\dashboard.yml
+Created directory: temp-nexus-cos-deploy\monitoring\grafana\provisioning\datasources
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring\grafana\provisioning\datasources : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\monitoring\grafana\provisioning\datasources\datasource.yml
+Created directory: temp-nexus-cos-deploy\monitoring\prometheus
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\monitoring\prometheus : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\monitoring\prometheus\prometheus.yml
+Created directory: temp-nexus-cos-deploy\nexus-cos
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos : 8 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\backend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\backend : 9 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\app.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\health.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\health.py
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\main.py
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\requirements-minimal.txt
+Copied file: temp-nexus-cos-deploy\nexus-cos\backend\requirements.txt
+Created directory: temp-nexus-cos-deploy\nexus-cos\database
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\database : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\database\init
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\database\init : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\database\init\01-create-tables.sql
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\public : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\public\index.html
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\public\manifest.json
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src : 6 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src\components : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src\components\Layout
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src\components\Layout : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\components\Layout\Header.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src\pages : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\pages\Dashboard.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\pages\Home.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\pages\VScreen.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\pages\VStage.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src\services
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src\services : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\services\api.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\frontend\src\styles
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\frontend\src\styles : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\styles\global.css
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\styles\theme.css
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\App.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\src\index.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\.env
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\nginx.conf
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\frontend\package.json
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules : 9 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\glitch
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\glitch : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\glitch\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\glitch\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\glitch\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\puaboai-sdk : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\puaboai-sdk\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\logs\puaboverse-error.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\logs\puaboverse.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puaboai-sdk\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\puabomusicchain
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\puabomusicchain : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puabomusicchain\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puabomusicchain\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\puabomusicchain\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\pv-keys : 4 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\pv-keys\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\pv-keys\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\pv-keys\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\streamcore
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\streamcore : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\streamcore\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\streamcore\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-caster
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-caster : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-caster\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-caster\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\routes.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-caster\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-screen
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-screen : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-screen\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-screen\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\routes.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-screen\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-stage
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-stage : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-stage\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-stage\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-stage\server.js
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-suite
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-suite : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nexus-cos\modules\v-suite\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\Dockerfile
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\modules\v-suite\server.js
+Copied file: temp-nexus-cos-deploy\nexus-cos\docker-compose.prod.yml
+Copied file: temp-nexus-cos-deploy\nexus-cos\package-lock.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\package.json
+Copied file: temp-nexus-cos-deploy\nexus-cos\vps-deploy-script.sh
+Created directory: temp-nexus-cos-deploy\nginx
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nginx : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\nginx\conf.d
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\nginx\conf.d : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\nginx\conf.d\frontend-apps.conf
+Copied file: temp-nexus-cos-deploy\nginx\conf.d\nexus-cos.conf
+Copied file: temp-nexus-cos-deploy\nginx\conf.d\nexus-proxy.conf
+Copied file: temp-nexus-cos-deploy\nginx\nexus-cos-extended.conf
+Copied file: temp-nexus-cos-deploy\nginx\nexus-proxy.conf
+Copied file: temp-nexus-cos-deploy\nginx\nexuscos-online.conf
+Copied file: temp-nexus-cos-deploy\nginx\nginx.conf
+Created directory: temp-nexus-cos-deploy\scripts
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\scripts : 14 items found after filtering
+Copied file: temp-nexus-cos-deploy\scripts\build-mobile.sh
+Copied file: temp-nexus-cos-deploy\scripts\deploy-mobile.sh
+Copied file: temp-nexus-cos-deploy\scripts\deploy-trae-solo.ps1
+Copied file: temp-nexus-cos-deploy\scripts\deploy-trae-solo.sh
+Copied file: temp-nexus-cos-deploy\scripts\deploy_nexus_cos.sh
+Copied file: temp-nexus-cos-deploy\scripts\health-check.ps1
+Copied file: temp-nexus-cos-deploy\scripts\health-check.sh
+Copied file: temp-nexus-cos-deploy\scripts\production-auto-setup.sh
+Copied file: temp-nexus-cos-deploy\scripts\run-tests.sh
+Copied file: temp-nexus-cos-deploy\scripts\setup-monitoring.sh
+Copied file: temp-nexus-cos-deploy\scripts\setup-ssl.sh
+Copied file: temp-nexus-cos-deploy\scripts\test-microservices.ps1
+Copied file: temp-nexus-cos-deploy\scripts\validate-deployment.ps1
+Copied file: temp-nexus-cos-deploy\scripts\vps-deploy.sh
+Created directory: temp-nexus-cos-deploy\services
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services : 12 items found after filtering
+Created directory: temp-nexus-cos-deploy\services\boom-boom-room-live
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\boom-boom-room-live : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\boom-boom-room-live\package.json
+Copied file: temp-nexus-cos-deploy\services\boom-boom-room-live\server.js
+Created directory: temp-nexus-cos-deploy\services\content-management
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\content-management : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\content-management\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\content-management\package.json
+Copied file: temp-nexus-cos-deploy\services\content-management\server.js
+Created directory: temp-nexus-cos-deploy\services\creator-hub
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\creator-hub : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\services\creator-hub\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\creator-hub\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\creator-hub\logs\creator-hub-error.log
+Copied file: temp-nexus-cos-deploy\services\creator-hub\logs\creator-hub.log
+Copied file: temp-nexus-cos-deploy\services\creator-hub\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\creator-hub\package-lock.json
+Copied file: temp-nexus-cos-deploy\services\creator-hub\package.json
+Copied file: temp-nexus-cos-deploy\services\creator-hub\server.js
+Created directory: temp-nexus-cos-deploy\services\kei-ai
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\kei-ai : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\kei-ai\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\kei-ai\package.json
+Copied file: temp-nexus-cos-deploy\services\kei-ai\server.js
+Created directory: temp-nexus-cos-deploy\services\nexus-cos-studio-ai
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\nexus-cos-studio-ai : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\nexus-cos-studio-ai\package.json
+Copied file: temp-nexus-cos-deploy\services\nexus-cos-studio-ai\server.js
+Created directory: temp-nexus-cos-deploy\services\puaboverse
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\puaboverse : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\services\puaboverse\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\puaboverse\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\puaboverse\logs\puaboverse-error.log
+Copied file: temp-nexus-cos-deploy\services\puaboverse\logs\puaboverse.log
+Copied file: temp-nexus-cos-deploy\services\puaboverse\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\puaboverse\package-lock.json
+Copied file: temp-nexus-cos-deploy\services\puaboverse\package.json
+Copied file: temp-nexus-cos-deploy\services\puaboverse\server.js
+Created directory: temp-nexus-cos-deploy\services\streaming
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\streaming : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\streaming\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\streaming\package.json
+Copied file: temp-nexus-cos-deploy\services\streaming\server.js
+Created directory: temp-nexus-cos-deploy\services\user-auth
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\user-auth : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\user-auth\Dockerfile
+Copied file: temp-nexus-cos-deploy\services\user-auth\package.json
+Copied file: temp-nexus-cos-deploy\services\user-auth\server.js
+Created directory: temp-nexus-cos-deploy\services\v-caster-pro
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\v-caster-pro : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\v-caster-pro\package.json
+Copied file: temp-nexus-cos-deploy\services\v-caster-pro\server.js
+Created directory: temp-nexus-cos-deploy\services\v-prompter-pro
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\v-prompter-pro : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\v-prompter-pro\package.json
+Copied file: temp-nexus-cos-deploy\services\v-prompter-pro\server.js
+Created directory: temp-nexus-cos-deploy\services\v-screen
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\v-screen : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\v-screen\package.json
+Copied file: temp-nexus-cos-deploy\services\v-screen\server.js
+Created directory: temp-nexus-cos-deploy\services\v-stage
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\services\v-stage : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\services\v-stage\package.json
+Copied file: temp-nexus-cos-deploy\services\v-stage\server.js
+Created directory: temp-nexus-cos-deploy\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\src\v-suite
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\src\v-suite : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\src\v-suite\v-hollywood-studio
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\src\v-suite\v-hollywood-studio : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\src\v-suite\v-hollywood-studio\Dockerfile
+Copied file: temp-nexus-cos-deploy\src\v-suite\v-hollywood-studio\server.js
+Created directory: temp-nexus-cos-deploy\ssl
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\ssl : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\ssl\README.md
+Copied file: temp-nexus-cos-deploy\ssl\ssl-params.conf
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\database
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\database : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\database\init
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\database\init : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\database\init\01-create-tables.sql
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend : 7 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\public
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\public : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\public\index.html
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\public\manifest.json
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src : 6 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\components
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src\components : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\components\Layout
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src\components\Layout : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\components\Layout\Header.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\pages
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src\pages : 4 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\pages\Dashboard.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\pages\Home.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\pages\VScreen.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\pages\VStage.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\services
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src\services : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\services\api.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\styles
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\frontend\src\styles : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\styles\global.css
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\styles\theme.css
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\App.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\src\index.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\.env
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\nginx.conf
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\package-lock.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\frontend\package.json
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules : 9 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\glitch
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\glitch : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\glitch\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\glitch\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\glitch\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\puaboai-sdk : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\puaboai-sdk\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\logs\puaboverse-error.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\logs\puaboverse.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\package-lock.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puaboai-sdk\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\puabomusicchain
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\puabomusicchain : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puabomusicchain\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puabomusicchain\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\puabomusicchain\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\pv-keys : 4 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\pv-keys\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\pv-keys\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\pv-keys\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\streamcore : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\streamcore\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\package-lock.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\streamcore\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-caster : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-caster\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-caster\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\routes.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-caster\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-screen : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\src
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-screen\src : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\src\utils
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-screen\src\utils : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\src\utils\logger.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\routes.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-screen\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-stage
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-stage : 3 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-stage\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-stage\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-stage\server.js
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-suite : 5 items found after filtering
+Created directory: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\logs
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\temp-nexus-cos\modules\v-suite\logs : 2 items found after filtering
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\logs\v-suite-error.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\logs\v-suite.log
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\Dockerfile
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\package-lock.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\package.json
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\modules\v-suite\server.js
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\docker-compose.prod.yml
+Copied file: temp-nexus-cos-deploy\temp-nexus-cos\vps-deploy-script.sh
+Created directory: temp-nexus-cos-deploy\tests
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\tests : 1 items found after filtering
+Created directory: temp-nexus-cos-deploy\tests\integration
+Processing items in C:\Users\wecon\Downloads\nexus-cos-main\tests\integration : 1 items found after filtering
+Copied file: temp-nexus-cos-deploy\tests\integration\microservices-integration.test.js
+Copied file: temp-nexus-cos-deploy\.env
+Copied file: temp-nexus-cos-deploy\.env.deployment
+Copied file: temp-nexus-cos-deploy\.env.development
+Copied file: temp-nexus-cos-deploy\.env.example
+Copied file: temp-nexus-cos-deploy\.env.production
+Copied file: temp-nexus-cos-deploy\.env.production.lock
+Copied file: temp-nexus-cos-deploy\.env.production.vps
+Copied file: temp-nexus-cos-deploy\.env.template
+Copied file: temp-nexus-cos-deploy\.gitignore
+Copied file: temp-nexus-cos-deploy\app.nexuscos.online.conf
+Copied file: temp-nexus-cos-deploy\backend-services-compose.yml
+Copied file: temp-nexus-cos-deploy\backend.zip
+Copied file: temp-nexus-cos-deploy\boomroom.zip
+Copied file: temp-nexus-cos-deploy\boomroom_env
+Copied file: temp-nexus-cos-deploy\boom_package.json
+Copied file: temp-nexus-cos-deploy\boom_server.js
+Copied file: temp-nexus-cos-deploy\build.log
+Copied file: temp-nexus-cos-deploy\build_output.log
+Copied file: temp-nexus-cos-deploy\check_modules.sh
+Copied file: temp-nexus-cos-deploy\check_services_modules.sh
+Copied file: temp-nexus-cos-deploy\cleanup-repo.ps1
+Copied file: temp-nexus-cos-deploy\COMPLETE_DEPLOYMENT_GUIDE.md
+Copied file: temp-nexus-cos-deploy\container_status.txt
+Copied file: temp-nexus-cos-deploy\create_optimized_zip.ps1
+Copied file: temp-nexus-cos-deploy\create_zip.ps1
+Copied file: temp-nexus-cos-deploy\deploy-direct-ssh.ps1
+Copied file: temp-nexus-cos-deploy\deploy-direct-vps-fixed.ps1
+Copied file: temp-nexus-cos-deploy\deploy-direct-vps-with-key.bat
+Copied file: temp-nexus-cos-deploy\deploy-direct-vps.bat
+Copied file: temp-nexus-cos-deploy\deploy-direct-vps.ps1
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos-extended.sh
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos-full.ps1
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos-improved.ps1
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos.bat
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos.ps1
+Copied file: temp-nexus-cos-deploy\deploy-nexus-cos.sh
+Copied file: temp-nexus-cos-deploy\deploy-production.ps1
+Copied file: temp-nexus-cos-deploy\deploy-simple.bat
+Copied file: temp-nexus-cos-deploy\deploy-windows.ps1
+Copied file: temp-nexus-cos-deploy\deploy-with-keys.bat
+Copied file: temp-nexus-cos-deploy\deployment-status.html
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-104005.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-104130.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-104220.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-104249.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-104510.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-105115.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-105219.txt
+Copied file: temp-nexus-cos-deploy\deployment-test-report-20250918-105310.txt
+Copied file: temp-nexus-cos-deploy\DEPLOYMENT.md
+Copied file: temp-nexus-cos-deploy\DEPLOYMENT_GUIDE.md
+Copied file: temp-nexus-cos-deploy\DEPLOYMENT_PACKAGE_README.md
+Copied file: temp-nexus-cos-deploy\DEPLOYMENT_STATUS.md
+Copied file: temp-nexus-cos-deploy\docker-compose.nexus-cos-core.yml
+Copied file: temp-nexus-cos-deploy\docker-compose.prod.yml
+Copied file: temp-nexus-cos-deploy\docker-compose.trae-solo-extended.yml
+Copied file: temp-nexus-cos-deploy\docker-compose.yml
+Copied file: temp-nexus-cos-deploy\docker_ps.txt
+Copied file: temp-nexus-cos-deploy\error_config.conf
+Copied file: temp-nexus-cos-deploy\essential-nexus-cos.zip
+Copied file: temp-nexus-cos-deploy\FINAL_DEPLOYMENT_REPORT.md
+Copied file: temp-nexus-cos-deploy\FINAL_DEPLOYMENT_SUMMARY.md
+Copied file: temp-nexus-cos-deploy\frontend-apps-compose.yml
+Copied file: temp-nexus-cos-deploy\frontend.zip
+Copied file: temp-nexus-cos-deploy\full-build-and-brand-unison.sh
+Copied file: temp-nexus-cos-deploy\fullchain.crt
+Copied file: temp-nexus-cos-deploy\generate-nginx-config.py
+Copied file: temp-nexus-cos-deploy\generate-ssh-key.bat
+Copied file: temp-nexus-cos-deploy\GITHUB-COPILOT-MASTER-PROMPT.md
+Copied file: temp-nexus-cos-deploy\listening_ports.txt
+Copied file: temp-nexus-cos-deploy\LIVE-READINESS-REPORT.md
+Copied file: temp-nexus-cos-deploy\local_app.conf
+Copied file: temp-nexus-cos-deploy\local_beta.conf
+Copied file: temp-nexus-cos-deploy\local_cos.conf
+Copied file: temp-nexus-cos-deploy\local_frontend.conf
+Copied file: temp-nexus-cos-deploy\local_nexuscos.conf
+Copied file: temp-nexus-cos-deploy\local_studio_package.json
+Copied file: temp-nexus-cos-deploy\MANUAL_DEPLOYMENT_GUIDE.md
+Copied file: temp-nexus-cos-deploy\merge_report.txt
+Copied file: temp-nexus-cos-deploy\metavision_index.js
+Copied file: temp-nexus-cos-deploy\metavision_package.json
+Copied file: temp-nexus-cos-deploy\module_build_status.txt
+Copied file: temp-nexus-cos-deploy\new_app_config.conf
+Copied file: temp-nexus-cos-deploy\NEXUS-COS-DEPLOYMENT.md
+Copied file: temp-nexus-cos-deploy\nexus-cos-final-snapshot.zip
+Copied file: temp-nexus-cos-deploy\nexus-cos-full-deployment.sh
+Copied file: temp-nexus-cos-deploy\nexus-cos-modular-os.yml
+Copied file: temp-nexus-cos-deploy\nexus-cos-services.yml
+Copied file: temp-nexus-cos-deploy\nexus-cos-setup.sh
+Copied file: temp-nexus-cos-deploy\nexus-cos-snapshot-new.zip
+Copied file: temp-nexus-cos-deploy\nexus-cos-vps-deploy.zip
+Copied file: temp-nexus-cos-deploy\nexus-launch.sh
+Copied file: temp-nexus-cos-deploy\nexuscos.conf
+Copied file: temp-nexus-cos-deploy\nexuscos.online.crt
+Copied file: temp-nexus-cos-deploy\nexuscos.online.key
+Copied file: temp-nexus-cos-deploy\nexuscos_fix_deploy.sh
+Copied file: temp-nexus-cos-deploy\nexus_cos_full_auto_build.sh
+Copied file: temp-nexus-cos-deploy\NEXUS_COS_PM2_DEPLOYMENT.md
+Copied file: temp-nexus-cos-deploy\nginx.conf
+Copied file: temp-nexus-cos-deploy\nginx.prod.conf
+Copied file: temp-nexus-cos-deploy\nginx_routing.txt
+Copied file: temp-nexus-cos-deploy\node_processes.txt
+Copied file: temp-nexus-cos-deploy\package-lock.json
+Copied file: temp-nexus-cos-deploy\package.json
+Copied file: temp-nexus-cos-deploy\POST-DEPLOYMENT-VALIDATION.md
+Copied file: temp-nexus-cos-deploy\POST_MIGRATION_VALIDATION.md
+Copied file: temp-nexus-cos-deploy\PRE-DEPLOYMENT-CHECKLIST.md
+Copied file: temp-nexus-cos-deploy\PRODUCTION_READY_DEPLOYMENT.md
+Copied file: temp-nexus-cos-deploy\puabo-studio-deployment.ps1
+Copied file: temp-nexus-cos-deploy\puabo-studio-deployment.sh
+Copied file: temp-nexus-cos-deploy\puaboverse_index.js
+Copied file: temp-nexus-cos-deploy\puaboverse_package.json
+Copied file: temp-nexus-cos-deploy\README-TRAE-SOLO-EXTENDED.md
+Copied file: temp-nexus-cos-deploy\remote_package.json
+Copied file: temp-nexus-cos-deploy\remote_server.js
+Copied file: temp-nexus-cos-deploy\response.html
+Copied file: temp-nexus-cos-deploy\setup-ssl-local.ps1
+Copied file: temp-nexus-cos-deploy\simple_main.py
+Copied file: temp-nexus-cos-deploy\status-server.cjs
+Copied file: temp-nexus-cos-deploy\studio_index.js
+Copied file: temp-nexus-cos-deploy\studio_package.json
+Copied file: temp-nexus-cos-deploy\subscriptionRoutes.js
+Copied file: temp-nexus-cos-deploy\SYSTEM-READINESS-REPORT.md
+Copied file: temp-nexus-cos-deploy\SYSTEM_STATUS.txt
+Copied file: temp-nexus-cos-deploy\system_summary.md
+Copied file: temp-nexus-cos-deploy\temp.env
+Copied file: temp-nexus-cos-deploy\temp_backend_dockerfile.txt
+Copied file: temp-nexus-cos-deploy\temp_backup.sh
+Copied file: temp-nexus-cos-deploy\temp_branding_workflow.sh
+Copied file: temp-nexus-cos-deploy\temp_compose.yml
+Copied file: temp-nexus-cos-deploy\temp_docker_compose.yml
+Copied file: temp-nexus-cos-deploy\temp_frontend_compose.yml
+Copied file: temp-nexus-cos-deploy\temp_generate_nginx.py
+Copied file: temp-nexus-cos-deploy\temp_generate_nginx_from_yml.sh
+Copied file: temp-nexus-cos-deploy\temp_health_check.sh
+Copied file: temp-nexus-cos-deploy\temp_nginx_check.sh
+Copied file: temp-nexus-cos-deploy\temp_nginx_config.conf
+Copied file: temp-nexus-cos-deploy\temp_nginx_routes.yml
+Copied file: temp-nexus-cos-deploy\temp_pm2_startup.sh
+Copied file: temp-nexus-cos-deploy\temp_prod_compose.yml
+Copied file: temp-nexus-cos-deploy\temp_route.ts
+Copied file: temp-nexus-cos-deploy\temp_seedTiers.js
+Copied file: temp-nexus-cos-deploy\temp_server.js
+Copied file: temp-nexus-cos-deploy\temp_subscriptions.js
+Copied file: temp-nexus-cos-deploy\temp_subscription_controller.js
+Copied file: temp-nexus-cos-deploy\temp_subscription_tier.js
+Copied file: temp-nexus-cos-deploy\temp_success_page.tsx
+Copied file: temp-nexus-cos-deploy\temp_system_check.sh
+Copied file: temp-nexus-cos-deploy\temp_targeted_debug.sh
+Copied file: temp-nexus-cos-deploy\temp_update_nginx.sh
+Copied file: temp-nexus-cos-deploy\test-api-endpoints.sh
+Copied file: temp-nexus-cos-deploy\test-deployment-script.ps1
+Copied file: temp-nexus-cos-deploy\test_deployment.sh
+Copied file: temp-nexus-cos-deploy\test_key
+Copied file: temp-nexus-cos-deploy\test_key.pub
+Copied file: temp-nexus-cos-deploy\test_key2
+Copied file: temp-nexus-cos-deploy\test_key2.pub
+Copied file: temp-nexus-cos-deploy\test_key3
+Copied file: temp-nexus-cos-deploy\test_key3.pub
+Copied file: temp-nexus-cos-deploy\trae-solo-full-deploy.sh
+Copied file: temp-nexus-cos-deploy\trae-solo-nexus-cos-extended.sh
+Copied file: temp-nexus-cos-deploy\trae-solo.yaml
+Copied file: temp-nexus-cos-deploy\TRAE_SOLO_DEPLOYMENT_COMPLETE.md
+Copied file: temp-nexus-cos-deploy\updated_nexuscos.conf
+Copied file: temp-nexus-cos-deploy\updated_nginx.conf
+Copied file: temp-nexus-cos-deploy\v-stage-config.yml
+Copied file: temp-nexus-cos-deploy\validate-nexus-cos-extended.ps1
+Copied file: temp-nexus-cos-deploy\validate-nexus-cos-extended.sh
+Copied file: temp-nexus-cos-deploy\vps-deploy-script.sh
+Copied file: temp-nexus-cos-deploy\VPS-DEPLOYMENT-GUIDE.md
+Copied file: temp-nexus-cos-deploy\vps-launch-setup.ps1
+Copied file: temp-nexus-cos-deploy\vps_deployment_script.sh
+Copied file: temp-nexus-cos-deploy\vps_key
+Copied file: temp-nexus-cos-deploy\vps_key.pub
+Copied file: temp-nexus-cos-deploy\vps_key2
+Copied file: temp-nexus-cos-deploy\vps_key2.pub
+Copied file: temp-nexus-cos-deploy\vps_key3
+Copied file: temp-nexus-cos-deploy\vps_key3.pub
+Copied file: temp-nexus-cos-deploy\zip_log.txt
+Copy process completed
+Zip file created successfully
+Temporary directory removed
+Zip file exists after creation.
+Zip creation process completed.

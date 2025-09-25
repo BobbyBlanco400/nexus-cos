@@ -4,7 +4,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install dependencies for teleprompter and video processing
-RUN apk add --no-cache ffmpeg python3 py3-pip
+RUN apk add --no-cache ffmpeg python3 py3-pip curl
 
 # Copy package files
 COPY package*.json ./

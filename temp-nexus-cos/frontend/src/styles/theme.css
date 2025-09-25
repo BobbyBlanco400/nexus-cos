@@ -1,0 +1,26 @@
+:root { 
+  --nexus-blue: #1D4ED8; 
+  --cosmic-purple: #6D28D9; 
+  --neutral-light: #F9FAFB; 
+  --neutral-dark: #111827; 
+} 
+body { 
+  font-family: 'Inter', Arial, sans-serif; 
+  background-color: var(--neutral-light); 
+  color: var(--neutral-dark); 
+} 
+h1,h2,h3,h4,h5,h6 { color: var(--nexus-blue); font-weight: 700; } 
+a,button { color: var(--cosmic-purple); transition: 0.2s; } 
+a:hover,button:hover { opacity: 0.8; } 
+.brand-logo { 
+  width: 180px; height: auto; margin: 0 auto; 
+  background: url('/assets/branding/logo.svg') no-repeat center; 
+  background-size: contain; 
+} 
+
+/* ---- Dark Mode ---- */ 
+@media (prefers-color-scheme: dark) { 
+  body { background-color: var(--neutral-dark); color: var(--neutral-light); } 
+  h1,h2,h3,h4,h5,h6 { color: var(--cosmic-purple); } 
+  a,button { color: var(--nexus-blue); } 
+} 

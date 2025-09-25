@@ -48,10 +48,7 @@ const io = socketIo(server, {
 });
 
 // AI Services initialization
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
+const openai = new OpenAI({\n  apiKey: process.env.KEI_AI_KEY,\n  baseURL: process.env.KEI_AI_ENDPOINT\n});\n
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY
 });
@@ -588,15 +585,8 @@ app.post('/scripts/:scriptId/enhance', authenticateToken, [
 
     let enhancedContent;
     
-    if (process.env.OPENAI_API_KEY) {
-      enhancedContent = await enhanceWithOpenAI(script.content, enhancementType, targetAudience, tone);
-      aiRequestsCounter.labels('openai', enhancementType).inc();
-    } else if (process.env.ANTHROPIC_API_KEY) {
-      enhancedContent = await enhanceWithAnthropic(script.content, enhancementType, targetAudience, tone);
-      aiRequestsCounter.labels('anthropic', enhancementType).inc();
-    } else {
-      return res.status(500).json({ error: 'No AI service configured' });
-    }
+    if (process.env.KEI_AI_KEY) {
+      enhancedContent = await enhanceWithOpenAI(script.content, enhancementType, targetAudience, tone);\n      aiRequestsCounter.labels('kei', enhancementType).inc();\n    } else if (process.env.ANTHROPIC_API_KEY) {\n      enhancedContent = await enhanceWithAnthropic(script.content, enhancementType, targetAudience, tone);\n      aiRequestsCounter.labels('anthropic', enhancementType).inc();\n    } else {\n      return res.status(500).json({ error: 'No AI service configured' });\n    }\n
 
     // Save enhanced version
     const enhancedScript = {

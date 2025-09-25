@@ -4,7 +4,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install 3D rendering and video processing dependencies
-RUN apk add --no-cache ffmpeg mesa-gl mesa-dri-gallium
+RUN apk add --no-cache ffmpeg mesa-gl mesa-dri-gallium curl
 
 # Copy package files
 COPY package*.json ./

@@ -71,7 +71,7 @@ const io = socketIo(server, {
 });
 
 // AI Services initialization
-const openai = new OpenAI({
+const openai = new OpenAI({\n  apiKey: process.env.KEI_AI_KEY,\n  baseURL: process.env.KEI_AI_ENDPOINT\n});\n
   apiKey: process.env.OPENAI_API_KEY
 });
 

@@ -46,7 +46,8 @@ redisClient.connect();
 
 // AI Service configurations
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.KEI_AI_KEY,
+  baseURL: process.env.KEI_AI_ENDPOINT
 });
 
 const anthropic = new Anthropic({
