@@ -1,0 +1,417 @@
+# Nexus COS Services Configuration PF v1.2
+# Updated configuration with dependency mapping and microservices support
+
+# Core Platform Services
+core_services:
+  - name: auth-service
+    script: services/auth-service/server.js
+    interpreter: node
+    port: 3100
+    pm2_name: auth-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3100
+    microservices:
+      - name: session-mgr
+        port: 3101
+        script: services/auth-service/microservices/session-mgr/server.js
+      - name: token-mgr
+        port: 3102
+        script: services/auth-service/microservices/token-mgr/server.js
+
+  - name: billing-service
+    script: services/billing-service/server.js
+    interpreter: node
+    port: 3110
+    pm2_name: billing-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3110
+    microservices:
+      - name: invoice-gen
+        port: 3111
+        script: services/billing-service/microservices/invoice-gen/server.js
+      - name: ledger-mgr
+        port: 3112
+        script: services/billing-service/microservices/ledger-mgr/server.js
+      - name: payout-engine
+        port: 3113
+        script: services/billing-service/microservices/payout-engine/server.js
+
+  - name: user-profile-service
+    script: services/user-profile-service/server.js
+    interpreter: node
+    port: 3120
+    pm2_name: user-profile-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3120
+
+  - name: media-encoding-service
+    script: services/media-encoding-service/server.js
+    interpreter: node
+    port: 3130
+    pm2_name: media-encoding-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3130
+
+  - name: streaming-service
+    script: services/streaming-service/server.js
+    interpreter: node
+    port: 3140
+    pm2_name: streaming-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3140
+
+  - name: recommendation-engine
+    script: services/recommendation-engine/server.js
+    interpreter: node
+    port: 3150
+    pm2_name: recommendation-engine
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3150
+
+  - name: chat-service
+    script: services/chat-service/server.js
+    interpreter: node
+    port: 3160
+    pm2_name: chat-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3160
+
+  - name: notification-service
+    script: services/notification-service/server.js
+    interpreter: node
+    port: 3170
+    pm2_name: notification-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3170
+
+  - name: analytics-service
+    script: services/analytics-service/server.js
+    interpreter: node
+    port: 3180
+    pm2_name: analytics-service
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3180
+
+# Business & Domain Modules
+business_modules:
+  - name: core-os
+    script: modules/core-os/server.js
+    interpreter: node
+    port: 3200
+    pm2_name: core-os
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3200
+    dependencies:
+      - auth-service
+      - user-profile-service
+
+  - name: puabo-dsp
+    script: modules/puabo-dsp/server.js
+    interpreter: node
+    port: 3210
+    pm2_name: puabo-dsp
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3210
+    dependencies:
+      - auth-service
+      - billing-service
+      - media-encoding-service
+      - streaming-service
+      - recommendation-engine
+      - notification-service
+
+  - name: puabo-blac
+    script: modules/puabo-blac/server.js
+    interpreter: node
+    port: 3220
+    pm2_name: puabo-blac
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3220
+    dependencies:
+      - auth-service
+      - billing-service
+      - notification-service
+      - analytics-service
+
+  - name: v-suite
+    script: modules/v-suite/server.js
+    interpreter: node
+    port: 3230
+    pm2_name: v-suite
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3230
+    dependencies:
+      - auth-service
+      - streaming-service
+      - chat-service
+      - notification-service
+      - media-encoding-service
+      - analytics-service
+
+  - name: media-community
+    script: modules/media-community/server.js
+    interpreter: node
+    port: 3250
+    pm2_name: media-community
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3250
+    dependencies:
+      - streaming-service
+      - media-encoding-service
+      - recommendation-engine
+      - chat-service
+      - notification-service
+      - billing-service
+
+  - name: business-tools
+    script: modules/business-tools/server.js
+    interpreter: node
+    port: 3280
+    pm2_name: business-tools
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3280
+    dependencies:
+      - auth-service
+      - billing-service
+      - notification-service
+      - analytics-service
+
+  - name: integrations
+    script: modules/integrations/server.js
+    interpreter: node
+    port: 3290
+    pm2_name: integrations
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3290
+
+# Legacy Services (for backward compatibility)
+legacy_services:
+  - name: nexus-backend
+    script: backend/src/server.ts
+    interpreter: ts-node
+    port: 3001
+    pm2_name: nexus-backend
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3001
+
+  - name: nexus-cos-api
+    script: backend/app/main.py
+    interpreter: python
+    port: 3002
+    pm2_name: nexus-cos-api
+    cwd: /home/runner/work/nexus-cos/nexus-cos/backend
+    env:
+      PYTHONUNBUFFERED: "1"
+    interpreter_args: -m uvicorn app.main:app --host 0.0.0.0 --port 3002
+
+  - name: boomroom-backend
+    script: extended/v-suite/server.js
+    interpreter: node
+    port: 3003
+    pm2_name: boomroom-backend
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3003
+
+  - name: creator-hub
+    script: extended/creator-hub/server.js
+    interpreter: node
+    port: 3020
+    pm2_name: creator-hub
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3020
+
+  - name: puaboverse
+    script: extended/puaboverse/server.js
+    interpreter: node
+    port: 3030
+    pm2_name: puaboverse
+    cwd: /home/runner/work/nexus-cos/nexus-cos
+    env:
+      NODE_ENV: production
+      PORT: 3030
+
+# Deployment Configuration
+deployment:
+  # Service startup order based on dependencies
+  startup_order:
+    phase_1_core_services:
+      - auth-service
+      - billing-service
+      - user-profile-service
+      - media-encoding-service
+      - streaming-service
+      - recommendation-engine
+      - chat-service
+      - notification-service
+      - analytics-service
+    
+    phase_2_business_modules:
+      - core-os
+      - puabo-dsp
+      - puabo-blac
+      - v-suite
+      - media-community
+      - business-tools
+      - integrations
+
+  # Load balancer configuration
+  load_balancer:
+    type: nginx
+    ssl_enabled: true
+    routes:
+      # Core Services
+      - path: /api/auth
+        target: http://localhost:3100
+        service: auth-service
+      - path: /api/billing
+        target: http://localhost:3110
+        service: billing-service
+      - path: /api/profile
+        target: http://localhost:3120
+        service: user-profile-service
+      - path: /api/encoding
+        target: http://localhost:3130
+        service: media-encoding-service
+      - path: /api/streaming
+        target: http://localhost:3140
+        service: streaming-service
+      - path: /api/recommend
+        target: http://localhost:3150
+        service: recommendation-engine
+      - path: /api/chat
+        target: http://localhost:3160
+        service: chat-service
+      - path: /api/notify
+        target: http://localhost:3170
+        service: notification-service
+      - path: /api/analytics
+        target: http://localhost:3180
+        service: analytics-service
+      
+      # Business Modules
+      - path: /api/core-os
+        target: http://localhost:3200
+        service: core-os
+      - path: /api/dsp
+        target: http://localhost:3210
+        service: puabo-dsp
+      - path: /api/blac
+        target: http://localhost:3220
+        service: puabo-blac
+      - path: /api/v-suite
+        target: http://localhost:3230
+        service: v-suite
+      - path: /api/community
+        target: http://localhost:3250
+        service: media-community
+      - path: /api/business
+        target: http://localhost:3280
+        service: business-tools
+      - path: /api/integrations
+        target: http://localhost:3290
+        service: integrations
+
+# Nginx configuration
+nginx:
+  server_name: nexuscos.online
+  frontend_root: /var/www/nexus-cos
+  frontend_index: index.html
+  ssl_enabled: true
+  
+# PM2 configuration
+pm2:
+  startup: true
+  save: true
+  max_memory_restart: 500M
+  
+# Health check endpoints
+health_checks:
+  core_services:
+    - service: auth-service
+      endpoint: /health
+      port: 3100
+    - service: billing-service
+      endpoint: /health
+      port: 3110
+    - service: user-profile-service
+      endpoint: /health
+      port: 3120
+    - service: media-encoding-service
+      endpoint: /health
+      port: 3130
+    - service: streaming-service
+      endpoint: /health
+      port: 3140
+    - service: recommendation-engine
+      endpoint: /health
+      port: 3150
+    - service: chat-service
+      endpoint: /health
+      port: 3160
+    - service: notification-service
+      endpoint: /health
+      port: 3170
+    - service: analytics-service
+      endpoint: /health
+      port: 3180
+      
+  business_modules:
+    - service: core-os
+      endpoint: /health
+      port: 3200
+    - service: puabo-dsp
+      endpoint: /health
+      port: 3210
+    - service: puabo-blac
+      endpoint: /health
+      port: 3220
+    - service: v-suite
+      endpoint: /health
+      port: 3230
+    - service: media-community
+      endpoint: /health
+      port: 3250
+    - service: business-tools
+      endpoint: /health
+      port: 3280
+    - service: integrations
+      endpoint: /health
+      port: 3290
