@@ -1,0 +1,87 @@
+# Core OS Module Dependencies - Nexus COS PF v1.2
+# Operating system core functionality module
+
+module:
+  name: core-os
+  type: business-module
+  port: 3200
+  description: "Core operating system functionality with role and permission management"
+
+microservices:
+  - name: role-mgr
+    port: 3201
+    description: "Role management and hierarchy"
+  - name: perms-mgr
+    port: 3202
+    description: "Permission assignment and validation"
+  - name: settings-mgr
+    port: 3203
+    description: "System and user settings management"
+
+# Dependencies on core services
+dependencies:
+  core_services:
+    - auth-service
+    - user-profile-service
+  
+  modules: []  # No dependencies on other modules
+
+# API endpoints this module provides
+provides:
+  apis:
+    - endpoint: "/core-os/roles"
+      method: "GET"
+      description: "List user roles"
+    - endpoint: "/core-os/permissions"
+      method: "GET"
+      description: "Get user permissions"
+    - endpoint: "/core-os/settings"
+      method: "GET"
+      description: "Get system settings"
+    - endpoint: "/health"
+      method: "GET"
+      description: "Module health check"
+
+  events:
+    publishes:
+      - topic: "core-os.role.assigned"
+        description: "Role assigned to user"
+      - topic: "core-os.permission.granted"
+        description: "Permission granted"
+      - topic: "core-os.settings.updated"
+        description: "Settings updated"
+
+# API endpoints this module consumes
+consumes:
+  apis:
+    - service: "auth-service"
+      endpoint: "/auth/validate"
+      purpose: "Validate user authentication"
+    - service: "user-profile-service"
+      endpoint: "/profile/user"
+      purpose: "Get user profile data"
+  
+  events:
+    subscribes:
+      - topic: "auth.user.login"
+        description: "User login event for role assignment"
+
+# Database dependencies
+database:
+  primary: "core_os_db"
+  tables:
+    - "roles"
+    - "permissions"
+    - "user_roles"
+    - "user_permissions"
+    - "system_settings"
+
+# External integrations
+external_integrations: []
+
+# Health check configuration
+health_check:
+  endpoint: "/health"
+  interval: 30
+  timeout: 5
+  retries: 3

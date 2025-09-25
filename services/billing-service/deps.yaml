@@ -1,0 +1,98 @@
+# Billing Service Dependencies - Nexus COS PF v1.2
+# Payment processing and financial operations service
+
+service:
+  name: billing-service
+  type: core-service
+  port: 3110
+  description: "Payment processing, invoicing, and financial operations"
+
+microservices:
+  - name: invoice-gen
+    port: 3111
+    description: "Invoice generation and management"
+  - name: ledger-mgr
+    port: 3112
+    description: "Financial ledger and accounting"
+  - name: payout-engine
+    port: 3113
+    description: "Payment processing and payouts"
+
+# Dependencies on other services
+dependencies:
+  core_services: []  # Foundational service with no core service dependencies
+  
+  modules:
+    - puabo-dsp.royalty-engine
+    - puabo-blac.loan-apps
+    - business-tools.contracts
+
+# API endpoints this service provides
+provides:
+  apis:
+    - endpoint: "/billing/invoice"
+      method: "POST"
+      description: "Generate invoice"
+    - endpoint: "/billing/payment"
+      method: "POST"
+      description: "Process payment"
+    - endpoint: "/billing/payout"
+      method: "POST"
+      description: "Execute payout"
+    - endpoint: "/billing/balance"
+      method: "GET"
+      description: "Get account balance"
+    - endpoint: "/health"
+      method: "GET"
+      description: "Service health check"
+
+  events:
+    publishes:
+      - topic: "billing.payment.completed"
+        description: "Payment successfully processed"
+      - topic: "billing.payment.failed"
+        description: "Payment processing failed"
+      - topic: "billing.invoice.generated"
+        description: "Invoice generated"
+      - topic: "billing.payout.completed"
+        description: "Payout completed"
+
+# API endpoints this service consumes
+consumes:
+  apis: []
+  
+  events:
+    subscribes:
+      - topic: "puabo-dsp.royalty.calculated"
+        description: "Royalty calculation complete"
+      - topic: "puabo-blac.loan.approved"
+        description: "Loan approval notification"
+
+# Database dependencies
+database:
+  primary: "billing_db"
+  tables:
+    - "invoices"
+    - "payments"
+    - "transactions"
+    - "payouts"
+    - "accounts"
+
+# External integrations
+external_integrations:
+  - name: "stripe"
+    type: "payment_processor"
+    endpoints:
+      - "/v1/charges"
+      - "/v1/payouts"
+  - name: "paypal"
+    type: "payment_processor"
+    endpoints:
+      - "/v1/payments"
+
+# Health check configuration
+health_check:
+  endpoint: "/health"
+  interval: 30
+  timeout: 5
+  retries: 3

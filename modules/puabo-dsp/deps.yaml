@@ -1,0 +1,114 @@
+# PUABO DSP Module Dependencies - Nexus COS PF v1.2
+# Digital Service Platform for content management and distribution
+
+module:
+  name: puabo-dsp
+  type: business-module
+  port: 3210
+  description: "Digital Service Platform for content upload, metadata, royalties, and distribution"
+
+microservices:
+  - name: upload-mgr
+    port: 3211
+    description: "Content upload and file management"
+  - name: metadata-mgr
+    port: 3212
+    description: "Content metadata and catalog management"
+  - name: royalty-engine
+    port: 3213
+    description: "Royalty calculation and distribution"
+  - name: streaming-api
+    port: 3214
+    description: "Streaming API and content delivery"
+  - name: distribution
+    port: 3215
+    description: "Content distribution and syndication"
+
+# Dependencies on core services
+dependencies:
+  core_services:
+    - auth-service
+    - billing-service
+    - media-encoding-service
+    - streaming-service
+    - recommendation-engine
+    - notification-service
+  
+  modules: []
+
+# API endpoints this module provides
+provides:
+  apis:
+    - endpoint: "/dsp/upload"
+      method: "POST"
+      description: "Upload content"
+    - endpoint: "/dsp/catalog"
+      method: "GET"
+      description: "Content catalog"
+    - endpoint: "/dsp/royalties"
+      method: "GET"
+      description: "Royalty information"
+    - endpoint: "/dsp/distribute"
+      method: "POST"
+      description: "Distribute content"
+    - endpoint: "/health"
+      method: "GET"
+      description: "Module health check"
+
+  events:
+    publishes:
+      - topic: "puabo-dsp.content.uploaded"
+        description: "Content upload completed"
+      - topic: "puabo-dsp.royalty.calculated"
+        description: "Royalty calculation completed"
+      - topic: "puabo-dsp.content.distributed"
+        description: "Content distribution completed"
+
+# API endpoints this module consumes
+consumes:
+  apis:
+    - service: "auth-service"
+      endpoint: "/auth/validate"
+      purpose: "User authentication"
+    - service: "billing-service"
+      endpoint: "/billing/payout"
+      purpose: "Process royalty payouts"
+    - service: "media-encoding-service"
+      endpoint: "/encoding/process"
+      purpose: "Encode uploaded content"
+    - service: "streaming-service"
+      endpoint: "/streaming/prepare"
+      purpose: "Prepare content for streaming"
+    - service: "recommendation-engine"
+      endpoint: "/recommend/update"
+      purpose: "Update recommendation models"
+    - service: "notification-service"
+      endpoint: "/notify/send"
+      purpose: "Send upload notifications"
+  
+  events:
+    subscribes:
+      - topic: "billing.payout.completed"
+        description: "Royalty payout completed"
+      - topic: "media-encoding.completed"
+        description: "Content encoding finished"
+
+# Database dependencies
+database:
+  primary: "puabo_dsp_db"
+  tables:
+    - "content"
+    - "metadata"
+    - "royalties"
+    - "distributions"
+    - "upload_sessions"
+
+# External integrations
+external_integrations: []
+
+# Health check configuration
+health_check:
+  endpoint: "/health"
+  interval: 30
+  timeout: 5
+  retries: 3

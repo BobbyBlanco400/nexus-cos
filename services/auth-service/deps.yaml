@@ -1,0 +1,82 @@
+# Auth Service Dependencies - Nexus COS PF v1.2
+# Core authentication and authorization service
+
+service:
+  name: auth-service
+  type: core-service
+  port: 3100
+  description: "Authentication, authorization, and session management"
+
+microservices:
+  - name: session-mgr
+    port: 3101
+    description: "Session lifecycle management"
+  - name: token-mgr
+    port: 3102
+    description: "JWT token generation and validation"
+
+# Dependencies on other services
+dependencies:
+  core_services: []  # No dependencies on other core services
+  
+  modules:
+    - core-os
+    - puabo-dsp
+    - puabo-blac
+    - v-suite
+    - media-community
+    - business-tools
+
+# API endpoints this service provides
+provides:
+  apis:
+    - endpoint: "/auth/login"
+      method: "POST"
+      description: "User authentication"
+    - endpoint: "/auth/logout"
+      method: "POST"
+      description: "Session termination"
+    - endpoint: "/auth/validate"
+      method: "GET"
+      description: "Token validation"
+    - endpoint: "/auth/refresh"
+      method: "POST"
+      description: "Token refresh"
+    - endpoint: "/health"
+      method: "GET"
+      description: "Service health check"
+
+  events:
+    publishes:
+      - topic: "auth.user.login"
+        description: "User login event"
+      - topic: "auth.user.logout"
+        description: "User logout event"
+      - topic: "auth.session.expired"
+        description: "Session expiration event"
+
+# API endpoints this service consumes
+consumes:
+  apis: []  # Auth service is foundational, doesn't consume other service APIs
+  
+  events:
+    subscribes: []  # Auth service doesn't subscribe to events from other services
+
+# Database dependencies
+database:
+  primary: "auth_db"
+  tables:
+    - "users"
+    - "sessions" 
+    - "tokens"
+    - "permissions"
+
+# External integrations
+external_integrations: []
+
+# Health check configuration
+health_check:
+  endpoint: "/health"
+  interval: 30
+  timeout: 5
+  retries: 3
