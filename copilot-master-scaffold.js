@@ -100,7 +100,7 @@ class NexusCOSScaffolder {
             
             moduleDirs.forEach(moduleDir => {
                 const depsFile = path.join(modulesPath, moduleDir, 'deps.yaml');
-                if (fs.existsExists(depsFile)) {
+                if (fs.existsSync(depsFile)) {
                     const depsContent = fs.readFileSync(depsFile, 'utf8');
                     modules[moduleDir] = yaml.load(depsContent);
                 }
