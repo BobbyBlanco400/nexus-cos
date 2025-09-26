@@ -5,7 +5,14 @@
     "dev": "pnpm --stream -r dev",
     "build": "pnpm --stream -r build",
     "test": "pnpm --stream -r test",
-    "lint": "pnpm --stream -r lint"
+    "lint": "pnpm --stream -r lint",
+    "trae:init": "trae solo init",
+    "trae:deploy": "trae solo deploy",
+    "trae:start": "trae solo start",
+    "trae:stop": "trae solo stop",
+    "trae:status": "trae solo status",
+    "trae:logs": "trae solo logs",
+    "trae:health": "trae solo health"
   },
   "workspaces": [
     "frontend",
@@ -27,7 +34,13 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "js-yaml": "^4.1.0",
     "morgan": "^1.10.1",
-    "mysql2": "^3.14.5"
+    "mysql2": "^3.15.0"
+  },
+  "trae": {
+    "version": "1.0",
+    "project": "nexus-cos",
+    "config": "trae-solo.yaml"
   }
 }

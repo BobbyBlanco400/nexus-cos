@@ -1,0 +1,94 @@
+name: Create Nexus COS Snapshot Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create GitHub Release'
+        required: true
+        default: true
+        type: boolean
+  push:
+    branches:
+      - main
+    paths:
+      - 'package-and-release.sh'
+      - '.github/workflows/create-snapshot-release.yml'
+
+jobs:
+  create-snapshot-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y zip
+        
+    - name: Create timestamped snapshot
+      id: create_snapshot
+      run: |
+        TIMESTAMP=$(date +%Y%m%d-%H%M)
+        ARCHIVE_NAME="nexus-cos-final-snapshot-${TIMESTAMP}.zip"
+        
+        echo "Creating archive: $ARCHIVE_NAME"
+        zip -r "$ARCHIVE_NAME" . \
+          -x ".git/*" \
+             "*/node_modules/*" \
+             "*/.pm2/*" \
+             "*.log"
+        
+        # Verify archive
+        ls -lh "$ARCHIVE_NAME"
+        
+        # Set outputs for next step
+        echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
+        echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+        
+    - name: Create GitHub Release
+      if: ${{ github.event.inputs.create_release == 'true' || github.event_name == 'push' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        TIMESTAMP="${{ steps.create_snapshot.outputs.timestamp }}"
+        ARCHIVE_NAME="${{ steps.create_snapshot.outputs.archive_name }}"
+        RELEASE_TAG="snapshot-${TIMESTAMP}"
+        RELEASE_TITLE="Nexus COS Snapshot $(date)"
+        RELEASE_NOTES="This is the last fully working deployed version of Nexus COS at $(date)."
+        
+        gh release create "$RELEASE_TAG" \
+          "$ARCHIVE_NAME" \
+          --title "$RELEASE_TITLE" \
+          --notes "$RELEASE_NOTES"
+        
+        # Output URLs
+        RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${RELEASE_TAG}"
+        DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${RELEASE_TAG}/${ARCHIVE_NAME}"
+        
+        echo "🎉 GitHub Release created successfully!"
+        echo "📍 Release URL: $RELEASE_URL"
+        echo "📥 Download URL: $DOWNLOAD_URL"
+        
+        # Create summary
+        cat >> $GITHUB_STEP_SUMMARY << EOF
+        ## 🎉 Nexus COS Snapshot Release Created
+        
+        ### 📦 Archive Details
+        - **Archive Name**: \`$ARCHIVE_NAME\`
+        - **Release Tag**: \`$RELEASE_TAG\`
+        - **Size**: $(ls -lh "$ARCHIVE_NAME" | awk '{print $5}')
+        
+        ### 🔗 Links
+        - **Release Page**: [$RELEASE_URL]($RELEASE_URL)
+        - **Direct Download**: [$DOWNLOAD_URL]($DOWNLOAD_URL)
+        
+        ### 🚀 One-Liner Re-deployment Command
+        \`\`\`bash
+        cd ~ && curl -L -o $ARCHIVE_NAME "$DOWNLOAD_URL" && unzip -o $ARCHIVE_NAME -d nexus-cos && cd nexus-cos && chmod +x *.sh && ./master-fix-trae-solo.sh
+        \`\`\`
+        EOF

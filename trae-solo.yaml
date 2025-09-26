@@ -1,0 +1,131 @@
+# TRAE Solo Configuration for Nexus COS
+# Complete Operating System Migration Configuration
+
+version: "1.0"
+project:
+  name: "nexus-cos"
+  description: "Complete Operating System - Multi-platform application"
+  
+# Service definitions for TRAE Solo orchestration
+services:
+  # Node.js Backend Service
+  backend-node:
+    type: "nodejs"
+    path: "./backend"
+    port: 3000
+    environment: "production"
+    build:
+      command: "npm install"
+      start: "npx ts-node src/server.ts"
+    health:
+      endpoint: "/health"
+      expected: '{"status":"ok"}'
+    dependencies:
+      - "database"
+    
+  # Python FastAPI Backend Service  
+  backend-python:
+    type: "python"
+    path: "./backend"
+    port: 3001
+    environment: "production"
+    build:
+      command: "pip install -r requirements.txt"
+      start: "uvicorn app.main:app --host 0.0.0.0 --port 3001"
+    health:
+      endpoint: "/health"
+      expected: '{"status":"ok"}'
+    dependencies:
+      - "database"
+      
+  # Frontend Service
+  frontend:
+    type: "static"
+    path: "./frontend"
+    build:
+      command: "npm install && npm run build"
+      output: "./dist"
+    serve:
+      directory: "./dist"
+      index: "index.html"
+    
+  # Mobile Build Service
+  mobile:
+    type: "mobile"
+    path: "./mobile"
+    build:
+      android: "npm run build:android"
+      ios: "npm run build:ios"
+    outputs:
+      android: "./builds/android/app.apk"
+      ios: "./builds/ios/app.ipa"
+
+# Infrastructure configuration
+infrastructure:
+  # Load balancer/reverse proxy
+  proxy:
+    type: "nginx"
+    ssl: true
+    domain: "nexuscos.online"
+    routes:
+      - path: "/api/node/"
+        target: "backend-node:3000"
+        strip_prefix: true
+      - path: "/api/python/"
+        target: "backend-python:3001"
+        strip_prefix: true
+      - path: "/"
+        target: "frontend"
+        fallback: "index.html"
+        
+  # Database configuration
+  database:
+    type: "postgresql"
+    host: "localhost"
+    port: 5432
+    name: "nexus_cos"
+    migrations:
+      path: "./backend/migrations"
+      tool: "alembic"
+
+# Deployment configuration
+deployment:
+  strategy: "rolling"
+  replicas: 1
+  health_checks: true
+  ssl_certificate:
+    provider: "letsencrypt"
+    email: "admin@nexuscos.online"
+    domains:
+      - "nexuscos.online"
+      - "www.nexuscos.online"
+
+# Monitoring and logging
+monitoring:
+  health_checks:
+    interval: "30s"
+    timeout: "10s"
+    retries: 3
+  logging:
+    level: "info"
+    format: "json"
+    retention: "7d"
+
+# Environment variables
+environment:
+  NODE_ENV: "production"
+  PYTHONUNBUFFERED: "1"
+  DATABASE_URL: "${DATABASE_URL}"
+  JWT_SECRET: "${JWT_SECRET}"
+
+# Resource limits
+resources:
+  backend-node:
+    memory: "512MB"
+    cpu: "0.5"
+  backend-python:
+    memory: "512MB" 
+    cpu: "0.5"
+  frontend:
+    memory: "128MB"
+    cpu: "0.1"
