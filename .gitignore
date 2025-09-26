@@ -123,6 +123,10 @@ test_env/
 *.ipa
 builds/
 
+# Expo
+.expo/
+*/.expo/
+
 # PM2 deployment artifacts
 /tmp/pm2-*.json
 test-nginx-config.sh
