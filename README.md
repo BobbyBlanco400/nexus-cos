@@ -7,6 +7,54 @@
 
 A complete operating system implementation with multi-platform support, now fully migrated to **TRAE Solo** orchestration.
 
+## 🎨 Project Assets
+
+### SVG Logo File
+
+The project includes a custom SVG logo file located at `./file (1).svg` in the root directory. This scalable vector graphic represents the Nexus COS brand and system architecture.
+
+**File Details:**
+- **Filename**: `file (1).svg`
+- **Path**: `./file (1).svg`
+- **Format**: Scalable Vector Graphics (SVG)
+- **Dimensions**: 200x200 pixels (scalable)
+
+#### Usage Instructions
+
+You can use this SVG file in your projects in several ways:
+
+**In HTML:**
+```html
+<!-- Direct embedding -->
+<img src="./file (1).svg" alt="Nexus COS Logo" width="100" height="100">
+
+<!-- Inline SVG (copy content from file) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 200">
+  <!-- SVG content here -->
+</svg>
+
+<!-- As background image in CSS -->
+<div style="background-image: url('./file (1).svg'); width: 100px; height: 100px;"></div>
+```
+
+**In Markdown:**
+```markdown
+![Nexus COS Logo](./file%20(1).svg)
+
+<!-- With custom size using HTML in Markdown -->
+<img src="./file (1).svg" alt="Nexus COS Logo" width="150">
+```
+
+**In React/JSX:**
+```jsx
+// As an image
+<img src="./file (1).svg" alt="Nexus COS Logo" className="logo" />
+
+// Import as component (with proper SVG loader)
+import NexusLogo from './file (1).svg';
+<NexusLogo width={100} height={100} />
+```
+
 ## 🚀 TRAE Solo Migration Complete
 
 Nexus COS has been successfully migrated to TRAE Solo for enhanced deployment orchestration, service management, and scalability.
