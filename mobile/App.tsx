@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import NexusLogo from './components/NexusLogo';
 
 interface HealthResponse {
   status: string;
@@ -32,7 +33,10 @@ export default function App() {
       
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logoText}>🚀 Nexus COS</Text>
+        <View style={styles.logoContainer}>
+          <NexusLogo width={60} height={60} />
+          <Text style={styles.logoText}>Nexus COS</Text>
+        </View>
         <Text style={styles.subtitle}>Mobile Operating System</Text>
       </View>
 
@@ -104,11 +108,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     alignItems: 'center',
   },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
   logoText: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
+    marginLeft: 10,
   },
   subtitle: {
     fontSize: 14,

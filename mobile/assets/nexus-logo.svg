@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="nexusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#41D1FF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#BD34FE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA800;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#nexusGradient)" opacity="0.1"/>
+  
+  <!-- Main hexagon structure -->
+  <polygon points="100,20 170,60 170,140 100,180 30,140 30,60" 
+           fill="none" 
+           stroke="url(#nexusGradient)" 
+           stroke-width="3" 
+           filter="url(#glow)"/>
+  
+  <!-- Inner connection nodes -->
+  <circle cx="100" cy="100" r="8" fill="url(#nexusGradient)"/>
+  <circle cx="100" cy="50" r="5" fill="url(#nexusGradient)"/>
+  <circle cx="150" cy="75" r="5" fill="url(#nexusGradient)"/>
+  <circle cx="150" cy="125" r="5" fill="url(#nexusGradient)"/>
+  <circle cx="100" cy="150" r="5" fill="url(#nexusGradient)"/>
+  <circle cx="50" cy="125" r="5" fill="url(#nexusGradient)"/>
+  <circle cx="50" cy="75" r="5" fill="url(#nexusGradient)"/>
+  
+  <!-- Connection lines -->
+  <line x1="100" y1="100" x2="100" y2="50" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="100" x2="150" y2="75" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="100" x2="150" y2="125" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="100" x2="100" y2="150" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="100" x2="50" y2="125" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="100" x2="50" y2="75" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Text -->
+  <text x="100" y="110" text-anchor="middle" fill="url(#nexusGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="bold">NEXUS</text>
+  <text x="100" y="125" text-anchor="middle" fill="url(#nexusGradient)" font-family="Arial, sans-serif" font-size="10">COS</text>
+</svg>
