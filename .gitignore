@@ -28,3 +28,6 @@ ENV/
 # PF Verification Reports
 /tmp/nexuscos_pf.json
 nexuscos_pf_*.json
+
+# PF PDF Output directory (generated reports)
+deployment/nginx/output/
