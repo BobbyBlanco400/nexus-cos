@@ -1,15 +1,32 @@
-# Nexus COS PF Master Script Usage Guide
+# Nexus COS PF Master Script Usage Guide - Global Launch Implementation
 
 ## Overview
 
-The `nexus-cos-pf-master.js` script provides final Puppeteer readiness verification for nexuscos.online. It's designed for single-run execution with no background daemons or cronjobs.
+The `nexus-cos-pf-master.js` script provides final Puppeteer readiness verification for the NEXUS COS Global Launch. It supports multi-phase launch detection and validation for both Beta and Production environments.
+
+## Launch Phases
+
+### Beta Phase (Starting 2025-10-01)
+- **Domain:** beta.nexuscos.online
+- **SSL Provider:** IONOS
+- **CDN Provider:** CloudFlare (Full Strict)
+- **Features:** Basic SSL, compression, security headers
+
+### Production Phase (Starting 2025-11-17)
+- **Domain:** nexuscos.online
+- **SSL Provider:** IONOS
+- **CDN Provider:** CloudFlare (Full Strict)
+- **Features:** Enhanced SSL, rate limiting, IP restrictions, advanced security
 
 ## Purpose
 
-- Final verification before TRAE SOLO & Beta Launch
-- Core health checks (homepage, SSL/200, title, performance metrics)
-- Generate comprehensive JSON + PDF summary reports
-- Screenshot capture for visual verification
+- **Phase-aware verification** based on current date
+- **Multi-domain support** for beta and production environments
+- **IONOS SSL certificate validation**
+- **CloudFlare CDN detection and verification**
+- **Infrastructure readiness verification**
+- **Comprehensive JSON + PDF summary reports with phase information**
+- **Screenshot capture for visual verification**
 
 ## Requirements
 
@@ -27,47 +44,68 @@ node nexus-cos-pf-master.js
 
 ### Output
 
-The script creates an `output/` directory with three files:
+The script creates an `output/` directory with phase-specific files:
 
-1. **nexuscos_pf_report.json** - Complete verification report in JSON format
-2. **nexuscos_pf_screenshot.png** - Screenshot of the homepage
-3. **nexuscos_pf_summary.pdf** - PDF summary report
+1. **nexuscos_pf_report_[phase].json** - Complete verification report in JSON format with phase information
+2. **nexuscos_pf_screenshot_[phase].png** - Screenshot of the homepage for the current phase
+3. **nexuscos_pf_summary_[phase].pdf** - PDF summary report for the current phase
+
+Where `[phase]` is one of: `pre-beta`, `beta`, or `production`.
+
+### Phase Detection
+
+The script automatically detects the current launch phase based on the system date:
+
+- **Pre-Beta** (Before 2025-10-01): Uses nexuscos.online with Let's Encrypt SSL
+- **Beta** (2025-10-01 to 2025-11-16): Uses beta.nexuscos.online with IONOS SSL
+- **Production** (From 2025-11-17): Uses nexuscos.online with IONOS SSL and enhanced features
 
 ### Example Output Structure
 
 ```json
 {
-  "timestamp": "2025-09-27T15:08:52.083Z",
-  "domain": "https://nexuscos.online",
+  "timestamp": "2025-10-15T10:30:00.000Z",
+  "launchPhase": {
+    "phase": "beta",
+    "domain": "https://beta.nexuscos.online",
+    "environment": "beta",
+    "sslProvider": "IONOS",
+    "cdnProvider": "CloudFlare",
+    "startDate": "2025-10-01T00:00:00.000Z"
+  },
+  "domain": "https://beta.nexuscos.online",
   "status": "HEALTHY",
   "checks": [
     {
-      "step": "Homepage Load",
-      "result": "PASS"
-    },
-    {
-      "step": "HTTP 200 Response", 
-      "result": "PASS"
-    },
-    {
-      "step": "Page Title",
+      "step": "Launch Phase Detection",
       "result": "PASS",
-      "title": "Nexus COS - Production Site"
+      "phase": "beta"
     },
     {
-      "step": "Screenshot",
-      "result": "CAPTURED",
-      "path": "/path/to/output/nexuscos_pf_screenshot.png"
+      "step": "SSL Configuration",
+      "result": "PASS",
+      "provider": "IONOS"
     },
     {
-      "step": "PDF Summary",
-      "result": "EXPORTED", 
-      "path": "/path/to/output/nexuscos_pf_summary.pdf"
+      "step": "CDN Configuration",
+      "result": "PASS",
+      "provider": "CloudFlare"
     }
   ],
+  "infrastructure": {
+    "ssl": {
+      "provider": "IONOS",
+      "protocols": ["TLSv1.2", "TLSv1.3"]
+    },
+    "cdn": {
+      "provider": "CloudFlare",
+      "mode": "Full (Strict)"
+    }
+  },
   "performance": {
-    "JSHeapUsed": 12345678,
-    "Nodes": 150
+    "JSHeapUsed": 15678901,
+    "Nodes": 200,
+    "environment": "beta"
   }
 }
 ```

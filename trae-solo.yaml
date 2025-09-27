@@ -1,10 +1,18 @@
 # TRAE Solo Configuration for Nexus COS
-# Complete Operating System Migration Configuration
+# Global Launch Multi-Phase Configuration
+# Supports Beta (beta.nexuscos.online) and Production (nexuscos.online)
 
 version: "1.0"
 project:
   name: "nexus-cos"
-  description: "Complete Operating System - Multi-platform application"
+  description: "Complete Operating System - Global Launch Multi-Phase Deployment"
+  launch_phases:
+    beta:
+      domain: "beta.nexuscos.online"
+      start_date: "2025-10-01"
+    production:
+      domain: "nexuscos.online"
+      transition_date: "2025-11-17"
   
 # Service definitions for TRAE Solo orchestration
 services:
@@ -62,11 +70,27 @@ services:
 
 # Infrastructure configuration
 infrastructure:
-  # Load balancer/reverse proxy
+  # Load balancer/reverse proxy with phase detection
   proxy:
     type: "nginx"
     ssl: true
-    domain: "nexuscos.online"
+    domains:
+      beta: "beta.nexuscos.online"
+      production: "nexuscos.online"
+    ssl_providers:
+      beta: "IONOS"
+      production: "IONOS"
+    ssl_paths:
+      beta:
+        cert: "/etc/ssl/ionos/beta.nexuscos.online/fullchain.pem"
+        key: "/etc/ssl/ionos/beta.nexuscos.online/privkey.pem"
+      production:
+        cert: "/etc/ssl/ionos/nexuscos.online/fullchain.pem"
+        key: "/etc/ssl/ionos/nexuscos.online/privkey.pem"
+    cdn:
+      provider: "CloudFlare"
+      mode: "Full (Strict)"
+      edge_locations: "global"
     routes:
       - path: "/api/node/"
         target: "backend-node:3000"
@@ -74,6 +98,25 @@ infrastructure:
       - path: "/api/python/"
         target: "backend-python:3001"
         strip_prefix: true
+      - path: "/py/"
+        target: "backend-python:3001"
+        strip_prefix: true
+      - path: "/v-suite/"
+        target: "v-suite:3010"
+        strip_prefix: true
+      - path: "/creator-hub/"
+        target: "creator-hub:3020"
+        strip_prefix: true
+      - path: "/puaboverse/"
+        target: "puaboverse:3030"
+        strip_prefix: true
+      - path: "/monitoring/"
+        target: "monitoring:3003"
+        restrictions:
+          production_only: true
+          allowed_networks:
+            - "192.168.0.0/16"
+            - "10.0.0.0/8"
       - path: "/"
         target: "frontend"
         fallback: "index.html"
@@ -90,15 +133,41 @@ infrastructure:
 
 # Deployment configuration
 deployment:
-  strategy: "rolling"
+  strategy: "phase_aware_rolling"
   replicas: 1
   health_checks: true
   ssl_certificate:
-    provider: "letsencrypt"
+    providers:
+      beta: "IONOS"
+      production: "IONOS"
+    fallback_provider: "letsencrypt"
     email: "admin@nexuscos.online"
     domains:
-      - "nexuscos.online"
-      - "www.nexuscos.online"
+      beta:
+        - "beta.nexuscos.online"
+      production:
+        - "nexuscos.online"
+        - "www.nexuscos.online"
+  
+  launch_phases:
+    beta:
+      enabled: true
+      start_date: "2025-10-01T00:00:00Z"
+      features:
+        - "basic_ssl"
+        - "gzip_compression"
+        - "security_headers"
+        - "cdn_integration"
+    production:
+      enabled: true
+      transition_date: "2025-11-17T00:00:00Z"
+      features:
+        - "enhanced_ssl"
+        - "advanced_compression"
+        - "rate_limiting"
+        - "ip_restrictions"
+        - "enhanced_security"
+        - "production_monitoring"
 
 # Monitoring and logging
 monitoring:
@@ -113,10 +182,28 @@ monitoring:
 
 # Environment variables
 environment:
-  NODE_ENV: "production"
-  PYTHONUNBUFFERED: "1"
-  DATABASE_URL: "${DATABASE_URL}"
-  JWT_SECRET: "${JWT_SECRET}"
+  global:
+    PYTHONUNBUFFERED: "1"
+    DATABASE_URL: "${DATABASE_URL}"
+    JWT_SECRET: "${JWT_SECRET}"
+  
+  beta:
+    NODE_ENV: "beta"
+    ENVIRONMENT: "beta"
+    DOMAIN: "beta.nexuscos.online"
+    SSL_PROVIDER: "IONOS"
+    CDN_PROVIDER: "CloudFlare"
+    LOG_LEVEL: "info"
+    
+  production:
+    NODE_ENV: "production"
+    ENVIRONMENT: "production"
+    DOMAIN: "nexuscos.online"
+    SSL_PROVIDER: "IONOS"
+    CDN_PROVIDER: "CloudFlare"
+    LOG_LEVEL: "warn"
+    ENABLE_RATE_LIMITING: "true"
+    ENABLE_IP_RESTRICTIONS: "true"
 
 # Resource limits
 resources:
