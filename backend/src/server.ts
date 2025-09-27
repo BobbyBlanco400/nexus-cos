@@ -27,6 +27,31 @@ app.get("/health", (req, res) => {
 // Mount auth router
 app.use("/api/auth", authRouter);
 
+// Extended modules health endpoints
+app.get("/api/creator-hub/status", (req, res) => {
+  res.json({ 
+    module: "Creator Hub",
+    status: "active",
+    features: ["Content Management", "Analytics", "Publishing Tools"]
+  });
+});
+
+app.get("/api/v-suite/status", (req, res) => {
+  res.json({ 
+    module: "V-Suite",
+    status: "active", 
+    features: ["Business Tools", "Workflow Management", "Team Collaboration"]
+  });
+});
+
+app.get("/api/puaboverse/status", (req, res) => {
+  res.json({ 
+    module: "PuaboVerse",
+    status: "active",
+    features: ["Virtual Worlds", "3D Environments", "Social Interaction"]
+  });
+});
+
 // Basic API info endpoint
 app.get("/", (req, res) => {
   res.json({ 

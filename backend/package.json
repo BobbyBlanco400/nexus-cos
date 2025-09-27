@@ -8,7 +8,8 @@
     "build": "echo 'Using ts-node for runtime'",
     "test": "jest __tests__",
     "trae:start": "ts-node src/server.ts",
-    "trae:health": "curl -f http://localhost:3000/health"
+    "trae:health": "curl -f http://localhost:3000/health",
+    "legacy:start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

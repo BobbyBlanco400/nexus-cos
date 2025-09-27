@@ -16,7 +16,7 @@ services:
     environment: "production"
     build:
       command: "npm install"
-      start: "npx ts-node src/server.ts"
+      start: "npm run start"
     health:
       endpoint: "/health"
       expected: '{"status":"ok"}'

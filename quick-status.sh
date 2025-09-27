@@ -20,10 +20,15 @@ else
     echo "❌ Python Backend (3001): NOT RUNNING"
 fi
 
-if curl -s http://localhost:8080 >/dev/null 2>&1; then
-    echo "✅ Frontend (8080): RUNNING"
+# Check for frontend on multiple ports (dev server and production)
+if curl -s http://localhost:5173 >/dev/null 2>&1; then
+    echo "✅ Frontend Dev Server (5173): RUNNING"
+elif curl -s http://localhost:8080 >/dev/null 2>&1; then
+    echo "✅ Frontend Production (8080): RUNNING"
+elif curl -s http://localhost:80 >/dev/null 2>&1; then
+    echo "✅ Frontend Nginx (80): RUNNING"
 else
-    echo "❌ Frontend (8080): NOT RUNNING"
+    echo "❌ Frontend: NOT RUNNING (checked ports 5173, 8080, 80)"
 fi
 
 echo ""
@@ -31,6 +36,7 @@ echo "🔗 Quick API Tests:"
 echo "Node.js Health: $(curl -s http://localhost:3000/health 2>/dev/null || echo 'FAILED')"
 echo "Python Health: $(curl -s http://localhost:3001/health 2>/dev/null || echo 'FAILED')"
 echo "Auth Test: $(curl -s http://localhost:3000/api/auth/test 2>/dev/null | jq -r '.message' 2>/dev/null || echo 'FAILED')"
+echo "Frontend: $(curl -s http://localhost:5173 >/dev/null 2>&1 && echo 'RUNNING on port 5173' || curl -s http://localhost:8080 >/dev/null 2>&1 && echo 'RUNNING on port 8080' || echo 'NOT ACCESSIBLE')"
 
 echo ""
 echo "📋 Files Status:"
@@ -40,5 +46,5 @@ echo "📋 Files Status:"
 [[ -d "backend/node_modules" ]] && echo "✅ Backend deps" || echo "❌ Backend deps"
 
 echo ""
-echo "🎯 Overall Status: $(curl -s http://localhost:3000/health >/dev/null 2>&1 && curl -s http://localhost:3001/health >/dev/null 2>&1 && curl -s http://localhost:8080 >/dev/null 2>&1 && echo "🟢 ALL SYSTEMS OPERATIONAL" || echo "🟡 SOME SERVICES DOWN")"
+echo "🎯 Overall Status: $(curl -s http://localhost:3000/health >/dev/null 2>&1 && curl -s http://localhost:3001/health >/dev/null 2>&1 && (curl -s http://localhost:5173 >/dev/null 2>&1 || curl -s http://localhost:8080 >/dev/null 2>&1 || curl -s http://localhost:80 >/dev/null 2>&1) && echo "🟢 ALL SYSTEMS OPERATIONAL" || echo "🟡 SOME SERVICES DOWN")"
 echo "==============================="
