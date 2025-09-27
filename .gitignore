@@ -31,3 +31,6 @@ nexuscos_pf_*.json
 
 # PF PDF Output directory (generated reports)
 deployment/nginx/output/
+
+# Master Script Output (generated files)
+output/
