@@ -31,3 +31,11 @@ API Request: GET /status {
 }
 127.0.0.1 - - [27/Sep/2025:17:12:08 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
 127.0.0.1 - - [27/Sep/2025:17:12:08 +0000] "GET /debug HTTP/1.1" 200 247 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:15:17 +0000] "GET /health HTTP/1.1" 200 254 "-" "curl/8.5.0"
+API Request: GET /status {
+  requestId: 'mitwpbkr2',
+  timestamp: '2025-09-27T17:15:17.158Z',
+  userAgent: 'curl/8.5.0',
+  origin: undefined
+}
+127.0.0.1 - - [27/Sep/2025:17:15:17 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
