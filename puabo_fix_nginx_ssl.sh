@@ -1,6 +1,12 @@
 #!/bin/bash
 # puabo_fix_nginx_ssl.sh
 # Script to fix Nginx SSL for nexuscos.online
+#
+# Usage: sudo ./puabo_fix_nginx_ssl.sh
+# Prerequisites: 
+#   - SSL certificates should be present in /tmp (nexuscos.online.crt and nexuscos.online.key)
+#   - nginx package should be installed 
+#   - Script should be run with sudo privileges
 
 # Variables
 SSL_DIR="/etc/ssl/ionos"
