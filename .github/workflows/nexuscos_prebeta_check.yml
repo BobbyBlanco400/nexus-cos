@@ -1,0 +1,44 @@
+name: Nexus COS Pre-Beta Verification
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '0 0 * * *' # Optional: daily check at midnight UTC
+
+jobs:
+  prebeta-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install puppeteer
+
+      - name: Run Nexus COS Pre-Beta Verification
+        run: |
+          node ./deployment/nginx/nexuscos_prebeta_check.js
+
+      - name: Upload PF Report
+        uses: actions/upload-artifact@v3
+        if: always() # Upload even if verification fails
+        with:
+          name: nexuscos_prebeta_pf
+          path: /tmp/nexuscos_prebeta_pf.json
+
+      - name: Display PF Summary
+        if: always() # Display even if verification fails
+        run: |
+          if [ -f /tmp/nexuscos_prebeta_pf.json ]; then
+            echo "📋 Pre-Beta Verification Results:"
+            cat /tmp/nexuscos_prebeta_pf.json
+          else
+            echo "❌ No verification results found"
+          fi
