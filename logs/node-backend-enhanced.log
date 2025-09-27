@@ -1,0 +1,41 @@
+🚀 Nexus COS Backend Health Fix Server running on port 3000
+🔗 Health check: http://localhost:3000/health
+🔗 Debug endpoint: http://localhost:3000/debug
+📊 API status: http://localhost:3000/api/status
+⏰ Started at: 2025-09-27T17:10:12.504Z
+127.0.0.1 - - [27/Sep/2025:17:10:14 +0000] "GET /health HTTP/1.1" 200 253 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:10:16 +0000] "GET /health HTTP/1.1" 200 253 "-" "curl/8.5.0"
+API Request: GET /status {
+  requestId: 'p81e0eoqj',
+  timestamp: '2025-09-27T17:10:16.452Z',
+  userAgent: 'curl/8.5.0',
+  origin: undefined
+}
+127.0.0.1 - - [27/Sep/2025:17:10:16 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:10:16 +0000] "GET /health HTTP/1.1" 200 253 "-" "-"
+127.0.0.1 - - [27/Sep/2025:17:10:33 +0000] "GET /health HTTP/1.1" 200 253 "-" "curl/8.5.0"
+API Request: GET /status {
+  requestId: 'jejsdqrn8',
+  timestamp: '2025-09-27T17:10:33.089Z',
+  userAgent: 'curl/8.5.0',
+  origin: undefined
+}
+127.0.0.1 - - [27/Sep/2025:17:10:33 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:10:42 +0000] "GET /health HTTP/1.1" 200 253 "-" "-"
+127.0.0.1 - - [27/Sep/2025:17:12:08 +0000] "GET /health HTTP/1.1" 200 254 "-" "curl/8.5.0"
+API Request: GET /status {
+  requestId: 'cehfprqv9',
+  timestamp: '2025-09-27T17:12:08.980Z',
+  userAgent: 'curl/8.5.0',
+  origin: undefined
+}
+127.0.0.1 - - [27/Sep/2025:17:12:08 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:12:08 +0000] "GET /debug HTTP/1.1" 200 247 "-" "curl/8.5.0"
+127.0.0.1 - - [27/Sep/2025:17:15:17 +0000] "GET /health HTTP/1.1" 200 254 "-" "curl/8.5.0"
+API Request: GET /status {
+  requestId: 'mitwpbkr2',
+  timestamp: '2025-09-27T17:15:17.158Z',
+  userAgent: 'curl/8.5.0',
+  origin: undefined
+}
+127.0.0.1 - - [27/Sep/2025:17:15:17 +0000] "GET /api/status HTTP/1.1" 200 124 "-" "curl/8.5.0"
