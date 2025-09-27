@@ -1,0 +1,37 @@
+name: Nexus COS Continuous PF Verification
+
+on:
+  workflow_dispatch: # manual trigger
+  schedule:
+    - cron: '*/5 * * * *' # Every 5 minutes, continuous monitoring
+
+jobs:
+  pf-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install puppeteer
+
+      - name: Run Nexus COS PF Verification
+        run: |
+          node ./deployment/nginx/nexuscos_pf.js
+
+      - name: Upload PF Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: nexuscos_pf_report
+          path: /tmp/nexuscos_pf.json
+
+      - name: Display PF Summary
+        run: |
+          cat /tmp/nexuscos_pf.json
