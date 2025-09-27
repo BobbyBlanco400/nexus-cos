@@ -1,4 +1,4 @@
-#!/root/backend/.venv/bin/python3
+#!/home/runner/work/nexus-cos/nexus-cos/backend/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

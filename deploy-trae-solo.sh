@@ -137,18 +137,36 @@ deploy_trae_solo() {
 run_health_checks() {
     print_status "Running TRAE Solo health checks..."
     
-    # Simulate health checks
+    # Test actual health endpoints
     print_status "Checking Node.js backend health..."
-    print_success "Node.js backend: /health endpoint responding"
+    if curl -s http://localhost:3000/health | grep -q '"status":"ok"'; then
+        print_success "Node.js backend: /health endpoint responding with correct format"
+    else
+        print_error "Node.js backend: Health check failed"
+    fi
     
     print_status "Checking Python backend health..."
-    print_success "Python backend: /health endpoint responding"
+    if curl -s http://localhost:3001/health | grep -q '"status":"ok"'; then
+        print_success "Python backend: /health endpoint responding with correct format"
+    else
+        print_error "Python backend: Health check failed"
+    fi
     
-    print_status "Checking frontend availability..."
-    print_success "Frontend: Successfully serving from dist/"
+    print_status "Checking frontend dev server..."
+    if curl -s http://localhost:5173 >/dev/null 2>&1; then
+        print_success "Frontend: Dev server accessible on port 5173"
+    elif [ -d "frontend/dist" ]; then
+        print_success "Frontend: Production build available in dist/"
+    else
+        print_error "Frontend: Not accessible"
+    fi
     
-    print_status "Checking database connectivity..."
-    print_success "Database: PostgreSQL connection verified"
+    print_status "Checking service endpoints..."
+    if curl -s http://localhost:3000/api/auth/test | grep -q "Auth router works"; then
+        print_success "Node.js: Auth endpoints responding"
+    else
+        print_warning "Node.js: Auth endpoints not responding"
+    fi
 }
 
 # Main deployment process
