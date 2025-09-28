@@ -1,0 +1,50 @@
+{
+  "services": {
+    "auth-service": {
+      "name": "auth-service",
+      "port": 3100,
+      "host": "localhost",
+      "url": "http://localhost:3100",
+      "health_endpoint": "/health",
+      "status": "active",
+      "dependencies": [],
+      "provides": [
+        "/auth/login",
+        "/auth/logout", 
+        "/auth/validate",
+        "/auth/refresh"
+      ]
+    },
+    "billing-service": {
+      "name": "billing-service",
+      "port": 3110,
+      "host": "localhost", 
+      "url": "http://localhost:3110",
+      "health_endpoint": "/health",
+      "status": "active",
+      "dependencies": ["auth-service"],
+      "provides": [
+        "/billing/subscribe",
+        "/billing/payment",
+        "/billing/history"
+      ]
+    }
+  },
+  "gateway": {
+    "host": "localhost",
+    "port": 8080,
+    "routes": {
+      "/api/auth": "auth-service",
+      "/api/billing": "billing-service"
+    }
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "nexuscos_db",
+    "ssl": false
+  },
+  "environment": "development",
+  "version": "1.0.0",
+  "updated": "2024-09-28T19:00:00Z"
+}
