@@ -1,0 +1,16 @@
+2025-09-28 18:21:42 +00:00: 🚀 Token Manager (Admin Auth) running on port 3102
+2025-09-28 18:21:42 +00:00: 📊 Health check: http://localhost:3102/health
+2025-09-28 18:21:42 +00:00: 🔐 Admin endpoints: http://localhost:3102/api/admin/
+2025-09-28 18:21:42 +00:00: 🌍 Environment: production
+2025-09-28 18:21:51 +00:00: 2025-09-28T18:21:51.434Z - GET /health
+2025-09-28 18:22:00 +00:00: 2025-09-28T18:22:00.572Z - POST /api/admin/register
+2025-09-28 18:22:10 +00:00: Admin registration error: MongooseError: Operation `admins.findOne()` buffering timed out after 10000ms
+2025-09-28 18:22:10 +00:00:     at Timeout.<anonymous> (/home/runner/work/nexus-cos/nexus-cos/services/auth-service/microservices/token-mgr/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
+2025-09-28 18:22:10 +00:00:     at listOnTimeout (node:internal/timers:581:17)
+2025-09-28 18:22:10 +00:00:     at process.processTimers (node:internal/timers:519:7)
+2025-09-28 18:22:12 +00:00: ❌ MongoDB connection error: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2025-09-28 18:22:12 +00:00: ⚠️  Service will continue without database connection for testing
+2025-09-28 18:22:18 +00:00: 2025-09-28T18:22:18.189Z - POST /api/admin/create
+2025-09-28 18:22:27 +00:00: 
+2025-09-28 18:22:27 +00:00: 🔄 Graceful shutdown initiated...
+2025-09-28 18:22:27 +00:00: ✅ MongoDB connection closed

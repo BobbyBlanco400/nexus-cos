@@ -1,0 +1,5 @@
+2025-09-28 18:22:10 +00:00: Admin registration error: MongooseError: Operation `admins.findOne()` buffering timed out after 10000ms
+2025-09-28 18:22:10 +00:00:     at Timeout.<anonymous> (/home/runner/work/nexus-cos/nexus-cos/services/auth-service/microservices/token-mgr/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
+2025-09-28 18:22:10 +00:00:     at listOnTimeout (node:internal/timers:581:17)
+2025-09-28 18:22:10 +00:00:     at process.processTimers (node:internal/timers:519:7)
+2025-09-28 18:22:12 +00:00: ❌ MongoDB connection error: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
