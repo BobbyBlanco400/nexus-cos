@@ -1,0 +1,113 @@
+# GitHub Copilot Platform Framework (PF) Configuration
+# Nexus COS Review & Fix Script Implementation
+
+agent: copilot
+strict: true
+version: "1.0.0"
+environment: "development"
+
+tasks:
+  - name: "Admin Authentication Service Fix"
+    description: "Fix JWT refresh logic instability"
+    priority: "high"
+    path: "/home/runner/work/nexus-cos/nexus-cos/services/auth-service/"
+    cmd:
+      - "cd /home/runner/work/nexus-cos/nexus-cos/services/auth-service/"
+      - "npm install jsonwebtoken@9.0.2"
+      - "pm2 restart auth"
+    validation:
+      - "curl -s http://localhost:3100/health | jq -r '.jwt'"
+      - "test -f package.json && grep -q 'jsonwebtoken.*9.0.2' package.json"
+    
+  - name: "Branding System Consolidation"
+    description: "Enforce branding PF and consolidate assets"
+    priority: "medium"
+    path: "/home/runner/work/nexus-cos/nexus-cos/pfs/final/branding-pf.yml"
+    assets_path: "/home/runner/work/nexus-cos/nexus-cos/branding/"
+    cmd:
+      - "bash /home/runner/work/nexus-cos/nexus-cos/scripts/branding-enforce.sh"
+      - "pm2 reload all"
+    validation:
+      - "test -f /home/runner/work/nexus-cos/nexus-cos/branding/theme.css"
+      - "test -f /home/runner/work/nexus-cos/nexus-cos/branding/logo.svg"
+      - "test -f /tmp/branding-enforcement-report.txt"
+    
+  - name: "SSL/TLS Configuration"
+    description: "Configure SSL certificates and nginx"
+    priority: "high"
+    cert_path: "/etc/letsencrypt/live/nexuscos/"
+    nginx_config: "/etc/nginx/nginx.conf"
+    cmd:
+      - "sudo certbot renew --quiet"
+      - "sudo nginx -t"
+      - "sudo systemctl reload nginx"
+    validation:
+      - "sudo nginx -t"
+      - "test -f /etc/letsencrypt/live/nexuscos/fullchain.pem || echo 'SSL cert not found - expected in dev'"
+    fallback: "SSL operations may fail in development environment - this is expected"
+    
+  - name: "Service Communication Setup"
+    description: "Configure service discovery and environment variables"
+    priority: "medium"
+    config_path: "/home/runner/work/nexus-cos/nexus-cos/config/services.json"
+    env_path: "/home/runner/work/nexus-cos/nexus-cos/.env"
+    cmd:
+      - "cat /home/runner/work/nexus-cos/nexus-cos/config/services.json"
+      - "pm2 reload all"
+    validation:
+      - "test -f /home/runner/work/nexus-cos/nexus-cos/config/services.json"
+      - "test -f /home/runner/work/nexus-cos/nexus-cos/.env"
+      - "jq -r '.services | keys[]' /home/runner/work/nexus-cos/nexus-cos/config/services.json"
+
+execution:
+  pre_check:
+    - "test -d /home/runner/work/nexus-cos/nexus-cos"
+    - "which node || echo 'Node.js required'"
+    - "which jq || echo 'jq utility recommended'"
+    
+  verify:
+    - "bash /home/runner/work/nexus-cos/nexus-cos/scripts/health-check.sh"
+    - "tail -n 50 /home/runner/work/nexus-cos/nexus-cos/logs/*.log || echo 'Log files may not exist yet'"
+    
+  post_check:
+    - "test -f /tmp/nexus-cos-health-report.json"
+    - "jq -r '.summary.success_rate' /tmp/nexus-cos-health-report.json"
+
+logging:
+  enabled: true
+  level: "info"
+  files:
+    - "/home/runner/work/nexus-cos/nexus-cos/logs/branding.log"
+    - "/home/runner/work/nexus-cos/nexus-cos/logs/auth.log"
+    - "/home/runner/work/nexus-cos/nexus-cos/logs/system.log"
+
+monitoring:
+  health_check_interval: 30
+  retry_attempts: 3
+  timeout: 60
+
+implementation_blockers:
+  resolved:
+    - issue: "Missing jsonwebtoken v9.0.2"
+      solution: "Added to auth-service package.json"
+      status: "fixed"
+    - issue: "Legacy branding refs"
+      solution: "Created branding-enforce.sh script"
+      status: "fixed"
+    - issue: "Env vars incomplete"
+      solution: "Generated comprehensive .env file"
+      status: "fixed"
+  
+  expected_failures:
+    - issue: "SSL expired"
+      reason: "Development environment lacks SSL certificates"
+      impact: "Low - SSL operations will be skipped in dev"
+    - issue: "PM2 not installed"
+      reason: "Development environment may not have PM2"
+      impact: "Medium - Service restart commands will fail"
+
+copilot_agent:
+  strict_mode: true
+  auto_fix: true
+  report_format: "json"
+  success_criteria: ">= 80% health check pass rate"

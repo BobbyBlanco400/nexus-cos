@@ -1,0 +1,41 @@
+# Nexus COS Branding Platform Framework (PF) Configuration
+# Final branding enforcement and consolidation rules
+
+branding:
+  name: "Nexus COS"
+  version: "1.0.0"
+  domain: "nexuscos.online"
+  
+  assets:
+    logo: "/branding/logo.svg"
+    favicon: "/branding/favicon.ico"
+    colors:
+      primary: "#2563eb"
+      secondary: "#1e40af"
+      accent: "#3b82f6"
+      background: "#f8fafc"
+      text: "#1e293b"
+    
+    fonts:
+      primary: "Inter, sans-serif"
+      secondary: "JetBrains Mono, monospace"
+
+  enforcement:
+    strict_mode: true
+    validate_assets: true
+    consolidate_legacy: true
+    
+  legacy_cleanup:
+    remove_old_refs: true
+    update_css_vars: true
+    standardize_naming: true
+
+  consolidation:
+    merge_stylesheets: true
+    optimize_assets: true
+    generate_theme: true
+
+platform_framework:
+  status: "enforced"
+  timestamp: "2024-09-28T19:00:00Z"
+  checksum: "nexus-cos-branding-v1.0"
