@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Standalone Nginx Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: nexus-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - puabo-api
+      - puaboai-sdk
+      - pv-keys
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+  # API Service (placeholder - should match actual service)
+  puabo-api:
+    image: nginx:alpine  # Placeholder - replace with actual service
+    command: |
+      sh -c "echo 'server { listen 4000; location /health { return 200 \"API Service OK\"; } }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    container_name: puabo-api
+    expose:
+      - "4000"
+    networks:
+      - nexus-network
+
+  # AI SDK Service (placeholder - should match actual service)  
+  puaboai-sdk:
+    image: nginx:alpine  # Placeholder - replace with actual service
+    command: |
+      sh -c "echo 'server { listen 3002; location /health { return 200 \"AI SDK Service OK\"; } }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    container_name: puaboai-sdk
+    expose:
+      - "3002"
+    networks:
+      - nexus-network
+
+  # Keys Service (placeholder - should match actual service)
+  pv-keys:
+    image: nginx:alpine  # Placeholder - replace with actual service
+    command: |
+      sh -c "echo 'server { listen 3041; location /health { return 200 \"Keys Service OK\"; } }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    container_name: pv-keys  
+    expose:
+      - "3041"
+    networks:
+      - nexus-network
+
+networks:
+  nexus-network:
+    driver: bridge
