@@ -50,6 +50,18 @@ else
     exit 1
 fi
 
+# Copy chain certificate if available
+if [ -f "$CERT_TMP_DIR/nexuscos.online.chain.pem" ]; then
+    sudo cp "$CERT_TMP_DIR/nexuscos.online.chain.pem" "$SSL_DIR/chain.pem"
+    echo "✅ Certificate chain copied"
+elif [ -f "$CERT_TMP_DIR/chain.pem" ]; then
+    sudo cp "$CERT_TMP_DIR/chain.pem" "$SSL_DIR/chain.pem"
+    echo "✅ Certificate chain copied"
+else
+    echo "⚠️ Certificate chain file not found - SSL stapling may not work properly"
+    echo "Please place chain file at $CERT_TMP_DIR/chain.pem if available"
+fi
+
 # Verify certificate and key match
 if ! openssl x509 -noout -modulus -in "$SSL_DIR/fullchain.pem" | openssl md5 | \
      diff - <(openssl rsa -noout -modulus -in "$SSL_DIR/privkey.pem" | openssl md5) > /dev/null 2>&1; then
@@ -62,6 +74,9 @@ fi
 # Step 3: Set permissions
 sudo chmod 600 "$SSL_DIR/privkey.pem"
 sudo chmod 644 "$SSL_DIR/fullchain.pem"
+if [ -f "$SSL_DIR/chain.pem" ]; then
+    sudo chmod 644 "$SSL_DIR/chain.pem"
+fi
 sudo chown -R www-data:www-data "$WEB_ROOT"
 
 # Step 4: Create Nginx site config
@@ -84,13 +99,16 @@ server {
 
     ssl_certificate     $SSL_DIR/fullchain.pem;
     ssl_certificate_key $SSL_DIR/privkey.pem;
+    ssl_trusted_certificate $SSL_DIR/chain.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384';
-    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
 
     # Security headers
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;

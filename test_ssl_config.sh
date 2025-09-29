@@ -20,6 +20,7 @@ SITE_CONF="/etc/nginx/sites-available/nexuscos.online.conf"
 DOMAIN="nexuscos.online"
 FULLCHAIN_PATH="$SSL_DIR/fullchain.pem"
 PRIVKEY_PATH="$SSL_DIR/privkey.pem"
+CHAIN_PATH="$SSL_DIR/chain.pem"
 
 # Functions
 print_header() {
@@ -66,6 +67,12 @@ test_certificate_presence() {
     else
         print_error "Private key missing: $PRIVKEY_PATH"
         return 1
+    fi
+    
+    if [ -f "$CHAIN_PATH" ]; then
+        print_success "Certificate chain found: $CHAIN_PATH"
+    else
+        print_warning "Certificate chain missing: $CHAIN_PATH (may affect SSL stapling)"
     fi
     
     return 0
@@ -128,6 +135,16 @@ test_file_permissions() {
             print_success "Private key permissions correct: $key_perms"
         else
             print_error "Private key permissions: $key_perms (expected: 600)"
+        fi
+    fi
+    
+    # Check chain certificate permissions (should be 644)
+    if [ -f "$CHAIN_PATH" ]; then
+        chain_perms=$(stat -c "%a" "$CHAIN_PATH")
+        if [ "$chain_perms" = "644" ]; then
+            print_success "Certificate chain permissions correct: $chain_perms"
+        else
+            print_warning "Certificate chain permissions: $chain_perms (expected: 644)"
         fi
     fi
     
