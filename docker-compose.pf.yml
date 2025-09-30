@@ -1,0 +1,128 @@
+version: '3.8'
+
+# PUABO / Nexus COS - Pre-Flight Deployment Configuration
+# Date: 2025-09-30 20:00 PST
+# This configuration matches the Pre-Flight deployment status requirements
+
+services:
+  # PostgreSQL Database - nexus_db
+  nexus-cos-postgres:
+    image: postgres:15-alpine
+    container_name: nexus-cos-postgres
+    environment:
+      POSTGRES_DB: nexus_db
+      POSTGRES_USER: nexus_user
+      POSTGRES_PASSWORD: Momoney2025$
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus_user -d nexus_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+  # Redis Cache
+  nexus-cos-redis:
+    image: redis:7-alpine
+    container_name: nexus-cos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+  # PUABO API Service - Main API endpoint
+  puabo-api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: puabo-api
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DB_HOST: nexus-cos-postgres
+      DB_PORT: 5432
+      DB_NAME: nexus_db
+      DB_USER: nexus_user
+      DB_PASSWORD: Momoney2025$
+      REDIS_HOST: nexus-cos-redis
+      REDIS_PORT: 6379
+      OAUTH_CLIENT_ID: your-client-id
+      OAUTH_CLIENT_SECRET: your-client-secret
+    ports:
+      - "4000:4000"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+  # PUABO AI SDK Service
+  nexus-cos-puaboai-sdk:
+    build:
+      context: ./services/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: nexus-cos-puaboai-sdk
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DB_HOST: nexus-cos-postgres
+      DB_PORT: 5432
+      DB_NAME: nexus_db
+      DB_USER: nexus_user
+      DB_PASSWORD: Momoney2025$
+    ports:
+      - "3002:3002"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+  # PV Keys Service
+  nexus-cos-pv-keys:
+    build:
+      context: ./services/pv-keys
+      dockerfile: Dockerfile
+    container_name: nexus-cos-pv-keys
+    environment:
+      NODE_ENV: production
+      PORT: 3041
+      DB_HOST: nexus-cos-postgres
+      DB_PORT: 5432
+      DB_NAME: nexus_db
+      DB_USER: nexus_user
+      DB_PASSWORD: Momoney2025$
+    ports:
+      - "3041:3041"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  nexus-network:
+    driver: bridge
