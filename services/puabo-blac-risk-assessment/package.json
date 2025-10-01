@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-blac-risk-assessment",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-blac-risk-assessment",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

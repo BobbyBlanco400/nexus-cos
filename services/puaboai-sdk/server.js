@@ -1,61 +1,56 @@
+// Nexus COS - puaboai-sdk
+// Port: 3012
+// Auto-generated service
+
 const express = require('express');
-const { Pool } = require('pg');
-
 const app = express();
-const PORT = process.env.PORT || 3002;
+const port = process.env.PORT || 3012;
 
-// Middleware
 app.use(express.json());
 
-// Database connection
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'nexus_db',
-  user: process.env.DB_USER || 'nexus_user',
-  password: process.env.DB_PASSWORD || 'Momoney2025$'
-});
-
 // Health check endpoint
-app.get('/health', async (req, res) => {
-  try {
-    await pool.query('SELECT 1');
-    res.json({ 
-      status: 'ok',
-      service: 'nexus-cos-puaboai-sdk',
-      timestamp: new Date().toISOString()
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        service: 'puaboai-sdk',
+        port: port,
+        timestamp: new Date().toISOString(),
+        version: '1.0.0'
     });
-  } catch (error) {
-    res.status(503).json({ 
-      status: 'error',
-      service: 'nexus-cos-puaboai-sdk',
-      error: error.message 
-    });
-  }
 });
 
-// Root endpoint
+// Status endpoint
+app.get('/status', (req, res) => {
+    res.json({
+        service: 'puaboai-sdk',
+        status: 'running',
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        port: port
+    });
+});
+
+// Basic info endpoint
 app.get('/', (req, res) => {
-  res.json({
-    service: 'PUABO AI SDK Service',
-    version: '1.0.0',
-    status: 'running',
-    endpoints: [
-      'GET /health - Health check',
-      'GET / - Service info'
-    ]
-  });
+    res.json({
+        message: 'puaboai-sdk is running',
+        endpoints: ['/health', '/status'],
+        port: port
+    });
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`✅ PUABO AI SDK Service running on port ${PORT}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+app.listen(port, () => {
+    console.log(`✓ puaboai-sdk running on port ${port}`);
+    console.log(`  Health check: http://localhost:${port}/health`);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server');
-  pool.end();
-  process.exit(0);
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+    });
 });
+
+module.exports = app;

@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puaboverse-v2",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puaboverse-v2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

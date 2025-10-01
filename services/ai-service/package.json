@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "ai-service",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - ai-service",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-nexus-fleet-manager",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-nexus-fleet-manager",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

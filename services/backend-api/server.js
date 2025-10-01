@@ -1,10 +1,10 @@
-// Nexus COS - pv-keys
-// Port: 3015
+// Nexus COS - backend-api
+// Port: 3001
 // Auto-generated service
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3015;
+const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
@@ -12,7 +12,7 @@ app.use(express.json());
 app.get('/health', (req, res) => {
     res.json({
         status: 'ok',
-        service: 'pv-keys',
+        service: 'backend-api',
         port: port,
         timestamp: new Date().toISOString(),
         version: '1.0.0'
@@ -22,7 +22,7 @@ app.get('/health', (req, res) => {
 // Status endpoint
 app.get('/status', (req, res) => {
     res.json({
-        service: 'pv-keys',
+        service: 'backend-api',
         status: 'running',
         uptime: process.uptime(),
         memory: process.memoryUsage(),
@@ -33,7 +33,7 @@ app.get('/status', (req, res) => {
 // Basic info endpoint
 app.get('/', (req, res) => {
     res.json({
-        message: 'pv-keys is running',
+        message: 'backend-api is running',
         endpoints: ['/health', '/status'],
         port: port
     });
@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(port, () => {
-    console.log(`✓ pv-keys running on port ${port}`);
+    console.log(`✓ backend-api running on port ${port}`);
     console.log(`  Health check: http://localhost:${port}/health`);
 });
 

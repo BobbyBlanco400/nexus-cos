@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "creator-hub-v2",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - creator-hub-v2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

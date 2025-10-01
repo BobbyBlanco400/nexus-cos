@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "user-auth",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - user-auth",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

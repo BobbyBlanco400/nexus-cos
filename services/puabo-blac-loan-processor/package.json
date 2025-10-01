@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-blac-loan-processor",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-blac-loan-processor",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

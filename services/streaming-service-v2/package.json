@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "streaming-service-v2",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - streaming-service-v2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

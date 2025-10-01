@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-nuki-order-processor",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-nuki-order-processor",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
