@@ -37,8 +37,12 @@ function App() {
   ]
 
   useEffect(() => {
+    console.log('🎭 Club Saditty App component mounted')
+    console.log('⏳ Starting loading sequence...')
+    
     // Simulate loading
     const loadTimer = setTimeout(() => {
+      console.log('✅ Loading complete, transitioning to main app')
       setIsLoading(false)
     }, 2000)
 
@@ -53,19 +57,26 @@ function App() {
     }, 3000)
 
     return () => {
+      console.log('🧹 Cleaning up App component')
       clearTimeout(loadTimer)
       clearInterval(statsInterval)
     }
   }, [])
 
   if (isLoading) {
+    console.log('⏳ Rendering loading screen...')
     return (
       <div className="loading-screen">
         <div className="loader"></div>
         <h2>Loading Club Saditty...</h2>
+        <p style={{ marginTop: '20px', opacity: 0.7, fontSize: '0.9rem' }}>
+          Please wait while we prepare your experience...
+        </p>
       </div>
     )
   }
+
+  console.log('🎉 Rendering main app interface')
 
   return (
     <div className="club-app">
