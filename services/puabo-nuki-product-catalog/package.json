@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-nuki-product-catalog",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-nuki-product-catalog",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

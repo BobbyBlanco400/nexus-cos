@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "key-service",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - key-service",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

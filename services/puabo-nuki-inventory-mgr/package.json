@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-nuki-inventory-mgr",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-nuki-inventory-mgr",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

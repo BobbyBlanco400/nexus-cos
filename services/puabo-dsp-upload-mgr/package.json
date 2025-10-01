@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "puabo-dsp-upload-mgr",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - puabo-dsp-upload-mgr",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

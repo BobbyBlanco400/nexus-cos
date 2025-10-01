@@ -1,7 +1,7 @@
 {
-  "name": "puaboai-sdk",
+  "name": "boom-boom-room-live",
   "version": "1.0.0",
-  "description": "Nexus COS - puaboai-sdk",
+  "description": "Nexus COS - boom-boom-room-live",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
