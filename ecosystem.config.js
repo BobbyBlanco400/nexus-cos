@@ -1,5 +1,5 @@
 // PM2 Ecosystem Configuration for Nexus COS
-// Complete 29 Services Deployment Configuration
+// Complete 32 Services Deployment Configuration (29 + 3 V-Suite Pro Services)
 // Generated for Beta Launch
 
 module.exports = {
@@ -537,6 +537,61 @@ module.exports = {
       log_file: './logs/boom-boom-room-live.log',
       out_file: './logs/boom-boom-room-live-out.log',
       error_file: './logs/boom-boom-room-live-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+
+    // ========================================
+    // PHASE 5: V-SUITE PRO SERVICES (Priority: MEDIUM)
+    // ========================================
+    {
+      name: 'v-caster-pro',
+      script: './services/v-caster-pro/server.js',
+      cwd: '/home/runner/work/nexus-cos/nexus-cos',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '512M',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3501
+      },
+      log_file: './logs/v-caster-pro.log',
+      out_file: './logs/v-caster-pro-out.log',
+      error_file: './logs/v-caster-pro-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+    {
+      name: 'v-prompter-pro',
+      script: './services/v-prompter-pro/server.js',
+      cwd: '/home/runner/work/nexus-cos/nexus-cos',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '512M',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3502
+      },
+      log_file: './logs/v-prompter-pro.log',
+      out_file: './logs/v-prompter-pro-out.log',
+      error_file: './logs/v-prompter-pro-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+    {
+      name: 'v-screen-pro',
+      script: './services/v-screen-pro/server.js',
+      cwd: '/home/runner/work/nexus-cos/nexus-cos',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '512M',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3503
+      },
+      log_file: './logs/v-screen-pro.log',
+      out_file: './logs/v-screen-pro-out.log',
+      error_file: './logs/v-screen-pro-error.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
     }
   ]
