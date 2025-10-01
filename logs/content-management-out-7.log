@@ -1,0 +1,2 @@
+2025-10-01 13:51:04 +00:00: ✓ content-management running on port 3302
+2025-10-01 13:51:04 +00:00:   Health check: http://localhost:3302/health

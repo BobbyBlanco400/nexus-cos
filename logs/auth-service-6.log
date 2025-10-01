@@ -1,0 +1,2 @@
+2025-10-01 13:51:04 +00:00: ✓ auth-service-v2 running on port 3301
+2025-10-01 13:51:04 +00:00:   Health check: http://localhost:3301/health
