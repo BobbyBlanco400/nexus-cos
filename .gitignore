@@ -34,3 +34,8 @@ deployment/nginx/output/
 
 # Master Script Output (generated files)
 output/
+
+# PM2 Logs
+logs/*.log
+logs/*-*.log
+.pm2/

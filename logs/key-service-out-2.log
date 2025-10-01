@@ -1,2 +1,0 @@
-2025-10-01 13:49:19 +00:00: ✓ key-service running on port 3014
-2025-10-01 13:49:19 +00:00:   Health check: http://localhost:3014/health
