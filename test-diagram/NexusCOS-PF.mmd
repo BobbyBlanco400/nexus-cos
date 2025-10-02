@@ -1,0 +1,121 @@
+graph TB
+    %% PF (Platform Framework) Only Architecture
+    %% Shows strict PF services, routes, and health endpoints
+    
+    subgraph "External Access"
+        Client[👤 Client Browser]
+        SSL[🔒 SSL/TLS<br/>IONOS Certificates]
+    end
+    
+    subgraph "Nginx Gateway Layer"
+        Gateway[⚡ Nginx Gateway<br/>Port 443/80<br/>Health: /health]
+    end
+    
+    subgraph "PF Frontend Routes"
+        Admin[🎛️ Admin Panel<br/>/admin]
+        Hub[🎯 Creator Hub<br/>/hub]
+        Studio[🎬 Studio<br/>/studio]
+        Streaming[📺 Streaming<br/>/streaming]
+        Root[🏠 Main Frontend<br/>/]
+    end
+    
+    subgraph "PF API Routes"
+        API[🔌 Main API<br/>/api<br/>Health: /health]
+    end
+    
+    subgraph "PF V-Suite Routes"
+        VHollywood[🎥 V-Suite Hollywood<br/>/v-suite/hollywood]
+        VPrompter[📝 V-Suite Prompter<br/>/v-suite/prompter]
+        VCaster[🎙️ V-Suite Caster<br/>/v-suite/caster]
+        VStage[🎭 V-Suite Stage<br/>/v-suite/stage]
+    end
+    
+    subgraph "PF Core Services"
+        PuaboAPI[⚡ puabo-api<br/>Port 4000<br/>Health: /health<br/>Info: /]
+        PuaboAI[🤖 nexus-cos-puaboai-sdk<br/>Port 3002<br/>Health: /health<br/>Info: /]
+        PVKeys[🔑 nexus-cos-pv-keys<br/>Port 3041<br/>Health: /health<br/>Info: /]
+    end
+    
+    subgraph "PF Infrastructure"
+        Postgres[(🗄️ PostgreSQL<br/>Port 5432<br/>nexus_db)]
+        Redis[(⚡ Redis<br/>Port 6379<br/>Cache)]
+    end
+    
+    %% External connections
+    Client --> SSL
+    SSL --> Gateway
+    
+    %% Gateway to Frontend Routes
+    Gateway --> Admin
+    Gateway --> Hub
+    Gateway --> Studio
+    Gateway --> Streaming
+    Gateway --> Root
+    
+    %% Gateway to API
+    Gateway --> API
+    
+    %% Gateway to V-Suite
+    Gateway --> VHollywood
+    Gateway --> VPrompter
+    Gateway --> VCaster
+    Gateway --> VStage
+    
+    %% Frontend Routes to PF Gateway Service
+    Admin --> PuaboAPI
+    Hub --> PuaboAPI
+    Studio --> PuaboAPI
+    Streaming --> PuaboAPI
+    Root --> PuaboAPI
+    
+    %% API to PF Gateway Service
+    API --> PuaboAPI
+    
+    %% V-Suite Routes to PF Services
+    VHollywood --> PuaboAPI
+    VPrompter --> PuaboAI
+    VCaster --> PuaboAPI
+    VStage --> PuaboAPI
+    
+    %% Service Dependencies
+    PuaboAPI --> Postgres
+    PuaboAPI --> Redis
+    PuaboAI --> Postgres
+    PVKeys --> Postgres
+    
+    %% Health Check Endpoints
+    Gateway -.->|Health Check| PuaboAPI
+    Gateway -.->|Health Check| PuaboAI
+    Gateway -.->|Health Check| PVKeys
+    
+    %% Styling
+    classDef gatewayStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:3px,color:#000
+    classDef frontendStyle fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px,color:#000
+    classDef apiStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef vsuiteStyle fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#000
+    classDef serviceStyle fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef infraStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    classDef externalStyle fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+    
+    class Gateway gatewayStyle
+    class Admin,Hub,Studio,Streaming,Root frontendStyle
+    class API apiStyle
+    class VHollywood,VPrompter,VCaster,VStage vsuiteStyle
+    class PuaboAPI,PuaboAI,PVKeys serviceStyle
+    class Postgres,Redis infraStyle
+    class Client,SSL externalStyle
+    
+    %% Click handlers for interactive navigation
+    click Gateway "https://nexuscos.online/health" "Gateway Health Check"
+    click Admin "https://nexuscos.online/admin" "Admin Panel"
+    click Hub "https://nexuscos.online/hub" "Creator Hub"
+    click Studio "https://nexuscos.online/studio" "Studio"
+    click Streaming "https://nexuscos.online/streaming" "Streaming"
+    click API "https://nexuscos.online/api" "Main API"
+    click VHollywood "https://nexuscos.online/v-suite/hollywood" "V-Suite Hollywood"
+    click VPrompter "https://nexuscos.online/v-suite/prompter" "V-Suite Prompter"
+    click VCaster "https://nexuscos.online/v-suite/caster" "V-Suite Caster"
+    click VStage "https://nexuscos.online/v-suite/stage" "V-Suite Stage"
+    click PuaboAPI "http://localhost:4000/health" "puabo-api Health"
+    click PuaboAI "http://localhost:3002/health" "puaboai-sdk Health"
+    click PVKeys "http://localhost:3041/health" "pv-keys Health"
