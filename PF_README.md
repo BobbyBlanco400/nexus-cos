@@ -30,11 +30,30 @@ The Pre-Flight deployment includes the following services:
 
 ## 📁 Configuration Files
 
+### Docker & Services
 - **`docker-compose.pf.yml`** - Main Docker Compose configuration
 - **`.env.pf`** - Environment variables
 - **`database/schema.sql`** - Database schema
 - **`database/apply-migrations.sh`** - Migration script
 - **`deploy-pf.sh`** - Quick deployment script
+
+### Nginx Configuration (NEW)
+- **`nginx/nginx.conf`** - PF gateway configuration with health endpoints
+- **`nginx/conf.d/nexus-proxy.conf`** - PF route mappings for all services
+- **`nginx.conf`** (root) - Production nginx configuration
+
+### Frontend Configuration (NEW)
+- **`frontend/.env`** - Frontend environment with standardized API URL
+- **`frontend/.env.example`** - Template for frontend configuration
+
+### Validation & Testing (NEW)
+- **`validate-pf-nginx.sh`** - Nginx configuration validation script
+- **`test-pf-configuration.sh`** - Comprehensive test suite
+
+### Documentation (NEW)
+- **`PF_CONFIGURATION_SUMMARY.md`** - Complete nginx implementation details
+- **`PF_DEPLOYMENT_QUICK_REFERENCE.md`** - Quick deployment guide
+- **`test-diagram/NexusCOS-PF.mmd`** - PF architecture diagram
 
 ## 🛠️ Manual Deployment
 
@@ -304,8 +323,15 @@ docker stats $(docker-compose -f docker-compose.pf.yml ps -q)
 
 ## 📚 Documentation
 
-For complete Pre-Flight deployment verification and details, see:
+### Pre-Flight Deployment
 - **[PF_DEPLOYMENT_VERIFICATION.md](./PF_DEPLOYMENT_VERIFICATION.md)** - Complete deployment verification document
+
+### Nginx Configuration & 502 Fixes (NEW)
+- **[PF_CONFIGURATION_SUMMARY.md](./PF_CONFIGURATION_SUMMARY.md)** - Complete nginx implementation and troubleshooting
+- **[PF_DEPLOYMENT_QUICK_REFERENCE.md](./PF_DEPLOYMENT_QUICK_REFERENCE.md)** - Quick commands and common operations
+
+### Architecture
+- **[test-diagram/NexusCOS-PF.mmd](./test-diagram/NexusCOS-PF.mmd)** - PF-only architecture visualization
 
 ## 🎯 Next Steps
 
@@ -319,6 +345,7 @@ After successful deployment:
 
 ## ✅ Verification Checklist
 
+### Service Deployment
 - [ ] All services start successfully
 - [ ] Database migrations applied
 - [ ] Health endpoints responding
@@ -326,6 +353,25 @@ After successful deployment:
 - [ ] Services can communicate with each other
 - [ ] Environment variables configured
 - [ ] Logs are accessible
+
+### Nginx Configuration (NEW)
+- [x] Nginx configuration files created
+- [x] PF upstreams defined with exact container names
+- [x] Health endpoints configured for all services
+- [x] All routes mapped to PF services
+- [x] Frontend environment standardized
+- [x] Validation script passes (16/16 tests)
+- [ ] Nginx deployed to production server
+- [ ] All routes tested without 502 errors
+
+### Quick Validation
+```bash
+# Validate nginx configuration
+./validate-pf-nginx.sh
+
+# Run comprehensive tests
+./test-pf-configuration.sh
+```
 
 ## 📞 Support
 
