@@ -4,7 +4,35 @@ This directory contains automated tools for verifying and monitoring all URLs do
 
 ## 📋 Available Scripts
 
-### 1. Production URL Verification
+### 1. PF Final Deployment (NEW) ✨
+**File:** `pf-final-deploy.sh`  
+**Purpose:** Complete system check and re-deployment for Nexus COS Pre-Flight
+
+```bash
+./scripts/pf-final-deploy.sh
+```
+
+**Features:**
+- ✅ Complete system requirements validation
+- ✅ Repository and file structure verification
+- ✅ Automated SSL certificate management
+- ✅ Environment configuration validation
+- ✅ Full Docker service deployment
+- ✅ Nginx configuration and reload
+- ✅ Post-deployment health checks
+- ✅ Comprehensive deployment summary
+
+**Requirements:**
+- Docker and Docker Compose installed
+- Nginx installed (optional, but recommended)
+- Valid SSL certificates
+- `.env.pf` file configured
+
+**Documentation:**
+- Complete guide: [`PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md`](../PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md)
+- Assets manifest: [`docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md`](../docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md)
+
+### 2. Production URL Verification
 **File:** `verify-production-urls.sh`
 **Purpose:** Comprehensive verification of all production URLs and SSL certificates
 
@@ -19,7 +47,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - SSL certificates
 - Performance metrics
 
-### 2. Beta URL Verification
+### 3. Beta URL Verification
 **File:** `verify-beta-urls.sh`  
 **Purpose:** Beta environment verification for 10/01/2025 launch
 
@@ -33,7 +61,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Local development endpoint checks
 - Beta-specific performance validation
 
-### 3. Continuous URL Monitoring
+### 4. Continuous URL Monitoring
 **File:** `monitor-urls.sh`
 **Purpose:** Continuous monitoring with alerting and reporting
 

@@ -128,6 +128,68 @@ TRAE Solo is an advanced deployment orchestrator that provides:
    npm run trae:start
    ```
 
+## 🚀 Pre-Flight (PF) Production Deployment
+
+> ✨ **NEW: Complete PF system check and re-deployment is now available!**
+
+### Quick PF Deployment to VPS
+
+The fastest way to deploy Nexus COS Pre-Flight to your VPS (74.208.155.161):
+
+```bash
+# SSH to your VPS
+ssh root@74.208.155.161
+
+# Navigate to repository
+cd /opt/nexus-cos
+
+# Run the comprehensive deployment script
+./scripts/pf-final-deploy.sh
+```
+
+**What it does:**
+1. ✅ Complete system requirements validation (Docker, Nginx, ports)
+2. ✅ Repository and file structure verification
+3. ✅ Automated SSL certificate management and validation
+4. ✅ Environment configuration from `.env.pf`
+5. ✅ Full Docker service stack deployment
+6. ✅ Nginx configuration and reload
+7. ✅ Post-deployment health checks
+8. ✅ Detailed deployment summary and next steps
+
+### PF Assets Documentation
+
+**📚 Essential PF Resources:**
+
+1. **PF Assets Locked Manifest** - `docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md`
+   - Single source of truth for all PF assets, paths, and configurations
+   - V-Prompter Pro routing details (locked configuration)
+   - SSL canonical paths and validation procedures
+   - Complete deployment sequence
+
+2. **System Check & Re-deployment Guide** - `PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md`
+   - Step-by-step deployment instructions
+   - Troubleshooting for 10+ common issues
+   - Validation procedures and success criteria
+   - Quick reference commands
+
+3. **PF Final Deployment Script** - `scripts/pf-final-deploy.sh`
+   - Automated deployment with validation
+   - Interactive prompts for configuration
+   - Comprehensive error checking and reporting
+
+**Key V-Prompter Pro Configuration:**
+- **Public Route:** `/v-suite/prompter/`
+- **Health Endpoint:** `https://nexuscos.online/v-suite/prompter/health`
+- **Backend:** nexus-cos-puaboai-sdk (port 3002)
+- **Expected Response:** 200 OK
+
+**SSL Certificate Paths (Canonical):**
+```
+Certificate: /opt/nexus-cos/ssl/nexus-cos.crt (644)
+Private Key: /opt/nexus-cos/ssl/nexus-cos.key (600)
+```
+
 ## 🐳 Docker-Based Production Launch
 
 > 📖 **For comprehensive VPS deployment guide with troubleshooting and recovery procedures, see [BETA_LAUNCH_READINESS_COMPREHENSIVE.md](./BETA_LAUNCH_READINESS_COMPREHENSIVE.md)**
