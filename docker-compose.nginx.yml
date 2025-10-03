@@ -15,6 +15,7 @@ services:
       - pv-keys
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
 
   # API Service (placeholder - should match actual service)
@@ -26,6 +27,7 @@ services:
     expose:
       - "4000"
     networks:
+      - cos-net
       - nexus-network
 
   # AI SDK Service (placeholder - should match actual service)  
@@ -37,6 +39,7 @@ services:
     expose:
       - "3002"
     networks:
+      - cos-net
       - nexus-network
 
   # Keys Service (placeholder - should match actual service)
@@ -48,8 +51,11 @@ services:
     expose:
       - "3041"
     networks:
+      - cos-net
       - nexus-network
 
 networks:
+  cos-net:
+    driver: bridge
   nexus-network:
     driver: bridge

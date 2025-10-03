@@ -128,6 +128,240 @@ TRAE Solo is an advanced deployment orchestrator that provides:
    npm run trae:start
    ```
 
+## 🐳 Docker-Based Production Launch
+
+### Interactive One-Liner Deployment
+
+The fastest way to deploy Nexus COS with automated validation:
+
+```bash
+echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+```
+
+**What it does:**
+1. Prompts for Nginx deployment mode (Docker container or Host)
+2. Copies appropriate nginx configuration
+3. Updates from git repository
+4. Installs proxy configuration
+5. Validates nginx configuration
+6. Reloads nginx with zero downtime
+7. Runs comprehensive validation tests
+8. Tests all critical endpoints
+
+### Docker Mode Deployment (Recommended)
+
+**Prerequisites:**
+- Docker and Docker Compose installed
+- `.env.pf` file configured (copy from `.env.pf.example`)
+- SSL certificates in `./ssl/` directory
+
+**Step-by-step deployment:**
+
+```bash
+# 1. Configure environment
+cp .env.pf.example .env.pf
+# Edit .env.pf with your secure credentials
+
+# 2. Start all backend services
+docker compose -f docker-compose.pf.yml up -d
+
+# 3. Optionally start Nginx as a container
+docker compose -f docker-compose.pf.yml --profile docker-nginx up -d
+
+# 4. Verify services are running
+docker ps
+
+# 5. Check service health
+curl http://localhost:4000/health  # Gateway
+curl http://localhost:3002/health  # AI SDK
+curl http://localhost:3041/health  # Keys Service
+
+# 6. Run validation
+./test-pf-configuration.sh
+
+# 7. Test production endpoints
+curl -I https://nexuscos.online/health
+```
+
+### Network Architecture
+
+All services communicate via the `cos-net` Docker network:
+
+```
+┌─────────────────────────────────────────────┐
+│           cos-net (Docker Network)          │
+│                                             │
+│  ┌─────────┐    ┌──────────────────────┐  │
+│  │  Nginx  │───▶│   puabo-api:4000     │  │
+│  │ Gateway │    │   (Main API)         │  │
+│  └─────────┘    └──────────────────────┘  │
+│       │                                     │
+│       ├────────▶┌──────────────────────┐  │
+│       │         │ nexus-cos-puaboai-sdk│  │
+│       │         │      :3002           │  │
+│       │         └──────────────────────┘  │
+│       │                                     │
+│       └────────▶┌──────────────────────┐  │
+│                 │ nexus-cos-pv-keys    │  │
+│                 │      :3041           │  │
+│                 └──────────────────────┘  │
+│                                             │
+│  ┌──────────────────────────────────────┐ │
+│  │  nexus-cos-postgres:5432             │ │
+│  │  nexus-cos-redis:6379                │ │
+│  └──────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+```
+
+### Configuration Files
+
+**Nginx Configurations:**
+- `nginx.conf.docker` - For Nginx running in Docker container (uses service names)
+- `nginx.conf.host` - For Nginx running on host OS (uses localhost:port)
+- `nginx/nginx.conf` - Main gateway configuration template
+- `nginx/conf.d/nexus-proxy.conf` - Route mappings
+
+**Service Orchestration:**
+- `docker-compose.yml` - Main service composition
+- `docker-compose.pf.yml` - PF (Platform Framework) services with full stack
+- `docker-compose.nginx.yml` - Standalone Nginx deployment
+
+**Environment Configuration:**
+- `.env.pf.example` - Template for PF environment variables
+- `.env.example` - Template for general environment variables
+- Create `.env.pf` from example with your secure credentials
+
+### Deployment Modes
+
+#### 1. Docker Mode (Container Nginx)
+**Best for:** Production, containerized environments, cloud deployments
+
+```bash
+# Start with Nginx in container
+docker compose -f docker-compose.pf.yml --profile docker-nginx up -d
+
+# Nginx uses Docker service names internally:
+# - puabo-api:4000
+# - nexus-cos-puaboai-sdk:3002
+# - nexus-cos-pv-keys:3041
+```
+
+#### 2. Host Mode (Host Nginx)
+**Best for:** Existing Nginx installations, custom modules, development
+
+```bash
+# Start backend services only
+docker compose -f docker-compose.pf.yml up -d
+
+# Configure host Nginx
+sudo cp nginx.conf.host /etc/nginx/nginx.conf
+sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/
+sudo nginx -t && sudo nginx -s reload
+
+# Nginx uses localhost with exposed ports:
+# - localhost:4000
+# - localhost:3002
+# - localhost:3041
+```
+
+### Validation & Health Checks
+
+**Automated Validation:**
+```bash
+# Comprehensive configuration tests
+./test-pf-configuration.sh
+
+# Nginx configuration validation
+./validate-pf-nginx.sh
+
+# Launch readiness check
+./nexus-cos-launch-validator.sh
+```
+
+**Manual Health Checks:**
+```bash
+# Check Docker services
+docker ps
+docker compose -f docker-compose.pf.yml logs -f
+
+# Test backend health endpoints
+curl http://localhost:4000/health
+curl http://localhost:3002/health
+curl http://localhost:3041/health
+
+# Test production endpoints
+curl -I https://nexuscos.online/api
+curl -I https://nexuscos.online/health
+curl -I https://nexuscos.online/admin
+```
+
+### Troubleshooting
+
+**502 Bad Gateway:**
+```bash
+# Check if services are running
+docker ps
+
+# Check service logs
+docker logs puabo-api
+docker logs nexus-cos-puaboai-sdk
+
+# Verify network connectivity
+docker network inspect cos-net
+
+# Test direct service access
+docker exec puabo-api curl localhost:4000/health
+```
+
+**Configuration Issues:**
+```bash
+# Test Nginx configuration
+sudo nginx -t
+
+# View Nginx error logs
+sudo tail -f /var/log/nginx/error.log
+
+# Check file permissions
+ls -la nginx.conf.docker nginx.conf.host
+```
+
+**Environment Variables:**
+```bash
+# Verify .env.pf exists and has correct values
+cat .env.pf
+
+# Check if environment is loaded in container
+docker exec puabo-api env | grep DB_
+```
+
+### Security Best Practices
+
+✅ **Implemented:**
+- Environment variables for all secrets (no hardcoded credentials)
+- `.env` files in `.gitignore`
+- SSL/TLS with modern ciphers (TLS 1.2, 1.3)
+- Security headers (HSTS, CSP, X-Frame-Options, etc.)
+- OCSP stapling enabled
+- Health check endpoints protected
+
+📋 **Checklist before launch:**
+- [ ] `.env.pf` configured with secure credentials
+- [ ] SSL certificates installed in `./ssl/` directory
+- [ ] All services pass health checks
+- [ ] Nginx configuration validated (`nginx -t`)
+- [ ] No secrets in git repository
+- [ ] Firewall configured (ports 80, 443, 22)
+- [ ] Database backups configured
+- [ ] Monitoring and logging active
+
+### Documentation
+
+For detailed deployment instructions, see:
+- **[NGINX_CONFIGURATION_README.md](./NGINX_CONFIGURATION_README.md)** - Complete Nginx deployment guide
+- **[PF_TRAE_Beta_Launch_Validation.md](./PF_TRAE_Beta_Launch_Validation.md)** - Beta launch checklist
+- **[PF_CONFIGURATION_SUMMARY.md](./PF_CONFIGURATION_SUMMARY.md)** - PF architecture summary
+- **[PF_DEPLOYMENT_CHECKLIST.md](./PF_DEPLOYMENT_CHECKLIST.md)** - Deployment verification
+
 ## 🔧 Development Setup
 
 ### Backend Development
