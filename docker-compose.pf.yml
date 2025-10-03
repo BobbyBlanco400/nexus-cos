@@ -10,9 +10,9 @@ services:
     image: postgres:15-alpine
     container_name: nexus-cos-postgres
     environment:
-      POSTGRES_DB: nexus_db
-      POSTGRES_USER: nexus_user
-      POSTGRES_PASSWORD: Momoney2025$
+      POSTGRES_DB: ${DB_NAME:-nexus_db}
+      POSTGRES_USER: ${DB_USER:-nexus_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
@@ -25,6 +25,7 @@ services:
       retries: 3
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
 
   # Redis Cache
@@ -37,6 +38,7 @@ services:
       - redis_data:/data
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
 
   # PUABO API Service - Main API endpoint
@@ -45,18 +47,20 @@ services:
       context: .
       dockerfile: dockerfile
     container_name: puabo-api
+    env_file:
+      - .env.pf
     environment:
       NODE_ENV: production
       PORT: 4000
-      DB_HOST: nexus-cos-postgres
-      DB_PORT: 5432
-      DB_NAME: nexus_db
-      DB_USER: nexus_user
-      DB_PASSWORD: Momoney2025$
-      REDIS_HOST: nexus-cos-redis
-      REDIS_PORT: 6379
-      OAUTH_CLIENT_ID: your-client-id
-      OAUTH_CLIENT_SECRET: your-client-secret
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
+      REDIS_HOST: ${REDIS_HOST:-nexus-cos-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID:?OAuth client ID must be set in .env.pf}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET:?OAuth client secret must be set in .env.pf}
     ports:
       - "4000:4000"
     depends_on:
@@ -71,7 +75,35 @@ services:
       retries: 3
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
+
+  # Nginx Gateway (Optional - for Docker mode deployment)
+  nginx:
+    image: nginx:alpine
+    container_name: nexus-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.docker:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/ssl/ionos:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      puabo-api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - docker-nginx
 
   # PUABO AI SDK Service
   nexus-cos-puaboai-sdk:
@@ -79,14 +111,16 @@ services:
       context: ./services/puaboai-sdk
       dockerfile: Dockerfile
     container_name: nexus-cos-puaboai-sdk
+    env_file:
+      - .env.pf
     environment:
       NODE_ENV: production
       PORT: 3002
-      DB_HOST: nexus-cos-postgres
-      DB_PORT: 5432
-      DB_NAME: nexus_db
-      DB_USER: nexus_user
-      DB_PASSWORD: Momoney2025$
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
     ports:
       - "3002:3002"
     depends_on:
@@ -94,6 +128,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
 
   # PV Keys Service
@@ -102,14 +137,16 @@ services:
       context: ./services/pv-keys
       dockerfile: Dockerfile
     container_name: nexus-cos-pv-keys
+    env_file:
+      - .env.pf
     environment:
       NODE_ENV: production
       PORT: 3041
-      DB_HOST: nexus-cos-postgres
-      DB_PORT: 5432
-      DB_NAME: nexus_db
-      DB_USER: nexus_user
-      DB_PASSWORD: Momoney2025$
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
     ports:
       - "3041:3041"
     depends_on:
@@ -117,12 +154,16 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
+      - cos-net
       - nexus-network
 
 volumes:
   postgres_data:
   redis_data:
+  nginx_logs:
 
 networks:
+  cos-net:
+    driver: bridge
   nexus-network:
     driver: bridge
