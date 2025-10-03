@@ -2,6 +2,8 @@
 
 Complete guide for deploying Nexus COS with Nginx in Docker or Host mode.
 
+> 📖 **For comprehensive beta launch readiness report with VPS deployment, recovery procedures, and troubleshooting, see [BETA_LAUNCH_READINESS_COMPREHENSIVE.md](./BETA_LAUNCH_READINESS_COMPREHENSIVE.md)**
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
