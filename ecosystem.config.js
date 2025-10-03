@@ -1,5 +1,5 @@
 // PM2 Ecosystem Configuration for Nexus COS
-// Complete 32 Services Deployment Configuration (29 + 3 V-Suite Pro Services)
+// Complete 33 Services Deployment Configuration (29 + 4 V-Suite Pro Services)
 // Generated for Beta Launch
 
 module.exports = {
@@ -592,6 +592,23 @@ module.exports = {
       log_file: './logs/v-screen-pro.log',
       out_file: './logs/v-screen-pro-out.log',
       error_file: './logs/v-screen-pro-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+    {
+      name: 'v-screen-hollywood',
+      script: './services/v-screen-hollywood/server.js',
+      cwd: '/home/runner/work/nexus-cos/nexus-cos',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '2G',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3504
+      },
+      log_file: './logs/v-screen-hollywood.log',
+      out_file: './logs/v-screen-hollywood-out.log',
+      error_file: './logs/v-screen-hollywood-error.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
     }
   ]

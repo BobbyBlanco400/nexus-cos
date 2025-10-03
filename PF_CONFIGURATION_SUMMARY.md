@@ -79,7 +79,7 @@ All routes point exclusively to PF services:
 | `/studio` | puabo-api:4000 | Studio |
 | `/streaming` | puabo-api:4000 | Streaming |
 | `/api` | puabo-api:4000 | Main API Gateway |
-| `/v-suite/hollywood` | puabo-api:4000 | V-Suite Hollywood |
+| `/v-suite/hollywood` | v-screen-hollywood:3504 | V-Suite Hollywood Edition (Virtual LED Volume) |
 | `/v-suite/prompter` | nexus-cos-puaboai-sdk:3002 | V-Suite Prompter (v-prompter-pro) |
 | `/v-suite/caster` | puabo-api:4000 | V-Suite Caster |
 | `/v-suite/stage` | puabo-api:4000 | V-Suite Stage |
