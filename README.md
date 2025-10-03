@@ -130,6 +130,8 @@ TRAE Solo is an advanced deployment orchestrator that provides:
 
 ## 🐳 Docker-Based Production Launch
 
+> 📖 **For comprehensive VPS deployment guide with troubleshooting and recovery procedures, see [BETA_LAUNCH_READINESS_COMPREHENSIVE.md](./BETA_LAUNCH_READINESS_COMPREHENSIVE.md)**
+
 ### Interactive One-Liner Deployment
 
 The fastest way to deploy Nexus COS with automated validation:
