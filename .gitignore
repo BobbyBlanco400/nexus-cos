@@ -39,3 +39,11 @@ output/
 logs/*.log
 logs/*-*.log
 .pm2/
+
+# Environment files with secrets
+.env
+.env.local
+.env.*.local
+.env.pf
+!.env.example
+!.env.pf.example

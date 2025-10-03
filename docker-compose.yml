@@ -1,5 +1,33 @@
 version: "3.9"
+
+networks:
+  cos-net:
+    driver: bridge
+
 services:
+  # Nginx Gateway (Docker Mode)
+  nginx:
+    image: nginx:alpine
+    container_name: nexus-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.docker:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/ssl/ionos:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   api:
     build: .
     container_name: puabo-api
@@ -7,5 +35,10 @@ services:
       NODE_ENV: production
       PORT: 3000
     ports:
-      - "3000:3000"   # change host side if conflict (e.g., "3005:3000")
+      - "3000:3000"
     restart: unless-stopped
+    networks:
+      - cos-net
+
+volumes:
+  nginx_logs:
