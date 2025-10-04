@@ -254,7 +254,64 @@ The system is fully configured according to the Pre-Flight specifications. All s
 
 ---
 
-## 10. File Manifest
+## 10. TypeScript Build Prerequisites
+
+**Frontend Build Configuration:**
+
+The frontend service requires proper TypeScript configuration for build validation:
+
+- ✅ `frontend/tsconfig.json` - TypeScript compiler configuration
+  - Target: ES2020
+  - Module: ESNext
+  - JSX: react-jsx
+  - Includes type checking and validation
+
+**Dockerfile Build Steps:**
+
+The `frontend/Dockerfile` includes the following TypeScript validation steps:
+
+1. Copy `tsconfig.json` before source files
+2. Install TypeScript dev dependencies: `npm install -D typescript @types/node`
+3. Run TypeScript validation: `npx tsc --noEmit`
+4. Build production artifacts: `npm run build`
+
+**Required Dependencies:**
+
+The frontend build requires:
+- `typescript` - TypeScript compiler
+- `@types/node` - Node.js type definitions
+
+These are installed during the Docker build process and do not need to be in the production dependencies.
+
+---
+
+## 11. Credential Requirements
+
+**PF Deployment Prerequisites:**
+
+PF requires the following credentials to be configured in `/opt/nexus-cos/.env.pf` on the VPS:
+
+- `OAUTH_CLIENT_ID` - OAuth client ID (obtain from OAuth provider)
+- `OAUTH_CLIENT_SECRET` - OAuth client secret (obtain from OAuth provider)
+- `JWT_SECRET` - Secure random string for JWT signing
+- `DB_PASSWORD` - PostgreSQL database password
+
+**Environment Placeholder File:**
+
+The `.env.pf.example` file contains placeholders for all required credentials:
+
+```bash
+OAUTH_CLIENT_ID=your-client-id
+OAUTH_CLIENT_SECRET=your-client-secret
+JWT_SECRET=your-jwt-secret-key-here-change-this-in-production
+DB_PASSWORD=your_secure_password_here
+```
+
+Copy `.env.pf.example` to `.env.pf` and replace placeholders with actual values before deployment.
+
+---
+
+## 12. File Manifest
 
 **Configuration Files:**
 - `docker-compose.pf.yml` - Main deployment configuration
