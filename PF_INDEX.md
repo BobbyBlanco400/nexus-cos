@@ -16,6 +16,13 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 
 **New to this deployment? Start here:**
 
+### For IP/Domain Routing Fix (Production Issue)
+1. **Quick Fix:** [QUICK_FIX_IP_DOMAIN.md](./QUICK_FIX_IP_DOMAIN.md) - Fast reference
+2. **Deploy:** Run `sudo bash pf-master-deployment.sh` - Complete fix
+3. **Validate:** Run `./validate-ip-domain-routing.sh` - Verify routing
+4. **Read:** [PF_MASTER_DEPLOYMENT_README.md](./PF_MASTER_DEPLOYMENT_README.md) - Full guide
+
+### For Pre-Flight Services Deployment
 1. **Read:** [PF_README.md](./PF_README.md) - Comprehensive deployment guide
 2. **Validate:** Run `./validate-pf.sh` - Verify configuration
 3. **Deploy:** Run `./deploy-pf.sh` - Start all services
@@ -59,6 +66,9 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 
 | File | Purpose | Status |
 |------|---------|--------|
+| [`pf-master-deployment.sh`](./pf-master-deployment.sh) | **Master PF deployment (all components)** | ✅ Executable |
+| [`pf-ip-domain-unification.sh`](./pf-ip-domain-unification.sh) | IP/Domain routing fix | ✅ Executable |
+| [`validate-ip-domain-routing.sh`](./validate-ip-domain-routing.sh) | Routing validation | ✅ Executable |
 | [`deploy-pf.sh`](./deploy-pf.sh) | Quick deployment script | ✅ Executable |
 | [`validate-pf.sh`](./validate-pf.sh) | Configuration validation | ✅ Executable |
 
@@ -66,6 +76,9 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 
 | File | Purpose | Audience |
 |------|---------|----------|
+| [`PF_MASTER_DEPLOYMENT_README.md`](./PF_MASTER_DEPLOYMENT_README.md) | **Master deployment guide** | All users |
+| [`PF_IP_DOMAIN_UNIFICATION.md`](./PF_IP_DOMAIN_UNIFICATION.md) | IP/Domain routing fix guide | DevOps/Admin |
+| [`QUICK_FIX_IP_DOMAIN.md`](./QUICK_FIX_IP_DOMAIN.md) | Quick fix reference | All users |
 | [`PF_README.md`](./PF_README.md) | Complete deployment guide | All users |
 | [`PF_DEPLOYMENT_VERIFICATION.md`](./PF_DEPLOYMENT_VERIFICATION.md) | Detailed verification document | DevOps/Admin |
 | [`PF_STATUS_COMPARISON.md`](./PF_STATUS_COMPARISON.md) | Comparison with PF requirements | Stakeholders |
