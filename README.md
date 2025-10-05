@@ -130,11 +130,35 @@ TRAE Solo is an advanced deployment orchestrator that provides:
 
 ## 🚀 Pre-Flight (PF) Production Deployment
 
-> ✨ **NEW: Complete PF system check and re-deployment is now available!**
+> ✨ **NEW: Enhanced Production One-Liner Deployment Available!**
 
-### Quick PF Deployment to VPS
+### ⚡ Fastest Deployment: One-Liner Command
 
-The fastest way to deploy Nexus COS Pre-Flight to your VPS (74.208.155.161):
+Deploy from anywhere with a single command (~2 minutes):
+
+```bash
+./scripts/deploy-one-liner.sh
+```
+
+Or use the direct one-liner:
+
+```bash
+ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://nexuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"
+```
+
+**What it does:**
+- ✅ Updates code from repository
+- ✅ Configures environment
+- ✅ Builds and deploys all services
+- ✅ Validates health endpoints (ports 4000, 3002, 3041)
+- ✅ Tests production URL
+- ✅ Auto-diagnostics on failure
+
+**See:** [QUICK_DEPLOY_ONE_LINER.md](./QUICK_DEPLOY_ONE_LINER.md) | [Full Documentation](./DEPLOYMENT_ONE_LINER.md)
+
+### 🔧 Alternative: Comprehensive Deployment Script
+
+For step-by-step deployment with detailed reporting:
 
 ```bash
 # SSH to your VPS
