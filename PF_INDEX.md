@@ -61,6 +61,8 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 |------|---------|--------|
 | [`deploy-pf.sh`](./deploy-pf.sh) | Quick deployment script | ✅ Executable |
 | [`validate-pf.sh`](./validate-pf.sh) | Configuration validation | ✅ Executable |
+| [`pf-ip-domain-unification.sh`](./pf-ip-domain-unification.sh) | IP/Domain routing fix | ✅ Executable |
+| [`validate-ip-domain-routing.sh`](./validate-ip-domain-routing.sh) | Routing validation | ✅ Executable |
 
 ### Documentation
 
@@ -70,6 +72,8 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 | [`PF_DEPLOYMENT_VERIFICATION.md`](./PF_DEPLOYMENT_VERIFICATION.md) | Detailed verification document | DevOps/Admin |
 | [`PF_STATUS_COMPARISON.md`](./PF_STATUS_COMPARISON.md) | Comparison with PF requirements | Stakeholders |
 | [`PF_ARCHITECTURE.md`](./PF_ARCHITECTURE.md) | System architecture diagrams | Developers/Architects |
+| [`PF_IP_DOMAIN_UNIFICATION.md`](./PF_IP_DOMAIN_UNIFICATION.md) | IP/Domain routing fix guide | DevOps/Admin |
+| [`QUICK_FIX_IP_DOMAIN.md`](./QUICK_FIX_IP_DOMAIN.md) | Quick fix reference | All users |
 | [`PF_INDEX.md`](./PF_INDEX.md) | This document | All users |
 
 ---
