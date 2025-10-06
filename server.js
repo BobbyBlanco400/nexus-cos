@@ -24,6 +24,30 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
+// Health check endpoint with DB connectivity
+app.get('/health', async (req, res) => {
+  const healthData = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    version: '1.0.0',
+    db: 'down'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    healthData.db = 'up';
+  } catch (error) {
+    console.error('Database health check failed:', error.message);
+    healthData.db = 'down';
+    healthData.dbError = error.message;
+  }
+
+  res.json(healthData);
+});
+
 // Attach pool to req
 app.use((req, res, next) => {
   req.db = pool;
@@ -43,6 +67,7 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
+  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
 });
