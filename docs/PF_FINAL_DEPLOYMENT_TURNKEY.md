@@ -18,7 +18,7 @@ This document provides a turnkey deployment guide for the Nexus COS Pre-Flight (
 - **Docker Compose:** Version 2.0 or higher
 - **Repository:** Cloned at `/opt/nexus-cos`
 - **Disk Space:** Minimum 5GB free space
-- **Ports:** 80, 443, 4000, 3002, 3041, 5432, 6379 available
+- **Ports:** 80, 443, 4000, 3002, 3016, 3041, 5432, 6379, 8088 available
 
 ### Required Credentials
 
@@ -117,20 +117,32 @@ The PF stack is defined in `docker-compose.pf.yml` and includes:
 | Gateway API | puabo-api | 4000 | /health |
 | AI SDK | nexus-cos-puaboai-sdk | 3002 | /health |
 | PV Keys | nexus-cos-pv-keys | 3041 | /health |
+| V-Screen Hollywood | vscreen-hollywood | 8088 | /health |
+| StreamCore | nexus-cos-streamcore | 3016 | /health |
 | Database | nexus-cos-postgres | 5432 | pg_isready |
 | Cache | nexus-cos-redis | 6379 | redis-cli ping |
 
 ### Hollywood and Prompter Endpoints
 
-**Note:** The problem statement mentions Hollywood (port 4500) and Prompter (port 3211) endpoints. These are currently routed through the main PF services:
+**V-Screen Hollywood Edition** is now a dedicated service providing browser-based Virtual LED Volume/Virtual Production Suite:
+
+- **V-Screen Hollywood:** Dedicated service on port 8088
+  - Direct access: `http://localhost:8088`
+  - Path-based: `/v-suite/hollywood`
+  - Subdomain: `https://hollywood.nexuscos.online`
+  - Features: LED volume rendering, virtual production, OTT/IPTV streaming
+  - Dependencies: StreamCore, PUABO AI SDK, Nexus Auth
 
 - **Prompter:** Available via puaboai-sdk (port 3002)
-- **Hollywood:** Available via puabo-api (port 4000)
+  - Access: `http://localhost:3002`
+  - Path-based: `/v-suite/prompter`
 
 Health checks:
 ```bash
 curl -sf http://localhost:3002/health  # Prompter (via AI SDK)
-curl -sf http://localhost:4000/health  # Hollywood (via API Gateway)
+curl -sf http://localhost:8088/health  # V-Screen Hollywood
+curl -sf http://localhost:3016/health  # StreamCore (OTT/IPTV)
+curl -sf http://localhost:4000/health  # Gateway API
 ```
 
 ---
@@ -168,14 +180,20 @@ docker compose -f docker-compose.pf.yml up -d --build
 Run health checks for all services:
 
 ```bash
+# Gateway API health check
+curl -sf http://localhost:4000/health
+
 # Prompter health check (via AI SDK)
 curl -sf http://localhost:3002/health
 
-# Hollywood health check (via API Gateway)
-curl -sf http://localhost:4000/health
-
 # PV Keys health check
 curl -sf http://localhost:3041/health
+
+# V-Screen Hollywood health check
+curl -sf http://localhost:8088/health
+
+# StreamCore health check
+curl -sf http://localhost:3016/health
 
 # Check all service statuses
 docker compose -f docker-compose.pf.yml ps

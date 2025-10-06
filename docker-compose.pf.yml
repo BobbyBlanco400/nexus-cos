@@ -157,6 +157,65 @@ services:
       - cos-net
       - nexus-network
 
+  # StreamCore Service (dependency for vscreen-hollywood)
+  nexus-cos-streamcore:
+    build:
+      context: ./services/streamcore
+      dockerfile: Dockerfile
+    container_name: nexus-cos-streamcore
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3016
+    ports:
+      - "3016:3016"
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3016/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Screen Hollywood Edition - Virtual LED Volume/Virtual Production Suite
+  vscreen-hollywood:
+    build:
+      context: ./services/vscreen-hollywood
+      dockerfile: Dockerfile
+    container_name: vscreen-hollywood
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 8088
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID:?OAuth client ID must be set in .env.pf}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET:?OAuth client secret must be set in .env.pf}
+      STREAMCORE_URL: http://nexus-cos-streamcore:3016
+      PUABOAI_SDK_URL: http://nexus-cos-puaboai-sdk:3002
+      NEXUS_AUTH_URL: http://puabo-api:4000
+    ports:
+      - "8088:8088"
+    depends_on:
+      nexus-cos-streamcore:
+        condition: service_healthy
+      nexus-cos-puaboai-sdk:
+        condition: service_started
+      puabo-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+
 volumes:
   postgres_data:
   redis_data:

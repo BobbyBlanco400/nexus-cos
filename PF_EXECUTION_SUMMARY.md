@@ -92,20 +92,26 @@ CMD ["nginx", "-g", "daemon off;"]
 
 | Service | Container Name | Port | Health Endpoint | Purpose |
 |---------|---------------|------|-----------------|---------|
-| Gateway API | puabo-api | 4000 | /health | Main API Gateway, Hollywood endpoint |
+| Gateway API | puabo-api | 4000 | /health | Main API Gateway |
 | AI SDK | nexus-cos-puaboai-sdk | 3002 | /health | AI SDK, Prompter endpoint |
 | PV Keys | nexus-cos-pv-keys | 3041 | /health | Key management service |
+| V-Screen Hollywood | vscreen-hollywood | 8088 | /health | Virtual LED Volume/Virtual Production Suite |
+| StreamCore | nexus-cos-streamcore | 3016 | /health | OTT/IPTV streaming service |
 | Database | nexus-cos-postgres | 5432 | pg_isready | PostgreSQL database |
 | Cache | nexus-cos-redis | 6379 | redis-cli ping | Redis cache |
 | Nginx | nexus-nginx | 80/443 | nginx -t | Optional gateway (docker-nginx profile) |
 
 **Hollywood and Prompter Endpoints:**
 
-The problem statement mentioned Hollywood (port 4500) and Prompter (port 3211). These are **routed through the main PF services**:
+The problem statement mentioned Hollywood (port 4500) and Prompter (port 3211). These have been implemented as dedicated services:
 
-- **Hollywood:** Accessible via `puabo-api` at port 4000
-  - Health check: `curl http://localhost:4000/health`
-  - Endpoint: `/v-suite/hollywood`
+- **V-Screen Hollywood Edition:** Dedicated service on port 8088
+  - Health check: `curl http://localhost:8088/health`
+  - Direct endpoint: `http://localhost:8088`
+  - Path-based endpoint: `/v-suite/hollywood`
+  - Subdomain: `https://hollywood.nexuscos.online`
+  - Features: Browser-based Virtual LED Volume/Virtual Production Suite
+  - Integrations: StreamCore (OTT/IPTV), PUABO AI SDK, Nexus Auth
 
 - **Prompter:** Accessible via `nexus-cos-puaboai-sdk` at port 3002
   - Health check: `curl http://localhost:3002/health`
@@ -231,9 +237,11 @@ docker compose -f docker-compose.pf.yml down
 docker compose -f docker-compose.pf.yml up -d --build
 
 # Verify health checks
-curl http://localhost:4000/health  # Hollywood (Gateway)
+curl http://localhost:4000/health  # Gateway API
 curl http://localhost:3002/health  # Prompter (AI SDK)
 curl http://localhost:3041/health  # PV Keys
+curl http://localhost:8088/health  # V-Screen Hollywood
+curl http://localhost:3016/health  # StreamCore
 ```
 
 ### Troubleshooting
@@ -264,13 +272,16 @@ All services implement health check endpoints:
 
 | Endpoint | Expected Response | Purpose |
 |----------|------------------|---------|
-| `http://localhost:4000/health` | 200 OK | Gateway API / Hollywood |
+| `http://localhost:4000/health` | 200 OK | Gateway API |
 | `http://localhost:3002/health` | 200 OK | AI SDK / Prompter |
 | `http://localhost:3041/health` | 200 OK | PV Keys |
+| `http://localhost:8088/health` | 200 OK | V-Screen Hollywood |
+| `http://localhost:3016/health` | 200 OK | StreamCore |
 
 **Production Endpoints (via Nginx):**
 - `https://nexuscos.online/v-suite/hollywood/health`
 - `https://nexuscos.online/v-suite/prompter/health`
+- `https://hollywood.nexuscos.online/health` (V-Screen Hollywood dedicated subdomain)
 
 ---
 
@@ -384,8 +395,11 @@ Your PF deployment is successful when:
 - ✅ Database tables exist and are accessible
 - ✅ No error logs in service outputs
 - ✅ Services can communicate with database and redis
-- ✅ Hollywood endpoint accessible at port 4000
+- ✅ Gateway API accessible at port 4000
 - ✅ Prompter endpoint accessible at port 3002
+- ✅ V-Screen Hollywood accessible at port 8088
+- ✅ StreamCore accessible at port 3016
+- ✅ Hollywood subdomain proxies correctly via nginx
 
 ---
 
