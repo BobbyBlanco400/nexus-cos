@@ -16,8 +16,14 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-DOMAIN="nexuscos.online"
-SERVER_IP="74.208.155.161"
+# Allow environment variable overrides for flexibility
+DOMAIN="${DOMAIN:-nexuscos.online}"
+SERVER_IP="${SERVER_IP:-74.208.155.161}"
+
+# Dynamically determine repository root
+# Priority: Environment variable > Script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="${REPO_ROOT:-$SCRIPT_DIR}"
 
 # Counters
 PASSED=0
@@ -301,11 +307,11 @@ test_environment_vars() {
     print_section "12. ENVIRONMENT VARIABLES"
     print_test "Environment configuration"
     
-    if [[ -f "/home/runner/work/nexus-cos/nexus-cos/.env" ]]; then
+    if [[ -f "${REPO_ROOT}/.env" ]]; then
         print_pass ".env file exists"
         
-        if grep -q "VITE_API_URL" /home/runner/work/nexus-cos/nexus-cos/.env; then
-            VITE_API_URL=$(grep "VITE_API_URL" /home/runner/work/nexus-cos/nexus-cos/.env | cut -d'=' -f2)
+        if grep -q "VITE_API_URL" "${REPO_ROOT}/.env"; then
+            VITE_API_URL=$(grep "VITE_API_URL" "${REPO_ROOT}/.env" | cut -d'=' -f2)
             
             if echo "$VITE_API_URL" | grep -qi "localhost"; then
                 print_fail "VITE_API_URL points to localhost (production issue!)"

@@ -469,12 +469,23 @@ The solution ensures that Nexus COS presents a consistent, properly-branded inte
 
 ### Deploy
 ```bash
+# Navigate to repository location (VPS deployment):
+cd /var/www/nexus-cos
 sudo bash pf-master-deployment.sh
+
+# Or with custom domain:
+cd /var/www/nexus-cos
+sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
 ```
 
 ### Validate
 ```bash
+# From repository location:
+cd /var/www/nexus-cos
 bash validate-ip-domain-routing.sh
+
+# Or with custom domain/IP:
+DOMAIN=nexuscos.online SERVER_IP=74.208.155.161 bash validate-ip-domain-routing.sh
 ```
 
 ### Test
