@@ -17,8 +17,10 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
-REPO_ROOT="/home/runner/work/nexus-cos/nexus-cos"
+# Dynamically determine repository root
+# Priority: Environment variable > Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="${REPO_ROOT:-$SCRIPT_DIR}"
 
 # ==============================================================================
 # Utility Functions

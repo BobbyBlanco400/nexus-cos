@@ -20,15 +20,20 @@ MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-DOMAIN="nexuscos.online"
-SERVER_IP="74.208.155.161"
+# Allow environment variable overrides for flexibility
+DOMAIN="${DOMAIN:-nexuscos.online}"
+SERVER_IP="${SERVER_IP:-74.208.155.161}"
 WEBROOT="/var/www/nexus-cos"
 FRONTEND_DIST="${WEBROOT}/frontend/dist"
 ADMIN_BUILD="${WEBROOT}/admin/build"
 CREATOR_BUILD="${WEBROOT}/creator-hub/build"
 DIAGRAM_DIR="${WEBROOT}/diagram"
 NGINX_CONF="/etc/nginx/sites-available/nexuscos"
-REPO_ROOT="/home/runner/work/nexus-cos/nexus-cos"
+
+# Dynamically determine repository root
+# Priority: Environment variable > Script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="${REPO_ROOT:-$SCRIPT_DIR}"
 
 # ==============================================================================
 # Utility Functions

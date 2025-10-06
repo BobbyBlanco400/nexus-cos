@@ -56,8 +56,17 @@ This PF implements a multi-layered fix:
 Run the comprehensive master script that executes all PF components:
 
 ```bash
-cd /home/runner/work/nexus-cos/nexus-cos
+# For VPS deployment (recommended path):
+cd /var/www/nexus-cos
 sudo bash pf-master-deployment.sh
+
+# Or from any location where the repository is cloned:
+cd /path/to/nexus-cos
+sudo bash pf-master-deployment.sh
+
+# With custom domain:
+cd /var/www/nexus-cos
+sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
 ```
 
 This single command:
@@ -67,6 +76,8 @@ This single command:
 - Validates deployment
 - Generates comprehensive report
 
+**Note:** The scripts now automatically detect their location and work from any directory where the repository is installed.
+
 ### Option 2: Individual Scripts
 
 Execute individual components as needed:
@@ -74,6 +85,9 @@ Execute individual components as needed:
 ```bash
 # 1. IP/Domain routing fix
 sudo bash pf-ip-domain-unification.sh
+
+# With custom domain:
+sudo DOMAIN=yourdomain.com bash pf-ip-domain-unification.sh
 
 # 2. Branding enforcement
 bash scripts/branding-enforce.sh
