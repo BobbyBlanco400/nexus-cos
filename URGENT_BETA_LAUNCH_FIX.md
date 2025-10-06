@@ -180,13 +180,17 @@ This will:
 ## 📁 Files Changed/Added
 
 ### Modified:
-- **ecosystem.config.js**: Added DB_* env vars to all 33 services
+- **ecosystem.config.js**: 
+  - Added DB_* env vars to all 33 services
+  - **CRITICAL FIX**: Removed hardcoded `cwd` paths that pointed to GitHub Actions runner path
+  - Now works on production server at `/opt/nexus-cos` or any other directory
 
 ### Created:
 1. **PM2_DB_FIX_DEPLOYMENT.md**: Comprehensive deployment guide
 2. **fix-db-deploy.sh**: Automated deployment script
 3. **verify-pm2-env.sh**: Diagnostic and verification tool
 4. **URGENT_BETA_LAUNCH_FIX.md**: This summary document
+5. **ECOSYSTEM_PATH_FIX.md**: Details about the hardcoded path fix
 
 ### Updated:
 - **NEXT_STEPS.md**: Added reference to quick fix
@@ -201,14 +205,16 @@ This will:
 3. Updating `.env` files had no effect (PM2 doesn't auto-reload them)
 4. `.env.production` doesn't exist on server, so couldn't override there
 5. Health endpoint kept reading `DB_HOST=admin` from PM2's cache
+6. **NEW ISSUE DISCOVERED**: ecosystem.config.js had hardcoded paths pointing to `/home/runner/work/nexus-cos/nexus-cos` instead of production path `/opt/nexus-cos`
 
 ### The Solution Chain:
 1. ✅ **ecosystem.config.js** now explicitly sets DB_HOST
-2. ✅ `pm2 delete all` clears the cache
-3. ✅ `pm2 start ecosystem.config.js` loads fresh environment
-4. ✅ PM2 uses values from config file (NOT cached values)
-5. ✅ Health endpoint now reads correct DB_HOST
-6. ✅ Database connects successfully
+2. ✅ **ecosystem.config.js** removed hardcoded `cwd` paths (now portable)
+3. ✅ `pm2 delete all` clears the cache
+4. ✅ `pm2 start ecosystem.config.js` loads fresh environment from correct directory
+5. ✅ PM2 uses values from config file (NOT cached values)
+6. ✅ Health endpoint now reads correct DB_HOST
+7. ✅ Database connects successfully
 
 ---
 

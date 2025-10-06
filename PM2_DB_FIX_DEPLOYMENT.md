@@ -191,11 +191,15 @@ systemctl status nginx
    - Added explicit DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD to all 33 services
    - Default values set to localhost PostgreSQL configuration
    - Can be easily modified for Docker or remote database
+   - **CRITICAL**: Removed hardcoded `cwd` paths that prevented deployment to production server
+   - Now works from any directory (`/opt/nexus-cos` or elsewhere)
 
 2. **How This Solves the Problem**:
    - PM2 was caching old environment variables (DB_HOST=admin)
    - `.env` file updates were not being picked up
+   - ecosystem.config.js had hardcoded paths pointing to GitHub Actions runner directory
    - Now PM2 will use the values from ecosystem.config.js which OVERRIDE any cached values
+   - Removed hardcoded paths makes config work on production server at `/opt/nexus-cos`
    - `pm2 delete all` + `pm2 start ecosystem.config.js` ensures fresh environment
 
 ## ⏱️ TOTAL TIME ESTIMATE
