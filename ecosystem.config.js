@@ -10,7 +10,6 @@ module.exports = {
     {
       name: 'backend-api',
       script: './services/backend-api/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -32,7 +31,6 @@ module.exports = {
     {
       name: 'ai-service',
       script: './services/ai-service/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -54,7 +52,6 @@ module.exports = {
     {
       name: 'key-service',
       script: './services/key-service/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -82,7 +79,6 @@ module.exports = {
     {
       name: 'puaboai-sdk',
       script: './services/puaboai-sdk/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -104,7 +100,6 @@ module.exports = {
     {
       name: 'puabomusicchain',
       script: './services/puabomusicchain/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -126,7 +121,6 @@ module.exports = {
     {
       name: 'pv-keys',
       script: './services/pv-keys/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -148,7 +142,6 @@ module.exports = {
     {
       name: 'streamcore',
       script: './services/streamcore/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -170,7 +163,6 @@ module.exports = {
     {
       name: 'glitch',
       script: './services/glitch/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -194,7 +186,6 @@ module.exports = {
     {
       name: 'puabo-dsp-upload-mgr',
       script: './services/puabo-dsp-upload-mgr/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -216,7 +207,6 @@ module.exports = {
     {
       name: 'puabo-dsp-metadata-mgr',
       script: './services/puabo-dsp-metadata-mgr/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -238,7 +228,6 @@ module.exports = {
     {
       name: 'puabo-dsp-streaming-api',
       script: './services/puabo-dsp-streaming-api/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -262,7 +251,6 @@ module.exports = {
     {
       name: 'puabo-blac-loan-processor',
       script: './services/puabo-blac-loan-processor/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -284,7 +272,6 @@ module.exports = {
     {
       name: 'puabo-blac-risk-assessment',
       script: './services/puabo-blac-risk-assessment/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -308,7 +295,6 @@ module.exports = {
     {
       name: 'puabo-nexus-ai-dispatch',
       script: './services/puabo-nexus-ai-dispatch/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -330,7 +316,6 @@ module.exports = {
     {
       name: 'puabo-nexus-driver-app-backend',
       script: './services/puabo-nexus-driver-app-backend/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -352,7 +337,6 @@ module.exports = {
     {
       name: 'puabo-nexus-fleet-manager',
       script: './services/puabo-nexus-fleet-manager/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -374,7 +358,6 @@ module.exports = {
     {
       name: 'puabo-nexus-route-optimizer',
       script: './services/puabo-nexus-route-optimizer/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -398,7 +381,6 @@ module.exports = {
     {
       name: 'puabo-nuki-inventory-mgr',
       script: './services/puabo-nuki-inventory-mgr/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -420,7 +402,6 @@ module.exports = {
     {
       name: 'puabo-nuki-order-processor',
       script: './services/puabo-nuki-order-processor/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -442,7 +423,6 @@ module.exports = {
     {
       name: 'puabo-nuki-product-catalog',
       script: './services/puabo-nuki-product-catalog/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -464,7 +444,6 @@ module.exports = {
     {
       name: 'puabo-nuki-shipping-service',
       script: './services/puabo-nuki-shipping-service/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -490,7 +469,6 @@ module.exports = {
     {
       name: 'auth-service',
       script: './services/auth-service-v2/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -512,7 +490,6 @@ module.exports = {
     {
       name: 'content-management',
       script: './services/content-management/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -534,7 +511,6 @@ module.exports = {
     {
       name: 'creator-hub',
       script: './services/creator-hub-v2/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -556,7 +532,6 @@ module.exports = {
     {
       name: 'user-auth',
       script: './services/user-auth/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -578,7 +553,6 @@ module.exports = {
     {
       name: 'kei-ai',
       script: './services/kei-ai/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -600,7 +574,6 @@ module.exports = {
     {
       name: 'nexus-cos-studio-ai',
       script: './services/nexus-cos-studio-ai/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -622,7 +595,6 @@ module.exports = {
     {
       name: 'puaboverse',
       script: './services/puaboverse-v2/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -644,7 +616,6 @@ module.exports = {
     {
       name: 'streaming-service',
       script: './services/streaming-service-v2/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -670,7 +641,6 @@ module.exports = {
     {
       name: 'boom-boom-room-live',
       script: './services/boom-boom-room-live/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -696,7 +666,6 @@ module.exports = {
     {
       name: 'v-caster-pro',
       script: './services/v-caster-pro/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -718,7 +687,6 @@ module.exports = {
     {
       name: 'v-prompter-pro',
       script: './services/v-prompter-pro/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -740,7 +708,6 @@ module.exports = {
     {
       name: 'v-screen-pro',
       script: './services/v-screen-pro/server.js',
-      cwd: '/home/runner/work/nexus-cos/nexus-cos',
       instances: 1,
       autorestart: true,
       watch: false,
