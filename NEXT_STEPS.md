@@ -17,11 +17,25 @@ The deployment has been successfully completed by the Pre-Flight (PF) team. Here
 ### ⚠️ Known Issues
 
 #### Database Connectivity
-- **Status**: `db: "down"`
-- **Reason**: `DB_HOST=admin` doesn't resolve on the server
+- **Status**: `db: "down"` 
+- **Reason**: PM2 was caching old environment variables (`DB_HOST=admin`)
 - **Impact**: Application runs but cannot connect to database
+- **FIX AVAILABLE**: See **PM2_DB_FIX_DEPLOYMENT.md** for immediate resolution
 
 ## 🔧 Required Next Steps
+
+### ⚡ QUICK FIX (RECOMMENDED - 3 minutes)
+
+**The PM2 environment variable issue has been FIXED!**
+
+Run this one-liner on the server:
+```bash
+cd /opt/nexus-cos && bash fix-db-deploy.sh
+```
+
+Or follow the complete guide: **[PM2_DB_FIX_DEPLOYMENT.md](PM2_DB_FIX_DEPLOYMENT.md)**
+
+---
 
 ### 1. Database Configuration (Priority: HIGH)
 

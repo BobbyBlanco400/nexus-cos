@@ -17,7 +17,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3001
+        PORT: 3001,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/backend-api.log',
       out_file: './logs/backend-api-out.log',
@@ -34,7 +39,12 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         NODE_ENV: 'production',
-        PORT: 3010
+        PORT: 3010,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/ai-service.log',
       out_file: './logs/ai-service-out.log',
@@ -51,7 +61,12 @@ module.exports = {
       max_memory_restart: '256M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3014
+        PORT: 3014,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/key-service.log',
       out_file: './logs/key-service-out.log',
@@ -74,7 +89,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3012
+        PORT: 3012,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puaboai-sdk.log',
       out_file: './logs/puaboai-sdk-out.log',
@@ -91,7 +111,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3013
+        PORT: 3013,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabomusicchain.log',
       out_file: './logs/puabomusicchain-out.log',
@@ -108,7 +133,12 @@ module.exports = {
       max_memory_restart: '256M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3015
+        PORT: 3015,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/pv-keys.log',
       out_file: './logs/pv-keys-out.log',
@@ -125,7 +155,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3016
+        PORT: 3016,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/streamcore.log',
       out_file: './logs/streamcore-out.log',
@@ -142,7 +177,12 @@ module.exports = {
       max_memory_restart: '256M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3017
+        PORT: 3017,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/glitch.log',
       out_file: './logs/glitch-out.log',
@@ -161,7 +201,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3211
+        PORT: 3211,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-dsp-upload-mgr.log',
       out_file: './logs/puabo-dsp-upload-mgr-out.log',
@@ -178,7 +223,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3212
+        PORT: 3212,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-dsp-metadata-mgr.log',
       out_file: './logs/puabo-dsp-metadata-mgr-out.log',
@@ -195,7 +245,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3213
+        PORT: 3213,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-dsp-streaming-api.log',
       out_file: './logs/puabo-dsp-streaming-api-out.log',
@@ -214,7 +269,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3221
+        PORT: 3221,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-blac-loan-processor.log',
       out_file: './logs/puabo-blac-loan-processor-out.log',
@@ -231,7 +291,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3222
+        PORT: 3222,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-blac-risk-assessment.log',
       out_file: './logs/puabo-blac-risk-assessment-out.log',
@@ -250,7 +315,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3231
+        PORT: 3231,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nexus-ai-dispatch.log',
       out_file: './logs/puabo-nexus-ai-dispatch-out.log',
@@ -267,7 +337,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3232
+        PORT: 3232,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nexus-driver-app-backend.log',
       out_file: './logs/puabo-nexus-driver-app-backend-out.log',
@@ -284,7 +359,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3233
+        PORT: 3233,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nexus-fleet-manager.log',
       out_file: './logs/puabo-nexus-fleet-manager-out.log',
@@ -301,7 +381,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3234
+        PORT: 3234,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nexus-route-optimizer.log',
       out_file: './logs/puabo-nexus-route-optimizer-out.log',
@@ -320,7 +405,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3241
+        PORT: 3241,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nuki-inventory-mgr.log',
       out_file: './logs/puabo-nuki-inventory-mgr-out.log',
@@ -337,7 +427,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3242
+        PORT: 3242,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nuki-order-processor.log',
       out_file: './logs/puabo-nuki-order-processor-out.log',
@@ -354,7 +449,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3243
+        PORT: 3243,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nuki-product-catalog.log',
       out_file: './logs/puabo-nuki-product-catalog-out.log',
@@ -371,7 +471,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3244
+        PORT: 3244,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puabo-nuki-shipping-service.log',
       out_file: './logs/puabo-nuki-shipping-service-out.log',
@@ -392,7 +497,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3301
+        PORT: 3301,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/auth-service.log',
       out_file: './logs/auth-service-out.log',
@@ -409,7 +519,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3302
+        PORT: 3302,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/content-management.log',
       out_file: './logs/content-management-out.log',
@@ -426,7 +541,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3303
+        PORT: 3303,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/creator-hub.log',
       out_file: './logs/creator-hub-out.log',
@@ -443,7 +563,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3304
+        PORT: 3304,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/user-auth.log',
       out_file: './logs/user-auth-out.log',
@@ -460,7 +585,12 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         NODE_ENV: 'production',
-        PORT: 3401
+        PORT: 3401,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/kei-ai.log',
       out_file: './logs/kei-ai-out.log',
@@ -477,7 +607,12 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         NODE_ENV: 'production',
-        PORT: 3402
+        PORT: 3402,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/nexus-cos-studio-ai.log',
       out_file: './logs/nexus-cos-studio-ai-out.log',
@@ -494,7 +629,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3403
+        PORT: 3403,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/puaboverse.log',
       out_file: './logs/puaboverse-out.log',
@@ -511,7 +651,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3404
+        PORT: 3404,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/streaming-service.log',
       out_file: './logs/streaming-service-out.log',
@@ -532,7 +677,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3601
+        PORT: 3601,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/boom-boom-room-live.log',
       out_file: './logs/boom-boom-room-live-out.log',
@@ -553,7 +703,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3501
+        PORT: 3501,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/v-caster-pro.log',
       out_file: './logs/v-caster-pro-out.log',
@@ -570,7 +725,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3502
+        PORT: 3502,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/v-prompter-pro.log',
       out_file: './logs/v-prompter-pro-out.log',
@@ -587,7 +747,12 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3503
+        PORT: 3503,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
       },
       log_file: './logs/v-screen-pro.log',
       out_file: './logs/v-screen-pro-out.log',
