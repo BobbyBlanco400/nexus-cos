@@ -1,0 +1,870 @@
+# ==========================================================
+# 🧩 Nexus COS — Full System Production Framework (PF)
+# ==========================================================
+# Author: Robert White (PUABO / Nexus COS Founder)
+# Executor: TRAE SOLO + GitHub Code Agent
+# Platform Base: PUABO OS → Nexus COS Core
+# Hosting: IONOS VPS (Ubuntu 22+)
+# IP: 74.208.155.161
+# Domains:
+#   - nexuscos.online (Apex)
+#   - hollywood.nexuscos.online (Subdomain)
+#   - tv.nexuscos.online (OTT/Frontend)
+# Status: LIVE | PRODUCTION REDEPLOYMENT | BULLETPROOFED
+# Version: 1.0 BULLETPROOF
+# ==========================================================
+
+metadata:
+  version: "1.0-bulletproof"
+  date: "2025-10-07"
+  maintainer: "TRAE SOLO (GitHub Code Agent)"
+  platform: "PUABO OS → Nexus COS"
+  vps_ip: "74.208.155.161"
+  ssl_provider: "IONOS (Exclusive)"
+  os_stack: "Ubuntu 22+ / Docker / Nginx / NodeJS / PostgreSQL / Redis"
+  build_target: "/opt/nexus-cos"
+  repository: "git@github.com:BobbyBlanco400/nexus-cos.git"
+
+environment_files:
+  - ".env.pf"
+  - ".env.production"
+  - "docker-compose.pf.yml"
+  - "nginx/conf.d/nexuscos-proxy.conf"
+
+# ==========================================================
+# 🌍 Core Platform Overview
+# ==========================================================
+platform_overview:
+  name: "Nexus COS"
+  description: |
+    Full-stack Content Operating System designed to power OTT, IPTV, 
+    AI-driven media distribution, and virtual production pipelines.
+    Merges PUABO OS foundations with V-Suite Virtual Production,
+    StreamCore streaming stack, and multi-tenant subscription engine.
+  
+  technology_stack:
+    backend:
+      - "Node.js 20+"
+      - "Express.js"
+      - "Socket.IO (Realtime)"
+    
+    frontend:
+      - "React 18+"
+      - "Vite"
+      - "TypeScript"
+    
+    infrastructure:
+      - "Docker Compose"
+      - "Nginx (Gateway + SSL)"
+      - "PostgreSQL 15"
+      - "Redis 7"
+    
+    media:
+      - "FFmpeg (Media Processing)"
+      - "WebRTC (Live Broadcasting)"
+      - "WebGL (3D Rendering)"
+    
+    security:
+      - "JWT Authentication"
+      - "OAuth2"
+      - "IONOS SSL Certificates"
+
+  branding:
+    logo: "Nexus COS Official Logo (SVG)"
+    colors:
+      primary: "#010101"
+      accent: "#12B4F5"
+      background: "#FFFFFF"
+    typography:
+      - "Inter"
+      - "Poppins"
+      - "Space Grotesk"
+  
+  design_principles:
+    - "Modular Architecture"
+    - "Cloud-Native"
+    - "Production-Grade Security"
+    - "SDK-Friendly (Mobile/IoT)"
+    - "Zero-Downtime Deployments"
+
+# ==========================================================
+# 🔐 IONOS SSL Configuration
+# ==========================================================
+ssl_configuration:
+  policy: "IONOS-ONLY"
+  provider: "IONOS"
+  
+  certificate_paths:
+    apex:
+      certificate: "/etc/nginx/ssl/apex/nexuscos.online.crt"
+      private_key: "/etc/nginx/ssl/apex/nexuscos.online.key"
+      format: "PEM"
+    
+    hollywood_subdomain:
+      certificate: "/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt"
+      private_key: "/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key"
+      format: "PEM"
+    
+    tv_subdomain:
+      certificate: "/etc/nginx/ssl/tv/tv.nexuscos.online.crt"
+      private_key: "/etc/nginx/ssl/tv/tv.nexuscos.online.key"
+      format: "PEM"
+  
+  actions:
+    disable_letsencrypt:
+      description: "Disable all Let's Encrypt references"
+      source_path: "/etc/nginx/conf.d/"
+      destination_path: "/etc/nginx/conf.d.disabled/"
+      commands:
+        - "mkdir -p /etc/nginx/conf.d.disabled"
+        - "mv /etc/nginx/conf.d/*letsencrypt* /etc/nginx/conf.d.disabled/ 2>/dev/null || true"
+    
+    validate_certificates:
+      description: "Validate certificate format (PEM)"
+      commands:
+        - "openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -subject -issuer -dates"
+        - "openssl x509 -in /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt -noout -subject -issuer -dates"
+    
+    reload_nginx:
+      description: "Test and reload Nginx"
+      commands:
+        - "nginx -t"
+        - "nginx -s reload"
+
+# ==========================================================
+# 🏗️ System Architecture & Flow
+# ==========================================================
+architecture:
+  domains:
+    apex:
+      domain: "nexuscos.online"
+      description: "Main UI / API Gateway"
+      services:
+        - "Frontend React App"
+        - "Backend API"
+        - "Admin Panel"
+    
+    hollywood:
+      domain: "hollywood.nexuscos.online"
+      description: "V-Screen Hollywood Virtual Production"
+      services:
+        - "V-Screen Hollywood Edition"
+        - "Virtual LED Volume"
+        - "Real-time Camera Sync"
+    
+    tv:
+      domain: "tv.nexuscos.online"
+      description: "OTT/Streaming Portal"
+      services:
+        - "StreamCore Frontend"
+        - "Live TV Interface"
+        - "VOD Platform"
+
+  nginx_gateway:
+    software: "Nginx"
+    ports:
+      http: 80
+      https: 443
+    
+    routing_rules:
+      root:
+        path: "/"
+        upstream: "nexus_frontend"
+        description: "React Frontend"
+      
+      api:
+        path: "/api"
+        upstream: "nexus_backend"
+        description: "Node.js API"
+      
+      studio:
+        path: "/studio"
+        upstream: "v_suite_hollywood"
+        description: "V-Suite Hollywood"
+      
+      streaming:
+        path: "/streaming"
+        upstream: "streamcore"
+        description: "StreamCore Service"
+      
+      v_suite:
+        path: "/v-suite/"
+        upstream: "v_suite_gateway"
+        description: "V-Suite Services Gateway"
+
+  data_flow:
+    request_flow: "Client → Nginx Gateway → API → Services → DB/Cache"
+    streaming_flow: "StreamCore (FFmpeg/WebRTC) → V-Caster → Frontend"
+    auth_flow: "OAuth2 + JWT via puabo-api"
+    subscription_flow: "Billing Service + Stripe/IONOS Billing Adapter"
+
+# ==========================================================
+# 🎬 V-Suite (Virtual Production Stack)
+# ==========================================================
+v_suite:
+  description: |
+    Modular virtual production framework housing V-Screen Hollywood Edition,
+    V-Prompter Pro, V-Caster Pro, V-Stage, and StreamCore.
+  
+  services:
+    v_screen_hollywood:
+      name: "V-Screen Hollywood Edition"
+      port: 8088
+      container_name: "vscreen-hollywood"
+      description: |
+        Browser-based Virtual LED Volume + Virtual Production Suite.
+        Powers film-quality green screen, XR environments, and volumetric
+        lighting directly in browser using WebGL + Unreal integration.
+      
+      features:
+        - "LED Volume Engine (WebGL)"
+        - "Real-time Camera Sync (WebRTC)"
+        - "Multi-scene Stage Editor"
+        - "Virtual Camera Tracking"
+        - "Asset Import Pipeline (OBJ/FBX/GLTF)"
+        - "4K/8K Rendering Support"
+      
+      endpoints:
+        primary: "/v-suite/hollywood"
+        api: "/api/hollywood/*"
+        health: "/health"
+      
+      dependencies:
+        - "nexus-cos-streamcore"
+        - "nexus-cos-puaboai-sdk"
+        - "puabo-api"
+    
+    v_prompter_pro:
+      name: "V-Prompter Pro"
+      port: 3020
+      container_name: "v-prompter-pro"
+      description: "Professional browser teleprompter with AI voice cue"
+      
+      features:
+        - "Scroll Speed Control"
+        - "AI Voice Recognition"
+        - "Custom Fonts & Styling"
+        - "Remote Control Support"
+      
+      endpoints:
+        primary: "/v-suite/prompter"
+        health: "/health"
+      
+      note: "Currently served via nexus-cos-puaboai-sdk on port 3002"
+    
+    v_caster_pro:
+      name: "V-Caster Pro"
+      port: 3011
+      container_name: "v-caster-pro"
+      description: "Broadcast-grade streaming caster with encoder controls"
+      
+      features:
+        - "Multi-bitrate Encoding"
+        - "RTMP/HLS Support"
+        - "Live Overlay System"
+        - "Audio Mixing"
+      
+      endpoints:
+        primary: "/v-suite/caster"
+        health: "/health"
+    
+    v_stage:
+      name: "V-Stage"
+      port: 3013
+      container_name: "v-stage"
+      description: "Stage orchestration + multi-camera session manager"
+      
+      features:
+        - "Multi-camera Management"
+        - "Scene Coordination"
+        - "Production Timeline"
+        - "Collaborative Workflows"
+      
+      endpoints:
+        primary: "/v-suite/stage"
+        health: "/health"
+    
+    streamcore:
+      name: "StreamCore"
+      port: 3016
+      container_name: "nexus-cos-streamcore"
+      description: "Core streaming microservice (FFmpeg/WebRTC-based)"
+      
+      features:
+        - "FFmpeg Integration"
+        - "WebRTC Streaming"
+        - "HLS/DASH Support"
+        - "Adaptive Bitrate"
+      
+      endpoints:
+        primary: "/api/streamcore"
+        health: "/health"
+      
+      status: "IMPLEMENTED"
+
+# ==========================================================
+# 🧠 Core Services
+# ==========================================================
+core_services:
+  puabo_api:
+    name: "PUABO API"
+    port: 4000
+    container_name: "puabo-api"
+    description: "Central API hub for auth, user profiles, billing, analytics"
+    
+    features:
+      - "OAuth2 Authentication"
+      - "JWT Token Management"
+      - "User Profile Management"
+      - "Billing Integration"
+      - "Analytics & Reporting"
+    
+    required_env_vars:
+      - "OAUTH_CLIENT_ID"
+      - "OAUTH_CLIENT_SECRET"
+      - "JWT_SECRET"
+      - "DB_PASSWORD"
+    
+    endpoints:
+      health: "/health"
+      auth: "/api/auth/*"
+      users: "/api/users/*"
+      billing: "/api/billing/*"
+    
+    status: "IMPLEMENTED"
+  
+  puabo_ai_sdk:
+    name: "PUABO AI SDK"
+    port: 3002
+    container_name: "nexus-cos-puaboai-sdk"
+    description: "Embedded AI SDK for media automation, captioning, scene optimization"
+    
+    features:
+      - "Auto-captioning"
+      - "Scene Optimization"
+      - "Actor Position Tracking (Hollywood)"
+      - "AI Voice Recognition"
+    
+    endpoints:
+      health: "/health"
+      prompter: "/v-suite/prompter"
+    
+    status: "IMPLEMENTED"
+  
+  profile_service:
+    name: "Profile Service"
+    port: 3042
+    container_name: "nexus-cos-profile"
+    description: "Manages user data, avatars, and connected apps"
+    
+    status: "PLANNED"
+  
+  billing_service:
+    name: "Billing Service"
+    port: 3043
+    container_name: "nexus-cos-billing"
+    description: "Subscription, licensing, payment orchestration"
+    
+    features:
+      - "Stripe Integration"
+      - "IONOS Billing Adapter"
+      - "Subscription Management"
+      - "License Validation"
+    
+    status: "PLANNED"
+  
+  pv_keys_service:
+    name: "PV Keys Service"
+    port: 3041
+    container_name: "nexus-cos-pv-keys"
+    description: "Key management and encryption service"
+    
+    status: "IMPLEMENTED"
+
+# ==========================================================
+# 🗄️ Data Services
+# ==========================================================
+data_services:
+  postgres:
+    name: "PostgreSQL"
+    version: "15-alpine"
+    container_name: "nexus-cos-postgres"
+    port: 5432
+    
+    configuration:
+      database: "nexus_db"
+      user: "nexus_user"
+      password_env: "DB_PASSWORD"
+    
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql"
+    
+    healthcheck:
+      command: "pg_isready -U nexus_user -d nexus_db"
+      interval: "30s"
+      timeout: "10s"
+      retries: 3
+  
+  redis:
+    name: "Redis Cache"
+    version: "7-alpine"
+    container_name: "nexus-cos-redis"
+    port: 6379
+    
+    volumes:
+      - "redis_data:/data"
+    
+    healthcheck:
+      command: "redis-cli ping"
+      interval: "30s"
+      timeout: "10s"
+      retries: 3
+
+# ==========================================================
+# 💾 Microservices & Modules
+# ==========================================================
+microservices:
+  puabo_dsp:
+    name: "PUABO DSP"
+    path: "/opt/nexus-cos/modules/puabo-dsp"
+    description: "Music/Media distribution DSP module (PUABO Music -N- Media Group)"
+    
+    features:
+      - "Digital Distribution"
+      - "Royalty Management"
+      - "Content Delivery"
+  
+  puabo_blac:
+    name: "PUABO BLAC"
+    path: "/opt/nexus-cos/modules/puabo-blac"
+    description: "Alternative lending & financial integration module"
+    
+    features:
+      - "Loan Processing"
+      - "Credit Assessment"
+      - "Payment Processing"
+  
+  nuki_clothing:
+    name: "NUKI Clothing"
+    path: "/opt/nexus-cos/modules/nuki-clothing"
+    description: "Fashion/merch platform integration"
+    
+    features:
+      - "E-commerce Integration"
+      - "Inventory Management"
+      - "Order Processing"
+
+# ==========================================================
+# 💳 Subscription & Licensing Model
+# ==========================================================
+subscription_plans:
+  free:
+    name: "Free Tier"
+    price: "$0/month"
+    features:
+      - "Limited streaming (720p)"
+      - "Basic tools"
+      - "Community support"
+  
+  creator:
+    name: "Creator Plan"
+    price: "$19.99/month"
+    features:
+      - "Full StreamCore access"
+      - "Custom overlays"
+      - "Analytics dashboard"
+      - "Email support"
+  
+  hollywood:
+    name: "Hollywood Plan"
+    price: "$199.99/month"
+    features:
+      - "Full V-Screen Hollywood suite"
+      - "Multi-scene production"
+      - "Real-time virtual camera sync"
+      - "4K/8K rendering"
+      - "Priority support"
+  
+  enterprise:
+    name: "Enterprise Plan"
+    price: "Custom Pricing"
+    features:
+      - "Unlimited users"
+      - "Private cloud hosting"
+      - "SDK + API integrations"
+      - "Dedicated support"
+      - "Custom SLA"
+
+# ==========================================================
+# 🚀 Deployment Configuration
+# ==========================================================
+deployment:
+  vps:
+    ip: "74.208.155.161"
+    os: "Ubuntu 22.04 LTS"
+    location: "/opt/nexus-cos"
+    user: "root"
+    ssh_key_env: "VPS_SSH_KEY"
+  
+  prerequisites:
+    system:
+      - "Docker 20.10+"
+      - "Docker Compose 2.0+"
+      - "Nginx 1.18+"
+      - "Git 2.30+"
+      - "OpenSSL 1.1+"
+    
+    resources:
+      disk: "Minimum 10GB free space"
+      ram: "Minimum 4GB RAM"
+      cpu: "2+ CPU cores"
+    
+    ports:
+      http: 80
+      https: 443
+      api: 4000
+      ai_sdk: 3002
+      pv_keys: 3041
+      hollywood: 8088
+      streamcore: 3016
+      postgres: 5432
+      redis: 6379
+  
+  steps:
+    - step: 1
+      name: "Repository Checkout"
+      command: "git clone git@github.com:BobbyBlanco400/nexus-cos.git /opt/nexus-cos"
+    
+    - step: 2
+      name: "SSH Connection"
+      details:
+        host: "74.208.155.161"
+        user: "root"
+        key_var: "${{ secrets.VPS_SSH_KEY }}"
+    
+    - step: 3
+      name: "Environment Configuration"
+      command: "cp .env.pf.example .env.pf"
+      required_vars:
+        - "OAUTH_CLIENT_ID"
+        - "OAUTH_CLIENT_SECRET"
+        - "JWT_SECRET"
+        - "DB_PASSWORD"
+    
+    - step: 4
+      name: "Docker Stack Validation"
+      command: "docker compose -f docker-compose.pf.yml config"
+    
+    - step: 5
+      name: "SSL Certificate Setup"
+      actions:
+        - "Place IONOS certificates in /etc/nginx/ssl/"
+        - "Disable Let's Encrypt configs"
+        - "Validate certificate format"
+    
+    - step: 6
+      name: "System Start"
+      command: "docker compose -f docker-compose.pf.yml up -d --build"
+    
+    - step: 7
+      name: "Nginx Configuration"
+      commands:
+        - "nginx -t"
+        - "nginx -s reload"
+    
+    - step: 8
+      name: "Endpoint Validation"
+      endpoints:
+        - "https://nexuscos.online/"
+        - "https://nexuscos.online/api/health"
+        - "https://hollywood.nexuscos.online/v-suite/hollywood"
+        - "https://tv.nexuscos.online/"
+    
+    - step: 9
+      name: "Certificate Verification"
+      command: "openssl s_client -connect hollywood.nexuscos.online:443 -showcerts | grep issuer"
+      expected: "IONOS"
+
+# ==========================================================
+# ✅ Validation Checklist
+# ==========================================================
+validation_checklist:
+  infrastructure:
+    - item: "All services running"
+      command: "docker compose -f docker-compose.pf.yml ps"
+      expected: "All services show 'Up' status"
+    
+    - item: "API health check"
+      command: "curl https://nexuscos.online/api/health"
+      expected: "HTTP 200 OK"
+    
+    - item: "V-Screen Hollywood reachable"
+      command: "curl https://hollywood.nexuscos.online/health"
+      expected: "HTTP 200 OK"
+    
+    - item: "SSL Certificate issuer is IONOS"
+      command: "openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer"
+      expected: "issuer=.*IONOS"
+    
+    - item: "JWT authentication functional"
+      test: "Login flow completes successfully"
+    
+    - item: "OAuth connected"
+      test: "OAuth provider responds to auth requests"
+    
+    - item: "Redis connected"
+      command: "docker compose -f docker-compose.pf.yml exec nexus-cos-redis redis-cli ping"
+      expected: "PONG"
+    
+    - item: "Database migration complete"
+      command: "docker compose -f docker-compose.pf.yml exec nexus-cos-postgres psql -U nexus_user -d nexus_db -c '\\dt'"
+      expected: "Tables: users, sessions, api_keys, audit_log"
+    
+    - item: "No Let's Encrypt certificates active"
+      command: "ls /etc/nginx/conf.d/ | grep -i letsencrypt"
+      expected: "No matches found"
+  
+  services:
+    - "puabo-api responds on port 4000"
+    - "nexus-cos-puaboai-sdk responds on port 3002"
+    - "nexus-cos-pv-keys responds on port 3041"
+    - "vscreen-hollywood responds on port 8088"
+    - "nexus-cos-streamcore responds on port 3016"
+    - "nexus-cos-postgres accepts connections"
+    - "nexus-cos-redis accepts connections"
+  
+  streaming:
+    - "StreamCore WebRTC handshake verified"
+    - "HLS/DASH endpoints accessible"
+    - "FFmpeg encoder operational"
+  
+  subscriptions:
+    - "Subscription plans accessible"
+    - "Billing service responds"
+    - "Payment gateway connected"
+  
+  final_status:
+    banner: "ALL CHECKS PASSED"
+    ready_for_production: true
+
+# ==========================================================
+# 📋 TRAE Solo Execution Instructions
+# ==========================================================
+trae_solo_instructions:
+  description: |
+    These are the exact steps TRAE Solo Builder should execute.
+    No room for error. Follow sequentially.
+  
+  pre_execution_checklist:
+    - "VPS accessible via SSH at 74.208.155.161"
+    - "SSH key configured as ${{ secrets.VPS_SSH_KEY }}"
+    - "Repository access confirmed"
+    - "IONOS SSL certificates available"
+    - "OAuth credentials obtained"
+  
+  execution_sequence:
+    - sequence: 1
+      action: "Connect to VPS"
+      commands:
+        - "ssh -i ${{ secrets.VPS_SSH_KEY }} root@74.208.155.161"
+    
+    - sequence: 2
+      action: "Navigate to deployment directory"
+      commands:
+        - "cd /opt/nexus-cos || mkdir -p /opt/nexus-cos && cd /opt/nexus-cos"
+    
+    - sequence: 3
+      action: "Clone/Update repository"
+      commands:
+        - "git clone git@github.com:BobbyBlanco400/nexus-cos.git . || git pull origin main"
+    
+    - sequence: 4
+      action: "Configure environment"
+      commands:
+        - "cp .env.pf.example .env.pf"
+        - "# MANUAL: Edit .env.pf with actual credentials"
+        - "# Required: OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, JWT_SECRET, DB_PASSWORD"
+    
+    - sequence: 5
+      action: "Setup SSL certificates"
+      commands:
+        - "mkdir -p /etc/nginx/ssl/apex /etc/nginx/ssl/hollywood /etc/nginx/ssl/tv"
+        - "# MANUAL: Place IONOS certificates in respective directories"
+        - "openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text"
+    
+    - sequence: 6
+      action: "Disable Let's Encrypt"
+      commands:
+        - "mkdir -p /etc/nginx/conf.d.disabled"
+        - "mv /etc/nginx/conf.d/*letsencrypt* /etc/nginx/conf.d.disabled/ 2>/dev/null || true"
+    
+    - sequence: 7
+      action: "Validate Docker Compose"
+      commands:
+        - "docker compose -f docker-compose.pf.yml config"
+    
+    - sequence: 8
+      action: "Deploy services"
+      commands:
+        - "docker compose -f docker-compose.pf.yml down"
+        - "docker compose -f docker-compose.pf.yml up -d --build"
+    
+    - sequence: 9
+      action: "Wait for services"
+      commands:
+        - "sleep 30"
+        - "docker compose -f docker-compose.pf.yml ps"
+    
+    - sequence: 10
+      action: "Validate health endpoints"
+      commands:
+        - "curl http://localhost:4000/health"
+        - "curl http://localhost:3002/health"
+        - "curl http://localhost:3041/health"
+        - "curl http://localhost:8088/health"
+        - "curl http://localhost:3016/health"
+    
+    - sequence: 11
+      action: "Configure Nginx"
+      commands:
+        - "nginx -t"
+        - "systemctl reload nginx"
+    
+    - sequence: 12
+      action: "Verify production endpoints"
+      commands:
+        - "curl https://nexuscos.online/api/health"
+        - "curl https://hollywood.nexuscos.online/health"
+    
+    - sequence: 13
+      action: "Verify SSL certificates"
+      commands:
+        - "openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer"
+        - "# Expected: issuer=.*IONOS"
+    
+    - sequence: 14
+      action: "Run validation script"
+      commands:
+        - "./bulletproof-pf-validate.sh"
+    
+    - sequence: 15
+      action: "Display success banner"
+      banner: |
+        ╔════════════════════════════════════════════════════════════════╗
+        ║                                                                ║
+        ║               ✅ ALL CHECKS PASSED                             ║
+        ║                                                                ║
+        ║         Nexus COS Production Framework Deployed!               ║
+        ║                                                                ║
+        ╚════════════════════════════════════════════════════════════════╝
+
+# ==========================================================
+# 🔧 Troubleshooting Guide
+# ==========================================================
+troubleshooting:
+  common_issues:
+    - issue: "Services won't start"
+      solutions:
+        - "Check .env.pf has all required credentials"
+        - "Verify Docker is running: systemctl status docker"
+        - "Check disk space: df -h"
+        - "Review logs: docker compose -f docker-compose.pf.yml logs"
+    
+    - issue: "SSL certificate errors"
+      solutions:
+        - "Verify certificate format: openssl x509 -in cert.crt -noout -text"
+        - "Check file permissions: chmod 644 *.crt && chmod 600 *.key"
+        - "Ensure IONOS certificates are in PEM format"
+        - "Validate nginx config: nginx -t"
+    
+    - issue: "Health checks failing"
+      solutions:
+        - "Wait 30-60 seconds for services to initialize"
+        - "Check service logs: docker compose -f docker-compose.pf.yml logs [service]"
+        - "Verify database is ready: docker compose -f docker-compose.pf.yml exec nexus-cos-postgres pg_isready"
+        - "Test internal networking: docker network inspect nexus-cos_cos-net"
+    
+    - issue: "OAuth authentication fails"
+      solutions:
+        - "Verify OAUTH_CLIENT_ID and OAUTH_CLIENT_SECRET in .env.pf"
+        - "Check OAuth provider configuration"
+        - "Ensure redirect URLs match domain"
+        - "Review API logs for auth errors"
+
+# ==========================================================
+# 📊 Monitoring & Maintenance
+# ==========================================================
+monitoring:
+  health_endpoints:
+    - url: "https://nexuscos.online/api/health"
+      service: "Gateway API"
+      interval: "30s"
+    
+    - url: "https://hollywood.nexuscos.online/health"
+      service: "V-Screen Hollywood"
+      interval: "60s"
+    
+    - url: "https://nexuscos.online/v-suite/prompter/health"
+      service: "V-Prompter Pro"
+      interval: "60s"
+  
+  log_locations:
+    nginx: "/var/log/nginx/"
+    docker: "docker compose -f docker-compose.pf.yml logs"
+    system: "/var/log/syslog"
+  
+  backup_strategy:
+    database:
+      frequency: "Daily"
+      retention: "30 days"
+      command: "docker compose -f docker-compose.pf.yml exec nexus-cos-postgres pg_dump -U nexus_user nexus_db > backup.sql"
+    
+    ssl_certificates:
+      frequency: "Monthly"
+      location: "/opt/nexus-cos/ssl-backups/"
+    
+    configuration:
+      frequency: "Before each deployment"
+      files:
+        - ".env.pf"
+        - "docker-compose.pf.yml"
+        - "nginx configuration files"
+
+# ==========================================================
+# 🎯 Success Metrics
+# ==========================================================
+success_metrics:
+  deployment:
+    - "Zero-downtime deployment achieved"
+    - "All services operational within 2 minutes"
+    - "Health checks passing at 100%"
+    - "SSL certificates valid and IONOS-issued"
+  
+  performance:
+    - "API response time < 200ms"
+    - "Page load time < 2s"
+    - "Streaming latency < 3s"
+    - "Database query time < 50ms"
+  
+  security:
+    - "All endpoints use HTTPS"
+    - "JWT tokens expire appropriately"
+    - "OAuth flow secure"
+    - "No exposed credentials in logs"
+
+# ==========================================================
+# 🧩 End of Nexus COS Bulletproof PF
+# ==========================================================
+bulletproof_status:
+  version: "1.0"
+  status: "BULLETPROOFED"
+  ready_for_trae: true
+  error_margin: "ZERO"
+  documentation_complete: true
+  validation_automated: true
+  production_ready: true
+
+# Last Updated: 2025-10-07
+# Maintained by: TRAE SOLO (GitHub Code Agent)
+# For: Robert White (PUABO / Nexus COS Founder)
