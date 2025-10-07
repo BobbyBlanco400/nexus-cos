@@ -6,15 +6,52 @@
 ![React](https://img.shields.io/badge/React-18.x-blue)
 ![Production Ready](https://img.shields.io/badge/Production-Ready-brightgreen)
 
-A complete operating system implementation with multi-platform support, now fully migrated to **TRAE Solo** orchestration.
+**🚀 Complete OTT/Streaming TV Platform with Integrated Modules**
+
+A complete operating system implementation featuring Live TV, On-Demand content, and an integrated module ecosystem including Club Saditty, Creator Hub, V-Suite, and more.
 
 ---
 
-## 🚀 **NEW: Production Deployment System Ready!**
+## ⚡ ONE-LINE VPS DEPLOYMENT
 
-**The production deployment system with forced PM2 adherence is now complete and ready to use!**
+**Deploy the entire Nexus COS platform on your VPS with a single command:**
 
-### ⚡ Quick Start (3 Commands)
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**That's it!** This single command deploys your complete OTT/Streaming TV platform in 5-10 minutes.
+
+### 📚 Deployment Documentation
+
+- 🚀 **[DEPLOY NOW!](DEPLOY_NOW.md)** - 4-step quick deploy (Start here!)
+- 📋 **[Quick Start Card](QUICK_START_CARD.md)** - One-page reference card
+- 📖 **[VPS Deployment Guide](VPS_ONE_SHOT_DEPLOY.md)** - Complete documentation
+- 🗂️ **[Deployment Index](VPS_DEPLOYMENT_INDEX.md)** - All docs organized
+- ✅ **[Readiness Check](check-vps-readiness.sh)** - Verify VPS requirements
+
+### ⚡ Quick Commands
+
+**Check VPS readiness:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/check-vps-readiness.sh | bash
+```
+
+**Deploy platform:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**Verify deployment:**
+```bash
+curl http://localhost:3000/health
+```
+
+---
+
+## 🚀 **Alternative: Production Deployment System**
+
+**For advanced users with existing setup:**
 
 ```bash
 cd /opt/nexus-cos

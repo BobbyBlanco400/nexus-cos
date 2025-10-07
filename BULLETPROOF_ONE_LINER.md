@@ -1,14 +1,25 @@
 # 🛡️ TRAE Solo Bulletproof One-Liner Deployment
 
-## The Ultimate One-Liner
+## The Ultimate VPS Deployment Command
 
-Deploy the entire Nexus COS platform with a single command:
+**Deploy your complete Nexus COS OTT/Streaming TV Platform on any VPS with a single command:**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
 ```
 
-**That's it!** This single command will:
+**That's it!** This single command deploys your entire platform including:
+- 📺 Live TV channels with OTT/IPTV streaming
+- 🎬 On-Demand content library
+- 🎪 Integrated modules (Club Saditty, Creator Hub, V-Suite, etc.)
+- 🔧 Complete backend infrastructure
+- 🌐 Nginx reverse proxy with SSL/TLS
+
+**💡 For the simplified VPS deployment guide, see: [VPS_ONE_SHOT_DEPLOY.md](VPS_ONE_SHOT_DEPLOY.md)**
+
+---
+
+## What This Command Does
 - ✅ Clone/update the repository
 - ✅ Run all pre-flight checks
 - ✅ Validate configuration

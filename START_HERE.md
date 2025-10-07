@@ -6,9 +6,23 @@ This is your complete guide to getting Nexus COS up and running in production.
 
 ---
 
-## ⚡ Super Quick Start (3 Commands)
+## ⚡ FASTEST: One-Line VPS Deployment
 
-If you're on your production server and just want to start now:
+**For new VPS deployment, use this single command:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**That's it!** Your complete OTT/Streaming TV platform will be deployed in 5-10 minutes.
+
+📚 **[Complete VPS Deployment Guide →](VPS_ONE_SHOT_DEPLOY.md)**
+
+---
+
+## 🔄 Alternative: Super Quick Start (3 Commands)
+
+**If you're on your production server with existing setup:**
 
 ```bash
 cd /opt/nexus-cos
