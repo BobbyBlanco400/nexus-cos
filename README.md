@@ -47,6 +47,18 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launc
 curl http://localhost:3000/health
 ```
 
+### ✅ Deployment Verification
+
+**Verify TRAE deployment with automated script:**
+```bash
+./verify-trae-deployment.sh
+```
+
+**Quick verification commands:**
+- 📋 **[Verification Index](VERIFICATION_INDEX.md)** - Complete verification guide
+- 🔍 **[Quick Check](TRAE_DEPLOYMENT_QUICK_CHECK.md)** - 5-minute validation
+- 📖 **[Full Verification Guide](DEPLOYMENT_VERIFICATION_TRAE.md)** - Comprehensive validation
+
 ---
 
 ## 🚀 **Alternative: Production Deployment System**
