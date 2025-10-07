@@ -22,6 +22,11 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launc
 - [ ] Root/sudo access
 - [ ] Ports 80, 443 open
 
+**Check VPS readiness:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/check-vps-readiness.sh | bash
+```
+
 ---
 
 ## ⏱️ Deployment Time

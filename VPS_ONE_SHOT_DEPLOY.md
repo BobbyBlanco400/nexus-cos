@@ -56,6 +56,23 @@ Before running the one-liner, ensure your VPS has:
 - ✅ **Access**: Root or sudo privileges
 - ✅ **Network**: Internet connectivity + open ports (80, 443)
 
+### Check VPS Readiness
+
+Run this command to verify your VPS meets all requirements:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/check-vps-readiness.sh | bash
+```
+
+This will check:
+- Operating system version
+- Available RAM and disk space
+- CPU cores
+- Required ports availability
+- Network connectivity
+- Firewall status
+- All system commands
+
 ### What Gets Installed Automatically
 The script automatically installs these if missing:
 - nginx
