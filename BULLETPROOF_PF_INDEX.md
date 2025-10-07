@@ -6,6 +6,21 @@
 
 ## 🚀 Start Here
 
+### 🎯 For TRAE SOLO (ULTRA CONDENSED - 3 minutes)
+👉 **[TRAE_SOLO_CONDENSED.md](TRAE_SOLO_CONDENSED.md)** ⭐ NEW!
+- **Everything in one page**
+- One-line deployment command
+- All essentials without overwhelming detail
+- Quick validation & troubleshooting
+- **Best for:** TRAE SOLO agents and quick reference
+
+**One-Line Deploy:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/trae-deploy.sh | sudo bash
+```
+
+---
+
 ### For Quick Deploy (5 minutes)
 👉 **[QUICK_START_BULLETPROOF.md](QUICK_START_BULLETPROOF.md)**
 - One-line deploy command
@@ -194,6 +209,13 @@
 
 ## 🎯 Choose Your Path
 
+### Path 0: TRAE SOLO Ultra Fast (3 minutes) ⭐ NEW!
+```
+1. Read: TRAE_SOLO_CONDENSED.md (everything in one page)
+2. Run: curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/trae-deploy.sh | sudo bash
+3. Done! (Auto-deploys + validates)
+```
+
 ### Path 1: Fast Track (5 minutes)
 ```
 1. Read: QUICK_START_BULLETPROOF.md
@@ -238,12 +260,14 @@ bulletproof-pf-validate.sh       19KB  (Validation)
 PF_BULLETPROOF_GUIDE.md          19KB  (Tech guide)
 TRAE_SOLO_EXECUTION.md           17KB  (Instructions)
 PF_BULLETPROOF_README.md         13KB  (Overview)
+trae-deploy.sh                   12KB  (One-liner wrapper) ⭐ NEW!
 BULLETPROOF_PF_SUMMARY.md        9.3KB (Summary)
+TRAE_SOLO_CONDENSED.md           7KB   (Ultra condensed) ⭐ NEW!
 QUICK_START_BULLETPROOF.md       5KB   (Quick start)
 SYSTEM_OVERVIEW.md               ~15KB (Visual guide)
-BULLETPROOF_PF_INDEX.md          ~5KB  (This file)
+BULLETPROOF_PF_INDEX.md          ~10KB (This file)
 ──────────────────────────────────────────────────────
-Total:                           ~155KB (9 files)
+Total:                           ~174KB (12 files)
 ```
 
 ---
