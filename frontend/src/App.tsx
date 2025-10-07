@@ -29,11 +29,11 @@ function App() {
   })
 
   const subscriptionTiers: SubscriptionTier[] = [
-    { id: '1', name: 'Basic', price: '$9.99', emoji: '📺', color: '#8b5cf6' },
-    { id: '2', name: 'Premium', price: '$19.99', emoji: '🎬', color: '#a78bfa' },
-    { id: '3', name: 'Studio', price: '$49.99', emoji: '🎥', color: '#c4b5fd' },
-    { id: '4', name: 'Enterprise', price: '$99.99', emoji: '🏢', color: '#ddd6fe' },
-    { id: '5', name: 'Platform', price: '$199.99', emoji: '🚀', color: '#ede9fe' }
+    { id: '1', name: 'Basic', price: '$9.99', emoji: '📺', color: '#2563eb' },
+    { id: '2', name: 'Premium', price: '$19.99', emoji: '🎬', color: '#3b82f6' },
+    { id: '3', name: 'Studio', price: '$49.99', emoji: '🎥', color: '#1e40af' },
+    { id: '4', name: 'Enterprise', price: '$99.99', emoji: '🏢', color: '#60a5fa' },
+    { id: '5', name: 'Platform', price: '$199.99', emoji: '🚀', color: '#2563eb' }
   ]
 
   useEffect(() => {

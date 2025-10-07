@@ -1,0 +1,17 @@
+{
+  "name": "Nexus COS - Complete Operating System",
+  "short_name": "Nexus COS",
+  "description": "Complete Operating System with OTT/Streaming Platform and Integrated Modules",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/assets/branding/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
