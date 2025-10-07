@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import CoreServicesStatus from './components/CoreServicesStatus'
 
 type ClubArea = 'lobby' | 'main-stage' | 'vip-suites' | 'dressing-rooms' | 'office'
 
@@ -114,6 +115,8 @@ function App() {
       </header>
 
       <main className="club-main">
+        <CoreServicesStatus />
+        
         <section className="live-stats">
           <div className="stat-card">
             <div className="stat-value">{liveStats.onlineUsers}</div>
