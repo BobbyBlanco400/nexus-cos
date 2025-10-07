@@ -1,4 +1,4 @@
-/* Club Saditty Styles */
+/* Nexus COS OTT/Streaming Platform Styles */
 * {
   margin: 0;
   padding: 0;
@@ -55,7 +55,7 @@ body {
 }
 
 /* Main App */
-.club-app {
+.streaming-app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -118,7 +118,7 @@ body {
 }
 
 /* Header */
-.club-header {
+.streaming-header {
   position: relative;
   z-index: 10;
   background: rgba(0, 0, 0, 0.8);
@@ -127,7 +127,7 @@ body {
   padding: 1rem 2rem;
 }
 
-.club-logo h1 {
+.platform-logo h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -138,7 +138,7 @@ body {
   text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
 }
 
-.club-nav {
+.platform-nav {
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -170,7 +170,7 @@ body {
 }
 
 /* Main Content */
-.club-main {
+.streaming-main {
   position: relative;
   z-index: 10;
   flex: 1;
@@ -180,8 +180,8 @@ body {
   width: 100%;
 }
 
-/* Live Stats */
-.live-stats {
+/* Platform Stats */
+.platform-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
@@ -218,8 +218,8 @@ body {
   letter-spacing: 1px;
 }
 
-/* Club Content Area */
-.club-content {
+/* Platform Content Area */
+.platform-content {
   margin-bottom: 3rem;
   padding: 2rem;
   background: rgba(0, 0, 0, 0.5);
@@ -229,7 +229,7 @@ body {
   min-height: 400px;
 }
 
-.area-content {
+.section-content {
   text-align: center;
 }
 
@@ -250,7 +250,7 @@ body {
   95% { opacity: 1; }
 }
 
-.area-description {
+.section-description {
   font-size: 1.2rem;
   color: #c4b5fd;
   margin-bottom: 2rem;
@@ -295,15 +295,15 @@ body {
   color: #a78bfa;
 }
 
-/* VIP Suites */
-.suite-grid {
+/* Channel Grid */
+.channel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
 }
 
-.suite-card {
+.channel-card {
   background: rgba(139, 92, 246, 0.2);
   border: 2px solid #8b5cf6;
   border-radius: 12px;
@@ -314,20 +314,44 @@ body {
   transition: all 0.3s ease;
 }
 
-.suite-card:hover {
+.channel-card:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
 }
 
-.suite-card.occupied {
-  background: rgba(255, 100, 100, 0.2);
-  border-color: #ff6464;
+.channel-card.offline {
+  background: rgba(100, 100, 100, 0.2);
+  border-color: #666;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-/* Membership Tiers */
-.membership-tiers {
+/* Module Grid */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.module-card {
+  background: rgba(139, 92, 246, 0.2);
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.module-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+}
+
+/* Subscription Tiers */
+.subscription-tiers {
   margin-top: 3rem;
 }
 
@@ -402,7 +426,7 @@ body {
 }
 
 /* Footer */
-.club-footer {
+.streaming-footer {
   position: relative;
   z-index: 10;
   background: rgba(0, 0, 0, 0.8);
@@ -415,15 +439,15 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .club-header {
+  .streaming-header {
     padding: 1rem;
   }
 
-  .club-logo h1 {
+  .platform-logo h1 {
     font-size: 1.5rem;
   }
 
-  .club-nav {
+  .platform-nav {
     gap: 0.5rem;
   }
 
@@ -432,11 +456,11 @@ body {
     font-size: 0.9rem;
   }
 
-  .club-main {
+  .streaming-main {
     padding: 1rem;
   }
 
-  .live-stats {
+  .platform-stats {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -448,7 +472,7 @@ body {
     font-size: 2rem;
   }
 
-  .area-description {
+  .section-description {
     font-size: 1rem;
   }
 
@@ -463,7 +487,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  .club-logo h1 {
+  .platform-logo h1 {
     font-size: 1.2rem;
   }
 
@@ -476,11 +500,15 @@ body {
     font-size: 1.5rem;
   }
 
-  .live-stats {
+  .platform-stats {
     grid-template-columns: 1fr;
   }
 
-  .suite-grid {
+  .channel-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .module-grid {
     grid-template-columns: 1fr;
   }
 }

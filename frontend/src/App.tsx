@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-type ClubArea = 'lobby' | 'main-stage' | 'vip-suites' | 'dressing-rooms' | 'office'
+type StreamingSection = 'home' | 'live-tv' | 'on-demand' | 'modules' | 'settings'
 
-interface MembershipTier {
+interface SubscriptionTier {
   id: string
   name: string
   price: string
@@ -11,29 +11,29 @@ interface MembershipTier {
   color: string
 }
 
-interface LiveStats {
-  onlineUsers: number
-  activePerformers: number
-  vipSuitesOccupied: number
-  mainStageViewers: number
+interface PlatformStats {
+  activeViewers: number
+  liveChannels: number
+  availableModules: number
+  onDemandContent: number
 }
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [currentArea, setCurrentArea] = useState<ClubArea>('lobby')
-  const [liveStats, setLiveStats] = useState<LiveStats>({
-    onlineUsers: 0,
-    activePerformers: 0,
-    vipSuitesOccupied: 0,
-    mainStageViewers: 0
+  const [currentSection, setCurrentSection] = useState<StreamingSection>('home')
+  const [platformStats, setPlatformStats] = useState<PlatformStats>({
+    activeViewers: 0,
+    liveChannels: 0,
+    availableModules: 0,
+    onDemandContent: 0
   })
 
-  const membershipTiers: MembershipTier[] = [
-    { id: '1', name: 'General Admission', price: '$9.99', emoji: '🎫', color: '#8b5cf6' },
-    { id: '2', name: 'Backstage Pass', price: '$29.99', emoji: '🎭', color: '#a78bfa' },
-    { id: '3', name: 'VIP Lounge', price: '$59.99', emoji: '👑', color: '#c4b5fd' },
-    { id: '4', name: 'Champagne Room', price: '$999', emoji: '🥂', color: '#ddd6fe' },
-    { id: '5', name: 'Black Card', price: '$1999.99', emoji: '♠️', color: '#ede9fe' }
+  const subscriptionTiers: SubscriptionTier[] = [
+    { id: '1', name: 'Basic', price: '$9.99', emoji: '📺', color: '#8b5cf6' },
+    { id: '2', name: 'Premium', price: '$19.99', emoji: '🎬', color: '#a78bfa' },
+    { id: '3', name: 'Studio', price: '$49.99', emoji: '🎥', color: '#c4b5fd' },
+    { id: '4', name: 'Enterprise', price: '$99.99', emoji: '🏢', color: '#ddd6fe' },
+    { id: '5', name: 'Platform', price: '$199.99', emoji: '🚀', color: '#ede9fe' }
   ]
 
   useEffect(() => {
@@ -42,13 +42,13 @@ function App() {
       setIsLoading(false)
     }, 2000)
 
-    // Simulate live stats updates
+    // Simulate platform stats updates
     const statsInterval = setInterval(() => {
-      setLiveStats({
-        onlineUsers: Math.floor(Math.random() * 500) + 100,
-        activePerformers: Math.floor(Math.random() * 20) + 5,
-        vipSuitesOccupied: Math.floor(Math.random() * 10) + 2,
-        mainStageViewers: Math.floor(Math.random() * 200) + 50
+      setPlatformStats({
+        activeViewers: Math.floor(Math.random() * 10000) + 1000,
+        liveChannels: Math.floor(Math.random() * 50) + 10,
+        availableModules: 8, // Fixed number: Creator Hub, V-Suite, PuaboVerse, Club Saditty, etc.
+        onDemandContent: Math.floor(Math.random() * 5000) + 1000
       })
     }, 3000)
 
@@ -62,140 +62,144 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="loader"></div>
-        <h2>Loading Club Saditty...</h2>
+        <h2>Loading Nexus COS Platform...</h2>
       </div>
     )
   }
 
   return (
-    <div className="club-app">
+    <div className="streaming-app">
       <div className="animated-background">
         <div className="orb orb-1"></div>
         <div className="orb orb-2"></div>
         <div className="orb orb-3"></div>
       </div>
 
-      <header className="club-header">
-        <div className="club-logo">
-          <h1>🏠 Club Saditty Lobby</h1>
+      <header className="streaming-header">
+        <div className="platform-logo">
+          <h1>🚀 Nexus COS - OTT/Streaming Platform</h1>
         </div>
-        <nav className="club-nav">
+        <nav className="platform-nav">
           <button 
-            className={`nav-btn ${currentArea === 'lobby' ? 'active' : ''}`}
-            onClick={() => setCurrentArea('lobby')}
+            className={`nav-btn ${currentSection === 'home' ? 'active' : ''}`}
+            onClick={() => setCurrentSection('home')}
           >
-            🏠 Lobby
+            🏠 Home
           </button>
           <button 
-            className={`nav-btn ${currentArea === 'main-stage' ? 'active' : ''}`}
-            onClick={() => setCurrentArea('main-stage')}
+            className={`nav-btn ${currentSection === 'live-tv' ? 'active' : ''}`}
+            onClick={() => setCurrentSection('live-tv')}
           >
-            🎭 Main Stage
+            📺 Live TV
           </button>
           <button 
-            className={`nav-btn ${currentArea === 'vip-suites' ? 'active' : ''}`}
-            onClick={() => setCurrentArea('vip-suites')}
+            className={`nav-btn ${currentSection === 'on-demand' ? 'active' : ''}`}
+            onClick={() => setCurrentSection('on-demand')}
           >
-            👑 VIP Suites
+            🎬 On Demand
           </button>
           <button 
-            className={`nav-btn ${currentArea === 'dressing-rooms' ? 'active' : ''}`}
-            onClick={() => setCurrentArea('dressing-rooms')}
+            className={`nav-btn ${currentSection === 'modules' ? 'active' : ''}`}
+            onClick={() => setCurrentSection('modules')}
           >
-            💄 Dressing Rooms
+            🎯 Modules
           </button>
           <button 
-            className={`nav-btn ${currentArea === 'office' ? 'active' : ''}`}
-            onClick={() => setCurrentArea('office')}
+            className={`nav-btn ${currentSection === 'settings' ? 'active' : ''}`}
+            onClick={() => setCurrentSection('settings')}
           >
-            🎩 Saditty's Office
+            ⚙️ Settings
           </button>
         </nav>
       </header>
 
-      <main className="club-main">
-        <section className="live-stats">
+      <main className="streaming-main">
+        <section className="platform-stats">
           <div className="stat-card">
-            <div className="stat-value">{liveStats.onlineUsers}</div>
-            <div className="stat-label">Online Users</div>
+            <div className="stat-value">{platformStats.activeViewers.toLocaleString()}</div>
+            <div className="stat-label">Active Viewers</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">{liveStats.activePerformers}</div>
-            <div className="stat-label">Active Performers</div>
+            <div className="stat-value">{platformStats.liveChannels}</div>
+            <div className="stat-label">Live Channels</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">{liveStats.vipSuitesOccupied}</div>
-            <div className="stat-label">VIP Suites Occupied</div>
+            <div className="stat-value">{platformStats.availableModules}</div>
+            <div className="stat-label">Available Modules</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">{liveStats.mainStageViewers}</div>
-            <div className="stat-label">Main Stage Viewers</div>
+            <div className="stat-value">{platformStats.onDemandContent.toLocaleString()}</div>
+            <div className="stat-label">On-Demand Content</div>
           </div>
         </section>
 
-        <section className="club-content">
-          {currentArea === 'lobby' && (
-            <div className="area-content">
-              <h2 className="neon-text">Welcome to Club Saditty</h2>
-              <p className="area-description">
-                The premier virtual club experience. Select your destination or browse our membership tiers below.
+        <section className="platform-content">
+          {currentSection === 'home' && (
+            <div className="section-content">
+              <h2 className="neon-text">Welcome to Nexus COS</h2>
+              <p className="section-description">
+                Your complete OTT/Streaming TV platform. Access live channels, on-demand content, and powerful modules all in one place.
               </p>
             </div>
           )}
-          {currentArea === 'main-stage' && (
-            <div className="area-content">
-              <h2 className="neon-text">🎭 Main Stage</h2>
-              <p className="area-description">
-                Watch live performances from our talented performers. Premium features available for VIP members.
+          {currentSection === 'live-tv' && (
+            <div className="section-content">
+              <h2 className="neon-text">📺 Live TV Channels</h2>
+              <p className="section-description">
+                Stream live content from multiple channels. HD quality with DVR capabilities.
               </p>
-              <div className="stage-placeholder">
-                <div className="stage-lights"></div>
-                <p>🎪 Live Performance Area</p>
+              <div className="channel-grid">
+                <div className="channel-card">Channel 1 - 🔴 Live</div>
+                <div className="channel-card">Channel 2 - 🔴 Live</div>
+                <div className="channel-card offline">Channel 3 - Offline</div>
+                <div className="channel-card">Channel 4 - 🔴 Live</div>
               </div>
             </div>
           )}
-          {currentArea === 'vip-suites' && (
-            <div className="area-content">
-              <h2 className="neon-text">👑 VIP Suites</h2>
-              <p className="area-description">
-                Book your private suite for an exclusive experience. Limited availability.
+          {currentSection === 'on-demand' && (
+            <div className="section-content">
+              <h2 className="neon-text">🎬 On-Demand Library</h2>
+              <p className="section-description">
+                Access thousands of movies, shows, and original content. Watch anytime, anywhere.
               </p>
-              <div className="suite-grid">
-                <div className="suite-card">Suite 1 - Available</div>
-                <div className="suite-card occupied">Suite 2 - Occupied</div>
-                <div className="suite-card">Suite 3 - Available</div>
-                <div className="suite-card occupied">Suite 4 - Occupied</div>
+            </div>
+          )}
+          {currentSection === 'modules' && (
+            <div className="section-content">
+              <h2 className="neon-text">🎯 Platform Modules</h2>
+              <p className="section-description">
+                Explore our powerful modules: Creator Hub, V-Suite, PuaboVerse, Club Saditty, and more.
+              </p>
+              <div className="module-grid">
+                <div className="module-card">🎨 Creator Hub</div>
+                <div className="module-card">💼 V-Suite</div>
+                <div className="module-card">🌐 PuaboVerse</div>
+                <div className="module-card">🎪 Club Saditty</div>
+                <div className="module-card">🎥 V-Screen Hollywood</div>
+                <div className="module-card">📊 Analytics</div>
               </div>
             </div>
           )}
-          {currentArea === 'dressing-rooms' && (
-            <div className="area-content">
-              <h2 className="neon-text">💄 Dressing Rooms</h2>
-              <p className="area-description">
-                Performer preparation area. Customize your avatar and get ready for the stage.
-              </p>
-            </div>
-          )}
-          {currentArea === 'office' && (
-            <div className="area-content">
-              <h2 className="neon-text">🎩 Saditty's Office</h2>
-              <p className="area-description">
-                Private area for club management and exclusive Black Card members.
+          {currentSection === 'settings' && (
+            <div className="section-content">
+              <h2 className="neon-text">⚙️ Platform Settings</h2>
+              <p className="section-description">
+                Configure your streaming preferences, manage subscriptions, and customize your experience.
               </p>
             </div>
           )}
         </section>
 
-        <section className="membership-tiers">
-          <h2 className="section-title">Membership Tiers</h2>
+        <section className="subscription-tiers">
+          <h2 className="section-title">Subscription Plans</h2>
           <div className="tiers-grid">
-            {membershipTiers.map(tier => (
+            {subscriptionTiers.map(tier => (
               <div key={tier.id} className="tier-card glass-effect" style={{ borderColor: tier.color }}>
                 <div className="tier-emoji">{tier.emoji}</div>
                 <h3 className="tier-name">{tier.name}</h3>
-                <div className="tier-price">{tier.price}</div>
+                <div className="tier-price">{tier.price}/month</div>
                 <button className="tier-btn" style={{ backgroundColor: tier.color }}>
-                  Select Tier
+                  Subscribe
                 </button>
               </div>
             ))}
@@ -203,8 +207,8 @@ function App() {
         </section>
       </main>
 
-      <footer className="club-footer">
-        <p>🎪 Club Saditty - Virtual Club Experience | Powered by Nexus COS</p>
+      <footer className="streaming-footer">
+        <p>🚀 Nexus COS - Complete Operating System | OTT/Streaming TV Platform with Integrated Modules</p>
       </footer>
     </div>
   )
