@@ -22,7 +22,30 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launc
 
 **That's it!** This single command deploys your complete OTT/Streaming TV platform in 5-10 minutes.
 
-📚 **[Complete VPS Deployment Guide →](VPS_ONE_SHOT_DEPLOY.md)**
+### 📚 Deployment Documentation
+
+- 🚀 **[DEPLOY NOW!](DEPLOY_NOW.md)** - 4-step quick deploy (Start here!)
+- 📋 **[Quick Start Card](QUICK_START_CARD.md)** - One-page reference card
+- 📖 **[VPS Deployment Guide](VPS_ONE_SHOT_DEPLOY.md)** - Complete documentation
+- 🗂️ **[Deployment Index](VPS_DEPLOYMENT_INDEX.md)** - All docs organized
+- ✅ **[Readiness Check](check-vps-readiness.sh)** - Verify VPS requirements
+
+### ⚡ Quick Commands
+
+**Check VPS readiness:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/check-vps-readiness.sh | bash
+```
+
+**Deploy platform:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**Verify deployment:**
+```bash
+curl http://localhost:3000/health
+```
 
 ---
 
