@@ -209,6 +209,57 @@ validate_repository() {
 }
 
 # ==============================================================================
+# SSH Key Authorization Setup
+# ==============================================================================
+
+setup_ssh_keys() {
+    print_section "2. SSH KEY AUTHORIZATION SETUP"
+    
+    print_step "Checking for VPS SSH public keys..."
+    
+    SSH_KEYS_FOUND=false
+    VPS_KEYS=("vps_key.pub" "vps_key2.pub" "vps_key3.pub")
+    
+    for key_file in "${VPS_KEYS[@]}"; do
+        if [[ -f "${REPO_ROOT}/${key_file}" ]]; then
+            print_success "Found: $key_file"
+            SSH_KEYS_FOUND=true
+        fi
+    done
+    
+    if [[ "$SSH_KEYS_FOUND" = true ]]; then
+        print_step "Setting up authorized_keys for non-interactive deployment..."
+        
+        # Ensure .ssh directory exists
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        
+        # Create or update authorized_keys
+        touch ~/.ssh/authorized_keys
+        chmod 600 ~/.ssh/authorized_keys
+        
+        # Add keys if not already present
+        for key_file in "${VPS_KEYS[@]}"; do
+            if [[ -f "${REPO_ROOT}/${key_file}" ]]; then
+                KEY_CONTENT=$(cat "${REPO_ROOT}/${key_file}")
+                if ! grep -qF "$KEY_CONTENT" ~/.ssh/authorized_keys 2>/dev/null; then
+                    echo "$KEY_CONTENT" >> ~/.ssh/authorized_keys
+                    print_success "Added $key_file to authorized_keys"
+                else
+                    print_info "$key_file already in authorized_keys"
+                fi
+            fi
+        done
+        
+        print_success "SSH key authorization configured for non-interactive deploys"
+    else
+        print_warning "No VPS SSH keys found in repository"
+        print_info "Non-interactive deployment from Windows may require manual key setup"
+        print_info "Expected files: vps_key.pub, vps_key2.pub, vps_key3.pub"
+    fi
+}
+
+# ==============================================================================
 # SSL Certificate Management
 # ==============================================================================
 
@@ -376,6 +427,55 @@ configure_environment() {
             print_error "Deployment cancelled. Please configure .env and try again."
             exit 1
         fi
+    fi
+    
+    # Check frontend environment configuration
+    print_step "Validating frontend environment configuration..."
+    FRONTEND_ENV="${REPO_ROOT}/frontend/.env"
+    
+    if [[ -f "$FRONTEND_ENV" ]]; then
+        print_success "Frontend .env file found"
+        
+        # Check for localhost URLs in production
+        if grep -q "localhost" "$FRONTEND_ENV" 2>/dev/null; then
+            print_error "Frontend .env contains localhost URLs!"
+            print_info "Production builds must use domain URLs, not localhost"
+            grep "localhost" "$FRONTEND_ENV"
+            print_info ""
+            print_info "Expected production URLs:"
+            print_info "  VITE_API_URL=/api"
+            print_info "  VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen"
+            print_info "  VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster"
+            print_info "  VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage"
+            print_info "  VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter"
+            echo ""
+            read -p "Continue anyway? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                print_error "Deployment cancelled. Please fix frontend .env and try again."
+                exit 1
+            fi
+        else
+            # Validate that required URLs are present
+            if grep -q "VITE_API_URL" "$FRONTEND_ENV" && \
+               grep -q "VITE_V_SCREEN_URL" "$FRONTEND_ENV"; then
+                print_success "Frontend environment properly configured for production"
+                VITE_API=$(grep "^VITE_API_URL=" "$FRONTEND_ENV" | cut -d'=' -f2)
+                VITE_VSCREEN=$(grep "^VITE_V_SCREEN_URL=" "$FRONTEND_ENV" | cut -d'=' -f2)
+                print_info "  VITE_API_URL: $VITE_API"
+                print_info "  VITE_V_SCREEN_URL: $VITE_VSCREEN"
+            else
+                print_warning "Frontend .env missing V-Suite streaming URLs"
+                print_info "Consider adding:"
+                print_info "  VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen"
+                print_info "  VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster"
+                print_info "  VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage"
+                print_info "  VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter"
+            fi
+        fi
+    else
+        print_warning "Frontend .env file not found at: $FRONTEND_ENV"
+        print_info "Frontend may not build properly without environment configuration"
     fi
 }
 
@@ -552,11 +652,18 @@ validate_deployment() {
         fi
     done
     
-    # Check V-Prompter Pro routing (if Nginx is configured)
+    # Check V-Suite Streaming Services routing (if Nginx is configured)
     if command -v nginx &> /dev/null && systemctl is-active --quiet nginx 2>/dev/null; then
-        print_step "Testing V-Prompter Pro routing..."
+        print_step "Testing V-Suite streaming routes..."
         
-        # Test local routing first
+        # Test V-Screen/Hollywood (port 8088)
+        if curl -s -f -m 5 "http://localhost:8088/health" > /dev/null 2>&1; then
+            print_success "V-Screen Hollywood service is running (port 8088)"
+        else
+            print_warning "V-Screen Hollywood not accessible on port 8088"
+        fi
+        
+        # Test V-Prompter Pro routing
         if curl -s -f -m 5 "http://localhost/v-suite/prompter/health" > /dev/null 2>&1; then
             print_success "V-Prompter Pro local routing works"
         else
@@ -564,16 +671,28 @@ validate_deployment() {
             print_info "  This is normal if Nginx is not configured for localhost"
         fi
         
-        # Test production URL if domain resolves
+        # Test production URLs if domain resolves
         if host "$DOMAIN" &> /dev/null; then
-            print_step "Testing production V-Prompter Pro URL..."
-            if curl -s -f -m 10 "https://${DOMAIN}/v-suite/prompter/health" > /dev/null 2>&1; then
-                print_success "V-Prompter Pro production URL is accessible"
-            else
-                print_warning "V-Prompter Pro production URL not yet accessible"
-                print_info "  URL: https://${DOMAIN}/v-suite/prompter/health"
-                print_info "  This may take a few minutes after deployment"
-            fi
+            print_step "Testing production V-Suite streaming URLs..."
+            
+            STREAMING_ENDPOINTS=(
+                "/v-suite/screen:V-Screen (via /v-suite/screen)"
+                "/v-screen:V-Screen (via /v-screen direct)"
+                "/v-suite/hollywood:V-Hollywood"
+                "/v-suite/prompter:V-Prompter Pro"
+                "/v-suite/caster:V-Caster"
+                "/v-suite/stage:V-Stage"
+            )
+            
+            for endpoint_info in "${STREAMING_ENDPOINTS[@]}"; do
+                IFS=':' read -r path name <<< "$endpoint_info"
+                if curl -s -f -m 10 "https://${DOMAIN}${path}" > /dev/null 2>&1; then
+                    print_success "$name is accessible"
+                else
+                    print_warning "$name not yet accessible"
+                    print_info "  URL: https://${DOMAIN}${path}"
+                fi
+            done
         fi
     fi
     
@@ -632,8 +751,19 @@ print_summary() {
     echo -e "  ${CYAN}PV Keys:${NC}          http://localhost:3041"
     echo -e "  ${CYAN}PostgreSQL:${NC}       localhost:5432"
     echo -e "  ${CYAN}Redis:${NC}            localhost:6379"
+    echo -e "  ${CYAN}Streamcore:${NC}       http://localhost:3016"
+    echo -e "  ${CYAN}V-Screen:${NC}         http://localhost:8088"
     echo ""
-    echo -e "  ${CYAN}V-Prompter Pro:${NC}   https://${DOMAIN}/v-suite/prompter/health"
+    echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}  V-SUITE STREAMING ROUTES${NC}"
+    echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+    echo ""
+    echo -e "  ${CYAN}V-Screen:${NC}         https://${DOMAIN}/v-suite/screen"
+    echo -e "                        https://${DOMAIN}/v-screen (alternative)"
+    echo -e "  ${CYAN}V-Hollywood:${NC}      https://${DOMAIN}/v-suite/hollywood"
+    echo -e "  ${CYAN}V-Prompter Pro:${NC}   https://${DOMAIN}/v-suite/prompter"
+    echo -e "  ${CYAN}V-Caster:${NC}         https://${DOMAIN}/v-suite/caster"
+    echo -e "  ${CYAN}V-Stage:${NC}          https://${DOMAIN}/v-suite/stage"
     echo ""
     
     echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
@@ -650,6 +780,10 @@ print_summary() {
     echo -e "    curl http://localhost:4000/health"
     echo -e "    curl http://localhost:3002/health"
     echo -e "    curl http://localhost:3041/health"
+    echo -e "    curl http://localhost:8088/health"
+    echo ""
+    echo -e "  ${YELLOW}Validate streaming routes:${NC}"
+    echo -e "    ./scripts/validate-streaming-routes.sh"
     echo ""
     echo -e "  ${YELLOW}Access database:${NC}"
     echo -e "    docker compose -f docker-compose.pf.yml exec nexus-cos-postgres psql -U nexus_user -d nexus_db"
@@ -688,6 +822,7 @@ main() {
     # Execute deployment steps
     check_system_requirements
     validate_repository
+    setup_ssh_keys
     manage_ssl_certificates
     configure_environment
     deploy_services
