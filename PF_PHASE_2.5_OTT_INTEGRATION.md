@@ -2,15 +2,55 @@
 
 **PF ID:** PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5  
 **Status:** ACTIVE  
-**Priority:** HIGH / EXPEDITED  
+**Priority:** HIGH / EXPEDITED / CRITICAL  
 **Execution Window:** Immediate → 11/17/2025 (Transition Lock)  
-**Authorization:** Bobby Blanco | PUABO | NEXUS COS Command
+**Authorization:** Bobby Blanco | PUABO | NEXUS COS Command  
+**Enforcement Mode:** STRICT COMPLIANCE - ZERO TOLERANCE FOR DEVIATIONS
+
+---
+
+## 🚨 CRITICAL: ENFORCEMENT DIRECTIVE 🚨
+
+**THIS IS A MANDATORY PF DIRECTIVE WITH STRICT ENFORCEMENT**
+
+### TRAE Solo Compliance Requirements:
+
+1. **MANDATORY EXECUTION:** All steps in this PF MUST be followed line-by-line, in order, with NO deviations
+2. **NO SKIPPING:** No steps may be skipped, even if they appear redundant
+3. **NO SHORTCUTS:** No manual workarounds or "faster ways" - follow the documented process exactly
+4. **ZERO TOLERANCE:** Any deviation from this PF is considered a compliance failure
+5. **VALIDATION REQUIRED:** Every deployment MUST pass validation before being considered complete
+6. **ERROR HANDLING:** If any step fails, STOP immediately, fix the issue, and restart from the beginning
+
+### What This Means For You:
+
+- ✅ **DO:** Follow every command exactly as written
+- ✅ **DO:** Run all validation scripts and wait for "ALL CHECKS PASSED"
+- ✅ **DO:** Stop immediately if you see error messages
+- ✅ **DO:** Read and understand error messages before proceeding
+- ❌ **DO NOT:** Skip validation steps "to save time"
+- ❌ **DO NOT:** Ignore warnings or errors
+- ❌ **DO NOT:** Manually modify files without updating the scripts
+- ❌ **DO NOT:** Proceed if any checks fail
+
+### Success Criteria (All Must Be Met):
+
+- ✅ All pre-flight checks pass
+- ✅ All landing pages deployed successfully
+- ✅ Nginx configuration applied and tested
+- ✅ All health checks return HTTP 200
+- ✅ Validation script reports "ALL CHECKS PASSED"
+- ✅ No errors in deployment logs
+
+**ENFORCEMENT:** Failure to meet ALL success criteria = Deployment is INCOMPLETE and MUST be redone.
 
 ---
 
 ## OBJECTIVE
 
 Formalize the coexistence and integration of the Nexus COS OTT Frontend, V-Suite Dashboard, and Beta Launch Portal under one unified PF deployment, maintaining full operational continuity until the Beta transition date of **November 17, 2025**.
+
+**ENFORCEMENT NOTE:** This objective is NON-NEGOTIABLE. All three layers MUST be deployed successfully for the PF to be considered complete.
 
 ---
 
@@ -300,21 +340,80 @@ All layers inherit the **official Nexus Creative Operating System Brand Package*
 
 ## 7. EXECUTION ORDER
 
+### ⚠️ ENFORCEMENT MODE: MANDATORY COMPLIANCE ⚠️
+
+**All steps below are MANDATORY and must be executed in order.**  
+**NO steps may be skipped or reordered.**  
+**Failure to follow exactly will result in deployment failure.**
+
+---
+
 ### Step 1: TRAE SOLO - Deploy Phase 2.5 Architecture
 
-**Responsibility:** TRAE SOLO  
-**Action:** Deploy & validate Phase 2.5 architecture
+**Responsibility:** TRAE SOLO (MANDATORY EXECUTION)  
+**Action:** Deploy & validate Phase 2.5 architecture  
+**Compliance Level:** ZERO TOLERANCE FOR DEVIATIONS
+
+#### MANDATORY Prerequisites (Must verify before proceeding):
+- [ ] Running as root user (required)
+- [ ] Docker service is active and running
+- [ ] Repository cloned to /opt/nexus-cos
+- [ ] Landing pages exist: apex/index.html and web/beta/index.html
+- [ ] SSL certificates installed (or prepared for manual installation)
+- [ ] Nginx installed and operational
+
+#### MANDATORY Execution Steps:
 
 ```bash
-# Execute Phase 2.5 deployment
+# Step 1.1: Navigate to repository (MANDATORY)
 cd /opt/nexus-cos
-./scripts/deploy-phase-2.5-architecture.sh
 
-# Validate deployment
-./scripts/validate-phase-2.5-deployment.sh
+# Step 1.2: Make script executable (MANDATORY)
+chmod +x scripts/deploy-phase-2.5-architecture.sh
+
+# Step 1.3: Execute Phase 2.5 deployment (MANDATORY)
+sudo ./scripts/deploy-phase-2.5-architecture.sh
+
+# Step 1.4: Validate deployment (MANDATORY - DO NOT SKIP)
+chmod +x scripts/validate-phase-2.5-deployment.sh
+sudo ./scripts/validate-phase-2.5-deployment.sh
 ```
 
-**Expected Outcome:** All three layers operational with isolated routing
+#### MANDATORY Expected Outcomes:
+
+**After Step 1.3 (deploy-phase-2.5-architecture.sh):**
+- ✅ All pre-flight checks passed
+- ✅ Directories created: /var/www/nexuscos.online, /var/www/beta.nexuscos.online
+- ✅ Log directories created: /opt/nexus-cos/logs/phase2.5/{ott,dashboard,beta,transition}
+- ✅ Apex landing page deployed to /var/www/nexuscos.online/index.html
+- ✅ Beta landing page deployed to /var/www/beta.nexuscos.online/index.html
+- ✅ Nginx configuration created at /etc/nginx/sites-available/nexuscos-phase-2.5
+- ✅ Nginx configuration enabled and tested
+- ✅ Nginx reloaded successfully
+- ✅ Backend services started (if docker-compose.pf.yml exists)
+- ✅ Health checks completed
+- ✅ Transition automation script created
+- ✅ Message: "✅ DEPLOYMENT SUCCESSFUL - ALL MANDATORY REQUIREMENTS MET"
+
+**After Step 1.4 (validate-phase-2.5-deployment.sh):**
+- ✅ All directory structure validations passed
+- ✅ All landing pages verified
+- ✅ All Nginx configurations validated
+- ✅ All health endpoints operational
+- ✅ All routing tests passed
+- ✅ Message: "✅ ALL CHECKS PASSED - Phase 2.5 Deployment is Production Ready!"
+
+#### MANDATORY Failure Handling:
+
+**IF ANY CHECK FAILS:**
+1. ❌ STOP immediately - DO NOT PROCEED
+2. ❌ Review the error message displayed
+3. ❌ Fix the specific issue identified
+4. ❌ Re-run the deployment script from the beginning
+5. ❌ DO NOT skip validation
+6. ❌ DO NOT manually "work around" issues
+
+**ENFORCEMENT:** If deployment script exits with errors, the deployment is INCOMPLETE and MUST be fixed before proceeding to any other steps.
 
 ---
 
