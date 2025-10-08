@@ -1,0 +1,168 @@
+version: '3.8'
+
+# ==============================================================================
+# PUABO NEXUS - Fleet Services Compose Stack
+# ==============================================================================
+# Purpose: Dedicated compose file for PUABO NEXUS fleet services
+# Exposes services on localhost ports (9001-9004) for host Nginx proxying
+# ==============================================================================
+
+services:
+  # ==============================================================================
+  # AI Dispatch Service - Port 9001 (internal: 8080)
+  # ==============================================================================
+  ai-dispatch:
+    image: ${AI_DISPATCH_IMAGE:-puabo/nexus-ai-dispatch:latest}
+    container_name: puabo-nexus-ai-dispatch
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - SERVICE_NAME=ai-dispatch
+      - DB_HOST=${DB_HOST:-nexus-cos-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-nexus_db}
+      - DB_USER=${DB_USER:-nexus_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST:-nexus-cos-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "127.0.0.1:9001:8080"
+    networks:
+      - ${NETWORK_NAME:-nexus-network}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==============================================================================
+  # Driver Backend Service - Port 9002 (internal: 8080)
+  # ==============================================================================
+  driver-backend:
+    image: ${DRIVER_BACKEND_IMAGE:-puabo/nexus-driver-backend:latest}
+    container_name: puabo-nexus-driver-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - SERVICE_NAME=driver-backend
+      - DB_HOST=${DB_HOST:-nexus-cos-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-nexus_db}
+      - DB_USER=${DB_USER:-nexus_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST:-nexus-cos-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - JWT_SECRET=${JWT_SECRET}
+      - DISPATCH_SERVICE_URL=http://ai-dispatch:8080
+    ports:
+      - "127.0.0.1:9002:8080"
+    networks:
+      - ${NETWORK_NAME:-nexus-network}
+    depends_on:
+      - ai-dispatch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==============================================================================
+  # Fleet Manager Service - Port 9003 (internal: 8080)
+  # ==============================================================================
+  fleet-manager:
+    image: ${FLEET_MANAGER_IMAGE:-puabo/nexus-fleet-manager:latest}
+    container_name: puabo-nexus-fleet-manager
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - SERVICE_NAME=fleet-manager
+      - DB_HOST=${DB_HOST:-nexus-cos-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-nexus_db}
+      - DB_USER=${DB_USER:-nexus_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST:-nexus-cos-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - JWT_SECRET=${JWT_SECRET}
+      - DISPATCH_SERVICE_URL=http://ai-dispatch:8080
+    ports:
+      - "127.0.0.1:9003:8080"
+    networks:
+      - ${NETWORK_NAME:-nexus-network}
+    depends_on:
+      - ai-dispatch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==============================================================================
+  # Route Optimizer Service - Port 9004 (internal: 8080)
+  # ==============================================================================
+  route-optimizer:
+    image: ${ROUTE_OPTIMIZER_IMAGE:-puabo/nexus-route-optimizer:latest}
+    container_name: puabo-nexus-route-optimizer
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - SERVICE_NAME=route-optimizer
+      - DB_HOST=${DB_HOST:-nexus-cos-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-nexus_db}
+      - DB_USER=${DB_USER:-nexus_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST:-nexus-cos-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - JWT_SECRET=${JWT_SECRET}
+      - DISPATCH_SERVICE_URL=http://ai-dispatch:8080
+      - FLEET_SERVICE_URL=http://fleet-manager:8080
+    ports:
+      - "127.0.0.1:9004:8080"
+    networks:
+      - ${NETWORK_NAME:-nexus-network}
+    depends_on:
+      - ai-dispatch
+      - fleet-manager
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  nexus-network:
+    external: true
+    name: ${NETWORK_NAME:-nexus-network}
