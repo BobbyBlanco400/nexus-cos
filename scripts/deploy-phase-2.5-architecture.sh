@@ -6,9 +6,15 @@
 # Purpose: Deploy unified Phase 2.5 architecture with OTT, V-Suite, and Beta
 # Author: TRAE SOLO (GitHub Code Agent)
 # PF ID: PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5
+# 
+# ENFORCEMENT MODE: STRICT - ZERO TOLERANCE FOR ERRORS
+# This script MUST be followed line-by-line with NO deviations
 # ==============================================================================
 
 set -euo pipefail
+
+# Trap errors and provide clear feedback
+trap 'echo -e "\n${RED}ERROR at line $LINENO: Command failed with exit code $?${NC}\n"; exit 1' ERR
 
 # Configuration
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -97,41 +103,69 @@ fatal_error() {
 # ==============================================================================
 
 check_prerequisites() {
-    print_section "1. PRE-FLIGHT CHECKS"
+    print_section "1. MANDATORY PRE-FLIGHT CHECKS"
     
     print_step "Checking system requirements..."
     
-    # Check if running as root
+    # MANDATORY: Check if running as root
     if [[ $EUID -ne 0 ]]; then
         print_error "This script must be run as root"
-        fatal_error "Please run with sudo or as root user"
+        fatal_error "ENFORCEMENT FAILURE: Must run with sudo or as root user"
     fi
-    print_success "Running as root"
+    print_success "Running as root ✓"
     
-    # Check required commands
+    # MANDATORY: Check required commands
     local required_commands=("nginx" "docker" "curl" "openssl")
     for cmd in "${required_commands[@]}"; do
         if command -v "$cmd" &>/dev/null; then
-            print_success "$cmd is installed"
+            print_success "$cmd is installed ✓"
         else
             print_error "$cmd is not installed"
-            fatal_error "Required command '$cmd' is missing"
+            fatal_error "ENFORCEMENT FAILURE: Required command '$cmd' is missing. Install it before proceeding."
         fi
     done
     
-    # Check repository location
+    # MANDATORY: Check repository location
     if [[ ! -d "/opt/nexus-cos" ]]; then
         print_error "Repository not found at /opt/nexus-cos"
-        fatal_error "Please clone repository to /opt/nexus-cos first"
+        fatal_error "ENFORCEMENT FAILURE: Repository must be cloned to /opt/nexus-cos"
     fi
-    print_success "Repository found at /opt/nexus-cos"
+    print_success "Repository found at /opt/nexus-cos ✓"
     
-    # Check if Docker is running
+    # MANDATORY: Check if Docker is running
     if systemctl is-active --quiet docker; then
-        print_success "Docker service is running"
+        print_success "Docker service is running ✓"
     else
         print_error "Docker service is not running"
-        fatal_error "Please start Docker service first"
+        fatal_error "ENFORCEMENT FAILURE: Start Docker service with: systemctl start docker"
+    fi
+    
+    # MANDATORY: Check for landing page source files
+    print_step "Verifying landing page source files..."
+    if [[ ! -f "${REPO_ROOT}/apex/index.html" ]]; then
+        print_error "Apex landing page not found at ${REPO_ROOT}/apex/index.html"
+        fatal_error "ENFORCEMENT FAILURE: Missing apex/index.html - Repository is incomplete"
+    fi
+    print_success "Apex landing page found ✓"
+    
+    if [[ ! -f "${REPO_ROOT}/web/beta/index.html" ]]; then
+        print_error "Beta landing page not found at ${REPO_ROOT}/web/beta/index.html"
+        fatal_error "ENFORCEMENT FAILURE: Missing web/beta/index.html - Repository is incomplete"
+    fi
+    print_success "Beta landing page found ✓"
+    
+    # MANDATORY: Check for SSL certificates
+    print_step "Verifying SSL certificates..."
+    if [[ ! -f "/etc/nginx/ssl/apex/nexuscos.online.crt" ]] || [[ ! -f "/etc/nginx/ssl/apex/nexuscos.online.key" ]]; then
+        print_warning "Production SSL certificates not found (will need manual installation)"
+    else
+        print_success "Production SSL certificates found ✓"
+    fi
+    
+    if [[ ! -f "/etc/nginx/ssl/beta/beta.nexuscos.online.crt" ]] || [[ ! -f "/etc/nginx/ssl/beta/beta.nexuscos.online.key" ]]; then
+        print_warning "Beta SSL certificates not found (will need manual installation)"
+    else
+        print_success "Beta SSL certificates found ✓"
     fi
 }
 
@@ -171,25 +205,49 @@ setup_directories() {
 # ==============================================================================
 
 deploy_landing_pages() {
-    print_section "3. DEPLOYING LANDING PAGES"
+    print_section "3. MANDATORY LANDING PAGE DEPLOYMENT"
     
-    # Deploy Apex (Production) landing page
-    print_step "Deploying apex landing page..."
-    if [[ -f "${REPO_ROOT}/apex/index.html" ]]; then
-        cp "${REPO_ROOT}/apex/index.html" "$WWW_APEX/"
-        print_success "Apex landing page deployed to $WWW_APEX"
-    else
-        print_warning "Apex landing page not found in repository"
+    # MANDATORY: Deploy Apex (Production) landing page
+    print_step "Deploying apex landing page (MANDATORY)..."
+    if [[ ! -f "${REPO_ROOT}/apex/index.html" ]]; then
+        print_error "Apex landing page not found in repository"
+        fatal_error "ENFORCEMENT FAILURE: ${REPO_ROOT}/apex/index.html is required but missing"
     fi
     
-    # Deploy Beta landing page
-    print_step "Deploying beta landing page..."
-    if [[ -f "${REPO_ROOT}/web/beta/index.html" ]]; then
-        cp "${REPO_ROOT}/web/beta/index.html" "$WWW_BETA/"
-        print_success "Beta landing page deployed to $WWW_BETA"
-    else
-        print_warning "Beta landing page not found in repository"
+    cp "${REPO_ROOT}/apex/index.html" "$WWW_APEX/"
+    if [[ ! -f "$WWW_APEX/index.html" ]]; then
+        print_error "Failed to copy apex landing page"
+        fatal_error "ENFORCEMENT FAILURE: Could not deploy apex landing page to $WWW_APEX"
     fi
+    print_success "Apex landing page deployed to $WWW_APEX ✓"
+    
+    # MANDATORY: Deploy Beta landing page
+    print_step "Deploying beta landing page (MANDATORY)..."
+    if [[ ! -f "${REPO_ROOT}/web/beta/index.html" ]]; then
+        print_error "Beta landing page not found in repository"
+        fatal_error "ENFORCEMENT FAILURE: ${REPO_ROOT}/web/beta/index.html is required but missing"
+    fi
+    
+    cp "${REPO_ROOT}/web/beta/index.html" "$WWW_BETA/"
+    if [[ ! -f "$WWW_BETA/index.html" ]]; then
+        print_error "Failed to copy beta landing page"
+        fatal_error "ENFORCEMENT FAILURE: Could not deploy beta landing page to $WWW_BETA"
+    fi
+    print_success "Beta landing page deployed to $WWW_BETA ✓"
+    
+    # MANDATORY: Verify landing pages contain correct branding
+    print_step "Verifying landing page branding..."
+    if grep -q "Nexus COS" "$WWW_APEX/index.html" && grep -q "Nexus COS" "$WWW_BETA/index.html"; then
+        print_success "Landing page branding verified ✓"
+    else
+        print_warning "Landing pages may not contain expected Nexus COS branding"
+    fi
+    
+    # Set proper ownership and permissions
+    print_step "Setting landing page permissions..."
+    chown www-data:www-data "$WWW_APEX/index.html" "$WWW_BETA/index.html" 2>/dev/null || chown nginx:nginx "$WWW_APEX/index.html" "$WWW_BETA/index.html" 2>/dev/null || true
+    chmod 644 "$WWW_APEX/index.html" "$WWW_BETA/index.html"
+    print_success "Landing page permissions configured ✓"
 }
 
 # ==============================================================================
@@ -339,27 +397,41 @@ NGINX_EOF
     
     print_success "Nginx configuration generated"
     
-    # Enable site
-    print_step "Enabling Phase 2.5 configuration..."
+    # MANDATORY: Enable site
+    print_step "Enabling Phase 2.5 configuration (MANDATORY)..."
+    rm -f /etc/nginx/sites-enabled/nexuscos 2>/dev/null || true
     ln -sf "$NGINX_CONF_DIR/nexuscos-phase-2.5" /etc/nginx/sites-enabled/nexuscos
     
-    # Test configuration
-    print_step "Testing nginx configuration..."
-    if nginx -t 2>&1 | grep -q "successful"; then
-        print_success "Nginx configuration is valid"
-    else
-        print_error "Nginx configuration validation failed"
-        fatal_error "Please check nginx configuration syntax"
+    if [[ ! -L /etc/nginx/sites-enabled/nexuscos ]]; then
+        print_error "Failed to create symbolic link"
+        fatal_error "ENFORCEMENT FAILURE: Could not enable nginx configuration"
     fi
+    print_success "Phase 2.5 configuration enabled ✓"
     
-    # Reload nginx
-    print_step "Reloading nginx..."
-    if systemctl reload nginx; then
-        print_success "Nginx reloaded successfully"
-    else
-        print_error "Failed to reload nginx"
-        fatal_error "Nginx reload failed"
+    # MANDATORY: Test configuration
+    print_step "Testing nginx configuration (MANDATORY)..."
+    if ! nginx -t 2>&1; then
+        print_error "Nginx configuration validation failed"
+        fatal_error "ENFORCEMENT FAILURE: Nginx configuration has syntax errors. Fix before proceeding."
     fi
+    print_success "Nginx configuration is valid ✓"
+    
+    # MANDATORY: Reload nginx
+    print_step "Reloading nginx (MANDATORY)..."
+    if ! systemctl reload nginx; then
+        print_error "Failed to reload nginx"
+        fatal_error "ENFORCEMENT FAILURE: Nginx reload failed. Check systemctl status nginx for details."
+    fi
+    print_success "Nginx reloaded successfully ✓"
+    
+    # MANDATORY: Verify nginx is still running after reload
+    print_step "Verifying nginx is running..."
+    sleep 2
+    if ! systemctl is-active --quiet nginx; then
+        print_error "Nginx is not running after reload"
+        fatal_error "ENFORCEMENT FAILURE: Nginx crashed during reload. Check error logs."
+    fi
+    print_success "Nginx is running and operational ✓"
 }
 
 # ==============================================================================
@@ -524,40 +596,93 @@ CUTOVER_EOF
 
 print_summary() {
     echo ""
-    echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${GREEN}║                                                                ║${NC}"
-    echo -e "${GREEN}║              PHASE 2.5 DEPLOYMENT COMPLETE                     ║${NC}"
-    echo -e "${GREEN}║                                                                ║${NC}"
-    echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
-    echo ""
     
-    echo -e "${CYAN}Deployment Summary:${NC}"
+    if [[ $CHECKS_FAILED -eq 0 ]]; then
+        echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}║        ✅  PHASE 2.5 DEPLOYMENT COMPLETE - SUCCESS  ✅         ║${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}║              ALL MANDATORY REQUIREMENTS MET                    ║${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
+    else
+        echo -e "${RED}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${RED}║                                                                ║${NC}"
+        echo -e "${RED}║        ❌  PHASE 2.5 DEPLOYMENT INCOMPLETE  ❌                  ║${NC}"
+        echo -e "${RED}║                                                                ║${NC}"
+        echo -e "${RED}║              MANDATORY REQUIREMENTS NOT MET                    ║${NC}"
+        echo -e "${RED}║                                                                ║${NC}"
+        echo -e "${RED}╚════════════════════════════════════════════════════════════════╝${NC}"
+    fi
+    
+    echo ""
+    echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}  DEPLOYMENT SUMMARY${NC}"
+    echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+    echo ""
+    echo -e "${CYAN}Status:${NC}"
     echo -e "  ${GREEN}✓${NC} Checks Passed: $CHECKS_PASSED"
     echo -e "  ${RED}✗${NC} Checks Failed: $CHECKS_FAILED"
     echo ""
     
-    echo -e "${CYAN}System Layers:${NC}"
+    echo -e "${CYAN}System Layers Deployed:${NC}"
     echo -e "  ${GREEN}►${NC} OTT Frontend: https://nexuscos.online"
     echo -e "  ${GREEN}►${NC} V-Suite Dashboard: https://nexuscos.online/v-suite/"
-    echo -e "  ${GREEN}►${NC} Beta Portal: https://beta.nexuscos.online (Until Nov 17, 2025)"
+    echo -e "  ${GREEN}►${NC} Beta Portal: https://beta.nexuscos.online (Active until Nov 17, 2025)"
     echo ""
     
-    echo -e "${CYAN}Next Steps:${NC}"
-    echo -e "  1. Run validation: ./scripts/validate-phase-2.5-deployment.sh"
-    echo -e "  2. Verify endpoints are accessible"
-    echo -e "  3. Monitor logs in /opt/nexus-cos/logs/phase2.5/"
-    echo -e "  4. Schedule transition cutover for Nov 17, 2025"
+    echo -e "${CYAN}Deployed Files:${NC}"
+    echo -e "  ${GREEN}►${NC} Production Landing: /var/www/nexuscos.online/index.html"
+    echo -e "  ${GREEN}►${NC} Beta Landing: /var/www/beta.nexuscos.online/index.html"
+    echo -e "  ${GREEN}►${NC} Nginx Config: /etc/nginx/sites-enabled/nexuscos"
+    echo ""
+    
+    echo -e "${CYAN}Log Locations:${NC}"
+    echo -e "  ${GREEN}►${NC} OTT Logs: /opt/nexus-cos/logs/phase2.5/ott/"
+    echo -e "  ${GREEN}►${NC} Dashboard Logs: /opt/nexus-cos/logs/phase2.5/dashboard/"
+    echo -e "  ${GREEN}►${NC} Beta Logs: /opt/nexus-cos/logs/phase2.5/beta/"
+    echo -e "  ${GREEN}►${NC} Transition Logs: /opt/nexus-cos/logs/phase2.5/transition/"
+    echo ""
+    
+    echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}  MANDATORY NEXT STEPS${NC}"
+    echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+    echo ""
+    echo -e "  ${YELLOW}1.${NC} MANDATORY: Run validation script"
+    echo -e "     ${BLUE}cd /opt/nexus-cos && ./scripts/validate-phase-2.5-deployment.sh${NC}"
+    echo ""
+    echo -e "  ${YELLOW}2.${NC} MANDATORY: Verify all endpoints return HTTP 200"
+    echo -e "     ${BLUE}curl -I https://nexuscos.online${NC}"
+    echo -e "     ${BLUE}curl -I https://beta.nexuscos.online${NC}"
+    echo ""
+    echo -e "  ${YELLOW}3.${NC} MANDATORY: Monitor logs for errors"
+    echo -e "     ${BLUE}tail -f /opt/nexus-cos/logs/phase2.5/*/error.log${NC}"
+    echo ""
+    echo -e "  ${YELLOW}4.${NC} REQUIRED: Schedule transition cutover for Nov 17, 2025"
+    echo -e "     ${BLUE}crontab -e${NC}"
+    echo -e "     ${BLUE}0 0 17 11 2025 /opt/nexus-cos/scripts/beta-transition-cutover.sh${NC}"
     echo ""
     
     if [[ $CHECKS_FAILED -eq 0 ]]; then
-        echo -e "${GREEN}✓ DEPLOYMENT SUCCESSFUL${NC}"
+        echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${GREEN}║  ✅  STATUS: PRODUCTION READY - ALL SYSTEMS OPERATIONAL  ✅    ║${NC}"
+        echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+        echo -e "${GREEN}Phase 2.5 deployment completed successfully!${NC}"
+        echo -e "${GREEN}All mandatory requirements have been met.${NC}"
+        echo -e "${GREEN}Proceed with validation script.${NC}"
         echo ""
         return 0
     else
-        echo -e "${YELLOW}⚠ DEPLOYMENT COMPLETED WITH WARNINGS${NC}"
-        echo -e "  Please review errors above and address as needed."
+        echo -e "${RED}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${RED}║  ❌  STATUS: DEPLOYMENT INCOMPLETE - ERRORS DETECTED  ❌       ║${NC}"
+        echo -e "${RED}╚════════════════════════════════════════════════════════════════╝${NC}"
         echo ""
-        return 0
+        echo -e "${RED}ENFORCEMENT FAILURE: Deployment completed with $CHECKS_FAILED errors.${NC}"
+        echo -e "${YELLOW}Review the errors above and fix all issues before proceeding.${NC}"
+        echo -e "${YELLOW}Do NOT skip validation or continue with errors.${NC}"
+        echo ""
+        return 1
     fi
 }
 
