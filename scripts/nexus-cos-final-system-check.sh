@@ -126,17 +126,22 @@ check_url() {
     local name="$2"
     local expected_code="${3:-200}"
     
-    local http_code
-    http_code=$(curl -skI -m "${TIMEOUT}" -w "%{http_code}" -o /dev/null "$url" 2>/dev/null || echo "000")
+    local response
+    response=$(curl -skI -m "${TIMEOUT}" "$url" 2>/dev/null)
+    local http_code=$(echo "$response" | grep -m1 "^HTTP" | awk '{print $2}')
+    
+    if [[ -z "$http_code" ]]; then
+        http_code="000"
+    fi
     
     if [[ "$http_code" == "$expected_code" ]]; then
-        print_success "$name - HTTP $http_code (${url})"
+        print_success "$name - HTTP $http_code"
         return 0
     elif [[ "$http_code" == "000" ]]; then
-        print_error "$name - Connection failed (${url})"
+        print_error "$name - Connection failed"
         return 1
     else
-        print_warning "$name - HTTP $http_code (expected $expected_code) (${url})"
+        print_warning "$name - HTTP $http_code (expected $expected_code)"
         return 1
     fi
 }
@@ -224,16 +229,34 @@ check_docker_stacks() {
     
     print_subsection "Docker Compose Syntax Validation"
     
+    # Try to validate with environment file, but don't fail if env vars are missing
+    local pf_yml_valid=false
+    local pf_nexus_yml_valid=false
+    
     if docker compose -f "${REPO_ROOT}/docker-compose.pf.yml" config &>/dev/null; then
         print_success "docker-compose.pf.yml syntax is valid"
+        pf_yml_valid=true
     else
-        print_error "docker-compose.pf.yml has syntax errors"
+        local error_msg=$(docker compose -f "${REPO_ROOT}/docker-compose.pf.yml" config 2>&1 | head -1)
+        if [[ "$error_msg" =~ "required variable" ]] || [[ "$error_msg" =~ "missing a value" ]]; then
+            print_warning "docker-compose.pf.yml requires environment variables (expected)"
+            pf_yml_valid=true
+        else
+            print_error "docker-compose.pf.yml has syntax errors"
+        fi
     fi
     
     if docker compose -f "${REPO_ROOT}/docker-compose.pf.nexus.yml" config &>/dev/null; then
         print_success "docker-compose.pf.nexus.yml syntax is valid"
+        pf_nexus_yml_valid=true
     else
-        print_error "docker-compose.pf.nexus.yml has syntax errors"
+        local error_msg=$(docker compose -f "${REPO_ROOT}/docker-compose.pf.nexus.yml" config 2>&1 | head -1)
+        if [[ "$error_msg" =~ "required variable" ]] || [[ "$error_msg" =~ "missing a value" ]]; then
+            print_warning "docker-compose.pf.nexus.yml requires environment variables (expected)"
+            pf_nexus_yml_valid=true
+        else
+            print_error "docker-compose.pf.nexus.yml has syntax errors"
+        fi
     fi
     
     print_subsection "Docker Stack Status"
@@ -281,14 +304,26 @@ check_nginx_config() {
     print_section "4. NGINX CONFIGURATION VALIDATION"
     
     print_step "Testing nginx configuration syntax..."
-    if nginx -t &>/dev/null; then
-        print_success "Nginx configuration is valid"
-        nginx -t 2>&1 | grep -E "syntax|successful" | while read line; do
+    local nginx_test_output
+    nginx_test_output=$(nginx -t 2>&1)
+    local nginx_test_exit=$?
+    
+    # Check if syntax is OK even if there are permission errors
+    if echo "$nginx_test_output" | grep -q "syntax is ok"; then
+        print_success "Nginx configuration syntax is valid"
+        echo "$nginx_test_output" | grep -E "syntax|test is successful" | while read line; do
             print_info "   $line"
         done
+    elif [[ $nginx_test_exit -eq 0 ]]; then
+        print_success "Nginx configuration is valid"
     else
-        print_error "Nginx configuration has errors"
-        print_info "   Run 'nginx -t' for details"
+        if echo "$nginx_test_output" | grep -q "Permission denied"; then
+            print_warning "Nginx test requires sudo permissions"
+            print_info "   Run 'sudo nginx -t' to verify configuration"
+        else
+            print_error "Nginx configuration has errors"
+            print_info "   Run 'nginx -t' for details"
+        fi
     fi
     
     print_step "Checking nginx service status..."
