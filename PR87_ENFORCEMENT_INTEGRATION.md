@@ -2,11 +2,14 @@
 
 **IRON FIST ENFORCEMENT - COMPLETE INTEGRATION GUIDE**
 
+**Status:** Integrated with Phase 2.5  
+**Last Updated:** October 7, 2025
+
 ---
 
 ## 📋 OVERVIEW
 
-This document describes how the PR#87 landing page enforcement framework integrates with the existing Nexus COS Production Framework (PF) deployment system.
+This document describes how the PR#87 landing page enforcement framework integrates with the existing Nexus COS Production Framework (PF) deployment system, including **Phase 2.5 OTT Integration + Beta Transition**.
 
 ### What Was Created
 
@@ -21,8 +24,19 @@ This document describes how the PR#87 landing page enforcement framework integra
 To ensure TRAE (or any deployment agent) can deploy the PR#87 landing pages with **ABSOLUTE STRICT ADHERENCE** to:
 - PF Standards
 - Global Branding Policy
+- Phase 2.5 architecture compatibility
 - Zero error tolerance
 - Complete validation coverage
+
+### Phase 2.5 Integration
+
+PR#87 landing pages are now **fully integrated** with Phase 2.5:
+- **Apex landing** deployed to `/var/www/nexuscos.online/` (OTT layer)
+- **Beta landing** deployed to `/var/www/beta.nexuscos.online/` (Beta layer)
+- **Validation** included in Phase 2.5 validation suite
+- **Transition** automated for November 17, 2025
+
+**See:** `PF_PHASE_2.5_OTT_INTEGRATION.md` for complete Phase 2.5 specifications
 
 ---
 
@@ -467,9 +481,53 @@ PF Standards: STRICTLY ADHERED TO ✓
 
 ---
 
-**Last Updated:** $(date)  
-**Version:** 1.0 IRON FIST INTEGRATION EDITION  
-**Author:** GitHub Copilot Agent  
+## 🚀 PHASE 2.5 INTEGRATION NOTES
+
+### Unified Deployment
+
+As of Phase 2.5, PR#87 landing pages are deployed automatically by the Phase 2.5 deployment script:
+
+```bash
+# Phase 2.5 includes PR#87 deployment
+cd /opt/nexus-cos
+./scripts/deploy-phase-2.5-architecture.sh
+```
+
+### Validation Integration
+
+PR#87 validation is included in Phase 2.5 validation suite:
+
+```bash
+# Validates PR#87 branding integration
+./scripts/validate-phase-2.5-deployment.sh
+# Section 10: PR87 INTEGRATION VALIDATION
+```
+
+### Migration Path
+
+**From PR#87 Standalone → Phase 2.5:**
+
+1. Existing PR#87 deployments continue to work
+2. Phase 2.5 enhances with dual-domain routing
+3. Adds V-Suite dashboard layer
+4. Includes automated transition for Nov 17, 2025
+
+**For New Deployments:**
+
+Use Phase 2.5 deployment script, which includes PR#87 automatically.
+
+### Documentation References
+
+- **Phase 2.5 PF Directive:** `PF_PHASE_2.5_OTT_INTEGRATION.md`
+- **Phase 2.5 Execution Guide:** `TRAE_SOLO_EXECUTION.md` (Steps 15-20)
+- **Phase 2.5 Quick Reference:** `PHASE_2.5_QUICK_REFERENCE.md`
+- **Phase 2.5 Index:** `PHASE_2.5_INDEX.md`
+
+---
+
+**Last Updated:** October 7, 2025  
+**Version:** 1.1 PHASE 2.5 INTEGRATION EDITION  
+**Author:** GitHub Copilot Agent + TRAE SOLO  
 **For:** Robert White (PUABO / Nexus COS Founder)
 
-**TRAE: This framework is production-ready. Execute with confidence.**
+**TRAE: This framework is production-ready and Phase 2.5 integrated. Execute with confidence.**
