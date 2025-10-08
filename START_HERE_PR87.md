@@ -1,5 +1,14 @@
 # 🚀 START HERE - PR#87 Landing Page Deployment
 
+⚠️ **IMPORTANT UPDATE**: Issues preventing landing page deployment have been fixed!
+
+👉 **See [LANDING_PAGE_FIX_GUIDE.md](LANDING_PAGE_FIX_GUIDE.md) for the complete fix and deployment guide.**
+
+Or use the quick deployment:
+```bash
+sudo bash DEPLOY_LANDING_PAGES_NOW.sh
+```
+
 **TRAE SOLO BUILDER - IMMEDIATE EXECUTION GUIDE**
 
 ---
