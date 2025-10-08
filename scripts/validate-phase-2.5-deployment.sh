@@ -6,6 +6,9 @@
 # Purpose: Comprehensive validation of Phase 2.5 OTT + Beta deployment
 # Author: TRAE SOLO (GitHub Code Agent)
 # PF ID: PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5
+# 
+# ENFORCEMENT MODE: STRICT - MANDATORY VALIDATION
+# This validation CANNOT be skipped - ALL checks must pass
 # ==============================================================================
 
 set -euo pipefail
@@ -36,7 +39,13 @@ print_header() {
     echo -e "${CYAN}║                                                                ║${NC}"
     echo -e "${CYAN}║              PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5         ║${NC}"
     echo -e "${CYAN}║                                                                ║${NC}"
+    echo -e "${CYAN}║              ENFORCEMENT MODE: MANDATORY VALIDATION            ║${NC}"
+    echo -e "${CYAN}║                                                                ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "${YELLOW}⚠️  This validation script performs 40+ mandatory checks${NC}"
+    echo -e "${YELLOW}⚠️  ALL checks must pass for deployment to be considered complete${NC}"
+    echo -e "${YELLOW}⚠️  Do NOT proceed with production use if ANY checks fail${NC}"
     echo ""
 }
 
@@ -355,15 +364,15 @@ print_summary() {
     echo ""
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║                                                                ║${NC}"
-    echo -e "${CYAN}║              VALIDATION SUMMARY                                ║${NC}"
+    echo -e "${CYAN}║              MANDATORY VALIDATION SUMMARY                      ║${NC}"
     echo -e "${CYAN}║                                                                ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     
-    echo -e "${CYAN}Results:${NC}"
-    echo -e "  ${GREEN}✓${NC} Passed:   $CHECKS_PASSED"
-    echo -e "  ${RED}✗${NC} Failed:   $CHECKS_FAILED"
-    echo -e "  ${YELLOW}⚠${NC} Warnings: $CHECKS_WARNING"
+    echo -e "${CYAN}Validation Results:${NC}"
+    echo -e "  ${GREEN}✓${NC} Checks Passed:   $CHECKS_PASSED"
+    echo -e "  ${RED}✗${NC} Checks Failed:   $CHECKS_FAILED"
+    echo -e "  ${YELLOW}⚠${NC} Warnings:        $CHECKS_WARNING"
     echo ""
     
     local total_checks=$((CHECKS_PASSED + CHECKS_FAILED + CHECKS_WARNING))
@@ -372,34 +381,66 @@ print_summary() {
         success_rate=$((CHECKS_PASSED * 100 / total_checks))
     fi
     
-    echo -e "${CYAN}Success Rate: ${success_rate}%${NC}"
+    echo -e "${CYAN}Success Rate: ${success_rate}% (${CHECKS_PASSED}/${total_checks})${NC}"
     echo ""
     
     if [[ $CHECKS_FAILED -eq 0 ]]; then
         echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
         echo -e "${GREEN}║                                                                ║${NC}"
-        echo -e "${GREEN}║                   ✓ ALL CHECKS PASSED                          ║${NC}"
+        echo -e "${GREEN}║                ✅ ALL CHECKS PASSED ✅                         ║${NC}"
         echo -e "${GREEN}║                                                                ║${NC}"
-        echo -e "${GREEN}║          Phase 2.5 Deployment is Production Ready!             ║${NC}"
+        echo -e "${GREEN}║         Phase 2.5 Deployment is Production Ready!              ║${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}║         ALL MANDATORY REQUIREMENTS MET                         ║${NC}"
         echo -e "${GREEN}║                                                                ║${NC}"
         echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
         echo ""
         
-        echo -e "${CYAN}System Status:${NC}"
-        echo -e "  ${GREEN}►${NC} OTT Frontend: Ready"
-        echo -e "  ${GREEN}►${NC} V-Suite Dashboard: Ready"
-        echo -e "  ${GREEN}►${NC} Beta Portal: Ready (Active until Nov 17, 2025)"
+        echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+        echo -e "${CYAN}  SYSTEM STATUS - PRODUCTION READY${NC}"
+        echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
+        echo ""
+        echo -e "  ${GREEN}►${NC} OTT Frontend: ${GREEN}✓ READY${NC} (https://nexuscos.online)"
+        echo -e "  ${GREEN}►${NC} V-Suite Dashboard: ${GREEN}✓ READY${NC} (https://nexuscos.online/v-suite/)"
+        echo -e "  ${GREEN}►${NC} Beta Portal: ${GREEN}✓ READY${NC} (https://beta.nexuscos.online)"
+        echo ""
+        echo -e "${CYAN}Next Steps:${NC}"
+        echo -e "  1. ✅ Deployment validated and production-ready"
+        echo -e "  2. ✅ All landing pages accessible"
+        echo -e "  3. ✅ Nginx routing configured correctly"
+        echo -e "  4. ⏳ Schedule transition for Nov 17, 2025"
+        echo ""
+        echo -e "${GREEN}✅ STATUS: PRODUCTION READY - DEPLOYMENT COMPLETE ✅${NC}"
         echo ""
         
         return 0
     else
         echo -e "${RED}╔════════════════════════════════════════════════════════════════╗${NC}"
         echo -e "${RED}║                                                                ║${NC}"
-        echo -e "${RED}║                  VALIDATION FAILED                             ║${NC}"
+        echo -e "${RED}║                ❌ VALIDATION FAILED ❌                          ║${NC}"
         echo -e "${RED}║                                                                ║${NC}"
-        echo -e "${RED}║           Please address errors above                          ║${NC}"
+        echo -e "${RED}║              DEPLOYMENT IS INCOMPLETE                          ║${NC}"
         echo -e "${RED}║                                                                ║${NC}"
         echo -e "${RED}╚════════════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+        
+        echo -e "${RED}ENFORCEMENT FAILURE: ${CHECKS_FAILED} validation checks failed${NC}"
+        echo ""
+        echo -e "${YELLOW}MANDATORY Actions Required:${NC}"
+        echo -e "  1. ❌ Review ALL error messages above"
+        echo -e "  2. ❌ Fix each failed check"
+        echo -e "  3. ❌ Re-run deployment: ./scripts/deploy-phase-2.5-architecture.sh"
+        echo -e "  4. ❌ Re-run validation: ./scripts/validate-phase-2.5-deployment.sh"
+        echo -e "  5. ❌ Repeat until ALL checks pass"
+        echo ""
+        echo -e "${RED}DO NOT PROCEED WITH PRODUCTION USE UNTIL ALL CHECKS PASS${NC}"
+        echo ""
+        echo -e "${YELLOW}Common Issues to Check:${NC}"
+        echo -e "  • Missing landing pages (apex/index.html or web/beta/index.html)"
+        echo -e "  • Nginx not running or misconfigured"
+        echo -e "  • SSL certificates not installed"
+        echo -e "  • Backend services not started"
+        echo -e "  • Permission issues on web directories"
         echo ""
         
         return 1
