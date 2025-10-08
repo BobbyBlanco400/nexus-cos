@@ -5,10 +5,52 @@
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![React](https://img.shields.io/badge/React-18.x-blue)
 ![Production Ready](https://img.shields.io/badge/Production-Ready-brightgreen)
+![PF v2025.10.01](https://img.shields.io/badge/PF-v2025.10.01-blue)
+![PF Status](https://img.shields.io/badge/Status-LIVE%20%7C%20CERTIFIED-green)
 
 **🚀 Complete OTT/Streaming TV Platform with Integrated Modules**
 
-A complete operating system implementation featuring Live TV, On-Demand content, and an integrated module ecosystem including Club Saditty, Creator Hub, V-Suite, and more.
+A complete operating system implementation featuring Live TV, On-Demand content, and an integrated module ecosystem including Club Saditty, Creator Hub, V-Suite, PUABO NEXUS Fleet Management, and more.
+
+---
+
+## 📋 **PF v2025.10.01 - Latest Production Framework**
+
+**Status:** LIVE | CERTIFIED | PF-SYNC READY  
+**Issued:** 2025-10-01 23:22 PST  
+**Scope:** Nexus COS | PUABO Universe | Club Saditty | Nexus Studio AI | **PUABO NEXUS Fleet Management**
+
+### 🎯 What's New in PF v2025.10.01
+
+✨ **PUABO NEXUS** - AI-Powered Box Truck & Fleet Ecosystem
+- 🚚 AI Dispatch Engine (Port 3231)
+- 📱 Driver App Backend (Port 3232)
+- 🚛 Fleet Manager (Port 3233)
+- 🗺️ Route Optimizer (Port 3234)
+
+### 📚 PF Documentation
+
+- **[Quick Start Guide](PF_v2025.10.01_QUICKSTART.md)** - Step-by-step deployment for TRAE Solo ⭐
+- **[Full PF Documentation](PF_v2025.10.01.md)** - Complete PF specification
+- **[Health Check Guide](PF_v2025.10.01_HEALTH_CHECKS.md)** - Service monitoring
+- **[YAML Configuration](nexus-cos-pf-v2025.10.01.yaml)** - Technical configuration
+
+### ⚡ PF v2025.10.01 Deployment
+
+**One-line deployment:**
+```bash
+cd /opt/nexus-cos && git pull origin main && ./scripts/deploy_hybrid_fullstack_pf.sh
+```
+
+**Validation:**
+```bash
+./validate-pf-v2025.10.01.sh
+```
+
+**Health Check:**
+```bash
+./check-pf-v2025-health.sh
+```
 
 ---
 
