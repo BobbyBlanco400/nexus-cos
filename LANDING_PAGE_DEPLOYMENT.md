@@ -16,98 +16,108 @@ This deployment guide provides instructions for TRAE to deploy the Nexus COS Bet
 
 ## Quick Deployment
 
-### Option 1: Deploy to Apex Domain
+### Automated Deployment (Recommended)
+
+Use the deployment script for automated, validated deployment:
 
 ```bash
+cd /home/runner/work/nexus-cos/nexus-cos
+sudo bash scripts/deploy-pr87-landing-pages.sh
+```
+
+This script will:
+- Create necessary directories
+- Backup existing files
+- Deploy both landing pages
+- Set correct permissions
+- Validate nginx configuration
+- Generate deployment report
+
+### Manual Deployment
+
+#### Option 1: Deploy to Apex Domain
+
+```bash
+# Create directory if it doesn't exist
+sudo mkdir -p /var/www/nexuscos.online
+
 # Copy apex landing page to root domain
-cp apex/index.html /var/www/nexuscos.online/index.html
+sudo cp apex/index.html /var/www/nexuscos.online/index.html
 
-# Or symlink
-ln -sf /path/to/repo/apex/index.html /var/www/nexuscos.online/index.html
+# Set permissions
+sudo chown www-data:www-data /var/www/nexuscos.online/index.html
+sudo chmod 644 /var/www/nexuscos.online/index.html
 ```
 
-### Option 2: Deploy to Beta Domain
+#### Option 2: Deploy to Beta Domain
 
 ```bash
+# Create directory if it doesn't exist
+sudo mkdir -p /var/www/beta.nexuscos.online
+
 # Copy beta landing page to beta subdomain
-cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+sudo cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
 
-# Or symlink
-ln -sf /path/to/repo/web/beta/index.html /var/www/beta.nexuscos.online/index.html
+# Set permissions
+sudo chown www-data:www-data /var/www/beta.nexuscos.online/index.html
+sudo chmod 644 /var/www/beta.nexuscos.online/index.html
 ```
 
-### Option 3: Deploy Both (Recommended)
+#### Option 3: Deploy Both (Recommended)
 
 ```bash
+# Create directories
+sudo mkdir -p /var/www/nexuscos.online
+sudo mkdir -p /var/www/beta.nexuscos.online
+
 # Deploy apex
-cp apex/index.html /var/www/nexuscos.online/index.html
+sudo cp apex/index.html /var/www/nexuscos.online/index.html
 
 # Deploy beta
-cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+sudo cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+
+# Set permissions
+sudo chown -R www-data:www-data /var/www/nexuscos.online /var/www/beta.nexuscos.online
+sudo chmod 644 /var/www/nexuscos.online/index.html /var/www/beta.nexuscos.online/index.html
 ```
 
 ## Nginx Configuration
 
-Ensure your Nginx configuration serves the landing pages correctly:
+The updated nginx configuration is in `deployment/nginx/nexuscos-unified.conf`. Key changes:
 
-```nginx
-# Apex domain configuration
-server {
-    listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
-    
-    root /var/www/nexuscos.online;
-    index index.html;
-    
-    # SSL configuration (existing)
-    ssl_certificate /path/to/cert.pem;
-    ssl_certificate_key /path/to/key.pem;
-    
-    # Serve apex landing page
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-    
-    # Health check endpoint
-    location /health/gateway {
-        proxy_pass http://localhost:4000/health;
-    }
-    
-    # API routes (existing configuration)
-    location /api/ {
-        proxy_pass http://localhost:4000;
-    }
-}
+1. **Root directory changed** from `/var/www/nexus-cos` to `/var/www/nexuscos.online`
+2. **Root path now serves landing page** instead of redirecting to `/admin/`
+3. **Beta subdomain configured** with separate server block at `/var/www/beta.nexuscos.online`
 
-# Beta subdomain configuration
-server {
-    listen 443 ssl http2;
-    server_name beta.nexuscos.online;
-    
-    root /var/www/beta.nexuscos.online;
-    index index.html;
-    
-    # SSL configuration
-    ssl_certificate /path/to/cert.pem;
-    ssl_certificate_key /path/to/key.pem;
-    
-    # Serve beta landing page
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-    
-    # V-Suite Prompter health check
-    location /v-suite/prompter/health {
-        proxy_pass http://localhost:3002/health;
-        # Return 204 No Content on success
-    }
-    
-    # API routes (existing configuration)
-    location /api/ {
-        proxy_pass http://localhost:4000;
-    }
-}
+### Deploy the Configuration
+
+```bash
+# Copy unified configuration to nginx sites-available
+sudo cp deployment/nginx/nexuscos-unified.conf /etc/nginx/sites-available/nexuscos
+
+# Create symlink in sites-enabled (if not already exists)
+sudo ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/
+
+# Test configuration
+sudo nginx -t
+
+# Reload nginx
+sudo systemctl reload nginx
 ```
+
+### Key Configuration Highlights
+
+**Apex Domain (nexuscos.online):**
+- Root: `/var/www/nexuscos.online`
+- Landing page served at `/`
+- Admin panel at `/admin/`
+- API endpoints at `/api/`
+
+**Beta Subdomain (beta.nexuscos.online):**
+- Root: `/var/www/beta.nexuscos.online`
+- Landing page served at `/`
+- Health checks at `/health/gateway` and `/v-suite/prompter/health`
+- API endpoints at `/api/`
 
 ## Health Check Endpoints
 

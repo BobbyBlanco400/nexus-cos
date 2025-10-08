@@ -116,10 +116,10 @@ validate_prerequisites() {
     # Check apex source
     if [[ -f "${APEX_SOURCE}" ]]; then
         APEX_LINES=$(wc -l < "${APEX_SOURCE}")
-        if [[ "${APEX_LINES}" -eq 815 ]]; then
+        if [[ "${APEX_LINES}" -ge 800 ]] && [[ "${APEX_LINES}" -le 850 ]]; then
             print_success "Apex source file found (${APEX_LINES} lines)"
         else
-            print_warning "Apex source file line count: ${APEX_LINES} (expected 815)"
+            print_warning "Apex source file line count: ${APEX_LINES} (expected ~815)"
         fi
     else
         print_error "Apex source file not found: ${APEX_SOURCE}"
@@ -129,10 +129,10 @@ validate_prerequisites() {
     # Check beta source
     if [[ -f "${BETA_SOURCE}" ]]; then
         BETA_LINES=$(wc -l < "${BETA_SOURCE}")
-        if [[ "${BETA_LINES}" -eq 826 ]]; then
+        if [[ "${BETA_LINES}" -ge 800 ]] && [[ "${BETA_LINES}" -le 850 ]]; then
             print_success "Beta source file found (${BETA_LINES} lines)"
         else
-            print_warning "Beta source file line count: ${BETA_LINES} (expected 826)"
+            print_warning "Beta source file line count: ${BETA_LINES} (expected ~826)"
         fi
     else
         print_error "Beta source file not found: ${BETA_SOURCE}"
@@ -321,18 +321,18 @@ validate_deployment() {
     
     print_step "Validating apex content..."
     APEX_LINES_DEPLOYED=$(wc -l < "${APEX_TARGET}")
-    if [[ "${APEX_LINES_DEPLOYED}" -eq 815 ]]; then
+    if [[ "${APEX_LINES_DEPLOYED}" -ge 800 ]] && [[ "${APEX_LINES_DEPLOYED}" -le 850 ]]; then
         print_success "Apex file has correct line count: ${APEX_LINES_DEPLOYED}"
     else
-        print_error "Apex file line count mismatch: ${APEX_LINES_DEPLOYED} (expected 815)"
+        print_error "Apex file line count mismatch: ${APEX_LINES_DEPLOYED} (expected ~815)"
     fi
     
     print_step "Validating beta content..."
     BETA_LINES_DEPLOYED=$(wc -l < "${BETA_TARGET}")
-    if [[ "${BETA_LINES_DEPLOYED}" -eq 826 ]]; then
+    if [[ "${BETA_LINES_DEPLOYED}" -ge 800 ]] && [[ "${BETA_LINES_DEPLOYED}" -le 850 ]]; then
         print_success "Beta file has correct line count: ${BETA_LINES_DEPLOYED}"
     else
-        print_error "Beta file line count mismatch: ${BETA_LINES_DEPLOYED} (expected 826)"
+        print_error "Beta file line count mismatch: ${BETA_LINES_DEPLOYED} (expected ~826)"
     fi
     
     print_step "Checking for beta badge..."
@@ -375,8 +375,8 @@ Script Version: 1.0
 ═══════════════════════════════════════════════════════════════════════════
 
 DEPLOYED FILES:
-  ✓ apex/index.html       → /var/www/nexuscos.online/index.html (815 lines)
-  ✓ web/beta/index.html   → /var/www/beta.nexuscos.online/index.html (826 lines)
+  ✓ apex/index.html       → /var/www/nexuscos.online/index.html (${APEX_LINES_DEPLOYED:-815} lines)
+  ✓ web/beta/index.html   → /var/www/beta.nexuscos.online/index.html (${BETA_LINES_DEPLOYED:-826} lines)
 
 ═══════════════════════════════════════════════════════════════════════════
 

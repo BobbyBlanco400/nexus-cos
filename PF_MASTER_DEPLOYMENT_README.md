@@ -57,7 +57,7 @@ Run the comprehensive master script that executes all PF components:
 
 ```bash
 # For VPS deployment (recommended path):
-cd /var/www/nexus-cos
+cd /opt/nexus-cos
 sudo bash pf-master-deployment.sh
 
 # Or from any location where the repository is cloned:
@@ -65,7 +65,7 @@ cd /path/to/nexus-cos
 sudo bash pf-master-deployment.sh
 
 # With custom domain:
-cd /var/www/nexus-cos
+cd /opt/nexus-cos
 sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
 ```
 
@@ -303,11 +303,11 @@ curl -I https://nexuscos.online/ | grep -i content-security
 **Solution:**
 ```bash
 # Check file permissions
-ls -la /var/www/nexus-cos/
+ls -la /var/www/nexuscos.online/
 
 # Fix permissions
-sudo chown -R www-data:www-data /var/www/nexus-cos/
-sudo chmod -R 755 /var/www/nexus-cos/
+sudo chown -R www-data:www-data /var/www/nexuscos.online/
+sudo chmod -R 755 /var/www/nexuscos.online/
 ```
 
 ### Issue: Nginx configuration error
