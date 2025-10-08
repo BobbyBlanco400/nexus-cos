@@ -1,19 +1,43 @@
 # TRAE Solo Builder - Execution Instructions
 
 **Target:** Nexus COS Production Framework Deployment  
+**Phase:** 2.5 - OTT Integration + Beta Transition  
 **VPS:** 74.208.155.161 (nexuscos.online)  
 **Status:** BULLETPROOFED - ZERO ERROR MARGIN  
+**PF ID:** PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5  
 **Date:** 2025-10-07
 
 ---
 
-## ⚡ Quick Execute (One Command)
+## 🎯 PHASE 2.5 OVERVIEW
+
+**Phase 2.5** introduces unified deployment of three system layers:
+
+1. **OTT Frontend** - `nexuscos.online` (Production streaming interface)
+2. **V-Suite Dashboard** - `nexuscos.online/v-suite/` (Creator control center)
+3. **Beta Portal** - `beta.nexuscos.online` (Active until Nov 17, 2025)
+
+**Key Features:**
+- Dual-domain routing with isolated Nginx configurations
+- Automated transition on November 17, 2025
+- Shared Nexus ID SSO authentication
+- Unified branding and telemetry
+
+---
+
+## ⚡ Quick Execute - Phase 2.5 (One Command)
+
+```bash
+ssh root@74.208.155.161 "cd /opt/nexus-cos && ./scripts/deploy-phase-2.5-architecture.sh && ./scripts/validate-phase-2.5-deployment.sh"
+```
+
+**Expected Result:** "✅ ALL CHECKS PASSED" + "Phase 2.5 Deployment is Production Ready!"
+
+### Legacy Phase 2.0 Execute (If needed)
 
 ```bash
 ssh root@74.208.155.161 "cd /opt/nexus-cos && ./bulletproof-pf-deploy.sh && ./bulletproof-pf-validate.sh"
 ```
-
-**Expected Result:** "✅ ALL CHECKS PASSED"
 
 ---
 
@@ -660,6 +684,155 @@ curl https://hollywood.nexuscos.online/health
 
 ---
 
+## 🚀 PHASE 2.5 SPECIFIC PROCEDURES
+
+### Step 15: Deploy Phase 2.5 Architecture
+
+**Execute Phase 2.5 unified deployment:**
+
+```bash
+cd /opt/nexus-cos
+chmod +x scripts/deploy-phase-2.5-architecture.sh
+./scripts/deploy-phase-2.5-architecture.sh
+```
+
+**What this deploys:**
+
+1. ✅ OTT Frontend at `/var/www/nexuscos.online/`
+2. ✅ Beta Portal at `/var/www/beta.nexuscos.online/`
+3. ✅ Dual-domain Nginx configuration
+4. ✅ Isolated logging per layer (`/opt/nexus-cos/logs/phase2.5/`)
+5. ✅ Transition automation script
+6. ✅ Health check validation
+
+**Expected Output:**
+
+```
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║              PHASE 2.5 DEPLOYMENT COMPLETE                     ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### Step 16: Validate Phase 2.5 Deployment
+
+```bash
+chmod +x scripts/validate-phase-2.5-deployment.sh
+./scripts/validate-phase-2.5-deployment.sh
+```
+
+**What this validates:**
+
+1. ✅ Directory structure (all layers)
+2. ✅ Landing pages (apex + beta)
+3. ✅ Nginx configuration (dual-domain)
+4. ✅ SSL certificates (IONOS)
+5. ✅ Backend services (health checks)
+6. ✅ Routing (OTT, V-Suite, API)
+7. ✅ Transition automation
+8. ✅ Logs (separation enforcement)
+9. ✅ PR87 integration
+
+**Expected Output:**
+
+```
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║                   ✓ ALL CHECKS PASSED                          ║
+║                                                                ║
+║          Phase 2.5 Deployment is Production Ready!             ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### Step 17: Schedule Beta Transition (Nov 17, 2025)
+
+**To schedule automatic cutover:**
+
+```bash
+# Edit root crontab
+crontab -e
+
+# Add this line to schedule transition for Nov 17, 2025 at 00:00 UTC:
+0 0 17 11 2025 /opt/nexus-cos/scripts/beta-transition-cutover.sh >> /opt/nexus-cos/logs/phase2.5/transition/cutover.log 2>&1
+```
+
+**Verify cron entry:**
+
+```bash
+crontab -l | grep beta-transition
+```
+
+**Expected:** Entry should be listed
+
+---
+
+### Step 18: Test Phase 2.5 Endpoints
+
+```bash
+# Test OTT Frontend (Apex)
+curl -I https://nexuscos.online/
+
+# Test V-Suite Dashboard
+curl -I https://nexuscos.online/v-suite/
+
+# Test Beta Portal
+curl -I https://beta.nexuscos.online/
+
+# Test API Gateway
+curl -I https://nexuscos.online/api/
+
+# Test Health Endpoints
+curl http://localhost:4000/health  # Gateway
+curl http://localhost:3002/health  # V-Prompter
+curl http://localhost:3041/health  # PV Keys
+```
+
+**Expected:** All return HTTP 200 or 301/302 (redirects)
+
+---
+
+### Step 19: Monitor Phase 2.5 Logs
+
+```bash
+# Monitor all Phase 2.5 logs
+tail -f /opt/nexus-cos/logs/phase2.5/*/access.log
+
+# Monitor OTT logs specifically
+tail -f /opt/nexus-cos/logs/phase2.5/ott/access.log
+
+# Monitor dashboard logs
+tail -f /opt/nexus-cos/logs/phase2.5/dashboard/access.log
+
+# Monitor beta logs
+tail -f /opt/nexus-cos/logs/phase2.5/beta/access.log
+```
+
+---
+
+### Step 20: Manual Transition Test (Optional)
+
+**To test the transition script manually:**
+
+```bash
+# Run in dry-run/test mode first (backup will be created)
+cd /opt/nexus-cos
+./scripts/beta-transition-cutover.sh
+
+# Verify beta now redirects to production
+curl -I https://beta.nexuscos.online/
+# Expected: Location: https://nexuscos.online/
+
+# If issues, rollback is automatic in the script
+```
+
+---
+
 ## 🎯 Mission Complete
 
 **When you see:**
@@ -669,16 +842,31 @@ curl https://hollywood.nexuscos.online/health
 ║                                                                ║
 ║                   ✅ ALL CHECKS PASSED                         ║
 ║                                                                ║
-║         Nexus COS Production Framework Deployed!               ║
+║          Phase 2.5 Deployment is Production Ready!             ║
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
-**The mission is complete. Nexus COS is live!**
+**The mission is complete. Nexus COS Phase 2.5 is live!**
+
+### Phase 2.5 Success Criteria
+
+✅ OTT Frontend operational at `nexuscos.online`  
+✅ V-Suite Dashboard accessible at `nexuscos.online/v-suite/`  
+✅ Beta Portal live at `beta.nexuscos.online`  
+✅ All health endpoints returning HTTP 200  
+✅ Dual-domain routing validated  
+✅ SSL certificates valid for all domains  
+✅ Logs separated by layer  
+✅ Transition automation scheduled  
+✅ PR87 integration validated
 
 ---
 
 **Prepared By:** TRAE SOLO (GitHub Code Agent)  
 **For:** Robert White (PUABO / Nexus COS Founder)  
+**Phase:** 2.5 - OTT Integration + Beta Transition  
+**PF ID:** PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5  
 **Status:** BULLETPROOFED | PRODUCTION READY | ZERO ERROR MARGIN  
-**Date:** 2025-10-07
+**Date:** 2025-10-07  
+**Transition Date:** November 17, 2025
