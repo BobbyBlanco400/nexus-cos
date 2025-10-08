@@ -47,3 +47,18 @@ logs/*-*.log
 .env.pf
 !.env.example
 !.env.pf.example
+
+# SSH Keys - Private keys should NEVER be committed
+*.pem
+*_rsa
+*_dsa
+*_ecdsa
+*_ed25519
+vps_key
+vps_key2
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+# Allow public keys (.pub files)
+!*.pub

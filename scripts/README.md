@@ -4,7 +4,41 @@ This directory contains automated tools for verifying and monitoring all URLs do
 
 ## 📋 Available Scripts
 
-### 1. PF Final Deployment (NEW) ✨
+### 1. Final Complete System Check (NEW) 🚀
+**File:** `nexus-cos-final-system-check.sh`  
+**Purpose:** Comprehensive validation of the entire Nexus COS Platform
+
+```bash
+./scripts/nexus-cos-final-system-check.sh
+```
+
+**Validation Categories:**
+- ✅ System requirements & versions (Docker, Nginx, etc.)
+- ✅ Deployment artifacts (scripts, compose files, configs)
+- ✅ Docker stack validation (syntax & running services)
+- ✅ Nginx configuration validation (nginx -t)
+- ✅ SSL certificate validation & expiry check
+- ✅ Internal health endpoints (127.0.0.1:9001-9004)
+- ✅ Preview URLs (Home, Admin, Hub, Studio)
+- ✅ Service health endpoints (60+ endpoints)
+
+**Features:**
+- 🎯 60+ individual checks across 8 categories
+- 📊 Detailed summary with success rate percentage
+- 🎨 Color-coded output (pass/fail/warning)
+- 📝 Useful commands reference
+- 💡 Next steps recommendations
+- 🔍 SSL certificate expiry tracking
+
+**Exit Codes:**
+- `0` - All checks passed (system fully operational)
+- `1` - Some checks failed (review needed)
+
+**Documentation:**
+- Complete guide: [`FINAL_SYSTEM_CHECK_COMPLETE.md`](../FINAL_SYSTEM_CHECK_COMPLETE.md)
+- Health checks reference: [`PF_v2025.10.01_HEALTH_CHECKS.md`](../PF_v2025.10.01_HEALTH_CHECKS.md)
+
+### 2. PF Final Deployment ✨
 **File:** `pf-final-deploy.sh`  
 **Purpose:** Complete system check and re-deployment for Nexus COS Pre-Flight
 
@@ -32,7 +66,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Complete guide: [`PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md`](../PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md)
 - Assets manifest: [`docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md`](../docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md)
 
-### 2. Production URL Verification
+### 3. Production URL Verification
 **File:** `verify-production-urls.sh`
 **Purpose:** Comprehensive verification of all production URLs and SSL certificates
 
@@ -47,7 +81,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - SSL certificates
 - Performance metrics
 
-### 3. Beta URL Verification
+### 4. Beta URL Verification
 **File:** `verify-beta-urls.sh`  
 **Purpose:** Beta environment verification for 10/01/2025 launch
 
@@ -61,7 +95,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Local development endpoint checks
 - Beta-specific performance validation
 
-### 4. Continuous URL Monitoring
+### 5. Continuous URL Monitoring
 **File:** `monitor-urls.sh`
 **Purpose:** Continuous monitoring with alerting and reporting
 
@@ -81,24 +115,44 @@ sudo ./scripts/monitor-urls.sh --setup-service
 
 ## 🚀 Quick Start Guide
 
+### For Complete System Check (Recommended)
+```bash
+# Run comprehensive system check
+./scripts/nexus-cos-final-system-check.sh
+
+# Check specific domain
+DOMAIN=beta.nexuscos.online ./scripts/nexus-cos-final-system-check.sh
+
+# On VPS (production)
+ssh user@nexuscos.online
+cd /opt/nexus-cos
+bash scripts/nexus-cos-final-system-check.sh
+```
+
 ### For Beta Launch (10/01/2025)
 ```bash
-# 1. Verify beta readiness
+# 1. Run final system check
+./scripts/nexus-cos-final-system-check.sh
+
+# 2. Verify beta readiness
 ./scripts/verify-beta-urls.sh
 
-# 2. Start monitoring before launch
+# 3. Start monitoring before launch
 ./scripts/monitor-urls.sh --daemon
 
-# 3. Generate pre-launch report
+# 4. Generate pre-launch report
 ./scripts/monitor-urls.sh --report
 ```
 
 ### For Production Deployment
 ```bash
-# 1. Verify production environment
+# 1. Run complete system check
+./scripts/nexus-cos-final-system-check.sh
+
+# 2. Verify production environment
 ./scripts/verify-production-urls.sh
 
-# 2. Setup continuous monitoring
+# 3. Setup continuous monitoring
 sudo ./scripts/monitor-urls.sh --setup-service
 sudo systemctl start nexus-cos-monitor
 ```

@@ -5,16 +5,107 @@
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![React](https://img.shields.io/badge/React-18.x-blue)
 ![Production Ready](https://img.shields.io/badge/Production-Ready-brightgreen)
+![PF v2025.10.01](https://img.shields.io/badge/PF-v2025.10.01-blue)
+![PF Status](https://img.shields.io/badge/Status-LIVE%20%7C%20CERTIFIED-green)
 
-A complete operating system implementation with multi-platform support, now fully migrated to **TRAE Solo** orchestration.
+**🚀 Complete OTT/Streaming TV Platform with Integrated Modules**
+
+A complete operating system implementation featuring Live TV, On-Demand content, and an integrated module ecosystem including Club Saditty, Creator Hub, V-Suite, PUABO NEXUS Fleet Management, and more.
 
 ---
 
-## 🚀 **NEW: Production Deployment System Ready!**
+## 📋 **PF v2025.10.01 - Latest Production Framework**
 
-**The production deployment system with forced PM2 adherence is now complete and ready to use!**
+**Status:** LIVE | CERTIFIED | PF-SYNC READY  
+**Issued:** 2025-10-01 23:22 PST  
+**Scope:** Nexus COS | PUABO Universe | Club Saditty | Nexus Studio AI | **PUABO NEXUS Fleet Management**
 
-### ⚡ Quick Start (3 Commands)
+### 🎯 What's New in PF v2025.10.01
+
+✨ **PUABO NEXUS** - AI-Powered Box Truck & Fleet Ecosystem
+- 🚚 AI Dispatch Engine (Port 3231)
+- 📱 Driver App Backend (Port 3232)
+- 🚛 Fleet Manager (Port 3233)
+- 🗺️ Route Optimizer (Port 3234)
+
+### 📚 PF Documentation
+
+- **[Quick Start Guide](PF_v2025.10.01_QUICKSTART.md)** - Step-by-step deployment for TRAE Solo ⭐
+- **[Full PF Documentation](PF_v2025.10.01.md)** - Complete PF specification
+- **[Health Check Guide](PF_v2025.10.01_HEALTH_CHECKS.md)** - Service monitoring
+- **[YAML Configuration](nexus-cos-pf-v2025.10.01.yaml)** - Technical configuration
+
+### ⚡ PF v2025.10.01 Deployment
+
+**One-line deployment:**
+```bash
+cd /opt/nexus-cos && git pull origin main && ./scripts/deploy_hybrid_fullstack_pf.sh
+```
+
+**Validation:**
+```bash
+./validate-pf-v2025.10.01.sh
+```
+
+**Health Check:**
+```bash
+./check-pf-v2025-health.sh
+```
+
+---
+
+## ⚡ ONE-LINE VPS DEPLOYMENT
+
+**Deploy the entire Nexus COS platform on your VPS with a single command:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**That's it!** This single command deploys your complete OTT/Streaming TV platform in 5-10 minutes.
+
+### 📚 Deployment Documentation
+
+- 🚀 **[DEPLOY NOW!](DEPLOY_NOW.md)** - 4-step quick deploy (Start here!)
+- 📋 **[Quick Start Card](QUICK_START_CARD.md)** - One-page reference card
+- 📖 **[VPS Deployment Guide](VPS_ONE_SHOT_DEPLOY.md)** - Complete documentation
+- 🗂️ **[Deployment Index](VPS_DEPLOYMENT_INDEX.md)** - All docs organized
+- ✅ **[Readiness Check](check-vps-readiness.sh)** - Verify VPS requirements
+
+### ⚡ Quick Commands
+
+**Check VPS readiness:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/check-vps-readiness.sh | bash
+```
+
+**Deploy platform:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/launch-bulletproof.sh | sudo bash
+```
+
+**Verify deployment:**
+```bash
+curl http://localhost:3000/health
+```
+
+### ✅ Deployment Verification
+
+**Verify TRAE deployment with automated script:**
+```bash
+./verify-trae-deployment.sh
+```
+
+**Quick verification commands:**
+- 📋 **[Verification Index](VERIFICATION_INDEX.md)** - Complete verification guide
+- 🔍 **[Quick Check](TRAE_DEPLOYMENT_QUICK_CHECK.md)** - 5-minute validation
+- 📖 **[Full Verification Guide](DEPLOYMENT_VERIFICATION_TRAE.md)** - Comprehensive validation
+
+---
+
+## 🚀 **Alternative: Production Deployment System**
+
+**For advanced users with existing setup:**
 
 ```bash
 cd /opt/nexus-cos

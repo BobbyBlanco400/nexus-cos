@@ -22,6 +22,12 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 3. **Validate:** Run `./validate-ip-domain-routing.sh` - Verify routing
 4. **Read:** [PF_MASTER_DEPLOYMENT_README.md](./PF_MASTER_DEPLOYMENT_README.md) - Full guide
 
+### For PF v2025.10.01 - Hybrid Full Production Deployment (RECOMMENDED)
+1. **Read:** [PF_v2025.10.01.md](./PF_v2025.10.01.md) - Complete PF v2025.10.01 guide
+2. **Quick Start:** [PF_v2025.10.01_QUICKSTART.md](./PF_v2025.10.01_QUICKSTART.md) - Step-by-step deployment
+3. **Deploy:** Run `bash scripts/deploy_hybrid_fullstack_pf.sh` - Complete deployment
+4. **Health Checks:** [PF_v2025.10.01_HEALTH_CHECKS.md](./PF_v2025.10.01_HEALTH_CHECKS.md) - Verify all services
+
 ### For Pre-Flight Services Deployment
 1. **Read:** [PF_README.md](./PF_README.md) - Comprehensive deployment guide
 2. **Validate:** Run `./validate-pf.sh` - Verify configuration
@@ -37,6 +43,7 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 | File | Purpose | Status |
 |------|---------|--------|
 | [`docker-compose.pf.yml`](./docker-compose.pf.yml) | Main Docker Compose configuration | ✅ Ready |
+| [`docker-compose.pf.nexus.yml`](./docker-compose.pf.nexus.yml) | **PUABO NEXUS Fleet Services (ports 9001-9004)** | ✅ Ready |
 | [`.env.pf`](./.env.pf) | Environment variables | ✅ Ready |
 
 ### Database Files
@@ -66,7 +73,9 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 
 | File | Purpose | Status |
 |------|---------|--------|
-| [`pf-master-deployment.sh`](./pf-master-deployment.sh) | **Master PF deployment (all components)** | ✅ Executable |
+| [`scripts/deploy_hybrid_fullstack_pf.sh`](./scripts/deploy_hybrid_fullstack_pf.sh) | **PF v2025.10.01 Hybrid Deployment** | ✅ Executable |
+| [`scripts/update-nginx-puabo-nexus-routes.sh`](./scripts/update-nginx-puabo-nexus-routes.sh) | **PUABO NEXUS Nginx Route Installer** | ✅ Executable |
+| [`pf-master-deployment.sh`](./pf-master-deployment.sh) | Master PF deployment (all components) | ✅ Executable |
 | [`pf-ip-domain-unification.sh`](./pf-ip-domain-unification.sh) | IP/Domain routing fix | ✅ Executable |
 | [`validate-ip-domain-routing.sh`](./validate-ip-domain-routing.sh) | Routing validation | ✅ Executable |
 | [`deploy-pf.sh`](./deploy-pf.sh) | Quick deployment script | ✅ Executable |
@@ -84,6 +93,33 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 | [`PF_STATUS_COMPARISON.md`](./PF_STATUS_COMPARISON.md) | Comparison with PF requirements | Stakeholders |
 | [`PF_ARCHITECTURE.md`](./PF_ARCHITECTURE.md) | System architecture diagrams | Developers/Architects |
 | [`PF_INDEX.md`](./PF_INDEX.md) | This document | All users |
+
+---
+
+## 🚀 PF v2025.10.01 - PUABO NEXUS Fleet Services
+
+### Fleet Services (NEW!)
+- [x] **AI Dispatch** - Port 9001 (internal: 8080) → `/puabo-nexus/dispatch/health`
+- [x] **Driver Backend** - Port 9002 (internal: 8080) → `/puabo-nexus/driver/health`
+- [x] **Fleet Manager** - Port 9003 (internal: 8080) → `/puabo-nexus/fleet/health`
+- [x] **Route Optimizer** - Port 9004 (internal: 8080) → `/puabo-nexus/routes/health`
+
+### Deployment Features
+- ✅ Hybrid full-stack deployment orchestration
+- ✅ Automated Nginx route insertion for fleet services
+- ✅ Health endpoints for all services
+- ✅ Shared Docker network (nexus-network)
+- ✅ Host Nginx proxying support (127.0.0.1:9001-9004)
+
+### Quick Deployment
+```bash
+# Set environment variables (optional)
+export DOMAIN=nexuscos.online
+export NETWORK_NAME=nexus-network
+
+# Deploy everything
+bash scripts/deploy_hybrid_fullstack_pf.sh
+```
 
 ---
 
@@ -214,6 +250,12 @@ docker compose -f docker-compose.pf.yml exec nexus-cos-postgres \
 ---
 
 ## 🌐 Service Endpoints
+
+### PUABO NEXUS Fleet (PF v2025.10.01)
+- **AI Dispatch Health:** `https://nexuscos.online/puabo-nexus/dispatch/health` (Local: `http://127.0.0.1:9001/health`)
+- **Driver Backend Health:** `https://nexuscos.online/puabo-nexus/driver/health` (Local: `http://127.0.0.1:9002/health`)
+- **Fleet Manager Health:** `https://nexuscos.online/puabo-nexus/fleet/health` (Local: `http://127.0.0.1:9003/health`)
+- **Route Optimizer Health:** `https://nexuscos.online/puabo-nexus/routes/health` (Local: `http://127.0.0.1:9004/health`)
 
 ### puabo-api (Port 4000)
 - **Health:** `http://localhost:4000/health`
