@@ -23,7 +23,7 @@ NC='\033[0m' # No Color
 # Allow environment variable overrides for flexibility
 DOMAIN="${DOMAIN:-nexuscos.online}"
 SERVER_IP="${SERVER_IP:-74.208.155.161}"
-WEBROOT="/var/www/nexus-cos"
+WEBROOT="/var/www/nexuscos.online"
 FRONTEND_DIST="${WEBROOT}/frontend/dist"
 ADMIN_BUILD="${WEBROOT}/admin/build"
 CREATOR_BUILD="${WEBROOT}/creator-hub/build"
@@ -310,16 +310,16 @@ server {
         image/svg+xml;
     
     # Root directory
-    root /var/www/nexus-cos;
+    root /var/www/nexuscos.online;
     
-    # Default redirect to admin panel
+    # Root Path - Serve Landing Page
     location = / {
-        return 301 /admin/;
+        try_files /index.html =404;
     }
     
     # Admin Panel React Application
     location /admin/ {
-        alias /var/www/nexus-cos/admin/build/;
+        alias /var/www/nexuscos.online/admin/build/;
         index index.html;
         
         # Handle React Router - try files, then fallback to index.html
@@ -327,7 +327,7 @@ server {
         
         # Cache static assets aggressively
         location ~ ^/admin/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexus-cos/admin/build/static/;
+            alias /var/www/nexuscos.online/admin/build/static/;
             expires 1y;
             add_header Cache-Control "public, immutable";
             add_header Access-Control-Allow-Origin "*";
@@ -341,7 +341,7 @@ server {
     
     # Creator Hub React Application
     location /creator-hub/ {
-        alias /var/www/nexus-cos/creator-hub/build/;
+        alias /var/www/nexuscos.online/creator-hub/build/;
         index index.html;
         
         # Handle React Router - try files, then fallback to index.html
@@ -349,7 +349,7 @@ server {
         
         # Cache static assets aggressively
         location ~ ^/creator-hub/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexus-cos/creator-hub/build/static/;
+            alias /var/www/nexuscos.online/creator-hub/build/static/;
             expires 1y;
             add_header Cache-Control "public, immutable";
             add_header Access-Control-Allow-Origin "*";
@@ -363,13 +363,13 @@ server {
     
     # Main Frontend Application
     location /app/ {
-        alias /var/www/nexus-cos/frontend/dist/;
+        alias /var/www/nexuscos.online/frontend/dist/;
         index index.html;
         try_files $uri $uri/ /app/index.html;
         
         # Cache static assets
         location ~ ^/app/assets/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexus-cos/frontend/dist/assets/;
+            alias /var/www/nexuscos.online/frontend/dist/assets/;
             expires 1y;
             add_header Cache-Control "public, immutable";
         }
@@ -377,7 +377,7 @@ server {
     
     # Interactive Module Diagram
     location /diagram/ {
-        alias /var/www/nexus-cos/diagram/;
+        alias /var/www/nexuscos.online/diagram/;
         index index.html;
         try_files $uri $uri/ =404;
         
