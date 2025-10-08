@@ -18,6 +18,12 @@ readonly CYAN='\033[0;36m'
 readonly BOLD='\033[1m'
 readonly NC='\033[0m'
 
+# Dynamically determine repository root
+# Priority: Environment variable > Parent of script directory
+# Since this script is in scripts/ subdirectory, go up one level to find repo root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
+
 # Configuration
 readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
 readonly BETA_TARGET="/var/www/beta.nexuscos.online/index.html"

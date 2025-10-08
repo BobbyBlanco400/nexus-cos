@@ -2,6 +2,8 @@
 
 **TRAE SOLO BUILDER - IMMEDIATE EXECUTION GUIDE**
 
+**🛡️ BULLETPROOFED FOR TRAE:** Scripts now use dynamic path detection and work from any location!
+
 ---
 
 ## ⚡ FASTEST PATH TO DEPLOYMENT
@@ -237,7 +239,9 @@ It's a modular component that:
 ✅ Global Branding Policy  
 ✅ Zero external dependencies (logo)  
 ✅ Proper permissions (644/755)  
-✅ Proper ownership (www-data:www-data)
+✅ Proper ownership (www-data:www-data)  
+✅ **NEW:** Dynamic path detection (works from any location)  
+✅ **NEW:** No hardcoded paths (follows PF deployment patterns)
 
 ### Security
 ✅ Automatic backups  
@@ -252,6 +256,33 @@ It's a modular component that:
 ✅ ARIA labels  
 ✅ Keyboard navigation  
 ✅ Screen reader friendly
+
+---
+
+## 🛡️ BULLETPROOFING IMPROVEMENTS
+
+**What Changed:**
+- ✅ **Dynamic Path Detection:** Scripts automatically detect repository location
+- ✅ **No Hardcoded Paths:** Removed `/opt/nexus-cos` default, now uses script location
+- ✅ **Works Anywhere:** Run from any directory - `/opt/nexus-cos`, `/var/www/nexus-cos`, or GitHub Actions
+- ✅ **Environment Override:** `REPO_ROOT` can be set via environment variable
+- ✅ **Follows PF Patterns:** Same approach as `pf-master-deployment.sh` and other PF scripts
+
+**Technical Details:**
+```bash
+# Old (hardcoded):
+readonly REPO_ROOT="${REPO_ROOT:-/opt/nexus-cos}"
+
+# New (dynamic):
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
+```
+
+**Why This Matters:**
+- TRAE can run scripts from any location without manual path configuration
+- Scripts work in GitHub Actions, VPS, or local environments
+- Repository can be cloned anywhere on the system
+- Consistent with other PF deployment scripts
 
 ---
 
@@ -280,6 +311,15 @@ It's a modular component that:
 5. **Monitor nginx logs during deployment**
    ```bash
    tail -f /var/log/nginx/error.log
+   ```
+
+6. **Run from anywhere** (NEW!)
+   ```bash
+   # Works from any directory
+   /path/to/repo/scripts/deploy-pr87-landing-pages.sh
+   
+   # Or with environment override
+   REPO_ROOT=/custom/path ./scripts/deploy-pr87-landing-pages.sh
    ```
 
 ---
