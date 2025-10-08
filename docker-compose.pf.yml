@@ -1,8 +1,10 @@
 version: '3.8'
 
-# PUABO / Nexus COS - Pre-Flight Deployment Configuration
-# Date: 2025-09-30 20:00 PST
-# This configuration matches the Pre-Flight deployment status requirements
+# PUABO / Nexus COS - PF v2025.10.01 Deployment Configuration
+# Date: 2025-10-01 23:22 PST
+# Status: LIVE | CERTIFIED | PF-SYNC READY
+# Scope: Nexus COS | PUABO Universe | Club Saditty | Nexus Studio AI | PUABO NEXUS Fleet
+# This configuration includes PUABO NEXUS Fleet Services (ports 3231-3234)
 
 services:
   # PostgreSQL Database - nexus_db
@@ -207,6 +209,179 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+
+  # PUABO NEXUS - AI-Powered Box Truck & Fleet Ecosystem
+  # Services for intelligent dispatch, driver management, fleet operations, and route optimization
+
+  # PUABO NEXUS AI Dispatch - Port 3231
+  puabo-nexus-ai-dispatch:
+    build:
+      context: ./services/puabo-nexus/ai-dispatch
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-ai-dispatch
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3231
+      SERVICE_NAME: puabo-nexus-ai-dispatch
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
+      REDIS_HOST: ${REDIS_HOST:-nexus-cos-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      NEXUS_AUTH_URL: http://puabo-api:4000
+    ports:
+      - "3231:3231"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+      puabo-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3231/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+
+  # PUABO NEXUS Driver App Backend - Port 3232
+  puabo-nexus-driver-app-backend:
+    build:
+      context: ./services/puabo-nexus/driver-app-backend
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-driver-app-backend
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3232
+      SERVICE_NAME: puabo-nexus-driver-app-backend
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
+      REDIS_HOST: ${REDIS_HOST:-nexus-cos-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      NEXUS_AUTH_URL: http://puabo-api:4000
+      DISPATCH_SERVICE_URL: http://puabo-nexus-ai-dispatch:3231
+    ports:
+      - "3232:3232"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+      puabo-api:
+        condition: service_healthy
+      puabo-nexus-ai-dispatch:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3232/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+
+  # PUABO NEXUS Fleet Manager - Port 3233
+  puabo-nexus-fleet-manager:
+    build:
+      context: ./services/puabo-nexus/fleet-manager
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-fleet-manager
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3233
+      SERVICE_NAME: puabo-nexus-fleet-manager
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
+      REDIS_HOST: ${REDIS_HOST:-nexus-cos-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      NEXUS_AUTH_URL: http://puabo-api:4000
+      DISPATCH_SERVICE_URL: http://puabo-nexus-ai-dispatch:3231
+    ports:
+      - "3233:3233"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+      puabo-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3233/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - cos-net
+      - nexus-network
+
+  # PUABO NEXUS Route Optimizer - Port 3234
+  puabo-nexus-route-optimizer:
+    build:
+      context: ./services/puabo-nexus/route-optimizer
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-route-optimizer
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3234
+      SERVICE_NAME: puabo-nexus-route-optimizer
+      DB_HOST: ${DB_HOST:-nexus-cos-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-nexus_db}
+      DB_USER: ${DB_USER:-nexus_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password must be set in .env.pf}
+      REDIS_HOST: ${REDIS_HOST:-nexus-cos-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      NEXUS_AUTH_URL: http://puabo-api:4000
+      DISPATCH_SERVICE_URL: http://puabo-nexus-ai-dispatch:3231
+      FLEET_SERVICE_URL: http://puabo-nexus-fleet-manager:3233
+    ports:
+      - "3234:3234"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+      puabo-api:
+        condition: service_healthy
+      puabo-nexus-ai-dispatch:
+        condition: service_started
+      puabo-nexus-fleet-manager:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3234/health"]
       interval: 30s
       timeout: 10s
       retries: 3
