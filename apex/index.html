@@ -487,10 +487,6 @@
           <span class="status-label">Gateway</span>
           <span class="status-indicator status-checking" id="gatewayStatus">checking…</span>
         </div>
-        <div class="status-item">
-          <span class="status-label">Prompter</span>
-          <span class="status-indicator status-checking" id="prompterStatus">checking…</span>
-        </div>
       </div>
     </div>
   </header>
@@ -502,10 +498,8 @@
     <div class="tabs">
       <button class="tab-btn active" data-tab="vsuite">V‑Suite</button>
       <button class="tab-btn" data-tab="puabo">PUABO Fleet</button>
-      <button class="tab-btn" data-tab="gateway">Gateway</button>
       <button class="tab-btn" data-tab="creatorhub">Creator Hub</button>
-      <button class="tab-btn" data-tab="services">Services</button>
-      <button class="tab-btn" data-tab="microservices">Micro‑services</button>
+      <button class="tab-btn" data-tab="nexusoriginals">Nexus Originals</button>
     </div>
     
     <!-- V-Suite Tab -->
@@ -514,6 +508,10 @@
         <div class="module-item">
           <div class="module-name">Prompter</div>
           <div class="module-description">Chat orchestration and AI command center</div>
+          <div class="status-item" style="margin-top: 0.5rem;">
+            <span class="status-label">Status:</span>
+            <span class="status-indicator status-checking" id="prompterStatus">checking…</span>
+          </div>
         </div>
         <div class="module-item">
           <div class="module-name">Stage</div>
@@ -552,78 +550,37 @@
       </div>
     </div>
     
-    <!-- Gateway Tab -->
-    <div class="tab-pane" id="gateway">
-      <div class="module-grid">
-        <div class="module-item">
-          <div class="module-name">Ingress</div>
-          <div class="module-description">HTTP to HTTPS routing and redirection</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Routing</div>
-          <div class="module-description">Rules engine with fallbacks</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Observability</div>
-          <div class="module-description">Logs, metrics, and health checks</div>
-        </div>
-      </div>
-    </div>
-    
     <!-- Creator Hub Tab -->
     <div class="tab-pane" id="creatorhub">
-      <div class="module-grid">
-        <div class="module-item">
-          <div class="module-name">Workspace</div>
-          <div class="module-description">Developer experience with templates</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Assets</div>
-          <div class="module-description">Brand components and themes</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Deploy</div>
-          <div class="module-description">Push to HTTPS with CI/CD</div>
-        </div>
+      <div style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Creator Hub</h3>
+        <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+          Access your complete content creation workspace with templates, assets, and deployment tools.
+        </p>
+        <a href="/creator-hub" class="btn btn-primary" style="display: inline-block; padding: 0.75rem 2rem; background: var(--accent-primary); color: white; text-decoration: none; border-radius: 0.5rem; font-weight: 600;">
+          Open Creator Hub
+        </a>
       </div>
     </div>
     
-    <!-- Services Tab -->
-    <div class="tab-pane" id="services">
-      <div class="module-grid">
-        <div class="module-item">
-          <div class="module-name">V‑Stage</div>
-          <div class="module-description">Workflow orchestration engine</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Kie AI <span class="badge">Paid</span></div>
-          <div class="module-description">Premium AI features for subscribers</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Gateway Services</div>
-          <div class="module-description">Certificates and header management</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Micro-services Tab -->
-    <div class="tab-pane" id="microservices">
-      <div class="module-grid">
-        <div class="module-item">
-          <div class="module-name">Core API</div>
-          <div class="module-description">/health endpoint and system status</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Subscription</div>
-          <div class="module-description">Stripe checkout and billing routes</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Auth</div>
-          <div class="module-description">Signup, login, and JWT management</div>
-        </div>
-        <div class="module-item">
-          <div class="module-name">Observability</div>
-          <div class="module-description">System monitoring and analytics</div>
+    <!-- Nexus Originals Tab -->
+    <div class="tab-pane" id="nexusoriginals">
+      <div style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Submit to Nexus Originals</h3>
+        <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+          Submit your Film/TV content for consideration to become a Nexus Original series or feature.
+        </p>
+        <a href="/creator-hub?section=originals" class="btn btn-primary" style="display: inline-block; padding: 0.75rem 2rem; background: var(--accent-primary); color: white; text-decoration: none; border-radius: 0.5rem; font-weight: 600;">
+          Submit Content
+        </a>
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-card); border-radius: 0.5rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+          <h4 style="margin-bottom: 1rem;">What We're Looking For:</h4>
+          <ul style="color: var(--text-secondary); line-height: 1.8;">
+            <li>Original film and TV series concepts</li>
+            <li>Completed pilots or proof-of-concept content</li>
+            <li>Unique storytelling with broad appeal</li>
+            <li>High production value or potential for development</li>
+          </ul>
         </div>
       </div>
     </div>
