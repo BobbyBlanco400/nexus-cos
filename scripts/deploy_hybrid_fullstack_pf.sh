@@ -21,13 +21,16 @@ set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 readonly REPO_ROOT="/opt/nexus-cos"
 readonly VPS_IP="74.208.155.161"
-readonly DOMAIN="nexuscos.online"
+readonly DOMAIN="${DOMAIN:-nexuscos.online}"
 readonly SSL_BASE="/etc/nginx/ssl"
 readonly ENV_FILE="${REPO_ROOT}/.env.pf"
 readonly ENV_EXAMPLE="${REPO_ROOT}/.env.pf.example"
 readonly COMPOSE_FILE="${REPO_ROOT}/docker-compose.pf.yml"
+readonly COMPOSE_NEXUS_FILE="${REPO_ROOT}/docker-compose.pf.nexus.yml"
+readonly NETWORK_NAME="${NETWORK_NAME:-nexus-network}"
 readonly PF_VERSION="v2025.10.01"
 readonly PF_CONFIG="${REPO_ROOT}/nexus-cos-pf-v2025.10.01.yaml"
+readonly NGINX_ROUTE_UPDATER="${REPO_ROOT}/scripts/update-nginx-puabo-nexus-routes.sh"
 
 # Colors
 readonly RED='\033[0;31m'
@@ -327,22 +330,53 @@ validate_docker_compose() {
 deploy_services() {
     print_section "6. DEPLOYING SERVICES"
     
-    print_step "Pulling latest images..."
+    # Create shared Docker network
+    print_step "Creating shared Docker network: ${NETWORK_NAME}..."
+    if docker network inspect "${NETWORK_NAME}" &>/dev/null; then
+        print_info "Network ${NETWORK_NAME} already exists"
+    else
+        docker network create "${NETWORK_NAME}" || fatal_error "Failed to create network"
+        print_success "Network ${NETWORK_NAME} created"
+    fi
+    
+    # Deploy core PF stack
+    print_step "Deploying core PF stack (docker-compose.pf.yml)..."
     docker compose -f "${COMPOSE_FILE}" pull || print_warning "Some images could not be pulled"
     
-    print_step "Building custom images..."
-    docker compose -f "${COMPOSE_FILE}" build || fatal_error "Failed to build images"
-    print_success "Images built successfully"
+    print_step "Building core custom images..."
+    docker compose -f "${COMPOSE_FILE}" build || fatal_error "Failed to build core images"
+    print_success "Core images built successfully"
     
-    print_step "Starting services..."
-    docker compose -f "${COMPOSE_FILE}" up -d || fatal_error "Failed to start services"
-    print_success "Services started"
+    print_step "Starting core services..."
+    docker compose -f "${COMPOSE_FILE}" up -d || fatal_error "Failed to start core services"
+    print_success "Core services started"
+    
+    # Deploy PUABO NEXUS fleet stack
+    if [[ -f "${COMPOSE_NEXUS_FILE}" ]]; then
+        print_step "Deploying PUABO NEXUS fleet stack (docker-compose.pf.nexus.yml)..."
+        
+        # Set environment variables for the fleet stack
+        export NETWORK_NAME="${NETWORK_NAME}"
+        export DOMAIN="${DOMAIN}"
+        
+        docker compose -f "${COMPOSE_NEXUS_FILE}" pull || print_warning "Some NEXUS images could not be pulled"
+        docker compose -f "${COMPOSE_NEXUS_FILE}" up -d || print_warning "Failed to start NEXUS fleet services"
+        print_success "PUABO NEXUS fleet services started"
+    else
+        print_warning "PUABO NEXUS compose file not found: ${COMPOSE_NEXUS_FILE}"
+        print_info "Skipping NEXUS fleet deployment"
+    fi
     
     print_step "Waiting for services to initialize (30 seconds)..."
     sleep 30
     
-    print_step "Checking service status..."
+    print_step "Checking core service status..."
     docker compose -f "${COMPOSE_FILE}" ps
+    
+    if [[ -f "${COMPOSE_NEXUS_FILE}" ]]; then
+        print_step "Checking NEXUS fleet service status..."
+        docker compose -f "${COMPOSE_NEXUS_FILE}" ps
+    fi
     
     print_step "Checking running containers..."
     local running_count=$(docker compose -f "${COMPOSE_FILE}" ps --filter "status=running" --quiet | wc -l)
@@ -403,6 +437,10 @@ validate_health_endpoints() {
     # Define health check endpoints
     local health_endpoints=(
         "http://localhost:4000/health:PUABO API"
+        "http://127.0.0.1:9001/health:AI Dispatch"
+        "http://127.0.0.1:9002/health:Driver Backend"
+        "http://127.0.0.1:9003/health:Fleet Manager"
+        "http://127.0.0.1:9004/health:Route Optimizer"
     )
     
     for endpoint_info in "${health_endpoints[@]}"; do
@@ -427,6 +465,32 @@ validate_health_endpoints() {
     print_info "  - https://${DOMAIN}/v-suite/prompter/health"
     print_info "  - https://${DOMAIN}/nexus-studio/health"
     print_info "  - https://${DOMAIN}/club-saditty/health"
+    print_info ""
+    print_step "Performing external health checks..."
+    
+    # Test external endpoints if available
+    local external_endpoints=(
+        "https://${DOMAIN}/puabo-nexus/dispatch/health:AI Dispatch (External)"
+        "https://${DOMAIN}/puabo-nexus/driver/health:Driver Backend (External)"
+        "https://${DOMAIN}/puabo-nexus/fleet/health:Fleet Manager (External)"
+        "https://${DOMAIN}/puabo-nexus/routes/health:Route Optimizer (External)"
+    )
+    
+    for endpoint_info in "${external_endpoints[@]}"; do
+        local endpoint="${endpoint_info%%:*}"
+        local service="${endpoint_info##*:}"
+        
+        if curl -skI "${endpoint}" 2>/dev/null | grep -q "HTTP"; then
+            local status_code=$(curl -skI "${endpoint}" 2>/dev/null | grep "HTTP" | awk '{print $2}')
+            if [[ "${status_code}" == "200" ]]; then
+                print_success "${service} - HTTP ${status_code}"
+            else
+                print_info "${service} - HTTP ${status_code}"
+            fi
+        else
+            print_info "${service} - Not accessible (DNS/Nginx may not be configured yet)"
+        fi
+    done
 }
 
 # ==============================================================================
@@ -442,9 +506,22 @@ configure_nginx() {
         
         print_info "Nginx configuration should include reverse proxy rules for:"
         print_info "  - Core API (port 4000)"
-        print_info "  - PUABO NEXUS Services (ports 3231-3234)"
+        print_info "  - PUABO NEXUS Services (localhost ports 9001-9004)"
         print_info "  - V-Suite Services"
         print_info "  - All other services"
+        
+        # Install/update PUABO NEXUS routes
+        if [[ -f "${NGINX_ROUTE_UPDATER}" ]]; then
+            print_step "Installing PUABO NEXUS routes..."
+            if bash "${NGINX_ROUTE_UPDATER}"; then
+                print_success "PUABO NEXUS routes installed successfully"
+            else
+                print_warning "Failed to install PUABO NEXUS routes automatically"
+                print_info "You may need to configure Nginx manually"
+            fi
+        else
+            print_warning "Nginx route updater not found: ${NGINX_ROUTE_UPDATER}"
+        fi
         
         print_step "Testing Nginx configuration..."
         if nginx -t &>/dev/null; then
