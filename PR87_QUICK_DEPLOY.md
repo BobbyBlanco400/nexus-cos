@@ -2,6 +2,8 @@
 
 **TRAE SOLO BUILDER - EXECUTE NOW**
 
+**🛡️ BULLETPROOFED:** Dynamic path detection ensures scripts work from any location!
+
 ---
 
 ## 🚀 ONE-LINER DEPLOYMENT
@@ -146,8 +148,28 @@ For TRAE execution framework:
 
 ---
 
+## 🛡️ BULLETPROOFING NOTES
+
+**Path Detection:**
+- Scripts now auto-detect repository location
+- No hardcoded `/opt/nexus-cos` dependency
+- Works from GitHub Actions, VPS, or any deployment location
+- Follows same pattern as `pf-master-deployment.sh`
+
+**Flexibility:**
+```bash
+# Works from any repository location
+cd /var/www/nexus-cos && ./scripts/deploy-pr87-landing-pages.sh
+
+# Or with override
+REPO_ROOT=/custom/path ./scripts/deploy-pr87-landing-pages.sh
+```
+
+---
+
 **STATUS:** Ready for immediate deployment  
 **EXECUTION MODE:** IRON FIST - Zero Tolerance  
-**PF COMPLIANCE:** Strictly Enforced
+**PF COMPLIANCE:** Strictly Enforced  
+**PATH DETECTION:** ✅ Dynamic & Bulletproof
 
 Execute now! 🚀

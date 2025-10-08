@@ -20,8 +20,11 @@ readonly MAGENTA='\033[0;35m'
 readonly BOLD='\033[1m'
 readonly NC='\033[0m' # No Color
 
-# Configuration
-readonly REPO_ROOT="${REPO_ROOT:-/opt/nexus-cos}"
+# Dynamically determine repository root
+# Priority: Environment variable > Parent of script directory
+# Since this script is in scripts/ subdirectory, go up one level to find repo root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
 readonly APEX_SOURCE="${REPO_ROOT}/apex/index.html"
 readonly BETA_SOURCE="${REPO_ROOT}/web/beta/index.html"
 readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
