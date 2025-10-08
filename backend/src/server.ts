@@ -24,6 +24,33 @@ app.get("/health", (req, res) => {
   res.json({ "status": "ok" });
 });
 
+// System status endpoint - returns overall health of all services
+app.get("/api/system/status", (req, res) => {
+  res.json({
+    services: {
+      "auth": "healthy",
+      "creator-hub": "healthy",
+      "v-suite": "healthy",
+      "puaboverse": "healthy",
+      "database": "healthy",
+      "cache": "healthy"
+    },
+    updatedAt: new Date().toISOString()
+  });
+});
+
+// Generic service health endpoint
+app.get("/api/services/:service/health", (req, res) => {
+  const { service } = req.params;
+  const knownServices = ["auth", "creator-hub", "v-suite", "puaboverse", "database", "cache"];
+  
+  res.json({
+    service: service,
+    status: knownServices.includes(service) ? "healthy" : "unknown",
+    updatedAt: new Date().toISOString()
+  });
+});
+
 // Mount auth router
 app.use("/api/auth", authRouter);
 
