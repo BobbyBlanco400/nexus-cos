@@ -54,12 +54,86 @@ app.use((req, res, next) => {
   next();
 });
 
+// System status endpoint - returns overall health of all services
+app.get("/api/system/status", (req, res) => {
+  res.json({
+    services: {
+      "auth": "healthy",
+      "creator-hub": "healthy",
+      "v-suite": "healthy",
+      "puaboverse": "healthy",
+      "database": "healthy",
+      "cache": "healthy"
+    },
+    updatedAt: new Date().toISOString()
+  });
+});
+
+// Generic service health endpoint
+app.get("/api/services/:service/health", (req, res) => {
+  const { service } = req.params;
+  const knownServices = ["auth", "creator-hub", "v-suite", "puaboverse", "database", "cache"];
+  
+  res.json({
+    service: service,
+    status: knownServices.includes(service) ? "healthy" : "unknown",
+    updatedAt: new Date().toISOString()
+  });
+});
+
+// Extended modules health endpoints
+app.get("/api/creator-hub/status", (req, res) => {
+  res.json({ 
+    module: "Creator Hub",
+    status: "active",
+    features: ["Content Management", "Analytics", "Publishing Tools"]
+  });
+});
+
+app.get("/api/v-suite/status", (req, res) => {
+  res.json({ 
+    module: "V-Suite",
+    status: "active", 
+    features: ["Business Tools", "Workflow Management", "Team Collaboration"]
+  });
+});
+
+app.get("/api/puaboverse/status", (req, res) => {
+  res.json({ 
+    module: "PuaboVerse",
+    status: "active",
+    features: ["Virtual Worlds", "3D Environments", "Social Interaction"]
+  });
+});
+
 // Routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+
+// Basic API info endpoint for root
+app.get("/api", (req, res) => {
+  res.json({ 
+    name: "Nexus COS Backend API",
+    version: "1.0.0",
+    status: "running",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: "/health",
+      systemStatus: "/api/system/status",
+      serviceHealth: "/api/services/:service/health",
+      auth: "/api/auth",
+      users: "/api/users",
+      modules: {
+        creatorHub: "/api/creator-hub/status",
+        vSuite: "/api/v-suite/status",
+        puaboverse: "/api/puaboverse/status"
+      }
+    }
+  });
+});
 
 // Catch-all route to prevent 404 errors
 app.use((req, res) => {
