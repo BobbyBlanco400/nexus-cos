@@ -324,24 +324,77 @@ validate_logs() {
 }
 
 validate_pr87_integration() {
-    print_section "10. PR87 INTEGRATION VALIDATION"
+    print_section "10. PR87 INTEGRATION & BRANDING VALIDATION"
     
-    print_step "Checking PR87 landing pages..."
+    print_step "Validating unified Nexus COS branding..."
     
-    local pr87_files=(
-        "/var/www/nexuscos.online/index.html|Apex Landing"
-        "/var/www/beta.nexuscos.online/index.html|Beta Landing"
+    local landing_pages=(
+        "/var/www/nexuscos.online/index.html|Apex Landing|nexuscos.online"
+        "/var/www/beta.nexuscos.online/index.html|Beta Landing|beta.nexuscos.online"
     )
     
-    for file_info in "${pr87_files[@]}"; do
-        IFS='|' read -r file name <<< "$file_info"
+    for page_info in "${landing_pages[@]}"; do
+        IFS='|' read -r file name expected_url <<< "$page_info"
         
         if [[ -f "$file" ]]; then
             # Check for Nexus COS branding
-            if grep -q "Nexus" "$file" 2>/dev/null; then
-                print_success "$name contains Nexus branding"
+            if grep -q "Nexus COS" "$file" 2>/dev/null; then
+                print_success "$name contains Nexus COS branding"
             else
-                print_warning "$name may not have proper branding"
+                print_error "$name missing Nexus COS branding"
+            fi
+            
+            # Check for unified color (#2563eb)
+            if grep -q "#2563eb" "$file" 2>/dev/null; then
+                print_success "$name uses unified Nexus blue (#2563eb)"
+            else
+                print_error "$name missing unified brand color"
+            fi
+            
+            # Check for Inter font family
+            if grep -q "Inter" "$file" 2>/dev/null; then
+                print_success "$name uses Inter font family"
+            else
+                print_warning "$name may not be using Inter font"
+            fi
+            
+            # Check for correct URL references
+            if grep -q "$expected_url" "$file" 2>/dev/null; then
+                print_success "$name has correct URL references"
+            else
+                print_warning "$name may have incorrect URL references"
+            fi
+            
+            # For beta page, verify beta badge exists
+            if [[ "$name" == "Beta Landing" ]]; then
+                if grep -q "beta-badge\|Beta" "$file" 2>/dev/null; then
+                    print_success "$name contains beta badge"
+                else
+                    print_warning "$name missing beta badge indicator"
+                fi
+            fi
+        else
+            print_error "$name not found at $file"
+        fi
+    done
+    
+    print_step "Verifying file permissions..."
+    for page_info in "${landing_pages[@]}"; do
+        IFS='|' read -r file name expected_url <<< "$page_info"
+        
+        if [[ -f "$file" ]]; then
+            local perms=$(stat -c "%a" "$file" 2>/dev/null || stat -f "%A" "$file" 2>/dev/null || echo "000")
+            if [[ "$perms" == "644" ]]; then
+                print_success "$name has correct permissions (644)"
+            else
+                print_warning "$name has permissions: $perms (expected 644)"
+            fi
+            
+            local owner=$(stat -c "%U:%G" "$file" 2>/dev/null || stat -f "%Su:%Sg" "$file" 2>/dev/null || echo "unknown")
+            if [[ "$owner" == "www-data:www-data" ]]; then
+                print_success "$name has correct ownership (www-data:www-data)"
+            else
+                print_warning "$name has ownership: $owner (expected www-data:www-data)"
             fi
         fi
     done
