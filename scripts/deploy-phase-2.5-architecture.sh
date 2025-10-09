@@ -177,18 +177,56 @@ deploy_landing_pages() {
     print_step "Deploying apex landing page..."
     if [[ -f "${REPO_ROOT}/apex/index.html" ]]; then
         cp "${REPO_ROOT}/apex/index.html" "$WWW_APEX/"
+        chown www-data:www-data "$WWW_APEX/index.html"
+        chmod 644 "$WWW_APEX/index.html"
         print_success "Apex landing page deployed to $WWW_APEX"
+        
+        # Verify branding
+        if grep -q "#2563eb" "$WWW_APEX/index.html" && grep -q "Nexus COS" "$WWW_APEX/index.html"; then
+            print_success "Apex landing page has unified Nexus COS branding"
+        else
+            print_error "Apex landing page missing proper branding"
+            fatal_error "Landing page branding verification failed"
+        fi
     else
-        print_warning "Apex landing page not found in repository"
+        print_error "Apex landing page not found in repository at ${REPO_ROOT}/apex/index.html"
+        fatal_error "Critical landing page missing - cannot proceed"
     fi
     
     # Deploy Beta landing page
     print_step "Deploying beta landing page..."
     if [[ -f "${REPO_ROOT}/web/beta/index.html" ]]; then
         cp "${REPO_ROOT}/web/beta/index.html" "$WWW_BETA/"
+        chown www-data:www-data "$WWW_BETA/index.html"
+        chmod 644 "$WWW_BETA/index.html"
         print_success "Beta landing page deployed to $WWW_BETA"
+        
+        # Verify branding and beta URL
+        if grep -q "#2563eb" "$WWW_BETA/index.html" && grep -q "Nexus COS" "$WWW_BETA/index.html"; then
+            print_success "Beta landing page has unified Nexus COS branding"
+        else
+            print_error "Beta landing page missing proper branding"
+            fatal_error "Landing page branding verification failed"
+        fi
+        
+        if grep -q "beta.nexuscos.online" "$WWW_BETA/index.html"; then
+            print_success "Beta landing page configured with correct beta URL"
+        else
+            print_error "Beta landing page missing beta.nexuscos.online URL"
+            fatal_error "Beta URL verification failed"
+        fi
     else
-        print_warning "Beta landing page not found in repository"
+        print_error "Beta landing page not found in repository at ${REPO_ROOT}/web/beta/index.html"
+        fatal_error "Critical landing page missing - cannot proceed"
+    fi
+    
+    # Post-deployment file existence verification
+    print_step "Verifying deployed files..."
+    if [[ -f "$WWW_APEX/index.html" ]] && [[ -f "$WWW_BETA/index.html" ]]; then
+        print_success "All landing pages verified on filesystem"
+    else
+        print_error "Landing page verification failed after deployment"
+        fatal_error "File deployment verification failed"
     fi
 }
 

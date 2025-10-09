@@ -1,0 +1,100 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║            NEXUS COS PHASE 2.5 - DEPLOYMENT FLOW DIAGRAM                 ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+                          ┌──────────────────────┐
+                          │  TRAE or User runs:  │
+                          │                      │
+                          │ sudo ./DEPLOY_       │
+                          │    PHASE_2.5.sh      │
+                          └──────────┬───────────┘
+                                     │
+                                     ▼
+                          ┌──────────────────────┐
+                          │   PRE-FLIGHT CHECKS  │
+                          │                      │
+                          │  ✓ Root access       │
+                          │  ✓ Repository @ /opt │
+                          │  ✓ Scripts exist     │
+                          └──────────┬───────────┘
+                                     │
+                                     ▼
+                     ┌───────────────────────────────┐
+                     │  DEPLOY PHASE 2.5 ARCHITECTURE │
+                     └───────────────┬───────────────┘
+                                     │
+                ┌────────────────────┼────────────────────┐
+                │                    │                    │
+                ▼                    ▼                    ▼
+    ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+    │  Create Dirs     │ │  Deploy Landing  │ │  Configure       │
+    │                  │ │  Pages           │ │  Nginx           │
+    │  /var/www/       │ │                  │ │                  │
+    │  /logs/          │ │  apex/index.html │ │  Phase 2.5       │
+    │  /backups/       │ │  beta/index.html │ │  routing config  │
+    └──────────────────┘ └──────────────────┘ └──────────────────┘
+                                     │
+                                     ▼
+                     ┌───────────────────────────────┐
+                     │   VERIFY UNIFIED BRANDING     │
+                     │                               │
+                     │   ✓ Nexus COS blue (#2563eb) │
+                     │   ✓ Beta URL configured      │
+                     │   ✓ File permissions (644)   │
+                     │   ✓ Ownership (www-data)     │
+                     └───────────────┬───────────────┘
+                                     │
+                                     ▼
+                     ┌───────────────────────────────┐
+                     │   BACKEND SERVICES (Optional) │
+                     │                               │
+                     │   Docker Compose services     │
+                     │   Health checks               │
+                     └───────────────┬───────────────┘
+                                     │
+                                     ▼
+                     ┌───────────────────────────────┐
+                     │    VALIDATE DEPLOYMENT        │
+                     └───────────────┬───────────────┘
+                                     │
+        ┌────────────────────────────┼────────────────────────────┐
+        │                            │                            │
+        ▼                            ▼                            ▼
+┌────────────────┐         ┌────────────────┐         ┌────────────────┐
+│  Landing Pages │         │  Nginx Config  │         │   Branding     │
+│                │         │                │         │                │
+│  ✓ Files exist │         │  ✓ Syntax OK   │         │  ✓ #2563eb    │
+│  ✓ Branding OK │         │  ✓ Enabled     │         │  ✓ Nexus COS  │
+│  ✓ URLs correct│         │  ✓ Running     │         │  ✓ Inter font │
+└────────────────┘         └────────────────┘         └────────────────┘
+        │                            │                            │
+        └────────────────────────────┼────────────────────────────┘
+                                     │
+                                     ▼
+                          ┌──────────────────────┐
+                          │   REPORT RESULTS     │
+                          └──────────┬───────────┘
+                                     │
+                 ┌───────────────────┴───────────────────┐
+                 │                                       │
+                 ▼                                       ▼
+      ┌──────────────────┐                   ┌──────────────────┐
+      │  ✅ SUCCESS      │                   │  ❌ FAILURE      │
+      │                  │                   │                  │
+      │  All checks pass │                   │  Errors found    │
+      │  Production ready│                   │  Fix and retry   │
+      └──────────────────┘                   └──────────────────┘
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                           DEPLOYED SYSTEMS                                ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                                                                           ║
+║   🌐 nexuscos.online              →  OTT Frontend (Public)               ║
+║   🌐 nexuscos.online/v-suite/     →  V-Suite Dashboard (Creator)         ║
+║   🌐 beta.nexuscos.online         →  Beta Portal (Active until Nov 17)   ║
+║                                                                           ║
+║   🎨 Unified Nexus COS Branding (#2563eb blue) across all layers         ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
