@@ -8,6 +8,25 @@
 
 ---
 
+## 🚀 QUICK DEPLOYMENT
+
+**Deploy Phase 2.5 to VPS with one command:**
+
+```bash
+cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
+```
+
+This bulletproof deployment script automatically:
+- ✅ Deploys apex and beta landing pages with unified Nexus COS branding
+- ✅ Configures Nginx for Phase 2.5 routing
+- ✅ Verifies beta.nexuscos.online URL configuration
+- ✅ Validates all deployments
+- ✅ Reports clear success/failure status
+
+**📚 Full Guide:** See `PHASE_2.5_DEPLOYMENT_GUIDE.md` for complete documentation
+
+---
+
 ## OBJECTIVE
 
 Formalize the coexistence and integration of the Nexus COS OTT Frontend, V-Suite Dashboard, and Beta Launch Portal under one unified PF deployment, maintaining full operational continuity until the Beta transition date of **November 17, 2025**.
@@ -305,16 +324,28 @@ All layers inherit the **official Nexus Creative Operating System Brand Package*
 **Responsibility:** TRAE SOLO  
 **Action:** Deploy & validate Phase 2.5 architecture
 
+**🚀 ONE-COMMAND DEPLOYMENT (Recommended):**
+```bash
+cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
+```
+
+**Manual Step-by-Step Deployment:**
 ```bash
 # Execute Phase 2.5 deployment
 cd /opt/nexus-cos
-./scripts/deploy-phase-2.5-architecture.sh
+sudo ./scripts/deploy-phase-2.5-architecture.sh
 
 # Validate deployment
-./scripts/validate-phase-2.5-deployment.sh
+sudo ./scripts/validate-phase-2.5-deployment.sh
 ```
 
-**Expected Outcome:** All three layers operational with isolated routing
+**Expected Outcome:** 
+- ✅ All three layers operational with isolated routing
+- ✅ Unified Nexus COS branding (#2563eb) verified
+- ✅ Beta landing page at beta.nexuscos.online deployed
+- ✅ All validation checks passing
+
+**Documentation:** See `PHASE_2.5_DEPLOYMENT_GUIDE.md` for complete deployment instructions
 
 ---
 
