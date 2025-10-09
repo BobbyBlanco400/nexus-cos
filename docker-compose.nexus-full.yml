@@ -1,0 +1,629 @@
+version: "3.9"
+
+networks:
+  cos-net:
+    driver: bridge
+
+services:
+
+  # ============================================================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================================================
+
+  # Redis Cache
+  nexus-cos-redis:
+    image: redis:7-alpine
+    container_name: nexus-cos-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-nexus_redis_pass}
+    ports:
+      - "6380:6379"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database
+  nexus-cos-postgres:
+    image: postgres:13
+    container_name: nexus-cos-postgres
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-nexus_db_pass}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: ${DB_NAME:-nexus_cos}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # CORE PLATFORM SERVICES
+  # ============================================================================
+
+  # Auth Service
+  auth-ms:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3100
+      DB_HOST: nexus-cos-postgres
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "3100:3100"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+      - nexus-cos-redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Scheduler / Queue Service
+  scheduler-ms:
+    build:
+      context: ./services/scheduler
+      dockerfile: Dockerfile
+    container_name: scheduler-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3101
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "3101:3101"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3101/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 1: PUABO OS CORE
+  # ============================================================================
+
+  puabo-os:
+    build:
+      context: ./modules/puabo-os-v200
+      dockerfile: Dockerfile
+    container_name: puabo-os
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 2: PUABO NEXUS (Fleet & Logistics)
+  # ============================================================================
+
+  # Fleet Service
+  fleet-service:
+    build:
+      context: ./modules/puabo-nexus/services/fleet-service
+      dockerfile: Dockerfile
+    container_name: fleet-service
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      DB_HOST: nexus-cos-postgres
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "8080:8080"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+      - nexus-cos-redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Tracker Microservice
+  tracker-ms:
+    build:
+      context: ./modules/puabo-nexus/services/tracker-ms
+      dockerfile: Dockerfile
+    container_name: tracker-ms
+    environment:
+      NODE_ENV: production
+      PORT: 8081
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "8081:8081"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Location Microservice
+  location-ms:
+    build:
+      context: ./modules/puabo-nexus/microservices/location-ms
+      dockerfile: Dockerfile
+    container_name: location-ms
+    environment:
+      NODE_ENV: production
+      PORT: 8082
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 3: PUABOverse (Metaverse)
+  # ============================================================================
+
+  # World Engine Microservice
+  world-engine-ms:
+    build:
+      context: ./modules/puaboverse/services/world-engine-ms
+      dockerfile: Dockerfile
+    container_name: world-engine-ms
+    environment:
+      NODE_ENV: production
+      PORT: 8090
+    ports:
+      - "8090:8090"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Avatar Microservice
+  avatar-ms:
+    build:
+      context: ./modules/puaboverse/services/avatar-ms
+      dockerfile: Dockerfile
+    container_name: avatar-ms
+    environment:
+      NODE_ENV: production
+      PORT: 8091
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8091/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 4: PUABO DSP (Digital Service Provider)
+  # ============================================================================
+
+  # DSP API
+  dsp-api:
+    build:
+      context: ./modules/puabo-dsp/services/dsp-api
+      dockerfile: Dockerfile
+    container_name: dsp-api
+    environment:
+      NODE_ENV: production
+      PORT: 9000
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "9000:9000"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 5: MusicChain
+  # ============================================================================
+
+  # MusicChain Microservice
+  musicchain-ms:
+    build:
+      context: ./modules/musicchain/services/musicchain-ms
+      dockerfile: Dockerfile
+    container_name: musicchain-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9001
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "9001:9001"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 6: PUABO BLAC (Finance)
+  # ============================================================================
+
+  # BLAC API
+  blac-api:
+    build:
+      context: ./modules/puabo-blac/services/blac-api
+      dockerfile: Dockerfile
+    container_name: blac-api
+    environment:
+      NODE_ENV: production
+      PORT: 9100
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "9100:9100"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Wallet Microservice
+  wallet-ms:
+    build:
+      context: ./modules/puabo-blac/services/wallet-ms
+      dockerfile: Dockerfile
+    container_name: wallet-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9101
+      DB_HOST: nexus-cos-postgres
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9101/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 7: PUABO Studio (Recording & Production)
+  # ============================================================================
+
+  # Studio API
+  studio-api:
+    build:
+      context: ./modules/puabo-studio/services/studio-api
+      dockerfile: Dockerfile
+    container_name: studio-api
+    environment:
+      NODE_ENV: production
+      PORT: 9200
+    ports:
+      - "9200:9200"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mixer Microservice
+  mixer-ms:
+    build:
+      context: ./modules/puabo-studio/microservices/mixer-ms
+      dockerfile: Dockerfile
+    container_name: mixer-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9201
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9201/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mastering Microservice
+  mastering-ms:
+    build:
+      context: ./modules/puabo-studio/microservices/mastering-ms
+      dockerfile: Dockerfile
+    container_name: mastering-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9202
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9202/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 8: V-Suite (Virtual Production)
+  # ============================================================================
+
+  # V-Screen
+  v-screen-ms:
+    build:
+      context: ./modules/v-suite/v-screen
+      dockerfile: Dockerfile
+    container_name: v-screen-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+    ports:
+      - "3010:3010"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Caster Pro
+  v-caster-ms:
+    build:
+      context: ./modules/v-suite/v-caster-pro
+      dockerfile: Dockerfile
+    container_name: v-caster-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3011
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3011/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Stage
+  v-stage-ms:
+    build:
+      context: ./modules/v-suite/v-stage
+      dockerfile: Dockerfile
+    container_name: v-stage-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3012/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Prompter Pro
+  v-prompter-ms:
+    build:
+      context: ./modules/v-suite/v-prompter-pro
+      dockerfile: Dockerfile
+    container_name: v-prompter-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+    ports:
+      - "3002:3002"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 9: StreamCore (Streaming Engine)
+  # ============================================================================
+
+  # StreamCore Microservice
+  streamcore-ms:
+    build:
+      context: ./modules/streamcore/services/streamcore-ms
+      dockerfile: Dockerfile
+    container_name: streamcore-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3016
+    ports:
+      - "3016:3016"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3016/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Chat Stream Microservice
+  chat-stream-ms:
+    build:
+      context: ./modules/streamcore/microservices/chat-stream-ms
+      dockerfile: Dockerfile
+    container_name: chat-stream-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3017
+      REDIS_HOST: nexus-cos-redis
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3017/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 10: GameCore (Gaming Platform)
+  # ============================================================================
+
+  # GameCore Microservice
+  gamecore-ms:
+    build:
+      context: ./modules/gamecore/services/gamecore-ms
+      dockerfile: Dockerfile
+    container_name: gamecore-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3020
+    ports:
+      - "3020:3020"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3020/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 11: Nexus Studio AI
+  # ============================================================================
+
+  # Nexus AI Microservice
+  nexus-ai-ms:
+    build:
+      context: ./modules/nexus-studio-ai/services/nexus-ai-ms
+      dockerfile: Dockerfile
+    container_name: nexus-ai-ms
+    environment:
+      NODE_ENV: production
+      PORT: 3030
+    ports:
+      - "3030:3030"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 12: PUABO & NUKI Clothing (Fashion)
+  # ============================================================================
+
+  # Fashion API
+  fashion-api:
+    build:
+      context: ./modules/puabo-nuki-clothing/services/fashion-api
+      dockerfile: Dockerfile
+    container_name: fashion-api
+    environment:
+      NODE_ENV: production
+      PORT: 9300
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "9300:9300"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9300/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # MODULE 13: PUABO OTT / TV Streaming
+  # ============================================================================
+
+  # OTT API
+  ott-api:
+    build:
+      context: ./modules/puabo-ott-tv-streaming/services/ott-api
+      dockerfile: Dockerfile
+    container_name: ott-api
+    environment:
+      NODE_ENV: production
+      PORT: 9400
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "9400:9400"
+    networks:
+      - cos-net
+    restart: unless-stopped
+    depends_on:
+      - nexus-cos-postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9400/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+

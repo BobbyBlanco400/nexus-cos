@@ -1,7 +1,7 @@
 {
-  "name": "auth-ms",
-  "version": "1.0.0",
-  "description": "auth-ms service for Nexus COS",
+  "name": "puabo-os-v200",
+  "version": "2.0.0",
+  "description": "PUABO OS Core - Operating System Core",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
