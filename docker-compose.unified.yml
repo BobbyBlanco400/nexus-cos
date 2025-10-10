@@ -1,0 +1,792 @@
+# Nexus COS v2025 - Unified Final Build
+# Complete orchestration for all modules and services
+# 13 Modules | 38 Services/Microservices
+
+services:
+  # ============================================================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================================================
+  
+  # PostgreSQL Database
+  nexus-cos-postgres:
+    image: postgres:15-alpine
+    container_name: nexus-cos-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-nexus_db}
+      POSTGRES_USER: ${DB_USER:-nexus_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-nexus_user} -d ${DB_NAME:-nexus_db}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Redis Cache
+  nexus-cos-redis:
+    image: redis:7-alpine
+    container_name: nexus-cos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # CORE API GATEWAY
+  # ============================================================================
+  
+  puabo-api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: puabo-api
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DB_HOST: nexus-cos-postgres
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "4000:4000"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+      nexus-cos-redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # AI & SDK SERVICES
+  # ============================================================================
+  
+  # PUABO AI SDK
+  puaboai-sdk:
+    build:
+      context: ./services/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: puaboai-sdk
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3002:3002"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # AI Service
+  ai-service:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: ai-service
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+    ports:
+      - "3003:3003"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # KEI AI
+  kei-ai:
+    build:
+      context: ./services/kei-ai
+      dockerfile: Dockerfile
+    container_name: kei-ai
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3009
+    ports:
+      - "3009:3009"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Nexus Studio AI
+  nexus-studio-ai:
+    build:
+      context: ./services/nexus-cos-studio-ai
+      dockerfile: Dockerfile
+    container_name: nexus-studio-ai
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3011
+    ports:
+      - "3011:3011"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # AUTHENTICATION SERVICES
+  # ============================================================================
+  
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3080
+      DB_HOST: nexus-cos-postgres
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "3080:3080"
+    depends_on:
+      - nexus-cos-postgres
+      - nexus-cos-redis
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # PV Keys Service
+  pv-keys:
+    build:
+      context: ./services/pv-keys
+      dockerfile: Dockerfile
+    container_name: pv-keys
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3041
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3041:3041"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Key Service
+  key-service:
+    build:
+      context: ./services/key-service
+      dockerfile: Dockerfile
+    container_name: key-service
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+    ports:
+      - "3010:3010"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # V-SUITE SERVICES (Virtual Production)
+  # ============================================================================
+  
+  # StreamCore
+  streamcore:
+    build:
+      context: ./services/streamcore
+      dockerfile: Dockerfile
+    container_name: streamcore
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3016
+    ports:
+      - "3016:3016"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # V-Screen Hollywood Edition
+  vscreen-hollywood:
+    build:
+      context: ./services/vscreen-hollywood
+      dockerfile: Dockerfile
+    container_name: vscreen-hollywood
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 8088
+      STREAMCORE_URL: http://streamcore:3016
+      PUABOAI_SDK_URL: http://puaboai-sdk:3002
+    ports:
+      - "8088:8088"
+    depends_on:
+      - streamcore
+      - puaboai-sdk
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # V-Caster Pro
+  v-caster-pro:
+    build:
+      context: ./services/v-caster-pro
+      dockerfile: Dockerfile
+    container_name: v-caster-pro
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+    ports:
+      - "3012:3012"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # V-Prompter Pro
+  v-prompter-pro:
+    build:
+      context: ./services/v-prompter-pro
+      dockerfile: Dockerfile
+    container_name: v-prompter-pro
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3013
+    ports:
+      - "3013:3013"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # V-Screen Pro
+  v-screen-pro:
+    build:
+      context: ./services/v-screen-pro
+      dockerfile: Dockerfile
+    container_name: v-screen-pro
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3014
+    ports:
+      - "3014:3014"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # PUABO NEXUS FLEET SERVICES
+  # ============================================================================
+  
+  # AI Dispatch
+  puabo-nexus-ai-dispatch:
+    build:
+      context: ./services/puabo-nexus-ai-dispatch
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-ai-dispatch
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3231
+      DB_HOST: nexus-cos-postgres
+      REDIS_HOST: nexus-cos-redis
+    ports:
+      - "3231:3231"
+    depends_on:
+      - nexus-cos-postgres
+      - nexus-cos-redis
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Driver App Backend
+  puabo-nexus-driver-app:
+    build:
+      context: ./services/puabo-nexus-driver-app-backend
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-driver-app
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3232
+      DB_HOST: nexus-cos-postgres
+      DISPATCH_URL: http://puabo-nexus-ai-dispatch:3231
+    ports:
+      - "3232:3232"
+    depends_on:
+      - puabo-nexus-ai-dispatch
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Fleet Manager
+  puabo-nexus-fleet-manager:
+    build:
+      context: ./services/puabo-nexus-fleet-manager
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-fleet-manager
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3233
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3233:3233"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Route Optimizer
+  puabo-nexus-route-optimizer:
+    build:
+      context: ./services/puabo-nexus-route-optimizer
+      dockerfile: Dockerfile
+    container_name: puabo-nexus-route-optimizer
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3234
+      FLEET_URL: http://puabo-nexus-fleet-manager:3233
+    ports:
+      - "3234:3234"
+    depends_on:
+      - puabo-nexus-fleet-manager
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # PUABO DSP SERVICES (Digital Service Provider)
+  # ============================================================================
+  
+  # Metadata Manager
+  puabo-dsp-metadata:
+    build:
+      context: ./services/puabo-dsp-metadata-mgr
+      dockerfile: Dockerfile
+    container_name: puabo-dsp-metadata
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3030
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3030:3030"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Streaming API
+  puabo-dsp-streaming:
+    build:
+      context: ./services/puabo-dsp-streaming-api
+      dockerfile: Dockerfile
+    container_name: puabo-dsp-streaming
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3031
+    ports:
+      - "3031:3031"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Upload Manager
+  puabo-dsp-upload:
+    build:
+      context: ./services/puabo-dsp-upload-mgr
+      dockerfile: Dockerfile
+    container_name: puabo-dsp-upload
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3032
+    ports:
+      - "3032:3032"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # PUABO BLAC SERVICES (Business Loan & Credit)
+  # ============================================================================
+  
+  # Loan Processor
+  puabo-blac-loan:
+    build:
+      context: ./services/puabo-blac-loan-processor
+      dockerfile: Dockerfile
+    container_name: puabo-blac-loan
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3020
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3020:3020"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Risk Assessment
+  puabo-blac-risk:
+    build:
+      context: ./services/puabo-blac-risk-assessment
+      dockerfile: Dockerfile
+    container_name: puabo-blac-risk
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3021
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3021:3021"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # PUABO NUKI CLOTHING SERVICES (E-Commerce)
+  # ============================================================================
+  
+  # Inventory Manager
+  puabo-nuki-inventory:
+    build:
+      context: ./services/puabo-nuki-inventory-mgr
+      dockerfile: Dockerfile
+    container_name: puabo-nuki-inventory
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3040
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3040:3040"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Order Processor
+  puabo-nuki-orders:
+    build:
+      context: ./services/puabo-nuki-order-processor
+      dockerfile: Dockerfile
+    container_name: puabo-nuki-orders
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3041
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3041:3041"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Product Catalog
+  puabo-nuki-catalog:
+    build:
+      context: ./services/puabo-nuki-product-catalog
+      dockerfile: Dockerfile
+    container_name: puabo-nuki-catalog
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3042
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3042:3042"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Shipping Service
+  puabo-nuki-shipping:
+    build:
+      context: ./services/puabo-nuki-shipping-service
+      dockerfile: Dockerfile
+    container_name: puabo-nuki-shipping
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3043
+    ports:
+      - "3043:3043"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # ADDITIONAL PLATFORM SERVICES
+  # ============================================================================
+  
+  # Backend API
+  backend-api:
+    build:
+      context: ./services/backend-api
+      dockerfile: Dockerfile
+    container_name: backend-api
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3001:3001"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Content Management
+  content-management:
+    build:
+      context: ./services/content-management
+      dockerfile: Dockerfile
+    container_name: content-management
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3006
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3006:3006"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Creator Hub
+  creator-hub:
+    build:
+      context: ./services/creator-hub-v2
+      dockerfile: Dockerfile
+    container_name: creator-hub
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3007
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3007:3007"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Music Chain
+  musicchain:
+    build:
+      context: ./services/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: musicchain
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3050
+    ports:
+      - "3050:3050"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # PuaboVerse
+  puaboverse:
+    build:
+      context: ./services/puaboverse-v2
+      dockerfile: Dockerfile
+    container_name: puaboverse
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3060
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3060:3060"
+    depends_on:
+      - nexus-cos-postgres
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Streaming Service
+  streaming-service:
+    build:
+      context: ./services/streaming-service-v2
+      dockerfile: Dockerfile
+    container_name: streaming-service
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3070
+    ports:
+      - "3070:3070"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Boom Boom Room Live
+  boom-boom-room:
+    build:
+      context: ./services/boom-boom-room-live
+      dockerfile: Dockerfile
+    container_name: boom-boom-room
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+    ports:
+      - "3005:3005"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Glitch Service
+  glitch:
+    build:
+      context: ./services/glitch
+      dockerfile: Dockerfile
+    container_name: glitch
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3008
+    ports:
+      - "3008:3008"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Scheduler
+  scheduler:
+    build:
+      context: ./services/scheduler
+      dockerfile: Dockerfile
+    container_name: scheduler
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3090
+    ports:
+      - "3090:3090"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # NGINX REVERSE PROXY
+  # ============================================================================
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nexus-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.docker:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/ssl/ionos:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - puabo-api
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  nginx_logs:
+    driver: local
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+
+networks:
+  cos-net:
+    driver: bridge
+    name: cos-net
