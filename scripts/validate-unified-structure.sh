@@ -54,7 +54,7 @@ print_header
 
 # Section 1: Module Structure
 print_section "1. Module Structure Validation"
-TOTAL_CHECKS=$((TOTAL_CHECKS + 13))
+TOTAL_CHECKS=$((TOTAL_CHECKS + 16))
 
 required_modules=(
     "puabo-os-v200"
@@ -70,6 +70,9 @@ required_modules=(
     "nexus-studio-ai"
     "puabo-nuki-clothing"
     "puabo-ott-tv-streaming"
+    "core-os"
+    "club-saditty"
+    "puabo-nuki"
 )
 
 for module in "${required_modules[@]}"; do

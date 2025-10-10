@@ -1,6 +1,6 @@
 # Nexus COS v2025 - Unified Final Build
 # Complete orchestration for all modules and services
-# 13 Modules | 38 Services/Microservices
+# 16 Modules | 42 Services/Microservices
 
 services:
   # ============================================================================
@@ -740,6 +740,97 @@ services:
       PORT: 3090
     ports:
       - "3090:3090"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # SESSION & TOKEN MANAGEMENT
+  # ============================================================================
+
+  # Session Manager
+  session-mgr:
+    build:
+      context: ./services/session-mgr
+      dockerfile: Dockerfile
+    container_name: session-mgr
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3101
+      REDIS_URL: redis://nexus-cos-redis:6379
+    ports:
+      - "3101:3101"
+    depends_on:
+      - nexus-cos-redis
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Token Manager
+  token-mgr:
+    build:
+      context: ./services/token-mgr
+      dockerfile: Dockerfile
+    container_name: token-mgr
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3102
+      REDIS_URL: redis://nexus-cos-redis:6379
+      JWT_SECRET: ${JWT_SECRET:-nexus-cos-secret-key}
+    ports:
+      - "3102:3102"
+    depends_on:
+      - nexus-cos-redis
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # ============================================================================
+  # FINANCIAL SERVICES
+  # ============================================================================
+
+  # Invoice Generator
+  invoice-gen:
+    build:
+      context: ./services/invoice-gen
+      dockerfile: Dockerfile
+    container_name: invoice-gen
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3111
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3111:3111"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # Ledger Manager
+  ledger-mgr:
+    build:
+      context: ./services/ledger-mgr
+      dockerfile: Dockerfile
+    container_name: ledger-mgr
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3112
+      DB_HOST: nexus-cos-postgres
+    ports:
+      - "3112:3112"
+    depends_on:
+      nexus-cos-postgres:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - cos-net
