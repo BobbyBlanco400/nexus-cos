@@ -1,7 +1,7 @@
 {
-  "name": "auth-ms",
+  "name": "world-engine-ms",
   "version": "1.0.0",
-  "description": "auth-ms service for Nexus COS",
+  "description": "world-engine-ms service for Nexus COS",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

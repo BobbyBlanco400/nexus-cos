@@ -1,7 +1,7 @@
 {
-  "name": "auth-ms",
+  "name": "blac-api",
   "version": "1.0.0",
-  "description": "auth-ms service for Nexus COS",
+  "description": "blac-api service for Nexus COS",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

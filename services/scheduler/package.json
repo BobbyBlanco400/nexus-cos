@@ -1,7 +1,7 @@
 {
-  "name": "auth-ms",
+  "name": "scheduler-ms",
   "version": "1.0.0",
-  "description": "auth-ms service for Nexus COS",
+  "description": "scheduler-ms service for Nexus COS",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
