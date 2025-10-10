@@ -82,7 +82,7 @@ The modular structure is fully implemented with all 13 core modules in place:
 
 **Status:** ✅ COMPLETE
 
-All submodules consolidated into final architecture:
+All 16 modules consolidated into final architecture:
 - ✓ puabo-os-v200/
 - ✓ puabo-nexus/
 - ✓ puaboverse/
@@ -96,7 +96,9 @@ All submodules consolidated into final architecture:
 - ✓ nexus-studio-ai/
 - ✓ puabo-nuki-clothing/
 - ✓ puabo-ott-tv-streaming/
-- ✓ club-saditty/ (to be added if needed)
+- ✓ core-os/
+- ✓ club-saditty/
+- ✓ puabo-nuki/ (symlink to puabo-nuki-clothing)
 
 ### Task 3 – Containerization & Wiring ✓
 

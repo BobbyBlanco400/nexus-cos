@@ -1,0 +1,26 @@
+module_name: club-saditty
+description: Premium Membership Platform
+version: 1.0.0
+
+dependencies:
+  services:
+    - auth-service
+    - backend-api
+    - nexus-cos-postgres
+    - nexus-cos-redis
+  
+  modules:
+    - puaboverse
+    - streamcore
+  
+  external_apis:
+    - stripe_api
+    - sendgrid_api
+
+ports:
+  - 3700
+
+environment_variables:
+  - CLUB_SADITTY_SECRET_KEY
+  - STRIPE_API_KEY
+  - MEMBERSHIP_TIERS_CONFIG
