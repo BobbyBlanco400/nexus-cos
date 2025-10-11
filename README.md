@@ -438,6 +438,48 @@ bash EXECUTE_BETA_LAUNCH.sh
 
 ---
 
+## ⚖️ **Legal Documents**
+
+**Legal Documents Scaffold Package:** [`legal-docs-nexus-cos/`](legal-docs-nexus-cos/)
+
+Complete legal documentation templates for Nexus COS platform:
+
+**Holding Company:**
+- Articles of Incorporation & Bylaws
+- Shareholders Agreement
+- Intercompany License Agreement
+- IP Assignment Agreement
+
+**Core Platform:**
+- Terms of Service & Privacy Policy
+- Service Agreement & Acceptable Use Policy
+- Creator Agreement & Content Licensing
+- Employee Invention Assignment
+
+**Module-Specific:**
+- V-Suite Legal Terms
+- Nexus STREAM Legal Terms
+- Nexus OTT Legal Terms
+- Faith Through Fitness Legal Terms
+
+**Compliance:**
+- DMCA Takedown Procedure
+- Data Processing Addendum (GDPR)
+- Cookie Policy & GDPR Notice
+
+**Quick Setup:**
+```bash
+cd legal-docs-nexus-cos
+./scripts/setup_legal_docs.sh /opt/nexus-cos/legal
+./scripts/validate_legal_docs.sh
+```
+
+**📖 Documentation:** [legal-docs-nexus-cos/README.md](legal-docs-nexus-cos/README.md)
+
+⚠️ **Note:** These are templates requiring customization and legal counsel review.
+
+---
+
 ## 📄 **License**
 
 Copyright © 2025 Nexus COS - Bobby Blanco  
