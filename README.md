@@ -89,6 +89,23 @@ bash EXECUTE_BETA_LAUNCH.sh
 5. **[pf-health-check.sh](pf-health-check.sh)** - Health check script
 6. **[FINAL_DEPLOYMENT_SUMMARY.md](FINAL_DEPLOYMENT_SUMMARY.md)** - What was accomplished
 
+### 🚀 **VPS Deployment (NEW)**
+
+7. **[VPS_DEPLOYMENT_READINESS_CHECK.sh](VPS_DEPLOYMENT_READINESS_CHECK.sh)** ⭐ **RUN THIS FIRST**
+   - Pre-deployment verification (25 checks)
+   - Repository readiness validation
+   - 100% readiness confirmation
+   
+8. **[VPS_DEPLOYMENT_CHECKLIST.md](VPS_DEPLOYMENT_CHECKLIST.md)** 📋 **CHECKLIST**
+   - Complete deployment checklist
+   - Step-by-step execution guide
+   - Troubleshooting procedures
+   
+9. **[VPS_POST_DEPLOYMENT_VERIFICATION.md](VPS_POST_DEPLOYMENT_VERIFICATION.md)** ✅ **POST-DEPLOY**
+   - 6-stage verification process
+   - Comprehensive testing procedures
+   - Success criteria confirmation
+
 ---
 
 ## 🏗️ **System Architecture**
