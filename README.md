@@ -89,29 +89,34 @@ bash EXECUTE_BETA_LAUNCH.sh
 5. **[pf-health-check.sh](pf-health-check.sh)** - Health check script
 6. **[FINAL_DEPLOYMENT_SUMMARY.md](FINAL_DEPLOYMENT_SUMMARY.md)** - What was accomplished
 
-### 🚀 **VPS Deployment (NEW)**
+### 🚀 **VPS Deployment (NEW)** ⭐
 
-7. **[VPS_DEPLOYMENT_READINESS_CHECK.sh](VPS_DEPLOYMENT_READINESS_CHECK.sh)** ⭐ **RUN THIS FIRST**
+7. **[VPS_DEPLOYMENT_COMPLETE_GUIDE.md](VPS_DEPLOYMENT_COMPLETE_GUIDE.md)** 🎯 **START HERE**
+   - Complete 4-phase deployment workflow
+   - Single source of truth for VPS deployment
+   - 30-minute total deployment time
+   
+8. **[VPS_DEPLOYMENT_READINESS_CHECK.sh](VPS_DEPLOYMENT_READINESS_CHECK.sh)** ✅ **RUN THIS FIRST**
    - Pre-deployment verification (25 checks)
    - Repository readiness validation
    - 100% readiness confirmation
    
-8. **[VPS_DEPLOYMENT_CHECKLIST.md](VPS_DEPLOYMENT_CHECKLIST.md)** 📋 **CHECKLIST**
+9. **[VPS_DEPLOYMENT_CHECKLIST.md](VPS_DEPLOYMENT_CHECKLIST.md)** 📋 **CHECKLIST**
    - Complete deployment checklist
    - Step-by-step execution guide
    - Troubleshooting procedures
    
-9. **[VPS_POST_DEPLOYMENT_VERIFICATION.md](VPS_POST_DEPLOYMENT_VERIFICATION.md)** ✅ **POST-DEPLOY**
-   - 6-stage verification process
-   - Comprehensive testing procedures
-   - Success criteria confirmation
+10. **[VPS_POST_DEPLOYMENT_VERIFICATION.md](VPS_POST_DEPLOYMENT_VERIFICATION.md)** ✅ **POST-DEPLOY**
+    - 6-stage verification process
+    - Comprehensive testing procedures
+    - Success criteria confirmation
 
-10. **[VPS_QUICK_COMMANDS.md](VPS_QUICK_COMMANDS.md)** ⚡ **COMMANDS**
+11. **[VPS_QUICK_COMMANDS.md](VPS_QUICK_COMMANDS.md)** ⚡ **COMMANDS**
     - Quick command reference
     - Common operations
     - Troubleshooting shortcuts
 
-11. **[DEPLOYMENT_VERIFICATION_SUMMARY.md](DEPLOYMENT_VERIFICATION_SUMMARY.md)** 📊 **SUMMARY**
+12. **[DEPLOYMENT_VERIFICATION_SUMMARY.md](DEPLOYMENT_VERIFICATION_SUMMARY.md)** 📊 **SUMMARY**
     - Complete verification results
     - 100% readiness confirmation
     - Deployment authorization
