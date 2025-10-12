@@ -38,7 +38,11 @@ output/
 # PM2 Logs
 logs/*.log
 logs/*-*.log
+logs/**/*.log
+logs/**/*-*.log
 .pm2/
+# But keep log directory structure
+!logs/**/.gitkeep
 
 # Environment files with secrets
 .env
