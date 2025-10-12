@@ -1,0 +1,14 @@
+{
+  "name": "skill-games-ms",
+  "version": "1.0.0",
+  "description": "Skill-Based Games Engine for Casino-Nexus",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

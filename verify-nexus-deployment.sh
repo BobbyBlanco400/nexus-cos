@@ -205,6 +205,21 @@ echo ""
 check_health "Nexus AI Service" "http://localhost:3030/health"
 
 # ============================================================================
+# Casino-Nexus (Virtual Crypto Casino)
+# ============================================================================
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+echo -e "${BLUE}  CASINO-NEXUS - Virtual Crypto Casino Universe${NC}"
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+echo ""
+
+check_health "Casino-Nexus API" "http://localhost:9500/health"
+check_health "NEXCOIN Token Service" "http://localhost:9501/health"
+check_health "NFT Marketplace" "http://localhost:9502/health"
+check_health "Skill Games Engine" "http://localhost:9503/health"
+check_health "Rewards System" "http://localhost:9504/health"
+check_health "VR World Engine" "http://localhost:9505/health"
+
+# ============================================================================
 # PUABO NUKI Clothing (Fashion)
 # ============================================================================
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"

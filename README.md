@@ -12,7 +12,7 @@
 
 **🚀 The World's First Creative Operating System - Beta Launch Edition**
 
-A complete operating system featuring 16 integrated modules, 42 microservices, and unified ecosystem including PUABO Universe (Nexus Fleet, DSP, BLAC, NUKI), V-Suite, Club Saditty, StreamCore, GameCore, MusicChain, and more.
+A complete operating system featuring 17 integrated modules, 48 microservices, and unified ecosystem including PUABO Universe (Nexus Fleet, DSP, BLAC, NUKI), V-Suite, Club Saditty, StreamCore, GameCore, MusicChain, Casino-Nexus, and more.
 
 **Beta Launch:** beta.nexuscos.online
 
@@ -166,7 +166,7 @@ bash EXECUTE_BETA_LAUNCH.sh
 
 ## 🏗️ **System Architecture**
 
-### Modules (16 Total)
+### Modules (17 Total)
 
 | # | Module | Services | Description |
 |---|--------|----------|-------------|
@@ -186,6 +186,7 @@ bash EXECUTE_BETA_LAUNCH.sh
 | 14 | PUABO OTT TV | - | OTT TV streaming |
 | 15 | Club Saditty | - | Premium membership |
 | 16 | V-Suite Sub-Modules | - | 4 specialized tools |
+| 17 | **Casino-Nexus** | 6 | Virtual crypto casino universe |
 
 ### Services (42 Total)
 
@@ -210,9 +211,13 @@ bash EXECUTE_BETA_LAUNCH.sh
 **V-Suite (Virtual Production):**
 - V-Screen (3011), V-Caster (3012), V-Prompter (3013), VScreen Hollywood (8088)
 
+**Casino-Nexus (Virtual Crypto Casino):**
+- Casino API (9500), NEXCOIN Token (9501), NFT Marketplace (9502)
+- Skill Games (9503), Rewards System (9504), VR World (9505)
+
 **+ 23 additional services** (AI, Platform, Auth, Creator, Community)
 
-**Total:** 44 Docker Containers
+**Total:** 50 Docker Containers
 
 ---
 
@@ -322,6 +327,14 @@ curl http://localhost:3213/health  # Streaming API
 - Smart royalty distribution
 - NFT tokenization
 - Transparent ledger
+
+**Casino-Nexus:**
+- Virtual crypto-integrated casino universe
+- $NEXCOIN utility token ecosystem
+- Skill-based games (Poker, Blackjack, Trivia)
+- NFT marketplace for gaming assets
+- Play-to-earn rewards system
+- VR metaverse (Casino-Nexus City)
 
 ---
 
