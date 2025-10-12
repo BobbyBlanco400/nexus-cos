@@ -1,0 +1,14 @@
+{
+  "name": "casino-nexus-api",
+  "version": "1.0.0",
+  "description": "Casino-Nexus API Gateway - Virtual Crypto-Integrated Casino Universe",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

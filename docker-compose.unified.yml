@@ -836,6 +836,112 @@ services:
       - cos-net
 
   # ============================================================================
+  # CASINO-NEXUS - Virtual Crypto Casino Universe
+  # ============================================================================
+  
+  casino-nexus-api:
+    build: ./modules/casino-nexus/services/casino-nexus-api
+    container_name: casino-nexus-api
+    environment:
+      NODE_ENV: production
+      PORT: 9500
+    ports:
+      - "9500:9500"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9500/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nexcoin-ms:
+    build: ./modules/casino-nexus/services/nexcoin-ms
+    container_name: nexcoin-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9501
+    ports:
+      - "9501:9501"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9501/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nft-marketplace-ms:
+    build: ./modules/casino-nexus/services/nft-marketplace-ms
+    container_name: nft-marketplace-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9502
+    ports:
+      - "9502:9502"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9502/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  skill-games-ms:
+    build: ./modules/casino-nexus/services/skill-games-ms
+    container_name: skill-games-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9503
+    ports:
+      - "9503:9503"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9503/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rewards-ms:
+    build: ./modules/casino-nexus/services/rewards-ms
+    container_name: rewards-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9504
+    ports:
+      - "9504:9504"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9504/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  vr-world-ms:
+    build: ./modules/casino-nexus/services/vr-world-ms
+    container_name: vr-world-ms
+    environment:
+      NODE_ENV: production
+      PORT: 9505
+    ports:
+      - "9505:9505"
+    restart: unless-stopped
+    networks:
+      - cos-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9505/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
   # NGINX REVERSE PROXY
   # ============================================================================
   
