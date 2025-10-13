@@ -1,6 +1,6 @@
 // PM2 Ecosystem Configuration for Nexus COS
-// Complete 32 Services Deployment Configuration (29 + 3 V-Suite Pro Services)
-// Generated for Beta Launch
+// Complete 33 Services Deployment Configuration (29 + 3 V-Suite Pro + META-TWIN v2.5)
+// Generated for Beta Launch - Updated with META-TWIN v2.5
 
 module.exports = {
   apps: [
@@ -724,6 +724,31 @@ module.exports = {
       log_file: './logs/v-screen-pro.log',
       out_file: './logs/v-screen-pro-out.log',
       error_file: './logs/v-screen-pro-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+
+    // ========================================
+    // PHASE 6: META-TWIN AI PERSONALITY ENGINE (Priority: HIGH)
+    // ========================================
+    {
+      name: 'metatwin',
+      script: './services/metatwin/server.js',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '1G',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3403,
+        DB_HOST: 'localhost',
+        DB_PORT: 5432,
+        DB_NAME: 'nexuscos_db',
+        DB_USER: 'nexuscos',
+        DB_PASSWORD: 'password'
+      },
+      log_file: './logs/metatwin.log',
+      out_file: './logs/metatwin-out.log',
+      error_file: './logs/metatwin-error.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
     }
   ]
