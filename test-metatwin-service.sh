@@ -133,7 +133,9 @@ echo ""
 
 # Test 8: Get Specific MetaTwin
 echo -e "${YELLOW}Test 8: Get Specific MetaTwin${NC}"
-response=$(curl -s ${BASE_URL}/api/metatwin/${MTID})
+# URL encode the MTID (replace # with %23)
+ENCODED_MTID=$(echo "$MTID" | sed 's/#/%23/g')
+response=$(curl -s ${BASE_URL}/api/metatwin/${ENCODED_MTID})
 if echo "$response" | grep -q "Test Twin Alpha"; then
     echo -e "${GREEN}✓ Get MetaTwin passed${NC}"
 else
