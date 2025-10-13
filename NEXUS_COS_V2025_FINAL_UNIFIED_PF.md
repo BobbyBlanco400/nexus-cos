@@ -14,7 +14,8 @@ This is the **definitive, unified Nexus COS v2025 production framework**, combin
 
 ### What's New in This PF
 - ✅ **16 Modules** (added: club-saditty, puabo-nuki alias)
-- ✅ **42 Services** (added: session-mgr, token-mgr, invoice-gen, ledger-mgr)
+- ✅ **43 Services** (added: session-mgr, token-mgr, invoice-gen, ledger-mgr, metatwin)
+- ✅ **META-TWIN v2.5** - AI Personality Engine integration
 - ✅ **Complete port mapping** per TRAE's specifications
 - ✅ **Zero duplicates** - All services reconciled
 - ✅ **Production-ready** Docker orchestration
@@ -52,7 +53,7 @@ This is the **definitive, unified Nexus COS v2025 production framework**, combin
 
 ---
 
-### Services (42 Total)
+### Services (43 Total)
 
 #### Core Services (2)
 | Service | Port | Container | Description |
@@ -60,13 +61,14 @@ This is the **definitive, unified Nexus COS v2025 production framework**, combin
 | backend-api | 3001 | backend-api | Main backend API |
 | puabo-api | 4000 | puabo-api | Core API gateway |
 
-#### AI & SDK Services (4)
+#### AI & SDK Services (5)
 | Service | Port | Container | Description |
 |---------|------|-----------|-------------|
 | ai-service | 3010 | ai-service | AI processing service |
 | puaboai-sdk | 3012 | puaboai-sdk | PUABO AI SDK |
 | kei-ai | 3401 | kei-ai | KEI AI service |
 | nexus-cos-studio-ai | 3402 | nexus-cos-studio-ai | Nexus Studio AI |
+| metatwin | 3403 | metatwin | META-TWIN v2.5 AI Personality Engine 🆕 |
 
 #### Platform Services (8)
 | Service | Port | Container | Description |

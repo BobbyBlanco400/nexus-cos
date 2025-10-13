@@ -1,6 +1,6 @@
 # Nexus COS v2025 - Unified Final Build
 # Complete orchestration for all modules and services
-# 16 Modules | 42 Services/Microservices
+# 16 Modules | 43 Services/Microservices (includes META-TWIN v2.5)
 
 services:
   # ============================================================================
@@ -145,6 +145,23 @@ services:
       PORT: 3011
     ports:
       - "3011:3011"
+    restart: unless-stopped
+    networks:
+      - cos-net
+
+  # META-TWIN v2.5 AI Personality Engine
+  metatwin:
+    build:
+      context: ./services/metatwin
+      dockerfile: Dockerfile
+    container_name: metatwin
+    env_file:
+      - .env.pf
+    environment:
+      NODE_ENV: production
+      PORT: 3403
+    ports:
+      - "3403:3403"
     restart: unless-stopped
     networks:
       - cos-net
