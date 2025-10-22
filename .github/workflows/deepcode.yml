@@ -1,0 +1,21 @@
+name: DeepCode Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deepcode-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: DeepCode Scan
+        uses: georgismitev/deepcode-code-scanning-analysis@v0.1-pre-release
+        with:
+          token: ${{ secrets.DEEP_CODE_TOKEN }}
