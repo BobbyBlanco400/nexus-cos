@@ -1,0 +1,21 @@
+name: DeepCode Modular Scan
+
+on:
+  push:
+    paths:
+      - 'studioone-lite/**'
+      - 'puabo/**'
+      - 'v-suite/**'
+  pull_request:
+    paths:
+      - 'studioone-lite/**'
+      - 'puabo/**'
+      - 'v-suite/**'
+
+jobs:
+  deepcode-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: georgismitev/deepcode-code-scanning-analysis@v0.1-pre-release
+        with: { token: '${{ secrets.DEEP_CODE_TOKEN }}' }
