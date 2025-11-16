@@ -1,11 +1,15 @@
 /* Tailwind CSS v4 directives */
 @import "tailwindcss";
 
-/* shadcn/ui CSS variables */
+/* Import Nexus COS Branding Theme - must be after tailwindcss import */
+@import url('/assets/branding/theme.css');
+
+/* shadcn/ui theme configuration */
 @theme inline {
   --radius: 0.5rem;
 }
 
+/* shadcn/ui CSS variables */
 :root {
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
@@ -50,9 +54,7 @@
   --ring: 0 0% 83.1%;
 }
 
-/* Import Nexus COS Branding Theme */
-@import url('/assets/branding/theme.css');
-
+/* Extended root configuration for Nexus COS */
 :root {
   font-family: var(--nexus-font-primary, 'Inter', sans-serif), system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
