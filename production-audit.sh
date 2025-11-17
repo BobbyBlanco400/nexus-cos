@@ -2,7 +2,8 @@
 # Nexus COS Production Audit Script
 # Validates all critical components for production deployment
 
-set -e
+# Note: Not using set -e because this is a diagnostic script
+# and we want to continue checking even if some commands fail
 
 # Colors
 RED='\033[0;31m'

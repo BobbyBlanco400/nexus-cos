@@ -93,6 +93,14 @@ echo ""
 # FIX 2: Install dependencies for all services
 print_info "FIX 2: Installing dependencies for services..."
 
+# Install root dependencies (required for shared routes)
+print_info "Installing root dependencies..."
+cd "$WORK_DIR"
+if [ -f "package.json" ]; then
+    PUPPETEER_SKIP_DOWNLOAD=true npm install --quiet 2>/dev/null || PUPPETEER_SKIP_DOWNLOAD=true npm install
+    print_success "Root dependencies installed"
+fi
+
 # Install dependencies for backend-api
 if [ -d "$WORK_DIR/services/backend-api" ]; then
     print_info "Installing backend-api dependencies..."
