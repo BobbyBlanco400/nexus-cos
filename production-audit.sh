@@ -92,7 +92,7 @@ if command -v pm2 &> /dev/null; then
     print_success "PM2 is installed"
     
     # Define critical services
-    CRITICAL_SERVICES=("backend-api" "puabomusicchain" "ai-service" "key-service")
+    CRITICAL_SERVICES=("backend-api" "puabomusicchain" "ai-service" "key-service" "vstage" "nexus-api-health")
     
     for service in "${CRITICAL_SERVICES[@]}"; do
         if pm2 describe "$service" &> /dev/null; then
@@ -134,6 +134,8 @@ check_port() {
 
 check_port 3001 "Backend API"
 check_port 3013 "PuaboMusicChain"
+check_port 3012 "vstage"
+check_port 3000 "nexus-api-health"
 check_port 5432 "PostgreSQL"
 check_port 8088 "V-Screen Hollywood"
 
@@ -157,6 +159,8 @@ check_health() {
 
 check_health "http://localhost:3001/health" "Backend API"
 check_health "http://localhost:3013/health" "PuaboMusicChain"
+check_health "http://localhost:3012/health" "vstage"
+check_health "http://localhost:3000/health" "nexus-api-health"
 check_health "http://localhost:8088/health" "V-Screen Hollywood"
 
 # 5. Check Configuration Files

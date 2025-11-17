@@ -121,6 +121,28 @@ if [ -d "$WORK_DIR/services/puabomusicchain" ]; then
     fi
 fi
 
+# Install dependencies for vstage (v-suite module)
+if [ -d "$WORK_DIR/modules/v-suite/v-stage" ]; then
+    print_info "Installing vstage dependencies..."
+    cd "$WORK_DIR/modules/v-suite/v-stage"
+    if [ -f "package.json" ]; then
+        npm install --production --quiet 2>/dev/null || npm install --production
+        print_success "vstage dependencies installed"
+    fi
+fi
+
+# Install dependencies for other v-suite services
+for vservice in v-caster-pro v-prompter-pro v-screen; do
+    if [ -d "$WORK_DIR/modules/v-suite/$vservice" ]; then
+        print_info "Installing $vservice dependencies..."
+        cd "$WORK_DIR/modules/v-suite/$vservice"
+        if [ -f "package.json" ]; then
+            npm install --production --quiet 2>/dev/null || npm install --production
+            print_success "$vservice dependencies installed"
+        fi
+    fi
+done
+
 cd "$WORK_DIR"
 echo ""
 
@@ -139,6 +161,20 @@ if pm2 describe puabomusicchain > /dev/null 2>&1; then
     print_warning "Stopping and removing existing puabomusicchain process..."
     pm2 delete puabomusicchain || true
     print_success "puabomusicchain process removed"
+fi
+
+# Delete errored vstage process
+if pm2 describe vstage > /dev/null 2>&1; then
+    print_warning "Stopping and removing existing vstage process..."
+    pm2 delete vstage || true
+    print_success "vstage process removed"
+fi
+
+# Delete errored nexus-api-health process
+if pm2 describe nexus-api-health > /dev/null 2>&1; then
+    print_warning "Stopping and removing existing nexus-api-health process..."
+    pm2 delete nexus-api-health || true
+    print_success "nexus-api-health process removed"
 fi
 
 echo ""
@@ -191,6 +227,22 @@ else
     pm2 logs puabomusicchain --lines 20 --nostream || true
 fi
 
+# Check vstage
+if pm2 describe vstage 2>/dev/null | grep -q "online"; then
+    print_success "vstage is ONLINE"
+else
+    print_warning "vstage is not online, checking logs..."
+    pm2 logs vstage --lines 20 --nostream || true
+fi
+
+# Check nexus-api-health
+if pm2 describe nexus-api-health 2>/dev/null | grep -q "online"; then
+    print_success "nexus-api-health is ONLINE"
+else
+    print_warning "nexus-api-health is not online, checking logs..."
+    pm2 logs nexus-api-health --lines 20 --nostream || true
+fi
+
 echo ""
 
 # FIX 8: Test service endpoints
@@ -212,10 +264,71 @@ else
     print_warning "PuaboMusicChain health endpoint not responding yet (may need more time)"
 fi
 
+# Test vstage health endpoint
+if curl -s http://localhost:3012/health > /dev/null 2>&1; then
+    print_success "vstage health endpoint is responding"
+else
+    print_warning "vstage health endpoint not responding yet (may need more time)"
+fi
+
+# Test nexus-api-health endpoint
+if curl -s http://localhost:3000/health > /dev/null 2>&1; then
+    print_success "nexus-api-health endpoint is responding"
+else
+    print_warning "nexus-api-health endpoint not responding yet (may need more time)"
+fi
+
 echo ""
 
-# FIX 9: Check and fix V-Screen Hollywood if needed
-print_info "FIX 9: Checking V-Screen Hollywood service..."
+# FIX 9: Check and fix vstage service
+print_info "FIX 9: Checking vstage service..."
+
+if pm2 describe vstage > /dev/null 2>&1; then
+    if pm2 describe vstage | grep -q "online"; then
+        print_success "vstage is already running"
+    else
+        print_warning "vstage exists but not online, restarting..."
+        pm2 restart vstage
+    fi
+else
+    if [ -d "$WORK_DIR/modules/v-suite/v-stage" ]; then
+        print_warning "vstage not in PM2, starting it..."
+        cd "$WORK_DIR/modules/v-suite/v-stage"
+        pm2 start index.js --name vstage
+        cd "$WORK_DIR"
+        print_success "vstage started"
+    else
+        print_info "vstage service directory not found, skipping..."
+    fi
+fi
+
+echo ""
+
+# FIX 10: Check and fix nexus-api-health service
+print_info "FIX 10: Checking nexus-api-health service..."
+
+if pm2 describe nexus-api-health > /dev/null 2>&1; then
+    if pm2 describe nexus-api-health | grep -q "online"; then
+        print_success "nexus-api-health is already running"
+    else
+        print_warning "nexus-api-health exists but not online, restarting..."
+        pm2 restart nexus-api-health
+    fi
+else
+    if [ -f "$WORK_DIR/server.js" ]; then
+        print_warning "nexus-api-health not in PM2, starting it..."
+        cd "$WORK_DIR"
+        PORT=3000 pm2 start server.js --name nexus-api-health
+        print_success "nexus-api-health started on port 3000"
+    else
+        print_info "server.js not found, skipping nexus-api-health..."
+    fi
+fi
+
+echo ""
+
+# FIX 11: Check and fix V-Screen Hollywood if needed
+print_info "FIX 11: Checking V-Screen Hollywood service..."
 
 if pm2 describe vscreen-hollywood > /dev/null 2>&1; then
     if pm2 describe vscreen-hollywood | grep -q "online"; then
@@ -238,8 +351,8 @@ fi
 
 echo ""
 
-# FIX 10: Update and fix any npm audit issues (non-breaking)
-print_info "FIX 10: Running npm audit fix (non-breaking)..."
+# FIX 12: Update and fix any npm audit issues (non-breaking)
+print_info "FIX 12: Running npm audit fix (non-breaking)..."
 cd "$WORK_DIR"
 npm audit fix --only=prod || print_warning "Some audit issues could not be auto-fixed"
 
@@ -267,12 +380,14 @@ ${YELLOW}Next Steps:${NC}
 ${YELLOW}Service Ports:${NC}
 - backend-api: 3001
 - puabomusicchain: 3013
+- vstage: 3012
+- nexus-api-health: 3000
 - vscreen-hollywood: 8088
 
 ${YELLOW}Manual checks if services still failing:${NC}
 1. Check PM2 status: pm2 list
 2. View logs: pm2 logs
-3. Check ports: netstat -tulpn | grep -E '3001|3013|8088|5432'
+3. Check ports: netstat -tulpn | grep -E '3000|3001|3012|3013|8088|5432'
 4. Check Docker: docker ps
 5. Review .env file: cat .env
 6. Test endpoints: curl http://localhost:3001/health

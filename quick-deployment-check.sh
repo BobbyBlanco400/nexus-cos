@@ -70,12 +70,14 @@ echo ""
 echo -e "${BLUE}[3] Checking Service Endpoints...${NC}"
 test_endpoint "http://localhost:3001/health" "Backend API (3001)"
 test_endpoint "http://localhost:3013/health" "PuaboMusicChain (3013)"
+test_endpoint "http://localhost:3012/health" "vstage (3012)"
+test_endpoint "http://localhost:3000/health" "nexus-api-health (3000)"
 test_endpoint "http://localhost:8088/health" "V-Screen Hollywood (8088)"
 echo ""
 
 # Check ports
 echo -e "${BLUE}[4] Checking Port Availability...${NC}"
-for port in 3001 3013 5432 8088; do
+for port in 3000 3001 3012 3013 5432 8088; do
     echo -n "  Port $port... "
     if nc -z localhost $port 2>/dev/null || lsof -i :$port &>/dev/null; then
         echo -e "${GREEN}✓ LISTENING${NC}"
