@@ -4,7 +4,8 @@
 # Follows NEXUS_COS_BULLETPROOF_DEPLOYMENT_PF.md
 # Run this on your IONOS VPS as root
 
-set -e  # Exit on any error
+# Don't exit on all errors - we want to handle them gracefully
+set +e
 
 # Colors
 GREEN='\033[0;32m'
@@ -108,7 +109,11 @@ fi
 if ! command -v pm2 &> /dev/null; then
     print_status "Installing PM2..."
     npm install -g pm2
-    pm2 startup | tail -1 | bash
+    # Setup PM2 startup - get the command and execute it
+    STARTUP_CMD=$(pm2 startup | grep "sudo env" || true)
+    if [ -n "$STARTUP_CMD" ]; then
+        eval "$STARTUP_CMD"
+    fi
     print_success "PM2 installed"
 else
     print_success "PM2 already installed"
@@ -120,22 +125,30 @@ print_status "PHASE 2: Repository Setup"
 DEPLOY_DIR="/var/www/nexuscos.online"
 APP_DIR="$DEPLOY_DIR/nexus-cos-app"
 
-print_status "Creating deployment directory..."
-mkdir -p $DEPLOY_DIR
-cd $DEPLOY_DIR
-
-if [ -d "$APP_DIR" ]; then
-    print_warning "Repository already exists, pulling latest changes..."
-    cd $APP_DIR
-    git pull origin copilot/verify-production-readiness
+# Check if we're already in the repository
+CURRENT_DIR=$(pwd)
+if [ -f "$CURRENT_DIR/automated-deployment.sh" ] && [ -f "$CURRENT_DIR/nexus-cos-complete-audit.sh" ]; then
+    print_status "Running from repository directory: $CURRENT_DIR"
+    APP_DIR="$CURRENT_DIR"
+    print_success "Using current directory as repository"
 else
-    print_status "Cloning repository..."
-    git clone https://github.com/BobbyBlanco400/nexus-cos.git nexus-cos-app
-    cd $APP_DIR
-    git checkout copilot/verify-production-readiness
+    print_status "Creating deployment directory..."
+    mkdir -p $DEPLOY_DIR
+    cd $DEPLOY_DIR
+    
+    if [ -d "$APP_DIR" ]; then
+        print_warning "Repository already exists, pulling latest changes..."
+        cd $APP_DIR
+        git pull origin copilot/verify-production-readiness 2>/dev/null || true
+    else
+        print_status "Cloning repository..."
+        git clone https://github.com/BobbyBlanco400/nexus-cos.git nexus-cos-app
+        cd $APP_DIR
+        git checkout copilot/verify-production-readiness
+    fi
+    
+    print_success "Repository ready at $APP_DIR"
 fi
-
-print_success "Repository ready at $APP_DIR"
 
 # PHASE 3: Environment Configuration
 print_status "PHASE 3: Environment Configuration"
