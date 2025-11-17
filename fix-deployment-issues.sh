@@ -287,16 +287,53 @@ if pm2 describe vstage > /dev/null 2>&1; then
     if pm2 describe vstage | grep -q "online"; then
         print_success "vstage is already running"
     else
-        print_warning "vstage exists but not online, restarting..."
-        pm2 restart vstage
+        print_warning "vstage exists but not online, attempting fix..."
+        
+        # Delete the errored process
+        pm2 delete vstage || true
+        sleep 2
+        
+        # Reinstall dependencies
+        if [ -d "$WORK_DIR/modules/v-suite/v-stage" ]; then
+            print_info "Reinstalling vstage dependencies..."
+            cd "$WORK_DIR/modules/v-suite/v-stage"
+            npm install --production --quiet 2>/dev/null || npm install --production
+            
+            # Start fresh
+            print_info "Starting vstage fresh..."
+            pm2 start index.js --name vstage
+            cd "$WORK_DIR"
+            
+            # Wait and check if it started
+            sleep 3
+            if pm2 describe vstage 2>/dev/null | grep -q "online"; then
+                print_success "vstage successfully started"
+            else
+                print_error "vstage failed to start, check logs with: pm2 logs vstage"
+            fi
+        fi
     fi
 else
     if [ -d "$WORK_DIR/modules/v-suite/v-stage" ]; then
         print_warning "vstage not in PM2, starting it..."
         cd "$WORK_DIR/modules/v-suite/v-stage"
+        
+        # Make sure dependencies are installed
+        if [ ! -d "node_modules" ]; then
+            print_info "Installing vstage dependencies..."
+            npm install --production --quiet 2>/dev/null || npm install --production
+        fi
+        
         pm2 start index.js --name vstage
         cd "$WORK_DIR"
-        print_success "vstage started"
+        
+        # Wait and verify
+        sleep 3
+        if pm2 describe vstage 2>/dev/null | grep -q "online"; then
+            print_success "vstage started successfully"
+        else
+            print_error "vstage failed to start, check logs with: pm2 logs vstage"
+        fi
     else
         print_info "vstage service directory not found, skipping..."
     fi
@@ -309,17 +346,53 @@ print_info "FIX 10: Checking nexus-api-health service..."
 
 if pm2 describe nexus-api-health > /dev/null 2>&1; then
     if pm2 describe nexus-api-health | grep -q "online"; then
-        print_success "nexus-api-health is already running"
+        # Check if it has too many restarts
+        RESTART_COUNT=$(pm2 describe nexus-api-health | grep "restarts" | head -1 | awk '{print $4}' || echo "0")
+        if [ "$RESTART_COUNT" -gt 50 ]; then
+            print_warning "nexus-api-health has $RESTART_COUNT restarts, resetting..."
+            pm2 delete nexus-api-health || true
+            sleep 2
+            
+            if [ -f "$WORK_DIR/server.js" ]; then
+                cd "$WORK_DIR"
+                PORT=3000 pm2 start server.js --name nexus-api-health
+                sleep 3
+                if pm2 describe nexus-api-health 2>/dev/null | grep -q "online"; then
+                    print_success "nexus-api-health restarted successfully"
+                else
+                    print_error "nexus-api-health failed to restart"
+                fi
+            fi
+        else
+            print_success "nexus-api-health is already running"
+        fi
     else
-        print_warning "nexus-api-health exists but not online, restarting..."
-        pm2 restart nexus-api-health
+        print_warning "nexus-api-health exists but not online, fixing..."
+        pm2 delete nexus-api-health || true
+        sleep 2
+        
+        if [ -f "$WORK_DIR/server.js" ]; then
+            cd "$WORK_DIR"
+            PORT=3000 pm2 start server.js --name nexus-api-health
+            sleep 3
+            if pm2 describe nexus-api-health 2>/dev/null | grep -q "online"; then
+                print_success "nexus-api-health started successfully"
+            else
+                print_error "nexus-api-health failed to start"
+            fi
+        fi
     fi
 else
     if [ -f "$WORK_DIR/server.js" ]; then
         print_warning "nexus-api-health not in PM2, starting it..."
         cd "$WORK_DIR"
         PORT=3000 pm2 start server.js --name nexus-api-health
-        print_success "nexus-api-health started on port 3000"
+        sleep 3
+        if pm2 describe nexus-api-health 2>/dev/null | grep -q "online"; then
+            print_success "nexus-api-health started on port 3000"
+        else
+            print_error "nexus-api-health failed to start, check logs with: pm2 logs nexus-api-health"
+        fi
     else
         print_info "server.js not found, skipping nexus-api-health..."
     fi
