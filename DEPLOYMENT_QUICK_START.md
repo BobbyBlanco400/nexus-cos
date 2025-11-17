@@ -46,6 +46,22 @@ Based on your error output, the following issues were addressed:
 
 **Fix:** Created `production-audit.sh` for comprehensive validation
 
+### 5. vstage Service Errors ✅
+**Error:** 15 restarts, errored state
+
+**Fix:** 
+- Installs dependencies for modules/v-suite/v-stage
+- Cleans up errored processes
+- Starts service on port 3012
+
+### 6. nexus-api-health Service Issues ✅
+**Error:** Online but returning HTTP 503
+
+**Fix:**
+- Ensures root server.js dependencies are installed
+- Starts service on port 3000
+- Validates health endpoint responding correctly
+
 ## 🛠️ Available Scripts
 
 ### 1. fix-deployment-issues.sh (Main Fix Script)
@@ -135,13 +151,19 @@ Expected output: All services showing "online" status
 
 ### Test Service Endpoints
 ```bash
+# nexus-api-health
+curl http://localhost:3000/health
+
 # Backend API
 curl http://localhost:3001/health
+
+# vstage
+curl http://localhost:3012/health
 
 # PuaboMusicChain
 curl http://localhost:3013/health
 
-# V-Screen Hollywood (if running)
+# V-Screen Hollywood
 curl http://localhost:8088/health
 ```
 
@@ -238,13 +260,23 @@ And when running `pm2 list`:
 ┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
 │ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
 ├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
-│ 0  │ backend-api        │ cluster  │ 0    │ online    │ 0%       │ 72mb     │
-│ 1  │ puabomusicchain    │ cluster  │ 0    │ online    │ 0%       │ 64mb     │
+│ 0  │ nexus-api-health   │ fork     │ 0    │ online    │ 0%       │ 68mb     │
+│ 1  │ backend-api        │ cluster  │ 0    │ online    │ 0%       │ 72mb     │
+│ 2  │ vstage             │ fork     │ 0    │ online    │ 0%       │ 58mb     │
+│ 3  │ puabomusicchain    │ cluster  │ 0    │ online    │ 0%       │ 64mb     │
 │ ... │ ...                │ ...      │ ...  │ online    │ ...      │ ...      │
 └────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
 ```
 
 All services should show **"online"** status with **0 restarts**.
+
+**Critical Services:**
+- ✅ nexus-api-health (port 3000) - API health monitoring
+- ✅ backend-api (port 3001) - Main backend API
+- ✅ vstage (port 3012) - V-Suite staging service
+- ✅ puabomusicchain (port 3013) - Music blockchain service
+- ✅ PostgreSQL (port 5432) - Database
+- ✅ vscreen-hollywood (port 8088) - Virtual screen service
 
 ## 🔐 Security Fixes Applied
 
