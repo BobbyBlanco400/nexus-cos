@@ -99,6 +99,14 @@ log_info "Signal port: ${SIGNAL_PORT}"
 log_info "Domain: ${DOMAIN}"
 echo ""
 
+# Function to create container with fallback
+create_container() {
+    docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 ghcr.io/epicgames/pixel-streaming-signalling-server:4.27 || {
+        log_warn "GHCR unauthorized, starting nginx fallback"
+        docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 nginx:alpine
+    }
+}
+
 # Check if container already exists
 if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     log_info "Container ${CONTAINER_NAME} already exists"
@@ -111,18 +119,12 @@ if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
         docker start ${CONTAINER_NAME} || {
             log_warn "Failed to start existing container. Removing and recreating..."
             docker rm ${CONTAINER_NAME}
-            docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 ghcr.io/epicgames/pixel-streaming-signalling-server:4.27 || {
-                log_warn "GHCR unauthorized, starting nginx fallback"
-                docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 nginx:alpine
-            }
+            create_container
         }
     fi
 else
     log_info "Creating new container..."
-    docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 ghcr.io/epicgames/pixel-streaming-signalling-server:4.27 || {
-        log_warn "GHCR unauthorized, starting nginx fallback"
-        docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 nginx:alpine
-    }
+    create_container
 fi
 
 # Verify container is running
