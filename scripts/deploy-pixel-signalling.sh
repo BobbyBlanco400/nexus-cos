@@ -101,9 +101,9 @@ echo ""
 
 # Function to create container with fallback
 create_container() {
-    docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 ghcr.io/epicgames/pixel-streaming-signalling-server:4.27 || {
+    docker run -d --name ${CONTAINER_NAME} -p 127.0.0.1:${SIGNAL_PORT}:80 ghcr.io/epicgames/pixel-streaming-signalling-server:4.27 || {
         log_warn "GHCR unauthorized, starting nginx fallback"
-        docker run -d --name ${CONTAINER_NAME} -p ${SIGNAL_PORT}:80 nginx:alpine
+        docker run -d --name ${CONTAINER_NAME} -p 127.0.0.1:${SIGNAL_PORT}:80 nginx:alpine
     }
 }
 
