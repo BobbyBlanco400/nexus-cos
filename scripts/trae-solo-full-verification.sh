@@ -79,7 +79,7 @@ if [ -d /var/www/vhosts/nexuscos.online/httpdocs/vscreen-app ]; then
         <strong>Test 1:</strong> Basic HTML rendering
         <p>✓ If you can see this, HTML is working</p>
     </div>
-    <div class="test" id="js-test" class="error">
+    <div class="test error" id="js-test">
         <strong>Test 2:</strong> JavaScript execution
         <p>✗ JavaScript NOT running</p>
     </div>
