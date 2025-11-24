@@ -55,8 +55,16 @@ create_config() {
     # Ensure directory exists
     mkdir -p "$(dirname "$VHOST_CONF")"
     
-    # Write configuration
-    cat > "$VHOST_CONF" <<'EOF'
+    # Check if Socket.IO config already exists
+    if [ -f "$VHOST_CONF" ] && grep -q "Socket.IO Streaming Configuration" "$VHOST_CONF" 2>/dev/null; then
+        echo -e "${YELLOW}⚠ Socket.IO configuration already exists in vhost.conf${NC}"
+        echo -e "${YELLOW}Removing old configuration and adding new one...${NC}"
+        # Remove old Socket.IO configuration (from marker to next empty line or EOF)
+        sed -i '/# Nexus COS - Socket.IO Streaming Configuration/,/^<\/Location>$/d' "$VHOST_CONF"
+    fi
+    
+    # Socket.IO configuration block
+    SOCKETIO_CONFIG='
 # Nexus COS - Socket.IO Streaming Configuration
 
 # Socket.IO Streaming Service - /streaming/socket.io/
@@ -94,7 +102,10 @@ create_config() {
     ProxyPass http://127.0.0.1:3043/streaming/health
     ProxyPassReverse http://127.0.0.1:3043/streaming/health
 </Location>
-EOF
+'
+    
+    # Append Socket.IO configuration to vhost.conf
+    echo "$SOCKETIO_CONFIG" >> "$VHOST_CONF"
     
     echo -e "${GREEN}✓ Configuration created${NC}"
 }
