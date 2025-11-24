@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Stream - Watch Now</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background: #141414; overflow-x: hidden; }
+  .hero-gradient {
+    background: linear-gradient(to bottom, transparent 0%, rgba(20,20,20,0.7) 50%, #141414 100%);
+  }
+  .row-container { overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; }
+  .row-container::-webkit-scrollbar { display: none; }
+  .content-card {
+    min-width: 250px;
+    aspect-ratio: 16/9;
+    transition: transform 0.3s, z-index 0.3s;
+  }
+  .content-card:hover {
+    transform: scale(1.1);
+    z-index: 10;
+  }
+  .nav-blur {
+    background: linear-gradient(to bottom, rgba(20,20,20,0.95), transparent);
+  }
+</style>
+</head>
+<body class="text-white">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 nav-blur">
+  <div class="max-w-screen-2xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-8">
+      <h1 class="text-3xl font-bold text-red-600">NEXUS STREAM</h1>
+      <div class="hidden md:flex space-x-6 text-sm">
+        <a href="#" class="hover:text-gray-300 transition">Home</a>
+        <a href="#originals" class="hover:text-gray-300 transition">Originals</a>
+        <a href="#movies" class="hover:text-gray-300 transition">Movies</a>
+        <a href="#series" class="hover:text-gray-300 transition">Series</a>
+        <a href="#creators" class="hover:text-gray-300 transition">Creators</a>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button class="hover:text-gray-300 transition">🔍</button>
+      <button class="hover:text-gray-300 transition">🔔</button>
+      <a href="/" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm transition">Back to Nexus COS</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="relative h-screen">
+  <div class="absolute inset-0">
+    <img src="/placeholder.svg?height=1080&width=1920" 
+         class="w-full h-full object-cover" alt="Featured Content">
+    <div class="absolute inset-0 hero-gradient"></div>
+  </div>
+  
+  <div class="relative h-full flex items-center px-6 md:px-12 max-w-screen-2xl mx-auto">
+    <div class="max-w-2xl">
+      <img src="/placeholder.svg?height=200&width=500" 
+           class="mb-6 h-24" alt="Nexus Originals">
+      <p class="text-2xl mb-6 text-gray-200 leading-relaxed">
+        Experience the future of storytelling with our exclusive original series and films.
+      </p>
+      <div class="flex space-x-4">
+        <button class="bg-white text-black px-8 py-3 rounded font-bold text-lg hover:bg-gray-200 transition flex items-center">
+          ▶️ Play
+        </button>
+        <button class="bg-gray-600/80 text-white px-8 py-3 rounded font-bold text-lg hover:bg-gray-600 transition">
+          ℹ️ More Info
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content Rows -->
+<div class="relative z-10 -mt-32 px-6 md:px-12 max-w-screen-2xl mx-auto pb-20 space-y-12">
+
+  <!-- Nexus Originals -->
+  <section id="originals">
+    <h2 class="text-2xl font-bold mb-4">Nexus Originals</h2>
+    <div class="row-container flex space-x-4">
+      <div class="content-card bg-gradient-to-br from-purple-900 to-indigo-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 1">
+      </div>
+      <div class="content-card bg-gradient-to-br from-red-900 to-pink-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 2">
+      </div>
+      <div class="content-card bg-gradient-to-br from-blue-900 to-cyan-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 3">
+      </div>
+      <div class="content-card bg-gradient-to-br from-green-900 to-emerald-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 4">
+      </div>
+      <div class="content-card bg-gradient-to-br from-orange-900 to-yellow-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 5">
+      </div>
+      <div class="content-card bg-gradient-to-br from-pink-900 to-rose-900 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Original 6">
+      </div>
+    </div>
+  </section>
+
+  <!-- Trending Now -->
+  <section>
+    <h2 class="text-2xl font-bold mb-4">Trending Now</h2>
+    <div class="row-container flex space-x-4">
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 1">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 2">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 3">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 4">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 5">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Trending 6">
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Creator Content -->
+  <section id="creators">
+    <h2 class="text-2xl font-bold mb-4">Top Creator Content</h2>
+    <div class="row-container flex space-x-4">
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 1">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 2">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 3">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 4">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 5">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Creator 6">
+      </div>
+    </div>
+  </section>
+
+  <!-- Movies -->
+  <section id="movies">
+    <h2 class="text-2xl font-bold mb-4">Movies</h2>
+    <div class="row-container flex space-x-4">
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 1">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 2">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 3">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 4">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 5">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Movie 6">
+      </div>
+    </div>
+  </section>
+
+  <!-- Series -->
+  <section id="series">
+    <h2 class="text-2xl font-bold mb-4">Series</h2>
+    <div class="row-container flex space-x-4">
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 1">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 2">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 3">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 4">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 5">
+      </div>
+      <div class="content-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer">
+        <img src="/placeholder.svg?height=360&width=640" 
+             class="w-full h-full object-cover" alt="Series 6">
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Subscription CTA -->
+<div class="bg-gradient-to-r from-red-600 to-pink-600 py-16 text-center">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-4">Upgrade to Nexus Stream Plus</h2>
+    <p class="text-xl mb-8 opacity-90">Watch ad-free with unlimited access to all creator content</p>
+    <div class="flex justify-center space-x-4">
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+        <p class="text-sm opacity-80 mb-2">Current Plan</p>
+        <p class="text-3xl font-bold">FREE</p>
+      </div>
+      <div class="bg-white text-black rounded-xl p-6 relative">
+        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+          RECOMMENDED
+        </div>
+        <p class="text-sm opacity-60 mb-2">Upgrade to</p>
+        <p class="text-3xl font-bold">$9.99<span class="text-base">/mo</span></p>
+        <button class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-red-700 transition">
+          Upgrade Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-black py-12">
+  <div class="max-w-screen-2xl mx-auto px-6 text-center text-gray-500">
+    <p>Part of the Nexus COS Platform</p>
+    <p class="mt-2">&copy; 2025 Nexus COS. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+console.log('[Nexus Stream] Netflix-style interface initialized');
+</script>
+
+</body>
+</html>
