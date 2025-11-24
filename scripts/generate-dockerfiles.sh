@@ -101,6 +101,7 @@ declare -A SERVICE_PORTS=(
     ["puabo-nuki-shipping-service"]="3043"
     ["puabomusicchain"]="3050"
     ["puaboverse-v2"]="3060"
+    ["socket-io-streaming"]="3043"
     ["streaming-service-v2"]="3070"
     ["user-auth"]="3080"
     ["v-caster-pro"]="3012"
