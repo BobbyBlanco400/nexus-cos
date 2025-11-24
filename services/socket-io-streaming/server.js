@@ -11,8 +11,21 @@ const app = express();
 const server = http.createServer(app);
 
 // Configure CORS
+const allowedOrigins = process.env.CORS_ORIGIN 
+    ? process.env.CORS_ORIGIN.split(',')
+    : ['https://nexuscos.online', 'https://www.nexuscos.online'];
+
 app.use(cors({
-    origin: '*',
+    origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.includes('*') || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST'],
     credentials: true
 }));
@@ -24,7 +37,15 @@ const port = process.env.PORT || 3043;
 // Initialize Socket.IO with both path configurations
 const io = new Server(server, {
     cors: {
-        origin: '*',
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true);
+            
+            if (allowedOrigins.includes('*') || allowedOrigins.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         methods: ['GET', 'POST'],
         credentials: true
     },

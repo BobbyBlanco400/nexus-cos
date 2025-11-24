@@ -285,16 +285,19 @@ The `/status` endpoint provides:
 **Cause**: CORS policy not allowing origin
 
 **Solution**:
-1. Update service environment variable: `CORS_ORIGIN=https://nexuscos.online`
+1. Update service environment variable: `CORS_ORIGIN=https://nexuscos.online,https://www.nexuscos.online` (comma-separated list)
 2. Restart the service
 3. Verify headers in browser developer tools
+4. For development, you can temporarily use `CORS_ORIGIN=*` but never in production
 
 ## Security Considerations
 
-1. **Rate Limiting**: Consider adding rate limiting to prevent abuse
-2. **Authentication**: Implement token-based authentication for Socket.IO connections
-3. **SSL/TLS**: Always use HTTPS in production
-4. **Firewall**: Ensure port 3043 is only accessible from localhost (not exposed externally)
+1. **CORS Configuration**: By default, the service only allows requests from `https://nexuscos.online` and `https://www.nexuscos.online`. Update `CORS_ORIGIN` environment variable to add more allowed origins.
+2. **Rate Limiting**: Consider adding rate limiting to prevent abuse
+3. **Authentication**: Implement token-based authentication for Socket.IO connections
+4. **SSL/TLS**: Always use HTTPS in production
+5. **Firewall**: Ensure port 3043 is only accessible from localhost (not exposed externally)
+6. **Credentials**: The service supports credentials (cookies, auth headers) only from allowed origins
 
 ## Configuration Files
 

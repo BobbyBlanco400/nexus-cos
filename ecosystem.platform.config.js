@@ -202,7 +202,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3043,
-        CORS_ORIGIN: process.env.CORS_ORIGIN || '*'
+        CORS_ORIGIN: process.env.CORS_ORIGIN || 'https://nexuscos.online,https://www.nexuscos.online'
       },
       log_file: './logs/platform/socket-io-streaming.log',
       out_file: './logs/platform/socket-io-streaming-out.log',

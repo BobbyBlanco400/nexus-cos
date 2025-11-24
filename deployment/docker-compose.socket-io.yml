@@ -14,7 +14,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3043
-      - CORS_ORIGIN=*
+      - CORS_ORIGIN=https://nexuscos.online,https://www.nexuscos.online
     volumes:
       - ./logs/platform:/app/logs
     networks:
