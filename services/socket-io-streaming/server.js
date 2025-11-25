@@ -10,47 +10,34 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
-// Configure CORS
+// Configure CORS - Allow all origins for Socket.IO polling/websocket traffic
+// Security is handled at the Apache/Nginx reverse proxy level
 const allowedOrigins = process.env.CORS_ORIGIN 
     ? process.env.CORS_ORIGIN.split(',')
-    : ['https://nexuscos.online', 'https://www.nexuscos.online'];
+    : ['https://nexuscos.online', 'https://www.nexuscos.online', 'http://localhost', 'http://127.0.0.1'];
 
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (mobile apps, curl, etc.)
-        if (!origin) return callback(null, true);
-        
-        if (allowedOrigins.includes('*') || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST'],
-    credentials: true
+    origin: true, // Allow all origins - proxy handles security
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
 app.use(express.json());
 
 const port = process.env.PORT || 3043;
 
-// Initialize Socket.IO with both path configurations
+// Initialize Socket.IO with relaxed CORS for reverse proxy compatibility
 const io = new Server(server, {
     cors: {
-        origin: function (origin, callback) {
-            if (!origin) return callback(null, true);
-            
-            if (allowedOrigins.includes('*') || allowedOrigins.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        methods: ['GET', 'POST'],
-        credentials: true
+        origin: true, // Allow all origins - reverse proxy handles security
+        methods: ['GET', 'POST', 'OPTIONS'],
+        credentials: true,
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
     },
     path: '/socket.io/',
-    transports: ['websocket', 'polling']
+    transports: ['websocket', 'polling'],
+    allowEIO3: true // Support Engine.IO v3 for broader compatibility
 });
 
 // Health check endpoint
