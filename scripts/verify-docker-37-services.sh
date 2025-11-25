@@ -231,14 +231,21 @@ verify_docker_images() {
     log_header "PHASE 4: Docker Images Verification"
     local phase_pass=true
     
-    # Count nexus-cos images
-    NEXUS_IMAGE_COUNT=$(docker images 2>/dev/null | grep -c "nexus-cos/" || echo "0")
-    NEXUS_IMAGE_COUNT=$(echo "$NEXUS_IMAGE_COUNT" | tr -d '[:space:]')
+    # Count nexus-cos images using wc -l to avoid grep exit code issues
+    NEXUS_IMAGE_COUNT=$(docker images 2>/dev/null | grep "nexus-cos/" | wc -l | tr -d '[:space:]')
+    # Default to 0 if empty
+    NEXUS_IMAGE_COUNT=${NEXUS_IMAGE_COUNT:-0}
     log_info "nexus-cos/ images found: $NEXUS_IMAGE_COUNT"
     
-    if [ "$NEXUS_IMAGE_COUNT" -ge 37 ] 2>/dev/null; then
+    # Validate that NEXUS_IMAGE_COUNT is a number before comparison
+    if ! [[ "$NEXUS_IMAGE_COUNT" =~ ^[0-9]+$ ]]; then
+        log_warn "Unable to determine image count, got: $NEXUS_IMAGE_COUNT"
+        NEXUS_IMAGE_COUNT=0
+    fi
+    
+    if [ "$NEXUS_IMAGE_COUNT" -ge 37 ]; then
         log_pass "All 37+ nexus-cos images present"
-    elif [ "$NEXUS_IMAGE_COUNT" -ge 30 ] 2>/dev/null; then
+    elif [ "$NEXUS_IMAGE_COUNT" -ge 30 ]; then
         log_warn "Only $NEXUS_IMAGE_COUNT nexus-cos images (expected 37)"
     else
         log_fail "Only $NEXUS_IMAGE_COUNT nexus-cos images (expected 37)"
@@ -276,10 +283,16 @@ verify_network_config() {
     if echo "$NETWORKS" | grep -qE "(nexus-network|cos-net|nexus)"; then
         log_pass "Docker network for Nexus COS exists"
         
-        # Get connected container count
+        # Get connected container count using proper JSON parsing
         NETWORK_NAME=$(echo "$NETWORKS" | grep -E "(nexus-network|cos-net)" | head -1)
         if [ -n "$NETWORK_NAME" ]; then
-            CONNECTED_COUNT=$(docker network inspect "$NETWORK_NAME" 2>/dev/null | grep -c "\"Name\"" || echo "0")
+            # Use jq to properly count containers if available, otherwise fallback to grep
+            if command -v jq &> /dev/null; then
+                CONNECTED_COUNT=$(docker network inspect "$NETWORK_NAME" 2>/dev/null | jq '.[0].Containers | length' 2>/dev/null || echo "0")
+            else
+                # Fallback: count IPv4Address entries which represent connected containers
+                CONNECTED_COUNT=$(docker network inspect "$NETWORK_NAME" 2>/dev/null | grep -c '"IPv4Address"' || echo "0")
+            fi
             log_info "Containers connected to $NETWORK_NAME: $CONNECTED_COUNT"
         fi
     else
@@ -323,9 +336,10 @@ verify_port_allocation() {
         phase_pass=false
     fi
     
-    # Check for port conflicts (same port mapped multiple times)
+    # Check for port conflicts (same port mapped multiple times across all interfaces)
     DUPLICATE_PORTS=$(docker ps --format "{{.Ports}}" 2>/dev/null | \
-        grep -oE "0\.0\.0\.0:[0-9]+" | sort | uniq -d)
+        grep -oE "(0\.0\.0\.0|127\.0\.0\.1|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+):[0-9]+" | \
+        sed 's/.*://' | sort | uniq -d)
     
     if [ -z "$DUPLICATE_PORTS" ]; then
         log_pass "No port conflicts detected"
@@ -479,12 +493,17 @@ verify_pm2_status() {
         PM2_LIST=$(pm2 jlist 2>/dev/null)
         
         if [ -n "$PM2_LIST" ]; then
-            RUNNING_PM2=$(echo "$PM2_LIST" | jq '[.[] | select(.pm2_env.status=="online")] | length' 2>/dev/null || echo "0")
-            
-            if [ "$RUNNING_PM2" -eq 0 ]; then
-                log_pass "No PM2 services running (Docker has replaced PM2)"
+            # Validate that PM2_LIST is valid JSON before parsing
+            if echo "$PM2_LIST" | jq empty 2>/dev/null; then
+                RUNNING_PM2=$(echo "$PM2_LIST" | jq '[.[] | select(.pm2_env.status=="online")] | length' 2>/dev/null)
+                
+                if [ -z "$RUNNING_PM2" ] || [ "$RUNNING_PM2" -eq 0 ] 2>/dev/null; then
+                    log_pass "No PM2 services running (Docker has replaced PM2)"
+                else
+                    log_warn "$RUNNING_PM2 PM2 services still running"
+                fi
             else
-                log_warn "$RUNNING_PM2 PM2 services still running"
+                log_warn "PM2 returned non-JSON output, skipping PM2 check"
             fi
         else
             log_pass "PM2 shows no services"
