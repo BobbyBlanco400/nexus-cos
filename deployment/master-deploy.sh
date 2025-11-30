@@ -132,12 +132,23 @@ phase_repository() {
     log_step "Setting up repository..."
     
     if [[ -d "$INSTALL_DIR/.git" ]]; then
+        # Directory exists and is a git repo
         log_info "Repository exists, pulling latest changes..."
         cd "$INSTALL_DIR"
         git fetch origin
         git checkout "$BRANCH" 2>/dev/null || git checkout -b "$BRANCH" "origin/$BRANCH"
         git pull origin "$BRANCH"
+    elif [[ -d "$INSTALL_DIR" ]]; then
+        # Directory exists but is not a git repo - back it up and clone fresh
+        log_warning "Directory exists but is not a git repository"
+        log_info "Backing up existing directory..."
+        mv "$INSTALL_DIR" "${INSTALL_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
+        log_info "Cloning fresh repository..."
+        mkdir -p "$(dirname $INSTALL_DIR)"
+        git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
+        cd "$INSTALL_DIR"
     else
+        # Directory doesn't exist - clone fresh
         log_info "Cloning repository..."
         mkdir -p "$(dirname $INSTALL_DIR)"
         git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
