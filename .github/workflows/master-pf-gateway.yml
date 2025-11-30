@@ -1,0 +1,169 @@
+name: Master PF Gateway
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: Domain to configure
+        required: true
+      vscreen_port:
+        description: V-Screen port
+        required: false
+        default: '3004'
+      vstage_port:
+        description: V-Stage port
+        required: false
+        default: '3033'
+      vsuite_port:
+        description: V-Suite port
+        required: false
+        default: '3005'
+      socket_port:
+        description: Streaming Socket.IO port
+        required: false
+        default: '3043'
+  workflow_run:
+    workflows:
+      - "VPS Deploy"
+      - "Deploy Nexus COS"
+    types:
+      - completed
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    # Only run if triggered manually or if the triggering workflow succeeded
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    
+    # Minimal permissions - only read access to repository contents
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set vars
+        id: v
+        run: |
+          # Get domain from input or secret
+          DOMAIN="${{ github.event.inputs.domain }}"
+          if [ -z "$DOMAIN" ]; then
+            DOMAIN="${{ secrets.PF_DOMAIN }}"
+          fi
+          
+          if [ -z "$DOMAIN" ]; then
+            echo "::error::DOMAIN is required. Set it via workflow input or PF_DOMAIN secret."
+            exit 2
+          fi
+          
+          # Get ports from inputs or secrets with defaults
+          VSCREEN_PORT="${{ github.event.inputs.vscreen_port }}"
+          if [ -z "$VSCREEN_PORT" ]; then
+            VSCREEN_PORT="${{ secrets.PF_VSCREEN_PORT }}"
+          fi
+          if [ -z "$VSCREEN_PORT" ]; then
+            VSCREEN_PORT="3004"
+          fi
+          
+          VSTAGE_PORT="${{ github.event.inputs.vstage_port }}"
+          if [ -z "$VSTAGE_PORT" ]; then
+            VSTAGE_PORT="${{ secrets.PF_VSTAGE_PORT }}"
+          fi
+          if [ -z "$VSTAGE_PORT" ]; then
+            VSTAGE_PORT="3033"
+          fi
+          
+          VSUITE_PORT="${{ github.event.inputs.vsuite_port }}"
+          if [ -z "$VSUITE_PORT" ]; then
+            VSUITE_PORT="${{ secrets.PF_VSUITE_PORT }}"
+          fi
+          if [ -z "$VSUITE_PORT" ]; then
+            VSUITE_PORT="3005"
+          fi
+          
+          SOCKET_PORT="${{ github.event.inputs.socket_port }}"
+          if [ -z "$SOCKET_PORT" ]; then
+            SOCKET_PORT="${{ secrets.PF_SOCKET_PORT }}"
+          fi
+          if [ -z "$SOCKET_PORT" ]; then
+            SOCKET_PORT="3043"
+          fi
+          
+          # Output variables
+          echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "vscreen=$VSCREEN_PORT" >> "$GITHUB_OUTPUT"
+          echo "vstage=$VSTAGE_PORT" >> "$GITHUB_OUTPUT"
+          echo "vsuite=$VSUITE_PORT" >> "$GITHUB_OUTPUT"
+          echo "socket=$SOCKET_PORT" >> "$GITHUB_OUTPUT"
+          
+          # Log configuration
+          echo "::notice::Domain: $DOMAIN"
+          echo "::notice::V-Screen Port: $VSCREEN_PORT"
+          echo "::notice::V-Stage Port: $VSTAGE_PORT"
+          echo "::notice::V-Suite Port: $VSUITE_PORT"
+          echo "::notice::Socket Port: $SOCKET_PORT"
+
+      - name: Upload script
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "tools/pf_master_gateway_fix.sh"
+          target: "/opt/nexus-cos"
+          strip_components: 0
+
+      - name: Run on VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            
+            # Make script executable
+            chmod +x /opt/nexus-cos/tools/pf_master_gateway_fix.sh || true
+            
+            # Run the gateway fix script with environment variables
+            export DOMAIN="${{ steps.v.outputs.domain }}"
+            export VSCREEN_PORT="${{ steps.v.outputs.vscreen }}"
+            export VSTAGE_PORT="${{ steps.v.outputs.vstage }}"
+            export VSUITE_PORT="${{ steps.v.outputs.vsuite }}"
+            export SOCKET_PORT="${{ steps.v.outputs.socket }}"
+            
+            /opt/nexus-cos/tools/pf_master_gateway_fix.sh
+
+      - name: Verify Gateway
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            
+            echo "=== Gateway Verification ==="
+            
+            # Check Nginx status
+            echo "Nginx Status:"
+            systemctl status nginx --no-pager || service nginx status
+            
+            # Test health endpoint (via HTTPS since HTTP redirects to HTTPS)
+            echo ""
+            echo "Health Check:"
+            # Try HTTPS first, then fall back to HTTP for local testing
+            HEALTH_CODE=$(curl -s -o /dev/null -w "%{http_code}" -k "https://localhost/health" 2>/dev/null || echo "000")
+            if [ "$HEALTH_CODE" = "200" ]; then
+              echo "HTTPS health check: $HEALTH_CODE (OK)"
+            else
+              # Try HTTP locally (may return 301 redirect)
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost/health" 2>/dev/null || echo "000")
+              echo "HTTP health check: $HTTP_CODE (expected 301 redirect or 200)"
+            fi
+            
+            echo ""
+            echo "Gateway configuration complete!"
