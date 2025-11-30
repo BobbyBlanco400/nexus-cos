@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import CoreServicesStatus from './components/CoreServicesStatus'
+import { ShadcnDemo } from './components/ShadcnDemo'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -110,6 +111,10 @@ function App() {
 
         <section className="status-section">
           <CoreServicesStatus />
+        </section>
+
+        <section className="shadcn-demo">
+          <ShadcnDemo />
         </section>
 
         <section className="beta-info">

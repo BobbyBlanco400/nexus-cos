@@ -42,6 +42,23 @@ async function request<T = any>(
       },
     });
 
+    // Check if response is ok before parsing
+    if (!response.ok) {
+      return {
+        error: `HTTP ${response.status}: ${response.statusText}`,
+        status: response.status,
+      };
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      return {
+        error: 'Server returned non-JSON response',
+        status: response.status,
+      };
+    }
+
     const data = await response.json();
 
     return {
