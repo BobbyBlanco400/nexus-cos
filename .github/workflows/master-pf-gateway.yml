@@ -37,6 +37,10 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     
+    # Minimal permissions - only read access to repository contents
+    permissions:
+      contents: read
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
