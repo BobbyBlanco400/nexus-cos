@@ -60,14 +60,14 @@ DOMAINS=("nexuscos.online" "www.nexuscos.online")
 # V-Suite is the main module with sub-modules:
 # - V-Screen Hollywood (port 3012)
 # - V-Stage (port 3013)
-# - V-Prompter Pro 10x10 (port 3047)
-# - V-Caster Pro (port 3048)
+# - V-Prompter Pro 10x10 (port 3017)
+# - V-Caster Pro (port 3018)
 # ==============================================================================
 VSUITE_PORT="${PF_VSUITE_PORT:-3005}"
 VSUITE_VSCREEN_HOLLYWOOD_PORT="${PF_VSCREEN_PORT:-3012}"
 VSUITE_VSTAGE_PORT="${PF_VSTAGE_PORT:-3013}"
-VSUITE_VPROMPTER_PRO_PORT="${PF_VPROMPTER_PORT:-3047}"
-VSUITE_VCASTER_PRO_PORT="${PF_VCASTER_PORT:-3048}"
+VSUITE_VPROMPTER_PRO_PORT="${PF_VPROMPTER_PORT:-3017}"
+VSUITE_VCASTER_PRO_PORT="${PF_VCASTER_PORT:-3018}"
 SOCKET_PORT="${PF_SOCKET_PORT:-3043}"
 
 # Apache Plesk paths

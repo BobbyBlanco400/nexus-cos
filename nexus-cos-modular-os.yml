@@ -150,8 +150,8 @@ services:
   # V-Suite is the main module containing sub-modules:
   # - V-Screen Hollywood (port 3012)
   # - V-Stage (port 3013)
-  # - V-Prompter Pro 10x10 (port 3047)
-  # - V-Caster Pro (port 3047)
+  # - V-Prompter Pro 10x10 (port 3017)
+  # - V-Caster Pro (port 3018)
   # Main V-Suite gateway on port 3005
   # ============================================================================
 
@@ -167,8 +167,8 @@ services:
       # Sub-module URLs for internal routing
       VSCREEN_HOLLYWOOD_URL: http://v-suite-vscreen-hollywood:3012
       VSTAGE_URL: http://v-suite-vstage:3013
-      VPROMPTER_PRO_URL: http://v-suite-vprompter-pro:3047
-      VCASTER_PRO_URL: http://v-suite-vcaster-pro:3047
+      VPROMPTER_PRO_URL: http://v-suite-vprompter-pro:3017
+      VCASTER_PRO_URL: http://v-suite-vcaster-pro:3018
     ports:
       - "3005:3005"
     healthcheck:
@@ -229,7 +229,7 @@ services:
     networks:
       - nexus-cos-network
 
-  # V-Suite Sub-Module: V-Prompter Pro 10x10 - Port 3047
+  # V-Suite Sub-Module: V-Prompter Pro 10x10 - Port 3017
   v-suite-vprompter-pro:
     build:
       context: ./modules/v-suite/v-prompter-pro
@@ -237,13 +237,13 @@ services:
     container_name: v-suite-vprompter-pro
     environment:
       NODE_ENV: production
-      PORT: 3047
+      PORT: 3017
       VSUITE_PARENT: v-suite
       MODULE_TYPE: vprompter_pro_10x10
     ports:
-      - "3047:3047"
+      - "3017:3017"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3047/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3017/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -251,7 +251,7 @@ services:
     networks:
       - nexus-cos-network
 
-  # V-Suite Sub-Module: V-Caster Pro - Port 3048
+  # V-Suite Sub-Module: V-Caster Pro - Port 3018
   v-suite-vcaster-pro:
     build:
       context: ./modules/v-suite/v-caster-pro
@@ -259,13 +259,13 @@ services:
     container_name: v-suite-vcaster-pro
     environment:
       NODE_ENV: production
-      PORT: 3048
+      PORT: 3018
       VSUITE_PARENT: v-suite
       MODULE_TYPE: vcaster_pro
     ports:
-      - "3048:3048"
+      - "3018:3018"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3048/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3018/health"]
       interval: 30s
       timeout: 10s
       retries: 3
