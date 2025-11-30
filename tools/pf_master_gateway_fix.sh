@@ -164,7 +164,7 @@ server {
     # Health check endpoint
     location /health {
         access_log off;
-        return 200 '{"status":"ok","service":"nexus-gateway","timestamp":"'\$(date -Iseconds)'"}';
+        return 200 '{"status":"ok","service":"nexus-gateway"}';
         add_header Content-Type application/json;
     }
     
@@ -292,8 +292,13 @@ enable_gateway() {
 reload_nginx() {
     print_step "Validating Nginx configuration..."
     
-    if nginx -t 2>&1; then
+    # Capture nginx test output for debugging
+    NGINX_TEST_OUTPUT=$(nginx -t 2>&1)
+    NGINX_TEST_STATUS=$?
+    
+    if [ $NGINX_TEST_STATUS -eq 0 ]; then
         print_success "Nginx configuration is valid"
+        echo "$NGINX_TEST_OUTPUT"
         
         print_step "Reloading Nginx..."
         if systemctl reload nginx 2>/dev/null || service nginx reload 2>/dev/null; then
@@ -304,6 +309,7 @@ reload_nginx() {
         fi
     else
         print_error "Nginx configuration test failed"
+        echo "$NGINX_TEST_OUTPUT"
         exit 1
     fi
 }

@@ -148,10 +148,18 @@ jobs:
             echo "Nginx Status:"
             systemctl status nginx --no-pager || service nginx status
             
-            # Test health endpoint
+            # Test health endpoint (via HTTPS since HTTP redirects to HTTPS)
             echo ""
             echo "Health Check:"
-            curl -s -o /dev/null -w "%{http_code}" "http://localhost/health" || echo "Health check unavailable"
+            # Try HTTPS first, then fall back to HTTP for local testing
+            HEALTH_CODE=$(curl -s -o /dev/null -w "%{http_code}" -k "https://localhost/health" 2>/dev/null || echo "000")
+            if [ "$HEALTH_CODE" = "200" ]; then
+              echo "HTTPS health check: $HEALTH_CODE (OK)"
+            else
+              # Try HTTP locally (may return 301 redirect)
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost/health" 2>/dev/null || echo "000")
+              echo "HTTP health check: $HTTP_CODE (expected 301 redirect or 200)"
+            fi
             
             echo ""
             echo "Gateway configuration complete!"
