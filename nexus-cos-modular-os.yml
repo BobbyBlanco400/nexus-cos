@@ -1,0 +1,1381 @@
+# ==============================================================================
+# Nexus COS Modular OS - Complete Docker Compose Stack
+# ==============================================================================
+# PF ID: SCAFFOLD_WIRE_NEXUS_COS_STACK
+# Domains: nexuscos.online, www.nexuscos.online
+# Router: apache_plesk
+# Network: nexus-cos-network
+# ==============================================================================
+
+services:
+  # ============================================================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================================================
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: nexus-cos-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-nexus_db}
+      POSTGRES_USER: ${DB_USER:-nexus_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-nexus_user} -d ${DB_NAME:-nexus_db}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: nexus-cos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # GRAFANA MONITORING
+  # ============================================================================
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: nexus-cos-grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Grafana password required}
+      GF_SERVER_ROOT_URL: https://nexuscos.online/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # SDK & STREAMING CORE MODULES
+  # ============================================================================
+
+  # puaboai-sdk - Line 111
+  puaboai-sdk:
+    build:
+      context: ./services/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: puaboai-sdk
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+      DB_HOST: postgres
+      REDIS_HOST: redis
+    ports:
+      - "3010:3010"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # streamcore - Line 147
+  streamcore:
+    build:
+      context: ./services/streamcore
+      dockerfile: Dockerfile
+    container_name: streamcore
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+    ports:
+      - "3002:3002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # pv-keys - Line 205
+  pv-keys:
+    build:
+      context: ./services/pv-keys
+      dockerfile: Dockerfile
+    container_name: pv-keys
+    environment:
+      NODE_ENV: production
+      PORT: 3014
+      DB_HOST: postgres
+    ports:
+      - "3014:3014"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3014/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # V-SUITE MODULE (Main Virtual Production Suite)
+  # ============================================================================
+  # V-Suite is the main module containing sub-modules:
+  # - V-Screen Hollywood (port 3012)
+  # - V-Stage (port 3013)
+  # - V-Prompter Pro 10x10 (port 3017)
+  # - V-Caster Pro (port 3018)
+  # Main V-Suite gateway on port 3005
+  # ============================================================================
+
+  # V-Suite Main Gateway - Port 3005
+  v-suite:
+    build:
+      context: ./modules/v-suite
+      dockerfile: Dockerfile
+    container_name: v-suite
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      # Sub-module URLs for internal routing
+      VSCREEN_HOLLYWOOD_URL: http://v-suite-vscreen-hollywood:3012
+      VSTAGE_URL: http://v-suite-vstage:3013
+      VPROMPTER_PRO_URL: http://v-suite-vprompter-pro:3017
+      VCASTER_PRO_URL: http://v-suite-vcaster-pro:3018
+    ports:
+      - "3005:3005"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - v-suite-vscreen-hollywood
+      - v-suite-vstage
+      - v-suite-vprompter-pro
+      - v-suite-vcaster-pro
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # V-Suite Sub-Module: V-Screen Hollywood - Port 3012
+  v-suite-vscreen-hollywood:
+    build:
+      context: ./modules/v-suite/v-screen
+      dockerfile: Dockerfile
+    container_name: v-suite-vscreen-hollywood
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+      VSUITE_PARENT: v-suite
+      MODULE_TYPE: vscreen_hollywood
+    ports:
+      - "3012:3012"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3012/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # V-Suite Sub-Module: V-Stage - Port 3013
+  v-suite-vstage:
+    build:
+      context: ./modules/v-suite/v-stage
+      dockerfile: Dockerfile
+    container_name: v-suite-vstage
+    environment:
+      NODE_ENV: production
+      PORT: 3013
+      VSUITE_PARENT: v-suite
+      MODULE_TYPE: vstage
+    ports:
+      - "3013:3013"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3013/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # V-Suite Sub-Module: V-Prompter Pro 10x10 - Port 3017
+  v-suite-vprompter-pro:
+    build:
+      context: ./modules/v-suite/v-prompter-pro
+      dockerfile: Dockerfile
+    container_name: v-suite-vprompter-pro
+    environment:
+      NODE_ENV: production
+      PORT: 3017
+      VSUITE_PARENT: v-suite
+      MODULE_TYPE: vprompter_pro_10x10
+    ports:
+      - "3017:3017"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3017/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # V-Suite Sub-Module: V-Caster Pro - Port 3018
+  v-suite-vcaster-pro:
+    build:
+      context: ./modules/v-suite/v-caster-pro
+      dockerfile: Dockerfile
+    container_name: v-suite-vcaster-pro
+    environment:
+      NODE_ENV: production
+      PORT: 3018
+      VSUITE_PARENT: v-suite
+      MODULE_TYPE: vcaster_pro
+    ports:
+      - "3018:3018"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3018/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # puabomusicchain - Line 258
+  puabomusicchain:
+    build:
+      context: ./services/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: puabomusicchain
+    environment:
+      NODE_ENV: production
+      PORT: 3015
+    ports:
+      - "3015:3015"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3015/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # glitch-frontend - Line 276
+  glitch-frontend:
+    build:
+      context: ./services/glitch
+      dockerfile: Dockerfile
+    container_name: glitch-frontend
+    environment:
+      NODE_ENV: production
+      PORT: 3016
+    ports:
+      - "3016:3016"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3016/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # PUABO TV MODULES
+  # ============================================================================
+
+  # puabo-tv-main - Line 293
+  puabo-tv-main:
+    build:
+      context: ./modules/puabo-ott-tv-streaming
+      dockerfile: Dockerfile
+    container_name: puabo-tv-main
+    environment:
+      NODE_ENV: production
+      PORT: 5310
+    ports:
+      - "5310:5310"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5310/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # puabo-radio - Line 309
+  puabo-radio:
+    build:
+      context: ./modules/puabo-ott-tv-streaming/radio
+      dockerfile: Dockerfile
+    container_name: puabo-radio
+    environment:
+      NODE_ENV: production
+      PORT: 5311
+    ports:
+      - "5311:5311"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5311/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # puabo-sports-network - Line 325
+  puabo-sports-network:
+    build:
+      context: ./modules/puabo-ott-tv-streaming/sports
+      dockerfile: Dockerfile
+    container_name: puabo-sports-network
+    environment:
+      NODE_ENV: production
+      PORT: 5313
+    ports:
+      - "5313:5313"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5313/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # puabo-news-hub - Line 341
+  puabo-news-hub:
+    build:
+      context: ./modules/puabo-ott-tv-streaming/news
+      dockerfile: Dockerfile
+    container_name: puabo-news-hub
+    environment:
+      NODE_ENV: production
+      PORT: 5314
+    ports:
+      - "5314:5314"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5314/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # CREATOR STUDIO MODULES
+  # ============================================================================
+
+  # creator-studio-pro - Line 357
+  creator-studio-pro:
+    build:
+      context: ./modules/puabo-studio/creator-studio
+      dockerfile: Dockerfile
+    container_name: creator-studio-pro
+    environment:
+      NODE_ENV: production
+      PORT: 5315
+    ports:
+      - "5315:5315"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5315/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # live-stream-manager - Line 373
+  live-stream-manager:
+    build:
+      context: ./modules/puabo-studio/live-stream
+      dockerfile: Dockerfile
+    container_name: live-stream-manager
+    environment:
+      NODE_ENV: production
+      PORT: 5316
+    ports:
+      - "5316:5316"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5316/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # show-template-engine - Line 389
+  show-template-engine:
+    build:
+      context: ./modules/puabo-studio/templates
+      dockerfile: Dockerfile
+    container_name: show-template-engine
+    environment:
+      NODE_ENV: production
+      PORT: 5317
+    ports:
+      - "5317:5317"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5317/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # content-library - Line 405
+  content-library:
+    build:
+      context: ./services/content-management
+      dockerfile: Dockerfile
+    container_name: content-library
+    environment:
+      NODE_ENV: production
+      PORT: 5318
+      DB_HOST: postgres
+    ports:
+      - "5318:5318"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5318/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # talk-show-studio - Line 421
+  talk-show-studio:
+    build:
+      context: ./modules/puabo-studio/talk-show
+      dockerfile: Dockerfile
+    container_name: talk-show-studio
+    environment:
+      NODE_ENV: production
+      PORT: 5320
+    ports:
+      - "5320:5320"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5320/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # game-show-creator - Line 437
+  game-show-creator:
+    build:
+      context: ./modules/gamecore
+      dockerfile: Dockerfile
+    container_name: game-show-creator
+    environment:
+      NODE_ENV: production
+      PORT: 5321
+    ports:
+      - "5321:5321"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5321/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # AI MODULES
+  # ============================================================================
+
+  # script-analyzer - Line 457
+  script-analyzer:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: script-analyzer
+    environment:
+      NODE_ENV: production
+      PORT: 5341
+      AI_MODE: script_analysis
+    ports:
+      - "5341:5341"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5341/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # content-moderator - Line 473
+  content-moderator:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: content-moderator
+    environment:
+      NODE_ENV: production
+      PORT: 5343
+      AI_MODE: content_moderation
+    ports:
+      - "5343:5343"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5343/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # voice-synthesis - Line 489
+  voice-synthesis:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: voice-synthesis
+    environment:
+      NODE_ENV: production
+      PORT: 5344
+      AI_MODE: voice_synthesis
+    ports:
+      - "5344:5344"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5344/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # scene-recommender - Line 505
+  scene-recommender:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: scene-recommender
+    environment:
+      NODE_ENV: production
+      PORT: 5345
+      AI_MODE: scene_recommendation
+    ports:
+      - "5345:5345"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5345/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # metadata-tagger - Line 521
+  metadata-tagger:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    container_name: metadata-tagger
+    environment:
+      NODE_ENV: production
+      PORT: 5346
+      AI_MODE: metadata_tagging
+    ports:
+      - "5346:5346"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5346/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # ANALYTICS MODULES
+  # ============================================================================
+
+  # audience-analytics - Line 537
+  audience-analytics:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: audience-analytics
+    environment:
+      NODE_ENV: production
+      PORT: 5350
+      DB_HOST: postgres
+      SERVICE_MODE: audience_analytics
+    ports:
+      - "5350:5350"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5350/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # revenue-dashboard - Line 553
+  revenue-dashboard:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: revenue-dashboard
+    environment:
+      NODE_ENV: production
+      PORT: 5351
+      DB_HOST: postgres
+      SERVICE_MODE: revenue_dashboard
+    ports:
+      - "5351:5351"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5351/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # creator-insights - Line 569
+  creator-insights:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: creator-insights
+    environment:
+      NODE_ENV: production
+      PORT: 5352
+      DB_HOST: postgres
+      SERVICE_MODE: creator_insights
+    ports:
+      - "5352:5352"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5352/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # BACKEND SERVICES
+  # ============================================================================
+
+  # nexus-backend-api - Line 589
+  nexus-backend-api:
+    build:
+      context: ./services/backend-api
+      dockerfile: Dockerfile
+    container_name: nexus-backend-api
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: postgres
+      REDIS_HOST: redis
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # auth-service - Line 609
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment:
+      NODE_ENV: production
+      PORT: 3041
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      JWT_SECRET: ${JWT_SECRET:?JWT secret required}
+    ports:
+      - "3041:3041"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3041/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # profile-service - Line 627
+  profile-service:
+    build:
+      context: ./services/creator-hub-v2
+      dockerfile: Dockerfile
+    container_name: profile-service
+    environment:
+      NODE_ENV: production
+      PORT: 3042
+      DB_HOST: postgres
+    ports:
+      - "3042:3042"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3042/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # streaming-service - Line 644
+  streaming-service:
+    build:
+      context: ./services/streaming-service-v2
+      dockerfile: Dockerfile
+    container_name: streaming-service
+    environment:
+      NODE_ENV: production
+      PORT: 3043
+    ports:
+      - "3043:3043"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3043/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # tvradio-service - Line 662
+  tvradio-service:
+    build:
+      context: ./modules/puabo-ott-tv-streaming
+      dockerfile: Dockerfile
+    container_name: tvradio-service
+    environment:
+      NODE_ENV: production
+      PORT: 3044
+    ports:
+      - "3044:3044"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3044/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # musicmedia-service - Line 676
+  musicmedia-service:
+    build:
+      context: ./modules/musicchain
+      dockerfile: Dockerfile
+    container_name: musicmedia-service
+    environment:
+      NODE_ENV: production
+      PORT: 3045
+    ports:
+      - "3045:3045"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3045/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # monetization-service - Line 693
+  monetization-service:
+    build:
+      context: ./services/billing-service
+      dockerfile: Dockerfile
+    container_name: monetization-service
+    environment:
+      NODE_ENV: production
+      PORT: 3046
+      DB_HOST: postgres
+    ports:
+      - "3046:3046"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3046/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # blac-service - Line 710
+  blac-service:
+    build:
+      context: ./modules/puabo-blac
+      dockerfile: Dockerfile
+    container_name: blac-service
+    environment:
+      NODE_ENV: production
+      PORT: 3047
+      DB_HOST: postgres
+    ports:
+      - "3047:3047"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3047/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # notifications-service - Line 725
+  notifications-service:
+    build:
+      context: ./services/scheduler
+      dockerfile: Dockerfile
+    container_name: notifications-service
+    environment:
+      NODE_ENV: production
+      PORT: 3048
+      REDIS_HOST: redis
+    ports:
+      - "3048:3048"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3048/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # admin-service - Line 742
+  admin-service:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: admin-service
+    environment:
+      NODE_ENV: production
+      PORT: 3049
+      DB_HOST: postgres
+    ports:
+      - "3049:3049"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3049/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # VIRTUAL SET DESIGNER & SCHEDULER
+  # ============================================================================
+
+  # virtual-set-designer
+  virtual-set-designer:
+    build:
+      context: ./modules/v-suite
+      dockerfile: Dockerfile
+    container_name: virtual-set-designer
+    environment:
+      NODE_ENV: production
+      PORT: 5304
+      SERVICE_MODE: set_designer
+    ports:
+      - "5304:5304"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5304/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # production-scheduler
+  production-scheduler:
+    build:
+      context: ./services/scheduler
+      dockerfile: Dockerfile
+    container_name: production-scheduler
+    environment:
+      NODE_ENV: production
+      PORT: 5305
+      SERVICE_MODE: production_scheduler
+    ports:
+      - "5305:5305"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5305/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # NEXUS FLEET - Line 794+
+  # ============================================================================
+
+  # nexus-stream - Line 794
+  nexus-stream:
+    build:
+      context: ./modules/streamcore
+      dockerfile: Dockerfile
+    container_name: nexus-stream
+    environment:
+      NODE_ENV: production
+      PORT: 5201
+    ports:
+      - "5201:5201"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5201/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # nexus-ott - Line 810
+  nexus-ott:
+    build:
+      context: ./modules/puabo-ott-tv-streaming
+      dockerfile: Dockerfile
+    container_name: nexus-ott
+    environment:
+      NODE_ENV: production
+      PORT: 5202
+    ports:
+      - "5202:5202"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5202/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # nexusnet - Line 826
+  nexusnet:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: nexusnet
+    environment:
+      NODE_ENV: production
+      PORT: 5203
+      SERVICE_MODE: nexusnet
+    ports:
+      - "5203:5203"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5203/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # nexus-link - Line 842
+  nexus-link:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: nexus-link
+    environment:
+      NODE_ENV: production
+      PORT: 5204
+      SERVICE_MODE: nexus_link
+    ports:
+      - "5204:5204"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5204/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # casino-nexus - Line 858
+  casino-nexus:
+    build:
+      context: ./modules/casino-nexus
+      dockerfile: Dockerfile
+    container_name: casino-nexus
+    environment:
+      NODE_ENV: production
+      PORT: 5205
+    ports:
+      - "5205:5205"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5205/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # virtual-soccer-league - Line 874
+  virtual-soccer-league:
+    build:
+      context: ./modules/gamecore
+      dockerfile: Dockerfile
+    container_name: virtual-soccer-league
+    environment:
+      NODE_ENV: production
+      PORT: 5206
+      GAME_MODE: virtual_soccer
+    ports:
+      - "5206:5206"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5206/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # urban - Line 890
+  urban:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: urban
+    environment:
+      NODE_ENV: production
+      PORT: 5207
+      SERVICE_MODE: urban
+    ports:
+      - "5207:5207"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5207/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # family - Line 906
+  family:
+    build:
+      context: ./modules/core-os
+      dockerfile: Dockerfile
+    container_name: family
+    environment:
+      NODE_ENV: production
+      PORT: 5208
+      SERVICE_MODE: family
+    ports:
+      - "5208:5208"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5208/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ============================================================================
+  # LANDING PAGES / CREATOR CHANNELS (nginx/conf.d/nexus-cos.conf)
+  # ============================================================================
+
+  # idh-live - Line 225
+  idh-live:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: idh-live
+    environment:
+      NODE_ENV: production
+      PORT: 5225
+      CHANNEL: idh_live
+    ports:
+      - "5225:5225"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5225/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # clocking-t - Line 226
+  clocking-t:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: clocking-t
+    environment:
+      NODE_ENV: production
+      PORT: 5226
+      CHANNEL: clocking_t
+    ports:
+      - "5226:5226"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5226/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # metatwin - Line 227
+  metatwin:
+    build:
+      context: ./services/metatwin
+      dockerfile: Dockerfile
+    container_name: metatwin
+    environment:
+      NODE_ENV: production
+      PORT: 5227
+    ports:
+      - "5227:5227"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5227/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # ahshanti-munch - Line 228
+  ahshanti-munch:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ahshanti-munch
+    environment:
+      NODE_ENV: production
+      PORT: 5228
+      CHANNEL: ahshanti_munch
+    ports:
+      - "5228:5228"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5228/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # tyshawn-dance - Line 229
+  tyshawn-dance:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tyshawn-dance
+    environment:
+      NODE_ENV: production
+      PORT: 5229
+      CHANNEL: tyshawn_dance
+    ports:
+      - "5229:5229"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5229/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # fayeloni - Line 230
+  fayeloni:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fayeloni
+    environment:
+      NODE_ENV: production
+      PORT: 5230
+      CHANNEL: fayeloni
+    ports:
+      - "5230:5230"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5230/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # sassie-lashes - Line 231
+  sassie-lashes:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sassie-lashes
+    environment:
+      NODE_ENV: production
+      PORT: 5231
+      CHANNEL: sassie_lashes
+    ports:
+      - "5231:5231"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5231/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # neenee-kids - Line 232
+  neenee-kids:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: neenee-kids
+    environment:
+      NODE_ENV: production
+      PORT: 5232
+      CHANNEL: neenee_kids
+    ports:
+      - "5232:5232"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5232/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+  # roro-gaming - Line 233
+  roro-gaming:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: roro-gaming
+    environment:
+      NODE_ENV: production
+      PORT: 5233
+      CHANNEL: roro_gaming
+    ports:
+      - "5233:5233"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5233/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - nexus-cos-network
+
+# ==============================================================================
+# VOLUMES
+# ==============================================================================
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+# ==============================================================================
+# NETWORKS
+# ==============================================================================
+
+networks:
+  nexus-cos-network:
+    driver: bridge
+    name: nexus-cos-network
