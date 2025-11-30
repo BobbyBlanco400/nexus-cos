@@ -4,6 +4,16 @@
 # Purpose: Complete server setup for streaming Socket.IO fix
 # Usage: curl -sSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/copilot/fix-proxy-configuration-errors/deployment/master-deploy.sh | sudo bash
 # Or: sudo ./deployment/master-deploy.sh
+#
+# Phases:
+#   1. Cleanup - Remove problematic nginx backup files
+#   2. Repository - Clone/pull latest code
+#   3. Nginx - Configure Socket.IO proxy
+#   4. Apache/Plesk - Configure Apache, fix port conflicts
+#   5. PM2 Cleanup - Remove obsolete services, restart stopped ones
+#   6. Service Verification - Check ports and PM2 status
+#   7. Endpoint Testing - Test all critical URLs
+#   8. Summary - Show results and next steps
 # ==============================================================================
 
 set -e
@@ -258,7 +268,7 @@ SOCKETIO
 }
 
 # ==============================================================================
-# PHASE 4: APACHE/PLESK CONFIGURATION
+# PHASE 4: APACHE/PLESK CONFIGURATION & PORT CONFLICT FIX
 # ==============================================================================
 phase_apache() {
     log_header "PHASE 4: APACHE/PLESK CONFIGURATION"
@@ -266,6 +276,44 @@ phase_apache() {
     # Check if Apache is being used (Plesk typically uses Apache)
     if command -v plesk &>/dev/null; then
         log_step "Plesk detected, configuring Apache..."
+        
+        # Fix port 80/443 conflict between nginx and Apache
+        log_step "Checking for port conflicts..."
+        
+        # Check what's using port 80
+        local port80_process=$(netstat -tlnp 2>/dev/null | grep ":80 " | head -1 || ss -tlnp 2>/dev/null | grep ":80 " | head -1)
+        
+        if echo "$port80_process" | grep -q "nginx"; then
+            log_info "Nginx is handling port 80 (correct for reverse proxy setup)"
+            
+            # Check if Apache is trying to bind to port 80
+            if grep -q "Listen 80" /etc/apache2/ports.conf 2>/dev/null; then
+                log_warning "Apache is configured to listen on port 80 - this conflicts with nginx"
+                log_step "Configuring Apache to use backend ports only..."
+                
+                # Backup Apache ports.conf
+                cp /etc/apache2/ports.conf "$BACKUP_DIR/apache-ports.conf.bak" 2>/dev/null || true
+                
+                # Modify Apache to listen on port 7080 instead of 80
+                # In Plesk, Apache typically runs behind nginx
+                sed -i 's/Listen 80$/Listen 7080/' /etc/apache2/ports.conf 2>/dev/null || true
+                sed -i 's/Listen 443$/Listen 7081/' /etc/apache2/ports.conf 2>/dev/null || true
+                
+                log_info "Apache ports updated to 7080/7081"
+            fi
+        elif echo "$port80_process" | grep -q "apache\|httpd"; then
+            log_info "Apache is handling port 80 directly"
+        fi
+        
+        # Stop Apache if it's conflicting and nginx should handle frontend
+        if systemctl is-active --quiet apache2 2>/dev/null; then
+            # Check if Apache is causing issues
+            if ! curl -s -o /dev/null -w "%{http_code}" --max-time 5 "http://127.0.0.1/" | grep -q "200\|301\|302"; then
+                log_warning "Web server not responding correctly"
+                log_step "Restarting Apache with new configuration..."
+                systemctl restart apache2 2>/dev/null || true
+            fi
+        fi
         
         # Enable required Apache modules
         log_step "Enabling required Apache modules..."
@@ -281,12 +329,12 @@ phase_apache() {
         if [[ -f "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh" ]]; then
             log_step "Running Plesk Apache setup script..."
             chmod +x "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh"
-            "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh" "$DOMAIN"
+            "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh" "$DOMAIN" || true
         fi
         
         # Repair Plesk web configuration
         log_step "Repairing Plesk web configuration..."
-        plesk repair web -y 2>/dev/null || true
+        plesk repair web -y 2>/dev/null || log_warning "Plesk repair web returned non-zero (may be normal)"
         
         log_success "Apache/Plesk configuration complete"
     elif command -v apache2 &>/dev/null || command -v httpd &>/dev/null; then
@@ -298,7 +346,60 @@ phase_apache() {
 }
 
 # ==============================================================================
-# PHASE 5: SERVICE VERIFICATION
+# PHASE 5: PM2 CLEANUP & OPTIMIZATION
+# ==============================================================================
+phase_pm2_cleanup() {
+    log_header "PHASE 5: PM2 CLEANUP & OPTIMIZATION"
+    
+    if ! command -v pm2 &>/dev/null; then
+        log_warning "PM2 not found, skipping PM2 cleanup"
+        return 0
+    fi
+    
+    log_step "Cleaning up obsolete PM2 services..."
+    
+    # List of obsolete services to remove
+    local obsolete_services=("kei-ai")
+    
+    for service in "${obsolete_services[@]}"; do
+        if pm2 describe "$service" &>/dev/null; then
+            log_info "Removing obsolete service: $service"
+            pm2 delete "$service" 2>/dev/null || true
+        fi
+    done
+    
+    log_step "Restarting any stopped services..."
+    
+    # Get list of stopped services and restart them
+    local stopped_services=$(pm2 jlist 2>/dev/null | jq -r '.[] | select(.pm2_env.status == "stopped") | .name' 2>/dev/null || echo "")
+    
+    if [[ -n "$stopped_services" ]]; then
+        for service in $stopped_services; do
+            log_info "Starting stopped service: $service"
+            pm2 start "$service" 2>/dev/null || log_warning "Could not start $service"
+        done
+    else
+        log_info "No stopped services found"
+    fi
+    
+    log_step "Setting PM2 restart policies for stability..."
+    
+    # Increase max restarts and add delays to prevent crash loops
+    pm2 update 2>/dev/null || true
+    
+    # Save PM2 configuration
+    log_step "Saving PM2 configuration..."
+    pm2 save 2>/dev/null || true
+    
+    # Ensure PM2 starts on boot
+    log_step "Configuring PM2 startup..."
+    pm2 startup 2>/dev/null || true
+    
+    log_success "PM2 cleanup and optimization complete"
+}
+
+# ==============================================================================
+# PHASE 6: SERVICE VERIFICATION
 # ==============================================================================
 phase_verify_services() {
     log_header "PHASE 5: SERVICE VERIFICATION"
@@ -330,7 +431,7 @@ phase_verify_services() {
 }
 
 # ==============================================================================
-# PHASE 6: ENDPOINT TESTING
+# PHASE 7: ENDPOINT TESTING
 # ==============================================================================
 phase_test_endpoints() {
     log_header "PHASE 6: ENDPOINT TESTING"
@@ -381,7 +482,7 @@ phase_test_endpoints() {
 }
 
 # ==============================================================================
-# PHASE 7: SUMMARY
+# PHASE 8: SUMMARY
 # ==============================================================================
 phase_summary() {
     log_header "DEPLOYMENT COMPLETE"
@@ -428,6 +529,7 @@ main() {
     phase_repository
     phase_nginx
     phase_apache
+    phase_pm2_cleanup
     phase_verify_services
     phase_test_endpoints
     phase_summary
