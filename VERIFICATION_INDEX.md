@@ -6,12 +6,33 @@ This index provides quick access to all deployment verification resources for va
 
 ---
 
+## 🆕 NEW: Docker 37 Services Verification (November 2025)
+
+### GitHub Code Agent Verification
+**For verifying the fully dockerized 37-service platform:**
+1. **Verification Prompt File:** `pfs/GITHUB_CODE_AGENT_VERIFICATION_PF.md`
+2. **Automated Verification Script:** `./scripts/verify-docker-37-services.sh`
+3. **Expected Containers:** 38 total (37 services + 1 postgres)
+
+**Quick Verification:**
+```bash
+# Run the Docker 37 Services verification
+./scripts/verify-docker-37-services.sh
+```
+
+---
+
 ## 🎯 Quick Start
 
 ### For Immediate Verification
 1. **Run Automated Script:** `./verify-trae-deployment.sh`
 2. **Review Quick Check:** See `TRAE_DEPLOYMENT_QUICK_CHECK.md`
 3. **Use Quick Commands:** Copy/paste from quick check guide
+
+### For Docker 37 Services Verification
+1. **Docker Verification PF:** `pfs/GITHUB_CODE_AGENT_VERIFICATION_PF.md`
+2. **Docker Verification Script:** `./scripts/verify-docker-37-services.sh`
+3. **10-Phase Comprehensive Check:** Covers infrastructure, services, networking, and API health
 
 ### For Detailed Analysis
 1. **Full Verification Guide:** `DEPLOYMENT_VERIFICATION_TRAE.md`
