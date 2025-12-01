@@ -243,6 +243,78 @@ SOCKETIO
             
             log_success "Socket.IO configuration added"
         fi
+        
+        # Add /api/health route if missing
+        if ! grep -q "location = /api/health" "$nginx_config" && ! grep -q "location /api/health" "$nginx_config"; then
+            log_info "Adding /api/health route..."
+            cat > /tmp/health-config.txt << 'HEALTH'
+
+    # API Health Check endpoint
+    location = /api/health {
+        proxy_pass http://127.0.0.1:3001/health;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+HEALTH
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/health-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/api/health route added"
+        fi
+        
+        # Add /creator route if missing (proxies to creator-hub service on port 3020)
+        if ! grep -q "location /creator" "$nginx_config"; then
+            log_info "Adding /creator route..."
+            cat > /tmp/creator-config.txt << 'CREATOR'
+
+    # Creator route - proxies to Creator Hub service
+    location /creator {
+        proxy_pass http://127.0.0.1:3020;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+CREATOR
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/creator-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/creator route added"
+        fi
+        
+        # Add /studio-ai route if missing (proxies to AI service on port 3010)
+        if ! grep -q "location /studio-ai" "$nginx_config"; then
+            log_info "Adding /studio-ai route..."
+            cat > /tmp/studio-ai-config.txt << 'STUDIOAI'
+
+    # Studio AI route - proxies to AI service
+    location /studio-ai {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+STUDIOAI
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/studio-ai-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/studio-ai route added"
+        fi
     else
         log_warning "No nginx config found for $DOMAIN"
         log_info "You may need to create the nginx configuration manually"
@@ -441,6 +513,8 @@ phase_test_endpoints() {
     local endpoints=(
         "https://$DOMAIN/:Main Site"
         "https://$DOMAIN/api/health:API Health"
+        "https://$DOMAIN/creator:Creator Hub"
+        "https://$DOMAIN/studio-ai:Studio AI"
         "https://$DOMAIN/socket.io/?EIO=4&transport=polling:Root Socket.IO"
         "https://$DOMAIN/streaming/socket.io/?EIO=4&transport=polling:Streaming Socket.IO"
     )
