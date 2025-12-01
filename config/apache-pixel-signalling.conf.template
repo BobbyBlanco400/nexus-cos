@@ -1,0 +1,30 @@
+# Nexus COS - Pixel Streaming Signalling Server Apache Configuration
+# This configuration proxies requests to the pixel streaming signalling server
+# running in a Docker container on port ${SIGNAL_PORT}
+
+<IfModule mod_proxy.c>
+  # Disable forward proxy to prevent open proxy vulnerabilities
+  ProxyRequests Off
+  
+  # Allow proxy connections to the signalling server
+  ProxyPreserveHost On
+  
+  # Configure proxy for /v-suite/hollywood endpoint
+  <Location /v-suite/hollywood>
+    ProxyPass http://${SIGNAL_HOST}:${SIGNAL_PORT}/
+    ProxyPassReverse http://${SIGNAL_HOST}:${SIGNAL_PORT}/
+    
+    # Security headers
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+  </Location>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # WebSocket support for pixel streaming
+  RewriteCond %{HTTP:Upgrade} =websocket [NC]
+  RewriteCond %{HTTP:Connection} upgrade [NC]
+  RewriteRule ^/v-suite/hollywood/(.*)$ ws://${SIGNAL_HOST}:${SIGNAL_PORT}/$1 [P,L]
+</IfModule>
