@@ -1,165 +1,362 @@
-# Nexus COS Beta Launch - Quick Start Deployment Guide
+# Nexus COS Deployment Fix - Quick Start Guide
 
-**⚡ Fast-track deployment for TRAE and deployment team**
+This guide will help you fix all deployment issues and get Nexus COS running on your VPS server.
 
----
-
-## 🎯 What Was Fixed
-
-Based on TRAE's verification report, we fixed:
-
-1. ✅ Missing `.env` files for admin and creator-hub
-2. ✅ PUABO NEXUS fleet routes (404 errors fixed)
-3. ✅ `/api/health` endpoint exposure
-4. ✅ Frontend branding and landing page
-5. ✅ Beta domain configuration
-
----
-
-## 🚀 Quick Deployment (3 Steps)
-
-### Step 1: SSH to Server
+## 🚀 Quick Start (One Command)
 
 ```bash
-ssh root@75.208.155.161
-cd /opt/nexus-cos
-git pull origin main  # or clone if needed
+./fix-deployment-issues.sh
 ```
 
-### Step 2: Deploy Nginx Configs
+That's it! The script will automatically:
+- ✅ Fix PostgreSQL container conflicts
+- ✅ Install all dependencies (root + services)
+- ✅ Clean up errored PM2 processes
+- ✅ Start all services correctly
+- ✅ Validate everything is working
+
+## 📋 What Was Fixed
+
+Based on your error output, the following issues were addressed:
+
+### 1. PostgreSQL Container Conflict ✅
+**Error:** `The container name "/nexus-postgres" is already in use`
+
+**Fix:** The script now detects existing containers and either:
+- Starts them if stopped
+- Removes and recreates if corrupted
+
+### 2. Backend API Startup Issues ✅
+**Error:** `error: unknown option '--port'` + 16 restarts
+
+**Root Cause:** Missing root dependencies (routes require express)
+
+**Fix:** 
+- Installs root `node_modules` with `PUPPETEER_SKIP_DOWNLOAD=true`
+- Installs service-specific dependencies
+- Uses PM2 ecosystem config (environment variables, not CLI args)
+
+### 3. PuaboMusicChain Errors ✅
+**Error:** 16 restarts, errored state
+
+**Fix:** Same as above - missing dependencies resolved
+
+### 4. Missing Audit Script ✅
+**Error:** `Cannot find audit script`
+
+**Fix:** Created `production-audit.sh` for comprehensive validation
+
+### 5. vstage Service Errors ✅
+**Error:** 15 restarts, errored state
+
+**Fix:** 
+- Installs dependencies for modules/v-suite/v-stage
+- Cleans up errored processes
+- Starts service on port 3012
+
+### 6. nexus-api-health Service Issues ✅
+**Error:** Online but returning HTTP 503
+
+**Fix:**
+- Ensures root server.js dependencies are installed
+- Starts service on port 3000
+- Validates health endpoint responding correctly
+
+## 🛠️ Available Scripts
+
+### 1. fix-deployment-issues.sh (Main Fix Script)
+Fixes all deployment issues automatically.
 
 ```bash
-# Backup, deploy, and reload nginx
-sudo cp /etc/nginx/sites-available/nexuscos /etc/nginx/backups/nexuscos.backup 2>/dev/null || true
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos
-sudo cp deployment/nginx/beta.nexuscos.online.conf /etc/nginx/sites-available/beta.nexuscos
-sudo ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/
-sudo ln -sf /etc/nginx/sites-available/beta.nexuscos /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
+./fix-deployment-issues.sh
 ```
 
-### Step 3: Validate Endpoints
+**What it does:**
+- Fixes PostgreSQL container
+- Installs dependencies
+- Cleans up errored processes
+- Starts services with PM2
+- Runs basic validation
+
+### 2. production-audit.sh (Comprehensive Audit)
+Detailed audit of your entire deployment.
 
 ```bash
-# Run validation script
-./scripts/validate-beta-launch-endpoints.sh
+./production-audit.sh
 ```
 
-**Expected output:**
-```
-✅  BETA LAUNCH READY  ✅
-All critical endpoints are responding correctly
-```
+**Checks:**
+- Docker services
+- PM2 service status
+- Port availability
+- Health endpoints
+- Configuration files
+- Dependencies
+- System resources
+- Nginx configuration
+- SSL certificates
+- Environment variables
 
----
-
-## 📋 What Changed
-
-### Nginx Routes Added
-
-```nginx
-# NEW: Standardized health endpoint
-/api/health → http://127.0.0.1:4000/health
-
-# NEW: PUABO NEXUS Fleet (ports 9001-9004)
-/puabo-nexus/dispatch/health
-/puabo-nexus/driver/health
-/puabo-nexus/fleet/health
-/puabo-nexus/routes/health
-```
-
-### Environment Files
-
-All frontend modules now use same-origin `/api` paths:
+### 3. quick-deployment-check.sh (Quick Validation)
+Fast check to see if everything is working.
 
 ```bash
-# These are auto-created in deployment, but templates exist:
-admin/.env.example        → VITE_API_URL=/api
-creator-hub/.env.example  → VITE_API_URL=/api
-frontend/.env             → VITE_API_URL=/api (updated)
+./quick-deployment-check.sh
 ```
 
-### Frontend Landing Page
+**Checks:**
+- PM2 services online/errored
+- PostgreSQL status
+- Service endpoints responding
+- Ports listening
+- System resources
 
-- Fixed corrupted `App.tsx`
-- Added professional landing page with Nexus branding
-- Services showcase for all platform offerings
-- Beta launch section
-- Responsive mobile design
+## 📝 Step-by-Step Manual Deployment
 
----
+If you prefer to understand what's happening:
 
-## 🔍 Quick Health Check (Manual)
-
-Test endpoints after deployment:
-
+### Step 1: Navigate to Project Directory
 ```bash
-# Core endpoints
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/health/gateway
-
-# PUABO NEXUS fleet
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
-curl -I https://nexuscos.online/puabo-nexus/driver/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
-curl -I https://nexuscos.online/puabo-nexus/routes/health
-
-# Beta domain
-curl -I https://beta.nexuscos.online/
-curl -I https://beta.nexuscos.online/api/health
+cd /var/www/nexuscos.online/nexus-cos-app/nexus-cos
 ```
 
-**All should return:** `200 OK` (or `204 No Content` for some health endpoints)
+### Step 2: Pull Latest Changes
+```bash
+git pull origin copilot/fix-deployment-issues
+```
 
----
+### Step 3: Run the Fix Script
+```bash
+./fix-deployment-issues.sh
+```
 
-## ⚠️ Troubleshooting
+### Step 4: Verify Deployment
+```bash
+./quick-deployment-check.sh
+```
 
-### If validation script shows failures:
+### Step 5: Run Full Audit (Optional)
+```bash
+./production-audit.sh
+```
 
-**404 Errors:**
-- Nginx routes not applied → Re-run Step 2
-- Verify with: `sudo nginx -t`
+## ✅ Verification Commands
 
-**502/503 Errors:**
-- Backend services not running on required ports
-- Check: `sudo netstat -tlnp | grep ':9001\|:9002\|:9003\|:9004'`
-- Start services if needed
+### Check PM2 Services
+```bash
+pm2 list
+```
 
-**Connection Errors:**
-- SSL certificate issues
-- DNS not pointing to server
-- Firewall blocking: `sudo ufw allow 80,443/tcp`
+Expected output: All services showing "online" status
 
----
+### Test Service Endpoints
+```bash
+# nexus-api-health
+curl http://localhost:3000/health
 
-## 📚 Full Documentation
+# Backend API
+curl http://localhost:3001/health
 
-For complete details, see:
-- `BETA_LAUNCH_FIXES_COMPLETE.md` - Comprehensive deployment guide
-- `scripts/validate-beta-launch-endpoints.sh` - Validation script
-- `PF_v2025.10.01_HEALTH_CHECKS.md` - Health endpoint specifications
+# vstage
+curl http://localhost:3012/health
 
----
+# PuaboMusicChain
+curl http://localhost:3013/health
 
-## ✅ Success Criteria
+# V-Screen Hollywood
+curl http://localhost:8088/health
+```
 
-After deployment, you should have:
+### Check PostgreSQL
+```bash
+docker ps | grep nexus-postgres
+docker exec nexus-postgres pg_isready -U nexuscos
+```
 
-- ✅ Nginx config valid (`nginx -t` passes)
-- ✅ All health endpoints return 200
-- ✅ Landing page loads at https://nexuscos.online
-- ✅ Beta page loads at https://beta.nexuscos.online
-- ✅ No Nginx warnings about conflicting server_name
+### View Logs
+```bash
+# All logs
+pm2 logs
 
----
+# Specific service
+pm2 logs backend-api
 
-## 🎉 You're Ready!
+# Last 50 lines
+pm2 logs backend-api --lines 50
+```
 
-If validation script shows **"BETA LAUNCH READY"**, you're good to go!
+## 🔧 Troubleshooting
 
-Questions? Check the full documentation or contact the deployment team.
+### Service Still Errored After Fix?
 
-**Last Updated:** 2025-01-09  
-**PF Version:** v2025.10.01  
-**Status:** ✅ PRODUCTION READY
+1. **Check the logs:**
+```bash
+pm2 logs <service-name> --lines 50
+```
+
+2. **Restart the service:**
+```bash
+pm2 restart <service-name>
+```
+
+3. **Delete and recreate:**
+```bash
+pm2 delete <service-name>
+pm2 start ecosystem.config.js --only <service-name>
+```
+
+### PostgreSQL Not Starting?
+
+1. **Check container status:**
+```bash
+docker ps -a | grep nexus-postgres
+```
+
+2. **Check logs:**
+```bash
+docker logs nexus-postgres
+```
+
+3. **Remove and recreate:**
+```bash
+docker rm -f nexus-postgres
+./fix-deployment-issues.sh
+```
+
+### Port Already in Use?
+
+1. **Find what's using the port:**
+```bash
+lsof -i :3001
+```
+
+2. **Kill the process:**
+```bash
+kill -9 <PID>
+```
+
+3. **Or use PM2 to manage:**
+```bash
+pm2 delete <service-name>
+pm2 start ecosystem.config.js --only <service-name>
+```
+
+## 📊 Expected Results
+
+After running `./fix-deployment-issues.sh`, you should see:
+
+```
+✅ PostgreSQL container configured
+✅ Root dependencies installed
+✅ Service dependencies installed
+✅ Errored PM2 processes cleaned up
+✅ Services restarted from ecosystem configuration
+✅ PM2 configuration saved
+```
+
+And when running `pm2 list`:
+
+```
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ nexus-api-health   │ fork     │ 0    │ online    │ 0%       │ 68mb     │
+│ 1  │ backend-api        │ cluster  │ 0    │ online    │ 0%       │ 72mb     │
+│ 2  │ vstage             │ fork     │ 0    │ online    │ 0%       │ 58mb     │
+│ 3  │ puabomusicchain    │ cluster  │ 0    │ online    │ 0%       │ 64mb     │
+│ ... │ ...                │ ...      │ ...  │ online    │ ...      │ ...      │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+```
+
+All services should show **"online"** status with **0 restarts**.
+
+**Critical Services:**
+- ✅ nexus-api-health (port 3000) - API health monitoring
+- ✅ backend-api (port 3001) - Main backend API
+- ✅ vstage (port 3012) - V-Suite staging service
+- ✅ puabomusicchain (port 3013) - Music blockchain service
+- ✅ PostgreSQL (port 5432) - Database
+- ✅ vscreen-hollywood (port 8088) - Virtual screen service
+
+## 🔐 Security Fixes Applied
+
+The following security vulnerabilities were fixed:
+
+1. **body-parser**: Updated from 1.20.2 to 1.20.3
+   - Fixed DoS vulnerability
+
+2. **mysql2**: Updated from 3.2.0 to 3.9.8
+   - Fixed Remote Code Execution (RCE)
+   - Fixed Prototype Pollution
+   - Fixed arbitrary code injection
+
+## 📚 Documentation
+
+- **Detailed Troubleshooting:** [FIXING_DEPLOYMENT_ISSUES.md](./FIXING_DEPLOYMENT_ISSUES.md)
+- **Ecosystem Config:** [ecosystem.config.js](./ecosystem.config.js)
+- **Environment Setup:** [.env.example](./.env.example)
+
+## 🎯 Next Steps
+
+Once everything is running:
+
+1. **Setup PM2 to start on boot:**
+```bash
+pm2 save
+pm2 startup
+# Follow the instructions shown
+```
+
+2. **Configure Nginx (if needed):**
+```bash
+sudo cp nginx.conf /etc/nginx/sites-available/nexuscos.online
+sudo ln -s /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+3. **Setup SSL with Let's Encrypt:**
+```bash
+sudo certbot --nginx -d nexuscos.online -d www.nexuscos.online
+```
+
+4. **Setup monitoring:**
+```bash
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 7
+```
+
+## 💡 Tips
+
+- **Always check logs first:** `pm2 logs`
+- **Keep PM2 updated:** `npm install pm2@latest -g`
+- **Monitor resources:** `pm2 monit`
+- **Backup regularly:** Backup your database and `.env` file
+- **Use PM2 ecosystem file:** Don't start services with CLI arguments
+
+## 🆘 Need Help?
+
+If issues persist:
+
+1. Run the diagnostic scripts:
+```bash
+./quick-deployment-check.sh
+./production-audit.sh
+```
+
+2. Collect logs:
+```bash
+pm2 logs --lines 100 > pm2-logs.txt
+docker logs nexus-postgres > postgres-logs.txt
+```
+
+3. Check environment:
+```bash
+cat .env
+pm2 describe backend-api
+```
+
+## 📄 License
+
+Copyright © 2024 Nexus COS. All rights reserved.
