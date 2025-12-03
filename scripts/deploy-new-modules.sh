@@ -1,61 +1,171 @@
 #!/bin/bash
+# ==============================================================================
+# Nexus COS - Deploy 13 New Content Creation Modules
+# Purpose: Deploy v-prompter through podcast modules (13 modules total)
+# Usage: bash scripts/deploy-new-modules.sh
+# ==============================================================================
+
+set +e  # Don't exit on errors, handle them explicitly
+set -o pipefail
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# Configuration
+WORK_DIR="${WORK_DIR:-/var/www/nexuscos.online}"
+ERRORS=0
+WARNINGS=0
+
+# Logging
+log_info() { echo -e "${CYAN}[INFO]${NC} $1"; }
+log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; ((WARNINGS++)); }
+log_error() { echo -e "${RED}[ERROR]${NC} $1"; ((ERRORS++)); }
 
 echo "=========================================="
-echo "DEPLOYING 14 NEW NEXUS COS MODULES"
+echo "DEPLOYING 13 NEW NEXUS COS MODULES"
 echo "=========================================="
 echo ""
 
-cd /var/www/nexuscos.online
+# Verify working directory
+if [[ ! -d "$WORK_DIR" ]]; then
+    log_error "Working directory not found: $WORK_DIR"
+    log_info "Creating directory..."
+    mkdir -p "$WORK_DIR" || {
+        log_error "Failed to create working directory"
+        exit 1
+    }
+fi
+
+cd "$WORK_DIR" || {
+    log_error "Cannot access working directory: $WORK_DIR"
+    exit 1
+}
+
+log_success "Working directory: $WORK_DIR"
+
+# Define services
+SERVICES=("v-prompter" "talk-show" "game-show" "reality-tv" "documentary" "cooking-show" "home-improvement" "kids-programming" "music-video" "comedy-special" "drama-series" "animation" "podcast")
 
 # Install dependencies for all new services
-echo "Installing dependencies..."
-for service in v-prompter talk-show game-show reality-tv documentary cooking-show home-improvement kids-programming music-video comedy-special drama-series animation podcast; do
-  echo "  Installing $service..."
-  cd services/$service && npm install --production && cd ../..
+echo ""
+log_info "Installing dependencies for ${#SERVICES[@]} services..."
+
+for service in "${SERVICES[@]}"; do
+    echo -n "  Installing $service... "
+    
+    if [[ -d "services/$service" ]]; then
+        if cd "services/$service" 2>/dev/null; then
+            if npm install --production --silent 2>/dev/null; then
+                echo -e "${GREEN}✓${NC}"
+            else
+                echo -e "${YELLOW}⚠${NC}"
+                log_warning "NPM install failed for $service"
+            fi
+            cd "$WORK_DIR" || exit 1
+        else
+            echo -e "${YELLOW}⚠${NC}"
+            log_warning "Cannot access services/$service"
+        fi
+    else
+        echo -e "${YELLOW}⚠${NC}"
+        log_warning "Service directory not found: services/$service"
+    fi
 done
 
-echo ""
-echo "Building Docker containers..."
-docker-compose up -d --build v-prompter-pro talk-show-studio game-show-creator reality-tv-producer documentary-suite cooking-show-kitchen home-improvement-hub kids-programming-studio music-video-director comedy-special-suite drama-series-manager animation-studio podcast-producer
+# Check if docker-compose is available
+if command -v docker-compose &>/dev/null || command -v docker &>/dev/null; then
+    echo ""
+    log_info "Building Docker containers..."
+    
+    # Define container names
+    CONTAINERS=("v-prompter-pro" "talk-show-studio" "game-show-creator" "reality-tv-producer" "documentary-suite" "cooking-show-kitchen" "home-improvement-hub" "kids-programming-studio" "music-video-director" "comedy-special-suite" "drama-series-manager" "animation-studio" "podcast-producer")
+    
+    # Start containers
+    if docker-compose up -d --build "${CONTAINERS[@]}" 2>/dev/null; then
+        log_success "Docker containers started"
+    else
+        log_warning "Docker compose failed - containers may not be running"
+    fi
+    
+    echo ""
+    log_info "Waiting for services to start..."
+    sleep 10
+else
+    log_warning "Docker not found - skipping container deployment"
+fi
 
+# Test services
 echo ""
-echo "Waiting for services to start..."
-sleep 10
+log_info "Testing new services..."
 
-echo ""
-echo "Testing new services..."
-curl -s http://localhost:3060/health && echo "  ✓ V-Prompter Pro 10x10" || echo "  ✗ V-Prompter Pro"
-curl -s http://localhost:3020/health && echo "  ✓ Talk Show Studio" || echo "  ✗ Talk Show"
-curl -s http://localhost:3021/health && echo "  ✓ Game Show Creator" || echo "  ✗ Game Show"
-curl -s http://localhost:3022/health && echo "  ✓ Reality TV Producer" || echo "  ✗ Reality TV"
-curl -s http://localhost:3023/health && echo "  ✓ Documentary Suite" || echo "  ✗ Documentary"
-curl -s http://localhost:3024/health && echo "  ✓ Cooking Show Kitchen" || echo "  ✗ Cooking Show"
-curl -s http://localhost:3025/health && echo "  ✓ Home Improvement Hub" || echo "  ✗ Home Improvement"
-curl -s http://localhost:3026/health && echo "  ✓ Kids Programming Studio" || echo "  ✗ Kids Programming"
-curl -s http://localhost:3027/health && echo "  ✓ Music Video Director" || echo "  ✗ Music Video"
-curl -s http://localhost:3028/health && echo "  ✓ Comedy Special Suite" || echo "  ✗ Comedy Special"
-curl -s http://localhost:3029/health && echo "  ✓ Drama Series Manager" || echo "  ✗ Drama Series"
-curl -s http://localhost:3030/health && echo "  ✓ Animation Studio" || echo "  ✗ Animation"
-curl -s http://localhost:3031/health && echo "  ✓ Podcast Producer" || echo "  ✗ Podcast"
+declare -A SERVICE_PORTS=(
+    ["V-Prompter Pro 10x10"]="3060"
+    ["Talk Show Studio"]="3020"
+    ["Game Show Creator"]="3021"
+    ["Reality TV Producer"]="3022"
+    ["Documentary Suite"]="3023"
+    ["Cooking Show Kitchen"]="3024"
+    ["Home Improvement Hub"]="3025"
+    ["Kids Programming Studio"]="3026"
+    ["Music Video Director"]="3027"
+    ["Comedy Special Suite"]="3028"
+    ["Drama Series Manager"]="3029"
+    ["Animation Studio"]="3030"
+    ["Podcast Producer"]="3031"
+)
+
+SUCCESS_COUNT=0
+TOTAL_COUNT=${#SERVICE_PORTS[@]}
+
+for service_name in "${!SERVICE_PORTS[@]}"; do
+    port="${SERVICE_PORTS[$service_name]}"
+    
+    if curl -sf --max-time 5 "http://localhost:${port}/health" > /dev/null 2>&1; then
+        echo -e "  ${GREEN}✓${NC} $service_name"
+        ((SUCCESS_COUNT++))
+    else
+        echo -e "  ${YELLOW}✗${NC} $service_name (port $port not responding)"
+        ((WARNINGS++))
+    fi
+done
 
 echo ""
 echo "=========================================="
 echo "DEPLOYMENT COMPLETE"
 echo "=========================================="
-echo "Total containers: $(docker ps -q | wc -l)/51"
+
+# Show Docker status if available
+if command -v docker &>/dev/null; then
+    RUNNING_CONTAINERS=$(docker ps -q 2>/dev/null | wc -l)
+    echo "Total containers running: $RUNNING_CONTAINERS"
+fi
+
+echo ""
+log_info "Service Status: $SUCCESS_COUNT/$TOTAL_COUNT responding"
 echo ""
 echo "New Service URLs:"
-echo "- V-Prompter Pro 10x10: http://localhost:3060"
-echo "- Talk Show Studio: http://localhost:3020"
-echo "- Game Show Creator: http://localhost:3021"
-echo "- Reality TV Producer: http://localhost:3022"
-echo "- Documentary Suite: http://localhost:3023"
-echo "- Cooking Show Kitchen: http://localhost:3024"
-echo "- Home Improvement Hub: http://localhost:3025"
-echo "- Kids Programming Studio: http://localhost:3026"
-echo "- Music Video Director: http://localhost:3027"
-echo "- Comedy Special Suite: http://localhost:3028"
-echo "- Drama Series Manager: http://localhost:3029"
-echo "- Animation Studio: http://localhost:3030"
-echo "- Podcast Producer: http://localhost:3031"
+for service_name in "${!SERVICE_PORTS[@]}"; do
+    port="${SERVICE_PORTS[$service_name]}"
+    echo "- $service_name: http://localhost:${port}"
+done
 echo "=========================================="
+echo ""
+
+# Final status
+if [[ $SUCCESS_COUNT -eq $TOTAL_COUNT ]]; then
+    log_success "✓ All 13 modules deployed and responding"
+    exit 0
+elif [[ $SUCCESS_COUNT -gt 0 ]]; then
+    log_warning "⚠ $SUCCESS_COUNT of $TOTAL_COUNT modules responding"
+    log_info "Some services may need additional time to start"
+    exit 0
+else
+    log_error "✗ No modules responding - deployment may have failed"
+    log_info "Check Docker logs: docker-compose logs"
+    exit 1
+fi

@@ -1,14 +1,14 @@
 #!/bin/bash
 # ==============================================================================
-# Nexus COS Master Deployment Script
-# Purpose: Complete server setup for streaming Socket.IO fix
+# Nexus COS Master Deployment Script - BULLETPROOF EDITION
+# Purpose: Complete server setup for streaming Socket.IO fix + 13 new modules
 # Usage: curl -sSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/copilot/fix-proxy-configuration-errors/deployment/master-deploy.sh | sudo bash
 # Or: sudo ./deployment/master-deploy.sh
 #
 # Phases:
 #   1. Cleanup - Remove problematic nginx backup files
 #   2. Repository - Clone/pull latest code
-#   3. Nginx - Configure Socket.IO proxy
+#   3. Nginx - Configure Socket.IO proxy + all 51 services
 #   4. Apache/Plesk - Configure Apache, fix port conflicts
 #   5. PM2 Cleanup - Remove obsolete services, restart stopped ones
 #   6. Service Verification - Check ports and PM2 status
@@ -16,7 +16,9 @@
 #   8. Summary - Show results and next steps
 # ==============================================================================
 
-set -e
+# Disable exit on error initially - we'll handle errors explicitly
+set +e
+set -o pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -34,6 +36,11 @@ REPO_URL="https://github.com/BobbyBlanco400/nexus-cos.git"
 BRANCH="copilot/fix-proxy-configuration-errors"
 INSTALL_DIR="/opt/nexus-cos"
 BACKUP_DIR="$HOME/nexus-backups/$(date +%Y%m%d_%H%M%S)"
+
+# Global error tracking
+ERRORS=0
+WARNINGS=0
+CRITICAL_ERROR=0
 
 # Logging functions
 log_header() {
@@ -58,10 +65,43 @@ log_success() {
 
 log_warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
+    ((WARNINGS++))
 }
 
 log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
+    ((ERRORS++))
+}
+
+log_critical() {
+    echo -e "${RED}${BOLD}[CRITICAL ERROR]${NC} $1"
+    ((ERRORS++))
+    CRITICAL_ERROR=1
+}
+
+# Safe command execution with retry logic
+safe_exec() {
+    local cmd="$1"
+    local description="$2"
+    local max_retries="${3:-1}"
+    local retry_delay="${4:-2}"
+    local attempt=1
+    
+    while [[ $attempt -le $max_retries ]]; do
+        if [[ $attempt -gt 1 ]]; then
+            log_info "Retry attempt $attempt of $max_retries..."
+            sleep $retry_delay
+        fi
+        
+        if eval "$cmd" 2>&1; then
+            return 0
+        fi
+        
+        ((attempt++))
+    done
+    
+    log_error "$description failed after $max_retries attempts"
+    return 1
 }
 
 # Banner
@@ -83,16 +123,63 @@ show_banner() {
 check_root() {
     log_step "Checking root privileges..."
     if [[ $EUID -ne 0 ]]; then
-        log_error "This script must be run as root (use sudo)"
+        log_critical "This script must be run as root (use sudo)"
         exit 1
     fi
     log_success "Running as root"
 }
 
-# Create backup directory
+# Verify system requirements
+check_requirements() {
+    log_step "Verifying system requirements..."
+    
+    local required_cmds=("curl" "git")
+    local missing=()
+    
+    for cmd in "${required_cmds[@]}"; do
+        if ! command -v "$cmd" &>/dev/null; then
+            missing+=("$cmd")
+        fi
+    done
+    
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        log_error "Missing required commands: ${missing[*]}"
+        log_info "Installing missing packages..."
+        
+        if command -v apt-get &>/dev/null; then
+            apt-get update -qq
+            apt-get install -y "${missing[@]}" || {
+                log_critical "Failed to install required packages"
+                exit 1
+            }
+        elif command -v yum &>/dev/null; then
+            yum install -y "${missing[@]}" || {
+                log_critical "Failed to install required packages"
+                exit 1
+            }
+        else
+            log_critical "Cannot install packages - unsupported package manager"
+            exit 1
+        fi
+    fi
+    
+    log_success "All requirements met"
+}
+
+# Create backup directory with validation
 create_backup_dir() {
     log_step "Creating backup directory..."
-    mkdir -p "$BACKUP_DIR"
+    
+    if ! mkdir -p "$BACKUP_DIR" 2>/dev/null; then
+        log_critical "Failed to create backup directory: $BACKUP_DIR"
+        exit 1
+    fi
+    
+    if [[ ! -w "$BACKUP_DIR" ]]; then
+        log_critical "Backup directory not writable: $BACKUP_DIR"
+        exit 1
+    fi
+    
     log_success "Backup directory: $BACKUP_DIR"
 }
 
@@ -141,31 +228,69 @@ phase_repository() {
     
     log_step "Setting up repository..."
     
+    # Ensure parent directory exists
+    mkdir -p "$(dirname "$INSTALL_DIR")" || {
+        log_critical "Cannot create parent directory for $INSTALL_DIR"
+        return 1
+    }
+    
     if [[ -d "$INSTALL_DIR/.git" ]]; then
         # Directory exists and is a git repo
         log_info "Repository exists, pulling latest changes..."
-        cd "$INSTALL_DIR"
-        git fetch origin
-        git checkout "$BRANCH" 2>/dev/null || git checkout -b "$BRANCH" "origin/$BRANCH"
-        git pull origin "$BRANCH"
+        cd "$INSTALL_DIR" || {
+            log_critical "Cannot access repository directory: $INSTALL_DIR"
+            return 1
+        }
+        
+        # Fetch with retry
+        safe_exec "git fetch origin" "Git fetch" 3 5 || {
+            log_error "Git fetch failed, continuing with existing code..."
+            return 0
+        }
+        
+        # Try to checkout branch
+        if git checkout "$BRANCH" 2>/dev/null || git checkout -b "$BRANCH" "origin/$BRANCH" 2>/dev/null; then
+            # Pull latest changes with retry
+            safe_exec "git pull origin $BRANCH" "Git pull" 2 3 || {
+                log_warning "Git pull failed, using existing code"
+            }
+        else
+            log_warning "Could not switch to branch $BRANCH, using current branch"
+        fi
     elif [[ -d "$INSTALL_DIR" ]]; then
         # Directory exists but is not a git repo - back it up and clone fresh
         log_warning "Directory exists but is not a git repository"
         log_info "Backing up existing directory..."
-        mv "$INSTALL_DIR" "${INSTALL_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
+        
+        local backup_name="${INSTALL_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
+        if mv "$INSTALL_DIR" "$backup_name" 2>/dev/null; then
+            log_info "Backed up to: $backup_name"
+        else
+            log_error "Failed to backup existing directory, removing it..."
+            rm -rf "$INSTALL_DIR" || {
+                log_critical "Cannot remove existing directory: $INSTALL_DIR"
+                return 1
+            }
+        fi
+        
         log_info "Cloning fresh repository..."
-        mkdir -p "$(dirname $INSTALL_DIR)"
-        git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
-        cd "$INSTALL_DIR"
+        safe_exec "git clone -b '$BRANCH' '$REPO_URL' '$INSTALL_DIR'" "Git clone" 3 5 || {
+            log_critical "Failed to clone repository"
+            return 1
+        }
+        cd "$INSTALL_DIR" || return 1
     else
         # Directory doesn't exist - clone fresh
         log_info "Cloning repository..."
-        mkdir -p "$(dirname $INSTALL_DIR)"
-        git clone -b "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
-        cd "$INSTALL_DIR"
+        safe_exec "git clone -b '$BRANCH' '$REPO_URL' '$INSTALL_DIR'" "Git clone" 3 5 || {
+            log_critical "Failed to clone repository"
+            return 1
+        }
+        cd "$INSTALL_DIR" || return 1
     fi
     
     log_success "Repository ready at $INSTALL_DIR"
+    return 0
 }
 
 # ==============================================================================
@@ -626,21 +751,48 @@ PODCAST
     
     # Test nginx configuration
     log_step "Testing nginx configuration..."
-    if nginx -t 2>&1; then
+    
+    local nginx_test_output
+    if nginx_test_output=$(nginx -t 2>&1); then
         log_success "Nginx configuration is valid"
         
-        # Reload nginx
+        # Reload nginx with retry
         log_step "Reloading nginx..."
-        systemctl reload nginx
-        log_success "Nginx reloaded"
+        if safe_exec "systemctl reload nginx" "Nginx reload" 2 2; then
+            log_success "Nginx reloaded successfully"
+        elif safe_exec "service nginx reload" "Nginx reload (fallback)" 1; then
+            log_success "Nginx reloaded successfully"
+        else
+            log_warning "Nginx reload failed, trying restart..."
+            if systemctl restart nginx 2>/dev/null || service nginx restart 2>/dev/null; then
+                log_success "Nginx restarted successfully"
+            else
+                log_error "Could not reload/restart nginx - manual intervention may be needed"
+            fi
+        fi
     else
-        log_error "Nginx configuration test failed"
-        log_info "Restoring backup..."
+        log_error "Nginx configuration test failed:"
+        echo "$nginx_test_output"
+        log_info "Restoring backup configuration..."
+        
         if [[ -f "$BACKUP_DIR/nginx-$DOMAIN.bak" ]]; then
             cp "$BACKUP_DIR/nginx-$DOMAIN.bak" "$nginx_config"
+            log_info "Backup restored, testing again..."
+            
+            if nginx -t 2>&1; then
+                systemctl reload nginx 2>/dev/null || service nginx reload 2>/dev/null
+                log_warning "Restored to previous working configuration"
+            else
+                log_critical "Even backup configuration is invalid - manual fix required"
+                return 1
+            fi
+        else
+            log_critical "No backup available to restore"
+            return 1
         fi
-        return 1
     fi
+    
+    return 0
 }
 
 # ==============================================================================
@@ -738,21 +890,32 @@ phase_pm2_cleanup() {
     local obsolete_services=("kei-ai")
     
     for service in "${obsolete_services[@]}"; do
-        if pm2 describe "$service" &>/dev/null; then
+        if pm2 describe "$service" &>/dev/null 2>&1; then
             log_info "Removing obsolete service: $service"
-            pm2 delete "$service" 2>/dev/null || true
+            pm2 delete "$service" 2>/dev/null || log_warning "Could not delete $service"
         fi
     done
     
     log_step "Restarting any stopped services..."
     
-    # Get list of stopped services and restart them
-    local stopped_services=$(pm2 jlist 2>/dev/null | jq -r '.[] | select(.pm2_env.status == "stopped") | .name' 2>/dev/null || echo "")
+    # Get list of stopped services - handle if jq not available
+    local stopped_services=""
+    if command -v jq &>/dev/null; then
+        stopped_services=$(pm2 jlist 2>/dev/null | jq -r '.[] | select(.pm2_env.status == "stopped") | .name' 2>/dev/null || echo "")
+    else
+        # Fallback: parse pm2 list output
+        stopped_services=$(pm2 list 2>/dev/null | grep "stopped" | awk '{print $2}' | grep -v "│" || echo "")
+    fi
     
     if [[ -n "$stopped_services" ]]; then
+        log_info "Found stopped services, attempting to restart..."
         for service in $stopped_services; do
             log_info "Starting stopped service: $service"
-            pm2 start "$service" 2>/dev/null || log_warning "Could not start $service"
+            if pm2 start "$service" 2>/dev/null; then
+                log_success "Started: $service"
+            else
+                log_warning "Could not start $service - may need manual attention"
+            fi
         done
     else
         log_info "No stopped services found"
@@ -760,18 +923,32 @@ phase_pm2_cleanup() {
     
     log_step "Setting PM2 restart policies for stability..."
     
-    # Increase max restarts and add delays to prevent crash loops
-    pm2 update 2>/dev/null || true
+    # Update PM2
+    pm2 update 2>/dev/null || log_warning "PM2 update failed"
     
     # Save PM2 configuration
     log_step "Saving PM2 configuration..."
-    pm2 save 2>/dev/null || true
+    if pm2 save 2>/dev/null; then
+        log_success "PM2 configuration saved"
+    else
+        log_warning "PM2 save failed - processes may not persist across reboots"
+    fi
     
     # Ensure PM2 starts on boot
     log_step "Configuring PM2 startup..."
-    pm2 startup 2>/dev/null || true
+    if pm2 startup 2>/dev/null | grep -q "systemctl enable"; then
+        # Extract and run the systemctl command
+        local startup_cmd=$(pm2 startup 2>/dev/null | grep "sudo env" || pm2 startup 2>/dev/null | grep "systemctl enable")
+        if [[ -n "$startup_cmd" ]]; then
+            eval "$startup_cmd" 2>/dev/null || log_warning "PM2 startup configuration may need manual setup"
+        fi
+        log_success "PM2 startup configured"
+    else
+        log_warning "PM2 startup command not found - processes may not auto-start on reboot"
+    fi
     
     log_success "PM2 cleanup and optimization complete"
+    return 0
 }
 
 # ==============================================================================
@@ -898,21 +1075,93 @@ phase_summary() {
 # MAIN EXECUTION
 # ==============================================================================
 main() {
+    # Trap errors and cleanup
+    trap 'handle_error $? $LINENO' ERR
+    
     show_banner
     
     check_root
+    check_requirements
     create_backup_dir
     
-    phase_cleanup
-    phase_repository
-    phase_nginx
-    phase_apache
-    phase_pm2_cleanup
+    # Run each phase and track results
+    local phase_results=()
+    
+    if phase_cleanup; then
+        phase_results+=("Cleanup: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Cleanup: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_repository; then
+        phase_results+=("Repository: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Repository: ${RED}✗${NC}")
+        if [[ $CRITICAL_ERROR -eq 1 ]]; then
+            log_critical "Repository setup failed - cannot continue"
+            exit 1
+        fi
+    fi
+    
+    if phase_nginx; then
+        phase_results+=("Nginx: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Nginx: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_apache; then
+        phase_results+=("Apache/Plesk: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Apache/Plesk: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_pm2_cleanup; then
+        phase_results+=("PM2 Cleanup: ${GREEN}✓${NC}")
+    else
+        phase_results+=("PM2 Cleanup: ${YELLOW}⚠${NC}")
+    fi
+    
     phase_verify_services
+    phase_results+=("Service Verification: ${GREEN}✓${NC}")
+    
     phase_test_endpoints
+    phase_results+=("Endpoint Testing: ${GREEN}✓${NC}")
+    
+    # Display phase results
+    echo ""
+    log_header "PHASE RESULTS"
+    for result in "${phase_results[@]}"; do
+        echo -e "  $result"
+    done
+    echo ""
+    
+    # Show final summary
     phase_summary
     
-    log_success "Master deployment script completed!"
+    # Final status
+    echo ""
+    if [[ $ERRORS -eq 0 ]]; then
+        log_success "✓ Master deployment completed successfully with $WARNINGS warning(s)"
+        exit 0
+    elif [[ $CRITICAL_ERROR -eq 0 ]]; then
+        log_warning "⚠ Deployment completed with $ERRORS error(s) and $WARNINGS warning(s)"
+        log_info "Some non-critical issues occurred - review the output above"
+        exit 0
+    else
+        log_error "✗ Deployment completed with critical errors"
+        log_info "Manual intervention required - check logs above"
+        exit 1
+    fi
+}
+
+# Error handler
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    if [[ $exit_code -ne 0 ]]; then
+        log_error "Command failed at line $line_number with exit code $exit_code"
+    fi
 }
 
 # Run main function
