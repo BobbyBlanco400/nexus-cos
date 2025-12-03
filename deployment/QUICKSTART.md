@@ -1,15 +1,59 @@
 # Nexus COS Production Deployment - Quick Start Guide
 
-## 🚀 One-Line Fix
+## 🚀 Repository Location First!
 
-Run this script on your production server to automatically fix all deployment issues:
+**IMPORTANT**: First, locate where your nexus-cos repository is on your server.
+
+### Option A: Use the Auto-Locator Script (Easiest)
+
+Download and run the repository finder:
 
 ```bash
-cd /var/www/nexuscos.online/nexus-cos
+# Download the finder script
+curl -o /tmp/find-and-deploy.sh https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/copilot/fix-apache2-service-issue/find-and-deploy.sh
+
+# Make it executable and run
+chmod +x /tmp/find-and-deploy.sh
+sudo /tmp/find-and-deploy.sh
+```
+
+This script will:
+- Automatically find your nexus-cos repository
+- Pull the latest fixes
+- Run the deployment script
+
+### Option B: Find Repository Manually
+
+Find your repository location:
+
+```bash
+# Search for the repository
+sudo find / -name 'ecosystem.config.js' -type f 2>/dev/null | grep nexus
+
+# Or check common locations:
+ls -la /var/www/nexuscos.online/
+ls -la /opt/nexus-cos/
+ls -la /root/nexus-cos/
+```
+
+Once you find it, navigate there and run:
+
+```bash
+cd /path/to/your/nexus-cos  # Use the actual path you found
+git pull origin copilot/fix-apache2-service-issue
 ./deployment/master-deployment-fix.sh
 ```
 
-This will:
+### Common Error: "No such file or directory"
+
+If you see this error:
+```
+-bash: cd: /var/www/nexuscos.online/nexus-cos: No such file or directory
+```
+
+It means the repository path is different on your server. Use Option A or B above to find the correct location.
+
+## 🛠️ What the Fix Does
 - ✓ Fix Nginx port configuration
 - ✓ Resolve Apache2/Nginx conflicts
 - ✓ Restart stopped PM2 services
