@@ -315,6 +315,310 @@ STUDIOAI
             mv /tmp/nginx-temp.conf "$nginx_config"
             log_success "/studio-ai route added"
         fi
+        
+        # Add routes for 14 new content creation modules
+        log_info "Adding routes for 14 new content creation modules..."
+        
+        # V-Prompter Pro 10x10 (port 3060)
+        if ! grep -q "location /v-prompter" "$nginx_config"; then
+            cat > /tmp/v-prompter-config.txt << 'VPROMPTER'
+
+    # V-Prompter Pro 10x10
+    location /v-prompter {
+        proxy_pass http://127.0.0.1:3060;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+VPROMPTER
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/v-prompter-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Talk Show Studio (port 3020) - Note: this might conflict with creator-hub, check port assignments
+        if ! grep -q "location /talk-show" "$nginx_config"; then
+            cat > /tmp/talk-show-config.txt << 'TALKSHOW'
+
+    # Talk Show Studio
+    location /talk-show {
+        proxy_pass http://127.0.0.1:3020;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+TALKSHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/talk-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Game Show Creator (port 3021)
+        if ! grep -q "location /game-show" "$nginx_config"; then
+            cat > /tmp/game-show-config.txt << 'GAMESHOW'
+
+    # Game Show Creator
+    location /game-show {
+        proxy_pass http://127.0.0.1:3021;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+GAMESHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/game-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Reality TV Producer (port 3022)
+        if ! grep -q "location /reality-tv" "$nginx_config"; then
+            cat > /tmp/reality-tv-config.txt << 'REALITYTV'
+
+    # Reality TV Producer
+    location /reality-tv {
+        proxy_pass http://127.0.0.1:3022;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+REALITYTV
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/reality-tv-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Documentary Suite (port 3023)
+        if ! grep -q "location /documentary" "$nginx_config"; then
+            cat > /tmp/documentary-config.txt << 'DOCUMENTARY'
+
+    # Documentary Suite
+    location /documentary {
+        proxy_pass http://127.0.0.1:3023;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+DOCUMENTARY
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/documentary-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Cooking Show Kitchen (port 3024)
+        if ! grep -q "location /cooking-show" "$nginx_config"; then
+            cat > /tmp/cooking-show-config.txt << 'COOKINGSHOW'
+
+    # Cooking Show Kitchen
+    location /cooking-show {
+        proxy_pass http://127.0.0.1:3024;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+COOKINGSHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/cooking-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Home Improvement Hub (port 3025)
+        if ! grep -q "location /home-improvement" "$nginx_config"; then
+            cat > /tmp/home-improvement-config.txt << 'HOMEIMPROVEMENT'
+
+    # Home Improvement Hub
+    location /home-improvement {
+        proxy_pass http://127.0.0.1:3025;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+HOMEIMPROVEMENT
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/home-improvement-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Kids Programming Studio (port 3026)
+        if ! grep -q "location /kids-programming" "$nginx_config"; then
+            cat > /tmp/kids-programming-config.txt << 'KIDSPROGRAMMING'
+
+    # Kids Programming Studio
+    location /kids-programming {
+        proxy_pass http://127.0.0.1:3026;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+KIDSPROGRAMMING
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/kids-programming-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Music Video Director (port 3027)
+        if ! grep -q "location /music-video" "$nginx_config"; then
+            cat > /tmp/music-video-config.txt << 'MUSICVIDEO'
+
+    # Music Video Director
+    location /music-video {
+        proxy_pass http://127.0.0.1:3027;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+MUSICVIDEO
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/music-video-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Comedy Special Suite (port 3028)
+        if ! grep -q "location /comedy-special" "$nginx_config"; then
+            cat > /tmp/comedy-special-config.txt << 'COMEDYSPECIAL'
+
+    # Comedy Special Suite
+    location /comedy-special {
+        proxy_pass http://127.0.0.1:3028;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+COMEDYSPECIAL
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/comedy-special-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Drama Series Manager (port 3029)
+        if ! grep -q "location /drama-series" "$nginx_config"; then
+            cat > /tmp/drama-series-config.txt << 'DRAMASERIES'
+
+    # Drama Series Manager
+    location /drama-series {
+        proxy_pass http://127.0.0.1:3029;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+DRAMASERIES
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/drama-series-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Animation Studio (port 3030)
+        if ! grep -q "location /animation" "$nginx_config"; then
+            cat > /tmp/animation-config.txt << 'ANIMATION'
+
+    # Animation Studio
+    location /animation {
+        proxy_pass http://127.0.0.1:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+ANIMATION
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/animation-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Podcast Producer (port 3031)
+        if ! grep -q "location /podcast" "$nginx_config"; then
+            cat > /tmp/podcast-config.txt << 'PODCAST'
+
+    # Podcast Producer
+    location /podcast {
+        proxy_pass http://127.0.0.1:3031;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+PODCAST
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/podcast-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        log_success "Added nginx proxy routes for all 14 new content creation modules"
     else
         log_warning "No nginx config found for $DOMAIN"
         log_info "You may need to create the nginx configuration manually"
