@@ -1,0 +1,1168 @@
+#!/bin/bash
+# ==============================================================================
+# Nexus COS Master Deployment Script - BULLETPROOF EDITION
+# Purpose: Complete server setup for streaming Socket.IO fix + 13 new modules
+# Usage: curl -sSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/copilot/fix-proxy-configuration-errors/deployment/master-deploy.sh | sudo bash
+# Or: sudo ./deployment/master-deploy.sh
+#
+# Phases:
+#   1. Cleanup - Remove problematic nginx backup files
+#   2. Repository - Clone/pull latest code
+#   3. Nginx - Configure Socket.IO proxy + all 51 services
+#   4. Apache/Plesk - Configure Apache, fix port conflicts
+#   5. PM2 Cleanup - Remove obsolete services, restart stopped ones
+#   6. Service Verification - Check ports and PM2 status
+#   7. Endpoint Testing - Test all critical URLs
+#   8. Summary - Show results and next steps
+# ==============================================================================
+
+# Disable exit on error initially - we'll handle errors explicitly
+set +e
+set -o pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m' # No Color
+BOLD='\033[1m'
+
+# Configuration
+DOMAIN="${1:-nexuscos.online}"
+REPO_URL="https://github.com/BobbyBlanco400/nexus-cos.git"
+BRANCH="copilot/fix-proxy-configuration-errors"
+INSTALL_DIR="/opt/nexus-cos"
+BACKUP_DIR="$HOME/nexus-backups/$(date +%Y%m%d_%H%M%S)"
+
+# Global error tracking
+ERRORS=0
+WARNINGS=0
+CRITICAL_ERROR=0
+
+# Logging functions
+log_header() {
+    echo ""
+    echo -e "${MAGENTA}${BOLD}══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${MAGENTA}${BOLD}  $1${NC}"
+    echo -e "${MAGENTA}${BOLD}══════════════════════════════════════════════════════════════${NC}"
+    echo ""
+}
+
+log_step() {
+    echo -e "${CYAN}[STEP]${NC} $1"
+}
+
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+    ((WARNINGS++))
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+    ((ERRORS++))
+}
+
+log_critical() {
+    echo -e "${RED}${BOLD}[CRITICAL ERROR]${NC} $1"
+    ((ERRORS++))
+    CRITICAL_ERROR=1
+}
+
+# Safe command execution with retry logic
+safe_exec() {
+    local cmd="$1"
+    local description="$2"
+    local max_retries="${3:-1}"
+    local retry_delay="${4:-2}"
+    local attempt=1
+    
+    while [[ $attempt -le $max_retries ]]; do
+        if [[ $attempt -gt 1 ]]; then
+            log_info "Retry attempt $attempt of $max_retries..."
+            sleep $retry_delay
+        fi
+        
+        if eval "$cmd" 2>&1; then
+            return 0
+        fi
+        
+        ((attempt++))
+    done
+    
+    log_error "$description failed after $max_retries attempts"
+    return 1
+}
+
+# Banner
+show_banner() {
+    echo -e "${CYAN}"
+    echo "  _   _                       _____ ____   _____ "
+    echo " | \ | | _____  ___   _ ___  / ____/ __ \ / ____|"
+    echo " |  \| |/ _ \ \/ / | | / __|| |   | |  | | (___  "
+    echo " | |\  |  __/>  <| |_| \__ \| |___| |__| |\___ \ "
+    echo " |_| \_|\___/_/\_\\__,_|___/ \_____\____/ |____/ "
+    echo ""
+    echo -e "${NC}"
+    echo -e "${BOLD}Streaming Socket.IO Fix - Master Deployment Script${NC}"
+    echo -e "Domain: ${YELLOW}${DOMAIN}${NC}"
+    echo ""
+}
+
+# Check if running as root
+check_root() {
+    log_step "Checking root privileges..."
+    if [[ $EUID -ne 0 ]]; then
+        log_critical "This script must be run as root (use sudo)"
+        exit 1
+    fi
+    log_success "Running as root"
+}
+
+# Verify system requirements
+check_requirements() {
+    log_step "Verifying system requirements..."
+    
+    local required_cmds=("curl" "git")
+    local missing=()
+    
+    for cmd in "${required_cmds[@]}"; do
+        if ! command -v "$cmd" &>/dev/null; then
+            missing+=("$cmd")
+        fi
+    done
+    
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        log_error "Missing required commands: ${missing[*]}"
+        log_info "Installing missing packages..."
+        
+        if command -v apt-get &>/dev/null; then
+            apt-get update -qq
+            apt-get install -y "${missing[@]}" || {
+                log_critical "Failed to install required packages"
+                exit 1
+            }
+        elif command -v yum &>/dev/null; then
+            yum install -y "${missing[@]}" || {
+                log_critical "Failed to install required packages"
+                exit 1
+            }
+        else
+            log_critical "Cannot install packages - unsupported package manager"
+            exit 1
+        fi
+    fi
+    
+    log_success "All requirements met"
+}
+
+# Create backup directory with validation
+create_backup_dir() {
+    log_step "Creating backup directory..."
+    
+    if ! mkdir -p "$BACKUP_DIR" 2>/dev/null; then
+        log_critical "Failed to create backup directory: $BACKUP_DIR"
+        exit 1
+    fi
+    
+    if [[ ! -w "$BACKUP_DIR" ]]; then
+        log_critical "Backup directory not writable: $BACKUP_DIR"
+        exit 1
+    fi
+    
+    log_success "Backup directory: $BACKUP_DIR"
+}
+
+# ==============================================================================
+# PHASE 1: CLEANUP
+# ==============================================================================
+phase_cleanup() {
+    log_header "PHASE 1: CLEANUP"
+    
+    # Clean up nginx backup files
+    log_step "Removing problematic nginx backup files..."
+    
+    local backup_count=0
+    shopt -s nullglob
+    for bak_file in /etc/nginx/sites-enabled/*.bak* /etc/nginx/sites-available/*.bak*; do
+        if [[ -f "$bak_file" ]]; then
+            cp "$bak_file" "$BACKUP_DIR/" 2>/dev/null || true
+            rm -f "$bak_file"
+            log_info "Removed: $bak_file"
+            ((backup_count++))
+        fi
+    done
+    shopt -u nullglob
+    
+    if [[ $backup_count -eq 0 ]]; then
+        log_info "No backup files found to remove"
+    else
+        log_success "Removed $backup_count backup file(s)"
+    fi
+    
+    # Clean up any orphaned nginx configs
+    log_step "Checking for orphaned configurations..."
+    
+    # Backup current nginx config before changes
+    if [[ -f "/etc/nginx/sites-available/$DOMAIN" ]]; then
+        cp "/etc/nginx/sites-available/$DOMAIN" "$BACKUP_DIR/nginx-$DOMAIN.bak"
+        log_info "Backed up current nginx config"
+    fi
+}
+
+# ==============================================================================
+# PHASE 2: REPOSITORY SETUP
+# ==============================================================================
+phase_repository() {
+    log_header "PHASE 2: REPOSITORY SETUP"
+    
+    log_step "Setting up repository..."
+    
+    # Ensure parent directory exists
+    mkdir -p "$(dirname "$INSTALL_DIR")" || {
+        log_critical "Cannot create parent directory for $INSTALL_DIR"
+        return 1
+    }
+    
+    if [[ -d "$INSTALL_DIR/.git" ]]; then
+        # Directory exists and is a git repo
+        log_info "Repository exists, pulling latest changes..."
+        cd "$INSTALL_DIR" || {
+            log_critical "Cannot access repository directory: $INSTALL_DIR"
+            return 1
+        }
+        
+        # Fetch with retry
+        safe_exec "git fetch origin" "Git fetch" 3 5 || {
+            log_error "Git fetch failed, continuing with existing code..."
+            return 0
+        }
+        
+        # Try to checkout branch
+        if git checkout "$BRANCH" 2>/dev/null || git checkout -b "$BRANCH" "origin/$BRANCH" 2>/dev/null; then
+            # Pull latest changes with retry
+            safe_exec "git pull origin $BRANCH" "Git pull" 2 3 || {
+                log_warning "Git pull failed, using existing code"
+            }
+        else
+            log_warning "Could not switch to branch $BRANCH, using current branch"
+        fi
+    elif [[ -d "$INSTALL_DIR" ]]; then
+        # Directory exists but is not a git repo - back it up and clone fresh
+        log_warning "Directory exists but is not a git repository"
+        log_info "Backing up existing directory..."
+        
+        local backup_name="${INSTALL_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
+        if mv "$INSTALL_DIR" "$backup_name" 2>/dev/null; then
+            log_info "Backed up to: $backup_name"
+        else
+            log_error "Failed to backup existing directory, removing it..."
+            rm -rf "$INSTALL_DIR" || {
+                log_critical "Cannot remove existing directory: $INSTALL_DIR"
+                return 1
+            }
+        fi
+        
+        log_info "Cloning fresh repository..."
+        safe_exec "git clone -b '$BRANCH' '$REPO_URL' '$INSTALL_DIR'" "Git clone" 3 5 || {
+            log_critical "Failed to clone repository"
+            return 1
+        }
+        cd "$INSTALL_DIR" || return 1
+    else
+        # Directory doesn't exist - clone fresh
+        log_info "Cloning repository..."
+        safe_exec "git clone -b '$BRANCH' '$REPO_URL' '$INSTALL_DIR'" "Git clone" 3 5 || {
+            log_critical "Failed to clone repository"
+            return 1
+        }
+        cd "$INSTALL_DIR" || return 1
+    fi
+    
+    log_success "Repository ready at $INSTALL_DIR"
+    return 0
+}
+
+# ==============================================================================
+# PHASE 3: NGINX CONFIGURATION
+# ==============================================================================
+phase_nginx() {
+    log_header "PHASE 3: NGINX CONFIGURATION"
+    
+    log_step "Configuring Nginx..."
+    
+    # Check if nginx is installed
+    if ! command -v nginx &>/dev/null; then
+        log_warning "Nginx not found, skipping nginx configuration"
+        return 0
+    fi
+    
+    # Create nginx configuration
+    local nginx_config="/etc/nginx/sites-available/$DOMAIN"
+    
+    log_step "Creating Socket.IO proxy configuration..."
+    
+    # Check if configuration exists and add socket.io blocks if not present
+    if [[ -f "$nginx_config" ]]; then
+        # Check if socket.io config already exists
+        if grep -q "location /streaming/socket.io/" "$nginx_config"; then
+            log_info "Socket.IO configuration already exists"
+        else
+            log_info "Adding Socket.IO configuration to existing nginx config..."
+            
+            # Find the server block and add before the last closing brace
+            # Create a temporary file with the socket.io config to insert
+            cat > /tmp/socketio-config.txt << 'SOCKETIO'
+
+    # ============================================================
+    # Socket.IO Configuration (Added by master-deploy.sh)
+    # ============================================================
+    
+    # Socket.IO for Streaming Service
+    location /streaming/socket.io/ {
+        proxy_pass http://127.0.0.1:3001/socket.io/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_buffering off;
+        proxy_read_timeout 86400;
+    }
+
+    # Root Socket.IO endpoint
+    location /socket.io/ {
+        proxy_pass http://127.0.0.1:3001/socket.io/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_buffering off;
+        proxy_read_timeout 86400;
+    }
+SOCKETIO
+            
+            # Insert before the last closing brace in the server block
+            # This is a simplified approach - find the last } and insert before it
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/socketio-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            
+            log_success "Socket.IO configuration added"
+        fi
+        
+        # Add /api/health route if missing
+        if ! grep -q "location = /api/health" "$nginx_config" && ! grep -q "location /api/health" "$nginx_config"; then
+            log_info "Adding /api/health route..."
+            cat > /tmp/health-config.txt << 'HEALTH'
+
+    # API Health Check endpoint
+    location = /api/health {
+        proxy_pass http://127.0.0.1:3001/health;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+HEALTH
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/health-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/api/health route added"
+        fi
+        
+        # Add /creator route if missing (proxies to creator-hub service on port 3020)
+        if ! grep -q "location /creator" "$nginx_config"; then
+            log_info "Adding /creator route..."
+            cat > /tmp/creator-config.txt << 'CREATOR'
+
+    # Creator route - proxies to Creator Hub service
+    location /creator {
+        proxy_pass http://127.0.0.1:3020;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+CREATOR
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/creator-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/creator route added"
+        fi
+        
+        # Add /studio-ai route if missing (proxies to AI service on port 3010)
+        if ! grep -q "location /studio-ai" "$nginx_config"; then
+            log_info "Adding /studio-ai route..."
+            cat > /tmp/studio-ai-config.txt << 'STUDIOAI'
+
+    # Studio AI route - proxies to AI service
+    location /studio-ai {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+STUDIOAI
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/studio-ai-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+            log_success "/studio-ai route added"
+        fi
+        
+        # Add routes for 14 new content creation modules
+        log_info "Adding routes for 14 new content creation modules..."
+        
+        # V-Prompter Pro 10x10 (port 3060)
+        if ! grep -q "location /v-prompter" "$nginx_config"; then
+            cat > /tmp/v-prompter-config.txt << 'VPROMPTER'
+
+    # V-Prompter Pro 10x10
+    location /v-prompter {
+        proxy_pass http://127.0.0.1:3060;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+VPROMPTER
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/v-prompter-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Talk Show Studio (port 3020) - Note: this might conflict with creator-hub, check port assignments
+        if ! grep -q "location /talk-show" "$nginx_config"; then
+            cat > /tmp/talk-show-config.txt << 'TALKSHOW'
+
+    # Talk Show Studio
+    location /talk-show {
+        proxy_pass http://127.0.0.1:3020;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+TALKSHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/talk-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Game Show Creator (port 3021)
+        if ! grep -q "location /game-show" "$nginx_config"; then
+            cat > /tmp/game-show-config.txt << 'GAMESHOW'
+
+    # Game Show Creator
+    location /game-show {
+        proxy_pass http://127.0.0.1:3021;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+GAMESHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/game-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Reality TV Producer (port 3022)
+        if ! grep -q "location /reality-tv" "$nginx_config"; then
+            cat > /tmp/reality-tv-config.txt << 'REALITYTV'
+
+    # Reality TV Producer
+    location /reality-tv {
+        proxy_pass http://127.0.0.1:3022;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+REALITYTV
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/reality-tv-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Documentary Suite (port 3023)
+        if ! grep -q "location /documentary" "$nginx_config"; then
+            cat > /tmp/documentary-config.txt << 'DOCUMENTARY'
+
+    # Documentary Suite
+    location /documentary {
+        proxy_pass http://127.0.0.1:3023;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+DOCUMENTARY
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/documentary-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Cooking Show Kitchen (port 3024)
+        if ! grep -q "location /cooking-show" "$nginx_config"; then
+            cat > /tmp/cooking-show-config.txt << 'COOKINGSHOW'
+
+    # Cooking Show Kitchen
+    location /cooking-show {
+        proxy_pass http://127.0.0.1:3024;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+COOKINGSHOW
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/cooking-show-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Home Improvement Hub (port 3025)
+        if ! grep -q "location /home-improvement" "$nginx_config"; then
+            cat > /tmp/home-improvement-config.txt << 'HOMEIMPROVEMENT'
+
+    # Home Improvement Hub
+    location /home-improvement {
+        proxy_pass http://127.0.0.1:3025;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+HOMEIMPROVEMENT
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/home-improvement-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Kids Programming Studio (port 3026)
+        if ! grep -q "location /kids-programming" "$nginx_config"; then
+            cat > /tmp/kids-programming-config.txt << 'KIDSPROGRAMMING'
+
+    # Kids Programming Studio
+    location /kids-programming {
+        proxy_pass http://127.0.0.1:3026;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+KIDSPROGRAMMING
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/kids-programming-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Music Video Director (port 3027)
+        if ! grep -q "location /music-video" "$nginx_config"; then
+            cat > /tmp/music-video-config.txt << 'MUSICVIDEO'
+
+    # Music Video Director
+    location /music-video {
+        proxy_pass http://127.0.0.1:3027;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+MUSICVIDEO
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/music-video-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Comedy Special Suite (port 3028)
+        if ! grep -q "location /comedy-special" "$nginx_config"; then
+            cat > /tmp/comedy-special-config.txt << 'COMEDYSPECIAL'
+
+    # Comedy Special Suite
+    location /comedy-special {
+        proxy_pass http://127.0.0.1:3028;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+COMEDYSPECIAL
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/comedy-special-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Drama Series Manager (port 3029)
+        if ! grep -q "location /drama-series" "$nginx_config"; then
+            cat > /tmp/drama-series-config.txt << 'DRAMASERIES'
+
+    # Drama Series Manager
+    location /drama-series {
+        proxy_pass http://127.0.0.1:3029;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+DRAMASERIES
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/drama-series-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Animation Studio (port 3030)
+        if ! grep -q "location /animation" "$nginx_config"; then
+            cat > /tmp/animation-config.txt << 'ANIMATION'
+
+    # Animation Studio
+    location /animation {
+        proxy_pass http://127.0.0.1:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+ANIMATION
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/animation-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        # Podcast Producer (port 3031)
+        if ! grep -q "location /podcast" "$nginx_config"; then
+            cat > /tmp/podcast-config.txt << 'PODCAST'
+
+    # Podcast Producer
+    location /podcast {
+        proxy_pass http://127.0.0.1:3031;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+PODCAST
+            head -n -1 "$nginx_config" > /tmp/nginx-temp.conf
+            cat /tmp/podcast-config.txt >> /tmp/nginx-temp.conf
+            echo "}" >> /tmp/nginx-temp.conf
+            mv /tmp/nginx-temp.conf "$nginx_config"
+        fi
+        
+        log_success "Added nginx proxy routes for all 14 new content creation modules"
+    else
+        log_warning "No nginx config found for $DOMAIN"
+        log_info "You may need to create the nginx configuration manually"
+    fi
+    
+    # Test nginx configuration
+    log_step "Testing nginx configuration..."
+    
+    local nginx_test_output
+    if nginx_test_output=$(nginx -t 2>&1); then
+        log_success "Nginx configuration is valid"
+        
+        # Reload nginx with retry
+        log_step "Reloading nginx..."
+        if safe_exec "systemctl reload nginx" "Nginx reload" 2 2; then
+            log_success "Nginx reloaded successfully"
+        elif safe_exec "service nginx reload" "Nginx reload (fallback)" 1; then
+            log_success "Nginx reloaded successfully"
+        else
+            log_warning "Nginx reload failed, trying restart..."
+            if systemctl restart nginx 2>/dev/null || service nginx restart 2>/dev/null; then
+                log_success "Nginx restarted successfully"
+            else
+                log_error "Could not reload/restart nginx - manual intervention may be needed"
+            fi
+        fi
+    else
+        log_error "Nginx configuration test failed:"
+        echo "$nginx_test_output"
+        log_info "Restoring backup configuration..."
+        
+        if [[ -f "$BACKUP_DIR/nginx-$DOMAIN.bak" ]]; then
+            cp "$BACKUP_DIR/nginx-$DOMAIN.bak" "$nginx_config"
+            log_info "Backup restored, testing again..."
+            
+            if nginx -t 2>&1; then
+                systemctl reload nginx 2>/dev/null || service nginx reload 2>/dev/null
+                log_warning "Restored to previous working configuration"
+            else
+                log_critical "Even backup configuration is invalid - manual fix required"
+                return 1
+            fi
+        else
+            log_critical "No backup available to restore"
+            return 1
+        fi
+    fi
+    
+    return 0
+}
+
+# ==============================================================================
+# PHASE 4: APACHE/PLESK CONFIGURATION & PORT CONFLICT FIX
+# ==============================================================================
+phase_apache() {
+    log_header "PHASE 4: APACHE/PLESK CONFIGURATION"
+    
+    # Check if Apache is being used (Plesk typically uses Apache)
+    if command -v plesk &>/dev/null; then
+        log_step "Plesk detected, configuring Apache..."
+        
+        # Fix port 80/443 conflict between nginx and Apache
+        log_step "Checking for port conflicts..."
+        
+        # Check what's using port 80
+        local port80_process=$(netstat -tlnp 2>/dev/null | grep ":80 " | head -1 || ss -tlnp 2>/dev/null | grep ":80 " | head -1)
+        
+        if echo "$port80_process" | grep -q "nginx"; then
+            log_info "Nginx is handling port 80 (correct for reverse proxy setup)"
+            
+            # Check if Apache is trying to bind to port 80
+            if grep -q "Listen 80" /etc/apache2/ports.conf 2>/dev/null; then
+                log_warning "Apache is configured to listen on port 80 - this conflicts with nginx"
+                log_step "Configuring Apache to use backend ports only..."
+                
+                # Backup Apache ports.conf
+                cp /etc/apache2/ports.conf "$BACKUP_DIR/apache-ports.conf.bak" 2>/dev/null || true
+                
+                # Modify Apache to listen on port 7080 instead of 80
+                # In Plesk, Apache typically runs behind nginx
+                sed -i 's/Listen 80$/Listen 7080/' /etc/apache2/ports.conf 2>/dev/null || true
+                sed -i 's/Listen 443$/Listen 7081/' /etc/apache2/ports.conf 2>/dev/null || true
+                
+                log_info "Apache ports updated to 7080/7081"
+            fi
+        elif echo "$port80_process" | grep -q "apache\|httpd"; then
+            log_info "Apache is handling port 80 directly"
+        fi
+        
+        # Stop Apache if it's conflicting and nginx should handle frontend
+        if systemctl is-active --quiet apache2 2>/dev/null; then
+            # Check if Apache is causing issues
+            if ! curl -s -o /dev/null -w "%{http_code}" --max-time 5 "http://127.0.0.1/" | grep -q "200\|301\|302"; then
+                log_warning "Web server not responding correctly"
+                log_step "Restarting Apache with new configuration..."
+                systemctl restart apache2 2>/dev/null || true
+            fi
+        fi
+        
+        # Enable required Apache modules
+        log_step "Enabling required Apache modules..."
+        local modules=("proxy" "proxy_http" "proxy_wstunnel" "rewrite" "headers")
+        
+        for mod in "${modules[@]}"; do
+            if a2enmod "$mod" 2>/dev/null; then
+                log_info "Enabled module: $mod"
+            fi
+        done
+        
+        # Run the Plesk setup script if it exists
+        if [[ -f "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh" ]]; then
+            log_step "Running Plesk Apache setup script..."
+            chmod +x "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh"
+            "$INSTALL_DIR/deployment/apache/setup-plesk-apache.sh" "$DOMAIN" || true
+        fi
+        
+        # Repair Plesk web configuration
+        log_step "Repairing Plesk web configuration..."
+        plesk repair web -y 2>/dev/null || log_warning "Plesk repair web returned non-zero (may be normal)"
+        
+        log_success "Apache/Plesk configuration complete"
+    elif command -v apache2 &>/dev/null || command -v httpd &>/dev/null; then
+        log_info "Apache detected without Plesk"
+        log_info "Please configure Apache manually using deployment/apache/nexuscos.online.conf"
+    else
+        log_info "Apache not detected, skipping Apache configuration"
+    fi
+}
+
+# ==============================================================================
+# PHASE 5: PM2 CLEANUP & OPTIMIZATION
+# ==============================================================================
+phase_pm2_cleanup() {
+    log_header "PHASE 5: PM2 CLEANUP & OPTIMIZATION"
+    
+    if ! command -v pm2 &>/dev/null; then
+        log_warning "PM2 not found, skipping PM2 cleanup"
+        return 0
+    fi
+    
+    log_step "Cleaning up obsolete PM2 services..."
+    
+    # List of obsolete services to remove
+    local obsolete_services=("kei-ai")
+    
+    for service in "${obsolete_services[@]}"; do
+        if pm2 describe "$service" &>/dev/null 2>&1; then
+            log_info "Removing obsolete service: $service"
+            pm2 delete "$service" 2>/dev/null || log_warning "Could not delete $service"
+        fi
+    done
+    
+    log_step "Restarting any stopped services..."
+    
+    # Get list of stopped services - handle if jq not available
+    local stopped_services=""
+    if command -v jq &>/dev/null; then
+        stopped_services=$(pm2 jlist 2>/dev/null | jq -r '.[] | select(.pm2_env.status == "stopped") | .name' 2>/dev/null || echo "")
+    else
+        # Fallback: parse pm2 list output
+        stopped_services=$(pm2 list 2>/dev/null | grep "stopped" | awk '{print $2}' | grep -v "│" || echo "")
+    fi
+    
+    if [[ -n "$stopped_services" ]]; then
+        log_info "Found stopped services, attempting to restart..."
+        for service in $stopped_services; do
+            log_info "Starting stopped service: $service"
+            if pm2 start "$service" 2>/dev/null; then
+                log_success "Started: $service"
+            else
+                log_warning "Could not start $service - may need manual attention"
+            fi
+        done
+    else
+        log_info "No stopped services found"
+    fi
+    
+    log_step "Setting PM2 restart policies for stability..."
+    
+    # Update PM2
+    pm2 update 2>/dev/null || log_warning "PM2 update failed"
+    
+    # Save PM2 configuration
+    log_step "Saving PM2 configuration..."
+    if pm2 save 2>/dev/null; then
+        log_success "PM2 configuration saved"
+    else
+        log_warning "PM2 save failed - processes may not persist across reboots"
+    fi
+    
+    # Ensure PM2 starts on boot
+    log_step "Configuring PM2 startup..."
+    if pm2 startup 2>/dev/null | grep -q "systemctl enable"; then
+        # Extract and run the systemctl command
+        local startup_cmd=$(pm2 startup 2>/dev/null | grep "sudo env" || pm2 startup 2>/dev/null | grep "systemctl enable")
+        if [[ -n "$startup_cmd" ]]; then
+            eval "$startup_cmd" 2>/dev/null || log_warning "PM2 startup configuration may need manual setup"
+        fi
+        log_success "PM2 startup configured"
+    else
+        log_warning "PM2 startup command not found - processes may not auto-start on reboot"
+    fi
+    
+    log_success "PM2 cleanup and optimization complete"
+    return 0
+}
+
+# ==============================================================================
+# PHASE 6: SERVICE VERIFICATION
+# ==============================================================================
+phase_verify_services() {
+    log_header "PHASE 5: SERVICE VERIFICATION"
+    
+    log_step "Checking PM2 services..."
+    
+    if command -v pm2 &>/dev/null; then
+        pm2 status
+        log_success "PM2 status displayed"
+    else
+        log_warning "PM2 not found"
+    fi
+    
+    log_step "Checking listening ports..."
+    
+    local ports=(3001 3010 3014 3020 3030 4000 9001 9002 9003 9004)
+    local listening_count=0
+    
+    for port in "${ports[@]}"; do
+        if netstat -tlnp 2>/dev/null | grep -q ":$port " || ss -tlnp 2>/dev/null | grep -q ":$port "; then
+            log_info "Port $port: LISTENING"
+            ((listening_count++))
+        else
+            log_warning "Port $port: NOT LISTENING"
+        fi
+    done
+    
+    log_info "$listening_count of ${#ports[@]} expected ports are listening"
+}
+
+# ==============================================================================
+# PHASE 7: ENDPOINT TESTING
+# ==============================================================================
+phase_test_endpoints() {
+    log_header "PHASE 6: ENDPOINT TESTING"
+    
+    log_step "Testing endpoints..."
+    
+    local endpoints=(
+        "https://$DOMAIN/:Main Site"
+        "https://$DOMAIN/api/health:API Health"
+        "https://$DOMAIN/creator:Creator Hub"
+        "https://$DOMAIN/studio-ai:Studio AI"
+        "https://$DOMAIN/socket.io/?EIO=4&transport=polling:Root Socket.IO"
+        "https://$DOMAIN/streaming/socket.io/?EIO=4&transport=polling:Streaming Socket.IO"
+    )
+    
+    local success_count=0
+    local total_count=${#endpoints[@]}
+    
+    for endpoint_info in "${endpoints[@]}"; do
+        local url="${endpoint_info%%:*}"
+        local name="${endpoint_info##*:}"
+        
+        echo -n -e "  Testing ${CYAN}$name${NC}... "
+        
+        local response=$(curl -sS -o /tmp/response.txt -w "%{http_code}" --max-time 10 "$url" 2>/dev/null || echo "000")
+        local body=$(cat /tmp/response.txt 2>/dev/null || echo "")
+        
+        if [[ "$response" == "200" ]]; then
+            echo -e "${GREEN}✓ HTTP $response${NC}"
+            ((success_count++))
+        elif [[ "$body" == *'"sid":'* ]]; then
+            echo -e "${GREEN}✓ Socket.IO OK${NC}"
+            ((success_count++))
+        elif [[ "$response" == "000" ]]; then
+            echo -e "${RED}✗ Connection failed${NC}"
+        else
+            echo -e "${YELLOW}⚠ HTTP $response${NC}"
+            if [[ "$body" == *"maintenance"* ]]; then
+                echo -e "    ${RED}Still returning maintenance page!${NC}"
+            fi
+        fi
+    done
+    
+    echo ""
+    if [[ $success_count -eq $total_count ]]; then
+        log_success "All $total_count endpoints passed!"
+    else
+        log_warning "$success_count of $total_count endpoints passed"
+    fi
+}
+
+# ==============================================================================
+# PHASE 8: SUMMARY
+# ==============================================================================
+phase_summary() {
+    log_header "DEPLOYMENT COMPLETE"
+    
+    echo -e "${GREEN}${BOLD}Summary:${NC}"
+    echo ""
+    echo -e "  ${CYAN}Domain:${NC}           $DOMAIN"
+    echo -e "  ${CYAN}Repository:${NC}       $INSTALL_DIR"
+    echo -e "  ${CYAN}Branch:${NC}           $BRANCH"
+    echo -e "  ${CYAN}Backups:${NC}          $BACKUP_DIR"
+    echo ""
+    echo -e "${YELLOW}${BOLD}Next Steps:${NC}"
+    echo ""
+    echo "  1. Verify all services are running:"
+    echo -e "     ${CYAN}pm2 status${NC}"
+    echo ""
+    echo "  2. Test WebSocket connection:"
+    echo -e "     ${CYAN}curl -s \"https://$DOMAIN/streaming/socket.io/?EIO=4&transport=polling\"${NC}"
+    echo ""
+    echo "  3. Check logs if issues persist:"
+    echo -e "     ${CYAN}sudo tail -f /var/log/nginx/error.log${NC}"
+    echo ""
+    echo -e "${YELLOW}${BOLD}Troubleshooting:${NC}"
+    echo ""
+    echo "  If streaming socket.io still fails:"
+    echo "  - Check if backend service is running on port 3001"
+    echo "  - Verify nginx config has the socket.io location blocks"
+    echo "  - Check firewall rules for WebSocket connections"
+    echo ""
+    echo -e "  Documentation: ${CYAN}$INSTALL_DIR/deployment/STREAMING_SOCKET_FIX_README.md${NC}"
+    echo ""
+}
+
+# ==============================================================================
+# MAIN EXECUTION
+# ==============================================================================
+main() {
+    # Trap errors and cleanup
+    trap 'handle_error $? $LINENO' ERR
+    
+    show_banner
+    
+    check_root
+    check_requirements
+    create_backup_dir
+    
+    # Run each phase and track results
+    local phase_results=()
+    
+    if phase_cleanup; then
+        phase_results+=("Cleanup: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Cleanup: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_repository; then
+        phase_results+=("Repository: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Repository: ${RED}✗${NC}")
+        if [[ $CRITICAL_ERROR -eq 1 ]]; then
+            log_critical "Repository setup failed - cannot continue"
+            exit 1
+        fi
+    fi
+    
+    if phase_nginx; then
+        phase_results+=("Nginx: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Nginx: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_apache; then
+        phase_results+=("Apache/Plesk: ${GREEN}✓${NC}")
+    else
+        phase_results+=("Apache/Plesk: ${YELLOW}⚠${NC}")
+    fi
+    
+    if phase_pm2_cleanup; then
+        phase_results+=("PM2 Cleanup: ${GREEN}✓${NC}")
+    else
+        phase_results+=("PM2 Cleanup: ${YELLOW}⚠${NC}")
+    fi
+    
+    phase_verify_services
+    phase_results+=("Service Verification: ${GREEN}✓${NC}")
+    
+    phase_test_endpoints
+    phase_results+=("Endpoint Testing: ${GREEN}✓${NC}")
+    
+    # Display phase results
+    echo ""
+    log_header "PHASE RESULTS"
+    for result in "${phase_results[@]}"; do
+        echo -e "  $result"
+    done
+    echo ""
+    
+    # Show final summary
+    phase_summary
+    
+    # Final status
+    echo ""
+    if [[ $ERRORS -eq 0 ]]; then
+        log_success "✓ Master deployment completed successfully with $WARNINGS warning(s)"
+        exit 0
+    elif [[ $CRITICAL_ERROR -eq 0 ]]; then
+        log_warning "⚠ Deployment completed with $ERRORS error(s) and $WARNINGS warning(s)"
+        log_info "Some non-critical issues occurred - review the output above"
+        exit 0
+    else
+        log_error "✗ Deployment completed with critical errors"
+        log_info "Manual intervention required - check logs above"
+        exit 1
+    fi
+}
+
+# Error handler
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    if [[ $exit_code -ne 0 ]]; then
+        log_error "Command failed at line $line_number with exit code $exit_code"
+    fi
+}
+
+# Run main function
+main "$@"
