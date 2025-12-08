@@ -71,7 +71,7 @@ Write-Section "Step 1: Preparing Restoration Script"
 $RestoreScript = @"
 set -e
 DOMAIN=$Domain
-VHOST=/var/www/vhosts/system/\$DOMAIN/conf/vhost_nginx.conf
+VHOST=/var/www/vhosts/system/\${DOMAIN}/conf/vhost_nginx.conf
 PF=/etc/nginx/conf.d/pf_gateway_\${DOMAIN}.conf
 
 echo '== Backup gateway config if present'

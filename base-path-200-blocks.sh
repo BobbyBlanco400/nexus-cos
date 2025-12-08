@@ -25,7 +25,8 @@ if [ ! -f "$PF" ]; then
 fi
 
 echo "Step 1: Backing up current configuration..."
-cp -f "$PF" "$PF.backup-$(date +%F-%H%M%S)"
+BACKUP_FILE="$PF.backup-$(date +%F-%H%M%S)"
+cp -f "$PF" "$BACKUP_FILE"
 echo "✓ Created backup of current configuration"
 
 echo ""
@@ -75,7 +76,7 @@ if nginx -t; then
 else
     echo "Error: Nginx configuration test failed"
     echo "Restoring backup..."
-    cp -f "$PF.backup-$(date +%F-%H%M%S)" "$PF"
+    cp -f "$BACKUP_FILE" "$PF"
     exit 1
 fi
 

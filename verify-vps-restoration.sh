@@ -271,10 +271,18 @@ print_section "Test 9: Error Handling Validation"
 print_test "Checking for error handling (set -e, || continue, 2>/dev/null)"
 error_handling_found=true
 
-if grep -q "set -e" restore-vps-endpoints.sh ssl-auto-pair.sh base-path-200-blocks.sh; then
-    echo -e "  ${GREEN}✓${NC} Found 'set -e' for error handling"
+# Check set -e in each bash script
+set_e_count=0
+for script in restore-vps-endpoints.sh ssl-auto-pair.sh base-path-200-blocks.sh; do
+    if grep -q "set -e" "$script"; then
+        ((set_e_count++))
+    fi
+done
+
+if [ $set_e_count -eq 3 ]; then
+    echo -e "  ${GREEN}✓${NC} Found 'set -e' for error handling in all scripts"
 else
-    echo -e "  ${RED}✗${NC} Missing 'set -e' for error handling"
+    echo -e "  ${RED}✗${NC} Missing 'set -e' in some scripts ($set_e_count/3)"
     error_handling_found=false
 fi
 
