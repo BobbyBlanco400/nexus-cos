@@ -211,7 +211,7 @@ verify_deployment() {
     
     # Test redirect from local machine
     if command -v curl &> /dev/null; then
-        REDIRECT_RESPONSE=$(curl -fsSI "http://${DOMAIN}/" 2>/dev/null | tr -d '\r' | grep -i '^Location:' || echo "No redirect")
+        REDIRECT_RESPONSE=$(curl -fsSI --max-time 10 "http://${DOMAIN}/" 2>/dev/null | tr -d '\r' | grep -i '^Location:' || echo "No redirect")
         
         if echo "$REDIRECT_RESPONSE" | grep -q "https://"; then
             print_success "HTTP redirects to HTTPS"
@@ -226,7 +226,7 @@ verify_deployment() {
     print_step "Verifying HTTPS security headers..."
     
     if command -v curl &> /dev/null; then
-        HEADERS=$(curl -fsSI "https://${DOMAIN}/" 2>/dev/null | tr -d '\r' || echo "")
+        HEADERS=$(curl -fsSI --max-time 10 "https://${DOMAIN}/" 2>/dev/null | tr -d '\r' || echo "")
         
         # Check for security headers
         HEADERS_FOUND=0
