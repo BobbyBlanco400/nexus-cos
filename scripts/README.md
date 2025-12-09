@@ -38,7 +38,44 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Complete guide: [`FINAL_SYSTEM_CHECK_COMPLETE.md`](../FINAL_SYSTEM_CHECK_COMPLETE.md)
 - Health checks reference: [`PF_v2025.10.01_HEALTH_CHECKS.md`](../PF_v2025.10.01_HEALTH_CHECKS.md)
 
-### 2. PF Final Deployment ✨
+### 2. PF Fix Nginx Headers & Redirect 🔒
+**File:** `pf-fix-nginx-headers-redirect.sh`  
+**Purpose:** Fix Nginx security headers and HTTP→HTTPS redirect configuration
+
+```bash
+# Default domain (nexuscos.online)
+sudo bash scripts/pf-fix-nginx-headers-redirect.sh
+
+# Custom domain
+sudo DOMAIN=yourdomain.com bash scripts/pf-fix-nginx-headers-redirect.sh
+```
+
+**Features:**
+- ✅ Creates clean security headers at Nginx
+  - HSTS (HTTP Strict Transport Security)
+  - CSP (Content Security Policy)
+  - X-Content-Type-Options
+  - X-Frame-Options
+  - Referrer-Policy
+- ✅ Ensures `conf.d/*.conf` inclusion in nginx.conf
+- ✅ Fixes HTTP→HTTPS redirect to `https://nexuscos.online$request_uri`
+- ✅ Removes any stray backticks from Nginx configs
+- ✅ Validates and reloads Nginx
+- ✅ Verifies headers and redirect results
+
+**What It Does:**
+1. Writes security headers to `/etc/nginx/conf.d/zz-security-headers.conf`
+2. Ensures `/etc/nginx/nginx.conf` includes `conf.d/*.conf` under `http` block
+3. Finds the active vhost via `nginx -T` and patches redirect
+4. Strips any backticks from `*.conf` files in `/etc/nginx`
+5. Reloads Nginx and prints header and redirect checks
+
+**Requirements:**
+- Must be run as root or with sudo
+- Nginx installed
+- Works with last 3 PF deployments
+
+### 3. PF Final Deployment ✨
 **File:** `pf-final-deploy.sh`  
 **Purpose:** Complete system check and re-deployment for Nexus COS Pre-Flight
 
@@ -66,7 +103,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Complete guide: [`PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md`](../PF_SYSTEM_CHECK_AND_REDEPLOY_GUIDE.md)
 - Assets manifest: [`docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md`](../docs/PF_ASSETS_LOCKED_2025-10-03T14-46Z.md)
 
-### 3. Production URL Verification
+### 4. Production URL Verification
 **File:** `verify-production-urls.sh`
 **Purpose:** Comprehensive verification of all production URLs and SSL certificates
 
@@ -81,7 +118,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - SSL certificates
 - Performance metrics
 
-### 4. Beta URL Verification
+### 5. Beta URL Verification
 **File:** `verify-beta-urls.sh`  
 **Purpose:** Beta environment verification for 10/01/2025 launch
 
@@ -95,7 +132,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 - Local development endpoint checks
 - Beta-specific performance validation
 
-### 5. Continuous URL Monitoring
+### 6. Continuous URL Monitoring
 **File:** `monitor-urls.sh`
 **Purpose:** Continuous monitoring with alerting and reporting
 
@@ -114,6 +151,17 @@ sudo ./scripts/monitor-urls.sh --setup-service
 ```
 
 ## 🚀 Quick Start Guide
+
+### For Nginx Security Headers & Redirect Fix
+```bash
+# On VPS (production)
+ssh user@nexuscos.online
+cd /opt/nexus-cos
+sudo bash scripts/pf-fix-nginx-headers-redirect.sh
+
+# For custom domain
+sudo DOMAIN=beta.nexuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh
+```
 
 ### For Complete System Check (Recommended)
 ```bash
