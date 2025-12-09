@@ -106,9 +106,8 @@ create_security_headers() {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
 # Content Security Policy
-# Note: Configured for broad compatibility with dynamic web applications
-# Adjust based on your specific application requirements
-add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'" always;
+# Configured for nexuscos.online with specific source allowances
+add_header Content-Security-Policy "default-src 'self' https://nexuscos.online; img-src 'self' data: blob: https://nexuscos.online; script-src 'self' 'unsafe-inline' https://nexuscos.online; style-src 'self' 'unsafe-inline' https://nexuscos.online; connect-src 'self' https://nexuscos.online https://nexuscos.online/streaming wss://nexuscos.online ws://nexuscos.online;" always;
 
 # X-Content-Type-Options
 # Prevent MIME type sniffing
@@ -195,7 +194,7 @@ fix_https_redirect() {
     
     if [[ -z "$ACTIVE_VHOST" ]]; then
         print_error "Could not find active vhost configuration"
-        print_warning "Please manually update your Nginx vhost to use: return 301 https://${DOMAIN}\$request_uri;"
+        print_warning "Please manually update your Nginx vhost to use: return 301 https://\$host\$request_uri;"
         return 1
     fi
     
@@ -210,15 +209,15 @@ fix_https_redirect() {
     
     # Replace various redirect patterns with the correct one
     # Pattern 1: return 301 https://$server_name$request_uri;
-    # Pattern 2: return 301 https://$host$request_uri;
+    # Pattern 2: return 301 https://domain.com$request_uri; (hardcoded domain)
     # Pattern 3: return 301 https://;
-    # All become: return 301 https://nexuscos.online$request_uri;
+    # All become: return 301 https://$host$request_uri;
     
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://\$server_name\$request_uri;|return 301 https://${DOMAIN}\$request_uri;|g" "${ACTIVE_VHOST}"
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://\$host\$request_uri;|return 301 https://${DOMAIN}\$request_uri;|g" "${ACTIVE_VHOST}"
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://;|return 301 https://${DOMAIN}\$request_uri;|g" "${ACTIVE_VHOST}"
+    sed -i "s|return[[:space:]]*301[[:space:]]*https://\$server_name\$request_uri;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
+    sed -i "s|return[[:space:]]*301[[:space:]]*https://[a-zA-Z0-9.-]*\$request_uri;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
+    sed -i "s|return[[:space:]]*301[[:space:]]*https://;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
     
-    print_success "Redirect pattern updated to: return 301 https://${DOMAIN}\$request_uri;"
+    print_success "Redirect pattern updated to: return 301 https://\$host\$request_uri;"
 }
 
 # ==============================================================================
@@ -382,7 +381,7 @@ main() {
     echo -e "${CYAN}What was done:${NC}"
     echo -e "  ${GREEN}✓${NC} Security headers added to ${SECURITY_HEADERS_CONF}"
     echo -e "  ${GREEN}✓${NC} conf.d/*.conf inclusion verified in nginx.conf"
-    echo -e "  ${GREEN}✓${NC} HTTP→HTTPS redirect fixed to https://${DOMAIN}\$request_uri"
+    echo -e "  ${GREEN}✓${NC} HTTP→HTTPS redirect fixed to https://\$host\$request_uri"
     echo -e "  ${GREEN}✓${NC} Stray backticks removed from configs"
     echo -e "  ${GREEN}✓${NC} Nginx validated and reloaded"
     echo ""
