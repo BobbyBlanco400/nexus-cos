@@ -106,7 +106,8 @@ create_security_headers() {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
 # Content Security Policy
-# Restrict sources for scripts, styles, and other resources
+# Note: Configured for broad compatibility with dynamic web applications
+# Adjust based on your specific application requirements
 add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'" always;
 
 # X-Content-Type-Options
@@ -137,7 +138,7 @@ ensure_confd_inclusion() {
     
     print_step "Checking if conf.d/*.conf is included in nginx.conf..."
     
-    if grep -q "include[[:space:]]*${NGINX_CONF_DIR}/conf.d/\*.conf" "${NGINX_MAIN_CONF}"; then
+    if grep -q "include[[:space:]]*${NGINX_CONF_DIR}/conf.d/.*\.conf" "${NGINX_MAIN_CONF}"; then
         print_success "conf.d/*.conf inclusion already present"
         return 0
     fi
@@ -145,8 +146,9 @@ ensure_confd_inclusion() {
     print_warning "conf.d/*.conf inclusion not found, adding it..."
     
     # Backup nginx.conf
-    cp "${NGINX_MAIN_CONF}" "${NGINX_MAIN_CONF}.backup.$(date +%Y%m%d_%H%M%S)"
-    print_info "Backup created: ${NGINX_MAIN_CONF}.backup.$(date +%Y%m%d_%H%M%S)"
+    BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    cp "${NGINX_MAIN_CONF}" "${NGINX_MAIN_CONF}.backup.${BACKUP_TIMESTAMP}"
+    print_info "Backup created: ${NGINX_MAIN_CONF}.backup.${BACKUP_TIMESTAMP}"
     
     # Find the http block and add the include directive
     # We'll add it right after the opening of the http block
@@ -200,8 +202,9 @@ fix_https_redirect() {
     print_success "Found vhost: ${ACTIVE_VHOST}"
     
     # Backup the vhost file
-    cp "${ACTIVE_VHOST}" "${ACTIVE_VHOST}.backup.$(date +%Y%m%d_%H%M%S)"
-    print_info "Backup created: ${ACTIVE_VHOST}.backup.$(date +%Y%m%d_%H%M%S)"
+    BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    cp "${ACTIVE_VHOST}" "${ACTIVE_VHOST}.backup.${BACKUP_TIMESTAMP}"
+    print_info "Backup created: ${ACTIVE_VHOST}.backup.${BACKUP_TIMESTAMP}"
     
     print_step "Fixing redirect pattern in ${ACTIVE_VHOST}..."
     
@@ -295,7 +298,7 @@ verify_results() {
     
     # Test HTTP redirect (if curl is available)
     if command -v curl &> /dev/null; then
-        REDIRECT_TEST=$(curl -s -I -L "http://${DOMAIN}/" 2>/dev/null | grep -i "location:" | head -1)
+        REDIRECT_TEST=$(curl -s -I "http://${DOMAIN}/" 2>/dev/null | grep -i "location:" | head -1)
         
         if echo "$REDIRECT_TEST" | grep -q "https://${DOMAIN}"; then
             print_success "HTTP redirects correctly to HTTPS"
