@@ -3,7 +3,7 @@
 ## One-Line Deployment
 
 ```bash
-git clone https://github.com/YourOrg/nexus-cos-stack.git /tmp/nexus-cos && \
+git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
 cd /tmp/nexus-cos && \
 ./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
 REPORT=$(ls reports/compliance_report_*.pdf | tail -n 1) && \
@@ -151,7 +151,7 @@ Snapshots (for rollback):
 
 1. **Clone & Navigate**
    ```bash
-   git clone https://github.com/YourOrg/nexus-cos-stack.git /tmp/nexus-cos
+   git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
    cd /tmp/nexus-cos
    ```
 

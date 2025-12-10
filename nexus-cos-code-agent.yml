@@ -7,7 +7,7 @@ agent: "nexus-cos-orchestrator"
 project:
   name: "nexus-cos-stack"
   description: "Complete Operating System - Automated Deployment and Verification"
-  repository: "https://github.com/YourOrg/nexus-cos-stack.git"
+  repository: "https://github.com/BobbyBlanco400/nexus-cos.git"
   
 # Pre-flight checks before orchestration
 pre_checks:

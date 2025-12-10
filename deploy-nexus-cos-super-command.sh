@@ -31,7 +31,7 @@ NC='\033[0m'
 
 # Configuration
 # Set REPO_URL environment variable to override default
-REPO_URL="${REPO_URL:-https://github.com/YourOrg/nexus-cos-stack.git}"
+REPO_URL="${REPO_URL:-https://github.com/BobbyBlanco400/nexus-cos.git}"
 TARGET_DIR="/tmp/nexus-cos"
 CONFIG_FILE="nexus-cos-code-agent.yml"
 MODULES="backend, frontend, apis, microservices, puabo-blac-financing, analytics, ott-pipelines"

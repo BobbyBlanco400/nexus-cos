@@ -9,7 +9,7 @@ This repository now includes a complete automated deployment orchestration syste
 ### One-Line Super-Command
 
 ```bash
-git clone https://github.com/YourOrg/nexus-cos-stack.git /tmp/nexus-cos && \
+git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
 cd /tmp/nexus-cos && \
 echo "Running GitHub Code Agent orchestration..." && \
 ./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
@@ -228,7 +228,7 @@ Enhanced deployment tool with module-specific deployment, compliance verificatio
 
 The following environment variables can be customized:
 
-- `REPO_URL` - Repository URL (default: https://github.com/YourOrg/nexus-cos-stack.git)
+- `REPO_URL` - Repository URL (default: https://github.com/BobbyBlanco400/nexus-cos.git)
 
 ### Compliance Thresholds
 
