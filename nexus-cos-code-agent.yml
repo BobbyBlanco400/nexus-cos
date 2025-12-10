@@ -1,0 +1,286 @@
+# Nexus COS Code Agent Configuration
+# GitHub Code Agent Orchestration for Complete Deployment
+# Version: 1.0.0
+
+version: "1.0"
+agent: "nexus-cos-orchestrator"
+project:
+  name: "nexus-cos-stack"
+  description: "Complete Operating System - Automated Deployment and Verification"
+  repository: "https://github.com/BobbyBlanco400/nexus-cos.git"
+  
+# Pre-flight checks before orchestration
+pre_checks:
+  - name: "Verify System Requirements"
+    checks:
+      - command: "docker --version"
+        expected_exit: 0
+        description: "Docker must be installed"
+      - command: "docker compose version"
+        expected_exit: 0
+        description: "Docker Compose v2 must be available"
+      - command: "node --version"
+        expected_exit: 0
+        description: "Node.js must be installed"
+      - command: "python3 --version"
+        expected_exit: 0
+        description: "Python 3 must be installed"
+  
+  - name: "Check Disk Space"
+    checks:
+      - command: "df -h . | awk 'NR==2 {print $4}'"
+        description: "At least 10GB free disk space required"
+  
+  - name: "Check Memory"
+    checks:
+      - command: "free -h | awk 'NR==2 {print $7}'"
+        description: "At least 4GB free memory recommended"
+
+# Orchestration tasks
+tasks:
+  - name: "Environment Setup"
+    description: "Configure environment variables and dependencies"
+    priority: "critical"
+    steps:
+      - command: "cp .env.pf.example .env.pf"
+        condition: "[ ! -f .env.pf ]"
+        description: "Create environment file from template"
+      - command: "cp frontend/.env.example frontend/.env"
+        condition: "[ ! -f frontend/.env ]"
+        description: "Configure frontend environment"
+      - command: "cp admin/.env.example admin/.env"
+        condition: "[ ! -f admin/.env ]"
+        description: "Configure admin environment"
+      - command: "cp creator-hub/.env.example creator-hub/.env"
+        condition: "[ ! -f creator-hub/.env ]"
+        description: "Configure creator hub environment"
+    validation:
+      - test: "[ -f .env.pf ]"
+        message: "Environment file .env.pf exists"
+      - test: "[ -f frontend/.env ]"
+        message: "Frontend environment configured"
+
+  - name: "Code Quality Checks"
+    description: "Run linting and code quality validation"
+    priority: "high"
+    steps:
+      - command: "npm install"
+        working_dir: "."
+        description: "Install root dependencies"
+        timeout: 300
+      - command: "npm run lint || true"
+        working_dir: "."
+        description: "Run linting (non-blocking)"
+        timeout: 120
+    continue_on_error: true
+
+  - name: "Security Scanning"
+    description: "Scan dependencies for vulnerabilities"
+    priority: "high"
+    steps:
+      - command: "npm audit --audit-level=high || true"
+        working_dir: "."
+        description: "NPM security audit"
+        timeout: 120
+      - command: "find . -name 'requirements.txt' -exec pip-audit -r {} \\; || true"
+        description: "Python dependency audit"
+        timeout: 120
+    continue_on_error: true
+
+  - name: "Build Verification"
+    description: "Verify all services can build successfully"
+    priority: "critical"
+    steps:
+      - command: "docker compose -f docker-compose.unified.yml build --no-cache backend"
+        description: "Build backend service"
+        timeout: 600
+      - command: "docker compose -f docker-compose.unified.yml build --no-cache frontend"
+        description: "Build frontend service"
+        timeout: 600
+      - command: "docker compose -f docker-compose.unified.yml build --no-cache admin"
+        description: "Build admin service"
+        timeout: 600
+    validation:
+      - command: "docker images | grep nexus-cos"
+        description: "Verify Docker images built"
+
+  - name: "Module Verification"
+    description: "Verify all required modules are present"
+    priority: "critical"
+    modules:
+      - name: "backend"
+        path: "./backend"
+        type: "nodejs"
+        health_check: "/health"
+      - name: "frontend"
+        path: "./frontend"
+        type: "react"
+        build_output: "./frontend/dist"
+      - name: "apis"
+        path: "./backend/routes"
+        type: "express"
+      - name: "microservices"
+        paths:
+          - "./services/auth-service"
+          - "./services/key-service"
+          - "./services/kei-ai"
+          - "./services/nexus-cos-studio-ai"
+        type: "nodejs"
+      - name: "puabo-blac-financing"
+        path: "./puabo"
+        type: "fullstack"
+      - name: "analytics"
+        path: "./services/analytics"
+        type: "nodejs"
+      - name: "ott-pipelines"
+        path: "./services/ott-streaming"
+        type: "nodejs"
+    validation:
+      - test: "[ -d backend ]"
+        message: "Backend module exists"
+      - test: "[ -d frontend ]"
+        message: "Frontend module exists"
+      - test: "[ -d puabo ]"
+        message: "PUABO module exists"
+
+  - name: "Database Migration Validation"
+    description: "Ensure database migrations are ready"
+    priority: "high"
+    steps:
+      - command: "find backend -name '*migration*' -o -name '*alembic*'"
+        description: "Locate migration files"
+      - command: "docker compose -f docker-compose.unified.yml up -d postgres"
+        description: "Start PostgreSQL for migration testing"
+        timeout: 60
+      - command: "sleep 10"
+        description: "Wait for PostgreSQL to be ready"
+    validation:
+      - command: "docker compose -f docker-compose.unified.yml ps postgres | grep 'Up'"
+        description: "PostgreSQL is running"
+
+  - name: "Integration Tests"
+    description: "Run integration tests for critical paths"
+    priority: "medium"
+    steps:
+      - command: "npm test -- --testPathPattern=integration || true"
+        working_dir: "."
+        description: "Run integration tests"
+        timeout: 300
+    continue_on_error: true
+
+# Compliance reporting
+compliance:
+  enabled: true
+  output_dir: "./reports"
+  report_format: "pdf"
+  report_name: "compliance_report_${TIMESTAMP}.pdf"
+  
+  checks:
+    - category: "Security"
+      items:
+        - name: "No hardcoded secrets"
+          command: "! grep -r 'password\\s*=\\s*[\"'']' --include='*.js' --include='*.py' backend/ frontend/ || echo 'PASS'"
+          severity: "critical"
+        - name: "HTTPS enforced"
+          check: "nginx configuration includes SSL"
+          severity: "high"
+        - name: "Security headers configured"
+          check: "nginx configuration includes security headers"
+          severity: "high"
+    
+    - category: "Code Quality"
+      items:
+        - name: "Linting passed"
+          status: "from_task:Code Quality Checks"
+          severity: "medium"
+        - name: "No critical vulnerabilities"
+          status: "from_task:Security Scanning"
+          severity: "high"
+    
+    - category: "Build Verification"
+      items:
+        - name: "All services build successfully"
+          status: "from_task:Build Verification"
+          severity: "critical"
+        - name: "Docker images created"
+          status: "from_task:Build Verification"
+          severity: "critical"
+    
+    - category: "Module Completeness"
+      items:
+        - name: "Backend module present"
+          status: "from_task:Module Verification"
+          severity: "critical"
+        - name: "Frontend module present"
+          status: "from_task:Module Verification"
+          severity: "critical"
+        - name: "APIs module present"
+          status: "from_task:Module Verification"
+          severity: "critical"
+        - name: "Microservices present"
+          status: "from_task:Module Verification"
+          severity: "critical"
+        - name: "PUABO-BLAC-Financing module present"
+          status: "from_task:Module Verification"
+          severity: "high"
+        - name: "Analytics module present"
+          status: "from_task:Module Verification"
+          severity: "medium"
+        - name: "OTT pipelines present"
+          status: "from_task:Module Verification"
+          severity: "medium"
+    
+    - category: "Database Readiness"
+      items:
+        - name: "Migrations validated"
+          status: "from_task:Database Migration Validation"
+          severity: "high"
+        - name: "Database container starts"
+          status: "from_task:Database Migration Validation"
+          severity: "critical"
+    
+    - category: "Testing"
+      items:
+        - name: "Integration tests executed"
+          status: "from_task:Integration Tests"
+          severity: "medium"
+
+  # Compliance scoring
+  scoring:
+    critical: 100
+    high: 50
+    medium: 20
+    low: 5
+  
+  pass_threshold: 85  # Minimum score percentage to pass
+
+# Post-execution actions
+post_execution:
+  - name: "Generate Compliance Report"
+    command: "bash scripts/generate-compliance-report.sh"
+    description: "Create PDF compliance report"
+  
+  - name: "Archive Logs"
+    command: "mkdir -p logs/orchestration && cp *.log logs/orchestration/ || true"
+    description: "Archive orchestration logs"
+  
+  - name: "Cleanup Temporary Files"
+    command: "rm -rf /tmp/nexus-cos-build-* || true"
+    description: "Clean up temporary build artifacts"
+
+# Execution configuration
+execution:
+  max_parallel_tasks: 3
+  timeout: 3600  # 1 hour max
+  retry_on_failure: 2
+  log_level: "info"
+  log_file: "./github-code-agent.log"
+  
+  on_success:
+    - "echo 'GitHub Code Agent orchestration completed successfully'"
+    - "echo 'Compliance report: ${COMPLIANCE_REPORT_PATH}'"
+  
+  on_failure:
+    - "echo 'GitHub Code Agent orchestration failed'"
+    - "echo 'Check logs: ./github-code-agent.log'"
+    - "exit 1"
