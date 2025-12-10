@@ -28,6 +28,9 @@ REPORT_PDF="${REPORTS_DIR}/compliance_report_${TIMESTAMP}.pdf"
 
 echo -e "${BLUE}Generating Compliance Report...${NC}"
 
+# Generate timestamp before heredoc
+REPORT_DATE=$(date '+%Y-%m-%d %H:%M:%S %Z')
+
 # Generate text report
 cat > "$REPORT_TXT" << 'EOF'
 ╔════════════════════════════════════════════════════════════════════════════╗
@@ -40,7 +43,7 @@ EOF
 
 cat >> "$REPORT_TXT" << EOF
 Report ID: COMPLIANCE-${TIMESTAMP}
-Generated: $(date '+%Y-%m-%d %H:%M:%S %Z')
+Generated: ${REPORT_DATE}
 Project: Nexus COS Stack
 Version: 1.0.0
 Agent: GitHub Code Agent

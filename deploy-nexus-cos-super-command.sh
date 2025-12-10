@@ -30,6 +30,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Configuration
+# Set REPO_URL environment variable to override default
 REPO_URL="${REPO_URL:-https://github.com/YourOrg/nexus-cos-stack.git}"
 TARGET_DIR="/tmp/nexus-cos"
 CONFIG_FILE="nexus-cos-code-agent.yml"
@@ -45,6 +46,11 @@ print_banner() {
     echo "║                                                                            ║"
     echo "╚════════════════════════════════════════════════════════════════════════════╝"
     echo -e "${NC}"
+    echo ""
+    echo -e "${CYAN}Repository: ${REPO_URL}${NC}"
+    echo -e "${CYAN}Target: ${TARGET_DIR}${NC}"
+    echo ""
+    echo -e "${YELLOW}Note: Set REPO_URL environment variable to use a different repository${NC}"
     echo ""
 }
 

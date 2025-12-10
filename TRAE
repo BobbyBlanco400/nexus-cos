@@ -374,8 +374,12 @@ post_deployment_audit() {
     
     sleep 5  # Give services time to start
     
+    # Configurable health endpoints with defaults
+    BACKEND_HEALTH_PORT=${BACKEND_HEALTH_PORT:-3000}
+    BACKEND_ALT_PORT=${BACKEND_ALT_PORT:-4000}
+    
     # Check backend health
-    if curl -s -f http://localhost:3000/health &>/dev/null || curl -s -f http://localhost:4000/health &>/dev/null; then
+    if curl -s -f "http://localhost:${BACKEND_HEALTH_PORT}/health" &>/dev/null || curl -s -f "http://localhost:${BACKEND_ALT_PORT}/health" &>/dev/null; then
         print_msg "$GREEN" "  ✓ Backend health endpoint responding"
         log "INFO" "Backend health check passed"
     else
