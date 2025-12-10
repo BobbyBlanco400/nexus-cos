@@ -99,6 +99,21 @@ All required modules from the problem statement are supported:
 
 ## One-Line Super-Command
 
+**Important:** The super-command files are in the `copilot/deploy-nexus-cos-stack` branch. Clone with the branch flag:
+
+```bash
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
+cd /tmp/nexus-cos && \
+./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
+REPORT=$(ls reports/compliance_report_*.pdf | tail -n 1) && \
+[ -f "$REPORT" ] && \
+./TRAE deploy --source github --repo nexus-cos-stack --branch verified_release \
+  --verify-compliance "$REPORT" \
+  --modules "backend, frontend, apis, microservices, puabo-blac-financing, analytics, ott-pipelines" \
+  --post-deploy-audit --rollback-on-fail
+```
+
+**After PR is merged to main:**
 ```bash
 git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
 cd /tmp/nexus-cos && \

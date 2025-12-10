@@ -4,12 +4,29 @@
 
 This repository now includes a complete automated deployment orchestration system that provides a single command to pull, verify, test, and deploy the entire Nexus COS stack.
 
+**Note:** The super-command system is currently in the `copilot/deploy-nexus-cos-stack` branch. Make sure to clone or checkout this branch to use the deployment tools.
+
 ## Quick Start
+
+### Prerequisites
+
+Before running the super-command, ensure the PR branch has been merged to main, or clone the specific branch:
+
+**Option 1: After PR is merged (recommended for production)**
+```bash
+git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
+```
+
+**Option 2: Use the PR branch directly**
+```bash
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
+```
 
 ### One-Line Super-Command
 
+After cloning the repository with the super-command files:
+
 ```bash
-git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
 cd /tmp/nexus-cos && \
 echo "Running GitHub Code Agent orchestration..." && \
 ./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
@@ -30,6 +47,23 @@ else \
     echo "Compliance report not found. Aborting deployment." && exit 1; \
 fi
 ```
+
+**Full command with branch clone:**
+```bash
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
+cd /tmp/nexus-cos && \
+./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
+REPORT=$(ls reports/compliance_report_*.pdf | tail -n 1) && \
+if [ -f "$REPORT" ]; then \
+    ./TRAE deploy \
+        --source github \
+        --repo nexus-cos-stack \
+        --branch verified_release \
+        --verify-compliance "$REPORT" \
+        --modules "backend, frontend, apis, microservices, puabo-blac-financing, analytics, ott-pipelines" \
+        --post-deploy-audit \
+        --rollback-on-fail; \
+fi
 
 ### Simplified Version
 

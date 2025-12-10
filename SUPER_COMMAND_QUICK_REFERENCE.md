@@ -1,9 +1,38 @@
 # Super-Command Quick Reference Card
 
-## One-Line Deployment
+## Important: Branch Information
+
+The super-command system is currently in the `copilot/deploy-nexus-cos-stack` branch. 
+
+**Clone with the correct branch:**
+```bash
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
+```
+
+Or if the PR has been merged to main:
+```bash
+git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
+```
+
+## One-Line Deployment (with branch)
 
 ```bash
-git clone https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos && \
+cd /tmp/nexus-cos && \
+./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
+REPORT=$(ls reports/compliance_report_*.pdf | tail -n 1) && \
+[ -f "$REPORT" ] && \
+./TRAE deploy --source github --repo nexus-cos-stack --branch verified_release \
+  --verify-compliance "$REPORT" \
+  --modules "backend, frontend, apis, microservices, puabo-blac-financing, analytics, ott-pipelines" \
+  --post-deploy-audit --rollback-on-fail
+```
+
+## One-Line Deployment (after cloning)
+
+If you've already cloned the repository with the correct branch:
+
+```bash
 cd /tmp/nexus-cos && \
 ./github-code-agent --config nexus-cos-code-agent.yml --execute-all && \
 REPORT=$(ls reports/compliance_report_*.pdf | tail -n 1) && \

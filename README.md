@@ -22,7 +22,10 @@ A complete operating system featuring 17 integrated modules, 48 microservices, a
 
 **One command to pull, verify, test, and deploy the entire Nexus COS stack!**
 
+**Note:** Currently available in the `copilot/deploy-nexus-cos-stack` branch. Clone with:
 ```bash
+git clone -b copilot/deploy-nexus-cos-stack https://github.com/BobbyBlanco400/nexus-cos.git /tmp/nexus-cos
+cd /tmp/nexus-cos
 bash deploy-nexus-cos-super-command.sh
 ```
 
