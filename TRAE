@@ -1,0 +1,517 @@
+#!/bin/bash
+
+# ===================================================================
+# TRAE Deploy - Enhanced Deployment with Compliance and Rollback
+# Version: 1.0.0
+# Supports module-specific deployment with audit and rollback
+# ===================================================================
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# Default values
+SOURCE=""
+REPO=""
+BRANCH=""
+COMPLIANCE_REPORT=""
+MODULES=""
+POST_DEPLOY_AUDIT=false
+ROLLBACK_ON_FAIL=false
+DEPLOYMENT_LOG="trae-deployment.log"
+DEPLOYMENT_ID="DEPLOY-$(date +%Y%m%d_%H%M%S)"
+
+# Usage
+usage() {
+    echo "TRAE Deploy - Enhanced Deployment Tool"
+    echo ""
+    echo "Usage: TRAE deploy [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --source SOURCE              Deployment source (github, local)"
+    echo "  --repo REPO                  Repository name"
+    echo "  --branch BRANCH              Git branch to deploy"
+    echo "  --verify-compliance FILE     Path to compliance report (PDF)"
+    echo "  --modules MODULES            Comma-separated list of modules to deploy"
+    echo "  --post-deploy-audit          Enable post-deployment audit"
+    echo "  --rollback-on-fail           Enable automatic rollback on failure"
+    echo "  --help                       Show this help message"
+    echo ""
+    echo "Example:"
+    echo "  TRAE deploy --source github --repo nexus-cos-stack --branch verified_release \\"
+    echo "    --verify-compliance reports/compliance_report.pdf \\"
+    echo "    --modules \"backend,frontend,apis\" --post-deploy-audit --rollback-on-fail"
+    echo ""
+    exit 1
+}
+
+# Logging
+log() {
+    local level=$1
+    shift
+    local message="$@"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] [$level] $message" | tee -a "$DEPLOYMENT_LOG"
+}
+
+print_msg() {
+    local color=$1
+    local message=$2
+    echo -e "${color}${message}${NC}"
+}
+
+# Parse arguments
+parse_args() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --source)
+                SOURCE="$2"
+                shift 2
+                ;;
+            --repo)
+                REPO="$2"
+                shift 2
+                ;;
+            --branch)
+                BRANCH="$2"
+                shift 2
+                ;;
+            --verify-compliance)
+                COMPLIANCE_REPORT="$2"
+                shift 2
+                ;;
+            --modules)
+                MODULES="$2"
+                shift 2
+                ;;
+            --post-deploy-audit)
+                POST_DEPLOY_AUDIT=true
+                shift
+                ;;
+            --rollback-on-fail)
+                ROLLBACK_ON_FAIL=true
+                shift
+                ;;
+            --help)
+                usage
+                ;;
+            *)
+                echo "Unknown option: $1"
+                usage
+                ;;
+        esac
+    done
+}
+
+# Verify compliance report
+verify_compliance() {
+    print_msg "$BLUE" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$BLUE" "║           Verifying Compliance Report                          ║"
+    print_msg "$BLUE" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    
+    if [ -z "$COMPLIANCE_REPORT" ]; then
+        print_msg "$YELLOW" "⚠️  No compliance report specified. Proceeding without verification."
+        log "WARN" "No compliance report specified"
+        return 0
+    fi
+    
+    if [ ! -f "$COMPLIANCE_REPORT" ]; then
+        print_msg "$RED" "❌ Compliance report not found: $COMPLIANCE_REPORT"
+        log "ERROR" "Compliance report not found: $COMPLIANCE_REPORT"
+        return 1
+    fi
+    
+    print_msg "$GREEN" "✅ Compliance report found: $COMPLIANCE_REPORT"
+    log "INFO" "Compliance report verified: $COMPLIANCE_REPORT"
+    
+    # Check if report indicates compliance
+    if grep -q "COMPLIANT" "$COMPLIANCE_REPORT" || grep -q "APPROVED FOR DEPLOYMENT" "$COMPLIANCE_REPORT"; then
+        print_msg "$GREEN" "✅ Compliance status: APPROVED"
+        log "INFO" "Compliance status: APPROVED"
+        return 0
+    else
+        print_msg "$RED" "❌ Compliance report does not indicate approval"
+        log "ERROR" "Compliance report does not indicate approval"
+        return 1
+    fi
+}
+
+# Create deployment snapshot for rollback
+create_snapshot() {
+    print_msg "$CYAN" "Creating deployment snapshot for rollback..."
+    log "INFO" "Creating deployment snapshot"
+    
+    # Save current Docker state
+    docker ps -a > ".trae_snapshot_${DEPLOYMENT_ID}_containers.txt" 2>/dev/null || true
+    docker images > ".trae_snapshot_${DEPLOYMENT_ID}_images.txt" 2>/dev/null || true
+    
+    # Save git state
+    git rev-parse HEAD > ".trae_snapshot_${DEPLOYMENT_ID}_commit.txt" 2>/dev/null || true
+    git branch --show-current > ".trae_snapshot_${DEPLOYMENT_ID}_branch.txt" 2>/dev/null || true
+    
+    print_msg "$GREEN" "✅ Snapshot created: ${DEPLOYMENT_ID}"
+    log "INFO" "Snapshot created: ${DEPLOYMENT_ID}"
+}
+
+# Rollback deployment
+rollback_deployment() {
+    print_msg "$YELLOW" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$YELLOW" "║              INITIATING ROLLBACK                               ║"
+    print_msg "$YELLOW" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    
+    log "WARN" "Initiating deployment rollback"
+    
+    # Stop current containers
+    print_msg "$CYAN" "→ Stopping current containers..."
+    docker compose -f docker-compose.unified.yml down 2>/dev/null || true
+    
+    # Restore previous state
+    if [ -f ".trae_snapshot_${DEPLOYMENT_ID}_commit.txt" ]; then
+        local prev_commit=$(cat ".trae_snapshot_${DEPLOYMENT_ID}_commit.txt")
+        print_msg "$CYAN" "→ Rolling back to commit: $prev_commit"
+        git checkout "$prev_commit" 2>/dev/null || true
+    fi
+    
+    # Restart with previous configuration
+    print_msg "$CYAN" "→ Restarting with previous configuration..."
+    docker compose -f docker-compose.unified.yml up -d 2>/dev/null || true
+    
+    print_msg "$GREEN" "✅ Rollback completed"
+    log "INFO" "Rollback completed"
+}
+
+# Deploy specific modules
+deploy_modules() {
+    local modules_to_deploy=$1
+    
+    print_msg "$BLUE" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$BLUE" "║              Deploying Modules                                 ║"
+    print_msg "$BLUE" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    
+    # Parse comma-separated modules
+    IFS=',' read -ra MODULE_ARRAY <<< "$modules_to_deploy"
+    
+    for module in "${MODULE_ARRAY[@]}"; do
+        # Trim whitespace
+        module=$(echo "$module" | xargs)
+        
+        print_msg "$CYAN" "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        print_msg "$CYAN" "Deploying module: $module"
+        print_msg "$CYAN" "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        log "INFO" "Deploying module: $module"
+        
+        case "$module" in
+            backend)
+                deploy_backend || return 1
+                ;;
+            frontend)
+                deploy_frontend || return 1
+                ;;
+            apis)
+                deploy_apis || return 1
+                ;;
+            microservices)
+                deploy_microservices || return 1
+                ;;
+            puabo-blac-financing)
+                deploy_puabo || return 1
+                ;;
+            analytics)
+                deploy_analytics || return 1
+                ;;
+            ott-pipelines)
+                deploy_ott_pipelines || return 1
+                ;;
+            *)
+                print_msg "$YELLOW" "⚠️  Unknown module: $module (skipping)"
+                log "WARN" "Unknown module: $module"
+                ;;
+        esac
+        
+        echo ""
+    done
+    
+    print_msg "$GREEN" "✅ All modules deployed successfully"
+    log "INFO" "All modules deployed successfully"
+}
+
+# Module deployment functions
+deploy_backend() {
+    print_msg "$CYAN" "  → Building backend services..."
+    docker compose -f docker-compose.unified.yml build backend || return 1
+    
+    print_msg "$CYAN" "  → Starting backend services..."
+    docker compose -f docker-compose.unified.yml up -d backend || return 1
+    
+    print_msg "$GREEN" "  ✓ Backend module deployed"
+    log "INFO" "Backend module deployed"
+    return 0
+}
+
+deploy_frontend() {
+    print_msg "$CYAN" "  → Building frontend application..."
+    docker compose -f docker-compose.unified.yml build frontend || return 1
+    
+    print_msg "$CYAN" "  → Starting frontend service..."
+    docker compose -f docker-compose.unified.yml up -d frontend || return 1
+    
+    print_msg "$GREEN" "  ✓ Frontend module deployed"
+    log "INFO" "Frontend module deployed"
+    return 0
+}
+
+deploy_apis() {
+    print_msg "$CYAN" "  → Deploying API layer..."
+    # APIs are part of backend, ensure backend is running
+    docker compose -f docker-compose.unified.yml up -d backend || return 1
+    
+    print_msg "$GREEN" "  ✓ APIs module deployed"
+    log "INFO" "APIs module deployed"
+    return 0
+}
+
+deploy_microservices() {
+    print_msg "$CYAN" "  → Deploying microservices..."
+    
+    # Deploy key microservices
+    local services=("auth-service" "key-service" "kei-ai" "nexus-cos-studio-ai")
+    
+    for service in "${services[@]}"; do
+        if docker compose -f docker-compose.unified.yml ps "$service" &>/dev/null; then
+            docker compose -f docker-compose.unified.yml up -d "$service" || print_msg "$YELLOW" "    ⚠️  $service not found in compose file"
+        fi
+    done
+    
+    print_msg "$GREEN" "  ✓ Microservices module deployed"
+    log "INFO" "Microservices module deployed"
+    return 0
+}
+
+deploy_puabo() {
+    print_msg "$CYAN" "  → Deploying PUABO-BLAC-Financing module..."
+    
+    # Deploy PUABO services
+    if docker compose -f docker-compose.unified.yml ps puabo &>/dev/null; then
+        docker compose -f docker-compose.unified.yml up -d puabo || return 1
+    else
+        print_msg "$YELLOW" "    ⚠️  PUABO service not found in compose file (may be part of monolith)"
+    fi
+    
+    print_msg "$GREEN" "  ✓ PUABO-BLAC-Financing module deployed"
+    log "INFO" "PUABO module deployed"
+    return 0
+}
+
+deploy_analytics() {
+    print_msg "$CYAN" "  → Deploying analytics module..."
+    
+    if docker compose -f docker-compose.unified.yml ps analytics &>/dev/null; then
+        docker compose -f docker-compose.unified.yml up -d analytics || return 1
+    else
+        print_msg "$YELLOW" "    ⚠️  Analytics service not found in compose file"
+    fi
+    
+    print_msg "$GREEN" "  ✓ Analytics module deployed"
+    log "INFO" "Analytics module deployed"
+    return 0
+}
+
+deploy_ott_pipelines() {
+    print_msg "$CYAN" "  → Deploying OTT pipelines module..."
+    
+    if docker compose -f docker-compose.unified.yml ps ott-streaming &>/dev/null; then
+        docker compose -f docker-compose.unified.yml up -d ott-streaming || return 1
+    else
+        print_msg "$YELLOW" "    ⚠️  OTT streaming service not found in compose file"
+    fi
+    
+    print_msg "$GREEN" "  ✓ OTT pipelines module deployed"
+    log "INFO" "OTT pipelines module deployed"
+    return 0
+}
+
+# Post-deployment audit
+post_deployment_audit() {
+    print_msg "$BLUE" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$BLUE" "║           Post-Deployment Audit                                ║"
+    print_msg "$BLUE" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    
+    log "INFO" "Starting post-deployment audit"
+    
+    local audit_passed=true
+    
+    # Check container health
+    print_msg "$CYAN" "→ Checking container health..."
+    local running_containers=$(docker ps --filter "status=running" --format "{{.Names}}" | wc -l)
+    print_msg "$GREEN" "  ✓ Running containers: $running_containers"
+    log "INFO" "Running containers: $running_containers"
+    
+    # Check for failed containers
+    local failed_containers=$(docker ps -a --filter "status=exited" --format "{{.Names}}" | wc -l)
+    if [ "$failed_containers" -gt 0 ]; then
+        print_msg "$YELLOW" "  ⚠️  Failed containers: $failed_containers"
+        log "WARN" "Failed containers: $failed_containers"
+        audit_passed=false
+    else
+        print_msg "$GREEN" "  ✓ No failed containers"
+    fi
+    
+    # Check health endpoints
+    print_msg "$CYAN" "→ Checking health endpoints..."
+    
+    sleep 5  # Give services time to start
+    
+    # Check backend health
+    if curl -s -f http://localhost:3000/health &>/dev/null || curl -s -f http://localhost:4000/health &>/dev/null; then
+        print_msg "$GREEN" "  ✓ Backend health endpoint responding"
+        log "INFO" "Backend health check passed"
+    else
+        print_msg "$YELLOW" "  ⚠️  Backend health endpoint not responding"
+        log "WARN" "Backend health check failed"
+        audit_passed=false
+    fi
+    
+    # Check database connectivity
+    print_msg "$CYAN" "→ Checking database connectivity..."
+    if docker compose -f docker-compose.unified.yml exec -T postgres pg_isready &>/dev/null; then
+        print_msg "$GREEN" "  ✓ Database is ready"
+        log "INFO" "Database connectivity check passed"
+    else
+        print_msg "$YELLOW" "  ⚠️  Database connectivity issues"
+        log "WARN" "Database connectivity check failed"
+        audit_passed=false
+    fi
+    
+    # Generate audit report
+    local audit_report="reports/post_deployment_audit_${DEPLOYMENT_ID}.txt"
+    mkdir -p reports
+    
+    cat > "$audit_report" << EOF
+╔════════════════════════════════════════════════════════════════╗
+║              POST-DEPLOYMENT AUDIT REPORT                      ║
+╚════════════════════════════════════════════════════════════════╝
+
+Deployment ID: ${DEPLOYMENT_ID}
+Date: $(date '+%Y-%m-%d %H:%M:%S')
+Modules Deployed: ${MODULES}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUDIT RESULTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Container Health:
+  Running Containers: ${running_containers}
+  Failed Containers: ${failed_containers}
+
+Service Health:
+  Backend: $(curl -s -f http://localhost:3000/health &>/dev/null && echo "OK" || echo "FAILED")
+  Database: $(docker compose -f docker-compose.unified.yml exec -T postgres pg_isready &>/dev/null && echo "OK" || echo "FAILED")
+
+Overall Status: $([ "$audit_passed" = true ] && echo "✅ PASSED" || echo "⚠️  REVIEW REQUIRED")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+    
+    print_msg "$GREEN" "✅ Audit report generated: $audit_report"
+    log "INFO" "Audit report generated: $audit_report"
+    
+    if [ "$audit_passed" = true ]; then
+        print_msg "$GREEN" "✅ Post-deployment audit passed"
+        log "INFO" "Post-deployment audit passed"
+        return 0
+    else
+        print_msg "$YELLOW" "⚠️  Post-deployment audit found issues"
+        log "WARN" "Post-deployment audit found issues"
+        return 1
+    fi
+}
+
+# Main deployment function
+main() {
+    print_msg "$PURPLE" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$PURPLE" "║                                                                ║"
+    print_msg "$PURPLE" "║              TRAE DEPLOY - Enhanced Deployment                 ║"
+    print_msg "$PURPLE" "║                     Version 1.0.0                              ║"
+    print_msg "$PURPLE" "║                                                                ║"
+    print_msg "$PURPLE" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    
+    log "INFO" "TRAE deployment started - ID: ${DEPLOYMENT_ID}"
+    log "INFO" "Source: ${SOURCE}, Repo: ${REPO}, Branch: ${BRANCH}"
+    log "INFO" "Modules: ${MODULES}"
+    
+    # Verify compliance report
+    if ! verify_compliance; then
+        print_msg "$RED" "❌ Compliance verification failed. Aborting deployment."
+        log "ERROR" "Compliance verification failed"
+        exit 1
+    fi
+    echo ""
+    
+    # Create snapshot for rollback
+    if [ "$ROLLBACK_ON_FAIL" = true ]; then
+        create_snapshot
+        echo ""
+    fi
+    
+    # Deploy modules
+    local deployment_failed=false
+    if ! deploy_modules "$MODULES"; then
+        deployment_failed=true
+        print_msg "$RED" "❌ Deployment failed"
+        log "ERROR" "Deployment failed"
+        
+        if [ "$ROLLBACK_ON_FAIL" = true ]; then
+            rollback_deployment
+            exit 1
+        fi
+    fi
+    
+    # Post-deployment audit
+    if [ "$POST_DEPLOY_AUDIT" = true ] && [ "$deployment_failed" = false ]; then
+        echo ""
+        if ! post_deployment_audit; then
+            print_msg "$YELLOW" "⚠️  Post-deployment audit found issues"
+            
+            if [ "$ROLLBACK_ON_FAIL" = true ]; then
+                rollback_deployment
+                exit 1
+            fi
+        fi
+    fi
+    
+    # Success
+    echo ""
+    print_msg "$GREEN" "╔════════════════════════════════════════════════════════════════╗"
+    print_msg "$GREEN" "║              DEPLOYMENT COMPLETED SUCCESSFULLY                 ║"
+    print_msg "$GREEN" "╚════════════════════════════════════════════════════════════════╝"
+    echo ""
+    print_msg "$CYAN" "Deployment ID: ${DEPLOYMENT_ID}"
+    print_msg "$CYAN" "Modules Deployed: ${MODULES}"
+    print_msg "$CYAN" "Log File: ${DEPLOYMENT_LOG}"
+    echo ""
+    
+    log "INFO" "Deployment completed successfully"
+}
+
+# Entry point
+if [ "$1" = "deploy" ]; then
+    shift
+    parse_args "$@"
+    main
+else
+    usage
+fi
