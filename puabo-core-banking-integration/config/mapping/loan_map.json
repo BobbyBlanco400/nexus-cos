@@ -1,0 +1,10 @@
+{
+  "puabo_field": "fineract_field",
+  "client_id": "clientId",
+  "product_id": "productId",
+  "principal": "principal",
+  "term_months": "loanTermFrequency",
+  "interest_rate": "interestRatePerPeriod",
+  "disbursement_date": "expectedDisbursementDate",
+  "first_payment_date": "repaymentsStartingFromDate"
+}

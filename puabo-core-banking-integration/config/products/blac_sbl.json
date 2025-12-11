@@ -1,0 +1,9 @@
+{
+  "product_name": "BLAC Small Business Loan",
+  "product_code": "BLAC_SBL",
+  "interest_rate": 10.0,
+  "term_months": 60,
+  "max_principal": 250000,
+  "collateral_required": true,
+  "description": "Small business loan product for BLAC entrepreneurs"
+}

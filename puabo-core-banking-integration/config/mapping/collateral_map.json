@@ -1,0 +1,8 @@
+{
+  "puabo_field": "fineract_field",
+  "collateral_type": "type",
+  "collateral_value": "value",
+  "description": "description",
+  "serial_number": "serialNumber",
+  "make_model": "description"
+}

@@ -1,0 +1,11 @@
+{
+  "puabo_field": "fineract_field",
+  "first_name": "firstname",
+  "last_name": "lastname",
+  "phone": "mobileNo",
+  "email": "emailAddress",
+  "address": "address",
+  "city": "city",
+  "state": "stateProvinceId",
+  "postal_code": "postalCode"
+}
