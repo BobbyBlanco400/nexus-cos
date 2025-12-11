@@ -45,6 +45,11 @@ echo -e "${YELLOW}Copying modules...${NC}"
 mkdir -p "$BUNDLE_DIR/modules"
 cp -r "$PROJECT_ROOT/modules"/* "$BUNDLE_DIR/modules/" 2>/dev/null || true
 
+# Copy frontend
+echo -e "${YELLOW}Copying Nexus Stream frontend (Vite + React)...${NC}"
+mkdir -p "$BUNDLE_DIR/frontend"
+cp -r "$PROJECT_ROOT/frontend"/* "$BUNDLE_DIR/frontend/" 2>/dev/null || true
+
 # Copy scripts
 echo -e "${YELLOW}Copying deployment scripts...${NC}"
 mkdir -p "$BUNDLE_DIR/scripts"
