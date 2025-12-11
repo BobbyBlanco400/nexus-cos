@@ -2,6 +2,9 @@
 ################################################################################
 # Nexus COS Platform Stack - Pre-Deployment Validation
 # Run this BEFORE deploying to verify everything is ready
+#
+# IMPORTANT: Run this script from the repository root directory
+# Usage: ./validate-deployment-ready.sh
 ################################################################################
 
 # Don't use set -e for validation script as we need to continue on errors

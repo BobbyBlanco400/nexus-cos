@@ -300,6 +300,7 @@ deploy_services() {
     print_success "Services started with PM2"
   else
     print_warning "PM2 ecosystem config not found, skipping PM2 deployment"
+    print_info "PM2 services can be started manually later using: pm2 start ecosystem.config.js"
   fi
   
   # Start services with Docker if docker-compose exists
@@ -307,6 +308,13 @@ deploy_services() {
     print_step "Starting services with Docker Compose..."
     docker compose -f docker-compose.unified.yml up -d --build
     print_success "Docker services started"
+  elif [ -f "docker-compose.yml" ]; then
+    print_step "Starting services with Docker Compose (using docker-compose.yml)..."
+    docker compose -f docker-compose.yml up -d --build
+    print_success "Docker services started"
+  else
+    print_warning "Docker Compose files not found, skipping Docker deployment"
+    print_info "Docker services can be started manually later"
   fi
   
   print_success "Microservices deployment completed"
@@ -323,11 +331,12 @@ configure_nginx() {
   
   # Create Nginx configuration
   local nginx_config="/etc/nginx/conf.d/nexuscos.conf"
+  local gen_date=$(date)
   
-  cat > "$nginx_config" <<'EOF'
+  cat > "$nginx_config" <<EOF
 # Nexus COS Platform - Nginx Configuration
 # Domain: nexuscos.online
-# Generated: $(date)
+# Generated: ${gen_date}
 
 upstream backend_api {
     server localhost:3000;
@@ -573,8 +582,14 @@ post_deployment() {
   echo -e "  ${BOLD}Services:${NC}       52 microservices"
   echo -e "  ${BOLD}Modules:${NC}        43 modules"
   echo -e "  ${BOLD}PUABO Core:${NC}     Running on port 7777"
-  echo -e "  ${BOLD}PM2 Processes:${NC}  $(pm2 list | grep -c 'online' || echo '0') running"
-  echo -e "  ${BOLD}Docker:${NC}         $(docker ps -q | wc -l) containers"
+  
+  # Count PM2 processes safely
+  local pm2_count=$(pm2 list 2>/dev/null | grep -c 'online' || echo '0')
+  echo -e "  ${BOLD}PM2 Processes:${NC}  ${pm2_count} running"
+  
+  # Count Docker containers safely
+  local docker_count=$(docker ps -q 2>/dev/null | wc -l || echo '0')
+  echo -e "  ${BOLD}Docker:${NC}         ${docker_count} containers"
   echo ""
   
   print_info "Management Commands:"
