@@ -39,8 +39,8 @@ services:
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
+    # No external port mapping - only accessible within Docker network
+    # This avoids conflicts with existing Redis on host port 6379
 
 volumes:
   fineract-db:
