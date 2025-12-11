@@ -1,0 +1,9 @@
+{
+  "product_name": "Nexus Fleet Financing",
+  "product_code": "NEXUS_FLEET",
+  "interest_rate": 8.5,
+  "term_months": 72,
+  "max_principal": 1000000,
+  "collateral_required": true,
+  "description": "Fleet financing product for Nexus commercial clients"
+}

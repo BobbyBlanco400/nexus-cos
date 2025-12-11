@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fineract
+    volumes:
+      - ./fineract-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+
+  fineract:
+    image: apache/fineract:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/fineract
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      FURTAPASS: admin
+    ports:
+      - "8443:8443"
+    depends_on:
+      - mysql
+    restart: unless-stopped
