@@ -1,0 +1,77 @@
+# Nexus COS Service List for Image Building
+# One service per line, comments start with #
+
+# Core Backend Services
+backend-api
+auth
+users
+
+# Content Management & Streaming
+content-cms
+transcoder
+streaming-engine
+drm-service
+asset-pipeline
+thumbnailer
+transcode-worker
+ingest-worker
+metadata-worker
+manifest-builder
+
+# Monetization & Commerce
+monetization
+puabo-blac-financing
+billing-worker
+payments
+wallet
+
+# Analytics & Intelligence
+analytics
+analytics-worker
+recommendation
+
+# Marketplace & E-Commerce
+marketplace
+
+# Frontend Applications
+frontend-app
+creator-dashboard
+ott-mini
+
+# Nexus Stream
+nexus-stream
+player-api
+
+# PUABO Universe
+puabo-nexus-fleet-manager
+puabo-nexus-ai-dispatch
+puabo-nexus-driver-app-backend
+puabo-nexus-route-optimizer
+puaboverse-v2
+
+# AI & Intelligence
+puabo-ai-core
+rtx-orchestrator
+rtx-worker
+
+# Notifications & Integration
+notifications
+email-worker
+webhook-worker
+thirdparty-connector
+crm-sync
+
+# Search & Discovery
+search
+profiles
+
+# Live Streaming
+live-ingest
+recorder
+stream-monitor
+
+# Upload & Storage
+uploader
+
+# Audit & Compliance
+audit-exporter

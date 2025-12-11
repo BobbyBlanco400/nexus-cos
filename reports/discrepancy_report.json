@@ -1,0 +1,288 @@
+{
+  "timestamp": "2025-12-11T05:59:57.918812Z",
+  "total_required": 47,
+  "total_present": 6,
+  "total_partial": 8,
+  "total_missing": 33,
+  "critical_missing": 3,
+  "parity_percentage": 12.77,
+  "present_modules": [
+    {
+      "module": "thumbnailer",
+      "matched_service": "ai-service",
+      "status": "present"
+    },
+    {
+      "module": "billing-worker",
+      "matched_service": "billing-service",
+      "status": "present"
+    },
+    {
+      "module": "frontend-app",
+      "matched_service": "puabo-nexus-driver-app-backend",
+      "status": "present"
+    },
+    {
+      "module": "puaboverse-v2",
+      "matched_service": "puaboverse-v2",
+      "status": "present"
+    },
+    {
+      "module": "puabo-ai-core",
+      "matched_service": "ai-service",
+      "status": "present"
+    },
+    {
+      "module": "email-worker",
+      "matched_service": "ai-service",
+      "status": "present"
+    }
+  ],
+  "partial_modules": [
+    {
+      "module": "backend-api",
+      "matched_services": [
+        "backend-api",
+        "puabo-nexus-driver-app-backend",
+        "puabo-dsp-streaming-api"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "auth",
+      "matched_services": [
+        "auth-service",
+        "user-auth",
+        "auth-service-v2"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "streaming-engine",
+      "matched_services": [
+        "streaming-service-v2",
+        "streamcore",
+        "puabo-dsp-streaming-api"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "puabo-blac-financing",
+      "matched_services": [
+        "puabo-blac-risk-assessment",
+        "puabo-blac-loan-processor"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "puabo-nexus-fleet-manager",
+      "matched_services": [
+        "puabo-nexus-fleet-manager",
+        "puabo-nexus"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "puabo-nexus-ai-dispatch",
+      "matched_services": [
+        "puabo-nexus-ai-dispatch",
+        "ai-service",
+        "puabo-nexus"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "puabo-nexus-driver-app-backend",
+      "matched_services": [
+        "puabo-nexus-driver-app-backend",
+        "puabo-nexus"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    },
+    {
+      "module": "puabo-nexus-route-optimizer",
+      "matched_services": [
+        "puabo-nexus-route-optimizer",
+        "puabo-nexus"
+      ],
+      "status": "partial",
+      "reason": "Multiple potential matches - manual verification needed"
+    }
+  ],
+  "missing_modules": [
+    {
+      "module": "users",
+      "status": "missing",
+      "critical": true
+    },
+    {
+      "module": "content-cms",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "transcoder",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "drm-service",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "asset-pipeline",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "transcode-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "ingest-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "metadata-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "manifest-builder",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "monetization",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "payments",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "wallet",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "analytics",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "analytics-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "recommendation",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "marketplace",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "creator-dashboard",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "ott-mini",
+      "status": "missing",
+      "critical": true
+    },
+    {
+      "module": "nexus-stream",
+      "status": "missing",
+      "critical": true
+    },
+    {
+      "module": "player-api",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "rtx-orchestrator",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "rtx-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "notifications",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "webhook-worker",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "thirdparty-connector",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "crm-sync",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "search",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "profiles",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "live-ingest",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "recorder",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "stream-monitor",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "uploader",
+      "status": "missing",
+      "critical": false
+    },
+    {
+      "module": "audit-exporter",
+      "status": "missing",
+      "critical": false
+    }
+  ],
+  "recommendation": "3 critical modules missing. Review and scaffold recommended.",
+  "action": "review_and_scaffold"
+}

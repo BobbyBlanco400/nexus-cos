@@ -1,0 +1,361 @@
+{
+  "timestamp": "2025-12-11T05:59:57.918812Z",
+  "workdir": "/home/runner/work/nexus-cos/nexus-cos",
+  "docker_ps": [],
+  "compose_files": [
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.pf.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.unified.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.nexus-full.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.pf.nexus.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.prod.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.yml",
+    "/home/runner/work/nexus-cos/nexus-cos/docker-compose.nginx.yml"
+  ],
+  "env_files": [],
+  "systemd_services": "",
+  "port_map": "",
+  "docker_journal": "",
+  "discovered_services": [
+    {
+      "name": "kei-ai",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/kei-ai",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "nexus-cos-studio-ai",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/nexus-cos-studio-ai",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "key-service",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/key-service",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "pv-keys",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/pv-keys",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "auth-service",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/auth-service",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "v-prompter-pro",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/v-prompter-pro",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "metatwin",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/metatwin",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabomusicchain",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabomusicchain",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "user-auth",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/user-auth",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nuki-product-catalog",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nuki-product-catalog",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "v-screen-pro",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/v-screen-pro",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-blac-risk-assessment",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-blac-risk-assessment",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "scheduler",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/scheduler",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "billing-service",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/billing-service",
+      "has_dockerfile": false,
+      "has_package_json": false,
+      "has_requirements": false
+    },
+    {
+      "name": "v-caster-pro",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/v-caster-pro",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "boom-boom-room-live",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/boom-boom-room-live",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "token-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/token-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puaboverse-v2",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puaboverse-v2",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-dsp-metadata-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-dsp-metadata-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nexus-route-optimizer",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nexus-route-optimizer",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nuki-shipping-service",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nuki-shipping-service",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nuki-inventory-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nuki-inventory-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "streaming-service-v2",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/streaming-service-v2",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "auth-service-v2",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/auth-service-v2",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nuki-order-processor",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nuki-order-processor",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "content-management",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/content-management",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "creator-hub-v2",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/creator-hub-v2",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nexus-ai-dispatch",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nexus-ai-dispatch",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "invoice-gen",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/invoice-gen",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "ledger-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/ledger-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "ai-service",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/ai-service",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "backend-api",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/backend-api",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "vscreen-hollywood",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/vscreen-hollywood",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-dsp-upload-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-dsp-upload-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nexus-driver-app-backend",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nexus-driver-app-backend",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nexus-fleet-manager",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nexus-fleet-manager",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "session-mgr",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/session-mgr",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "streamcore",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/streamcore",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "glitch",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/glitch",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-dsp-streaming-api",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-dsp-streaming-api",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puaboai-sdk",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puaboai-sdk",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-nexus",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-nexus",
+      "has_dockerfile": false,
+      "has_package_json": false,
+      "has_requirements": false
+    },
+    {
+      "name": "puabo-blac-loan-processor",
+      "path": "/home/runner/work/nexus-cos/nexus-cos/services/puabo-blac-loan-processor",
+      "has_dockerfile": true,
+      "has_package_json": true,
+      "has_requirements": false
+    }
+  ],
+  "environment_variables": {
+    "NODE_ENV": "<configured in .env.pf.example>",
+    "APP_NAME": "<configured in .env.example>",
+    "APP_VERSION": "<configured in .env.example>",
+    "APP_PORT": "<configured in .env.example>",
+    "AUTH_SERVICE_PORT": "<configured in .env.example>",
+    "AUTH_SERVICE_URL": "<configured in .env.example>",
+    "JWT_SECRET": "<configured in .env.pf.example>",
+    "JWT_EXPIRES_IN": "<configured in .env.pf.example>",
+    "JWT_REFRESH_EXPIRES_IN": "<configured in .env.pf.example>",
+    "BILLING_SERVICE_PORT": "<configured in .env.example>",
+    "BILLING_SERVICE_URL": "<configured in .env.example>",
+    "DATABASE_URL": "<configured in .env.example>",
+    "DB_HOST": "<configured in .env.pf.example>",
+    "DB_PORT": "<configured in .env.pf.example>",
+    "DB_NAME": "<configured in .env.pf.example>",
+    "DB_USER": "<configured in .env.pf.example>",
+    "DB_PASSWORD": "<configured in .env.pf.example>",
+    "SSL_ENABLED": "<configured in .env.example>",
+    "SSL_CERT_PATH": "<configured in .env.example>",
+    "SSL_KEY_PATH": "<configured in .env.example>",
+    "SSL_EMAIL": "<configured in .env.example>",
+    "NGINX_HOST": "<configured in .env.example>",
+    "NGINX_PORT": "<configured in .env.example>",
+    "NGINX_SSL_PORT": "<configured in .env.example>",
+    "LOG_LEVEL": "<configured in .env.pf.example>",
+    "LOG_DIR": "<configured in .env.example>",
+    "PM2_HOME": "<configured in .env.example>",
+    "PM2_INSTANCES": "<configured in .env.example>",
+    "DEBUG": "<configured in .env.pf.example>",
+    "VERBOSE": "<configured in .env.example>",
+    "PORT": "<configured in .env.pf.example>",
+    "REDIS_HOST": "<configured in .env.pf.example>",
+    "REDIS_PORT": "<configured in .env.pf.example>",
+    "OAUTH_CLIENT_ID": "<configured in .env.pf.example>",
+    "OAUTH_CLIENT_SECRET": "<configured in .env.pf.example>",
+    "PUABO_API_URL": "<configured in .env.pf.example>",
+    "PUABOAI_SDK_URL": "<configured in .env.pf.example>",
+    "PV_KEYS_URL": "<configured in .env.pf.example>"
+  }
+}
