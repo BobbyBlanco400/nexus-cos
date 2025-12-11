@@ -207,7 +207,7 @@ jobs:
           PACKAGE_FILE="reports/deployment_package_${OUTPUT_DATE}.tar.gz"
           
           # Create deployment package
-          tar -czf "${PACKAGE_FILE}" \
+          if ! tar -czf "${PACKAGE_FILE}" \
             deployment/ \
             scripts/ \
             reports/ \
@@ -215,7 +215,10 @@ jobs:
             docker-compose*.yml \
             .env*.example \
             README.md \
-            || true
+            2>&1 | tee -a reports/package_creation.log; then
+            echo "Warning: Deployment package creation had errors, check reports/package_creation.log"
+            # Continue anyway - partial package may still be useful
+          fi
           
           echo "package_file=${PACKAGE_FILE}" >> $GITHUB_OUTPUT
           echo "::endgroup::"

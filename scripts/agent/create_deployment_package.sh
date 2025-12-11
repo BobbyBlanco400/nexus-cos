@@ -88,9 +88,26 @@ services:
       - nexus-net
     restart: unless-stopped
   
-  # Add remaining 50 services here...
-  # This template shows the pattern, actual implementation
-  # would include all 52 services from the requirements
+  # Template for additional services (52 total required)
+  # Each service from deployment/service_list.txt should be added here
+  # following the pattern above. Services include:
+  # - Content Management & Streaming (10 services)
+  # - Monetization & Commerce (5 services)
+  # - Analytics (3 services)
+  # - PUABO Universe (5 services)
+  # - And 29 more services as defined in docs/investor_synopsis.md
+  #
+  # Example pattern for each service:
+  # service-name:
+  #   image: ${REGISTRY}/nexus/service-name:${VERSION}
+  #   environment:
+  #     - DATABASE_URL=postgresql://...
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   networks:
+  #     - nexus-net
+  #   restart: unless-stopped
   
 EOF
 

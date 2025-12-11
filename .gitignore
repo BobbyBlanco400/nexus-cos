@@ -73,4 +73,11 @@ trae-deployment.log
 .trae_snapshot_*
 reports/*.pdf
 reports/*.txt
+reports/*.tar.gz
+reports/*.tgz
+reports/deployment_report_*.json
+reports/test_results_*.log
+artifacts/artifacts_manifest.json
 !reports/.gitkeep
+!reports/discovery_parsed.json
+!reports/discrepancy_report.json

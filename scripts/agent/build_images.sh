@@ -84,11 +84,17 @@ build_service() {
             "${service_dir}" 2>&1 | tee "/tmp/build_${service_name}.log"
     fi
     
-    # Get image digest
-    local digest=$(docker inspect --format='{{index .RepoDigests 0}}' "${image_name}:${image_tag}" 2>/dev/null || echo "")
+    # Get image digest (RepoDigests only available after push)
+    # For locally built images, use Image ID instead
+    local digest=""
+    local repo_digests=$(docker inspect --format='{{.RepoDigests}}' "${image_name}:${image_tag}" 2>/dev/null || echo "[]")
+    if [ "${repo_digests}" != "[]" ] && [ "${repo_digests}" != "" ]; then
+        digest=$(docker inspect --format='{{index .RepoDigests 0}}' "${image_name}:${image_tag}" 2>/dev/null || echo "")
+    fi
+    
     if [ -z "${digest}" ]; then
-        # Fallback to image ID if digest not available
-        digest=$(docker inspect --format='{{.Id}}' "${image_name}:${image_tag}" 2>/dev/null || echo "unknown")
+        # Fallback to image ID for locally built images
+        digest=$(docker inspect --format='sha256:{{.Id}}' "${image_name}:${image_tag}" 2>/dev/null | sed 's/sha256:sha256:/sha256:/' || echo "unknown")
     fi
     
     echo "  ✓ Built successfully"

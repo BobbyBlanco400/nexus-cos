@@ -214,7 +214,8 @@ def check_feature_parity(discovery_file: str, synopsis_file: str, workdir: str) 
     }
     
     # Generate recommendation
-    if report["critical_missing"] > 6:
+    MAX_ACCEPTABLE_CRITICAL_MISSING = 6
+    if report["critical_missing"] > MAX_ACCEPTABLE_CRITICAL_MISSING:
         report["recommendation"] = "CRITICAL: More than 6 critical modules missing. Auto-scaffolding required."
         report["action"] = "auto_scaffold"
     elif report["critical_missing"] > 0:
