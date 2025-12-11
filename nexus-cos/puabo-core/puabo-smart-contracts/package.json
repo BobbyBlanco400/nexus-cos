@@ -6,7 +6,7 @@
     "start": "node engine/executor.js"
   },
   "dependencies": {
-    "uuid": "^9.1.0",
+    "uuid": "^9.0.1",
     "ws": "^8.17.1",
     "dotenv": "^16.3.1",
     "axios": "^1.12.0",
