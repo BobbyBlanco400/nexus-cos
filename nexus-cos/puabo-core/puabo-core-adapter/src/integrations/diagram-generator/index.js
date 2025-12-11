@@ -13,7 +13,7 @@ function generateDiagram() {
     E --> H
 `;
   
-  const docsPath = path.join(__dirname, '../../../docs/system-diagram.mmd');
+  const docsPath = path.join(__dirname, '../../../../docs/system-diagram.mmd');
   fs.writeFileSync(docsPath, diagram);
   console.log("System diagram generated at", docsPath);
 }
