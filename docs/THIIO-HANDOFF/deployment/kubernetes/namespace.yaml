@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-auth
+  labels:
+    name: nexus-auth
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-content
+  labels:
+    name: nexus-content
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-commerce
+  labels:
+    name: nexus-commerce
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-ai
+  labels:
+    name: nexus-ai
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-finance
+  labels:
+    name: nexus-finance
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-logistics
+  labels:
+    name: nexus-logistics
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-entertainment
+  labels:
+    name: nexus-entertainment
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-platform
+  labels:
+    name: nexus-platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-specialized
+  labels:
+    name: nexus-specialized

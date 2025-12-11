@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  # Database Services
+  postgresql:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: nexus
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: nexus_cos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: nexus
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  # API Gateway
+  backend-api:
+    build: ./services/backend-api
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://nexus:${DB_PASSWORD}@postgresql:5432/nexus_cos
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+
+  # Authentication Services
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://nexus:${DB_PASSWORD}@postgresql:5432/nexus_cos
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgresql
+      - redis
+
+  # Content Services
+  streaming-service-v2:
+    build: ./services/streaming-service-v2
+    ports:
+      - "3010:3010"
+    environment:
+      DATABASE_URL: postgresql://nexus:${DB_PASSWORD}@postgresql:5432/nexus_cos
+      CDN_URL: ${CDN_URL}
+    depends_on:
+      - postgresql
+
+  streamcore:
+    build: ./services/streamcore
+    ports:
+      - "3011:3011"
+    environment:
+      DATABASE_URL: postgresql://nexus:${DB_PASSWORD}@postgresql:5432/nexus_cos
+    depends_on:
+      - postgresql
+
+  # AI Services
+  kei-ai:
+    build: ./services/kei-ai
+    ports:
+      - "3030:3030"
+    environment:
+      DATABASE_URL: postgresql://nexus:${DB_PASSWORD}@postgresql:5432/nexus_cos
+    depends_on:
+      - postgresql
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  default:
+    name: nexus_cos_network
