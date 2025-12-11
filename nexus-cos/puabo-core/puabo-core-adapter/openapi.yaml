@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: PUABO Core Adapter API
+  version: "1.0.0"
+servers:
+  - url: http://localhost:7777
+paths:
+  /customers:
+    post:
+      summary: Create Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created
+  /accounts:
+    post:
+      summary: Create Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: Account created
+  /loans/fleet:
+    post:
+      summary: Create Fleet Loan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loan'
+      responses:
+        '201':
+          description: Loan created
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        kycStatus: { type: string }
+    Account:
+      type: object
+      properties:
+        customerId: { type: string }
+        type: { type: string }
+        balance: { type: number }
+        status: { type: string }
+    Loan:
+      type: object
+      properties:
+        customerId: { type: string }
+        productType: { type: string }
+        amount: { type: number }
+        riskScore: { type: number }
+        status: { type: string }

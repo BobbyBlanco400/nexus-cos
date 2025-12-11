@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  fineract-db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: fineract
+      POSTGRES_USER: fineract
+      POSTGRES_PASSWORD: fineract
+    ports:
+      - "5434:5432"
+    volumes:
+      - fineract-db:/var/lib/postgresql/data
+
+  fineract:
+    image: apache/fineract:latest
+    environment:
+      FINERACT_DEFAULT_TENANTDB_HOSTNAME: fineract-db
+    ports:
+      - "8880:8080"
+    depends_on:
+      - fineract-db
+
+  puabo-core-adapter:
+    build: ./puabo-core-adapter
+    ports:
+      - "7777:7777"
+    environment:
+      FINERACT_URL: http://fineract:8080/fineract-provider/api/v1
+    depends_on:
+      - fineract
+
+  puabo-smart-contracts:
+    build: ./puabo-smart-contracts
+    environment:
+      EVENT_BUS: redis://redis:6379
+    depends_on:
+      - redis
+      - puabo-core-adapter
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+volumes:
+  fineract-db:
