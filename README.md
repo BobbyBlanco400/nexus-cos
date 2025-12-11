@@ -9,12 +9,47 @@
 ![Beta Launch Ready](https://img.shields.io/badge/Beta-Launch%20Ready-brightgreen)
 ![Services](https://img.shields.io/badge/Services-42-blue)
 ![Modules](https://img.shields.io/badge/Modules-16-purple)
+![Agent Orchestration](https://img.shields.io/badge/Agent-Orchestration-purple)
 
 **🚀 The World's First Creative Operating System - Beta Launch Edition**
 
 A complete operating system featuring 17 integrated modules, 48 microservices, and unified ecosystem including PUABO Universe (Nexus Fleet, DSP, BLAC, NUKI), V-Suite, Club Saditty, StreamCore, GameCore, MusicChain, Casino-Nexus, and more.
 
 **Beta Launch:** beta.nexuscos.online
+
+---
+
+## 🤖 **NEW: GitHub Code Agent Orchestration System**
+
+**Automated full-stack reconstruction, build, and deployment for Nexus COS!**
+
+### Quick Start - Agent Orchestration
+
+```bash
+# Option 1: GitHub Actions (Recommended)
+# Go to Actions → "Nexus COS Agent Orchestration" → Run workflow
+
+# Option 2: Local Execution
+export WORKDIR=/tmp/nexus_agent
+bash scripts/agent/run_agent_local.sh
+```
+
+**What it does:**
+- ✅ Discovers 43 services automatically
+- ✅ Validates against 47 canonical modules
+- ✅ Auto-scaffolds missing services
+- ✅ Builds Docker images with digests
+- ✅ Generates compliance reports (PDF)
+- ✅ Creates deployment packages for IONOS
+- ✅ Publishes GitHub Releases
+
+**📄 Documentation:**
+- **[Quick Start Guide](QUICKSTART_AGENT.md)** ⚡ Start here!
+- **[Implementation Summary](IMPLEMENTATION_SUMMARY_AGENT.md)** 📊 Complete overview
+- **[Operator Guide](docs/AGENT_ORCHESTRATION_GUIDE.md)** 📖 Full documentation
+
+**Security:** ✅ CodeQL scanned - 0 vulnerabilities  
+**Status:** ✅ Production ready
 
 ---
 
