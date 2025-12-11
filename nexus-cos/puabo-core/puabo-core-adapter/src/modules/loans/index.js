@@ -4,7 +4,16 @@ const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const puaboAI = require('../../integrations/puabo-ai');
 const blockchain = require('../../integrations/puabo-blockchain');
-const loanApproval = require('../../../puabo-smart-contracts/contracts/loan.approval');
+
+// Simple local loan approval logic (for when smart contracts service is unavailable)
+async function localLoanApproval(loan) {
+  const riskThreshold = 70;
+  if (loan.riskScore >= riskThreshold && loan.amount <= 100000) {
+    return { status: "approved", auto: true };
+  } else {
+    return { status: "manual_review" };
+  }
+}
 
 // Fleet loan endpoint
 router.post('/fleet', async (req, res) => {
@@ -14,8 +23,9 @@ router.post('/fleet', async (req, res) => {
     // Calculate risk score
     const riskScore = req.body.riskScore || await puaboAI.calculateRiskScore(req.body);
     
-    // Run smart contract for approval
-    const approval = await loanApproval({ ...req.body, riskScore });
+    // Run smart contract for approval (using local logic for now)
+    // In production, this would call the smart contracts service via Redis event bus
+    const approval = await localLoanApproval({ ...req.body, riskScore });
     
     // Create loan in Fineract
     await axios.post(`${process.env.FINERACT_URL}/loans`, {
@@ -55,7 +65,7 @@ router.post('/personal', async (req, res) => {
   try {
     const loanId = uuidv4();
     const riskScore = req.body.riskScore || await puaboAI.calculateRiskScore(req.body);
-    const approval = await loanApproval({ ...req.body, riskScore });
+    const approval = await localLoanApproval({ ...req.body, riskScore });
     
     res.status(201).json({ 
       loanId,
@@ -76,7 +86,7 @@ router.post('/sbl', async (req, res) => {
   try {
     const loanId = uuidv4();
     const riskScore = req.body.riskScore || await puaboAI.calculateRiskScore(req.body);
-    const approval = await loanApproval({ ...req.body, riskScore });
+    const approval = await localLoanApproval({ ...req.body, riskScore });
     
     res.status(201).json({ 
       loanId,

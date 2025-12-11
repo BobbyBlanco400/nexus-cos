@@ -1,10 +1,13 @@
 // PUABO Blockchain Integration - Smart Contract Triggers
+const crypto = require('crypto');
+
 module.exports = {
   recordTransaction: async function(transactionData) {
     console.log('Recording transaction to blockchain:', transactionData);
-    // Simulate blockchain recording
+    // Simulate blockchain recording with cryptographically secure hash
+    const txHash = '0x' + crypto.randomBytes(32).toString('hex');
     return {
-      txHash: `0x${Math.random().toString(16).substr(2, 64)}`,
+      txHash,
       timestamp: new Date().toISOString(),
       status: 'confirmed'
     };
