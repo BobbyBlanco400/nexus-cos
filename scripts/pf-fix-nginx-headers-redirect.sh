@@ -162,62 +162,50 @@ ensure_confd_inclusion() {
 }
 
 # ==============================================================================
-# 4. Fix HTTP→HTTPS Redirect
+# 4. Fix HTTP→HTTPS Redirect in All Vhosts
 # ==============================================================================
 
 fix_https_redirect() {
-    print_section "4. FIX HTTP→HTTPS REDIRECT"
+    print_section "4. FIX HTTP→HTTPS REDIRECT IN ALL VHOSTS"
     
-    print_step "Finding active vhost configuration..."
+    print_step "Fixing redirect patterns in all vhosts..."
     
-    # Get the active vhost file using nginx -T
-    ACTIVE_VHOST=$(nginx -T 2>/dev/null | grep -B 5 "listen.*80" | grep "# configuration file:" | head -1 | awk '{print $4}')
+    local VHOST_COUNT=0
     
-    if [[ -z "$ACTIVE_VHOST" ]]; then
-        print_warning "Could not detect active vhost via nginx -T, searching manually..."
+    # Process all vhosts in /etc/nginx and /var/www/vhosts/system
+    for ROOT in /etc/nginx /var/www/vhosts/system; do
+        [ -d "$ROOT" ] || continue
         
-        # Search common locations
-        for conf_file in \
-            "${NGINX_CONF_DIR}/sites-enabled/default" \
-            "${NGINX_CONF_DIR}/sites-enabled/nexuscos" \
-            "${NGINX_CONF_DIR}/sites-available/default" \
-            "${NGINX_CONF_DIR}/sites-available/nexuscos" \
-            "${NGINX_CONF_DIR}/conf.d/default.conf" \
-            "${NGINX_CONF_DIR}/conf.d/nexus-cos.conf"; do
+        # Find all vhost files containing the domain
+        while IFS= read -r VF; do
+            [ -f "$VF" ] || continue
             
-            if [[ -f "$conf_file" ]] && grep -q "listen.*80" "$conf_file"; then
-                ACTIVE_VHOST="$conf_file"
-                break
-            fi
-        done
+            # Backup the vhost file
+            BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            cp "${VF}" "${VF}.backup.${BACKUP_TIMESTAMP}" 2>/dev/null || true
+            
+            # Normalize redirect patterns for apex+www
+            # Pattern 1: return 301 https://$server_name$request_uri;
+            # Pattern 2: return 301 https://domain.com$request_uri; (hardcoded domain)
+            # Pattern 3: return 301 https://;
+            # All become: return 301 https://$host$request_uri;
+            sed -i "s|return[[:space:]]*301[[:space:]]*https://\$server_name\$request_uri;|return 301 https://\$host\$request_uri;|g" "$VF"
+            sed -i "s|return[[:space:]]*301[[:space:]]*https://[a-zA-Z0-9.-]*\$request_uri;|return 301 https://\$host\$request_uri;|g" "$VF"
+            sed -i "s|return[[:space:]]*301[[:space:]]*https://;|return 301 https://\$host\$request_uri;|g" "$VF"
+            
+            # Remove any CSP add_header from vhosts so only zz-security-headers.conf applies
+            sed -i "/add_header[[:space:]]\+Content-Security-Policy/d" "$VF"
+            
+            ((VHOST_COUNT++))
+            print_info "Processed: ${VF}"
+        done < <(grep -RIl --include="*.conf" -E "server_name.*($DOMAIN|www\.$DOMAIN)" "$ROOT" 2>/dev/null || true)
+    done
+    
+    if [[ $VHOST_COUNT -eq 0 ]]; then
+        print_warning "No vhost files found for domain: ${DOMAIN}"
+    else
+        print_success "Fixed redirect patterns in ${VHOST_COUNT} vhost file(s)"
     fi
-    
-    if [[ -z "$ACTIVE_VHOST" ]]; then
-        print_error "Could not find active vhost configuration"
-        print_warning "Please manually update your Nginx vhost to use: return 301 https://\$host\$request_uri;"
-        return 1
-    fi
-    
-    print_success "Found vhost: ${ACTIVE_VHOST}"
-    
-    # Backup the vhost file
-    BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-    cp "${ACTIVE_VHOST}" "${ACTIVE_VHOST}.backup.${BACKUP_TIMESTAMP}"
-    print_info "Backup created: ${ACTIVE_VHOST}.backup.${BACKUP_TIMESTAMP}"
-    
-    print_step "Fixing redirect pattern in ${ACTIVE_VHOST}..."
-    
-    # Replace various redirect patterns with the correct one
-    # Pattern 1: return 301 https://$server_name$request_uri;
-    # Pattern 2: return 301 https://domain.com$request_uri; (hardcoded domain)
-    # Pattern 3: return 301 https://;
-    # All become: return 301 https://$host$request_uri;
-    
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://\$server_name\$request_uri;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://[a-zA-Z0-9.-]*\$request_uri;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
-    sed -i "s|return[[:space:]]*301[[:space:]]*https://;|return 301 https://\$host\$request_uri;|g" "${ACTIVE_VHOST}"
-    
-    print_success "Redirect pattern updated to: return 301 https://\$host\$request_uri;"
 }
 
 # ==============================================================================
@@ -229,37 +217,114 @@ remove_stray_backticks() {
     
     print_step "Scanning for backticks in Nginx configuration files..."
     
-    BACKTICK_COUNT=0
+    local FILES_CLEANED=0
     
-    # Search for backticks in all .conf files
-    while IFS= read -r conf_file; do
-        if grep -q '`' "$conf_file"; then
-            print_warning "Found backticks in: ${conf_file}"
-            
-            # Backup before modification
-            cp "${conf_file}" "${conf_file}.backup.$(date +%Y%m%d_%H%M%S)"
-            
-            # Remove backticks
-            sed -i 's/`//g' "$conf_file"
-            
-            ((BACKTICK_COUNT++))
-            print_success "Removed backticks from: ${conf_file}"
+    # Strip any stray backticks from all confs in /etc/nginx and /var/www/vhosts/system
+    for ROOT in /etc/nginx /var/www/vhosts/system; do
+        [ -d "$ROOT" ] || continue
+        
+        print_info "Processing directory: ${ROOT}"
+        
+        # Use perl to remove all backticks (ASCII 0x60)
+        if command -v perl &> /dev/null; then
+            # Find and process all .conf files
+            while IFS= read -r conf_file; do
+                [ -f "$conf_file" ] || continue
+                
+                # Check if file contains backticks before processing
+                if grep -q '`' "$conf_file" 2>/dev/null; then
+                    print_warning "Found backticks in: ${conf_file}"
+                    
+                    # Backup before modification
+                    cp "${conf_file}" "${conf_file}.backup.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
+                    
+                    # Remove backticks using perl
+                    perl -0777 -pe 's/\x60//g' -i "$conf_file"
+                    
+                    ((FILES_CLEANED++))
+                    print_success "Cleaned backticks from: ${conf_file}"
+                fi
+            done < <(find "$ROOT" -type f -name "*.conf" 2>/dev/null || true)
+        else
+            print_warning "perl not found, using sed fallback"
+            # Fallback to sed if perl is not available
+            while IFS= read -r conf_file; do
+                [ -f "$conf_file" ] || continue
+                
+                if grep -q '`' "$conf_file" 2>/dev/null; then
+                    cp "${conf_file}" "${conf_file}.backup.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
+                    sed -i 's/`//g' "$conf_file"
+                    ((FILES_CLEANED++))
+                fi
+            done < <(find "$ROOT" -type f -name "*.conf" 2>/dev/null || true)
         fi
-    done < <(find "${NGINX_CONF_DIR}" -type f -name "*.conf")
+    done
     
-    if [[ $BACKTICK_COUNT -eq 0 ]]; then
+    if [[ $FILES_CLEANED -eq 0 ]]; then
         print_success "No stray backticks found"
     else
-        print_success "Cleaned backticks from ${BACKTICK_COUNT} file(s)"
+        print_success "Cleaned backticks from ${FILES_CLEANED} file(s)"
     fi
 }
 
 # ==============================================================================
-# 6. Validate and Reload Nginx
+# 6. Remove Duplicate Configuration Files
+# ==============================================================================
+
+remove_duplicate_configs() {
+    print_section "6. REMOVE DUPLICATE CONFIGURATION FILES"
+    
+    print_step "Checking for Plesk vhost configuration..."
+    
+    # Check if Plesk vhost exists
+    PLESK_VHOST_EXISTS=false
+    if ls /var/www/vhosts/system/"${DOMAIN}"/conf/vhost_nginx.conf >/dev/null 2>&1 || \
+       ls /var/www/vhosts/system/"${DOMAIN}"/conf/nginx.conf >/dev/null 2>&1; then
+        PLESK_VHOST_EXISTS=true
+        print_success "Plesk vhost found for ${DOMAIN}"
+    else
+        print_info "No Plesk vhost found for ${DOMAIN}"
+    fi
+    
+    # If Plesk vhost exists, remove our redirect file to avoid duplicate server_name warnings
+    if [[ "$PLESK_VHOST_EXISTS" = true ]]; then
+        if [[ -f "${NGINX_CONF_DIR}/conf.d/zz-redirect.conf" ]]; then
+            print_step "Removing zz-redirect.conf (Plesk vhost handles redirects)..."
+            rm -f "${NGINX_CONF_DIR}/conf.d/zz-redirect.conf"
+            print_success "Removed zz-redirect.conf"
+        else
+            print_info "zz-redirect.conf not found (already removed)"
+        fi
+    fi
+    
+    # Remove known duplicate gateway confs
+    print_step "Removing duplicate gateway configurations..."
+    local REMOVED_COUNT=0
+    
+    for gateway_conf in \
+        "${NGINX_CONF_DIR}/conf.d/pf_gateway_${DOMAIN}.conf" \
+        "${NGINX_CONF_DIR}/conf.d/pf_gateway_www.${DOMAIN}.conf"; do
+        
+        if [[ -f "$gateway_conf" ]]; then
+            rm -f "$gateway_conf"
+            print_success "Removed: $(basename "$gateway_conf")"
+            ((REMOVED_COUNT++))
+        fi
+    done
+    
+    if [[ $REMOVED_COUNT -eq 0 ]]; then
+        print_info "No duplicate gateway configs found"
+    else
+        print_success "Removed ${REMOVED_COUNT} duplicate gateway config(s)"
+    fi
+}
+
+# ==============================================================================
+# 7. Validate and Reload Nginx
 # ==============================================================================
 
 validate_and_reload_nginx() {
-    print_section "6. VALIDATE AND RELOAD NGINX"
+    print_section "7. VALIDATE AND RELOAD NGINX"
     
     print_step "Testing Nginx configuration..."
     
@@ -287,21 +352,28 @@ validate_and_reload_nginx() {
 }
 
 # ==============================================================================
-# 7. Verify Results
+# 8. Verify Results
 # ==============================================================================
 
 verify_results() {
-    print_section "7. VERIFY RESULTS"
+    print_section "8. VERIFY RESULTS"
     
     print_step "Checking HTTP→HTTPS redirect..."
     
     # Test HTTP redirect (if curl is available)
     if command -v curl &> /dev/null; then
-        REDIRECT_TEST=$(curl -s -I "http://${DOMAIN}/" 2>/dev/null | grep -i "location:" | head -1)
+        REDIRECT_TEST=$(curl -s -I "http://${DOMAIN}/" 2>/dev/null | tr -d '\r' | grep -i "^location:" | head -1)
         
         if echo "$REDIRECT_TEST" | grep -q "https://${DOMAIN}"; then
             print_success "HTTP redirects correctly to HTTPS"
             print_info "Redirect: ${REDIRECT_TEST}"
+            
+            # Check for backticks in Location header
+            if echo "$REDIRECT_TEST" | grep -q '`'; then
+                print_error "Location header contains backticks!"
+            else
+                print_success "Location header is clean (no backticks)"
+            fi
         else
             print_warning "Could not verify redirect (this may be normal if testing locally)"
             print_info "Expected: Location: https://${DOMAIN}/"
@@ -314,34 +386,50 @@ verify_results() {
     
     # Test security headers (if curl is available)
     if command -v curl &> /dev/null; then
-        HEADERS=$(curl -s -I -k "https://${DOMAIN}/" 2>/dev/null || curl -s -I "http://localhost/" 2>/dev/null)
+        HEADERS=$(curl -s -I -k "https://${DOMAIN}/" 2>/dev/null | tr -d '\r' || curl -s -I "http://localhost/" 2>/dev/null | tr -d '\r')
         
         # Check for each security header
-        if echo "$HEADERS" | grep -qi "Strict-Transport-Security"; then
+        if echo "$HEADERS" | grep -qi "^Strict-Transport-Security"; then
+            HSTS_LINE=$(echo "$HEADERS" | grep -i "^Strict-Transport-Security" | head -1)
             print_success "HSTS header present"
+            print_info "${HSTS_LINE}"
+            
+            # Check for backticks
+            if echo "$HSTS_LINE" | grep -q '`'; then
+                print_error "HSTS header contains backticks!"
+            fi
         else
             print_warning "HSTS header not detected"
         fi
         
-        if echo "$HEADERS" | grep -qi "Content-Security-Policy"; then
+        if echo "$HEADERS" | grep -qi "^Content-Security-Policy"; then
+            CSP_LINE=$(echo "$HEADERS" | grep -i "^Content-Security-Policy" | head -1)
             print_success "CSP header present"
+            print_info "${CSP_LINE}"
+            
+            # Check for backticks
+            if echo "$CSP_LINE" | grep -q '`'; then
+                print_error "CSP header contains backticks!"
+            else
+                print_success "CSP header is clean (no backticks)"
+            fi
         else
             print_warning "CSP header not detected"
         fi
         
-        if echo "$HEADERS" | grep -qi "X-Content-Type-Options"; then
+        if echo "$HEADERS" | grep -qi "^X-Content-Type-Options"; then
             print_success "X-Content-Type-Options header present"
         else
             print_warning "X-Content-Type-Options header not detected"
         fi
         
-        if echo "$HEADERS" | grep -qi "X-Frame-Options"; then
+        if echo "$HEADERS" | grep -qi "^X-Frame-Options"; then
             print_success "X-Frame-Options header present"
         else
             print_warning "X-Frame-Options header not detected"
         fi
         
-        if echo "$HEADERS" | grep -qi "Referrer-Policy"; then
+        if echo "$HEADERS" | grep -qi "^Referrer-Policy"; then
             print_success "Referrer-Policy header present"
         else
             print_warning "Referrer-Policy header not detected"
@@ -352,9 +440,6 @@ verify_results() {
     
     print_step "Configuration files created/modified:"
     print_info "Security headers: ${SECURITY_HEADERS_CONF}"
-    if [[ -n "$ACTIVE_VHOST" ]]; then
-        print_info "Vhost configuration: ${ACTIVE_VHOST}"
-    fi
 }
 
 # ==============================================================================
@@ -370,6 +455,7 @@ main() {
     ensure_confd_inclusion
     fix_https_redirect
     remove_stray_backticks
+    remove_duplicate_configs
     validate_and_reload_nginx
     verify_results
     
@@ -381,8 +467,11 @@ main() {
     echo -e "${CYAN}What was done:${NC}"
     echo -e "  ${GREEN}✓${NC} Security headers added to ${SECURITY_HEADERS_CONF}"
     echo -e "  ${GREEN}✓${NC} conf.d/*.conf inclusion verified in nginx.conf"
-    echo -e "  ${GREEN}✓${NC} HTTP→HTTPS redirect fixed to https://\$host\$request_uri"
-    echo -e "  ${GREEN}✓${NC} Stray backticks removed from configs"
+    echo -e "  ${GREEN}✓${NC} conf.d/*.conf inclusion verified in nginx.conf"
+    echo -e "  ${GREEN}✓${NC} HTTP→HTTPS redirect fixed in all vhosts to https://\$host\$request_uri"
+    echo -e "  ${GREEN}✓${NC} Duplicate CSP headers removed from vhosts"
+    echo -e "  ${GREEN}✓${NC} Stray backticks removed from all configs"
+    echo -e "  ${GREEN}✓${NC} Duplicate gateway and redirect configs removed"
     echo -e "  ${GREEN}✓${NC} Nginx validated and reloaded"
     echo ""
     echo -e "${CYAN}Next steps:${NC}"
