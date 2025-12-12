@@ -1,0 +1,339 @@
+#!/bin/bash
+
+# Generate .env.example templates for all services
+# Part of the THIIO Complete Handoff Package
+
+set -e
+
+echo "========================================="
+echo "Nexus COS - Environment Template Generator"
+echo "========================================="
+echo ""
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OUTPUT_DIR="$PROJECT_ROOT/dist/env-templates"
+
+# Create output directory
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
+
+echo "Generating .env.example templates for all services..."
+echo ""
+
+GENERATED_COUNT=0
+
+# Function to generate env template
+generate_env_template() {
+  local SERVICE_NAME=$1
+  local SERVICE_PATH=$2
+  
+  cat > "$OUTPUT_DIR/${SERVICE_NAME}.env.example" <<EOF
+# Environment variables for $SERVICE_NAME
+# Copy this file to .env and update with your values
+
+# Node Environment
+NODE_ENV=development
+
+# Server Configuration
+PORT=3000
+HOST=0.0.0.0
+
+# Database Configuration
+DATABASE_URL=postgresql://user:password@localhost:5432/nexus_cos
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=nexus_cos
+DATABASE_USER=user
+DATABASE_PASSWORD=password
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_EXPIRES_IN=24h
+JWT_REFRESH_EXPIRES_IN=7d
+
+# API Configuration
+API_VERSION=v1
+API_BASE_URL=http://localhost:3000
+API_KEY=your-api-key-here
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+CORS_CREDENTIALS=true
+
+# Logging
+LOG_LEVEL=info
+LOG_FORMAT=json
+
+# Service-specific
+SERVICE_NAME=$SERVICE_NAME
+SERVICE_VERSION=1.0.0
+
+# Third-party APIs (add as needed)
+# STRIPE_API_KEY=
+# SENDGRID_API_KEY=
+# AWS_ACCESS_KEY_ID=
+# AWS_SECRET_ACCESS_KEY=
+# AWS_REGION=us-east-1
+
+# Feature Flags
+ENABLE_RATE_LIMITING=true
+ENABLE_CACHING=true
+ENABLE_METRICS=true
+
+# Security
+ENCRYPTION_KEY=your-encryption-key-change-in-production
+SESSION_SECRET=your-session-secret-change-in-production
+
+# External Services
+AUTH_SERVICE_URL=http://localhost:3001
+USER_SERVICE_URL=http://localhost:3002
+PAYMENT_SERVICE_URL=http://localhost:3003
+EOF
+  
+  GENERATED_COUNT=$((GENERATED_COUNT + 1))
+  echo "✓ Generated: ${SERVICE_NAME}.env.example"
+}
+
+# Generate templates for all services
+if [ -d "$PROJECT_ROOT/services" ]; then
+  for service_dir in "$PROJECT_ROOT/services"/*; do
+    if [ -d "$service_dir" ]; then
+      SERVICE_NAME=$(basename "$service_dir")
+      
+      # Skip README
+      if [ "$SERVICE_NAME" == "README.md" ]; then
+        continue
+      fi
+      
+      generate_env_template "$SERVICE_NAME" "$service_dir"
+    fi
+  done
+fi
+
+# Generate root .env.example for the entire platform
+cat > "$PROJECT_ROOT/.env.example" <<'EOF'
+# Nexus COS Platform - Master Environment Configuration
+# Copy this file to .env and update with your actual values
+
+#================================================
+# PLATFORM CONFIGURATION
+#================================================
+NODE_ENV=development
+PLATFORM_NAME=Nexus COS
+PLATFORM_VERSION=1.0.0
+
+#================================================
+# DATABASE CONFIGURATION
+#================================================
+# Primary PostgreSQL Database
+DATABASE_URL=postgresql://nexus_user:your_password@localhost:5432/nexus_cos
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=nexus_cos
+DATABASE_USER=nexus_user
+DATABASE_PASSWORD=your_password
+DATABASE_SSL=false
+DATABASE_POOL_MIN=2
+DATABASE_POOL_MAX=10
+
+# MongoDB (for certain services)
+MONGODB_URL=mongodb://localhost:27017/nexus_cos
+MONGODB_HOST=localhost
+MONGODB_PORT=27017
+MONGODB_DATABASE=nexus_cos
+
+#================================================
+# CACHE & MESSAGE QUEUE
+#================================================
+# Redis
+REDIS_URL=redis://localhost:6379
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+REDIS_DB=0
+
+# RabbitMQ
+RABBITMQ_URL=amqp://guest:guest@localhost:5672
+RABBITMQ_HOST=localhost
+RABBITMQ_PORT=5672
+RABBITMQ_USER=guest
+RABBITMQ_PASSWORD=guest
+
+#================================================
+# AUTHENTICATION & SECURITY
+#================================================
+JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters-long
+JWT_EXPIRES_IN=24h
+JWT_REFRESH_EXPIRES_IN=7d
+JWT_REFRESH_SECRET=your-refresh-token-secret-key
+
+# Session
+SESSION_SECRET=your-session-secret-key
+SESSION_MAX_AGE=86400000
+
+# Encryption
+ENCRYPTION_KEY=your-encryption-key-32-chars-long
+ENCRYPTION_ALGORITHM=aes-256-gcm
+
+#================================================
+# API CONFIGURATION
+#================================================
+API_VERSION=v1
+API_BASE_URL=http://localhost:3000
+API_RATE_LIMIT=100
+API_RATE_WINDOW=900000
+
+# CORS
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000,http://localhost:8080
+CORS_CREDENTIALS=true
+
+#================================================
+# SERVICE PORTS (Development)
+#================================================
+BACKEND_API_PORT=3000
+AUTH_SERVICE_PORT=3001
+USER_SERVICE_PORT=3002
+PAYMENT_SERVICE_PORT=3003
+BILLING_SERVICE_PORT=3004
+CONTENT_MANAGEMENT_PORT=3005
+STREAMING_SERVICE_PORT=3006
+AI_SERVICE_PORT=3007
+CREATOR_HUB_PORT=3008
+METATWIN_PORT=3009
+
+#================================================
+# FRONTEND CONFIGURATION
+#================================================
+FRONTEND_PORT=5173
+FRONTEND_URL=http://localhost:5173
+VITE_API_URL=http://localhost:3000
+
+#================================================
+# CLOUD STORAGE (AWS S3)
+#================================================
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=nexus-cos-storage
+AWS_S3_CDN_URL=https://cdn.example.com
+
+#================================================
+# EMAIL SERVICE
+#================================================
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@example.com
+SMTP_PASSWORD=your-email-password
+SMTP_FROM=noreply@nexus-cos.com
+SMTP_FROM_NAME=Nexus COS
+
+# SendGrid (alternative)
+SENDGRID_API_KEY=your-sendgrid-api-key
+SENDGRID_FROM_EMAIL=noreply@nexus-cos.com
+
+#================================================
+# PAYMENT GATEWAYS
+#================================================
+# Stripe
+STRIPE_PUBLIC_KEY=pk_test_your_key
+STRIPE_SECRET_KEY=sk_test_your_key
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
+
+# PayPal
+PAYPAL_CLIENT_ID=your-paypal-client-id
+PAYPAL_CLIENT_SECRET=your-paypal-secret
+PAYPAL_MODE=sandbox
+
+#================================================
+# BANKING SERVICES (PUABO BLAC)
+#================================================
+BANKING_SERVICE_URL=http://localhost:3100
+LOAN_PROCESSOR_URL=http://localhost:3101
+RISK_ASSESSMENT_URL=http://localhost:3102
+BANKING_API_KEY=your-banking-api-key
+
+#================================================
+# STREAMING & OTT (Nexus Stream / OTT Mini)
+#================================================
+STREAMING_CDN_URL=https://stream-cdn.example.com
+OTT_SERVICE_URL=http://localhost:4000
+STREAM_ENCRYPTION_KEY=your-stream-encryption-key
+HLS_SEGMENT_DURATION=10
+DASH_SEGMENT_DURATION=10
+
+#================================================
+# AI & ML SERVICES
+#================================================
+AI_SERVICE_URL=http://localhost:3007
+OPENAI_API_KEY=your-openai-api-key
+ANTHROPIC_API_KEY=your-anthropic-api-key
+HUGGINGFACE_API_KEY=your-huggingface-api-key
+
+#================================================
+# DSP (Digital Service Platform)
+#================================================
+DSP_METADATA_SERVICE_PORT=3200
+DSP_STREAMING_API_PORT=3201
+DSP_UPLOAD_SERVICE_PORT=3202
+DSP_API_KEY=your-dsp-api-key
+
+#================================================
+# MONITORING & LOGGING
+#================================================
+LOG_LEVEL=info
+LOG_FORMAT=json
+LOG_FILE_PATH=./logs
+
+# Sentry (Error Tracking)
+SENTRY_DSN=your-sentry-dsn
+SENTRY_ENVIRONMENT=development
+
+# Prometheus
+PROMETHEUS_PORT=9090
+METRICS_ENABLED=true
+
+#================================================
+# FEATURE FLAGS
+#================================================
+ENABLE_RATE_LIMITING=true
+ENABLE_CACHING=true
+ENABLE_METRICS=true
+ENABLE_SWAGGER=true
+ENABLE_GRAPHQL=true
+ENABLE_WEBSOCKETS=true
+
+#================================================
+# DEPLOYMENT
+#================================================
+DEPLOYMENT_ENV=development
+CLUSTER_MODE=false
+PM2_INSTANCES=2
+DOCKER_REGISTRY=registry.example.com
+KUBERNETES_NAMESPACE=nexus-cos
+
+#================================================
+# ADDITIONAL CONFIGURATION
+#================================================
+TIMEZONE=UTC
+DEFAULT_LANGUAGE=en
+SUPPORTED_LANGUAGES=en,es,fr,de
+EOF
+
+echo ""
+echo "✓ Generated platform-wide .env.example at repository root"
+echo ""
+echo "========================================="
+echo "Environment Template Generation Complete!"
+echo "========================================="
+echo ""
+echo "Output directory: $OUTPUT_DIR"
+echo "Templates generated: $GENERATED_COUNT"
+echo ""
+echo "Platform .env.example: $PROJECT_ROOT/.env.example"
+echo ""
