@@ -1,0 +1,40 @@
+{
+  "package": "Nexus COS - Complete THIIO Handoff Package",
+  "version": "1.0.0",
+  "path": "dist/Nexus-COS-THIIO-FullStack.zip",
+  "sha256": "213AC422A4D8596CB62E0FA7CC391DF7B71DF73DE53CBE48E27C1F4431259966",
+  "size_bytes": 1769726,
+  "size_human": "1.68 MB",
+  "generated_at": "2025-12-12T17:16:44Z",
+  "platform": {
+    "name": "Nexus COS",
+    "description": "Complete Operating System Platform"
+  },
+  "contents": {
+    "services": "52+ services (backend, AI, banking, OTT, Stream, DSP, Auth, Core)",
+    "modules": "43 functional modules",
+    "infrastructure": "All Dockerfiles, K8s manifests, Docker Compose, PM2 configs",
+    "banking_layer": "Complete PUABO BLAC banking services and migrations",
+    "streaming": "Nexus Stream & Nexus OTT Mini",
+    "documentation": "23-file THIIO minimal handoff documentation package",
+    "scripts": "Build, test, deploy, migration, and validation scripts"
+  },
+  "excluded": [
+    "node_modules",
+    "dist/build output",
+    "logs",
+    "binaries",
+    ".git",
+    "__pycache__"
+  ],
+  "deployment": {
+    "supported_platforms": ["Kubernetes", "Docker Compose", "PM2", "Bare Metal"],
+    "required_services": ["PostgreSQL 14+", "Redis 7+", "RabbitMQ (optional)"],
+    "min_requirements": {
+      "cpu": "4 cores",
+      "memory": "8GB RAM",
+      "storage": "50GB"
+    }
+  },
+  "note": "This package contains the entire Nexus COS platform stack (52+ services, 43 modules), all infrastructure, all manifests, all scripts, the banking layer, and the 23-file minimal THIIO kit. Ready for immediate deployment."
+}
