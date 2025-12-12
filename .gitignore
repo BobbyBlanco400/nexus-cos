@@ -8,7 +8,8 @@ pnpm-debug.log*
 .pnpm-debug.log*
 
 # Build outputs
-dist/
+dist/*
+!dist/*-manifest.json
 build/
 */dist/
 */build/
