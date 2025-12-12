@@ -1,3 +1,123 @@
+#!/bin/bash
+
+# Generate .env.example templates for all services
+# Part of the THIIO Complete Handoff Package
+
+set -e
+
+echo "========================================="
+echo "Nexus COS - Environment Template Generator"
+echo "========================================="
+echo ""
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OUTPUT_DIR="$PROJECT_ROOT/dist/env-templates"
+
+# Create output directory
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
+
+echo "Generating .env.example templates for all services..."
+echo ""
+
+GENERATED_COUNT=0
+
+# Function to generate env template
+generate_env_template() {
+  local SERVICE_NAME=$1
+  local SERVICE_PATH=$2
+  
+  cat > "$OUTPUT_DIR/${SERVICE_NAME}.env.example" <<EOF
+# Environment variables for $SERVICE_NAME
+# Copy this file to .env and update with your values
+
+# Node Environment
+NODE_ENV=development
+
+# Server Configuration
+PORT=3000
+HOST=0.0.0.0
+
+# Database Configuration
+DATABASE_URL=postgresql://user:password@localhost:5432/nexus_cos
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=nexus_cos
+DATABASE_USER=user
+DATABASE_PASSWORD=password
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_EXPIRES_IN=24h
+JWT_REFRESH_EXPIRES_IN=7d
+
+# API Configuration
+API_VERSION=v1
+API_BASE_URL=http://localhost:3000
+API_KEY=your-api-key-here
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+CORS_CREDENTIALS=true
+
+# Logging
+LOG_LEVEL=info
+LOG_FORMAT=json
+
+# Service-specific
+SERVICE_NAME=$SERVICE_NAME
+SERVICE_VERSION=1.0.0
+
+# Third-party APIs (add as needed)
+# STRIPE_API_KEY=
+# SENDGRID_API_KEY=
+# AWS_ACCESS_KEY_ID=
+# AWS_SECRET_ACCESS_KEY=
+# AWS_REGION=us-east-1
+
+# Feature Flags
+ENABLE_RATE_LIMITING=true
+ENABLE_CACHING=true
+ENABLE_METRICS=true
+
+# Security
+ENCRYPTION_KEY=your-encryption-key-change-in-production
+SESSION_SECRET=your-session-secret-change-in-production
+
+# External Services
+AUTH_SERVICE_URL=http://localhost:3001
+USER_SERVICE_URL=http://localhost:3002
+PAYMENT_SERVICE_URL=http://localhost:3003
+EOF
+  
+  GENERATED_COUNT=$((GENERATED_COUNT + 1))
+  echo "✓ Generated: ${SERVICE_NAME}.env.example"
+}
+
+# Generate templates for all services
+if [ -d "$PROJECT_ROOT/services" ]; then
+  for service_dir in "$PROJECT_ROOT/services"/*; do
+    if [ -d "$service_dir" ]; then
+      SERVICE_NAME=$(basename "$service_dir")
+      
+      # Skip README
+      if [ "$SERVICE_NAME" == "README.md" ]; then
+        continue
+      fi
+      
+      generate_env_template "$SERVICE_NAME" "$service_dir"
+    fi
+  done
+fi
+
+# Generate root .env.example for the entire platform
+cat > "$PROJECT_ROOT/.env.example" <<'EOF'
 # Nexus COS Platform - Master Environment Configuration
 # Copy this file to .env and update with your actual values
 
@@ -203,3 +323,17 @@ KUBERNETES_NAMESPACE=nexus-cos
 TIMEZONE=UTC
 DEFAULT_LANGUAGE=en
 SUPPORTED_LANGUAGES=en,es,fr,de
+EOF
+
+echo ""
+echo "✓ Generated platform-wide .env.example at repository root"
+echo ""
+echo "========================================="
+echo "Environment Template Generation Complete!"
+echo "========================================="
+echo ""
+echo "Output directory: $OUTPUT_DIR"
+echo "Templates generated: $GENERATED_COUNT"
+echo ""
+echo "Platform .env.example: $PROJECT_ROOT/.env.example"
+echo ""
