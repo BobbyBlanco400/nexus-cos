@@ -43,9 +43,15 @@ fi
 
 # Test database connection
 echo "Testing database connection..."
-export PGPASSWORD=$DB_PASSWORD
 
-if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c '\q' 2>/dev/null; then
+# Use .pgpass for secure password handling if available
+# Otherwise prompt for password interactively
+if [ -z "$PGPASSWORD" ]; then
+  echo "Note: PGPASSWORD not set. You may be prompted for password."
+  echo "Tip: Set PGPASSWORD environment variable or create ~/.pgpass for automated access"
+fi
+
+if PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c '\q' 2>/dev/null; then
   echo -e "${GREEN}✓ Database connection successful${NC}"
 else
   echo -e "${RED}✗ Failed to connect to database${NC}"
@@ -59,7 +65,7 @@ echo ""
 
 # Create banking schema if it doesn't exist
 echo "1. Creating banking schema..."
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
+PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
 -- Create banking schema
 CREATE SCHEMA IF NOT EXISTS banking;
 
@@ -73,7 +79,7 @@ echo -e "${GREEN}✓ Banking schema created${NC}"
 
 # Create core banking tables
 echo "2. Creating core banking tables..."
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
+PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
 SET search_path TO banking, public;
 
 -- Accounts table
@@ -196,7 +202,7 @@ echo -e "${GREEN}✓ Core banking tables created${NC}"
 
 # Create functions and triggers
 echo "3. Creating functions and triggers..."
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
+PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'EOF'
 SET search_path TO banking, public;
 
 -- Update timestamp trigger function
@@ -247,7 +253,7 @@ echo -e "${GREEN}✓ Functions and triggers created${NC}"
 
 # Grant permissions
 echo "4. Setting up permissions..."
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<EOF
+PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<EOF
 SET search_path TO banking, public;
 
 -- Grant schema usage
@@ -283,5 +289,4 @@ echo ""
 echo -e "${GREEN}✓ Banking layer ready for PUABO BLAC services${NC}"
 echo ""
 
-unset PGPASSWORD
 exit 0

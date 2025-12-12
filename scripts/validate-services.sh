@@ -36,25 +36,20 @@ check_health_endpoint() {
   
   echo -n "Checking $SERVICE_NAME... "
   
-  # Check common patterns for health endpoints
+  # Check common patterns for health endpoints in specific directories
   local HAS_HEALTH=0
   
-  # Check in main service files
-  if grep -r "\/health\|\/healthz\|\/health-check\|\/ready" "$SERVICE_PATH" --include="*.js" --include="*.ts" --include="*.py" --include="*.go" > /dev/null 2>&1; then
+  # Check in main service files (limit search depth)
+  if find "$SERVICE_PATH" -maxdepth 2 \( -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.go" \) -exec grep -l "\/health\|\/healthz\|\/health-check\|\/ready" {} \; 2>/dev/null | head -1 | grep -q .; then
     HAS_HEALTH=1
   fi
   
-  # Check in route files
-  if [ -d "$SERVICE_PATH/routes" ] || [ -d "$SERVICE_PATH/src/routes" ]; then
-    if grep -r "health" "$SERVICE_PATH/routes" "$SERVICE_PATH/src/routes" --include="*.js" --include="*.ts" > /dev/null 2>&1; then
-      HAS_HEALTH=1
-    fi
-  fi
-  
-  # Check in controller files
-  if [ -d "$SERVICE_PATH/controllers" ] || [ -d "$SERVICE_PATH/src/controllers" ]; then
-    if grep -r "health" "$SERVICE_PATH/controllers" "$SERVICE_PATH/src/controllers" --include="*.js" --include="*.ts" > /dev/null 2>&1; then
-      HAS_HEALTH=1
+  # Check in route files if exists
+  if [ $HAS_HEALTH -eq 0 ]; then
+    if [ -d "$SERVICE_PATH/routes" ] || [ -d "$SERVICE_PATH/src/routes" ]; then
+      if find "$SERVICE_PATH/routes" "$SERVICE_PATH/src/routes" -name "*.js" -o -name "*.ts" 2>/dev/null | xargs grep -l "health" 2>/dev/null | head -1 | grep -q .; then
+        HAS_HEALTH=1
+      fi
     fi
   fi
   

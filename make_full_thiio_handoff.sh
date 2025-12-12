@@ -93,10 +93,10 @@ echo ""
 # Step 4: Copy all platform source code
 echo -e "${YELLOW}Step 4: Copying platform source code...${NC}"
 
-# Build rsync exclude arguments
-EXCLUDE_ARGS=""
+# Build rsync exclude arguments as array
+EXCLUDE_ARGS=()
 for pattern in "${EXCLUDE_PATTERNS[@]}"; do
-  EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude='$pattern'"
+  EXCLUDE_ARGS+=("--exclude=$pattern")
 done
 
 # Core platform components to include
@@ -158,7 +158,7 @@ for component in "${COMPONENTS[@]}"; do
       if [ -d "$item" ]; then
         echo "  Copying directory: $ITEM_NAME"
         # Use rsync for efficient copying with excludes
-        rsync -a $EXCLUDE_ARGS "$item/" "$TEMP_DIR/$ITEM_NAME/" 2>/dev/null || \
+        rsync -a "${EXCLUDE_ARGS[@]}" "$item/" "$TEMP_DIR/$ITEM_NAME/" 2>/dev/null || \
           cp -r "$item" "$TEMP_DIR/" 2>/dev/null || true
       elif [ -f "$item" ]; then
         echo "  Copying file: $ITEM_NAME"
@@ -463,8 +463,14 @@ else
   SIZE_BYTES=$(stat -c%s "$ZIP_FILE")
 fi
 
-SIZE_KB=$(echo "scale=2; $SIZE_BYTES / 1024" | bc)
-SIZE_MB=$(echo "scale=2; $SIZE_BYTES / 1024 / 1024" | bc)
+# Use bc if available, otherwise use shell arithmetic
+if command -v bc &> /dev/null; then
+  SIZE_KB=$(echo "scale=2; $SIZE_BYTES / 1024" | bc)
+  SIZE_MB=$(echo "scale=2; $SIZE_BYTES / 1024 / 1024" | bc)
+else
+  SIZE_KB=$((SIZE_BYTES / 1024))
+  SIZE_MB=$((SIZE_BYTES / 1024 / 1024))
+fi
 GENERATED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 echo -e "${GREEN}✓ Metadata computed${NC}"
