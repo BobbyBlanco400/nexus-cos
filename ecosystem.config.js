@@ -18,8 +18,9 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3099,
-        JWT_SECRET: 'nexus-cos-license-secret-change-in-production',
-        ADMIN_KEY: 'admin-secret-key-change-in-production',
+        # IMPORTANT: Set these securely in production!
+        # JWT_SECRET: 'CHANGE-THIS-IN-PRODUCTION',
+        # ADMIN_KEY: 'CHANGE-THIS-IN-PRODUCTION',
         LICENSE_LICENSEE: 'THIIO',
         LICENSE_ID: 'THIIO-NEXUS-COS-2025-001'
       },

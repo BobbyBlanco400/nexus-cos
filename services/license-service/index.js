@@ -5,7 +5,15 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3099;
-const JWT_SECRET = process.env.JWT_SECRET || 'nexus-cos-license-secret-change-in-production';
+
+// Validate JWT_SECRET in production
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.error('FATAL ERROR: JWT_SECRET environment variable is not set in production!');
+  console.error('Please set JWT_SECRET before starting the license service.');
+  process.exit(1);
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'nexus-cos-license-secret-ONLY-FOR-DEVELOPMENT';
 
 // Middleware
 app.use(cors());
@@ -38,12 +46,10 @@ function generateLicenseToken(serviceId) {
     licensee: LICENSE_CONFIG.licensee,
     licenseId: LICENSE_CONFIG.licenseId,
     type: LICENSE_CONFIG.type,
-    features: LICENSE_CONFIG.features,
-    issuedAt: Date.now(),
-    expiresAt: null // Perpetual license
+    features: LICENSE_CONFIG.features
   };
   
-  return jwt.sign(payload, JWT_SECRET, { noTimestamp: true });
+  return jwt.sign(payload, JWT_SECRET);
 }
 
 // Verify license token
@@ -154,12 +160,44 @@ app.post('/api/license/update-check', (req, res) => {
   }
 });
 
+// Constant-time string comparison to prevent timing attacks
+function secureCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') {
+    return false;
+  }
+  
+  const aLen = Buffer.byteLength(a);
+  const bLen = Buffer.byteLength(b);
+  const maxLen = Math.max(aLen, bLen);
+  
+  const bufA = Buffer.alloc(maxLen);
+  const bufB = Buffer.alloc(maxLen);
+  
+  bufA.write(a);
+  bufB.write(b);
+  
+  let result = aLen ^ bLen;
+  for (let i = 0; i < maxLen; i++) {
+    result |= bufA[i] ^ bufB[i];
+  }
+  
+  return result === 0;
+}
+
 // Generate new license token for a service
 app.post('/api/license/generate', (req, res) => {
   const { serviceId, adminKey } = req.body;
   
-  // Simple admin check (in production, use proper authentication)
-  if (adminKey !== process.env.ADMIN_KEY) {
+  // Validate admin key in production
+  const expectedAdminKey = process.env.ADMIN_KEY;
+  if (process.env.NODE_ENV === 'production' && !expectedAdminKey) {
+    return res.status(500).json({ 
+      error: 'Server misconfigured: ADMIN_KEY not set' 
+    });
+  }
+  
+  // Secure admin key comparison
+  if (!secureCompare(adminKey, expectedAdminKey || 'admin-secret-key-ONLY-FOR-DEVELOPMENT')) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   

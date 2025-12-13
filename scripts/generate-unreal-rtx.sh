@@ -98,7 +98,13 @@ else
   echo "Installing NVIDIA Container Toolkit..."
   
   distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-  curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
+  
+  # Download and verify GPG key
+  curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey -o /tmp/nvidia-docker-gpgkey
+  # In production, verify the GPG key fingerprint here
+  apt-key add /tmp/nvidia-docker-gpgkey
+  rm /tmp/nvidia-docker-gpgkey
+  
   curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
     tee /etc/apt/sources.list.d/nvidia-docker.list
   
@@ -163,6 +169,9 @@ echo -e "${GREEN}✓ Unreal Engine dependencies installed${NC}"
 echo ""
 echo -e "${BLUE}Phase 7: GPU Configuration${NC}"
 echo "============================================================="
+
+# Create configuration directory
+mkdir -p /etc/nexus-cos
 
 # Create GPU configuration file
 cat > /etc/nexus-cos/gpu-config.env <<EOF

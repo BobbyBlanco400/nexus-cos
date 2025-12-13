@@ -32,7 +32,22 @@ npm start
 
 See `.env.example` for configuration options.
 
-**Important**: Change `JWT_SECRET` and `ADMIN_KEY` in production!
+**Important Security Requirements**:
+
+⚠️ **PRODUCTION DEPLOYMENT**: You MUST set these environment variables:
+- `JWT_SECRET` - Strong random secret for JWT signing (required in production)
+- `ADMIN_KEY` - Strong random secret for admin operations (required in production)
+
+If not set in production, the service will refuse to start.
+
+**Generate secure secrets**:
+```bash
+# Generate JWT_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# Generate ADMIN_KEY
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
 
 ## API Endpoints
 
