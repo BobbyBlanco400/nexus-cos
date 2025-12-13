@@ -1,0 +1,23 @@
+{
+  "name": "license-service",
+  "version": "1.0.0",
+  "description": "Self-hosted license verification service for Nexus COS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": ["license", "verification", "nexus-cos"],
+  "author": "Nexus COS",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
