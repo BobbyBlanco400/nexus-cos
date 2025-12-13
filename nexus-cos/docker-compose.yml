@@ -1,0 +1,48 @@
+version: "3.9"
+
+networks:
+  nexus-net:
+    driver: bridge
+
+services:
+  # Python Backend (FastAPI)
+  python-backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: nexus-python-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - PYTHONUNBUFFERED=1
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Nginx Gateway
+  nginx:
+    image: nginx:alpine
+    container_name: nexus-nginx-gateway
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../ssl:/etc/ssl/ionos:ro
+    depends_on:
+      - python-backend
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
