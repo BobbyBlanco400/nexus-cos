@@ -1,40 +1,64 @@
 {
   "package": "Nexus COS - Complete THIIO Handoff Package",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "path": "dist/Nexus-COS-THIIO-FullStack.zip",
-  "sha256": "213AC422A4D8596CB62E0FA7CC391DF7B71DF73DE53CBE48E27C1F4431259966",
-  "size_bytes": 1769726,
-  "size_human": "1.68 MB",
-  "generated_at": "2025-12-12T17:16:44Z",
+  "sha256": "23E511A6F52F17FE12DED43E32F71D748FBEF1B32CA339DBB60C253E03339AB4",
+  "size_bytes": 1798598,
+  "size_human": "1.71 MB",
+  "generated_at": "2025-12-13T17:35:37Z",
   "platform": {
     "name": "Nexus COS",
-    "description": "Complete Operating System Platform"
+    "description": "Complete Cloud Operating System Platform"
   },
   "contents": {
-    "services": "52+ services (backend, AI, banking, OTT, Stream, DSP, Auth, Core)",
+    "services": "52+ services (AI, Auth, Banking/BLAC, OTT, DSP, Ride-sharing/Nexus, E-commerce/Nuki, V-Suite, Core)",
     "modules": "43 functional modules",
-    "infrastructure": "All Dockerfiles, K8s manifests, Docker Compose, PM2 configs",
+    "family_platforms": "12 family/urban platforms (VSL, Casino-Nexus, Gas or Crash, Club Saditty, Ro Ro's Gaming Lounge, Headwina Comedy Club, Sassie Lash, Fayeloni Kreations, Sheda Shay's Butter Bar, Ne Ne & Kids, Ashanti's Munch & Mingle, Cloc Dat T)",
+    "infrastructure": "All Dockerfiles, K8s manifests, Docker Compose, PM2 configs, Nginx, SSL, Monitoring",
     "banking_layer": "Complete PUABO BLAC banking services and migrations",
-    "streaming": "Nexus Stream & Nexus OTT Mini",
-    "documentation": "23-file THIIO minimal handoff documentation package",
-    "scripts": "Build, test, deploy, migration, and validation scripts"
+    "streaming": "PUABO OTT TV Streaming, StreamCore",
+    "unreal_rtx": "GPU activation checklist, RTX enablement script, Phase 2 instructions",
+    "license_service": "Self-hosted license service with offline support, runtime checks, update gating",
+    "documentation": "92+ documentation files (architecture, operations, service catalogs, module catalogs, frontend guides)",
+    "scripts": "Build, test, deploy, migration, validation, K8s generation, env templates, RTX enablement",
+    "deployment_instructions": "Complete VPS deployment guide for Trae with step-by-step instructions"
   },
   "excluded": [
     "node_modules",
     "dist/build output",
     "logs",
-    "binaries",
     ".git",
-    "__pycache__"
+    "__pycache__",
+    "sensitive keys or envs"
   ],
   "deployment": {
-    "supported_platforms": ["Kubernetes", "Docker Compose", "PM2", "Bare Metal"],
-    "required_services": ["PostgreSQL 14+", "Redis 7+", "RabbitMQ (optional)"],
+    "supported_platforms": ["Kubernetes", "Docker Compose", "PM2", "Bare Metal", "VPS"],
+    "required_services": ["PostgreSQL 14+", "Redis 6+", "Node.js 18+", "Python 3.8+"],
+    "optional_services": ["NVIDIA GPU (for RTX)", "RabbitMQ"],
     "min_requirements": {
-      "cpu": "4 cores",
-      "memory": "8GB RAM",
-      "storage": "50GB"
+      "cpu": "8 cores",
+      "memory": "16GB RAM",
+      "storage": "100GB SSD"
+    },
+    "recommended_requirements": {
+      "cpu": "16 cores",
+      "memory": "32GB RAM",
+      "storage": "500GB SSD",
+      "gpu": "NVIDIA RTX 3060 or better"
     }
   },
-  "note": "This package contains the entire Nexus COS platform stack (52+ services, 43 modules), all infrastructure, all manifests, all scripts, the banking layer, and the 23-file minimal THIIO kit. Ready for immediate deployment."
+  "license": {
+    "type": "perpetual",
+    "licensee": "THIIO",
+    "license_id": "THIIO-NEXUS-COS-2025-001",
+    "license_file": "LICENSE-PRICING-THIIO.md",
+    "license_service": "services/license-service/",
+    "features": {
+      "offline_mode": true,
+      "update_gating_only": true,
+      "no_forced_online_checks": true,
+      "cross_module_recognition": true
+    }
+  },
+  "note": "Complete Nexus COS THIIO Handoff including 52+ services, 43 modules, 12 family/urban platforms, Unreal/RTX, full docs, license integration, infrastructure, and scripts."
 }
