@@ -1,10 +1,12 @@
-name: Bundle THIIO Handoff
+name: Bundle THIIO Handoff Package
 
 on:
   workflow_dispatch:
   push:
     tags:
       - 'v*'
+    branches:
+      - 'thiio/handoff-final'
 
 jobs:
   create-bundle:
@@ -17,30 +19,79 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version: '18.19.0'
       
-      - name: Generate documentation
+      - name: Generate Kubernetes manifests
         run: |
-          chmod +x scripts/generate-docs.sh
-          ./scripts/generate-docs.sh
+          chmod +x scripts/generate-full-k8s.sh
+          ./scripts/generate-full-k8s.sh
       
-      - name: Create THIIO handoff bundle
+      - name: Generate environment templates
         run: |
-          chmod +x scripts/package-thiio-bundle.sh
-          ./scripts/package-thiio-bundle.sh
+          chmod +x scripts/generate-env-templates.sh
+          ./scripts/generate-env-templates.sh
       
-      - name: Upload artifact
+      - name: Create complete THIIO handoff bundle
+        run: |
+          chmod +x make_full_thiio_handoff.sh
+          ./make_full_thiio_handoff.sh
+      
+      - name: Verify bundle and manifest
+        run: |
+          if [ -f dist/Nexus-COS-THIIO-FullStack.zip ]; then
+            echo "✓ Bundle created successfully"
+            ls -lh dist/Nexus-COS-THIIO-FullStack.zip
+          else
+            echo "✗ Bundle creation failed"
+            exit 1
+          fi
+          
+          if [ -f dist/Nexus-COS-THIIO-FullStack-manifest.json ]; then
+            echo "✓ Manifest created successfully"
+            cat dist/Nexus-COS-THIIO-FullStack-manifest.json
+          else
+            echo "✗ Manifest creation failed"
+            exit 1
+          fi
+      
+      - name: Upload bundle artifact
         uses: actions/upload-artifact@v3
         with:
-          name: nexus-cos-thiio-handoff
-          path: dist/Nexus-COS-THIIO-FullHandoff.zip
+          name: nexus-cos-thiio-complete-handoff
+          path: |
+            dist/Nexus-COS-THIIO-FullStack.zip
+            dist/Nexus-COS-THIIO-FullStack-manifest.json
           retention-days: 90
       
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/Nexus-COS-THIIO-FullHandoff.zip
+          files: |
+            dist/Nexus-COS-THIIO-FullStack.zip
+            dist/Nexus-COS-THIIO-FullStack-manifest.json
+          body: |
+            # Nexus COS - Complete THIIO Handoff Package
+            
+            ## Package Contents
+            
+            - **52+ Services**: AI, Auth, Banking/BLAC, OTT, DSP, Ride-sharing/Nexus, E-commerce/Nuki, V-Suite, Core
+            - **43 Modules**: Complete functional modules
+            - **12 Family/Urban Platforms**: VSL, Casino-Nexus, Gas or Crash, Club Saditty, Ro Ro's Gaming Lounge, Headwina Comedy Club, Sassie Lash, Fayeloni Kreations, Sheda Shay's Butter Bar, Ne Ne & Kids, Ashanti's Munch & Mingle, Cloc Dat T
+            - **Infrastructure**: Docker, K8s, PM2, Nginx, SSL, Monitoring
+            - **License Service**: Self-hosted, offline-capable
+            - **Unreal/RTX**: GPU enablement scripts and checklist
+            - **Documentation**: 92+ files
+            - **Deployment Guide**: Complete VPS instructions for Trae
+            
+            ## Verification
+            
+            SHA256 checksum and file size are included in the manifest JSON file.
+            
+            ## Deployment
+            
+            See `DEPLOYMENT-INSTRUCTIONS-TRAE.md` in the package for complete deployment instructions.
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

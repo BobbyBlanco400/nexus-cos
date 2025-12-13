@@ -1,9 +1,34 @@
 // PM2 Ecosystem Configuration for Nexus COS
-// Complete 33 Services Deployment Configuration (29 + 3 V-Suite Pro + META-TWIN v2.5)
-// Generated for Beta Launch - Updated with META-TWIN v2.5
+// Complete Services Deployment Configuration + License Service
+// Updated for THIIO Handoff with License Integration
 
 module.exports = {
   apps: [
+    // ========================================
+    // PHASE 0: LICENSE SERVICE (Priority: HIGHEST)
+    // Must start before all other services
+    // ========================================
+    {
+      name: 'license-service',
+      script: './services/license-service/index.js',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '256M',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3099,
+        # IMPORTANT: Set these securely in production!
+        # JWT_SECRET: 'CHANGE-THIS-IN-PRODUCTION',
+        # ADMIN_KEY: 'CHANGE-THIS-IN-PRODUCTION',
+        LICENSE_LICENSEE: 'THIIO',
+        LICENSE_ID: 'THIIO-NEXUS-COS-2025-001'
+      },
+      log_file: './logs/license-service.log',
+      out_file: './logs/license-service-out.log',
+      error_file: './logs/license-service-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
     // ========================================
     // PHASE 1: CORE INFRASTRUCTURE SERVICES (Priority: CRITICAL)
     // ========================================
@@ -17,6 +42,8 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3001,
+        SERVICE_ID: 'backend-api',
+        LICENSE_SERVICE_URL: 'http://localhost:3099',
         DB_HOST: 'localhost',
         DB_PORT: 5432,
         DB_NAME: 'nexuscos_db',
@@ -38,6 +65,8 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3010,
+        SERVICE_ID: 'ai-service',
+        LICENSE_SERVICE_URL: 'http://localhost:3099',
         DB_HOST: 'localhost',
         DB_PORT: 5432,
         DB_NAME: 'nexuscos_db',
