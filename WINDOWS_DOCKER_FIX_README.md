@@ -190,7 +190,7 @@ docker compose version
 
 ### New Files Created:
 
-1. **Fix-DockerDesktopWindows.ps1** (413 lines)
+1. **Fix-DockerDesktopWindows.ps1** (380 lines)
    - PowerShell automation script
    - Handles all fix steps automatically
    - Includes error handling and validation
@@ -433,6 +433,8 @@ Once the fix is complete successfully:
 
 ## 📊 Fix Procedure Summary
 
+**Note:** The flowchart below uses Mermaid syntax. If your viewer doesn't support Mermaid, see the text-based procedure in WINDOWS_DOCKER_FIX_GUIDE.md.
+
 ```mermaid
 graph TD
     A[Start] --> B[Stop Docker Processes]
@@ -457,6 +459,13 @@ graph TD
     Q -->|No| P
     P --> S[See WINDOWS_DOCKER_FIX_GUIDE.md]
 ```
+
+**Text-based flowchart:**
+1. Stop Docker Processes → 2. Terminate WSL Docker → 3. Check/Enable Windows Features
+2. → (if restart needed) Restart Windows → 4. Configure WSL2
+3. → 5. Reset Docker WSL Distros → 6. Start Docker Desktop → 7. Wait for Initialization
+4. → 8. Switch to Linux Engine → 9. Verify Daemon Health → 10. Test Hello-World
+5. → If success: ✅ Complete | If failure: See Advanced Troubleshooting
 
 ---
 

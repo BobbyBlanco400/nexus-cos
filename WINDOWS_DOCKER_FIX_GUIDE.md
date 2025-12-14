@@ -491,14 +491,11 @@ Some enterprise antivirus or endpoint protection software blocks Docker's named 
 
 #### Download and Install WSL2 Kernel:
 ```powershell
-# Download URL (or visit Microsoft docs)
-$wslUpdateUrl = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"
+# Recommended: Use built-in update
+wsl --update
 
-# Download
-Invoke-WebRequest -Uri $wslUpdateUrl -OutFile "$env:TEMP\wsl_update_x64.msi"
-
-# Install
-Start-Process msiexec.exe -ArgumentList "/i", "$env:TEMP\wsl_update_x64.msi", "/quiet" -Wait
+# Or visit Microsoft's official documentation for manual download:
+# https://learn.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
 
 # Verify
 wsl --set-default-version 2
