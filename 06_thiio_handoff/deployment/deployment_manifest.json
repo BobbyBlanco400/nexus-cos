@@ -1,0 +1,187 @@
+{
+  "deployment_manifest_id": "THIIO_DEPLOY_001",
+  "project_name": "Nexus COS Master PF - THIIO Deployment",
+  "version": "1.0.0",
+  "created": "2025-12-14",
+  "status": "placeholder_pending_legal_clearance",
+  "metadata": {
+    "thiio_compliant": false,
+    "legal_cleared": false,
+    "ip_verified": false,
+    "production_ready": false
+  },
+  "content_information": {
+    "title": "Nexus COS Master Production Framework Demo",
+    "description": "Demonstration of MetaTwin avatar performance with HoloCore environments",
+    "genre": "Technology / Educational",
+    "rating": "G - General Audiences",
+    "runtime": "2:30",
+    "language": "English",
+    "subtitles": ["English"],
+    "release_date": "TBD"
+  },
+  "ip_ownership": {
+    "copyright_holder": "Nexus COS / PENDING LEGAL VERIFICATION",
+    "production_company": "Nexus COS",
+    "chain_of_title_verified": false,
+    "copyright_registration": "PENDING",
+    "trademark_status": "PENDING",
+    "documentation_location": "06_thiio_handoff/legal/LEGAL_COMPLIANCE.md"
+  },
+  "rights_clearances": {
+    "performance_rights": {
+      "cleared": false,
+      "talent_releases": "PENDING",
+      "likeness_rights": "PENDING",
+      "avatar_usage": "PENDING"
+    },
+    "music_rights": {
+      "cleared": false,
+      "composition": "PENDING",
+      "master_recording": "PENDING",
+      "synchronization": "PENDING"
+    },
+    "visual_assets": {
+      "cleared": false,
+      "3d_models": "PENDING",
+      "environments": "PENDING",
+      "textures_materials": "PENDING"
+    },
+    "platform_rights": {
+      "holocore_license": "PENDING",
+      "metatwin_license": "PENDING",
+      "third_party_plugins": "PENDING"
+    }
+  },
+  "technical_specifications": {
+    "video": {
+      "codec": "H.264",
+      "resolution": "1920x1080",
+      "frame_rate": 60,
+      "bitrate": "8000 kbps",
+      "color_space": "Rec.709"
+    },
+    "audio": {
+      "codec": "AAC",
+      "sample_rate": "48000 Hz",
+      "bit_depth": "16-bit",
+      "channels": "Stereo (2.0)"
+    },
+    "subtitles": {
+      "format": "SRT",
+      "encoding": "UTF-8",
+      "languages": ["en"]
+    },
+    "metadata": {
+      "format": "JSON",
+      "schema": "THIIO_v1.0"
+    }
+  },
+  "delivery_requirements": {
+    "primary_delivery": {
+      "platform": "THIIO Network",
+      "format": "MP4",
+      "method": "API Upload",
+      "endpoint": "https://api.thiio.network/v1/upload",
+      "authentication": "oauth2_token_required"
+    },
+    "secondary_delivery": [
+      {
+        "platform": "Nexus COS",
+        "endpoint": "https://api.nexuscos.online/v1/content"
+      },
+      {
+        "platform": "Multi-platform Distribution",
+        "method": "CDN"
+      }
+    ],
+    "quality_control": {
+      "validation_required": true,
+      "manual_review": true,
+      "automated_checks": true,
+      "compliance_scan": true
+    }
+  },
+  "monetization": {
+    "revenue_model": "PENDING",
+    "revenue_sharing": {
+      "platform_split": "TBD",
+      "creator_split": "TBD",
+      "talent_participation": "TBD"
+    },
+    "pricing": {
+      "free": false,
+      "premium": true,
+      "subscription_tier": "TBD",
+      "pay_per_view": false
+    }
+  },
+  "distribution_channels": [
+    {
+      "channel": "THIIO Network",
+      "priority": 1,
+      "status": "pending_compliance"
+    },
+    {
+      "channel": "Nexus COS Platform",
+      "priority": 2,
+      "status": "ready"
+    },
+    {
+      "channel": "YouTube",
+      "priority": 3,
+      "status": "pending"
+    },
+    {
+      "channel": "Vimeo",
+      "priority": 4,
+      "status": "pending"
+    }
+  ],
+  "compliance_checklist": {
+    "legal_review_complete": false,
+    "ip_clearances_verified": false,
+    "talent_releases_signed": false,
+    "music_rights_cleared": false,
+    "platform_licenses_valid": false,
+    "technical_specs_approved": false,
+    "quality_control_passed": false,
+    "thiio_certification": false
+  },
+  "deployment_schedule": {
+    "pre_production_complete": "PENDING",
+    "legal_clearance_deadline": "PENDING",
+    "technical_delivery_date": "PENDING",
+    "platform_submission_date": "PENDING",
+    "target_release_date": "PENDING"
+  },
+  "contacts": {
+    "production_lead": "PENDING",
+    "legal_counsel": "PENDING",
+    "technical_lead": "PENDING",
+    "thiio_account_manager": "PENDING"
+  },
+  "files_manifest": {
+    "master_video": "output/final/master_pf_final_render.mp4",
+    "subtitles": "output/final/subtitles_en.srt",
+    "metadata": "output/final/metadata.json",
+    "thumbnails": "output/final/thumbnails/",
+    "promotional_assets": "output/final/promo/",
+    "legal_documentation": "06_thiio_handoff/legal/",
+    "compliance_report": "output/reports/thiio_compliance_report.pdf"
+  },
+  "notes": [
+    "This is a PLACEHOLDER deployment manifest",
+    "ALL compliance checkboxes must be TRUE before deployment",
+    "Legal clearance is MANDATORY - do not skip",
+    "Update all PENDING fields with actual information",
+    "Verify all file paths exist and contain valid data",
+    "Obtain THIIO certification before final submission"
+  ],
+  "warnings": [
+    "⚠️ LEGAL CLEARANCE REQUIRED - Do not deploy without legal approval",
+    "⚠️ IP VERIFICATION PENDING - Verify ownership of all assets",
+    "⚠️ THIIO COMPLIANCE NOT VERIFIED - Must pass compliance checks",
+    "⚠️ PLACEHOLDER DATA - Replace with production values"
+  ]
+}

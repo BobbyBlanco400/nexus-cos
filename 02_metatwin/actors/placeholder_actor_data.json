@@ -1,0 +1,35 @@
+{
+  "actor_id": "ACTOR_001",
+  "actor_name": "Placeholder Actor",
+  "description": "This is a placeholder actor configuration for MetaTwin integration",
+  "metadata": {
+    "created": "2025-12-14",
+    "version": "1.0.0",
+    "platform": "MetaTwin v2.5"
+  },
+  "performance_data": {
+    "facial_capture": "placeholder_facial_capture.fbx",
+    "motion_capture": "placeholder_motion_capture.bvh",
+    "voice_synthesis": "placeholder_voice_model.wav"
+  },
+  "avatar_mapping": {
+    "avatar_id": "AVATAR_001",
+    "bone_mapping": "default_humanoid",
+    "blend_shapes": "arkit_52"
+  },
+  "scenes": [
+    {
+      "scene_id": "SCENE_001",
+      "segment": "segment_01",
+      "start_time": "00:00:00",
+      "end_time": "00:02:30",
+      "notes": "Opening sequence"
+    }
+  ],
+  "instructions": [
+    "Replace this placeholder JSON with actual actor performance data",
+    "Ensure all file paths point to valid capture data",
+    "Verify bone mapping matches avatar rig",
+    "Test blend shapes for proper facial animation"
+  ]
+}

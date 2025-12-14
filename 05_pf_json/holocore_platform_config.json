@@ -1,0 +1,69 @@
+{
+  "holocore_platform_config_id": "HOLOCORE_PLATFORM_001",
+  "platform_name": "HoloCore Platform-Wide Configuration",
+  "version": "3.0.0",
+  "created": "2025-12-14",
+  "description": "Platform-wide HoloCore configuration for multi-project deployment",
+  "global_settings": {
+    "default_rendering_engine": "Unreal Engine 5",
+    "fallback_engine": "Unity 2023",
+    "default_output_format": "MP4",
+    "default_resolution": "1920x1080",
+    "default_frame_rate": 60,
+    "real_time_rendering": true,
+    "ray_tracing": true,
+    "global_illumination": "lumen"
+  },
+  "asset_library": {
+    "environments_library": "holocore_assets/environments",
+    "props_library": "holocore_assets/props",
+    "materials_library": "holocore_assets/materials",
+    "hdri_library": "holocore_assets/hdri",
+    "vfx_library": "holocore_assets/vfx"
+  },
+  "ar_module": {
+    "enabled": true,
+    "ar_framework": "ARKit / ARCore",
+    "overlay_rendering": "world_space",
+    "occlusion_enabled": true,
+    "light_estimation": true,
+    "plane_detection": true
+  },
+  "integration": {
+    "metatwin_compatible": true,
+    "nexus_cos_integration": true,
+    "third_party_plugins": [
+      "MetaHuman Creator",
+      "Live Link",
+      "Virtual Camera"
+    ]
+  },
+  "performance": {
+    "target_fps": 60,
+    "quality_presets": ["low", "medium", "high", "ultra", "cinematic"],
+    "adaptive_quality": true,
+    "lod_system": true,
+    "streaming": true
+  },
+  "networking": {
+    "multi_user_enabled": true,
+    "cloud_rendering": false,
+    "cdn_distribution": true,
+    "api_endpoint": "https://holocore.nexuscos.online/api/v3"
+  },
+  "projects": [
+    {
+      "project_id": "MASTER_PF_001",
+      "project_name": "Nexus COS Master PF",
+      "status": "placeholder",
+      "config_file": "05_pf_json/master_pf_config.json"
+    }
+  ],
+  "instructions": [
+    "This is a PLACEHOLDER HoloCore platform configuration",
+    "Update with actual production HoloCore settings",
+    "Configure proper asset library paths",
+    "Set up API endpoints and authentication",
+    "Verify integration settings match deployment environment"
+  ]
+}

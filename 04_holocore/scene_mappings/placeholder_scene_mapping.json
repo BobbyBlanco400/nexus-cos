@@ -1,0 +1,147 @@
+{
+  "scene_mapping_id": "SCENE_MAP_001",
+  "project_name": "Master PF Short Film",
+  "description": "Scene mapping configuration linking segments, environments, and overlays",
+  "metadata": {
+    "created": "2025-12-14",
+    "version": "1.0.0",
+    "total_scenes": 3,
+    "total_duration": "2:30"
+  },
+  "scenes": [
+    {
+      "scene_id": "SCENE_001",
+      "scene_name": "Opening",
+      "segment": "segment_01",
+      "timecode": {
+        "start": "00:00:00:00",
+        "end": "00:00:30:00"
+      },
+      "environment": {
+        "environment_id": "HOLOCORE_ENV_001",
+        "preset": "dark_studio",
+        "lighting_cue": "ambient_blue"
+      },
+      "actors": [
+        {
+          "actor_id": "ACTOR_001",
+          "avatar_id": "AVATAR_001",
+          "performance_file": "performance_data_scene_01.bvh",
+          "spawn_position": [0, 0, -5]
+        }
+      ],
+      "camera": {
+        "camera_preset": "wide_reveal",
+        "movement": "slow_dolly_forward",
+        "start_position": [0, 2, 10],
+        "end_position": [0, 1.6, 7]
+      },
+      "ar_overlays": [],
+      "audio": {
+        "voiceover": "narrator_opening.wav",
+        "music": "ambient_underscore_01.wav",
+        "sfx": []
+      }
+    },
+    {
+      "scene_id": "SCENE_002",
+      "scene_name": "Introduction",
+      "segment": "segment_01",
+      "timecode": {
+        "start": "00:00:30:00",
+        "end": "00:01:30:00"
+      },
+      "environment": {
+        "environment_id": "HOLOCORE_ENV_001",
+        "preset": "bright_studio",
+        "lighting_cue": "three_point_bright"
+      },
+      "actors": [
+        {
+          "actor_id": "ACTOR_001",
+          "avatar_id": "AVATAR_001",
+          "performance_file": "performance_data_scene_02.bvh",
+          "spawn_position": [0, 0, 0]
+        }
+      ],
+      "camera": {
+        "camera_preset": "medium_shot",
+        "movement": "static",
+        "position": [0, 1.6, 3]
+      },
+      "ar_overlays": [
+        {
+          "overlay_id": "AR_OVERLAY_001",
+          "trigger_time": "00:00:45:00",
+          "duration": "00:00:15:00"
+        }
+      ],
+      "audio": {
+        "voiceover": null,
+        "music": "ambient_underscore_01.wav",
+        "sfx": ["ui_appear.wav", "tech_whoosh.wav"]
+      }
+    },
+    {
+      "scene_id": "SCENE_003",
+      "scene_name": "Demonstration",
+      "segment": "segment_01",
+      "timecode": {
+        "start": "00:01:30:00",
+        "end": "00:02:30:00"
+      },
+      "environment": {
+        "environment_id": "HOLOCORE_ENV_001",
+        "preset": "dynamic_transform",
+        "lighting_cue": "animated_cycle"
+      },
+      "actors": [
+        {
+          "actor_id": "ACTOR_001",
+          "avatar_id": "AVATAR_001",
+          "performance_file": "performance_data_scene_03.bvh",
+          "spawn_position": [0, 0, 0]
+        }
+      ],
+      "camera": {
+        "camera_preset": "dynamic_orbit",
+        "movement": "orbit_around_subject",
+        "orbit_radius": 4,
+        "orbit_speed": 0.2
+      },
+      "ar_overlays": [
+        {
+          "overlay_id": "AR_OVERLAY_001",
+          "trigger_time": "00:01:45:00",
+          "duration": "00:00:20:00"
+        }
+      ],
+      "audio": {
+        "voiceover": null,
+        "music": "ambient_underscore_crescendo.wav",
+        "sfx": ["environment_morph.wav", "tech_pulse.wav"]
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "from_scene": "SCENE_001",
+      "to_scene": "SCENE_002",
+      "type": "dissolve",
+      "duration": "00:00:01:00"
+    },
+    {
+      "from_scene": "SCENE_002",
+      "to_scene": "SCENE_003",
+      "type": "morph",
+      "duration": "00:00:02:00"
+    }
+  ],
+  "instructions": [
+    "Update scene mapping with actual production timecodes",
+    "Verify all asset paths point to valid files",
+    "Test scene transitions for smooth playback",
+    "Ensure audio sync with visual elements",
+    "Coordinate with MetaTwin performance data timing"
+  ]
+}

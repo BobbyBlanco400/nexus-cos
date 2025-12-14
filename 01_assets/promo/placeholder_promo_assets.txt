@@ -1,0 +1,16 @@
+# Placeholder for Promo Assets
+# This directory contains promotional materials
+# Replace with actual promotional assets for production
+
+Expected Assets:
+- Poster images (JPG/PNG, 1920x1080 or higher)
+- Thumbnail images (JPG/PNG, 1280x720)
+- Social media graphics (various sizes)
+- Trailer clips (MP4, 30-60 seconds)
+- Marketing copy (TXT/MD files)
+
+# Production Instructions:
+# - Add high-resolution promotional images
+# - Include various aspect ratios for different platforms
+# - Provide marketing copy and press materials
+# - Include social media optimized versions

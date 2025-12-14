@@ -1,0 +1,14 @@
+# Placeholder for Audio Track
+# This file represents an audio track placeholder
+# Replace with actual .wav or .mp3 audio file for production
+
+Filename: audio_track.wav
+Expected Format: WAV, MP3, or AAC
+Expected Sample Rate: 44.1kHz or 48kHz
+Expected Bit Depth: 16-bit or 24-bit
+Expected Channels: Stereo (2.0) or 5.1 Surround
+
+# Production Instructions:
+# - Replace this .txt file with actual audio file
+# - Ensure proper levels and mixing
+# - Verify no clipping or distortion
