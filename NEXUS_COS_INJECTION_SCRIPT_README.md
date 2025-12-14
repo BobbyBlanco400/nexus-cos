@@ -63,6 +63,7 @@ AGENT_BASE_URL=https://api.myorg.com/nexus-agent ./nexus_cos_master_injection.sh
 |----------|-------------|---------|
 | `GITHUB_ORG` | GitHub organization name | `YourOrg` |
 | `AGENT_BASE_URL` | Base URL for GitHub Agent API | `https://github.com/${GITHUB_ORG}/NexusCOSAgent` |
+| `CURL_TIMEOUT` | Timeout in seconds for HTTP requests | `30` |
 
 ## Execution Flow
 
@@ -116,6 +117,10 @@ This script is designed to work with:
 - Configurable endpoints via environment variables
 - Complete audit logging of all operations
 - HTTP status code validation
+- Secure temporary file handling with `mktemp`
+- Automatic cleanup of temporary files on exit
+- Configurable timeout protection (default 30s per request)
+- Protection against hanging on unresponsive endpoints
 
 ## Support
 

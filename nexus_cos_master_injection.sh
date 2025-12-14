@@ -16,6 +16,7 @@
 # ENVIRONMENT VARIABLES:
 #   GITHUB_ORG         - GitHub organization name (default: YourOrg)
 #   AGENT_BASE_URL     - Base URL for the GitHub Agent API (default: https://github.com/${GITHUB_ORG}/NexusCOSAgent)
+#   CURL_TIMEOUT       - Timeout in seconds for curl requests (default: 30)
 #
 # OUTPUTS:
 #   - Log file: inject_creative_os_YYYY-MM-DD_HH-MM-SS.log
@@ -28,12 +29,21 @@
 #   - Establishes 80/20 revenue split model
 #   - Automated polling with timeout protection
 #   - Comprehensive logging and error handling
+#   - Secure temporary file handling with automatic cleanup
 
 # Configuration - can be overridden via environment variables
 GITHUB_ORG="${GITHUB_ORG:-YourOrg}"
 AGENT_BASE_URL="${AGENT_BASE_URL:-https://github.com/${GITHUB_ORG}/NexusCOSAgent}"
+CURL_TIMEOUT="${CURL_TIMEOUT:-30}"
 
 LOG_FILE="inject_creative_os_$(date +%F_%H-%M-%S).log"
+
+# Create secure temporary files
+INJECT_RESPONSE=$(mktemp)
+ASSESS_RESPONSE=$(mktemp)
+
+# Cleanup temporary files on exit
+trap 'rm -f "$INJECT_RESPONSE" "$ASSESS_RESPONSE"' EXIT
 
 # Read Master PF JSON from heredoc to avoid quoting issues
 read -r -d '' MASTER_PF_JSON <<'EOF'
@@ -69,12 +79,12 @@ echo "" | tee -a "$LOG_FILE"
 echo "[STEP 1] Triggering GitHub Agent injection..." | tee -a "$LOG_FILE"
 echo "[INFO] Target endpoint: ${AGENT_BASE_URL}/inject" | tee -a "$LOG_FILE"
 
-HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/inject_response.txt -X POST \
+HTTP_CODE=$(curl --max-time "$CURL_TIMEOUT" -w "%{http_code}" -o "$INJECT_RESPONSE" -X POST \
   -H "Content-Type: application/json" \
   -d "$MASTER_PF_JSON" \
   "${AGENT_BASE_URL}/inject")
 
-tee -a "$LOG_FILE" < /tmp/inject_response.txt
+tee -a "$LOG_FILE" < "$INJECT_RESPONSE"
 
 if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
   echo "[INFO] Injection request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
@@ -94,7 +104,7 @@ ATTEMPT=0
 
 while [ "$STATUS" == "pending" ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
   sleep 10
-  STATUS=$(curl -s "${AGENT_BASE_URL}/status" | jq -r '.status' 2>/dev/null || echo "pending")
+  STATUS=$(curl --max-time "$CURL_TIMEOUT" -s "${AGENT_BASE_URL}/status" | jq -r '.status' 2>/dev/null || echo "pending")
   ATTEMPT=$((ATTEMPT + 1))
   echo "[INFO] Current injection status: $STATUS - Attempt $ATTEMPT/$MAX_ATTEMPTS" | tee -a "$LOG_FILE"
 done
@@ -115,12 +125,12 @@ echo "" | tee -a "$LOG_FILE"
 
 echo "[STEP 3] Triggering GitHub Agent assessment..." | tee -a "$LOG_FILE"
 
-HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/assess_response.txt -X POST \
+HTTP_CODE=$(curl --max-time "$CURL_TIMEOUT" -w "%{http_code}" -o "$ASSESS_RESPONSE" -X POST \
   -H "Content-Type: application/json" \
   -d '{"scope":"ALL_NEXUS_COS_STACK","focus":["subscription_tiers","monetization_models","platform_market_uniqueness","creative_os_modules","vr_ai_integration","franchiser_blueprints"]}' \
   "${AGENT_BASE_URL}/assess")
 
-tee -a "$LOG_FILE" < /tmp/assess_response.txt
+tee -a "$LOG_FILE" < "$ASSESS_RESPONSE"
 
 if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
   echo "[INFO] Assessment request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
@@ -138,7 +148,7 @@ ATTEMPT=0
 
 while [ "$ASSESSMENT_STATUS" == "pending" ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
   sleep 10
-  ASSESSMENT_STATUS=$(curl -s "${AGENT_BASE_URL}/assessment/status" | jq -r '.status' 2>/dev/null || echo "pending")
+  ASSESSMENT_STATUS=$(curl --max-time "$CURL_TIMEOUT" -s "${AGENT_BASE_URL}/assessment/status" | jq -r '.status' 2>/dev/null || echo "pending")
   ATTEMPT=$((ATTEMPT + 1))
   echo "[INFO] Current assessment status: $ASSESSMENT_STATUS - Attempt $ATTEMPT/$MAX_ATTEMPTS" | tee -a "$LOG_FILE"
 done
@@ -149,8 +159,8 @@ if [ "$ASSESSMENT_STATUS" == "complete" ]; then
   # Retrieve and display recommendations
   echo "" | tee -a "$LOG_FILE"
   echo "[STEP 5] Retrieving assessment recommendations..." | tee -a "$LOG_FILE"
-  RECOMMENDATIONS=$(curl -s "${AGENT_BASE_URL}/assessment/recommendations")
-  echo "$RECOMMENDATIONS" | jq '.' | tee -a "$LOG_FILE"
+  RECOMMENDATIONS=$(curl --max-time "$CURL_TIMEOUT" -s "${AGENT_BASE_URL}/assessment/recommendations" || echo '{"error":"Failed to retrieve recommendations"}')
+  echo "$RECOMMENDATIONS" | jq '.' 2>/dev/null | tee -a "$LOG_FILE" || echo "$RECOMMENDATIONS" | tee -a "$LOG_FILE"
   
   echo "" | tee -a "$LOG_FILE"
   echo "========================================" | tee -a "$LOG_FILE"
