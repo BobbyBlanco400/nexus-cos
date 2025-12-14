@@ -74,7 +74,7 @@ HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/inject_response.txt -X POST \
   -d "$MASTER_PF_JSON" \
   "${AGENT_BASE_URL}/inject")
 
-cat /tmp/inject_response.txt | tee -a "$LOG_FILE"
+tee -a "$LOG_FILE" < /tmp/inject_response.txt
 
 if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
   echo "[INFO] Injection request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
@@ -120,7 +120,7 @@ HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/assess_response.txt -X POST \
   -d '{"scope":"ALL_NEXUS_COS_STACK","focus":["subscription_tiers","monetization_models","platform_market_uniqueness","creative_os_modules","vr_ai_integration","franchiser_blueprints"]}' \
   "${AGENT_BASE_URL}/assess")
 
-cat /tmp/assess_response.txt | tee -a "$LOG_FILE"
+tee -a "$LOG_FILE" < /tmp/assess_response.txt
 
 if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
   echo "[INFO] Assessment request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
