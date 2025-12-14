@@ -1,8 +1,37 @@
 #!/bin/bash
 
 # Nexus COS Master Injection Script (Combined Master Script)
+#
+# DESCRIPTION:
+#   Fully hands-off script for GitHub Agent execution with embedded Master PF (Platform Framework).
+#   This script injects all 14 TIER_1 platforms, Creative OS modules, subscription tiers, and
+#   THIIO registry configurations into the Nexus COS ecosystem.
+#
+# USAGE:
+#   ./nexus_cos_master_injection.sh
+#
+#   Or with custom GitHub organization:
+#   GITHUB_ORG=MyOrg ./nexus_cos_master_injection.sh
+#
+# ENVIRONMENT VARIABLES:
+#   GITHUB_ORG         - GitHub organization name (default: YourOrg)
+#   AGENT_BASE_URL     - Base URL for the GitHub Agent API (default: https://github.com/${GITHUB_ORG}/NexusCOSAgent)
+#
+# OUTPUTS:
+#   - Log file: inject_creative_os_YYYY-MM-DD_HH-MM-SS.log
+#   - Exit code 0 on success, 1 on critical failure
+#
+# FEATURES:
+#   - Injects 14 platforms (Casino-Nexus, Gas or Crash, Club Saditty, etc.)
+#   - Configures Creative OS with 7 module categories
+#   - Defines 3 subscription tiers (FREE, STANDARD, PREMIUM)
+#   - Establishes 80/20 revenue split model
+#   - Automated polling with timeout protection
+#   - Comprehensive logging and error handling
 
-# Fully hands-off for GitHub Agent execution with embedded Master PF
+# Configuration - can be overridden via environment variables
+GITHUB_ORG="${GITHUB_ORG:-YourOrg}"
+AGENT_BASE_URL="${AGENT_BASE_URL:-https://github.com/${GITHUB_ORG}/NexusCOSAgent}"
 
 LOG_FILE="inject_creative_os_$(date +%F_%H-%M-%S).log"
 
@@ -38,10 +67,21 @@ echo "" | tee -a "$LOG_FILE"
 # Step 1: Trigger GitHub Agent injection
 
 echo "[STEP 1] Triggering GitHub Agent injection..." | tee -a "$LOG_FILE"
-curl -X POST \
+echo "[INFO] Target endpoint: ${AGENT_BASE_URL}/inject" | tee -a "$LOG_FILE"
+
+HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/inject_response.txt -X POST \
   -H "Content-Type: application/json" \
   -d "$MASTER_PF_JSON" \
-  https://github.com/YourOrg/NexusCOSAgent/inject | tee -a "$LOG_FILE"
+  "${AGENT_BASE_URL}/inject")
+
+cat /tmp/inject_response.txt | tee -a "$LOG_FILE"
+
+if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+  echo "[INFO] Injection request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
+else
+  echo "[ERROR] Injection request failed with HTTP $HTTP_CODE" | tee -a "$LOG_FILE"
+  exit 1
+fi
 
 echo "" | tee -a "$LOG_FILE"
 
@@ -54,7 +94,7 @@ ATTEMPT=0
 
 while [ "$STATUS" == "pending" ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
   sleep 10
-  STATUS=$(curl -s https://github.com/YourOrg/NexusCOSAgent/status | jq -r '.status' 2>/dev/null || echo "pending")
+  STATUS=$(curl -s "${AGENT_BASE_URL}/status" | jq -r '.status' 2>/dev/null || echo "pending")
   ATTEMPT=$((ATTEMPT + 1))
   echo "[INFO] Current injection status: $STATUS - Attempt $ATTEMPT/$MAX_ATTEMPTS" | tee -a "$LOG_FILE"
 done
@@ -74,10 +114,19 @@ echo "" | tee -a "$LOG_FILE"
 # Step 3: Trigger GitHub Agent assessment
 
 echo "[STEP 3] Triggering GitHub Agent assessment..." | tee -a "$LOG_FILE"
-curl -X POST \
+
+HTTP_CODE=$(curl -w "%{http_code}" -o /tmp/assess_response.txt -X POST \
   -H "Content-Type: application/json" \
   -d '{"scope":"ALL_NEXUS_COS_STACK","focus":["subscription_tiers","monetization_models","platform_market_uniqueness","creative_os_modules","vr_ai_integration","franchiser_blueprints"]}' \
-  https://github.com/YourOrg/NexusCOSAgent/assess | tee -a "$LOG_FILE"
+  "${AGENT_BASE_URL}/assess")
+
+cat /tmp/assess_response.txt | tee -a "$LOG_FILE"
+
+if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+  echo "[INFO] Assessment request accepted (HTTP $HTTP_CODE)" | tee -a "$LOG_FILE"
+else
+  echo "[WARNING] Assessment request failed with HTTP $HTTP_CODE - continuing anyway" | tee -a "$LOG_FILE"
+fi
 
 echo "" | tee -a "$LOG_FILE"
 
@@ -89,7 +138,7 @@ ATTEMPT=0
 
 while [ "$ASSESSMENT_STATUS" == "pending" ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
   sleep 10
-  ASSESSMENT_STATUS=$(curl -s https://github.com/YourOrg/NexusCOSAgent/assessment/status | jq -r '.status' 2>/dev/null || echo "pending")
+  ASSESSMENT_STATUS=$(curl -s "${AGENT_BASE_URL}/assessment/status" | jq -r '.status' 2>/dev/null || echo "pending")
   ATTEMPT=$((ATTEMPT + 1))
   echo "[INFO] Current assessment status: $ASSESSMENT_STATUS - Attempt $ATTEMPT/$MAX_ATTEMPTS" | tee -a "$LOG_FILE"
 done
@@ -100,7 +149,7 @@ if [ "$ASSESSMENT_STATUS" == "complete" ]; then
   # Retrieve and display recommendations
   echo "" | tee -a "$LOG_FILE"
   echo "[STEP 5] Retrieving assessment recommendations..." | tee -a "$LOG_FILE"
-  RECOMMENDATIONS=$(curl -s https://github.com/YourOrg/NexusCOSAgent/assessment/recommendations)
+  RECOMMENDATIONS=$(curl -s "${AGENT_BASE_URL}/assessment/recommendations")
   echo "$RECOMMENDATIONS" | jq '.' | tee -a "$LOG_FILE"
   
   echo "" | tee -a "$LOG_FILE"
