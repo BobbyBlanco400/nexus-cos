@@ -196,7 +196,7 @@ docker compose version
    - Includes error handling and validation
    - Provides detailed progress output
 
-2. **WINDOWS_DOCKER_FIX_GUIDE.md** (1000+ lines)
+2. **WINDOWS_DOCKER_FIX_GUIDE.md** (947 lines)
    - Comprehensive troubleshooting guide
    - Manual step-by-step procedures
    - Advanced troubleshooting section
