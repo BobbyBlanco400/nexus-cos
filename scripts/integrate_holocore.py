@@ -12,15 +12,32 @@ from pathlib import Path
 def load_config():
     """Load master PF configuration"""
     config_path = Path("05_pf_json/master_pf_config.json")
-    with open(config_path, 'r') as f:
-        return json.load(f)
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"❌ Configuration file not found: {config_path}")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing configuration file: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error reading configuration file: {e}")
+        sys.exit(1)
 
 def load_holocore_platform_config():
     """Load HoloCore platform-wide configuration"""
     platform_config_path = Path("05_pf_json/holocore_platform_config.json")
     if platform_config_path.exists():
-        with open(platform_config_path, 'r') as f:
-            return json.load(f)
+        try:
+            with open(platform_config_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"⚠️  Warning: Error parsing HoloCore platform config: {e}")
+            return None
+        except Exception as e:
+            print(f"⚠️  Warning: Error reading HoloCore platform config: {e}")
+            return None
     return None
 
 def validate_holocore_assets(config):

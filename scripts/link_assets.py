@@ -12,8 +12,18 @@ from pathlib import Path
 def load_config():
     """Load master PF configuration"""
     config_path = Path("05_pf_json/master_pf_config.json")
-    with open(config_path, 'r') as f:
-        return json.load(f)
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"❌ Configuration file not found: {config_path}")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing configuration file: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error reading configuration file: {e}")
+        sys.exit(1)
 
 def validate_all_assets(config):
     """Validate all asset directories and files"""

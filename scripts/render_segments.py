@@ -16,8 +16,15 @@ def load_config():
         print(f"❌ Configuration file not found: {config_path}")
         sys.exit(1)
     
-    with open(config_path, 'r') as f:
-        return json.load(f)
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing configuration file: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error reading configuration file: {e}")
+        sys.exit(1)
 
 def validate_video_assets(config):
     """Validate that required video assets exist"""

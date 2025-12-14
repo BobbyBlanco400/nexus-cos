@@ -13,15 +13,32 @@ from datetime import datetime
 def load_config():
     """Load master PF configuration"""
     config_path = Path("05_pf_json/master_pf_config.json")
-    with open(config_path, 'r') as f:
-        return json.load(f)
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"❌ Configuration file not found: {config_path}")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing configuration file: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Error reading configuration file: {e}")
+        sys.exit(1)
 
 def load_deployment_manifest():
     """Load THIIO deployment manifest"""
     manifest_path = Path("06_thiio_handoff/deployment/deployment_manifest.json")
     if manifest_path.exists():
-        with open(manifest_path, 'r') as f:
-            return json.load(f)
+        try:
+            with open(manifest_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"⚠️  Warning: Error parsing deployment manifest: {e}")
+            return None
+        except Exception as e:
+            print(f"⚠️  Warning: Error reading deployment manifest: {e}")
+            return None
     return None
 
 def check_legal_compliance():
@@ -34,8 +51,12 @@ def check_legal_compliance():
         print("   ❌ Legal compliance document not found")
         return False
     
-    with open(legal_doc_path, 'r') as f:
-        content = f.read()
+    try:
+        with open(legal_doc_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except Exception as e:
+        print(f"   ❌ Error reading legal compliance document: {e}")
+        return False
     
     # Check for completed checkboxes (basic validation)
     total_checkboxes = content.count('- [ ]') + content.count('- [x]') + content.count('- [X]')
