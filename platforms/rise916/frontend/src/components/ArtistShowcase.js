@@ -7,7 +7,8 @@ function ArtistShowcase() {
   
   useEffect(() => {
     // Fetch artists from backend API
-    fetch('http://localhost:3001/api/artists')
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+    fetch(`${apiUrl}/api/artists`)
       .then(response => response.json())
       .then(data => {
         if (data.success) {

@@ -64,10 +64,18 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  // Log error stack only in development
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(err.stack);
+  } else {
+    console.error('Error:', err.message);
+  }
+  
   res.status(500).json({
     success: false,
-    message: 'Internal server error'
+    message: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : err.message
   });
 });
 

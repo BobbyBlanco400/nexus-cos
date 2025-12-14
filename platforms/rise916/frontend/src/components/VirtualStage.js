@@ -5,6 +5,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 function Stage() {
   const meshRef = useRef();
   
+  // useFrame is automatically cleaned up by React Three Fiber on component unmount
   useFrame((state, delta) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += delta * 0.2;
