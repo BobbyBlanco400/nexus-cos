@@ -1,0 +1,14 @@
+# Placeholder for Video Segment 01
+# This file represents a video segment placeholder
+# Replace with actual .mp4 video file for production
+
+Filename: segment_01.mp4
+Expected Format: MP4 (H.264)
+Expected Resolution: 1920x1080 or 4K
+Expected Duration: Variable (typical 2-5 minutes per segment)
+Expected FPS: 24, 30, or 60
+
+# Production Instructions:
+# - Replace this .txt file with actual video file
+# - Ensure proper codec and resolution
+# - Verify audio tracks are synced

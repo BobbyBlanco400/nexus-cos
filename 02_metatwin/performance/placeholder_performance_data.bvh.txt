@@ -1,0 +1,28 @@
+# Placeholder for Performance Motion Data
+# This file represents motion capture performance data
+# Replace with actual .bvh or .fbx motion data for production
+
+Filename: performance_data.bvh
+Expected Format: BVH (Biovision Hierarchy) or FBX
+Expected Frame Rate: 30fps, 60fps, or 120fps
+Expected Skeleton: Humanoid rig compatible with MetaTwin
+
+# Production Instructions:
+# - Replace this .txt file with actual motion capture data
+# - Ensure proper skeleton hierarchy matching avatar rig
+# - Clean up motion data (remove jitter, fix foot sliding)
+# - Verify motion timing matches script and audio
+# - Export in compatible format for MetaTwin integration
+
+# Motion Capture Data Requirements:
+# - Full body tracking (minimum 21 joints)
+# - Facial capture data (ARKit blend shapes or equivalent)
+# - Hand/finger tracking (if available)
+# - Proper frame timing for lip-sync and performance
+
+# MetaTwin Performance Pipeline:
+# 1. Import motion data into MetaTwin platform
+# 2. Retarget to avatar rig
+# 3. Apply facial animation from capture
+# 4. Synchronize with audio track
+# 5. Export final performance for rendering

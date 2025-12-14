@@ -1,0 +1,22 @@
+# Placeholder for Subtitle File
+# This file represents a subtitle file placeholder
+# Replace with actual .srt subtitle file for production
+
+Filename: subtitles_en.srt
+Expected Format: SRT (SubRip)
+Expected Encoding: UTF-8
+Expected Languages: English, Spanish, etc.
+
+# Production Instructions:
+# - Replace this .txt file with actual .srt file
+# - Ensure proper timing sync with video
+# - Verify all special characters display correctly
+
+# Example SRT format:
+# 1
+# 00:00:01,000 --> 00:00:04,000
+# Welcome to Nexus COS Master PF
+#
+# 2
+# 00:00:04,500 --> 00:00:08,000
+# The future of creative content delivery

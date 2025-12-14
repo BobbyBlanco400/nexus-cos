@@ -1,0 +1,119 @@
+{
+  "master_pf_id": "MASTER_PF_001",
+  "project_name": "Nexus COS Master Production Framework",
+  "version": "1.0.0",
+  "created": "2025-12-14",
+  "description": "Master Production Framework configuration for end-to-end content pipeline",
+  "metadata": {
+    "platform": "Nexus COS",
+    "metatwin_version": "2.5",
+    "holocore_version": "3.0",
+    "thiio_compliance": true,
+    "production_ready": false,
+    "status": "placeholder_configuration"
+  },
+  "pipeline_configuration": {
+    "rendering": {
+      "engine": "Unreal Engine 5 / Unity 2023",
+      "output_format": "MP4 (H.264)",
+      "resolution": "1920x1080",
+      "frame_rate": 60,
+      "quality_preset": "ultra"
+    },
+    "metatwin_integration": {
+      "enabled": true,
+      "actors_directory": "02_metatwin/actors",
+      "avatars_directory": "02_metatwin/avatars",
+      "performance_directory": "02_metatwin/performance",
+      "retargeting": "automatic",
+      "facial_animation": "arkit_blend_shapes"
+    },
+    "holocore_integration": {
+      "enabled": true,
+      "environments_directory": "04_holocore/environments",
+      "ar_overlays_directory": "04_holocore/ar_overlays",
+      "scene_mappings_directory": "04_holocore/scene_mappings",
+      "real_time_rendering": true,
+      "lighting_baking": false
+    },
+    "asset_pipeline": {
+      "video_assets": "01_assets/video",
+      "audio_assets": "01_assets/audio",
+      "subtitle_assets": "01_assets/subtitles",
+      "promo_assets": "01_assets/promo",
+      "auto_linking": true,
+      "validation": true
+    },
+    "output_configuration": {
+      "output_directory": "output",
+      "segments_subdirectory": "output/segments",
+      "final_render_subdirectory": "output/final",
+      "logs_subdirectory": "output/logs",
+      "reports_subdirectory": "output/reports"
+    }
+  },
+  "deployment_targets": [
+    {
+      "platform": "Nexus COS",
+      "enabled": true,
+      "api_endpoint": "https://api.nexuscos.online/v1/content",
+      "authentication": "oauth2"
+    },
+    {
+      "platform": "YouTube",
+      "enabled": true,
+      "channel_id": "placeholder_channel",
+      "privacy": "unlisted"
+    },
+    {
+      "platform": "Vimeo",
+      "enabled": true,
+      "account": "placeholder_account",
+      "privacy": "password"
+    },
+    {
+      "platform": "THIIO Network",
+      "enabled": true,
+      "compliance_verified": false,
+      "ip_cleared": false
+    }
+  ],
+  "execution_order": [
+    "validate_assets",
+    "render_segments",
+    "apply_metatwin",
+    "integrate_holocore",
+    "link_assets",
+    "compile_final_render",
+    "verify_thiio_compliance",
+    "deploy_to_platforms"
+  ],
+  "scripts": {
+    "master_script": "master_pf_execute.sh",
+    "render_segments": "scripts/render_segments.py",
+    "apply_metatwin": "scripts/apply_metatwin.py",
+    "integrate_holocore": "scripts/integrate_holocore.py",
+    "link_assets": "scripts/link_assets.py",
+    "verify_thiio": "scripts/verify_thiio.py"
+  },
+  "notifications": {
+    "email": "production@nexuscos.online",
+    "slack_webhook": "https://hooks.slack.com/services/placeholder",
+    "on_completion": true,
+    "on_error": true
+  },
+  "quality_assurance": {
+    "auto_validation": true,
+    "manual_review_required": true,
+    "test_renders": true,
+    "compliance_check": true
+  },
+  "instructions": [
+    "This is a PLACEHOLDER master PF JSON configuration",
+    "Update all placeholder values with production settings",
+    "Configure actual API endpoints and credentials",
+    "Set proper deployment targets and authentication",
+    "Verify all directory paths are correct",
+    "Test pipeline execution before production run"
+  ]
+}

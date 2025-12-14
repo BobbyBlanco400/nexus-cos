@@ -1,0 +1,22 @@
+# Placeholder for Avatar 3D Model
+# This file represents a 3D avatar model placeholder
+# Replace with actual .fbx or .glb model file for production
+
+Filename: avatar_model.fbx
+Expected Format: FBX 2020 or glTF 2.0 (.glb)
+Expected Rig: Humanoid (Unity/Unreal compatible)
+Expected Poly Count: 10k-50k for real-time rendering
+Expected Textures: PBR materials (Albedo, Normal, Roughness, Metallic)
+
+# Production Instructions:
+# - Replace this .txt file with actual 3D model
+# - Ensure rig is properly weighted and skinned
+# - Include all required texture maps
+# - Verify model is optimized for real-time rendering
+# - Test in target engine (Unity/Unreal/HoloCore)
+
+# MetaTwin Integration Requirements:
+# - ARKit-compatible blend shapes for facial animation
+# - Proper bone hierarchy for motion capture retargeting
+# - LOD levels for performance optimization
+# - Certified for MetaTwin v2.5 compatibility

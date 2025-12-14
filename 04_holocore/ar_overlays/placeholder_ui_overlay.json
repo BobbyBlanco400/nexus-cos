@@ -1,0 +1,71 @@
+{
+  "overlay_id": "AR_OVERLAY_001",
+  "overlay_name": "Technical Specifications UI",
+  "description": "Placeholder AR overlay configuration for HUD/UI elements",
+  "metadata": {
+    "created": "2025-12-14",
+    "version": "1.0.0",
+    "platform": "HoloCore AR Module"
+  },
+  "overlay_type": "heads_up_display",
+  "elements": [
+    {
+      "element_id": "tech_specs_panel",
+      "type": "panel",
+      "position": { "x": 0.7, "y": 0.5, "z": 0 },
+      "size": { "width": 400, "height": 300 },
+      "content": {
+        "title": "MetaTwin Performance Data",
+        "data_fields": [
+          { "label": "Frame Rate", "value": "60 FPS", "animated": true },
+          { "label": "Bone Count", "value": "52 Joints", "animated": false },
+          { "label": "Blend Shapes", "value": "52 ARKit", "animated": false },
+          { "label": "Render Quality", "value": "Ultra", "animated": false }
+        ]
+      },
+      "style": {
+        "background": "rgba(10, 20, 40, 0.85)",
+        "border": "2px solid #00D4FF",
+        "font": "Roboto Mono",
+        "text_color": "#00D4FF"
+      },
+      "animation": {
+        "entrance": "fade_slide_right",
+        "duration": 0.5,
+        "trigger": "on_cue"
+      }
+    },
+    {
+      "element_id": "performance_graph",
+      "type": "animated_graph",
+      "position": { "x": 0.15, "y": 0.8, "z": 0 },
+      "size": { "width": 300, "height": 100 },
+      "content": {
+        "graph_type": "line",
+        "data_source": "real_time_performance_metrics",
+        "display_range": "last_5_seconds"
+      },
+      "style": {
+        "line_color": "#00FF88",
+        "background": "rgba(0, 0, 0, 0.5)"
+      }
+    }
+  ],
+  "positioning": {
+    "anchor_type": "world_space",
+    "parent_object": "camera",
+    "follow_camera": false
+  },
+  "visibility": {
+    "fade_in_time": 0.5,
+    "fade_out_time": 0.3,
+    "trigger_events": ["scene_02_start", "manual_cue"]
+  },
+  "instructions": [
+    "Replace placeholder overlay configuration with production AR elements",
+    "Design UI elements to match brand guidelines",
+    "Ensure overlays don't obstruct important scene elements",
+    "Test visibility and readability in various lighting conditions",
+    "Verify animation timing syncs with script cues"
+  ]
+}
