@@ -90,7 +90,6 @@ required_dirs=(
     "05_pf_json"
     "06_thiio_handoff/legal"
     "06_thiio_handoff/deployment"
-    "output"
     "scripts"
 )
 
@@ -107,6 +106,15 @@ done
 if [ "$all_dirs_exist" = false ]; then
     print_error "Required directories are missing. Please run setup first."
     exit 1
+fi
+
+# Create output directory if it doesn't exist (it's auto-generated and not in git)
+if [ ! -d "output" ]; then
+    print_warning "Output directory doesn't exist, creating it..."
+    mkdir -p output/{segments,final,logs,reports}
+    print_success "Output directory created"
+else
+    print_success "Output directory exists"
 fi
 
 echo ""
