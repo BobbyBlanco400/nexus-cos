@@ -69,16 +69,17 @@ server {
     # ==============================================================================
     location ^~ /apex/ {
         alias /var/www/nexus-cos/apex/;
-        try_files $uri $uri/ /apex/index.html;
+        try_files $uri $uri/ /index.html =404;
     }
 
     location ^~ /beta/ {
         alias /var/www/nexus-cos/beta/;
-        try_files $uri $uri/ /beta/index.html;
+        try_files $uri $uri/ /index.html =404;
     }
 
     location ^~ /core/ {
         alias /var/www/nexus-cos/core/;
+        try_files $uri $uri/ =404;
         add_header Access-Control-Allow-Origin "https://nexuscos.online" always;
         add_header Access-Control-Allow-Credentials "true" always;
     }

@@ -273,8 +273,9 @@ echo -e "${BLUE}Testing for common mistakes...${NC}"
 echo ""
 
 # Check for trailing slash consistency in proxy_pass
+# If location has trailing slash, proxy_pass should too (or vice versa)
 if grep "proxy_pass.*127.0.0.1:[0-9]*[^/]$" "$VANILLA_CONFIG" | grep -q "location.*\/$"; then
-    test_result "No proxy_pass trailing slash mismatch" "warn" "Found location with trailing slash but proxy_pass without (may cause path issues)"
+    test_result "No proxy_pass trailing slash mismatch" "fail" "Found location with trailing slash but proxy_pass without (will cause path issues)"
 else
     test_result "No proxy_pass trailing slash mismatch" "pass"
 fi

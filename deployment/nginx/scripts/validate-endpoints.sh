@@ -10,6 +10,15 @@ set -e
 
 BASE_URL="${BASE_URL:-https://nexuscos.online}"
 TIMEOUT=8
+SKIP_SSL_VERIFY="${SKIP_SSL_VERIFY:-false}"
+
+# Determine curl SSL flag
+if [[ "$SKIP_SSL_VERIFY" == "true" ]]; then
+    SSL_FLAG="-k"
+    echo "⚠️  Warning: SSL certificate verification is disabled (SKIP_SSL_VERIFY=true)"
+else
+    SSL_FLAG=""
+fi
 
 echo "=============================================================================="
 echo "Nexus COS - Endpoint Validation"
@@ -38,7 +47,7 @@ test_endpoint() {
     echo -n "Testing ${path} ... "
     
     # Make request and capture status code
-    status_code=$(curl -sSI --max-time "$TIMEOUT" -k "${BASE_URL}${path}" 2>/dev/null | \
+    status_code=$(curl -sSI --max-time "$TIMEOUT" $SSL_FLAG "${BASE_URL}${path}" 2>/dev/null | \
         awk 'toupper($0) ~ /^HTTP/{print $2; exit}' || echo "000")
     
     # Check if we got a response
