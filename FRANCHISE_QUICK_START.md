@@ -1,5 +1,18 @@
 # Nexus COS Franchise Scripts - Quick Start Guide
 
+## ⚠️ Prerequisites & Blockers
+
+Before running the franchise installation, be aware of current system blockers:
+
+**Known Blockers:**
+- Outbound VPS access to Debian mirrors is refused (affects apt-dependent services)
+- Host NGINX config needs /stream and /streaming route injection
+- Some containers blocked by legacy naming conflicts
+
+The installer will display blocker status and resolution options at startup.
+
+---
+
 ## 🚀 One-Command Installation
 
 Install all three franchises (RICO, HIGH STAKES, DA YAY) with a single command:

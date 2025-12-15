@@ -35,6 +35,13 @@ The Nexus COS Franchise System enables rapid deployment of scripted content fran
 
 ## Installation
 
+### Prerequisites & System Status
+
+**Important:** The master installer displays current system blockers and prerequisites before installation. Review these to understand:
+- VPS outbound access restrictions
+- NGINX configuration requirements
+- Container dependency status
+
 ### Quick Install (All Franchises)
 
 ```bash
