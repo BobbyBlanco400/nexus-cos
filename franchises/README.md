@@ -38,7 +38,8 @@ The Nexus COS Franchise System enables rapid deployment of scripted content fran
 ### Quick Install (All Franchises)
 
 ```bash
-cd /home/runner/work/nexus-cos/nexus-cos/franchises
+# Navigate to the franchises directory in your nexus-cos repository
+cd franchises
 sudo bash install-all-franchises.sh
 ```
 

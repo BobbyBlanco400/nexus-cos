@@ -5,7 +5,8 @@
 Install all three franchises (RICO, HIGH STAKES, DA YAY) with a single command:
 
 ```bash
-cd /home/runner/work/nexus-cos/nexus-cos/franchises
+# Navigate to the franchises directory in your nexus-cos repository
+cd franchises
 sudo bash install-all-franchises.sh
 ```
 
