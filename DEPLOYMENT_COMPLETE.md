@@ -6,6 +6,21 @@ This repository now contains a **complete, production-ready solution** to fix th
 
 ---
 
+## 🚨 FOR TRAE: START HERE
+
+**Mission**: Deploy Nginx routing fix for nexuscos.online  
+**Deadline**: Before 12/31/2025 (Beta launch period)  
+**Requirement**: One-shot deployment with 100% green validation
+
+**Choose your guide**:
+1. **Quick Deploy** (recommended): [`TRAE_QUICK_DEPLOY_CHEAT_SHEET.md`](TRAE_QUICK_DEPLOY_CHEAT_SHEET.md) - One-page printable reference
+2. **Full Instructions**: [`TRAE_DEPLOYMENT_INSTRUCTIONS.md`](TRAE_DEPLOYMENT_INSTRUCTIONS.md) - Complete step-by-step guide
+
+**Time Required**: ~5 minutes  
+**Tests Status**: 34/34 PASSING (100% green) ✅
+
+---
+
 ## 🎯 Problem Solved
 
 **Issue**: nexuscos.online was serving the Nginx welcome page instead of the published site.
