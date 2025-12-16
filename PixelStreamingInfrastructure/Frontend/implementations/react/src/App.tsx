@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { StatsPanel, AggregatedStats } from '@epicgames-ps/lib-pixelstreamingfrontend-ui';
+import { StatsPanel, AggregatedStats, VideoStats, AudioStats, CandidatePair } from '@epicgames-ps/lib-pixelstreamingfrontend-ui';
 
 const App: React.FC = () => {
   const [statsPanel] = useState(() => new StatsPanel());
   const [stats, setStats] = useState<AggregatedStats | null>(null);
 
   useEffect(() => {
-    // Initialize stats
+    // Initialize stats with proper types
     const initialStats: AggregatedStats = {
-      inboundVideoStats: {},
-      inboundAudioStats: {},
-      candidatePair: {}
+      inboundVideoStats: {
+        bytesReceived: 0,
+        framesDecoded: 0,
+        frameWidth: 1920,
+        frameHeight: 1080
+      } as VideoStats,
+      inboundAudioStats: {
+        bytesReceived: 0,
+        packetsReceived: 0,
+        packetsLost: 0
+      } as AudioStats,
+      candidatePair: {
+        id: 'default',
+        state: 'connected'
+      } as CandidatePair
     };
     statsPanel.updateStats(initialStats);
     setStats(statsPanel.getStats());

@@ -2,11 +2,31 @@
  * StatsPanel - Statistics Panel for Pixel Streaming
  */
 
+export interface VideoStats {
+  bytesReceived?: number;
+  framesDecoded?: number;
+  frameWidth?: number;
+  frameHeight?: number;
+}
+
+export interface AudioStats {
+  bytesReceived?: number;
+  packetsReceived?: number;
+  packetsLost?: number;
+}
+
+export interface CandidatePair {
+  id?: string;
+  state?: string;
+  localCandidate?: any;
+  remoteCandidate?: any;
+}
+
 export interface AggregatedStats {
-  // Basic stats interface
-  inboundVideoStats: any;
-  inboundAudioStats: any;
-  candidatePair: any;
+  // Stats interfaces with proper types
+  inboundVideoStats: VideoStats;
+  inboundAudioStats: AudioStats;
+  candidatePair: CandidatePair;
 }
 
 export class StatsPanel {

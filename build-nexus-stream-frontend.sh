@@ -16,15 +16,24 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Base directory
-BASE_DIR="/home/runner/work/nexus-cos/nexus-cos/PixelStreamingInfrastructure/Frontend"
+# Base directory - auto-detect based on script location or environment
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Check if we're in the repo
+if [ -d "$SCRIPT_DIR/PixelStreamingInfrastructure/Frontend" ]; then
+    BASE_DIR="$SCRIPT_DIR/PixelStreamingInfrastructure/Frontend"
+    echo -e "${YELLOW}Using repository path: $BASE_DIR${NC}"
 # Check if running on server (different base path)
-if [ -d "/opt/PixelStreamingInfrastructure/Frontend" ]; then
+elif [ -d "/opt/PixelStreamingInfrastructure/Frontend" ]; then
     BASE_DIR="/opt/PixelStreamingInfrastructure/Frontend"
     echo -e "${YELLOW}Using server path: $BASE_DIR${NC}"
+# Fallback to nexus-cos installation
+elif [ -d "/opt/nexus-cos/PixelStreamingInfrastructure/Frontend" ]; then
+    BASE_DIR="/opt/nexus-cos/PixelStreamingInfrastructure/Frontend"
+    echo -e "${YELLOW}Using nexus-cos installation path: $BASE_DIR${NC}"
 else
-    echo -e "${YELLOW}Using local path: $BASE_DIR${NC}"
+    echo -e "${RED}Error: Could not find PixelStreamingInfrastructure/Frontend directory${NC}"
+    exit 1
 fi
 
 echo ""
