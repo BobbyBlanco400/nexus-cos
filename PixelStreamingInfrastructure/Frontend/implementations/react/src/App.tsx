@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StatsPanel, AggregatedStats, VideoStats, AudioStats, CandidatePair } from '@epicgames-ps/lib-pixelstreamingfrontend-ui';
+import { StatsPanel, AggregatedStats, VideoStats, AudioStats, CandidatePair, Application } from '@epicgames-ps/lib-pixelstreamingfrontend-ui';
 
 const App: React.FC = () => {
   const [statsPanel] = useState(() => new StatsPanel());
+  const [application] = useState(() => new Application());
   const [stats, setStats] = useState<AggregatedStats | null>(null);
 
   useEffect(() => {
@@ -34,6 +35,19 @@ const App: React.FC = () => {
     alert('Check console for active candidate pair');
   };
 
+  const handleSimulateTCPRelay = () => {
+    console.log('Simulating TCP relay detection...');
+    application.triggerTCPRelayEvent();
+    alert('TCP relay event triggered - check console for warning message');
+  };
+
+  const handleSimulatePlayerCount = () => {
+    const randomCount = Math.floor(Math.random() * 10) + 1;
+    console.log(`Simulating player count: ${randomCount}`);
+    application.triggerPlayerCountEvent(randomCount);
+    alert(`Player count event triggered with count: ${randomCount} - check console`);
+  };
+
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1>Nexus Stream - Pixel Streaming React Frontend</h1>
@@ -48,10 +62,43 @@ const App: React.FC = () => {
             backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            marginRight: '10px'
           }}
         >
           Get Active Candidate Pair
+        </button>
+      </div>
+      <div style={{ marginTop: '20px' }}>
+        <h2>Application Events (TCP Relay Detection)</h2>
+        <button 
+          onClick={handleSimulateTCPRelay}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            marginRight: '10px'
+          }}
+        >
+          Simulate TCP Relay Detection
+        </button>
+        <button 
+          onClick={handleSimulatePlayerCount}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            backgroundColor: '#28a745',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px'
+          }}
+        >
+          Simulate Player Count Event
         </button>
       </div>
       <div style={{ marginTop: '20px' }}>
