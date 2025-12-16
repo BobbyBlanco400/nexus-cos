@@ -1,0 +1,20 @@
+{
+  "name": "@epicgames-ps/lib-pixelstreamingfrontend-ui",
+  "version": "5.3.0",
+  "description": "Pixel Streaming UI Library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "webpack --mode production && tsc",
+    "dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-loader": "^9.4.0",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.0"
+  }
+}
