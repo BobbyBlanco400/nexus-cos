@@ -4,7 +4,7 @@ Professional video casting and broadcasting service for Nexus COS platform.
 
 ## Overview
 
-V-Caster Pro provides enterprise-grade video casting and broadcasting capabilities with support for multiple streaming protocols and high-quality encoding.
+V-Caster Pro provides enterprise-grade video casting and broadcasting capabilities with support for multiple streaming protocols and high-quality encoding. It includes the X-Nexus-Handshake security header on all responses.
 
 ## Features
 
@@ -13,10 +13,11 @@ V-Caster Pro provides enterprise-grade video casting and broadcasting capabiliti
 - **Real-time Broadcasting**: Live streaming with minimal latency
 - **Recording Capabilities**: Record streams for playback
 - **Multiple Concurrent Streams**: Support for up to 10 simultaneous streams
+- **Security Headers**: All endpoints include X-Nexus-Handshake: 55-45-17
 
 ## Configuration
 
-- **Port**: 3501 (default)
+- **Port**: 3047 (production)
 - **Environment**: Production
 - **Memory Limit**: 512MB
 
@@ -50,6 +51,44 @@ GET /api/broadcast
 
 Endpoint for managing broadcasting operations.
 
+### Streaming Endpoints
+
+#### Streaming Status
+```
+GET /streaming/status
+```
+
+Returns the current streaming service status including active streams and capabilities.
+
+#### Streaming Catalog
+```
+GET /streaming/catalog
+```
+
+Returns the catalog of available streams with their protocols and status.
+
+#### Streaming Test Page
+```
+GET /streaming/test
+```
+
+HTML test page for verifying streaming service functionality and headers.
+
+## NGINX Configuration
+
+The service is proxied through NGINX at `/streaming/` path:
+
+```nginx
+location /streaming/ {
+    proxy_pass http://127.0.0.1:3047/;
+}
+```
+
+This allows accessing the streaming endpoints via:
+- `https://nexuscos.online/streaming/status`
+- `https://nexuscos.online/streaming/catalog`
+- `https://nexuscos.online/streaming/test`
+
 ## Running the Service
 
 ### Development
@@ -66,6 +105,10 @@ npm start
 ```bash
 pm2 start ecosystem.config.js --only v-caster-pro
 ```
+
+## Security
+
+All responses include the `X-Nexus-Handshake: 55-45-17` security header. This header is automatically added by middleware and serves as a handshake identifier for Nexus COS services.
 
 ## Dependencies
 

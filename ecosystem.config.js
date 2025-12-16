@@ -701,7 +701,7 @@ module.exports = {
       max_memory_restart: '512M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3501,
+        PORT: 3047,
         DB_HOST: 'localhost',
         DB_PORT: 5432,
         DB_NAME: 'nexuscos_db',
