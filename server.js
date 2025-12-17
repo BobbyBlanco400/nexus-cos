@@ -113,6 +113,37 @@ const userRoutes = require("./routes/user");
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
+// -----------------------------
+// IMCU Endpoints (Node-safe)
+// -----------------------------
+app.get('/api/v1/imcus/:id/nodes', (req, res) => {
+  const id = req.params.id;
+  res.json({ 
+    imcuId: id,
+    data: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/v1/imcus/:id/deploy', (req, res) => {
+  const id = req.params.id;
+  res.json({ 
+    imcuId: id,
+    status: "deployed",
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/imcus/:id/status', (req, res) => {
+  const id = req.params.id;
+  res.json({ 
+    imcuId: id,
+    status: "deployed",
+    nodes: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Basic API info endpoint for root
 app.get("/api", (req, res) => {
   res.json({ 
@@ -126,6 +157,7 @@ app.get("/api", (req, res) => {
       serviceHealth: "/api/services/:service/health",
       auth: "/api/auth",
       users: "/api/users",
+      imcus: "/api/v1/imcus/:id/nodes|deploy|status",
       modules: {
         creatorHub: "/api/creator-hub/status",
         vSuite: "/api/v-suite/status",
