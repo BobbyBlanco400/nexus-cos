@@ -38,6 +38,7 @@ app.get('/api/network/imcus', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Nexus-/Net service running on port ${PORT}`);
+  console.log(`⚠️  Service is bound to 0.0.0.0 - ensure proper firewall rules are in place`);
 });
 
 module.exports = app;

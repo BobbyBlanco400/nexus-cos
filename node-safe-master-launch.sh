@@ -4,7 +4,7 @@
 # -------------------------------
 
 # Configuration
-export NEXUS_API_KEY="${NEXUS_API_KEY:-e3a9c4cf41cfac3f468f646d16d8a386459b08403b435c3b127341d8a386459b08403b435c3b127341d8f91ef871}"
+export NEXUS_API_KEY="${NEXUS_API_KEY:-PLACEHOLDER_API_KEY_SET_VIA_ENV_VAR}"
 export NEXUS_API_URL="${NEXUS_API_URL:-https://nexuscos.online/api/v1}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR" && pwd)"
@@ -157,14 +157,14 @@ for i in "${!IMCU_IDS[@]}"; do
       STATUS="completed"
     fi
     
-    if [ "$STATUS" != "deployed" ] && [ "$STATUS" != "completed" ]; then
-      echo "    ⚠ IMCU $NAME ($ID) status: $STATUS"
-      echo "  Status: $STATUS (NEEDS ATTENTION)" >> "$AUDIT_REPORT"
-      echo "  Status: $STATUS" >> "$DEPLOY_REPORT"
-    else
+    if [ "$STATUS" == "deployed" ] || [ "$STATUS" == "completed" ] || [ "$STATUS" == "active" ]; then
       echo "    ✓ IMCU $NAME ($ID) deployed successfully"
       echo "  Status: DEPLOYED" >> "$AUDIT_REPORT"
       echo "  Verification: SUCCESS" >> "$DEPLOY_REPORT"
+    else
+      echo "    ⚠ IMCU $NAME ($ID) status: $STATUS"
+      echo "  Status: $STATUS (NEEDS ATTENTION)" >> "$AUDIT_REPORT"
+      echo "  Status: $STATUS" >> "$DEPLOY_REPORT"
     fi
   else
     echo "    ⚠ curl not available, skipping API calls"
