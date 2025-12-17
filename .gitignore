@@ -87,6 +87,12 @@ artifacts/artifacts_manifest.json
 !reports/.gitkeep
 !reports/discovery_parsed.json
 !reports/discrepancy_report.json
+# PUABO Core reports (generated dynamically)
+nexus-cos/puabo-core/reports/*.txt
+nexus-cos/puabo-core/reports/*.pdf
+nexus-cos/puabo-core/reports/*.json
+!nexus-cos/puabo-core/reports/.gitkeep
+!nexus-cos/puabo-core/reports/README.md
 # Master PF output directories
 output/
 *.pyc
