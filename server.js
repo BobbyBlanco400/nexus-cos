@@ -153,6 +153,8 @@ app.get("/api", (req, res) => {
     timestamp: new Date().toISOString(),
     endpoints: {
       health: "/health",
+      apiHealth: "/api/health",
+      apiStatus: "/api/status",
       systemStatus: "/api/system/status",
       serviceHealth: "/api/services/:service/health",
       auth: "/api/auth",
@@ -165,6 +167,53 @@ app.get("/api", (req, res) => {
       }
     }
   });
+});
+
+// API status endpoint - returns API health status
+app.get("/api/status", async (req, res) => {
+  const statusData = {
+    status: 'operational',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'production',
+    database: 'down',
+    cache: 'unknown'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    statusData.database = 'up';
+  } catch (error) {
+    console.error('Database status check failed:', error.message);
+    statusData.database = 'down';
+  }
+
+  res.json(statusData);
+});
+
+// API health endpoint - alias to main health with API prefix
+app.get("/api/health", async (req, res) => {
+  const healthData = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'production',
+    version: '1.0.0',
+    database: 'down'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    healthData.database = 'up';
+  } catch (error) {
+    console.error('Database health check failed:', error.message);
+    healthData.database = 'down';
+    healthData.dbError = error.message;
+  }
+
+  res.json(healthData);
 });
 
 // Catch-all route to prevent 404 errors

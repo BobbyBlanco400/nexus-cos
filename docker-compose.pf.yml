@@ -224,7 +224,7 @@ services:
   # PUABO NEXUS AI Dispatch - Port 3231
   puabo-nexus-ai-dispatch:
     build:
-      context: ./services/puabo-nexus/ai-dispatch
+      context: ./services/puabo-nexus-ai-dispatch
       dockerfile: Dockerfile
     container_name: puabo-nexus-ai-dispatch
     env_file:
@@ -264,7 +264,7 @@ services:
   # PUABO NEXUS Driver App Backend - Port 3232
   puabo-nexus-driver-app-backend:
     build:
-      context: ./services/puabo-nexus/driver-app-backend
+      context: ./services/puabo-nexus-driver-app-backend
       dockerfile: Dockerfile
     container_name: puabo-nexus-driver-app-backend
     env_file:
@@ -307,7 +307,7 @@ services:
   # PUABO NEXUS Fleet Manager - Port 3233
   puabo-nexus-fleet-manager:
     build:
-      context: ./services/puabo-nexus/fleet-manager
+      context: ./services/puabo-nexus-fleet-manager
       dockerfile: Dockerfile
     container_name: puabo-nexus-fleet-manager
     env_file:
@@ -348,7 +348,7 @@ services:
   # PUABO NEXUS Route Optimizer - Port 3234
   puabo-nexus-route-optimizer:
     build:
-      context: ./services/puabo-nexus/route-optimizer
+      context: ./services/puabo-nexus-route-optimizer
       dockerfile: Dockerfile
     container_name: puabo-nexus-route-optimizer
     env_file:
