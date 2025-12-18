@@ -71,6 +71,22 @@ echo "--- Auth Endpoints ---"
 test_endpoint "/api/auth" 200 "Auth root"
 
 echo ""
+echo "--- Beta Domain Tests (if BETA_URL is set) ---"
+if [ -n "${BETA_URL:-}" ]; then
+    ORIGINAL_BASE_URL="$BASE_URL"
+    BASE_URL="$BETA_URL"
+    
+    test_endpoint "/health" 200 "Beta health check"
+    test_endpoint "/api/health" 200 "Beta API health"
+    test_endpoint "/api/status" 200 "Beta API status"
+    test_endpoint "/api" 200 "Beta API root"
+    
+    BASE_URL="$ORIGINAL_BASE_URL"
+else
+    echo "Skipped (set BETA_URL to test beta domain)"
+fi
+
+echo ""
 echo "=== Test Summary ==="
 echo -e "Passed: ${GREEN}$PASSED${NC}"
 echo -e "Failed: ${RED}$FAILED${NC}"
