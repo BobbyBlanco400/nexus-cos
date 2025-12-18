@@ -276,7 +276,7 @@ export class CIM_B extends EventEmitter {
   }
 
   private generateId(): string {
-    return `cimb_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `cimb_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generateTransactionHash(): string {

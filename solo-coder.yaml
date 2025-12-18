@@ -1,0 +1,321 @@
+# SOLO Coder Configuration for Nexus COS PF
+# This file defines the autonomous execution plan for SOLO Coder agent
+
+project:
+  name: "Nexus COS Production Framework"
+  version: "1.0.0"
+  type: "full-stack-deployment"
+  complexity: "high"
+  estimated_time: "10-15 minutes"
+
+# Agent orchestration configuration
+agents:
+  backend_specialist:
+    role: "Backend Development"
+    capabilities:
+      - "node.js"
+      - "typescript"
+      - "express"
+      - "api-development"
+    tasks:
+      - "verify_backend_structure"
+      - "install_backend_deps"
+      - "configure_backend_env"
+      - "start_backend_server"
+    
+  frontend_specialist:
+    role: "Frontend Development"
+    capabilities:
+      - "react"
+      - "typescript"
+      - "vite"
+      - "spa-development"
+    tasks:
+      - "verify_frontend_structure"
+      - "install_frontend_deps"
+      - "build_frontend_production"
+      - "deploy_frontend_assets"
+  
+  beta_specialist:
+    role: "Beta Environment"
+    capabilities:
+      - "react"
+      - "typescript"
+      - "testing"
+      - "handshake-headers"
+    tasks:
+      - "verify_beta_structure"
+      - "install_beta_deps"
+      - "build_beta_spa"
+      - "configure_beta_handshake"
+  
+  module_deployment_specialist:
+    role: "Module Deployment"
+    capabilities:
+      - "shell-scripting"
+      - "deployment"
+      - "ar-vr"
+      - "pwa"
+    tasks:
+      - "deploy_pwa_module"
+      - "deploy_nexusvision_module"
+      - "deploy_holocore_module"
+      - "initialize_cimb_module"
+  
+  verification_specialist:
+    role: "Testing & Verification"
+    capabilities:
+      - "testing"
+      - "validation"
+      - "reporting"
+    tasks:
+      - "run_full_verification"
+      - "test_all_endpoints"
+      - "generate_deployment_report"
+
+# Execution plan with phases
+execution_plan:
+  phases:
+    - id: 1
+      name: "Structure Verification"
+      description: "Verify all required directories and files exist"
+      parallel: false
+      tasks:
+        - name: "verify_backend_structure"
+          agent: "backend_specialist"
+          command: "test -d backend && test -f backend/index.ts && test -f backend/package.json"
+          success_criteria: "exit_code == 0"
+          
+        - name: "verify_frontend_structure"
+          agent: "frontend_specialist"
+          command: "test -d frontend && test -f frontend/package.json"
+          success_criteria: "exit_code == 0"
+          
+        - name: "verify_beta_structure"
+          agent: "beta_specialist"
+          command: "test -d beta && test -f beta/package.json"
+          success_criteria: "exit_code == 0"
+          
+        - name: "verify_modules"
+          agent: "module_deployment_specialist"
+          command: "test -f src/Modules/CIM_B.ts && test -d nexus-oacp"
+          success_criteria: "exit_code == 0"
+    
+    - id: 2
+      name: "Dependency Installation"
+      description: "Install npm dependencies for all SPAs"
+      parallel: true
+      max_parallel: 4
+      tasks:
+        - name: "install_backend_deps"
+          agent: "backend_specialist"
+          command: "cd backend && npm ci --quiet"
+          timeout: "5m"
+          retry: 2
+          retry_with: "npm install --quiet"
+          
+        - name: "install_frontend_deps"
+          agent: "frontend_specialist"
+          command: "cd frontend && npm ci --quiet"
+          timeout: "5m"
+          retry: 2
+          retry_with: "npm install --quiet"
+          
+        - name: "install_beta_deps"
+          agent: "beta_specialist"
+          command: "cd beta && npm ci --quiet"
+          timeout: "5m"
+          retry: 2
+          retry_with: "npm install --quiet"
+          
+        - name: "install_oacp_deps"
+          agent: "module_deployment_specialist"
+          command: "cd nexus-oacp/frontend && npm ci --quiet"
+          timeout: "5m"
+          retry: 2
+          retry_with: "npm install --quiet"
+    
+    - id: 3
+      name: "Build Pipeline"
+      description: "Build all SPAs for production"
+      parallel: true
+      max_parallel: 3
+      tasks:
+        - name: "build_frontend"
+          agent: "frontend_specialist"
+          command: "npm run build --prefix frontend"
+          timeout: "10m"
+          success_criteria: "exit_code == 0 && file_exists('frontend/dist')"
+          
+        - name: "build_beta"
+          agent: "beta_specialist"
+          command: "npm run build --prefix beta"
+          timeout: "10m"
+          success_criteria: "exit_code == 0 && file_exists('beta/dist')"
+          
+        - name: "build_oacp"
+          agent: "module_deployment_specialist"
+          command: "npm run build --prefix nexus-oacp/frontend"
+          timeout: "10m"
+          success_criteria: "exit_code == 0 && file_exists('nexus-oacp/frontend/dist')"
+    
+    - id: 4
+      name: "Module Deployment"
+      description: "Deploy additive modules (PWA, NexusVision, HoloCore, CIM-B)"
+      parallel: false
+      tasks:
+        - name: "deploy_pwa"
+          agent: "module_deployment_specialist"
+          command: "./scripts/deploy-pwa.sh"
+          timeout: "5m"
+          success_criteria: "exit_code == 0"
+          
+        - name: "deploy_nexusvision"
+          agent: "module_deployment_specialist"
+          command: "./scripts/deploy-nexusvision.sh"
+          timeout: "5m"
+          success_criteria: "exit_code == 0"
+          
+        - name: "deploy_holocore"
+          agent: "module_deployment_specialist"
+          command: "./scripts/deploy-holocore.sh"
+          timeout: "5m"
+          success_criteria: "exit_code == 0"
+          
+        - name: "initialize_cimb"
+          agent: "module_deployment_specialist"
+          command: "node src/Modules/CIM_B.ts || echo 'CIM-B ready (TypeScript)'"
+          timeout: "2m"
+          success_criteria: "exit_code == 0 || output_contains('CIM-B ready')"
+    
+    - id: 5
+      name: "System Verification"
+      description: "Run comprehensive system verification tests"
+      parallel: false
+      tasks:
+        - name: "full_system_verification"
+          agent: "verification_specialist"
+          command: "./scripts/full-verify.sh"
+          timeout: "10m"
+          success_criteria: "exit_code == 0"
+          generate_report: true
+          report_path: "deployment-report.json"
+
+# Error handling and rollback
+error_handling:
+  retry_strategy:
+    max_retries: 2
+    backoff: "exponential"
+    initial_delay: 5
+  
+  rollback:
+    enabled: true
+    on_phase_failure: "rollback_phase"
+    commands:
+      - "git checkout ."
+      - "git clean -fd"
+  
+  notification:
+    on_success: true
+    on_failure: true
+    channels:
+      - "console"
+      - "file:deployment.log"
+
+# Verification criteria
+verification:
+  required_tests:
+    - name: "Backend health check"
+      command: "curl -f http://localhost:3000/health"
+      
+    - name: "Beta handshake"
+      command: "curl -I https://beta.nexuscos.online/ | grep 'X-Nexus-Handshake: beta-55-45-17'"
+      
+    - name: "PWA service worker"
+      command: "test -f /var/www/nexuscos.online/service-worker.js || curl -I https://nexuscos.online/service-worker.js"
+      
+    - name: "NexusVision config"
+      command: "curl -f https://nexuscos.online/nexusvision/nexusvision-config.json"
+      
+    - name: "HoloCore config"
+      command: "curl -f https://nexuscos.online/holocore/holocore-config.json"
+  
+  success_threshold: 0.95  # 95% of tests must pass
+  
+# Performance metrics
+metrics:
+  track:
+    - "total_execution_time"
+    - "phase_execution_times"
+    - "task_success_rate"
+    - "parallel_efficiency"
+    - "resource_usage"
+  
+  targets:
+    total_execution_time: "<15m"
+    task_success_rate: ">95%"
+
+# Reporting
+reporting:
+  format: "json"
+  include:
+    - "execution_summary"
+    - "phase_details"
+    - "task_results"
+    - "verification_results"
+    - "performance_metrics"
+    - "error_logs"
+  
+  output_path: "deployment-report.json"
+  
+# Environment requirements
+requirements:
+  node_version: ">=20.0.0"
+  npm_version: ">=9.0.0"
+  disk_space: "10GB"
+  memory: "4GB"
+  os: ["linux", "darwin"]
+
+# Pre-deployment checks
+pre_deployment:
+  - name: "Check Node.js version"
+    command: "node --version | grep -E 'v(2[0-9]|[3-9][0-9])'"
+    
+  - name: "Check npm"
+    command: "npm --version"
+    
+  - name: "Check disk space"
+    command: "df -h . | awk 'NR==2 {if ($4+0 < 10) exit 1}'"
+    
+  - name: "Check repository"
+    command: "git status"
+
+# Post-deployment actions
+post_deployment:
+  - name: "Generate deployment timestamp"
+    command: "date '+%Y-%m-%d %H:%M:%S' > LAST_DEPLOYMENT.txt"
+    
+  - name: "Tag deployment"
+    command: "git tag -a pf-deployment-$(date +%Y%m%d-%H%M%S) -m 'PF Deployment'"
+    
+  - name: "Archive logs"
+    command: "tar -czf deployment-logs-$(date +%Y%m%d-%H%M%S).tar.gz *.log"
+
+# SOLO Coder specific settings
+solo_coder:
+  autonomous_mode: true
+  require_confirmation: false
+  auto_advance: true
+  parallel_optimization: true
+  adaptive_error_handling: true
+  multi_agent_orchestration: true
+  
+  agent_communication:
+    protocol: "message-passing"
+    timeout: "30s"
+    retry: 3
+  
+  learning:
+    enabled: true
+    save_successful_patterns: true
+    optimize_task_ordering: true
