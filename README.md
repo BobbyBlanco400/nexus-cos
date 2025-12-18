@@ -19,6 +19,20 @@ A complete operating system featuring 17 integrated modules, 48 microservices, a
 
 ---
 
+## 📚 **Architecture Reference**
+
+**⚠️ IMPORTANT:** For authoritative understanding of platform architecture:
+- **[ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md](./ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md)** - Authoritative architecture reference
+
+**Key Clarifications:**
+- **V-Suite** is ONE module with 4 sub-modules (V-Screen Hollywood Edition, V-Prompter Pro 10x10, V-Stage, V-Caster Pro)
+- **IMVU** (Interactive Multi-Verse Unit) is a software runtime concept
+- **Handshake** is the activation layer for IMVUs
+
+> **Note:** This is documentation only - the platform is live and operational. No code changes are required.
+
+---
+
 ## 🤖 **NEW: GitHub Code Agent Orchestration System**
 
 **Automated full-stack reconstruction, build, and deployment for Nexus COS!**

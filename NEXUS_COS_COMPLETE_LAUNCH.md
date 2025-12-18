@@ -10,6 +10,20 @@
 
 ---
 
+## 📚 Architecture Reference
+
+**⚠️ IMPORTANT:** For authoritative understanding of V-Suite module architecture, IMVU concepts, and Handshake layer, see:
+- **[ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md](./ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md)** - Authoritative architecture reference
+
+**Key Clarifications:**
+- **V-Suite** is ONE module with 4 sub-modules (V-Screen Hollywood Edition, V-Prompter Pro, V-Stage, V-Caster Pro)
+- **IMVU** (Interactive Multi-Verse Unit) is a software runtime, not hardware
+- **Handshake** is the activation layer for IMVUs
+
+This document is strictly documentation - no code changes required.
+
+---
+
 ## 🌐 Both Domains Ready
 
 ### Main Production: nexuscos.online
@@ -27,10 +41,11 @@ https://nexuscos.online/api/v1/imcus/001/status
 https://nexuscos.online/health
 
 # VR Modules (via PF gateway)
-https://nexuscos.online/v-screen
-https://nexuscos.online/v-suite/stage
-https://nexuscos.online/v-suite/caster
-https://nexuscos.online/v-suite/hollywood
+# Note: V-Suite is 1 module with 4 sub-modules - see ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md
+https://nexuscos.online/v-screen  # V-Screen Hollywood Edition (V-Suite sub-module)
+https://nexuscos.online/v-suite/stage  # V-Stage (V-Suite sub-module)
+https://nexuscos.online/v-suite/caster  # V-Caster Pro (V-Suite sub-module)
+https://nexuscos.online/v-suite/hollywood  # V-Screen Hollywood Edition (V-Suite sub-module)
 
 # SPA Routes
 https://nexuscos.online/apex/
