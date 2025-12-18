@@ -28,9 +28,14 @@ test_endpoint() {
     
     echo -n "Testing $description ($endpoint)... "
     
-    response=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL$endpoint" 2>/dev/null)
+    # Use timeout and capture both stdout and stderr
+    response=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 --connect-timeout 5 "$BASE_URL$endpoint" 2>&1)
     
-    if [ "$response" = "$expected_status" ]; then
+    # Check if curl succeeded
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}✗ FAIL${NC} (Connection error or timeout)"
+        ((FAILED++))
+    elif [ "$response" = "$expected_status" ]; then
         echo -e "${GREEN}✓ PASS${NC} (HTTP $response)"
         ((PASSED++))
     else
