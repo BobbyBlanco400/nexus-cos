@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const mysql = require("mysql2/promise");
+const { Pool } = require("pg");
 
 dotenv.config();
 
@@ -13,15 +13,16 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Setup MySQL connection pool
-const pool = mysql.createPool({
+// Setup PostgreSQL connection pool
+const pool = new Pool({
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 5432,
+  database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 // Health check endpoint with DB connectivity
@@ -53,6 +54,55 @@ app.use((req, res, next) => {
   req.db = pool;
   next();
 });
+
+// Simple in-memory rate limiter for health endpoints
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 60; // 60 requests per minute
+
+function rateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW;
+  
+  // Get or create request log for this IP
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, []);
+  }
+  
+  const requests = rateLimitMap.get(ip);
+  
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(time => time > windowStart);
+  
+  // Check if limit exceeded
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    return res.status(429).json({
+      error: 'Too many requests',
+      message: 'Rate limit exceeded. Please try again later.',
+      retryAfter: Math.ceil((recentRequests[0] + RATE_LIMIT_WINDOW - now) / 1000)
+    });
+  }
+  
+  // Add current request
+  recentRequests.push(now);
+  rateLimitMap.set(ip, recentRequests);
+  
+  // Cleanup old entries periodically
+  if (Math.random() < 0.01) { // 1% chance to cleanup
+    const cutoff = now - RATE_LIMIT_WINDOW;
+    for (const [key, value] of rateLimitMap.entries()) {
+      const filtered = value.filter(time => time > cutoff);
+      if (filtered.length === 0) {
+        rateLimitMap.delete(key);
+      } else {
+        rateLimitMap.set(key, filtered);
+      }
+    }
+  }
+  
+  next();
+}
 
 // System status endpoint - returns overall health of all services
 app.get("/api/system/status", (req, res) => {
@@ -153,6 +203,8 @@ app.get("/api", (req, res) => {
     timestamp: new Date().toISOString(),
     endpoints: {
       health: "/health",
+      apiHealth: "/api/health",
+      apiStatus: "/api/status",
       systemStatus: "/api/system/status",
       serviceHealth: "/api/services/:service/health",
       auth: "/api/auth",
@@ -165,6 +217,53 @@ app.get("/api", (req, res) => {
       }
     }
   });
+});
+
+// API status endpoint - returns API health status
+app.get("/api/status", rateLimit, async (req, res) => {
+  const statusData = {
+    status: 'operational',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'production',
+    database: 'down',
+    cache: 'unknown'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    statusData.database = 'up';
+  } catch (error) {
+    console.error('Database status check failed:', error.message);
+    statusData.database = 'down';
+  }
+
+  res.json(statusData);
+});
+
+// API health endpoint - alias to main health with API prefix
+app.get("/api/health", rateLimit, async (req, res) => {
+  const healthData = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'production',
+    version: '1.0.0',
+    database: 'down'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    healthData.database = 'up';
+  } catch (error) {
+    console.error('Database health check failed:', error.message);
+    healthData.database = 'down';
+    healthData.dbError = error.message;
+  }
+
+  res.json(healthData);
 });
 
 // Catch-all route to prevent 404 errors

@@ -1,4 +1,17 @@
-events {}
+#!/usr/bin/env python3
+"""
+Nexus COS - Nginx Configuration Generator
+Integrates TRAE's routing updates with platform fixes
+Generates nginx.conf with streaming as front-facing entrypoint
+"""
+
+import os
+import sys
+
+def generate_nginx_config():
+    """Generate complete nginx.conf with all platform routes"""
+    
+    config = """events {}
 
 http {
     # PF Service Upstreams - Exact container names from docker-compose.pf.yml
@@ -14,11 +27,7 @@ http {
         server nexus-cos-pv-keys:3041;
     }
 
-    upstream vscreen_hollywood {
-        server vscreen-hollywood:8088;
-    }
-
-    # HTTP to HTTPS redirect - PF domains
+    # HTTP to HTTPS redirect - All PF domains
     server {
         listen 80;
         server_name nexuscos.online www.nexuscos.online beta.nexuscos.online;
@@ -56,12 +65,6 @@ http {
         # Domain-specific logging
         access_log /var/log/nginx/nexuscos.online_access.log;
         error_log /var/log/nginx/nexuscos.online_error.log;
-
-        # Enable upstream error interception for fallback
-        proxy_intercept_errors on;
-        
-        # Redirect upstream errors to fallback page
-        error_page 500 502 503 504 = /pf-fallback;
 
         # PF Gateway Health Check
         location /health {
@@ -125,348 +128,6 @@ http {
             proxy_set_header Connection "upgrade";
         }
 
-        # PF Frontend Routes - Streaming
-        # Updated to proxy to streaming frontend (Netflix-styled UI)
-        location /streaming {
-            proxy_pass http://127.0.0.1:3047/;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
-        # Platform Launcher - Unified module/service tiles
-        location /platform {
-            return 200 '<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus COS Platform</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-        .container { max-width: 1400px; margin: 0 auto; }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .subtitle { color: #a0a0b0; margin-bottom: 3rem; font-size: 1.2rem; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .tile {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-        }
-        .tile:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #667eea;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-        .tile:active {
-            transform: translateY(-2px);
-        }
-        .tile h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-        .tile p { color: #a0a0b0; line-height: 1.6; }
-        .status {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 1rem;
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 Nexus COS Platform</h1>
-        <p class="subtitle">Select a module to launch</p>
-        <div class="grid">
-            <a href="/streaming" class="tile">
-                <h3>📺 Streaming</h3>
-                <p>Netflix-style streaming interface with live content delivery</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/v-suite/hollywood" class="tile">
-                <h3>🎬 V-Screen Hollywood</h3>
-                <p>Virtual LED volume and production suite</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/v-suite/stage" class="tile">
-                <h3>🎭 V-Stage</h3>
-                <p>Stage management and performance tools</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/v-suite/caster" class="tile">
-                <h3>📡 V-Caster Pro</h3>
-                <p>Professional streaming and broadcasting</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/v-suite/prompter" class="tile">
-                <h3>📝 V-Prompter Pro</h3>
-                <p>AI-powered teleprompter and content generation</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/api" class="tile">
-                <h3>🔌 API Gateway</h3>
-                <p>RESTful API access and documentation</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/admin" class="tile">
-                <h3>⚙️ Admin Panel</h3>
-                <p>Platform administration and configuration</p>
-                <span class="status">● Active</span>
-            </a>
-            <a href="/hub" class="tile">
-                <h3>🎨 Creator Hub</h3>
-                <p>Content creation and management tools</p>
-                <span class="status">● Active</span>
-            </a>
-        </div>
-    </div>
-</body>
-</html>';
-            add_header Content-Type text/html;
-        }
-
-        # PF Fallback - Intelligent upstream error handler
-        location /pf-fallback {
-            return 200 '<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus COS - Service Temporarily Unavailable</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        p { color: #a0a0b0; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6; }
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(0); }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>⚠️ Service Temporarily Unavailable</h1>
-        <p>The requested service is currently unavailable. Our platform launcher is still accessible with all other modules.</p>
-        <a href="/platform" class="btn">Return to Platform Launcher</a>
-    </div>
-</body>
-</html>';
-            add_header Content-Type text/html;
-        }
-
-        # Brand Check - Branding validation page
-        location /brand-check {
-            return 200 '<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus COS - Brand Check</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .section { margin-bottom: 3rem; }
-        .section h2 { color: #667eea; margin-bottom: 1rem; }
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .color-box {
-            height: 100px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .dark-bg { background: #1a1a2e; }
-        .darker-bg { background: #0f0f23; }
-        .accent { background: #667eea; }
-        .text-muted { background: #a0a0b0; color: #1a1a2e; }
-        .interactive-demo button {
-            padding: 1rem 2rem;
-            margin: 0.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .interactive-demo button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .interactive-demo button:active { transform: translateY(0); }
-        .status { color: #4caf50; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎨 Nexus COS Brand Check</h1>
-        
-        <div class="section">
-            <h2>Color Palette</h2>
-            <div class="color-grid">
-                <div class="color-box primary">Primary Gradient</div>
-                <div class="color-box accent">Accent Blue</div>
-                <div class="color-box dark-bg">Dark Background</div>
-                <div class="color-box darker-bg">Darker Background</div>
-                <div class="color-box text-muted">Text Muted</div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Interactivity Test</h2>
-            <div class="interactive-demo">
-                <button onclick="alert(\'Nexus COS - Interactive Element Working!\')">Test Button Interaction</button>
-                <button onclick="window.location.href=\'/platform\'">Navigate to Platform</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Branding Status</h2>
-            <p class="status">✓ Blue gradient theme active</p>
-            <p class="status">✓ Dark mode consistent</p>
-            <p class="status">✓ Hover states working</p>
-            <p class="status">✓ Interactive elements responsive</p>
-        </div>
-    </div>
-</body>
-</html>';
-            add_header Content-Type text/html;
-        }
-
-        # PF API Gateway
-        location /api {
-            proxy_pass http://pf_gateway/api;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
-        # PF V-Suite Routes - Hollywood (V-Screen Hollywood Edition)
-        location /v-suite/hollywood {
-            proxy_pass http://vscreen_hollywood/;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
-        # PF V-Suite Routes - Prompter (v-prompter-pro)
-        location /v-suite/prompter {
-            proxy_pass http://pf_puaboai_sdk/v-suite/prompter;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
-        # PF V-Suite Routes - Caster
-        location /v-suite/caster {
-            proxy_pass http://pf_gateway/v-suite/caster;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
         # PF V-Suite Routes - Stage
         location /v-suite/stage {
             proxy_pass http://pf_gateway/v-suite/stage;
@@ -491,6 +152,66 @@ http {
             proxy_set_header Connection "upgrade";
         }
 
+        # PF V-Suite Routes - Caster
+        location /v-suite/caster {
+            proxy_pass http://pf_gateway/v-suite/caster;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+        # PF V-Suite Routes - Hollywood
+        location /v-suite/hollywood {
+            proxy_pass http://pf_gateway/v-suite/hollywood;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+        # PF Frontend Routes - Streaming (v-caster-pro)
+        location /streaming {
+            proxy_pass http://pf_gateway/streaming;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+        # PF V-Suite Routes - Prompter (v-prompter-pro)
+        location /v-suite/prompter {
+            proxy_pass http://pf_puaboai_sdk/v-suite/prompter;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+        # PF API Gateway
+        location /api {
+            proxy_pass http://pf_gateway/api;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
         # SPA Routes - Apex
         location /apex/ {
             alias /usr/share/nginx/html/apex/;
@@ -498,7 +219,7 @@ http {
             try_files $uri $uri/ /apex/index.html;
             
             # Cache static assets
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
                 expires 1y;
                 add_header Cache-Control "public, immutable";
             }
@@ -511,7 +232,7 @@ http {
             try_files $uri $uri/ /beta/index.html;
             
             # Cache static assets
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
                 expires 1y;
                 add_header Cache-Control "public, immutable";
             }
@@ -524,7 +245,7 @@ http {
             try_files $uri $uri/ /drops/index.html;
             
             # Cache static assets
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
                 expires 1y;
                 add_header Cache-Control "public, immutable";
             }
@@ -537,7 +258,7 @@ http {
             try_files $uri $uri/ /docs/index.html;
             
             # Cache static assets
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
                 expires 1y;
                 add_header Cache-Control "public, immutable";
             }
@@ -550,16 +271,9 @@ http {
             add_header Cache-Control "public, immutable";
         }
 
-        # Root - Netflix-styled streaming UI (legal front-facing entrypoint)
+        # Root - Redirect to Streaming (legal front-facing entrypoint)
         location = / {
-            proxy_pass http://127.0.0.1:3047/;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
+            return 301 /streaming;
         }
 
         # Root - Main Frontend (fallback for other paths)
@@ -775,4 +489,53 @@ http {
             proxy_set_header Connection "upgrade";
         }
     }
+
+    # Networks
+    networks:
+      cos-net:
+        driver: bridge
+      nexus-network:
+        driver: bridge
+
+    # Volumes
+    volumes:
+      postgres_data:
+      redis_data:
+      nginx_logs:
 }
+"""
+    
+    return config
+
+def main():
+    """Main execution"""
+    print("🔧 Nexus COS - Nginx Configuration Generator")
+    print("=" * 60)
+    
+    # Generate config
+    config = generate_nginx_config()
+    
+    # Write to nginx.conf
+    output_path = "/opt/nexus-cos/nginx.conf"
+    
+    # Try current directory if /opt/nexus-cos doesn't exist
+    if not os.path.exists("/opt/nexus-cos"):
+        output_path = "./nginx.conf"
+    
+    print(f"📝 Writing configuration to: {output_path}")
+    
+    try:
+        with open(output_path, 'w') as f:
+            f.write(config)
+        print(f"✅ Configuration written successfully!")
+        print(f"\nNext steps:")
+        print(f"1. Validate: sudo nginx -t")
+        print(f"2. Reload: sudo systemctl reload nginx")
+        print(f"3. Or Docker: cd /opt/nexus-cos && docker-compose restart nginx")
+        return 0
+    except Exception as e:
+        print(f"❌ Error writing configuration: {e}")
+        return 1
+
+if __name__ == "__main__":
+    sys.exit(main())
