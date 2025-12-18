@@ -55,6 +55,55 @@ app.use((req, res, next) => {
   next();
 });
 
+// Simple in-memory rate limiter for health endpoints
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 60; // 60 requests per minute
+
+function rateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW;
+  
+  // Get or create request log for this IP
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, []);
+  }
+  
+  const requests = rateLimitMap.get(ip);
+  
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(time => time > windowStart);
+  
+  // Check if limit exceeded
+  if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    return res.status(429).json({
+      error: 'Too many requests',
+      message: 'Rate limit exceeded. Please try again later.',
+      retryAfter: Math.ceil((recentRequests[0] + RATE_LIMIT_WINDOW - now) / 1000)
+    });
+  }
+  
+  // Add current request
+  recentRequests.push(now);
+  rateLimitMap.set(ip, recentRequests);
+  
+  // Cleanup old entries periodically
+  if (Math.random() < 0.01) { // 1% chance to cleanup
+    const cutoff = now - RATE_LIMIT_WINDOW;
+    for (const [key, value] of rateLimitMap.entries()) {
+      const filtered = value.filter(time => time > cutoff);
+      if (filtered.length === 0) {
+        rateLimitMap.delete(key);
+      } else {
+        rateLimitMap.set(key, filtered);
+      }
+    }
+  }
+  
+  next();
+}
+
 // System status endpoint - returns overall health of all services
 app.get("/api/system/status", (req, res) => {
   res.json({
@@ -171,7 +220,7 @@ app.get("/api", (req, res) => {
 });
 
 // API status endpoint - returns API health status
-app.get("/api/status", async (req, res) => {
+app.get("/api/status", rateLimit, async (req, res) => {
   const statusData = {
     status: 'operational',
     timestamp: new Date().toISOString(),
@@ -194,7 +243,7 @@ app.get("/api/status", async (req, res) => {
 });
 
 // API health endpoint - alias to main health with API prefix
-app.get("/api/health", async (req, res) => {
+app.get("/api/health", rateLimit, async (req, res) => {
   const healthData = {
     status: 'ok',
     timestamp: new Date().toISOString(),
