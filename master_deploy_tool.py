@@ -17,6 +17,13 @@ def exec_cmd(ssh, cmd):
         raise Exception(f"Command failed: {cmd} - {stderr.read().decode()}")
     return stdout.read().decode()
 
+def deploy_file(ssh, content, path):
+    """Deploy file using SFTP for safer transfer"""
+    sftp = ssh.open_sftp()
+    with sftp.file(path, 'w') as f:
+        f.write(content)
+    sftp.close()
+
 def deploy():
     attempt = 0
     while True:
@@ -32,8 +39,8 @@ def deploy():
                 print(f"Creating {d}")
                 exec_cmd(ssh, f"mkdir -p {d}")
             print("Deploying V5 Master (Vegas Floor)")
-            exec_cmd(ssh, f"echo '{HTML}' > {DIRS[0]}/index.html")
-            exec_cmd(ssh, f"echo '{HTML}' > {DIRS[1]}/index.html")
+            deploy_file(ssh, HTML, f"{DIRS[0]}/index.html")
+            deploy_file(ssh, HTML, f"{DIRS[1]}/index.html")
             print("Restarting Nginx")
             exec_cmd(ssh, "systemctl restart nginx")
             print("\n✓ SUCCESS!")
