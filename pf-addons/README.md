@@ -36,7 +36,8 @@ Safely adds IMCU (Infrastructure Management and Compute Unit) endpoints to the b
 
 **Usage:**
 ```bash
-bash /path/to/nexus-cos/pf-addons/imcu/imcu_additive_pf.sh
+# From repository root directory
+bash pf-addons/imcu/imcu_additive_pf.sh
 ```
 
 **Features added:**

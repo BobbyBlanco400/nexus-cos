@@ -37,7 +37,7 @@ echo -e "${YELLOW}Testing Issue 1: OOM Killer Prevention${NC}"
 echo "─────────────────────────────────────────"
 # Verify script doesn't spawn heavy processes
 if [ -f "pf-addons/imcu/imcu_additive_pf.sh" ]; then
-  if ! grep -q "docker\|systemctl restart\|npm install" "pf-addons/imcu/imcu_additive_pf.sh"; then
+  if ! grep -E "docker|docker-compose|systemctl restart|npm install|npm ci|apt-get install|yum install" "pf-addons/imcu/imcu_additive_pf.sh" | grep -v "^#" > /dev/null; then
     check_pass "Script contains no memory-intensive operations"
   else
     check_fail "Script contains memory-intensive operations"
@@ -49,13 +49,13 @@ echo ""
 
 echo -e "${YELLOW}Testing Issue 2: systemd Restart Storm Prevention${NC}"
 echo "─────────────────────────────────────────────────"
-# Verify script doesn't restart services (exclude comments and echo statements)
+# Verify script doesn't restart or reload services (exclude comments and echo statements)
 if [ -f "pf-addons/imcu/imcu_additive_pf.sh" ]; then
-  # Look for actual restart commands, not just the word in strings
-  if grep -v "^#" "pf-addons/imcu/imcu_additive_pf.sh" | grep -v "echo.*restart" | grep -q "systemctl restart\|service restart\|pm2 restart"; then
-    check_fail "Script contains service restart commands"
+  # Look for actual restart/reload commands, not just the word in strings
+  if grep -v "^#" "pf-addons/imcu/imcu_additive_pf.sh" | grep -v "echo.*restart" | grep -E "systemctl (restart|reload)|service .*(restart|reload)|pm2 restart" > /dev/null; then
+    check_fail "Script contains service restart/reload commands"
   else
-    check_pass "Script contains no service restart commands"
+    check_pass "Script contains no service restart/reload commands"
   fi
 else
   check_fail "PF script not found"

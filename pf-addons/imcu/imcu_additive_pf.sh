@@ -55,7 +55,8 @@ TEMP_FILE="$(mktemp)"
 trap "rm -f $TEMP_FILE" EXIT
 
 # Find the line number before app.listen()
-LINE_NUM=$(grep -n "app.listen(PORT" "$BACKEND" | head -1 | cut -d: -f1)
+# Use a more flexible pattern to match various formatting
+LINE_NUM=$(grep -n "app\.listen\s*(" "$BACKEND" | head -1 | cut -d: -f1)
 
 if [ -z "$LINE_NUM" ]; then
   echo "[PF] Could not find app.listen() in backend, exiting safely"

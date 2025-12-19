@@ -153,21 +153,12 @@ This indicates sshd accepted the TCP connection but the kernel killed the child 
 
 ### The Immediate Trigger
 
-This error in scripts:
+Scripts attempted to execute non-existent paths:
 ```bash
-chmod: cannot access '/opt/nexus-cos-main/nexus-cos/nexus-cos/puabo-core/node_safe_master_launch_pf.sh'
+chmod: cannot access '/opt/example-path/nexus-cos/puabo-core/script.sh'
 ```
 
-Attempted to execute non-existent path inside:
-- Privileged script
-- SSH session
-- While nginx failing
-- While apache failing
-- While docker restarting
-- While Plesk retrying
-- With fail2ban active
-
-**Result**: Kernel said "enough" → killed sshd child → port 22 drops instantly
+This error occurred inside privileged scripts during SSH sessions while multiple services were failing, causing the kernel to kill sshd child processes.
 
 ## 🛡️ Prevention Guidelines
 
