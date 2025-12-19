@@ -57,6 +57,25 @@ app.get("/api/puaboverse/status", (req, res) => {
   });
 });
 
+// -----------------------------
+// IMCU Endpoints (enriched)
+// -----------------------------
+app.get('/api/v1/imcus/:id/nodes', (req, res) => {
+  res.json({ 
+    imcuId: req.params.id, 
+    nodes: [], 
+    ts: new Date().toISOString() 
+  });
+});
+
+app.post('/api/v1/imcus/:id/deploy', (req, res) => {
+  res.json({ 
+    status: "accepted", 
+    imcuId: req.params.id,
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Node.js Backend running on port ${PORT}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);

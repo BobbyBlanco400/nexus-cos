@@ -97,3 +97,4 @@ nexus-cos/puabo-core/reports/*.json
 output/
 *.pyc
 __pycache__/
+*.bak.*
