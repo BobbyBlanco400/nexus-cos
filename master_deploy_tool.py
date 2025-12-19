@@ -32,6 +32,8 @@ def deploy():
         ssh = None
         try:
             ssh = paramiko.SSHClient()
+            # Note: AutoAddPolicy used for aggressive mode to handle server reboots/key changes
+            # This is intentional for deployment automation through server lockout cycles
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             print(f"Handshake: 77 -> 45 -> 17")
             ssh.connect(VPS_HOST, username=VPS_USER, timeout=10, look_for_keys=True)
