@@ -3,14 +3,53 @@
 ![Status](https://img.shields.io/badge/Status-Phase%201%20Prototype-blue)
 ![Token](https://img.shields.io/badge/Token-%24NEXCOIN-gold)
 ![Compliance](https://img.shields.io/badge/Compliance-First%20Design-green)
+![Platform Framework](https://img.shields.io/badge/Platform%20Framework-Complete-brightgreen)
 
 **The World's First Virtual Crypto-Integrated Casino Universe — Fully Immersive, Compliant-by-Design, and Value-Driven**
 
 ---
 
+## 📘 NEW: Complete Platform Framework Documentation
+
+**Casino Nexus now features comprehensive investor-grade Platform Framework (PF) documentation:**
+
+### 🚀 Quick Start - Platform Framework
+- **[PF-INDEX](./docs/PF-INDEX.md)** - Master index and overview of all PF documents
+- **[PF-01: Investor-Grade Platform](./docs/PF-01-INVESTOR-GRADE-PLATFORM.md)** - Investment safety & revenue model
+- **[PF-02: Compliance-Safe Jurisdiction](./docs/PF-02-COMPLIANCE-JURISDICTION.md)** - Multi-region compliance strategy
+- **[PF-03: AI Dealer & AI Host](./docs/PF-03-AI-DEALER-HOST.md)** - Ethical AI integration
+- **[PF-04: Vegas Strip Federation](./docs/PF-04-VEGAS-STRIP-FEDERATION.md)** - Multi-casino federation architecture
+
+**Total Documentation:** 173K+ characters | 43K+ words | 170+ equivalent pages
+
+**Key Features:**
+- ✅ **Investment-Safe Architecture** - Zero core modifications, full rollback capability
+- ✅ **7 Stackable Revenue Streams** - $68.57M annual potential (conservative)
+- ✅ **120+ Jurisdiction Coverage** - Entertainment, Virtual Value, and Regulated modes
+- ✅ **Ethical AI Framework** - Human-like dealers and hosts with complete auditability
+- ✅ **Federated Casino Model** - One platform, unlimited casino instances
+- ✅ **Network Effects** - More casinos = larger jackpots = more players
+
+**For Investors:** Start with [PF-INDEX](./docs/PF-INDEX.md)  
+**For Operators:** Focus on [PF-04](./docs/PF-04-VEGAS-STRIP-FEDERATION.md)  
+**For Regulators:** Review [PF-02](./docs/PF-02-COMPLIANCE-JURISDICTION.md)
+
+---
+
 ## 🌐 Concept Overview
 
-Casino-Nexus is a virtual reality and browser-based online casino ecosystem powered by its own native cryptocurrency, **$NEXCOIN**. Players enter a persistent, interactive world that merges entertainment, social engagement, and blockchain innovation — without directly handling or wagering fiat currency.
+Casino-Nexus is a **browser-native, hyper-realistic virtual casino network** built on Nexus COS, designed to function like a real casino operation—without touching regulated banking rails unless explicitly enabled.
+
+This is not just a virtual casino—it's a **casino operating system** capable of hosting multiple virtual casinos, each with real behavioral mechanics, persistent jackpots, and auditable fairness.
+
+**Core Principles:**
+- 🎮 **Browser-Native** - Zero installation required, instant access
+- 🏛️ **Jurisdiction-Adaptive** - Compliance as configuration overlay
+- 🤖 **AI-Powered** - Ethical AI dealers and persistent hosts
+- 🌆 **Federated Architecture** - One platform, many independent casinos
+- 🔒 **Platform-Owner Controlled** - No third-party fund custody or RNG exposure
+
+Casino-Nexus leverages its native cryptocurrency, **$NEXCOIN**, creating a persistent, interactive world that merges entertainment, social engagement, and blockchain innovation.
 
 ---
 
