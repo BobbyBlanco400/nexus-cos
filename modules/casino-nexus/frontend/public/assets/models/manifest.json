@@ -1,0 +1,32 @@
+{
+  "name": "casino-nexus-v5-models",
+  "version": "5.0.0",
+  "description": "3D models for Casino Nexus V5 engine",
+  "models": {
+    "environments": [
+      "casino-main-floor.glb",
+      "poker-room.glb",
+      "vip-lounge.glb",
+      "lobby.glb"
+    ],
+    "furniture": [
+      "poker-table.glb",
+      "blackjack-table.glb",
+      "roulette-table.glb",
+      "slot-machine.glb",
+      "bar-counter.glb",
+      "chair-dealer.glb",
+      "chair-player.glb"
+    ],
+    "props": [
+      "playing-cards.glb",
+      "poker-chips.glb",
+      "dice.glb",
+      "dealer-shoe.glb",
+      "chip-tray.glb"
+    ]
+  },
+  "format": "GLTF/GLB",
+  "polycount": "optimized-for-web",
+  "compression": "draco"
+}

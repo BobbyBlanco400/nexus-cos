@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Nexus V5 - Virtual Casino Universe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #e94560;
+            font-weight: 600;
+        }
+
+        .casino-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .casino-card {
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .casino-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 215, 0, 0.4);
+            border-color: #ffd700;
+        }
+
+        .casino-card h2 {
+            font-size: 28px;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .casino-card p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .casino-card .status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #e94560, #c41e3a);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .casino-card .status.active {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+        }
+
+        .features {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .features h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: #e0e0e0;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #ffd700;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .info-banner {
+            background: linear-gradient(135deg, #e94560, #c41e3a);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .info-banner h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-banner p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .casino-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎰 Casino Nexus V5</h1>
+            <p class="subtitle">Virtual Crypto-Integrated Casino Universe</p>
+        </header>
+
+        <div class="casino-grid">
+            <div class="casino-card">
+                <h2>🎮 Nexus Poker</h2>
+                <p>Skill-based tournament poker with blockchain transparency. Compete in high-stakes tournaments and climb the leaderboards.</p>
+                <span class="status active">ACTIVE</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Multi-table tournaments</li>
+                        <li>Real-time leaderboards</li>
+                        <li>$NEXCOIN rewards</li>
+                        <li>Provably fair dealing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="casino-card">
+                <h2>🃏 21X Blackjack</h2>
+                <p>Strategic blackjack with advanced mechanics. Master the art of card counting in a skill-based environment.</p>
+                <span class="status active">ACTIVE</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Strategy mode</li>
+                        <li>AI dealer interactions</li>
+                        <li>Live statistics</li>
+                        <li>Tournament play</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="casino-card">
+                <h2>🎡 Crypto Spin</h2>
+                <p>Algorithmic skill wheel with predictive mechanics. Use your knowledge to maximize rewards.</p>
+                <span class="status active">ACTIVE</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Pattern prediction</li>
+                        <li>Skill multipliers</li>
+                        <li>NFT rewards</li>
+                        <li>Progressive jackpots</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="casino-card">
+                <h2>🏙️ VR Casino World</h2>
+                <p>Immersive 3D casino environment powered by Unreal Engine 5. Walk through virtual casinos and interact with AI dealers.</p>
+                <span class="status">COMING SOON</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Full VR support</li>
+                        <li>Social interactions</li>
+                        <li>Private lounges</li>
+                        <li>Live events</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="casino-card">
+                <h2>🎨 NFT Marketplace</h2>
+                <p>Buy, sell, and trade exclusive casino NFTs. From avatars to virtual tables, own unique digital assets.</p>
+                <span class="status active">ACTIVE</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Exclusive avatars</li>
+                        <li>Virtual property</li>
+                        <li>Rare collectibles</li>
+                        <li>Royalty system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="casino-card">
+                <h2>💰 $NEXCOIN</h2>
+                <p>The native utility token powering the Casino Nexus ecosystem. Earn, trade, and use across all casino features.</p>
+                <span class="status active">ACTIVE</span>
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Play-to-earn rewards</li>
+                        <li>Marketplace currency</li>
+                        <li>Tournament entry</li>
+                        <li>Governance rights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-banner">
+            <h3>🎲 Skill-Based Entertainment Platform</h3>
+            <p>Casino Nexus focuses on skill-based gaming and entertainment. All games are designed around player skill, not pure chance. $NEXCOIN is a utility token for ecosystem access and features, not for gambling. Platform maintains regulatory compliance through blockchain transparency and KYC/AML procedures.</p>
+        </div>
+    </div>
+
+    <script>
+        // Add interactivity
+        document.querySelectorAll('.casino-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h2').textContent;
+                console.log('Selected:', title);
+                // Future: Navigate to specific game
+            });
+        });
+
+        // Log V5 engine initialization
+        console.log('Casino Nexus V5 Engine Initialized');
+        console.log('Assets loaded from: /assets/');
+        console.log('3D Engine: Ready');
+        console.log('Blockchain: Connected');
+    </script>
+</body>
+</html>
