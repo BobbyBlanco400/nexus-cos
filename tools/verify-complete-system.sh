@@ -3,7 +3,7 @@
 # Complete Verification Suite
 # Runs all tests to verify full system functionality
 
-set -euo pipefail
+set -uo pipefail
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'

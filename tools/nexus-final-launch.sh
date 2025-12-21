@@ -4,7 +4,7 @@
 # Version: Final Launch Add-In v1.0
 # Purpose: One-command execution for full stack deployment
 
-set -euo pipefail
+set -uo pipefail
 
 # Colors for output
 RED='\033[0;31m'
