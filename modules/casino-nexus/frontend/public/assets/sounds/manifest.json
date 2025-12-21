@@ -1,0 +1,32 @@
+{
+  "name": "casino-nexus-v5-sounds",
+  "version": "5.0.0",
+  "description": "Audio assets for Casino Nexus V5 engine",
+  "sounds": {
+    "ambient": [
+      "casino-crowd.mp3",
+      "slot-machines-distant.mp3",
+      "background-chatter.mp3"
+    ],
+    "effects": [
+      "card-shuffle.mp3",
+      "card-flip.mp3",
+      "chip-stack.mp3",
+      "chip-drop.mp3",
+      "dice-roll.mp3",
+      "win-small.mp3",
+      "win-medium.mp3",
+      "win-large.mp3",
+      "slot-spin.mp3",
+      "slot-stop.mp3"
+    ],
+    "music": [
+      "casino-theme-1.mp3",
+      "casino-theme-2.mp3",
+      "vip-lounge-ambient.mp3"
+    ]
+  },
+  "format": "MP3/OGG",
+  "bitrate": "192kbps",
+  "compression": "optimized"
+}

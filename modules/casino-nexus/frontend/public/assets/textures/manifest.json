@@ -1,0 +1,34 @@
+{
+  "name": "casino-nexus-v5-textures",
+  "version": "5.0.0",
+  "description": "Texture pack for Casino Nexus V5 engine",
+  "textures": {
+    "casino-floor": [
+      "marble-floor.png",
+      "red-carpet.png",
+      "wood-floor.png"
+    ],
+    "tables": [
+      "poker-table-felt-green.png",
+      "poker-table-felt-blue.png",
+      "blackjack-table-felt.png",
+      "roulette-table.png"
+    ],
+    "cards": [
+      "card-back-red.png",
+      "card-back-blue.png",
+      "card-faces.png"
+    ],
+    "chips": [
+      "chip-1.png",
+      "chip-5.png",
+      "chip-25.png",
+      "chip-100.png",
+      "chip-500.png",
+      "chip-1000.png"
+    ]
+  },
+  "format": "PNG/JPG/WebP",
+  "resolution": "2048x2048",
+  "compression": "optimized"
+}
