@@ -50,9 +50,20 @@ echo "Useful when you have multiple nginx configurations."
 echo ""
 
 # ==============================================================================
-# Example 4: Complete Custom Configuration
+# Example 4: Custom Domain
 # ==============================================================================
-echo "Example 4: Complete Custom Configuration"
+echo "Example 4: Custom Domain Name"
+echo "--------------------------------------------------------------"
+echo "sudo DOMAIN=\"custom.example.com\" \\"
+echo "     ./scripts/pf-update-nginx-routes.sh"
+echo ""
+echo "Use a different domain name instead of the default n3xuscos.online."
+echo ""
+
+# ==============================================================================
+# Example 5: Complete Custom Configuration
+# ==============================================================================
+echo "Example 5: Complete Custom Configuration"
 echo "--------------------------------------------------------------"
 echo "sudo FRONTEND_IP=\"192.168.1.10:8080\" \\"
 echo "     PUABOVERSE_IP=\"192.168.1.11:8060\" \\"
@@ -112,9 +123,9 @@ echo "curl http://172.20.0.15:3070/"
 echo ""
 
 # ==============================================================================
-# Example 8: Production Deployment
+# Example 9: Production Deployment
 # ==============================================================================
-echo "Example 8: Production Deployment Workflow"
+echo "Example 9: Production Deployment Workflow"
 echo "--------------------------------------------------------------"
 echo "# 1. Verify containers are running"
 echo "docker ps"
@@ -135,9 +146,9 @@ echo "sudo tail -f /var/log/nginx/access.log"
 echo ""
 
 # ==============================================================================
-# Example 9: Dry Run (Check Prerequisites Only)
+# Example 10: Quick Health Check
 # ==============================================================================
-echo "Example 9: Quick Health Check"
+echo "Example 10: Quick Health Check"
 echo "--------------------------------------------------------------"
 echo "# Check if Nginx is running"
 echo "sudo systemctl status nginx"

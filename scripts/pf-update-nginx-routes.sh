@@ -19,6 +19,7 @@ PUABOVERSE_IP="${PUABOVERSE_IP:-172.20.0.13:3060}"     # Internal Metaverse/Crea
 CLUB_SADITTY_IP="${CLUB_SADITTY_IP:-172.20.0.15:3070}"   # Tenant Platform example
 # Add more tenant platforms as needed
 
+DOMAIN="${DOMAIN:-n3xuscos.online}"                    # Domain name
 NGINX_CONF="${NGINX_CONF:-/etc/nginx/sites-available/nexus-cos.conf}"
 BACKUP_DIR="/etc/nginx/backups"
 
@@ -105,8 +106,11 @@ backup_config() {
 update_nginx_config() {
     print_step "Updating Nginx configuration for Nexus COS stack..."
     
-    # Create the new configuration
-    cat > "${NGINX_CONF}" <<EOL
+    # Create the new configuration in a temporary file first
+    local temp_conf
+    temp_conf=$(mktemp)
+    
+    cat > "${temp_conf}" <<EOL
 upstream puabo-frontend {
     server ${FRONTEND_IP};
 }
@@ -121,7 +125,7 @@ upstream club-saditty {
 
 server {
     listen 80;
-    server_name n3xuscos.online;
+    server_name ${DOMAIN};
 
     # Front-facing platform
     location / {
@@ -143,7 +147,11 @@ server {
 
     # Puaboverse health check
     location /puaboverse/health {
-        proxy_pass http://${PUABOVERSE_IP}/health;
+        proxy_pass http://puaboverse/health;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
     }
 
     # Tenant Platforms
@@ -159,13 +167,17 @@ server {
 }
 EOL
 
+    # Atomically move the temp file to the final location
+    mv "${temp_conf}" "${NGINX_CONF}"
+    chmod 644 "${NGINX_CONF}"
+    
     print_success "Nginx configuration updated"
 }
 
 validate_config() {
     print_step "Testing Nginx configuration..."
     
-    if nginx -t 2>&1 | grep -q "successful"; then
+    if nginx -t >/dev/null 2>&1; then
         print_success "Nginx configuration is valid"
         return 0
     else
@@ -191,12 +203,12 @@ validate_config() {
 reload_nginx() {
     print_step "Reloading Nginx..."
     
-    if nginx -s reload 2>&1; then
+    if nginx -s reload >/dev/null 2>&1; then
         print_success "Nginx reloaded successfully"
         return 0
     else
         print_warning "nginx -s reload failed, trying systemctl/service..."
-        if systemctl reload nginx 2>/dev/null || service nginx reload 2>/dev/null; then
+        if systemctl reload nginx >/dev/null 2>&1 || service nginx reload >/dev/null 2>&1; then
             print_success "Nginx reloaded successfully"
             return 0
         else
@@ -212,7 +224,7 @@ verify_routes() {
     
     echo ""
     print_info "Testing front-facing platform..."
-    if curl -I https://n3xuscos.online/ 2>&1 | head -1; then
+    if curl -I https://${DOMAIN}/ 2>&1 | head -1; then
         print_success "Front-facing platform endpoint responded"
     else
         print_warning "Front-facing platform endpoint check failed (this is expected if SSL is not configured)"
@@ -220,7 +232,7 @@ verify_routes() {
     
     echo ""
     print_info "Testing Puaboverse health check..."
-    if curl -I https://n3xuscos.online/puaboverse/health 2>&1 | head -1; then
+    if curl -I https://${DOMAIN}/puaboverse/health 2>&1 | head -1; then
         print_success "Puaboverse health check endpoint responded"
     else
         print_warning "Puaboverse health check endpoint failed (this is expected if SSL is not configured)"
@@ -228,7 +240,7 @@ verify_routes() {
     
     echo ""
     print_info "Testing Club Saditty platform..."
-    if curl -I https://n3xuscos.online/club-saditty/ 2>&1 | head -1; then
+    if curl -I https://${DOMAIN}/club-saditty/ 2>&1 | head -1; then
         print_success "Club Saditty endpoint responded"
     else
         print_warning "Club Saditty endpoint check failed (this is expected if SSL is not configured)"
@@ -243,10 +255,10 @@ print_summary() {
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "${GREEN}Configuration Summary:${NC}"
-    echo -e "  ${CYAN}•${NC} Front-facing Platform: https://n3xuscos.online/"
-    echo -e "  ${CYAN}•${NC} Puaboverse Hub: https://n3xuscos.online/puaboverse/"
-    echo -e "  ${CYAN}•${NC} Puaboverse Health: https://n3xuscos.online/puaboverse/health"
-    echo -e "  ${CYAN}•${NC} Club Saditty: https://n3xuscos.online/club-saditty/"
+    echo -e "  ${CYAN}•${NC} Front-facing Platform: https://${DOMAIN}/"
+    echo -e "  ${CYAN}•${NC} Puaboverse Hub: https://${DOMAIN}/puaboverse/"
+    echo -e "  ${CYAN}•${NC} Puaboverse Health: https://${DOMAIN}/puaboverse/health"
+    echo -e "  ${CYAN}•${NC} Club Saditty: https://${DOMAIN}/club-saditty/"
     echo ""
     echo -e "${YELLOW}Container IPs:${NC}"
     echo -e "  ${CYAN}•${NC} Frontend: ${FRONTEND_IP}"

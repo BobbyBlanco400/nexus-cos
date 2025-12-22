@@ -44,6 +44,13 @@ sudo FRONTEND_IP="172.20.0.10:3080" \
      ./scripts/pf-update-nginx-routes.sh
 ```
 
+### Custom Domain Name
+
+```bash
+sudo DOMAIN="custom.example.com" \
+     ./scripts/pf-update-nginx-routes.sh
+```
+
 ### Custom Nginx Configuration Path
 
 ```bash
@@ -52,6 +59,13 @@ sudo NGINX_CONF="/etc/nginx/sites-available/custom.conf" \
 ```
 
 ## Configuration
+
+### Default Settings
+
+| Setting | Default Value | Description |
+|---------|--------------|-------------|
+| DOMAIN | `n3xuscos.online` | Domain name for the server |
+| NGINX_CONF | `/etc/nginx/sites-available/nexus-cos.conf` | Nginx configuration file path |
 
 ### Default Container IPs
 
