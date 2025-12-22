@@ -60,9 +60,9 @@ wait_for_healthy() {
             return 0
         fi
         
-        # Check if container has stopped/exited (not just starting)
-        if [ "$state" = "exited" ] || [ "$state" = "dead" ]; then
-            echo "✗ $container_name has stopped/exited"
+        # Check if container has stopped/exited/paused (not just starting)
+        if [ "$state" = "exited" ] || [ "$state" = "dead" ] || [ "$state" = "paused" ]; then
+            echo "✗ $container_name has stopped/exited/paused"
             return 1
         fi
         
@@ -78,7 +78,7 @@ wait_for_healthy() {
 # Find unhealthy containers
 # A container is considered unhealthy if:
 # - It has a healthcheck and the status is "unhealthy"
-# - It's not running and not in a "starting" state
+# - It's in a problematic state (not running, exited, dead, paused)
 find_unhealthy_containers() {
     docker ps -a --format '{{.ID}} {{.Names}} {{.Ports}}' | while read -r id name ports; do
         local health=$(get_container_health "$id")
@@ -87,8 +87,8 @@ find_unhealthy_containers() {
         # Check if container is actually unhealthy (not just starting)
         if [ "$health" = "unhealthy" ]; then
             echo "$id $name $ports"
-        elif [ "$state" != "running" ] && [ "$state" != "restarting" ]; then
-            # Container is not running and not restarting
+        elif [ "$state" = "exited" ] || [ "$state" = "dead" ] || [ "$state" = "paused" ]; then
+            # Container is in a problematic state
             echo "$id $name $ports"
         fi
     done

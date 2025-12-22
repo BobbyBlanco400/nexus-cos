@@ -191,12 +191,12 @@ fi
 
 # Test 16: Verify script distinguishes between "starting" and "unhealthy"
 echo -n "Test 16: Script distinguishes transitional states... "
-if grep -q "restarting" "$SCRIPT_PATH" && grep -q "exited" "$SCRIPT_PATH"; then
+if grep -q "exited" "$SCRIPT_PATH" && grep -q "dead" "$SCRIPT_PATH" && grep -q "paused" "$SCRIPT_PATH"; then
     echo -e "${GREEN}PASS${NC}"
     ((PASSED++))
 else
     echo -e "${RED}FAIL${NC}"
-    echo "Script does not distinguish between transitional and failed states"
+    echo "Script does not check for problematic states (exited, dead, paused)"
     ((FAILED++))
 fi
 

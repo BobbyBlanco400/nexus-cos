@@ -64,6 +64,8 @@ CHECK_INTERVAL=15  # Check every 15 seconds
 
 ## Output Example
 
+**Note:** The following is example output from the problem statement. Timestamps and container IDs will vary based on your environment.
+
 ```
 ===== NΞ3XUS·COS Health Check & Repair Script =====
 Timestamp: Mon Dec 22 22:45:40 UTC 2025
