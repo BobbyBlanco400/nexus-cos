@@ -27,11 +27,20 @@ Before running commands, verify:
 
 ## 🔧 Step 1: Navigate to Repository
 
+**Adjust the path based on your actual repository location:**
+
 ```bash
-cd /home/runner/work/nexus-cos/nexus-cos
+# Example if repository is in home directory
+cd ~/nexus-cos
+
+# Example if repository is in /var/www
+cd /var/www/nexus-cos
+
+# Example if repository is in /opt
+cd /opt/nexus-cos
 ```
 
-**Or if repository is elsewhere:**
+For this documentation, we'll use the example path. **Replace with your actual path:**
 ```bash
 cd /path/to/your/nexus-cos
 ```
