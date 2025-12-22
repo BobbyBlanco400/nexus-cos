@@ -14,7 +14,7 @@ set -euo pipefail
 # ==============================================================================
 # Configuration - Define container IPs
 # ==============================================================================
-FRONTEND_IP="${FRONTEND_IP:-172.20.0.14:3080}"       # Front-facing Netflix-style module
+FRONTEND_IP="${FRONTEND_IP:-172.20.0.14:3080}"       # Front-facing Netflix-style module (founders-beta)
 PUABOVERSE_IP="${PUABOVERSE_IP:-172.20.0.13:3060}"     # Internal Metaverse/Creator Hub
 CLUB_SADITTY_IP="${CLUB_SADITTY_IP:-172.20.0.15:3070}"   # Tenant Platform example
 # Add more tenant platforms as needed

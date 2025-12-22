@@ -179,17 +179,42 @@ services:
       - .env.pf
     environment:
       NODE_ENV: production
-      PORT: 3080
+      PORT: 3001
       DB_HOST: nexus-cos-postgres
       REDIS_HOST: nexus-cos-redis
     ports:
-      - "3080:3080"
+      - "3001:3001"
     depends_on:
       - nexus-cos-postgres
       - nexus-cos-redis
     restart: unless-stopped
     networks:
       - cos-net
+
+  # Founders Beta - Front-facing Platform
+  founders-beta:
+    image: nexus-cos-founders-beta:latest
+    container_name: nexus-cos-founders-beta
+    restart: unless-stopped
+    networks:
+      - cos-net
+    ports:
+      - "3080:3080"
+    environment:
+      - NODE_ENV=production
+      - BETA_START_DATE=2025-12-22
+      - BETA_END_DATE=2025-12-29
+      - TENANT_MODE=founders
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - DATABASE_URL=postgres://nexus:password@nexus-cos-postgres:5432/nexus
+    depends_on:
+      - nexus-cos-postgres
+      - auth-service
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3080/health || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
 
   # PV Keys Service
   pv-keys:
