@@ -1,0 +1,19 @@
+apiVersion: v2
+name: nexus-cos
+description: NΞ3XUS·COS PF-MASTER v3.0 - Complete Operating System Helm Chart
+type: application
+version: 3.0.0
+appVersion: "3.0"
+keywords:
+  - nexus-cos
+  - streaming
+  - ai
+  - gaming
+  - platform
+maintainers:
+  - name: Nexus Core Team
+    email: team@n3xuscos.online
+home: https://n3xuscos.online
+sources:
+  - https://github.com/BobbyBlanco400/nexus-cos
+dependencies: []

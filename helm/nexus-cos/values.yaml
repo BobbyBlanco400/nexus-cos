@@ -1,0 +1,231 @@
+# NΞ3XUS·COS Helm Chart Values
+# PF-MASTER v3.0
+
+# Global settings
+global:
+  platform: nexus-cos
+  version: "3.0"
+  domain: n3xuscos.online
+  
+# Default image settings
+image:
+  registry: docker.io
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# Default resource limits
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+# Autoscaling defaults
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 65
+  targetMemoryUtilizationPercentage: 70
+
+# Persistence settings
+persistence:
+  enabled: true
+  storageClass: gp3
+  size: 20Gi
+
+# PostgreSQL configuration
+postgresql:
+  enabled: true
+  auth:
+    username: nexus
+    password: changeme
+    database: nexus_cos
+  primary:
+    persistence:
+      enabled: true
+      size: 50Gi
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+# Redis configuration
+redis:
+  enabled: true
+  auth:
+    password: changeme
+  master:
+    persistence:
+      enabled: true
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+
+# Tier 0: Foundation Services
+tier0:
+  enabled: true
+  services:
+    backend-api:
+      replicas: 3
+      port: 3000
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 2000m
+          memory: 4Gi
+    auth-service:
+      replicas: 2
+      port: 3001
+    key-service:
+      replicas: 2
+      port: 3002
+    streamcore:
+      replicas: 3
+      port: 3100
+    puaboai-sdk:
+      replicas: 2
+      port: 3200
+
+# Tier 1: Economic Core
+tier1:
+  enabled: true
+  platformFee: 20
+  services:
+    ledger-mgr:
+      replicas: 3
+      port: 4000
+    wallet-ms:
+      replicas: 2
+      port: 4001
+    invoice-gen:
+      replicas: 2
+      port: 4002
+    token-mgr:
+      replicas: 2
+      port: 4003
+
+# Tier 2: Platform Services
+tier2:
+  enabled: true
+  services:
+    license-service:
+      replicas: 2
+      port: 5000
+    musicchain-ms:
+      replicas: 2
+      port: 5001
+    puabomusicchain:
+      replicas: 2
+      port: 5002
+    dsp-api:
+      replicas: 3
+      port: 5003
+    content-management:
+      replicas: 2
+      port: 5004
+    pmmg-nexus-recordings:
+      replicas: 3
+      port: 5005
+
+# Tier 3: Streaming Extensions
+tier3:
+  enabled: true
+  autoscaling:
+    maxReplicas: 25
+  services:
+    streaming-service-v2:
+      replicas: 5
+      port: 6000
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 4Gi
+    chat-stream-ms:
+      replicas: 3
+      port: 6001
+    ott-api:
+      replicas: 3
+      port: 6002
+
+# Tier 4: Virtual Gaming
+tier4:
+  enabled: true
+  services:
+    avatar-ms:
+      replicas: 2
+      port: 7000
+    world-engine-ms:
+      replicas: 3
+      port: 7001
+    gamecore-ms:
+      replicas: 3
+      port: 7002
+    casino-nexus-api:
+      replicas: 4
+      port: 7003
+    rewards-ms:
+      replicas: 2
+      port: 7004
+    skill-games-ms:
+      replicas: 2
+      port: 7005
+    puabo-nexus-ai-dispatch:
+      replicas: 3
+      port: 7006
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: n3xuscos.online
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: nexus-cos-tls
+      hosts:
+        - n3xuscos.online
+
+# Monitoring and observability
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+
+# SOC-2 Compliance
+soc2:
+  enabled: true
+  networkPolicies:
+    enabled: true
+    defaultDeny: true
+  podSecurityPolicies:
+    enabled: true
+  secretsEncryption:
+    enabled: true
+
+# Cost governance
+costGovernance:
+  enabled: true
+  platformFeePercentage: 20
+  tenantLimits:
+    cpuMax: "4000m"
+    memoryMax: "8Gi"
+    storageMax: "100Gi"
