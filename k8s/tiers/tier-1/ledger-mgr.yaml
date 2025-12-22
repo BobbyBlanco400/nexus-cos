@@ -1,0 +1,138 @@
+# Ledger Manager Deployment - Tier 1
+# NΞ3XUS·COS PF-MASTER v3.0
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ledger-mgr
+  namespace: nexus-ledger
+  labels:
+    app: ledger-mgr
+    tier: economic
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ledger-mgr
+  template:
+    metadata:
+      labels:
+        app: ledger-mgr
+        tier: economic
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: ledger-mgr
+        image: nexus-cos/ledger-mgr:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4000
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "4000"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: DATABASE_URL
+        - name: PLATFORM_FEE_PERCENTAGE
+          value: "20"
+        - name: AUDIT_MODE
+          value: "immutable"
+        volumeMounts:
+        - name: ledger-storage
+          mountPath: /app/ledger
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        livenessProbe:
+          httpGet:
+            path: /ledger/health
+            port: 4000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ledger/health
+            port: 4000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: ledger-storage
+        persistentVolumeClaim:
+          claimName: ledger-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ledger-pvc
+  namespace: nexus-ledger
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ledger-mgr
+  namespace: nexus-ledger
+  labels:
+    app: ledger-mgr
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4000
+    targetPort: 4000
+    name: http
+  selector:
+    app: ledger-mgr
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ledger-mgr
+  namespace: nexus-ledger
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ledger-mgr
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70

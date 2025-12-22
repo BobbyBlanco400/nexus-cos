@@ -1,0 +1,122 @@
+# Casino Nexus API Deployment - Tier 4
+# NΞ3XUS·COS PF-MASTER v3.0 (V5-V6)
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: casino-nexus-api
+  namespace: nexus-casino
+  labels:
+    app: casino-nexus-api
+    tier: gaming
+    version: v5-v6
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: casino-nexus-api
+  template:
+    metadata:
+      labels:
+        app: casino-nexus-api
+        tier: gaming
+        version: v5-v6
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: casino-nexus-api
+        image: nexus-cos/casino-nexus-api:v5-v6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7003
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "7003"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: REDIS_URL
+        - name: LEDGER_URL
+          value: "http://ledger-mgr.nexus-ledger.svc.cluster.local:4000"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /casino/health
+            port: 7003
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /casino/health
+            port: 7003
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: casino-nexus-api
+  namespace: nexus-casino
+  labels:
+    app: casino-nexus-api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7003
+    targetPort: 7003
+    name: http
+  selector:
+    app: casino-nexus-api
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: casino-nexus-api
+  namespace: nexus-casino
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: casino-nexus-api
+  minReplicas: 4
+  maxReplicas: 12
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70
