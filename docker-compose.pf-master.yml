@@ -1,0 +1,722 @@
+version: "3.9"
+
+# ===============================
+# NΞ3XUS·COS PF-MASTER v3.0
+# Docker Compose Configuration
+# Tiered Service Deployment
+# ===============================
+
+networks:
+  nexus_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+volumes:
+  postgres_data:
+  redis_data:
+  ledger_data:
+  media_storage:
+
+x-healthcheck-default: &healthcheck-default
+  interval: 10s
+  timeout: 5s
+  retries: 5
+  start_period: 30s
+
+x-restart-policy: &restart-policy
+  restart: unless-stopped
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ===============================
+  # TIER 0: FOUNDATION SERVICES
+  # ===============================
+  
+  postgres:
+    image: postgres:16-alpine
+    container_name: nexus-postgres
+    environment:
+      POSTGRES_DB: nexus_cos
+      POSTGRES_USER: nexus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --data-checksums"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus"]
+      <<: *healthcheck-default
+
+  redis:
+    image: redis:7-alpine
+    container_name: nexus-redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      <<: *healthcheck-default
+
+  backend-api:
+    build:
+      context: ./services/backend-api
+      dockerfile: Dockerfile
+    container_name: nexus-backend-api
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: nexus-auth-service-v2
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+      JWT_SECRET: ${JWT_SECRET:-changeme}
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/auth/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  key-service:
+    build:
+      context: ./services/key-service
+      dockerfile: Dockerfile
+    container_name: nexus-key-service
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "3002:3002"
+    depends_on:
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/keys/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  streamcore:
+    build:
+      context: ./services/streamcore
+      dockerfile: Dockerfile
+    container_name: nexus-streamcore
+    environment:
+      NODE_ENV: production
+      PORT: 3100
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "3100:3100"
+    depends_on:
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/stream/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  puaboai-sdk:
+    build:
+      context: ./services/puaboai-sdk
+      dockerfile: Dockerfile
+    container_name: nexus-puaboai-sdk
+    environment:
+      NODE_ENV: production
+      PORT: 3200
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "3200:3200"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3200/ai/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  # ===============================
+  # TIER 1: ECONOMIC CORE
+  # ===============================
+
+  ledger-mgr:
+    build:
+      context: ./services/ledger-mgr
+      dockerfile: Dockerfile
+    container_name: nexus-ledger-mgr
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      PLATFORM_FEE_PERCENTAGE: 20
+      AUDIT_MODE: immutable
+    volumes:
+      - ledger_data:/app/ledger
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - backend-api
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/ledger/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  wallet-ms:
+    build:
+      context: ./services/wallet-ms
+      dockerfile: Dockerfile
+    container_name: nexus-wallet-ms
+    environment:
+      NODE_ENV: production
+      PORT: 4001
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      LEDGER_URL: http://ledger-mgr:4000
+    ports:
+      - "4001:4001"
+    depends_on:
+      - postgres
+      - ledger-mgr
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/wallet/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  invoice-gen:
+    build:
+      context: ./services/invoice-gen
+      dockerfile: Dockerfile
+    container_name: nexus-invoice-gen
+    environment:
+      NODE_ENV: production
+      PORT: 4002
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      LEDGER_URL: http://ledger-mgr:4000
+    ports:
+      - "4002:4002"
+    depends_on:
+      - postgres
+      - ledger-mgr
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4002/invoice/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  token-mgr:
+    build:
+      context: ./services/token-mgr
+      dockerfile: Dockerfile
+    container_name: nexus-token-mgr
+    environment:
+      NODE_ENV: production
+      PORT: 4003
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "4003:4003"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4003/token/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  # ===============================
+  # TIER 2: PLATFORM SERVICES
+  # ===============================
+
+  license-service:
+    build:
+      context: ./services/license-service
+      dockerfile: Dockerfile
+    container_name: nexus-license-service
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+      - ledger-mgr
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/license/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  musicchain-ms:
+    build:
+      context: ./services/musicchain-ms
+      dockerfile: Dockerfile
+    container_name: nexus-musicchain-ms
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/musicchain/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  puabomusicchain:
+    build:
+      context: ./services/puabomusicchain
+      dockerfile: Dockerfile
+    container_name: nexus-puabomusicchain
+    environment:
+      NODE_ENV: production
+      PORT: 5002
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "5002:5002"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/puabo/musicchain/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  dsp-api:
+    build:
+      context: ./services/dsp-api
+      dockerfile: Dockerfile
+    container_name: nexus-dsp-api
+    environment:
+      NODE_ENV: production
+      PORT: 5003
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "5003:5003"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5003/dsp/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  content-management:
+    build:
+      context: ./services/content-management
+      dockerfile: Dockerfile
+    container_name: nexus-content-management
+    environment:
+      NODE_ENV: production
+      PORT: 5004
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    volumes:
+      - media_storage:/app/media
+    ports:
+      - "5004:5004"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5004/content/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  pmmg-nexus-recordings:
+    build:
+      context: ./services/pmmg-nexus-recordings
+      dockerfile: Dockerfile
+    container_name: nexus-pmmg-recordings
+    environment:
+      NODE_ENV: production
+      PORT: 5005
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    volumes:
+      - media_storage:/app/recordings
+    ports:
+      - "5005:5005"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/recordings/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  # ===============================
+  # TIER 3: STREAMING EXTENSIONS
+  # ===============================
+
+  streaming-service-v2:
+    build:
+      context: ./services/streaming-service-v2
+      dockerfile: Dockerfile
+    container_name: nexus-streaming-v2
+    environment:
+      NODE_ENV: production
+      PORT: 6000
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+      STREAMCORE_URL: http://streamcore:3100
+    ports:
+      - "6000:6000"
+    depends_on:
+      - postgres
+      - redis
+      - streamcore
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6000/streaming/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+
+  chat-stream-ms:
+    build:
+      context: ./services/chat-stream-ms
+      dockerfile: Dockerfile
+    container_name: nexus-chat-stream
+    environment:
+      NODE_ENV: production
+      PORT: 6001
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "6001:6001"
+    depends_on:
+      - redis
+      - streaming-service-v2
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6001/chat/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  ott-api:
+    build:
+      context: ./services/ott-api
+      dockerfile: Dockerfile
+    container_name: nexus-ott-api
+    environment:
+      NODE_ENV: production
+      PORT: 6002
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      STREAMING_URL: http://streaming-service-v2:6000
+    ports:
+      - "6002:6002"
+    depends_on:
+      - postgres
+      - streaming-service-v2
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6002/ott/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  # ===============================
+  # TIER 4: VIRTUAL GAMING
+  # ===============================
+
+  avatar-ms:
+    build:
+      context: ./services/avatar-ms
+      dockerfile: Dockerfile
+    container_name: nexus-avatar-ms
+    environment:
+      NODE_ENV: production
+      PORT: 7000
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "7000:7000"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/avatar/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  world-engine-ms:
+    build:
+      context: ./services/world-engine-ms
+      dockerfile: Dockerfile
+    container_name: nexus-world-engine
+    environment:
+      NODE_ENV: production
+      PORT: 7001
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "7001:7001"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7001/world/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  gamecore-ms:
+    build:
+      context: ./services/gamecore-ms
+      dockerfile: Dockerfile
+    container_name: nexus-gamecore
+    environment:
+      NODE_ENV: production
+      PORT: 7002
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "7002:7002"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7002/game/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3
+
+  casino-nexus-api:
+    build:
+      context: ./services/casino-nexus-api
+      dockerfile: Dockerfile
+    container_name: nexus-casino-v5-v6
+    environment:
+      NODE_ENV: production
+      PORT: 7003
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+      LEDGER_URL: http://ledger-mgr:4000
+    ports:
+      - "7003:7003"
+    depends_on:
+      - postgres
+      - redis
+      - ledger-mgr
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7003/casino/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 4
+
+  rewards-ms:
+    build:
+      context: ./services/rewards-ms
+      dockerfile: Dockerfile
+    container_name: nexus-rewards
+    environment:
+      NODE_ENV: production
+      PORT: 7004
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      LEDGER_URL: http://ledger-mgr:4000
+    ports:
+      - "7004:7004"
+    depends_on:
+      - postgres
+      - ledger-mgr
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7004/rewards/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  skill-games-ms:
+    build:
+      context: ./services/skill-games-ms
+      dockerfile: Dockerfile
+    container_name: nexus-skill-games
+    environment:
+      NODE_ENV: production
+      PORT: 7005
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+    ports:
+      - "7005:7005"
+    depends_on:
+      - postgres
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7005/skills/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 2
+
+  puabo-nexus-ai-dispatch:
+    build:
+      context: ./services/puabo-nexus-ai-dispatch
+      dockerfile: Dockerfile
+    container_name: nexus-ai-dispatch
+    environment:
+      NODE_ENV: production
+      PORT: 7006
+      DATABASE_URL: postgresql://nexus:${POSTGRES_PASSWORD:-changeme}@postgres:5432/nexus_cos
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme}@redis:6379
+    ports:
+      - "7006:7006"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nexus_net
+    <<: *restart-policy
+    <<: *logging
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7006/dispatch/health"]
+      <<: *healthcheck-default
+    deploy:
+      replicas: 3

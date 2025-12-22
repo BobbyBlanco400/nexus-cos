@@ -1,0 +1,73 @@
+# NΞ3XUS·COS Kubernetes Namespaces
+# PF-MASTER v3.0
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-core
+  labels:
+    tier: foundation
+    tier-number: "0"
+    platform: nexus-cos
+    pf-version: "3.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-ledger
+  labels:
+    tier: economic
+    tier-number: "1"
+    platform: nexus-cos
+    pf-version: "3.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-ai
+  labels:
+    tier: platform
+    tier-number: "2"
+    platform: nexus-cos
+    pf-version: "3.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-streaming
+  labels:
+    tier: streaming
+    tier-number: "3"
+    platform: nexus-cos
+    pf-version: "3.0"
+    high-traffic: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-casino
+  labels:
+    tier: gaming
+    tier-number: "4"
+    platform: nexus-cos
+    pf-version: "3.0"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-tenants
+  labels:
+    tier: streaming
+    platform: nexus-cos
+    pf-version: "3.0"
+    multi-tenant: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nexus-monitoring
+  labels:
+    tier: infrastructure
+    platform: nexus-cos
+    pf-version: "3.0"

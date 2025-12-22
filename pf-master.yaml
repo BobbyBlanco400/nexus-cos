@@ -1,0 +1,908 @@
+# ===============================
+# NΞ3XUS·COS PF-MASTER v3.0
+# Fully consolidated for execution
+# Canonical authority for platform
+# ===============================
+
+pf_version: "3.0"
+platform: "NΞ3XUS·COS"
+authority: canonical
+execution_mode: full_activation
+url: https://n3xuscos.online
+branding: "NΞ3XUS·COS 2-part style (internal/external)"
+
+metadata:
+  issued: "2025-12-22"
+  status: production_ready
+  compliance: soc2_ready
+  
+inventory:
+  tenants: 12
+  services: 78
+  engines: 8
+  layers: 24
+
+# -------------------------------
+# Tiered Service Activation Matrix
+# -------------------------------
+
+tiers:
+  tier_0_foundation:
+    immutable: true
+    priority: 1
+    description: "Core infrastructure and authentication services"
+    services:
+      - name: backend-api
+        port: 3000
+        health: /health
+        replicas: 3
+        
+      - name: auth-service
+        version: v2
+        port: 3001
+        health: /auth/health
+        replicas: 2
+        
+      - name: key-service
+        component: pv-keys
+        port: 3002
+        health: /keys/health
+        replicas: 2
+        
+      - name: postgres
+        type: database
+        port: 5432
+        persistent: true
+        encrypted: true
+        
+      - name: redis
+        type: cache
+        port: 6379
+        persistent: true
+        
+      - name: streamcore
+        port: 3100
+        health: /stream/health
+        replicas: 3
+        
+      - name: puaboai-sdk
+        port: 3200
+        health: /ai/health
+        replicas: 2
+
+  tier_1_economic_core:
+    priority: 2
+    description: "Economic engine and financial services"
+    depends_on:
+      - tier_0_foundation
+    services:
+      - name: ledger-mgr
+        port: 4000
+        health: /ledger/health
+        replicas: 3
+        features:
+          - platform_fee_enforcement
+          - audit_logging
+          - immutable_records
+          
+      - name: wallet-ms
+        port: 4001
+        health: /wallet/health
+        replicas: 2
+        
+      - name: invoice-gen
+        port: 4002
+        health: /invoice/health
+        replicas: 2
+        
+      - name: token-mgr
+        port: 4003
+        health: /token/health
+        replicas: 2
+        
+    rules:
+      platform_fee: "20_percent"
+      tenant_isolation: true
+      audit: immutable
+      
+  tier_2_platform_services:
+    priority: 3
+    description: "Core platform services and content management"
+    depends_on:
+      - tier_0_foundation
+      - tier_1_economic_core
+    services:
+      - name: license-service
+        port: 5000
+        health: /license/health
+        replicas: 2
+        
+      - name: musicchain-ms
+        port: 5001
+        health: /musicchain/health
+        replicas: 2
+        
+      - name: puabomusicchain
+        port: 5002
+        health: /puabo/musicchain/health
+        replicas: 2
+        
+      - name: dsp-api
+        port: 5003
+        health: /dsp/health
+        replicas: 3
+        features:
+          - royalty_distribution
+          - content_delivery
+          
+      - name: content-management
+        port: 5004
+        health: /content/health
+        replicas: 2
+        
+      - name: pmmg-nexus-recordings
+        port: 5005
+        health: /recordings/health
+        replicas: 3
+        description: "Replaces nexus-studio-ai + puabo_studio fully"
+        features:
+          - daw_capabilities
+          - ai_mastering
+          - collaboration_rooms
+
+  tier_3_streaming_extensions:
+    priority: 4
+    description: "Streaming services with full parity for 12 tenants"
+    depends_on:
+      - tier_0_foundation
+      - tier_2_platform_services
+    requirements:
+      full_streaming_parity: true
+      tenants: 12
+    services:
+      - name: streaming-service-v2
+        port: 6000
+        health: /streaming/health
+        replicas: 5
+        autoscaling:
+          min: 5
+          max: 25
+          
+      - name: chat-stream-ms
+        port: 6001
+        health: /chat/health
+        replicas: 3
+        
+      - name: ott-api
+        port: 6002
+        health: /ott/health
+        replicas: 3
+        
+  tier_4_virtual_gaming:
+    priority: 5
+    description: "Virtual worlds, avatars, and gaming services"
+    depends_on:
+      - tier_0_foundation
+      - tier_1_economic_core
+    services:
+      - name: avatar-ms
+        port: 7000
+        health: /avatar/health
+        replicas: 2
+        
+      - name: world-engine-ms
+        port: 7001
+        health: /world/health
+        replicas: 3
+        
+      - name: gamecore-ms
+        port: 7002
+        health: /game/health
+        replicas: 3
+        
+      - name: casino-nexus-api
+        version: "V5-V6"
+        port: 7003
+        health: /casino/health
+        replicas: 4
+        features:
+          - live_gaming
+          - rewards_integration
+          
+      - name: rewards-ms
+        port: 7004
+        health: /rewards/health
+        replicas: 2
+        
+      - name: skill-games-ms
+        port: 7005
+        health: /skills/health
+        replicas: 2
+        
+      - name: puabo-nexus-ai-dispatch
+        port: 7006
+        health: /dispatch/health
+        replicas: 3
+
+# -------------------------------
+# Docker Compose Configuration
+# -------------------------------
+
+docker:
+  version: "3.9"
+  networks:
+    nexus_net:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 172.25.0.0/16
+            
+  x-healthcheck-default: &healthcheck-default
+    interval: 10s
+    timeout: 5s
+    retries: 5
+    start_period: 30s
+    
+  x-restart-policy: &restart-policy
+    restart: unless-stopped
+    
+  x-logging: &logging
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+# -------------------------------
+# Kubernetes Configuration
+# -------------------------------
+
+kubernetes:
+  enabled: true
+  version: "1.28"
+  minimum_nodes: 3
+  container_runtime: containerd
+  
+  cluster:
+    name: nexus-cos-production
+    region: us-east-1
+    
+  networking:
+    ingress: nginx
+    service_mesh: disabled
+    network_policy: enabled
+    
+  namespaces:
+    - name: nexus-core
+      tier: 0
+      labels:
+        tier: foundation
+        
+    - name: nexus-ledger
+      tier: 1
+      labels:
+        tier: economic
+        
+    - name: nexus-streaming
+      tier: 3
+      labels:
+        tier: streaming
+        high-traffic: "true"
+        
+    - name: nexus-ai
+      tier: 2
+      labels:
+        tier: platform
+        
+    - name: nexus-casino
+      tier: 4
+      labels:
+        tier: gaming
+        
+    - name: nexus-tenants
+      tier: 3
+      labels:
+        tier: streaming
+        multi-tenant: "true"
+        
+    - name: nexus-monitoring
+      tier: 0
+      labels:
+        tier: infrastructure
+        
+  deployment_defaults:
+    replicas: 2
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+        
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "512Mi"
+      limits:
+        cpu: "1000m"
+        memory: "2Gi"
+        
+    health:
+      liveness:
+        path: /health
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readiness:
+        path: /ready
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        
+    security:
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+
+# -------------------------------
+# Helm Configuration
+# -------------------------------
+
+helm:
+  root_chart: nexus-cos
+  version: "3.0.0"
+  
+  charts:
+    core:
+      namespace: nexus-core
+      services:
+        - backend-api
+        - auth-service
+        - key-service
+        - postgres
+        - redis
+        - streamcore
+        - puaboai-sdk
+        
+    ledger:
+      namespace: nexus-ledger
+      services:
+        - ledger-mgr
+        - wallet-ms
+        - invoice-gen
+        - token-mgr
+        
+    streaming:
+      namespace: nexus-streaming
+      services:
+        - streaming-service-v2
+        - chat-stream-ms
+        - ott-api
+        
+    ai:
+      namespace: nexus-ai
+      services:
+        - pmmg-nexus-recordings
+        - puaboai-sdk
+        
+    casino:
+      namespace: nexus-casino
+      services:
+        - casino-nexus-api
+        - rewards-ms
+        - skill-games-ms
+        - avatar-ms
+        - world-engine-ms
+        - gamecore-ms
+        
+    tenants:
+      namespace: nexus-tenants
+      count: 12
+      
+  subchart_defaults:
+    replicas: 2
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 10
+      targetCPUUtilizationPercentage: 65
+      targetMemoryUtilizationPercentage: 70
+      
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+        
+    persistence:
+      enabled: true
+      storageClass: gp3
+      size: 20Gi
+
+# -------------------------------
+# Terraform Infrastructure
+# -------------------------------
+
+terraform:
+  version: "1.6"
+  backend:
+    type: s3
+    bucket: nexus-cos-terraform-state
+    region: us-east-1
+    encrypt: true
+    
+  providers:
+    - name: aws
+      version: "~> 5.0"
+      region: us-east-1
+      
+    - name: kubernetes
+      version: "~> 2.23"
+      
+    - name: helm
+      version: "~> 2.11"
+      
+  modules:
+    vpc:
+      cidr: "10.50.0.0/16"
+      availability_zones: 3
+      private_subnets:
+        - "10.50.1.0/24"
+        - "10.50.2.0/24"
+        - "10.50.3.0/24"
+      public_subnets:
+        - "10.50.101.0/24"
+        - "10.50.102.0/24"
+        - "10.50.103.0/24"
+      enable_nat_gateway: true
+      enable_dns_hostnames: true
+      
+    eks:
+      cluster_name: nexus-cos-production
+      cluster_version: "1.28"
+      
+      node_groups:
+        core:
+          name: nexus-core-nodes
+          instance_type: m6i.large
+          min_size: 3
+          max_size: 10
+          desired_size: 3
+          labels:
+            workload: core
+            
+        streaming:
+          name: nexus-streaming-nodes
+          instance_type: c6i.xlarge
+          min_size: 2
+          max_size: 20
+          desired_size: 5
+          labels:
+            workload: streaming
+          taints:
+            - key: streaming
+              value: "true"
+              effect: NoSchedule
+              
+        gaming:
+          name: nexus-gaming-nodes
+          instance_type: c6i.2xlarge
+          min_size: 2
+          max_size: 15
+          desired_size: 3
+          labels:
+            workload: gaming
+            
+    storage:
+      ebs:
+        encrypted: true
+        kms_key_id: auto
+        retention_policy: retain
+        volume_type: gp3
+        iops: 3000
+        throughput: 125
+        
+      s3:
+        buckets:
+          - name: nexus-cos-backups
+            versioning: true
+            encryption: AES256
+            
+          - name: nexus-cos-logs
+            lifecycle_days: 90
+            
+          - name: nexus-cos-media
+            cdn_enabled: true
+            
+    ingress:
+      nginx:
+        load_balancer: public
+        ssl_policy: ELBSecurityPolicy-TLS-1-2-2017-01
+        certificate_arn: auto
+        annotations:
+          cross_zone_load_balancing: "true"
+          connection_draining: "true"
+          connection_draining_timeout: 300
+
+# -------------------------------
+# SOC-2 Compliance Overlays
+# -------------------------------
+
+soc2:
+  enabled: true
+  framework_version: "2017"
+  
+  trust_service_criteria:
+    security:
+      - zero_trust_network_policies
+      - encrypted_secrets_at_rest
+      - encrypted_secrets_in_transit
+      - rbac_enabled
+      - audit_logging
+      - vulnerability_scanning
+      
+    availability:
+      - hpa_required
+      - pod_disruption_budgets
+      - multi_az_deployment
+      - automated_backups
+      - disaster_recovery_plan
+      
+    confidentiality:
+      - namespace_isolation
+      - per_tenant_secrets
+      - data_encryption
+      - access_controls
+      
+    processing_integrity:
+      - immutable_images
+      - checksum_verification
+      - change_management
+      - deployment_approvals
+      
+    privacy:
+      - data_minimization
+      - consent_management
+      - data_retention_policies
+      - right_to_erasure
+      
+  implementation:
+    network_policies:
+      default_deny: true
+      explicit_allow: required
+      
+    secrets_management:
+      provider: kubernetes_secrets
+      encryption: enabled
+      rotation: 90_days
+      
+    audit_logging:
+      enabled: true
+      retention: 1_year
+      immutable: true
+      
+    monitoring:
+      continuous: true
+      alerting: enabled
+      incident_response: automated
+
+# -------------------------------
+# Autoscaling Configuration
+# -------------------------------
+
+autoscaling:
+  enabled: true
+  provider: kubernetes_hpa
+  
+  default_policy:
+    min_replicas: 2
+    max_replicas: 12
+    
+    metrics:
+      - type: cpu
+        target_utilization: 65
+        
+      - type: memory
+        target_utilization: 70
+        
+    behavior:
+      scale_up:
+        stabilization_window: 30
+        policies:
+          - type: Percent
+            value: 100
+            period: 15
+            
+      scale_down:
+        stabilization_window: 180
+        policies:
+          - type: Percent
+            value: 50
+            period: 60
+            
+  streaming_overrides:
+    namespaces:
+      - nexus-streaming
+      - nexus-tenants
+      
+    max_replicas: 25
+    scale_up_cooldown_seconds: 30
+    scale_down_cooldown_seconds: 180
+    
+    metrics:
+      - type: cpu
+        target_utilization: 70
+      - type: memory
+        target_utilization: 75
+      - type: custom
+        name: concurrent_streams
+        target_value: 1000
+
+# -------------------------------
+# Cost Governance
+# -------------------------------
+
+cost_governor:
+  enabled: true
+  enforcement_layer: ledger-mgr
+  billing_mode: realtime
+  throttling_enabled: true
+  
+  platform_economics:
+    platform_fee_percentage: 20
+    fee_distribution:
+      infrastructure: 40
+      development: 30
+      operations: 20
+      reserve: 10
+      
+  tenant_limits:
+    cpu_max: "4000m"
+    memory_max: "8Gi"
+    storage_max: "100Gi"
+    streams_max: 5
+    bandwidth_max: "1TB"
+    
+  budget_alerts:
+    - threshold: 50
+      action: notify
+    - threshold: 75
+      action: warn
+    - threshold: 90
+      action: throttle
+    - threshold: 100
+      action: suspend
+      
+  cost_optimization:
+    spot_instances: enabled
+    reserved_instances: 30_percent
+    auto_shutdown:
+      dev_environments: "20:00-08:00"
+      staging_environments: "22:00-06:00"
+
+# -------------------------------
+# Investor Deck Generation
+# -------------------------------
+
+investor_deck:
+  enabled: true
+  generator_service: nexus-deckgen
+  auto_generate: true
+  
+  input:
+    source: pf-master.yaml
+    supplementary:
+      - financial_projections.yaml
+      - market_analysis.yaml
+      - competitive_landscape.yaml
+      
+  output_formats:
+    - pdf
+    - pptx
+    - html
+    
+  output_location:
+    path: /investor-materials/
+    versioned: true
+    
+  slides:
+    - number: 1
+      title: "Vision & Market Opportunity"
+      content:
+        - market_size
+        - target_audience
+        - problem_statement
+        - solution_overview
+        
+    - number: 2
+      title: "Platform Architecture"
+      content:
+        - system_diagram
+        - technology_stack
+        - scalability_approach
+        
+    - number: 3
+      title: "78 Services Breakdown"
+      content:
+        - tier_0_services
+        - tier_1_services
+        - tier_2_services
+        - tier_3_services
+        - tier_4_services
+        
+    - number: 4
+      title: "12 Revenue-Generating Mini Platforms"
+      content:
+        - tenant_overview
+        - revenue_models
+        - growth_metrics
+        
+    - number: 5
+      title: "Streaming + AI Differentiation"
+      content:
+        - streaming_capabilities
+        - ai_features
+        - competitive_advantages
+        
+    - number: 6
+      title: "Cost Controls & Platform Fees (20%)"
+      content:
+        - platform_economics
+        - cost_governance
+        - profit_margins
+        
+    - number: 7
+      title: "Scalability (Kubernetes + HPA)"
+      content:
+        - infrastructure_overview
+        - auto_scaling_capabilities
+        - performance_metrics
+        
+    - number: 8
+      title: "Compliance & Security (SOC-2 Ready)"
+      content:
+        - soc2_compliance
+        - security_measures
+        - audit_readiness
+        
+    - number: 9
+      title: "Monetization Model"
+      content:
+        - revenue_streams
+        - pricing_strategy
+        - financial_projections
+        
+    - number: 10
+      title: "Expansion Roadmap"
+      content:
+        - short_term_goals
+        - medium_term_goals
+        - long_term_vision
+        
+  branding:
+    logo: /assets/nexus-cos-logo.svg
+    color_scheme: nexus_primary
+    font_family: Inter
+
+# -------------------------------
+# Verification Scripts
+# -------------------------------
+
+scripts:
+  verify_tier:
+    path: scripts/verify-tier.sh
+    description: "Verify health of specific tier"
+    usage: "./scripts/verify-tier.sh <tier_number>"
+    
+  verify_ledger:
+    path: scripts/verify-ledger.sh
+    description: "Check ledger enforcement and platform fee"
+    usage: "./scripts/verify-ledger.sh"
+    
+  verify_all:
+    path: scripts/verify-all.sh
+    description: "Full system verification"
+    usage: "./scripts/verify-all.sh"
+    
+  deploy_tier:
+    path: scripts/deploy-tier.sh
+    description: "Deploy specific tier"
+    usage: "./scripts/deploy-tier.sh <tier_number>"
+
+# -------------------------------
+# Execution Order
+# -------------------------------
+
+execution_order:
+  1:
+    name: bring_up_tier_0
+    description: "Deploy foundation services"
+    script: scripts/deploy-tier.sh 0
+    verify: scripts/verify-tier.sh 0
+    timeout: 300
+    
+  2:
+    name: bring_up_tier_1
+    description: "Deploy economic core"
+    script: scripts/deploy-tier.sh 1
+    verify: scripts/verify-tier.sh 1
+    timeout: 180
+    
+  3:
+    name: bring_up_tier_2
+    description: "Deploy platform services"
+    script: scripts/deploy-tier.sh 2
+    verify: scripts/verify-tier.sh 2
+    timeout: 240
+    
+  4:
+    name: bring_up_tier_3
+    description: "Deploy streaming extensions"
+    script: scripts/deploy-tier.sh 3
+    verify: scripts/verify-tier.sh 3
+    timeout: 300
+    
+  5:
+    name: bring_up_tier_4
+    description: "Deploy virtual gaming"
+    script: scripts/deploy-tier.sh 4
+    verify: scripts/verify-tier.sh 4
+    timeout: 240
+    
+  6:
+    name: enable_autoscaling
+    description: "Enable HPA for all services"
+    script: scripts/enable-autoscaling.sh
+    verify: scripts/verify-autoscaling.sh
+    timeout: 60
+    
+  7:
+    name: apply_cost_governor
+    description: "Enable cost governance and monitoring"
+    script: scripts/apply-cost-governor.sh
+    verify: scripts/verify-cost-governor.sh
+    timeout: 60
+    
+  8:
+    name: generate_investor_deck
+    description: "Generate investor materials"
+    script: scripts/generate-investor-deck.sh
+    verify: scripts/verify-investor-deck.sh
+    timeout: 120
+    
+  9:
+    name: full_system_verification
+    description: "Complete end-to-end verification"
+    script: scripts/verify-all.sh
+    verify: true
+    timeout: 600
+
+# -------------------------------
+# Final State Declaration
+# -------------------------------
+
+final_state:
+  all_services_active: true
+  no_dormant_components: true
+  kubernetes_native: true
+  soc2_ready: true
+  investor_assets_generated: true
+  12_tenants_live: true
+  streaming_parity: true
+  pmmg_nexus_recordings_active: true
+  casino_nexus_v5_v6_active: true
+  unified_branding: "NΞ3XUS·COS"
+  
+  verification:
+    health_checks: passing
+    load_tests: passing
+    security_scans: passing
+    compliance_audits: passing
+    
+  operational_status:
+    uptime_target: "99.9%"
+    response_time_p95: "<200ms"
+    concurrent_users: 100000
+    total_throughput: "10Gbps"
+
+# -------------------------------
+# End of PF-MASTER v3.0
+# -------------------------------
