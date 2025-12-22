@@ -211,9 +211,11 @@ resource "helm_release" "nexus_cos" {
   namespace  = "nexus-core"
   create_namespace = true
   
-  values = [
-    file("${path.module}/helm-values.yaml")
-  ]
+  # Use default values from helm chart
+  # To customize, create a helm-values.yaml file in this directory
+  # values = [
+  #   file("${path.module}/helm-values.yaml")
+  # ]
   
   depends_on = [
     module.eks

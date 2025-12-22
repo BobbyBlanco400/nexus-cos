@@ -1,5 +1,8 @@
 # Ledger Manager Deployment - Tier 1
 # NΞ3XUS·COS PF-MASTER v3.0
+#
+# Security Note: Root filesystem is read-only. Ledger data is written to
+# a dedicated volume mount at /app/ledger for audit trail persistence.
 
 ---
 apiVersion: apps/v1
@@ -70,7 +73,7 @@ spec:
           periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
+          readOnlyRootFilesystem: true  # Read-only root filesystem for security
           capabilities:
             drop:
             - ALL

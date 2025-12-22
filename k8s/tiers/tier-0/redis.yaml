@@ -9,7 +9,7 @@ metadata:
   namespace: nexus-core
 type: Opaque
 stringData:
-  REDIS_PASSWORD: changeme
+  REDIS_PASSWORD: CHANGE_ME_IN_PRODUCTION  # TODO: Replace with secure password or use external secret management
 
 ---
 apiVersion: apps/v1

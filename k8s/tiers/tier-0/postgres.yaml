@@ -9,7 +9,7 @@ metadata:
   namespace: nexus-core
 type: Opaque
 stringData:
-  POSTGRES_PASSWORD: changeme
+  POSTGRES_PASSWORD: CHANGE_ME_IN_PRODUCTION  # TODO: Replace with secure password or use external secret management
   POSTGRES_USER: nexus
   POSTGRES_DB: nexus_cos
 
