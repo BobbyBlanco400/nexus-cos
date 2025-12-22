@@ -5,8 +5,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Configure npm and install dependencies
+RUN npm config set strict-ssl false
+RUN npm install --production
 
 # Copy application code
 COPY . .
