@@ -407,6 +407,16 @@ curl http://localhost:3213/health  # Streaming API
 - Play-to-earn rewards system
 - VR metaverse (Casino-Nexus City)
 
+All Casino Nexus gameplay, access tiers, rewards, and premium experiences are powered by the NexCoin Wallet system.
+
+### NexCoin Wallet (Platform Credit System)
+
+NexCoin is a closed-loop platform credit used exclusively within the Nexus COS ecosystem. Users purchase NexCoin packages using fiat currency and use NexCoin to access platform features including Casino Nexus games, VR experiences, premium tables, and future marketplace functionality.
+
+**Important:** NexCoin is not a cryptocurrency, is not stored on-chain, and is not redeemable for cash.
+
+**Compliance:** NexCoin represents platform credits only and does not constitute gambling custody, stored value, or financial instruments.
+
 ---
 
 ## 📋 **Management Commands**

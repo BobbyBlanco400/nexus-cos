@@ -97,3 +97,4 @@ nexus-cos/puabo-core/reports/*.json
 output/
 *.pyc
 __pycache__/
+modules/puabo-blac/services/wallet-ms/package-lock.json
