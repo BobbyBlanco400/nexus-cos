@@ -1,0 +1,79 @@
+{
+  "platform_id": "rise_sacramento_voices916",
+  "name": "Rise Sacramento: VoicesOfThe916",
+  "type": "browser_virtual_music_platform",
+  "description": "World's first browser-based platform dedicated to showcasing Sacramento's music artists with global virtual reach and community impact.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "git@github.com:nexuscos/rise916.git",
+    "branch": "main"
+  },
+  "deploy": {
+    "vps_path": "/opt/nexus-cos/platforms/rise916",
+    "containerized": true,
+    "auto_update": true,
+    "start_commands": [
+      "cd /opt/nexus-cos/platforms/rise916/backend && npm install && node server.js",
+      "cd /opt/nexus-cos/platforms/rise916/frontend && npm install && npm start"
+    ]
+  },
+  "modules": [
+    "artist_showcase_module",
+    "virtual_stage_3d",
+    "community_story_hub",
+    "global_discovery_engine",
+    "impact_metrics_tracker",
+    "events_calendar_module",
+    "user_profile_and_fan_interaction"
+  ],
+  "branding": {
+    "logo": "rise916_logo.svg",
+    "primary_color": "#FF6F61",
+    "secondary_color": "#1B1B1B",
+    "accent_color": "#FFD700",
+    "font_family": "Montserrat, sans-serif"
+  },
+  "social_links": {
+    "instagram": "https://www.instagram.com/risesacramento/"
+  },
+  "features": [
+    "Virtual Artist Showcases",
+    "3D Browser-Based Performance Portals",
+    "Spotlight Artist Cycles",
+    "916 Sound Map",
+    "Community Pulse & Story Hub",
+    "Global Discovery Engine",
+    "Impact Metrics & Awards"
+  ],
+  "meta": {
+    "creator_focus": "Artists making an impact in Sacramento and globally",
+    "launch_status": "pending_deployment"
+  },
+  "agent_instructions": {
+    "create_structure": [
+      "mkdir -p /opt/nexus-cos/platforms/rise916/{frontend,backend,db,assets,modules,config}",
+      "cp -r /opt/nexus-cos/core_modules/* /opt/nexus-cos/platforms/rise916/modules/"
+    ],
+    "inject_metadata": "Write platform JSON into /opt/nexus-cos/platforms/rise916/config/platform.json",
+    "link_registry": "ln -s /opt/nexus-cos/platforms/rise916 /opt/nexus-cos/active_platforms/rise_sacramento_voices916",
+    "setup_hooks": "touch /opt/nexus-cos/platforms/rise916/.auto_update_enabled",
+    "execute": "Run start_commands for frontend and backend"
+  },
+  "frontend": {
+    "stack": "React + Three.js + TailwindCSS",
+    "entry": "frontend/src/index.js",
+    "components": [
+      "NavBar.js",
+      "VirtualStage.js",
+      "ArtistShowcase.js",
+      "CommunityHub.js"
+    ]
+  },
+  "backend": {
+    "stack": "Node.js + Express",
+    "entry": "backend/server.js",
+    "api_endpoints": [
+      "/api/artists"
+    ]
+  }
+}
