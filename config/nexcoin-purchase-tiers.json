@@ -1,0 +1,68 @@
+{
+  "founder_beta_tiers": {
+    "enabled": true,
+    "beta_end_date": "2025-12-30T23:59:59Z",
+    "description": "Founder-only NexCoin packages for 7-day beta period",
+    "packages": [
+      {
+        "tier": "founder_i",
+        "name": "Founder I",
+        "nexcoin_amount": 25000,
+        "price_usd": 1500,
+        "flags": ["high_roller_access"],
+        "required_role": "founder_beta"
+      },
+      {
+        "tier": "founder_ii",
+        "name": "Founder II",
+        "nexcoin_amount": 50000,
+        "price_usd": 2750,
+        "flags": ["vr_lounge_access", "metatwin_access"],
+        "required_role": "founder_beta"
+      },
+      {
+        "tier": "founder_iii",
+        "name": "Founder III",
+        "nexcoin_amount": 100000,
+        "price_usd": 5000,
+        "flags": ["all_access", "prestige_badge"],
+        "required_role": "founder_beta"
+      }
+    ],
+    "restrictions": {
+      "transferable": false,
+      "tradeable": false,
+      "expires_after_beta": true,
+      "auto_convert_to_standard": true
+    }
+  },
+  "standard_tiers": {
+    "enabled": true,
+    "description": "Standard NexCoin packages available to all users",
+    "packages": [
+      {
+        "tier": "starter",
+        "name": "Starter Pack",
+        "nexcoin_amount": 1000,
+        "price_usd": 10,
+        "required_role": null
+      },
+      {
+        "tier": "standard",
+        "name": "Standard Pack",
+        "nexcoin_amount": 5000,
+        "price_usd": 45,
+        "required_role": null
+      },
+      {
+        "tier": "premium",
+        "name": "Premium Pack",
+        "nexcoin_amount": 10000,
+        "price_usd": 85,
+        "required_role": null
+      }
+    ]
+  },
+  "version": "1.0.0",
+  "last_updated": "2025-12-23T22:32:00Z"
+}
