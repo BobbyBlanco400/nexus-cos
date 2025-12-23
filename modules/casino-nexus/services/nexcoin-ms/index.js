@@ -7,13 +7,25 @@ const app = express();
 const PORT = process.env.PORT || 9501;
 
 // Load purchase tiers configuration
-const TIERS_CONFIG_PATH = path.join(__dirname, '../../../../config/nexcoin-purchase-tiers.json');
+const CONFIG_DIR = process.env.NEXCOIN_CONFIG_DIR || path.join(__dirname, '../../../../config');
+const TIERS_CONFIG_PATH = path.join(CONFIG_DIR, 'nexcoin-purchase-tiers.json');
 let purchaseTiersConfig = {};
 try {
   purchaseTiersConfig = JSON.parse(fs.readFileSync(TIERS_CONFIG_PATH, 'utf8'));
 } catch (error) {
   console.error('Warning: Could not load purchase tiers config:', error.message);
-  purchaseTiersConfig = { founder_beta_tiers: { enabled: false }, standard_tiers: { enabled: true, packages: [] } };
+  // Provide minimal fallback with clear indication that config is missing
+  purchaseTiersConfig = { 
+    founder_beta_tiers: { 
+      enabled: false, 
+      packages: [],
+      beta_end_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
+    }, 
+    standard_tiers: { 
+      enabled: false, // Disable if config can't be loaded
+      packages: [] 
+    } 
+  };
 }
 
 app.use(cors());
@@ -100,7 +112,7 @@ app.get('/api/transactions/:userId', (req, res) => {
 app.get('/api/purchase-tiers', (req, res) => {
   const userRole = req.query.role || null;
   const currentDate = new Date();
-  const betaEndDate = new Date(purchaseTiersConfig.founder_beta_tiers?.beta_end_date || '2025-01-01');
+  const betaEndDate = new Date(purchaseTiersConfig.founder_beta_tiers?.beta_end_date || currentDate.toISOString());
   
   let availableTiers = {
     standard: purchaseTiersConfig.standard_tiers?.packages || []
@@ -137,7 +149,7 @@ app.post('/api/purchase/validate', (req, res) => {
   }
   
   const currentDate = new Date();
-  const betaEndDate = new Date(purchaseTiersConfig.founder_beta_tiers?.beta_end_date || '2025-01-01');
+  const betaEndDate = new Date(purchaseTiersConfig.founder_beta_tiers?.beta_end_date || currentDate.toISOString());
   
   // Check if tier exists in founder beta packages
   const founderTier = purchaseTiersConfig.founder_beta_tiers?.packages?.find(
