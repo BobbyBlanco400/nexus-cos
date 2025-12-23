@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 9501;
 
 // Load purchase tiers configuration
-const TIERS_CONFIG_PATH = path.join(__dirname, '../../../config/nexcoin-purchase-tiers.json');
+const TIERS_CONFIG_PATH = path.join(__dirname, '../../../../config/nexcoin-purchase-tiers.json');
 let purchaseTiersConfig = {};
 try {
   purchaseTiersConfig = JSON.parse(fs.readFileSync(TIERS_CONFIG_PATH, 'utf8'));
