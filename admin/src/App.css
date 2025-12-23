@@ -79,6 +79,10 @@
   flex: 1;
 }
 
+.content:has(.launch-checklist) {
+  padding: 0;
+}
+
 .grid {
   display: grid;
   gap: 1.5rem;

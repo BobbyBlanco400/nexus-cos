@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+import LaunchReadinessChecklist from './components/LaunchReadinessChecklist'
 
 function Dashboard() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <ul className="nav-links">
           <li><Link to="/">Dashboard</Link></li>
           <li><Link to="/users">Users</Link></li>
+          <li><Link to="/launch-checklist">🚀 Launch Readiness</Link></li>
           <li><Link to="/settings">Settings</Link></li>
         </ul>
       </nav>
@@ -69,6 +71,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/launch-checklist" element={<LaunchReadinessChecklist />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
