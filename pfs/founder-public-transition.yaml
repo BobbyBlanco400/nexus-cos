@@ -1,0 +1,196 @@
+---
+# Founder to Public Transition PF - Safe Cutover
+version: "1.0.0"
+pf_id: "PF-FOUNDER-PUBLIC-TRANSITION"
+status: "overlay-ready"
+transition_type: "phased_rollout"
+
+transition_phases:
+  founder:
+    active: true
+    name: "Founder Beta"
+    access_level: "full"
+    duration: "7_days_minimum"
+    
+    features:
+      casino_access: "all_games"
+      vr_lounge: "full_access"
+      marketplace: "preview_mode"
+      ai_dealers: "beta_access"
+      creator_tools: "full_suite"
+      
+    limits:
+      nexcoin_bonus: "locked_until_public"
+      wallet_caps: false
+      casino_limits: "skill_based_only"
+      withdrawal: false # NexCoin is utility only
+      
+    benefits:
+      early_access: true
+      founder_badge: true
+      exclusive_events: true
+      feedback_priority: true
+      
+  public_soft:
+    active: false
+    name: "Public Soft Launch"
+    access_level: "tiered"
+    duration: "14_days_minimum"
+    
+    access_gates:
+      signup_approval: true
+      waitlist_system: true
+      invite_codes: true
+      daily_cap: 1000 # new users per day
+      
+    features:
+      casino_access: "core_games"
+      vr_lounge: "limited_hours"
+      marketplace: "browse_only"
+      ai_dealers: "select_games"
+      creator_tools: "application_required"
+      
+    limits:
+      wallet_caps: true
+      daily_nexcoin_purchase: 1000
+      daily_casino_play: 5000 # NexCoin
+      concurrent_users: "throttled"
+      
+    monitoring:
+      performance_metrics: true
+      user_feedback: "high_priority"
+      issue_tracking: "real_time"
+      capacity_monitoring: "continuous"
+      
+  public_full:
+    active: false
+    name: "Full Public Launch"
+    access_level: "open"
+    
+    access_gates:
+      signup_approval: false
+      age_verification: true
+      jurisdiction_check: true
+      
+    features:
+      casino_access: "all_available_games"
+      vr_lounge: "24_7_access"
+      marketplace: "phase_based_trading"
+      ai_dealers: "all_games"
+      creator_tools: "open_application"
+      
+    limits:
+      jurisdiction_based: true
+      responsible_gaming_tools: true
+      self_imposed_limits: "player_choice"
+      
+    scaling:
+      auto_scaling: true
+      load_balancing: true
+      cdn_activation: true
+      
+cutover_mechanics:
+  downtime: "zero"
+  data_migration: "none_required"
+  rollback_capability: "instant_flag_toggle"
+  
+  transition_triggers:
+    founder_to_soft:
+      conditions:
+        - "founder_beta_success"
+        - "no_critical_bugs"
+        - "performance_validated"
+        - "compliance_verified"
+      approval: "manual"
+      
+    soft_to_full:
+      conditions:
+        - "soft_launch_stable"
+        - "user_satisfaction_high"
+        - "infrastructure_scaled"
+        - "support_team_ready"
+      approval: "manual"
+      
+feature_flags:
+  transition_control:
+    founder_mode: true
+    soft_launch_mode: false
+    full_public_mode: false
+    
+  granular_controls:
+    marketplace_trading: false
+    creator_casinos: false
+    advanced_ai_features: false
+    social_features: "progressive"
+    
+user_segmentation:
+  founders:
+    identification: "founder_badge"
+    benefits: "permanent"
+    priority_support: true
+    
+  early_adopters:
+    identification: "soft_launch_badge"
+    benefits: "recognition"
+    
+  general_public:
+    identification: "standard_user"
+    benefits: "full_platform_access"
+    
+communication_strategy:
+  founder_updates:
+    frequency: "daily"
+    channel: "dedicated_discord"
+    content: "detailed_technical"
+    
+  public_soft_updates:
+    frequency: "twice_weekly"
+    channel: "email_and_social"
+    content: "feature_highlights"
+    
+  full_public_updates:
+    frequency: "weekly"
+    channel: "blog_and_social"
+    content: "announcements_and_events"
+    
+risk_mitigation:
+  gradual_scaling:
+    enabled: true
+    user_onboarding_rate: "controlled"
+    infrastructure_scaling: "predictive"
+    
+  emergency_controls:
+    circuit_breaker: true
+    feature_disable: "instant"
+    user_cap_enforcement: true
+    rollback_procedure: "automated"
+    
+  monitoring:
+    real_time_dashboards: true
+    alert_thresholds: "conservative"
+    incident_response_team: "on_call"
+    
+success_metrics:
+  founder_phase:
+    - "daily_active_users > 80%"
+    - "no_critical_bugs"
+    - "positive_feedback > 85%"
+    - "system_uptime > 99.5%"
+    
+  soft_launch_phase:
+    - "user_retention > 70%"
+    - "support_ticket_resolution < 24h"
+    - "infrastructure_capacity > 150%"
+    - "no_security_incidents"
+    
+  full_public_phase:
+    - "sustainable_growth_rate"
+    - "positive_unit_economics"
+    - "community_engagement"
+    - "platform_stability"
+    
+deployment:
+  mode: "feature_flag_orchestration"
+  automation: "nexusctl transition --phase [founder|soft|full]"
+  verification: "mandatory_health_checks"
+  rollback: "single_command"

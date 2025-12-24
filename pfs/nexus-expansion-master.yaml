@@ -1,0 +1,343 @@
+---
+# Master Add-In PF - Nexus COS Final Global Launch Extension
+# This is the orchestration layer for all expansion features
+version: "1.0.0"
+pf_id: "PF-NEXUS-EXPANSION-MASTER"
+status: "overlay-ready"
+attach_to: "existing_nexus_cos_stack"
+mode: "overlay_only"
+
+manifest:
+  name: "nexus-expansion-layer"
+  description: "Complete global launch extension overlay for Nexus COS"
+  version: "1.0.0"
+  deployment_type: "feature_flag_overlay"
+  zero_downtime: true
+  zero_rebuilds: true
+  zero_migrations: true
+  
+included_modules:
+  - name: "jurisdiction_engine"
+    pf_file: "pfs/jurisdiction-engine.yaml"
+    status: "ready"
+    activation_priority: 1
+    description: "Runtime legal compliance toggle"
+    
+  - name: "marketplace_phase_2"
+    pf_file: "pfs/marketplace-phase2.yaml"
+    status: "armed"
+    activation_priority: 2
+    description: "Marketplace preview mode (not live)"
+    
+  - name: "marketplace_phase_3"
+    pf_file: "pfs/marketplace-phase3.yaml"
+    status: "gated"
+    activation_priority: 6
+    description: "Controlled trading ignition"
+    requires: "marketplace_phase_2"
+    
+  - name: "ai_dealer_expansion"
+    pf_file: "pfs/ai-dealer-expansion.yaml"
+    status: "ready"
+    activation_priority: 3
+    description: "PUABO AI-HF dealer personalities"
+    
+  - name: "casino_federation"
+    pf_file: "pfs/casino-federation.yaml"
+    status: "ready"
+    activation_priority: 4
+    description: "Vegas Strip multi-casino model"
+    
+  - name: "compliance_packet"
+    pf_file: "pfs/compliance-packet.yaml"
+    status: "active"
+    activation_priority: 0
+    description: "Regulator-ready documentation"
+    
+  - name: "founder_public_transition"
+    pf_file: "pfs/founder-public-transition.yaml"
+    status: "ready"
+    activation_priority: 5
+    description: "Safe cutover mechanism"
+    
+  - name: "creator_monetization"
+    pf_file: "pfs/creator-monetization.yaml"
+    status: "ready"
+    activation_priority: 3
+    description: "Legal-safe creator revenue"
+    
+  - name: "global_launch"
+    pf_file: "pfs/global-launch.yaml"
+    status: "armed"
+    activation_priority: 7
+    description: "Final public launch declaration"
+    
+execution_rules:
+  absolute_prohibitions:
+    - "DO_NOT_rebuild_core_services"
+    - "DO_NOT_reset_wallets"
+    - "DO_NOT_change_dns"
+    - "DO_NOT_migrate_schemas"
+    - "DO_NOT_alter_existing_deployments"
+    
+  required_approach:
+    - "APPLY_via_feature_flags_only"
+    - "VERIFY_via_health_checks"
+    - "TEST_via_ui_cards"
+    - "ROLLBACK_via_flag_toggle"
+    
+stack_alignment:
+  platform: "Nexus COS"
+  casino_core: "Casino-Nexus (skill-based, closed-loop)"
+  economy: "NexCoin (internal utility credit only)"
+  ai_stack: "PUABO AI-HF + MetaTwin + HoloCore"
+  vr_layer: "NexusVision (software-only, headset-agnostic)"
+  deployment: "Docker / Compose / Add-In PF overlays"
+  governance: "PUABO Holdings (full IP ownership)"
+  
+  excluded_systems:
+    - "NO external AI systems"
+    - "NO Kei-AI"
+    - "NO foreign control planes"
+    - "NO third-party gambling platforms"
+    - "NO fiat custody services"
+    
+feature_flag_registry:
+  jurisdiction:
+    flag: "JURISDICTION_ENGINE_ENABLED"
+    default: false
+    activation_gate: "manual"
+    
+  marketplace_phase2:
+    flag: "MARKETPLACE_PHASE2_ENABLED"
+    default: false
+    activation_gate: "manual"
+    
+  marketplace_phase3:
+    flag: "MARKETPLACE_PHASE3_ENABLED"
+    default: false
+    activation_gate: "manual_with_gates"
+    requires_flags:
+      - "MARKETPLACE_PHASE2_ENABLED"
+      
+  ai_dealers:
+    flag: "AI_DEALERS_ENABLED"
+    default: false
+    activation_gate: "manual"
+    granular_per_game: true
+    
+  casino_federation:
+    flag: "CASINO_FEDERATION_ENABLED"
+    default: false
+    activation_gate: "manual"
+    
+  creator_monetization:
+    flag: "CREATOR_MONETIZATION_ENABLED"
+    default: false
+    activation_gate: "manual"
+    
+  founder_beta:
+    flag: "FOUNDER_BETA_MODE"
+    default: true
+    
+  public_soft_launch:
+    flag: "PUBLIC_SOFT_LAUNCH_MODE"
+    default: false
+    
+  public_full_launch:
+    flag: "PUBLIC_FULL_LAUNCH_MODE"
+    default: false
+    
+health_check_endpoints:
+  new_overlays:
+    - endpoint: "/api/pf/jurisdiction/health"
+      expected: "200"
+      
+    - endpoint: "/api/pf/marketplace/health"
+      expected: "200"
+      
+    - endpoint: "/api/pf/ai-dealers/health"
+      expected: "200"
+      
+    - endpoint: "/api/pf/federation/health"
+      expected: "200"
+      
+    - endpoint: "/api/pf/creator/health"
+      expected: "200"
+      
+  existing_services:
+    - endpoint: "/api/health"
+      expected: "200"
+      description: "Core API must remain functional"
+      
+    - endpoint: "/casino/health"
+      expected: "200"
+      description: "Casino service must remain functional"
+      
+deployment_strategy:
+  phase_1_preparation:
+    - "deploy_pf_configurations"
+    - "update_feature_flag_service"
+    - "add_health_check_endpoints"
+    - "verify_zero_impact"
+    
+  phase_2_activation:
+    - "enable_jurisdiction_engine"
+    - "enable_ai_dealers"
+    - "enable_creator_monetization"
+    - "enable_casino_federation_framework"
+    - "verify_each_step"
+    
+  phase_3_marketplace:
+    - "activate_marketplace_phase2_preview"
+    - "test_with_founders"
+    - "gather_feedback"
+    - "prepare_phase3_gates"
+    
+  phase_4_transition:
+    - "activate_founder_to_public_transition"
+    - "monitor_soft_launch"
+    - "scale_infrastructure"
+    
+  phase_5_launch:
+    - "final_validations"
+    - "activate_global_launch"
+    - "monitor_metrics"
+    - "rapid_response_ready"
+    
+verification_checklist:
+  pre_deployment:
+    - "all_pf_files_present"
+    - "feature_flags_configured"
+    - "health_checks_defined"
+    - "rollback_procedures_tested"
+    
+  post_deployment:
+    - "zero_existing_service_disruption"
+    - "all_health_checks_passing"
+    - "feature_flags_responding"
+    - "ui_cards_visible"
+    
+  post_activation:
+    - "overlay_features_working"
+    - "no_performance_degradation"
+    - "logging_capturing_events"
+    - "monitoring_dashboards_updated"
+    
+rollback_procedures:
+  instant_rollback:
+    method: "feature_flag_toggle"
+    commands:
+      - "nexusctl pf disable --module [module_name]"
+      - "nexusctl pf disable --all-overlays"
+    verification: "health_checks"
+    
+  emergency_rollback:
+    triggers:
+      - "critical_bug_detected"
+      - "security_vulnerability"
+      - "compliance_violation"
+      - "system_instability"
+    action: "automatic_disable_all_overlays"
+    notification: "immediate_team_alert"
+    
+integration_points:
+  existing_services:
+    casino_nexus_api:
+      integration_type: "feature_flag_aware"
+      changes_required: "minimal_endpoints"
+      
+    nexcoin_wallet:
+      integration_type: "transaction_hooks"
+      changes_required: "marketplace_support"
+      
+    creator_hub:
+      integration_type: "monetization_integration"
+      changes_required: "revenue_tracking"
+      
+    vr_world:
+      integration_type: "federation_support"
+      changes_required: "multi_casino_navigation"
+      
+    auth_service:
+      integration_type: "jurisdiction_awareness"
+      changes_required: "geo_detection"
+      
+documentation:
+  operator_guides:
+    - "PF_EXECUTION_GUIDE.md"
+    - "FEATURE_FLAG_REFERENCE.md"
+    - "HEALTH_CHECK_GUIDE.md"
+    - "ROLLBACK_PROCEDURES.md"
+    
+  compliance_docs:
+    - "INVESTOR_WHITEPAPER.md"
+    - "COMPLIANCE_POSITIONING.md"
+    - "JURISDICTION_MATRIX.md"
+    
+  creator_docs:
+    - "CREATOR_MONETIZATION_GUIDE.md"
+    - "MARKETPLACE_CREATOR_HANDBOOK.md"
+    
+monitoring:
+  metrics:
+    - "feature_flag_state"
+    - "overlay_health"
+    - "api_response_times"
+    - "error_rates"
+    - "user_engagement_by_feature"
+    
+  alerts:
+    - "overlay_feature_failure"
+    - "feature_flag_inconsistency"
+    - "health_check_failure"
+    - "performance_degradation"
+    
+execution_commands:
+  deploy_overlays:
+    command: "nexusctl pf deploy --master nexus-expansion-master"
+    description: "Deploy all overlay configurations"
+    
+  activate_module:
+    command: "nexusctl pf enable --module [module_name]"
+    description: "Enable specific overlay module"
+    
+  deactivate_module:
+    command: "nexusctl pf disable --module [module_name]"
+    description: "Disable specific overlay module"
+    
+  health_check:
+    command: "nexusctl pf health --all"
+    description: "Check health of all overlays"
+    
+  status_report:
+    command: "nexusctl pf status"
+    description: "Get status of all overlay modules"
+    
+final_declaration:
+  status: "EXECUTION_READY"
+  platform_state: "OVERLAY_EXTENSION_COMPLETE"
+  deployment_model: "ZERO_DOWNTIME_OVERLAY"
+  
+  capabilities_added:
+    - "runtime_jurisdiction_compliance"
+    - "marketplace_infrastructure_armed"
+    - "ai_dealer_personality_system"
+    - "multi_casino_federation"
+    - "creator_monetization_framework"
+    - "founder_to_public_transition"
+    - "global_launch_orchestration"
+    
+  operational_status:
+    infrastructure: "NO_CHANGES_REQUIRED"
+    services: "OVERLAY_READY"
+    databases: "NO_MIGRATIONS"
+    dns: "NO_CHANGES"
+    ssl: "NO_CHANGES"
+    
+  ready_for:
+    - "founder_beta_launch"
+    - "marketplace_preview"
+    - "creator_onboarding"
+    - "public_transition"
+    - "global_launch"

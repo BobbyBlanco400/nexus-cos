@@ -1,0 +1,97 @@
+---
+# Marketplace Phase-2 Configuration - Armed but Not Live
+version: "1.0.0"
+pf_id: "PF-MARKETPLACE-PHASE2"
+status: "armed-not-live"
+phase: 2
+
+marketplace:
+  phase: 2
+  enabled: false # Armed but not activated
+  gated_until_phase: 3
+  
+  asset_types:
+    avatars:
+      enabled: true
+      categories:
+        - "custom_skins"
+        - "animations"
+        - "accessories"
+      ownership: "creator_retains_ip"
+      
+    vr_items:
+      enabled: true
+      categories:
+        - "casino_props"
+        - "lounge_furniture"
+        - "environmental_effects"
+      ownership: "creator_retains_ip"
+      
+    casino_cosmetics:
+      enabled: true
+      categories:
+        - "card_designs"
+        - "chip_skins"
+        - "dealer_appearances"
+        - "table_themes"
+      ownership: "creator_retains_ip"
+      
+  currency:
+    type: "nexcoin"
+    fiat_conversion: false
+    withdrawal: false
+    utility_only: true
+    
+  trading:
+    enabled: false
+    peer_to_peer: false
+    auction_system: false
+    fixed_price_only: false
+    
+  preview_mode:
+    enabled: true
+    available_to:
+      - "founders"
+      - "creators"
+    features:
+      - "asset_browsing"
+      - "preview_renders"
+      - "metadata_viewing"
+      - "creator_profiles"
+    restrictions:
+      - "no_transactions"
+      - "no_transfers"
+      - "no_listings"
+      
+compliance:
+  no_fiat: true
+  no_withdrawals: true
+  utility_only: true
+  no_speculation: true
+  closed_loop: true
+  
+  legal_position:
+    asset_type: "digital cosmetics"
+    ownership_model: "license_to_use"
+    transferability: "platform_internal_only"
+    value_proposition: "utility_and_expression"
+    
+safety_controls:
+  wallet_limits: true
+  transaction_caps: true
+  anti_wash_rules: true
+  creator_verification: true
+  content_moderation: true
+  
+integration:
+  attach_to:
+    - "nexcoin_wallet_service"
+    - "creator_hub_service"
+    - "casino_nexus_api"
+    - "vr_world_service"
+  mode: "feature_flag_gated"
+  
+deployment:
+  zero_downtime: true
+  rollback_instant: true
+  activate_command: "nexusctl marketplace enable --phase 2"
