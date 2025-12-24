@@ -1,0 +1,62 @@
+# NEXUS COS - PF History Loader
+# Loads the last 10 executed PFs for verification and reconciliation
+# Mode: audit_then_overlay
+# Risk: ZERO | Downtime: NONE
+
+pf_audit:
+  source: executed_pfs
+  depth: 10
+  order: most_recent_first
+  
+  include:
+    - tenant_features
+    - media_stack
+    - monetization
+    - wallet_rules
+    - admin_policies
+  
+  pf_tracking:
+    location: .nexus_pf_history
+    format: json
+    retention: 90_days
+  
+  load_order:
+    - nexus-pf-verification-reconcile
+    - nexus-tenant-parity-enforcement
+    - nexus-cos-pf-bulletproof
+    - nexus-cos-pf-v2025.10.01
+    - pf-master
+    - github-copilot-pf
+    - docker-compose.pf-master
+    - docker-compose.pf.nexus
+    - docker-compose.pf
+    - nexus-cos-pf-v2025.10.01
+  
+  metadata:
+    capture:
+      - timestamp
+      - author
+      - commit_hash
+      - pr_number
+      - applied_changes
+      - skipped_items
+      - conflicts_resolved
+  
+  validation:
+    required_fields:
+      - pf_name
+      - applied_at
+      - components_modified
+    
+    integrity_check: true
+    checksum_validation: true
+
+output:
+  format: json
+  location: devops/pf_history_audit.json
+  include_diffs: true
+  
+logging:
+  level: info
+  destination: devops/logs/pf_history_loader.log
+  rotation: daily

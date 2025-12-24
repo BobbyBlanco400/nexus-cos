@@ -1,0 +1,143 @@
+# NEXUS COS - Master Add-In PF
+# PF Verification & Reconciliation System
+# Mode: audit_then_overlay | Risk: ZERO | Downtime: NONE
+
+add_in_pf:
+  name: nexus-pf-verification-reconcile
+  version: 1.0.0
+  mode: audit_then_overlay
+  target: nexus_cos
+  risk_level: ZERO
+  downtime: NONE
+  
+  description: |
+    Forces GitHub Code Agent to:
+    - Load the last 10 PFs already applied
+    - Compare them against tenant parity requirements
+    - Apply ONLY what is missing
+    - Skip anything already present
+    - Produce verification report
+    - Zero guessing, duplication, or regression
+
+  includes:
+    configuration:
+      - devops/pf_history_loader.yaml
+      - devops/conditional_overlay.yaml
+      - devops/verification_matrix.yaml
+    
+    scripts:
+      - devops/pf_diff_engine.py
+      - devops/conditional_apply.py
+      - devops/run_pf_verification.sh
+  
+  execution:
+    entry_point: devops/run_pf_verification.sh
+    interpreter: bash
+    working_directory: /home/runner/work/nexus-cos/nexus-cos
+    
+    prerequisites:
+      - python3
+      - jq
+      - bash >= 4.0
+    
+    environment:
+      PYTHONPATH: "${REPO_ROOT}"
+      PF_MODE: audit_then_overlay
+      PF_RISK: ZERO
+      PF_DOWNTIME: NONE
+
+  rules:
+    - never_overwrite_existing
+    - apply_missing_only
+    - log_every_action
+    - fail_on_regression
+    - backup_before_apply
+    - dry_run_first
+  
+  verification_requirements:
+    tenant_features:
+      - live_streaming
+      - vod
+      - ppv
+    
+    monetization:
+      - subscriptions
+      - tipping
+      - ppv
+      - nexcoin_wallet
+    
+    wallet_rules:
+      - nexcoin_only
+      - no_fiat
+      - admin_unlimited
+      - founder_access_keys
+    
+    admin_policies:
+      - downgrade_prevention
+      - tenant_capability_lock
+      - audit_logging
+
+  outputs:
+    reports:
+      - path: devops/pf_verification_report.json
+        format: json
+        description: Complete verification diff report
+      
+      - path: devops/pf_apply_report.json
+        format: json
+        description: Applied/skipped components report
+      
+      - path: devops/pf_gap_fill_log.txt
+        format: text
+        description: Human-readable gap fill log
+      
+      - path: devops/pf_noop_confirmation.txt
+        format: text
+        description: Confirmation when no changes needed
+    
+    logs:
+      - path: devops/logs/pf_history_loader.log
+        level: info
+      
+      - path: devops/logs/conditional_overlay.log
+        level: debug
+
+  safeguards:
+    no_overwrite: true
+    no_rollback: true
+    no_reapply: true
+    immutable_logs: true
+    audit_trail: true
+    
+  guarantees:
+    - alignment_with_last_10_pfs
+    - no_duplication
+    - no_data_loss
+    - missing_pieces_filled
+    - stack_truth_equals_documented_truth
+  
+  integration:
+    github_copilot: true
+    trae_solo_coder: true
+    devops_pipeline: true
+    ci_cd_compatible: true
+
+  support:
+    documentation:
+      - README_TRAE_SOLO_FIX.md
+      - EXECUTION_SUMMARY.md
+      - devops/TRAE_SOLO_CODER_MERGE_GUIDE.md
+    
+    troubleshooting:
+      - devops/DATABASE_PWA_FIX_GUIDE.md
+    
+    contact:
+      team: DevOps Engineering
+      escalation: GitHub Code Agent
+
+metadata:
+  created: 2025-12-24
+  author: GitHub Copilot
+  approved_by: TRAE SOLO CODER
+  status: production_ready
+  compliance: verified

@@ -1,0 +1,137 @@
+# NEXUS COS - Conditional Overlay Configuration
+# Applies ONLY what is missing, never overwrites existing configurations
+# Mode: audit_then_overlay | Risk: ZERO | Downtime: NONE
+
+apply_rules:
+  mode: missing_only
+  
+  precedence:
+    - existing_stack       # Priority 1: Keep what's already there
+    - previously_applied_pfs  # Priority 2: Respect prior PF applications
+    - current_add_in_pf    # Priority 3: Only fill gaps
+  
+  safeguards:
+    no_overwrite: true
+    no_rollback: true
+    no_reapply: true
+    backup_before_apply: true
+    dry_run_first: true
+
+conflicts:
+  resolution: keep_existing
+  
+  conflict_handling:
+    - type: file_exists
+      action: skip
+      log_level: info
+    
+    - type: config_mismatch
+      action: keep_existing
+      log_level: warn
+    
+    - type: schema_conflict
+      action: abort
+      log_level: error
+  
+  documentation:
+    log_conflicts: true
+    output_file: devops/pf_conflicts_log.json
+
+overlay_targets:
+  tenant_features:
+    live_streaming:
+      check: modules/nexus-stream/index.js
+      apply_if_missing: true
+      source: templates/tenant/live_streaming.template.js
+    
+    vod:
+      check: modules/vod-service/index.js
+      apply_if_missing: true
+      source: templates/tenant/vod_service.template.js
+    
+    ppv:
+      check: config/ppv.config.js
+      apply_if_missing: true
+      source: templates/tenant/ppv_config.template.js
+  
+  monetization:
+    subscriptions:
+      check: database/migrations/subscriptions.sql
+      apply_if_missing: true
+      source: templates/monetization/subscriptions_schema.sql
+    
+    tipping:
+      check: database/migrations/tips.sql
+      apply_if_missing: true
+      source: templates/monetization/tips_schema.sql
+    
+    nexcoin_wallet:
+      check: database/preload_casino_accounts.sql
+      apply_if_missing: false  # Already exists
+      source: null
+  
+  wallet_rules:
+    nexcoin_only:
+      check: .env
+      env_var: WALLET_TYPE
+      expected_value: nexcoin
+      apply_if_missing: true
+    
+    no_fiat:
+      check: .env
+      env_var: FIAT_ENABLED
+      expected_value: false
+      apply_if_missing: true
+    
+    admin_unlimited:
+      check: database/preload_casino_accounts.sql
+      verify_trigger: check_unlimited_balance
+      apply_if_missing: false  # Already implemented
+  
+  admin_policies:
+    downgrade_prevention:
+      check: config/admin_lock_rules.js
+      apply_if_missing: true
+      source: templates/admin/lock_rules.template.js
+    
+    tenant_capability_lock:
+      check: config/tenant_capabilities.js
+      apply_if_missing: true
+      source: templates/admin/tenant_capabilities.template.js
+
+validation:
+  pre_apply:
+    - verify_no_conflicts
+    - check_disk_space
+    - backup_current_state
+  
+  post_apply:
+    - verify_integrity
+    - run_health_checks
+    - update_pf_history
+  
+  rollback:
+    on_failure: true
+    restore_from_backup: true
+    notify_admin: true
+
+logging:
+  level: debug
+  outputs:
+    - file: devops/logs/conditional_overlay.log
+    - console: true
+  
+  metrics:
+    track_apply_time: true
+    track_skip_count: true
+    track_conflict_count: true
+
+notifications:
+  on_completion:
+    - log_summary
+    - generate_report
+  
+  on_error:
+    - log_error
+    - preserve_state
+    - exit_gracefully
