@@ -485,7 +485,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS unlimited_balance_trigger ON user_wallets;
 CREATE TRIGGER unlimited_balance_trigger
-    BEFORE UPDATE ON user_wallets
+    BEFORE INSERT OR UPDATE ON user_wallets
     FOR EACH ROW
     EXECUTE FUNCTION check_unlimited_balance();
 
