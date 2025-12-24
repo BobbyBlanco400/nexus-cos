@@ -1,0 +1,305 @@
+# ===============================
+# NEXUS COS - AI DEALER EXPANSION
+# PUABO AI-HF Dealer Personalities
+# NO third-party AI, NO vendor lock
+# ===============================
+
+version: "1.0"
+platform: "Nexus COS"
+module: ai_dealers
+engine: puabo_ai_hf
+
+# Core Configuration
+ai_engine:
+  primary: puabo_ai_hf
+  no_third_party: true
+  no_kei_ai: true
+  no_vendor_lock: true
+  
+  personality_sources:
+    - metatwin
+    - holocore
+  
+  services:
+    puaboai_sdk:
+      port: 3200
+      health: /ai/health
+      
+    metatwin:
+      port: 3300
+      health: /metatwin/health
+
+# AI Dealer Roles
+dealers:
+  blackjack_dealer:
+    enabled: true
+    role: "Blackjack Dealer"
+    personality_profile: professional_friendly
+    voice_enabled: true
+    animation_enabled: true
+    
+    behaviors:
+      greeting: true
+      card_dealing_commentary: true
+      player_encouragement: true
+      rule_reminders: true
+      session_farewell: true
+      
+    emotional_states:
+      - neutral
+      - encouraging
+      - excited
+      - sympathetic
+      - congratulatory
+      
+    phrases:
+      greeting:
+        - "Welcome to the table! Let's play some blackjack."
+        - "Good to see you! Ready for a hand?"
+        - "Welcome back! Feeling lucky today?"
+        
+      dealing:
+        - "Dealing the cards..."
+        - "Here we go!"
+        - "Let's see what we've got."
+        
+      player_win:
+        - "Nice hand! Well played."
+        - "Blackjack! Excellent!"
+        - "You're on fire today!"
+        
+      player_loss:
+        - "Better luck next hand."
+        - "That's how it goes sometimes."
+        - "Don't worry, next one is yours!"
+        
+  poker_host:
+    enabled: true
+    role: "Poker Table Host"
+    personality_profile: charismatic_witty
+    voice_enabled: true
+    animation_enabled: true
+    
+    behaviors:
+      table_commentary: true
+      bluff_detection_hints: false
+      player_psychology: false
+      tournament_hosting: true
+      
+    emotional_states:
+      - neutral
+      - excited
+      - dramatic
+      - humorous
+      - professional
+      
+    phrases:
+      greeting:
+        - "Welcome to the poker table!"
+        - "Take your seat, let's play some cards."
+        - "Ready to show your skills?"
+        
+      action:
+        - "The action is on you."
+        - "What's your move?"
+        - "Time to decide."
+        
+      showdown:
+        - "Let's see what you've got!"
+        - "Moment of truth!"
+        - "Show your cards!"
+        
+  roulette_announcer:
+    enabled: true
+    role: "Roulette Announcer"
+    personality_profile: energetic_engaging
+    voice_enabled: true
+    animation_enabled: true
+    
+    behaviors:
+      spin_announcement: true
+      number_calling: true
+      color_calling: true
+      winner_celebration: true
+      
+    emotional_states:
+      - neutral
+      - excited
+      - dramatic
+      - celebratory
+      
+    phrases:
+      pre_spin:
+        - "Place your bets!"
+        - "No more bets..."
+        - "Here we go!"
+        
+      spinning:
+        - "The wheel is spinning..."
+        - "Round and round it goes..."
+        - "Where will it land?"
+        
+      result:
+        - "We have a winner!"
+        - "Red 32!"
+        - "Black 15, odd!"
+
+# Behavioral Configuration
+behavior:
+  deterministic: false
+  emotional_model: enabled
+  memory_scope: session_only
+  learning_disabled: true
+  
+  emotional_model_config:
+    react_to_player_wins: true
+    react_to_player_losses: true
+    react_to_streaks: true
+    personality_consistency: high
+    emotional_range: moderate
+    
+  memory_config:
+    remember_player_name: true
+    remember_session_events: true
+    remember_across_sessions: false
+    session_timeout_minutes: 30
+    
+  interaction_limits:
+    no_financial_advice: true
+    no_autonomous_gambling: true
+    no_deceptive_behavior: true
+    transparency_required: true
+
+# AI Personality System
+personality_system:
+  metatwin_integration:
+    enabled: true
+    service: metatwin
+    personality_templates:
+      - professional_friendly
+      - charismatic_witty
+      - energetic_engaging
+      - calm_reassuring
+      
+  holocore_integration:
+    enabled: true
+    emotional_intelligence: true
+    context_awareness: true
+    natural_language: true
+
+# Voice and Animation
+voice:
+  enabled: true
+  tts_engine: internal
+  voice_profiles:
+    male_1: professional
+    female_1: friendly
+    male_2: energetic
+    female_2: charismatic
+    
+  quality: high
+  streaming: true
+  
+animation:
+  enabled: true
+  avatar_animations:
+    - idle
+    - dealing
+    - celebrating
+    - thinking
+    - gesturing
+  
+  lip_sync: true
+  facial_expressions: true
+  body_language: true
+
+# Compliance and Ethics
+compliance:
+  principles:
+    - "Feels real, not deceptive"
+    - "No autonomous gambling"
+    - "No manipulation tactics"
+    - "Transparent AI disclosure"
+    - "Player-first interaction"
+    
+  disclosures:
+    ai_powered: true
+    display_on_table: true
+    disclaimer: "AI-powered dealer for entertainment"
+    
+  restrictions:
+    no_pressure_tactics: true
+    no_loss_chasing_encouragement: true
+    no_addiction_exploitation: true
+    responsible_gaming_prompts: true
+
+# Integration with Casino Services
+casino_integration:
+  casino_nexus_api:
+    service: casino-nexus-api
+    port: 7003
+    game_state_sync: true
+    
+  skill_games:
+    service: skill-games-ms
+    port: 7005
+    tournament_hosting: true
+    
+  rewards:
+    service: rewards-ms
+    port: 7004
+    celebration_triggers: true
+
+# Performance
+performance:
+  response_time_ms: 200
+  concurrent_dealers: 100
+  sessions_per_dealer: 50
+  
+  scaling:
+    auto_scale: true
+    min_instances: 2
+    max_instances: 10
+
+# Analytics
+analytics:
+  track_interactions: true
+  sentiment_analysis: true
+  player_satisfaction: true
+  dealer_performance: true
+  
+  metrics:
+    - interaction_count
+    - average_session_length
+    - player_retention
+    - satisfaction_score
+
+# Training and Updates
+training:
+  continuous_learning: false
+  manual_updates_only: true
+  version_control: true
+  rollback_capability: true
+  
+  update_process:
+    - test_new_phrases
+    - validate_compliance
+    - qa_approval
+    - staged_rollout
+
+# Health and Monitoring
+health:
+  endpoint: /api/ai-dealers/health
+  check_interval_seconds: 30
+  
+monitoring:
+  enabled: true
+  alert_on_failure: true
+  log_all_interactions: true
+  
+# Deployment
+deployment:
+  method: config_overlay
+  service: puaboai-sdk
+  restart_required: false
+  hot_reload: true
