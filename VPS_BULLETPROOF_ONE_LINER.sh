@@ -1210,6 +1210,70 @@ handle_error() {
 trap handle_error ERR
 
 # ============================================================================
+# MASTER ADD-IN PR EXECUTION
+# ============================================================================
+execute_master_addin_pr() {
+    log_step "Executing Master Add-In PR Verifications"
+    
+    cd "$REPO_DIR" || log_error "Failed to change to repo directory"
+    
+    # 1. Fetch and checkout master-addin branch (if exists)
+    log_info "Checking for master-addin branch..."
+    if git ls-remote --heads origin master-addin | grep -q master-addin; then
+        log_info "Fetching master-addin branch..."
+        git fetch origin master-addin || log_warning "master-addin branch not found, skipping"
+        
+        log_info "Rebasing with master-addin changes..."
+        git pull origin master-addin --rebase || log_warning "Could not rebase master-addin"
+    else
+        log_info "master-addin branch not found, continuing with main"
+    fi
+    
+    # 2. Verify Nexus-Handshake 55-45-17 compliance
+    log_info "Running Nexus-Handshake 55-45-17 compliance verification..."
+    if [[ -f "./devops/run_handshake_verification.sh" ]]; then
+        ./devops/run_handshake_verification.sh --enforce || log_warning "Handshake verification issues detected"
+    else
+        log_warning "Handshake verification script not found"
+    fi
+    
+    # 3. Verify all 12 tenants
+    log_info "Verifying all 12 tenants..."
+    if [[ -f "./devops/verify_tenants.sh" ]]; then
+        ./devops/verify_tenants.sh --all --urls-file docs/TENANT_URL_MATRIX.md || log_warning "Some tenants may be offline"
+    else
+        log_warning "Tenant verification script not found"
+    fi
+    
+    # 4. Verify 9-card casino grid
+    log_info "Verifying 9-card casino grid..."
+    if [[ -f "./devops/verify_casino_grid.sh" ]]; then
+        ./devops/verify_casino_grid.sh --cards 9 || log_warning "Casino grid verification issues detected"
+    else
+        log_warning "Casino grid verification script not found"
+    fi
+    
+    # 5. Apply Sovern Build + Hostinger Mimic
+    log_info "Applying Sovern Build + Hostinger Mimic optimizations..."
+    if [[ -f "./devops/apply_sovern_build.sh" ]]; then
+        ./devops/apply_sovern_build.sh --hostinger-mimic || log_warning "Sovern build application issues"
+    else
+        log_warning "Sovern build script not found"
+    fi
+    
+    # 6. Verify NexCoin wallet and gating
+    log_info "Verifying NexCoin wallet and gating..."
+    if [[ -f "./devops/verify_nexcoin_gating.sh" ]]; then
+        ./devops/verify_nexcoin_gating.sh || log_warning "NexCoin gating verification issues"
+    else
+        log_warning "NexCoin gating verification script not found"
+    fi
+    
+    log_success "Master Add-In PR execution complete"
+    echo
+}
+
+# ============================================================================
 # MAIN EXECUTION
 # ============================================================================
 main() {
@@ -1224,6 +1288,7 @@ main() {
     setup_pwa
     deploy_feature_configs
     configure_nginx_routes
+    execute_master_addin_pr
     deploy_docker_stack
     validate_health
     
