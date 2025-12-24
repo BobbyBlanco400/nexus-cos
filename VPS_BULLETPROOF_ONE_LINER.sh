@@ -913,7 +913,7 @@ server {
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     
-    # Root location
+    # N3XUS STREAM - Front-facing frontend entrypoint to N3XUS COS Platform Stack
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -926,7 +926,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
     
-    # Puaboverse routes (port 3060)
+    # Casino-Nexus Lounge (9 Cards entrypoint to Casino-Nexus)
     location /puaboverse {
         proxy_pass http://localhost:3060;
         proxy_http_version 1.1;
@@ -1129,20 +1129,20 @@ print_summary() {
     echo ""
     
     echo -e "${C_CYAN}${C_BOLD}🌐 Service Endpoints (Local):${C_NC}"
-    echo -e "   Frontend:        http://localhost:3000"
+    echo -e "   N3XUS STREAM:    http://localhost:3000 (Frontend Entrypoint)"
     echo -e "   Gateway API:     http://localhost:4000"
     echo -e "   Casino Nexus:    http://localhost:9503"
     echo -e "   Streaming:       http://localhost:9501"
     echo -e "   Admin Portal:    http://localhost:9504"
     echo ""
     
-    echo -e "${C_CYAN}${C_BOLD}🌍 Production/Beta URLs:${C_NC}"
-    echo -e "   Production:      https://n3xuscos.online"
-    echo -e "   Puaboverse:      https://n3xuscos.online/puaboverse"
-    echo -e "   Wallet:          https://n3xuscos.online/wallet"
-    echo -e "   Live Streaming:  https://n3xuscos.online/live"
-    echo -e "   VOD:             https://n3xuscos.online/vod"
-    echo -e "   PPV:             https://n3xuscos.online/ppv"
+    echo -e "${C_CYAN}${C_BOLD}🌍 Production URLs:${C_NC}"
+    echo -e "   N3XUS STREAM:           https://n3xuscos.online (Platform Entrypoint)"
+    echo -e "   Casino-Nexus Lounge:    https://n3xuscos.online/puaboverse (9 Cards)"
+    echo -e "   Wallet:                 https://n3xuscos.online/wallet"
+    echo -e "   Live Streaming:         https://n3xuscos.online/live"
+    echo -e "   VOD:                    https://n3xuscos.online/vod"
+    echo -e "   PPV:                    https://n3xuscos.online/ppv"
     echo ""
     
     echo -e "${C_CYAN}${C_BOLD}🔑 Founder Access Keys (PR #178):${C_NC}"
