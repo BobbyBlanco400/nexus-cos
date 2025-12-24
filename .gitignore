@@ -34,6 +34,14 @@ ENV/
 # PF Verification Reports
 /tmp/nexuscos_pf.json
 nexuscos_pf_*.json
+devops/pf_verification_report.json
+devops/pf_apply_report.json
+devops/pf_gap_fill_log.txt
+devops/pf_noop_confirmation.txt
+devops/pf_history_audit.json
+devops/pf_conflicts_log.json
+devops/pf_verification_matrix_report.json
+devops/pf_verification_summary.txt
 
 # PF PDF Output directory (generated reports)
 deployment/nginx/output/

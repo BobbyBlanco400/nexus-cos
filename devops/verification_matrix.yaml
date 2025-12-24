@@ -1,0 +1,208 @@
+# NEXUS COS - Verification Matrix
+# Required checks for tenant parity, monetization, wallet, and admin enforcement
+# Mode: audit_then_overlay | Risk: ZERO | Downtime: NONE
+
+verify:
+  # Tenant Feature Requirements
+  tenants:
+    live_streaming:
+      status: required
+      check: modules/nexus-stream/index.js
+      validation:
+        - service_running
+        - port_listening: 9501
+        - health_endpoint: /health
+      
+    vod:
+      status: required
+      check: modules/vod-service/index.js
+      validation:
+        - service_running
+        - storage_configured
+        - cdn_integration
+    
+    ppv:
+      status: required
+      check: config/ppv.config.js
+      validation:
+        - pricing_configured
+        - payment_gateway_active
+        - access_control_enabled
+  
+  # Monetization Stack Requirements
+  monetization:
+    subscriptions:
+      status: required
+      check: database/migrations/subscriptions.sql
+      validation:
+        - table_exists: subscriptions
+        - columns_present:
+          - user_id
+          - plan_id
+          - status
+          - expires_at
+      
+    tipping:
+      status: required
+      check: database/migrations/tips.sql
+      validation:
+        - table_exists: tips
+        - columns_present:
+          - sender_id
+          - receiver_id
+          - amount
+          - currency
+    
+    ppv:
+      status: required
+      check: database/migrations/ppv_purchases.sql
+      validation:
+        - table_exists: ppv_purchases
+        - columns_present:
+          - user_id
+          - content_id
+          - price_paid
+          - access_until
+  
+  # Wallet & NexCoin Enforcement
+  wallet:
+    nexcoin_only:
+      status: required
+      check: .env
+      validation:
+        - env_var_set: WALLET_TYPE=nexcoin
+        - no_fiat_gateways
+        - nexcoin_api_active
+      
+    no_fiat:
+      status: enforced
+      check: config/wallet.config.js
+      validation:
+        - fiat_disabled: true
+        - credit_card_processing: false
+        - bank_integration: false
+    
+    admin_unlimited:
+      status: required
+      check: database/preload_casino_accounts.sql
+      validation:
+        - admin_account_exists: admin_nexus
+        - unlimited_balance_trigger: check_unlimited_balance
+        - balance_never_decreases
+    
+    founder_keys:
+      status: required
+      check: database/preload_casino_accounts.sql
+      validation:
+        - vip_whale_accounts: 2
+        - beta_founder_accounts: 8
+        - password_hashed: true
+        - total_preloaded_nc: 2400000
+  
+  # Admin Policy Enforcement
+  admin:
+    downgrade_prevention:
+      status: enforced
+      check: config/admin_lock_rules.js
+      validation:
+        - lock_rules_active
+        - tenant_cannot_downgrade
+        - admin_override_only
+      
+    tenant_capability_lock:
+      status: enforced
+      check: config/tenant_capabilities.js
+      validation:
+        - capabilities_locked
+        - no_feature_removal
+        - admin_gated_changes
+    
+    audit_logging:
+      status: required
+      check: devops/logs/admin_actions.log
+      validation:
+        - all_admin_actions_logged
+        - immutable_audit_trail
+        - retention_90_days
+
+# Validation Rules
+validation_rules:
+  critical:
+    - wallet.nexcoin_only
+    - wallet.no_fiat
+    - admin.downgrade_prevention
+    - admin.tenant_capability_lock
+  
+  required:
+    - tenants.live_streaming
+    - tenants.vod
+    - tenants.ppv
+    - monetization.subscriptions
+    - monetization.tipping
+    - monetization.ppv
+    - wallet.admin_unlimited
+    - wallet.founder_keys
+  
+  optional:
+    - admin.audit_logging
+
+# Enforcement Actions
+enforcement:
+  on_missing_critical:
+    action: abort
+    message: "CRITICAL: Required component missing"
+    notify: admin
+  
+  on_missing_required:
+    action: apply
+    message: "Applying missing required component"
+    log: warn
+  
+  on_missing_optional:
+    action: skip
+    message: "Optional component missing, continuing"
+    log: info
+
+# Verification Schedule
+schedule:
+  frequency: on_demand
+  auto_fix: false
+  report_only: true
+
+# Output Configuration
+output:
+  report_file: devops/pf_verification_matrix_report.json
+  summary_file: devops/pf_verification_summary.txt
+  
+  include_in_report:
+    - verification_timestamp
+    - all_checks_performed
+    - passed_checks
+    - failed_checks
+    - missing_components
+    - enforcement_actions_taken
+  
+  format:
+    json: true
+    markdown: true
+    html: false
+
+# Health Check Integration
+health_checks:
+  enabled: true
+  
+  endpoints:
+    - name: nexus_stream
+      url: http://localhost:9501/health
+      expected_status: 200
+    
+    - name: skill_games
+      url: http://localhost:9503/health
+      expected_status: 200
+    
+    - name: database
+      connection: postgresql://nexus_user@localhost:5432/nexus_cos
+      expected: connected
+  
+  timeout: 30s
+  retries: 3
