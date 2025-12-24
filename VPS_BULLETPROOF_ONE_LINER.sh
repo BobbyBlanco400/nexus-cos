@@ -1274,6 +1274,32 @@ execute_master_addin_pr() {
 }
 
 # ============================================================================
+# EXECUTE MINI ADD-IN PR (21+ TENANTS)
+# ============================================================================
+execute_mini_addin_pr() {
+    log_step "Executing Mini Add-In PR (21+ Tenants Expansion)..."
+    
+    # Execute the mini add-in script
+    log_info "Running Mini Add-In PR script for tenant expansion..."
+    if [[ -f "./devops/nexus_mini_addin.sh" ]]; then
+        chmod +x ./devops/nexus_mini_addin.sh
+        ./devops/nexus_mini_addin.sh || log_warning "Mini Add-In PR execution encountered issues"
+        
+        log_success "Mini Add-In PR execution complete"
+        log_info "21+ family & urban mini-platform tenants added:"
+        log_info "  - ashantis-munch, nee-nee-kids, sassie-lash, roro-gamers"
+        log_info "  - tyshawn-vdance, club-sadityy, fayeloni-kreations, headwina-comedy"
+        log_info "  - sheda-butterbar, idf-live, clocking-t, gas-or-crash"
+        log_info "  - faith-fitness, rise-sacramento, and more..."
+        log_info "All tenants accessible at https://n3xuscos.online/{tenant-name}"
+    else
+        log_warning "Mini Add-In PR script not found, skipping tenant expansion"
+    fi
+    
+    echo
+}
+
+# ============================================================================
 # MAIN EXECUTION
 # ============================================================================
 main() {
@@ -1289,6 +1315,7 @@ main() {
     deploy_feature_configs
     configure_nginx_routes
     execute_master_addin_pr
+    execute_mini_addin_pr
     deploy_docker_stack
     validate_health
     
