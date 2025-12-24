@@ -102,8 +102,11 @@ END
 $$;
 
 -- Create databases if not exist
-CREATE DATABASE IF NOT EXISTS nexus_cos OWNER nexus_user;
-CREATE DATABASE IF NOT EXISTS nexuscos_db OWNER nexuscos;
+SELECT 'CREATE DATABASE nexus_cos OWNER nexus_user'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'nexus_cos')\gexec
+
+SELECT 'CREATE DATABASE nexuscos_db OWNER nexuscos'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'nexuscos_db')\gexec
 
 -- Grant privileges
 GRANT ALL PRIVILEGES ON DATABASE nexus_cos TO nexus_user;

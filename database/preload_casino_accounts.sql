@@ -151,7 +151,7 @@ VALUES
     ('casino_player_03', 5000.00, 'initial_load', 5000.00, 'Regular player account'),
     ('casino_test_01', 5000.00, 'initial_load', 5000.00, 'Test account'),
     ('casino_demo', 1000.00, 'initial_load', 1000.00, 'Demo account')
-ON CONFLICT DO NOTHING;
+ON CONFLICT (id) DO NOTHING;
 
 -- Create function to handle unlimited balance for admin_nexus
 CREATE OR REPLACE FUNCTION check_unlimited_balance()
