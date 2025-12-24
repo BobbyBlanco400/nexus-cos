@@ -749,10 +749,13 @@ deploy_feature_configs() {
     log_info "Deploying feature flags configuration..."
     mkdir -p config
     
-    cat > config/feature-flags.json << 'EOJSON'
+    local deployment_ts
+    deployment_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    
+    cat > config/feature-flags.json << EOJSON
 {
   "version": "2025.1.0",
-  "deployment_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "deployment_timestamp": "$deployment_ts",
   "environment": "production",
   "features": {
     "founder_beta": {
