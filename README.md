@@ -96,7 +96,53 @@ This architecture is designed for:
 
 ---
 
-## 🤖 **NEW: GitHub Code Agent Orchestration System**
+## 🚀 **VPS One-Liner Deployment** ⚡ NEW!
+
+**Deploy Nexus COS to your VPS with a single SSH command!**
+
+### The Bulletproofed One-Liner
+
+```bash
+ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | bash"
+```
+
+**Or use the friendly wrapper:**
+
+```bash
+./vps-deploy.sh YOUR_VPS_IP
+```
+
+### What It Does
+
+- ✅ Pre-flight checks (sudo, Docker, disk space)
+- ✅ Clones/updates repository to latest main
+- ✅ Configures production environment
+- ✅ Deploys all Docker services
+- ✅ Validates health of all services (120s timeout)
+- ✅ Auto-collects diagnostics on failure
+- ✅ **Total time: 5-10 minutes**
+
+### Services Deployed
+
+- Frontend (port 3000)
+- Gateway API (port 4000)
+- PUABO AI SDK (port 3002)
+- PV Keys (port 3041)
+- PostgreSQL (port 5432)
+- Redis (port 6379)
+
+### 📄 Documentation
+
+- **[Quick Deploy Guide](VPS_QUICK_DEPLOY.md)** ⚡ 2-minute quick reference
+- **[Complete Guide](VPS_ONE_LINER_GUIDE.md)** 📖 Full documentation with troubleshooting
+- **[Technical Summary](VPS_DEPLOYMENT_SUMMARY.md)** 📊 Implementation details
+
+**Based on:** PR #174 (Expansion Layer) & PR #168 (Platform Synopsis)  
+**Status:** ✅ Production Ready - Bulletproofed
+
+---
+
+## 🤖 **GitHub Code Agent Orchestration System**
 
 **Automated full-stack reconstruction, build, and deployment for Nexus COS!**
 
