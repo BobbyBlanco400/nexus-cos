@@ -141,14 +141,14 @@ export class VRLoungeCardManager {
    * Generate unique card ID
    */
   private generateCardId(): string {
-    return `VRL-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    return `VRL-${Date.now()}-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
   }
 
   /**
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    return `VRS-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    return `VRS-${Date.now()}-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
   }
 
   /**

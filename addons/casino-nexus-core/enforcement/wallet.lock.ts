@@ -44,7 +44,7 @@ const DEFAULT_LOCK_TIMEOUT = 5000;
  * Generate unique lock ID
  */
 function generateLockId(): string {
-  return `lock_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `lock_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 /**
