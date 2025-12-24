@@ -14,13 +14,13 @@ export NEXUS_TENANTS=(
     "tyshawn-vdance" "club-sadityy" "fayeloni-kreations" "headwina-comedy" 
     "sheda-butterbar" "idf-live" "clocking-t" "gas-or-crash" 
     "faith-fitness" "rise-sacramento" "puaboverse" "vscreen-hollywood"
-    "nexus-studio-ai" "kei-ai" "metatwin" "musicchain" "boom-boom-room"
+    "nexus-studio-ai" "metatwin" "musicchain" "boom-boom-room"
 )
 
 export TENANT_PORTS=(
     3040 3042 3043 3032 3030 3020 3040 3042 
     3043 3021 3022 3023 3024 3025 3060 8088 
-    3011 3009 3403 3050 3005
+    3011 3403 3050 3005
 )
 
 export TENANT_SERVICES=(
@@ -28,7 +28,7 @@ export TENANT_SERVICES=(
     "Virtual Dance Studio" "Urban Nightlife" "Creative Services" "Comedy & Entertainment"
     "Food & Beverage" "Live Events Streaming" "Fashion & Style" "Auto Racing"
     "Health & Fitness" "Community Organizing" "Metaverse Gateway" "VR Hollywood Experience"
-    "AI Studio Services" "AI Assistant Platform" "Digital Twin Technology" "Music Distribution" "Social Entertainment"
+    "AI Studio Services" "Digital Twin Technology" "Music Distribution" "Social Entertainment"
 )
 
 export STREAMING_PORT=3070
