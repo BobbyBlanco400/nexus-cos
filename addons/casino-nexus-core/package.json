@@ -1,0 +1,33 @@
+{
+  "name": "@nexus-cos/casino-nexus-core",
+  "version": "1.0.0",
+  "description": "Casino Nexus Core Add-In - Enforcement, Casino, Founders, and Federation layers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "casino",
+    "nexus",
+    "nexcoin",
+    "compliance",
+    "federation",
+    "vr",
+    "ai-dealer"
+  ],
+  "author": "PUABO Holdings",
+  "license": "PROPRIETARY",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BobbyBlanco400/nexus-cos"
+  }
+}
