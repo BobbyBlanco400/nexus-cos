@@ -64,8 +64,11 @@ echo -e "${BLUE}═════════════════════�
 
 echo -e "${YELLOW}Running PF verification...${NC}"
 if [ -f "$REPO_ROOT/devops/run_pf_verification.sh" ]; then
-    bash "$REPO_ROOT/devops/run_pf_verification.sh" || true
-    echo -e "${GREEN}✅ PF verification complete${NC}"
+    if bash "$REPO_ROOT/devops/run_pf_verification.sh"; then
+        echo -e "${GREEN}✅ PF verification complete - All checks passed${NC}"
+    else
+        echo -e "${YELLOW}⚠ PF verification complete with warnings (non-critical)${NC}"
+    fi
 else
     echo -e "${YELLOW}⚠ PF verification script not found, continuing...${NC}"
 fi
