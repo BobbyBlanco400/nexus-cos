@@ -348,6 +348,350 @@ configure_environment() {
 }
 
 # ============================================================================
+# DATABASE INITIALIZATION (PR #178 - 11 Founder Access Keys)
+# ============================================================================
+initialize_database() {
+    log_step "DATABASE INITIALIZATION"
+    
+    log_info "Starting PostgreSQL container..."
+    cd "$REPO_DIR"
+    docker compose up -d postgres || {
+        log_error "Failed to start PostgreSQL"
+        return 1
+    }
+    
+    log_info "Waiting for PostgreSQL to be ready..."
+    local retry=0
+    local max_retries=60
+    while ! docker compose exec -T postgres pg_isready -U postgres &>/dev/null; do
+        retry=$((retry + 1))
+        if [ $retry -gt $max_retries ]; then
+            log_error "PostgreSQL failed to start within 60 seconds"
+            return 1
+        fi
+        sleep 1
+    done
+    log_success "PostgreSQL is ready"
+    
+    # Create database users (nexus_user and nexuscos)
+    log_info "Creating database users..."
+    docker compose exec -T postgres psql -U postgres << 'EOSQL' || log_warning "User creation may have warnings (this is OK if users exist)"
+-- Create nexus_user if not exists
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'nexus_user') THEN
+        CREATE USER nexus_user WITH PASSWORD 'nexus_secure_password_2025' SUPERUSER;
+        RAISE NOTICE 'Created user: nexus_user';
+    ELSE
+        ALTER USER nexus_user WITH PASSWORD 'nexus_secure_password_2025' SUPERUSER;
+        RAISE NOTICE 'Updated password for: nexus_user';
+    END IF;
+END
+$$;
+
+-- Create nexuscos user if not exists
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'nexuscos') THEN
+        CREATE USER nexuscos WITH PASSWORD 'nexus_secure_password_2025' SUPERUSER;
+        RAISE NOTICE 'Created user: nexuscos';
+    ELSE
+        ALTER USER nexuscos WITH PASSWORD 'nexus_secure_password_2025' SUPERUSER;
+        RAISE NOTICE 'Updated password for: nexuscos';
+    END IF;
+END
+$$;
+
+-- Create databases if not exist
+SELECT 'CREATE DATABASE nexus_cos OWNER nexus_user'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'nexus_cos')\gexec
+
+SELECT 'CREATE DATABASE nexuscos_db OWNER nexuscos'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'nexuscos_db')\gexec
+
+-- Grant privileges
+GRANT ALL PRIVILEGES ON DATABASE nexus_cos TO nexus_user;
+GRANT ALL PRIVILEGES ON DATABASE nexuscos_db TO nexuscos;
+EOSQL
+
+    log_success "Database users created"
+    
+    # Initialize database schema and preload 11 Founder Access Keys
+    log_info "Initializing database schema and Founder Access Keys..."
+    
+    # Check if preload script exists
+    if [ -f "$REPO_DIR/database/preload_casino_accounts.sql" ]; then
+        log_info "Running preload_casino_accounts.sql..."
+        docker compose exec -T postgres psql -U nexus_user -d nexus_cos < "$REPO_DIR/database/preload_casino_accounts.sql" || {
+            log_warning "Database initialization had warnings (may be OK if tables exist)"
+        }
+        log_success "11 Founder Access Keys initialized"
+    else
+        log_warning "preload_casino_accounts.sql not found, creating accounts directly..."
+        
+        # Create accounts directly if file doesn't exist
+        docker compose exec -T postgres psql -U nexus_user -d nexus_cos << 'EOSQL'
+-- Create tables if not exist
+CREATE TABLE IF NOT EXISTS user_wallets (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    balance DECIMAL(20, 2) DEFAULT 1000.00,
+    is_unlimited BOOLEAN DEFAULT false,
+    account_type VARCHAR(50) DEFAULT 'regular',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS wallet_transactions (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    amount DECIMAL(20, 2) NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL,
+    balance_after DECIMAL(20, 2),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert 11 Founder Access Keys
+INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
+VALUES 
+    ('admin_nexus', 999999999.99, true, 'admin'),
+    ('vip_whale_01', 1000000.00, false, 'vip'),
+    ('vip_whale_02', 1000000.00, false, 'vip'),
+    ('beta_tester_01', 50000.00, false, 'beta_founder'),
+    ('beta_tester_02', 50000.00, false, 'beta_founder'),
+    ('beta_tester_03', 50000.00, false, 'beta_founder'),
+    ('beta_tester_04', 50000.00, false, 'beta_founder'),
+    ('beta_tester_05', 50000.00, false, 'beta_founder'),
+    ('beta_tester_06', 50000.00, false, 'beta_founder'),
+    ('beta_tester_07', 50000.00, false, 'beta_founder'),
+    ('beta_tester_08', 50000.00, false, 'beta_founder')
+ON CONFLICT (username) DO UPDATE SET
+    balance = EXCLUDED.balance,
+    is_unlimited = EXCLUDED.is_unlimited,
+    account_type = EXCLUDED.account_type,
+    updated_at = NOW();
+
+-- Trigger to maintain unlimited balance for admin_nexus
+CREATE OR REPLACE FUNCTION check_unlimited_balance()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.username = 'admin_nexus' AND NEW.is_unlimited = true THEN
+        NEW.balance := 999999999.99;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS unlimited_balance_trigger ON user_wallets;
+CREATE TRIGGER unlimited_balance_trigger
+    BEFORE UPDATE ON user_wallets
+    FOR EACH ROW
+    EXECUTE FUNCTION check_unlimited_balance();
+
+-- Display summary
+SELECT 
+    'Founder Access Keys Initialized' as status,
+    COUNT(*) as total_accounts,
+    SUM(CASE WHEN is_unlimited THEN 1 ELSE 0 END) as unlimited_accounts,
+    SUM(CASE WHEN NOT is_unlimited THEN balance ELSE 0 END) as total_nexcoin_preloaded
+FROM user_wallets;
+EOSQL
+        
+        log_success "11 Founder Access Keys created directly"
+    fi
+    
+    log_info "Founder Access Keys Summary:"
+    log_info "  • admin_nexus: UNLIMITED (Super Admin)"
+    log_info "  • vip_whale_01, vip_whale_02: 1,000,000 NC each (VIP Whales)"
+    log_info "  • beta_tester_01 to beta_tester_08: 50,000 NC each (Beta Founders)"
+    log_info "  • Total Pre-loaded: 2,400,000 NC + UNLIMITED"
+    log_success "Database initialization complete"
+}
+
+# ============================================================================
+# PWA INFRASTRUCTURE SETUP (PR #178)
+# ============================================================================
+setup_pwa() {
+    log_step "PWA INFRASTRUCTURE SETUP"
+    
+    cd "$REPO_DIR"
+    
+    # Create PWA manifest
+    log_info "Creating PWA manifest..."
+    mkdir -p frontend/public
+    
+    cat > frontend/public/manifest.json << 'EOJSON'
+{
+  "name": "Nexus COS",
+  "short_name": "Nexus COS",
+  "description": "Browser-Native Immersive Operating System - Casino Nexus Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#4F46E5",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "games"],
+  "shortcuts": [
+    {
+      "name": "Casino",
+      "url": "/casino",
+      "description": "Access Casino Nexus"
+    },
+    {
+      "name": "VR Lounge",
+      "url": "/vr-lounge",
+      "description": "Enter VR Lounge"
+    }
+  ]
+}
+EOJSON
+    
+    log_success "PWA manifest created"
+    
+    # Create service worker
+    log_info "Creating service worker..."
+    
+    cat > frontend/public/service-worker.js << 'EOJS'
+// Nexus COS Service Worker - Offline-First Strategy
+const CACHE_NAME = 'nexus-cos-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/static/css/main.css',
+  '/static/js/main.js'
+];
+
+// Install event - cache critical assets
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('✅ Service Worker: Caching critical assets');
+        return cache.addAll(urlsToCache);
+      })
+  );
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('🗑️ Service Worker: Removing old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch event - network-first strategy with cache fallback
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        // Clone the response
+        const responseClone = response.clone();
+        
+        // Cache the new response
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseClone);
+        });
+        
+        return response;
+      })
+      .catch(() => {
+        // Network failed, try cache
+        return caches.match(event.request)
+          .then((cachedResponse) => {
+            if (cachedResponse) {
+              console.log('📦 Service Worker: Serving from cache:', event.request.url);
+              return cachedResponse;
+            }
+            
+            // If not in cache and network failed, return offline page
+            return caches.match('/index.html');
+          });
+      })
+  );
+});
+
+// Listen for messages from clients
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+EOJS
+    
+    log_success "Service worker created"
+    
+    # Create PWA registration script
+    log_info "Creating PWA registration script..."
+    
+    cat > frontend/public/pwa-register.js << 'EOJS'
+// Nexus COS PWA Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('✅ PWA: Service Worker registered:', registration.scope);
+        
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New service worker available
+              if (confirm('New version available! Reload to update?')) {
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                window.location.reload();
+              }
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.error('❌ PWA: Service Worker registration failed:', error);
+      });
+  });
+}
+
+// Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  console.log('💡 PWA: Install prompt available');
+});
+EOJS
+    
+    log_success "PWA registration script created"
+    log_success "PWA infrastructure setup complete"
+}
+
+# ============================================================================
 # DOCKER STACK DEPLOYMENT (PR #174-178)
 # ============================================================================
 deploy_docker_stack() {
@@ -535,6 +879,8 @@ main() {
     validate_prerequisites
     manage_repository
     configure_environment
+    initialize_database
+    setup_pwa
     deploy_docker_stack
     validate_health
     
