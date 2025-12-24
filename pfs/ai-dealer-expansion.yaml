@@ -1,0 +1,155 @@
+---
+# AI Dealer Expansion PF - PUABO AI-HF Only
+version: "1.0.0"
+pf_id: "PF-AI-DEALER-EXPANSION"
+status: "overlay-ready"
+ai_engine: "puabo_ai_hf"
+
+ai_dealers:
+  engine: "puabo_ai_hf"
+  version: "2.0"
+  no_third_party: true
+  no_vendor_lockin: true
+  
+  personality_sources:
+    metatwin:
+      enabled: true
+      provides: "personality_base"
+      emotional_range: true
+      
+    holocore:
+      enabled: true
+      provides: "memory_and_context"
+      session_persistence: true
+      
+  dealer_roles:
+    blackjack_dealer:
+      enabled: true
+      personality_traits:
+        - "professional"
+        - "encouraging"
+        - "attentive"
+      emotional_model: "subtle"
+      voice_synthesis: true
+      
+    poker_host:
+      enabled: true
+      personality_traits:
+        - "charismatic"
+        - "witty"
+        - "competitive"
+      emotional_model: "dynamic"
+      voice_synthesis: true
+      table_banter: true
+      
+    roulette_announcer:
+      enabled: true
+      personality_traits:
+        - "energetic"
+        - "theatrical"
+        - "celebratory"
+      emotional_model: "expressive"
+      voice_synthesis: true
+      crowd_interaction: true
+      
+    slots_companion:
+      enabled: true
+      personality_traits:
+        - "friendly"
+        - "supportive"
+        - "enthusiastic"
+      emotional_model: "upbeat"
+      voice_synthesis: true
+      
+    vr_lounge_host:
+      enabled: true
+      personality_traits:
+        - "welcoming"
+        - "sophisticated"
+        - "conversational"
+      emotional_model: "balanced"
+      voice_synthesis: true
+      social_awareness: true
+      
+behavior:
+  deterministic: false
+  emotional_model: true
+  adaptive_responses: true
+  memory_scope: "session_only"
+  cross_session_learning: false # Privacy first
+  
+  interaction_rules:
+    autonomous_gambling: false
+    skill_games_only: true
+    entertainment_focus: true
+    educational_guidance: true
+    
+  safety_constraints:
+    no_financial_advice: true
+    no_odds_manipulation: false # N/A - skill games
+    responsible_gaming_prompts: true
+    timeout_suggestions: true
+    
+personality_customization:
+  player_preferences: true
+  dealer_selection: true
+  voice_options: true
+  interaction_style: "adjustable"
+  
+  customization_limits:
+    appropriate_content_only: true
+    brand_aligned: true
+    no_offensive_personas: true
+    
+technical_implementation:
+  inference_engine: "puabo_ai_hf"
+  model_hosting: "self_hosted"
+  latency_target: "< 200ms"
+  fallback_behavior: "scripted_responses"
+  
+  integration_points:
+    - "casino_nexus_api"
+    - "skill_games_service"
+    - "vr_world_service"
+    - "metatwin_service"
+    - "holocore_service"
+    
+  feature_flags:
+    ai_dealers_enabled: false
+    per_game_toggle: true
+    player_opt_out: true
+    
+auditability:
+  full_conversation_logs: true
+  decision_tracking: true
+  bias_monitoring: true
+  performance_metrics: true
+  
+  compliance_reporting:
+    interaction_patterns: true
+    player_satisfaction: true
+    responsible_gaming_metrics: true
+    
+expansion_roadmap:
+  phase_1:
+    - "basic_dealer_personalities"
+    - "voice_synthesis"
+    
+  phase_2:
+    - "emotional_response_system"
+    - "player_recognition"
+    
+  phase_3:
+    - "multi_dealer_coordination"
+    - "tournament_hosting"
+    
+  phase_4:
+    - "creator_custom_dealers"
+    - "celebrity_voice_packs"
+    
+deployment:
+  attach_to: "casino_nexus"
+  mode: "feature_flag"
+  zero_downtime: true
+  rollback_instant: true
+  gradual_rollout: true

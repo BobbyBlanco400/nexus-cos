@@ -1,0 +1,137 @@
+---
+# Marketplace Phase-3 Configuration - Controlled Trading Ignition
+version: "1.0.0"
+pf_id: "PF-MARKETPLACE-PHASE3"
+status: "gated"
+phase: 3
+requires_phase: 2
+
+marketplace:
+  phase: 3
+  enabled: false # Requires manual activation
+  trading: false # Controlled ignition
+  
+  trading_features:
+    peer_to_peer:
+      enabled: false
+      activation_gate: "manual"
+      
+    fixed_price_listings:
+      enabled: false
+      activation_gate: "manual"
+      
+    auction_system:
+      enabled: false
+      activation_gate: "phase_4"
+      
+  currency:
+    type: "nexcoin"
+    fiat_onramps: false
+    fiat_offramps: false
+    external_trading: false
+    utility_only: true
+    
+  progressive_access:
+    founders:
+      enabled: false
+      access_day: 0
+      daily_transaction_limit: 10000 # NexCoin
+      
+    creators:
+      enabled: false
+      access_day: 7
+      daily_transaction_limit: 5000 # NexCoin
+      verification_required: true
+      
+    public:
+      enabled: false
+      access_day: 14
+      daily_transaction_limit: 1000 # NexCoin
+      kyc_level: "basic"
+      
+controls:
+  wallet_limits:
+    enabled: true
+    daily_send_limit: 10000
+    daily_receive_limit: 20000
+    
+  anti_wash_rules:
+    enabled: true
+    velocity_checks: true
+    pattern_detection: true
+    circular_transaction_blocks: true
+    
+  jurisdiction_filters:
+    enabled: true
+    inherit_from: "jurisdiction_engine"
+    region_specific_limits: true
+    
+  transaction_monitoring:
+    real_time_analysis: true
+    suspicious_activity_alerts: true
+    compliance_reporting: true
+    
+compliance:
+  no_fiat: true
+  no_cash_out: true
+  utility_credits_only: true
+  closed_loop_economy: true
+  
+  legal_framework:
+    asset_classification: "virtual_goods"
+    trading_model: "closed_platform_exchange"
+    value_basis: "utility_and_scarcity"
+    speculation_prevention: "usage_incentives"
+    
+  audit_trail:
+    full_transaction_history: true
+    wallet_ledger_immutable: true
+    blockchain_optional: false # Centralized ledger
+    
+safety_rails:
+  cooldown_periods:
+    new_user_hold: "7_days"
+    purchase_to_trade_delay: "24_hours"
+    
+  fraud_prevention:
+    duplicate_account_detection: true
+    stolen_asset_recovery: true
+    chargebacks: false # NexCoin only
+    
+  creator_protection:
+    royalty_enforcement: true
+    attribution_required: true
+    takedown_system: true
+    
+activation_gates:
+  phase_2_completion: true
+  legal_review: true
+  security_audit: true
+  load_testing: true
+  founder_beta_success: true
+  
+ignition_sequence:
+  step_1:
+    enable: "preview_mode"
+    audience: "founders_only"
+    duration: "7_days"
+    
+  step_2:
+    enable: "fixed_price_listings"
+    audience: "founders_and_creators"
+    duration: "7_days"
+    
+  step_3:
+    enable: "peer_to_peer_trading"
+    audience: "all_verified_users"
+    transaction_caps: true
+    
+  step_4:
+    enable: "full_marketplace"
+    audience: "public"
+    monitoring: "enhanced"
+    
+deployment:
+  zero_downtime: true
+  rollback_instant: true
+  activate_command: "nexusctl marketplace enable --phase 3 --step [1-4]"

@@ -1,0 +1,98 @@
+---
+# Jurisdiction Engine PF - Runtime Legal Compliance Toggle
+version: "1.0.0"
+pf_id: "PF-JURISDICTION-ENGINE"
+status: "overlay-ready"
+mode: "runtime_toggle"
+
+jurisdiction_engine:
+  default_mode: "skill_only"
+  runtime_configurable: true
+  no_redeploy_required: true
+  
+  regions:
+    US:
+      enabled: true
+      features:
+        skill_games: true
+        nexcoin_wallet: true
+        chance_simulation: false
+        marketplace: false
+        vr_lounge: true
+      compliance:
+        classification: "skill-based interactive platform"
+        gambling: false
+        fiat_custody: false
+        
+    EU:
+      enabled: true
+      features:
+        skill_games: true
+        marketplace: true
+        nexcoin_wallet: true
+        chance_simulation: false
+        vr_lounge: true
+      compliance:
+        classification: "digital entertainment platform"
+        gambling: false
+        fiat_custody: false
+        gdpr_compliant: true
+        
+    UK:
+      enabled: true
+      features:
+        skill_games: true
+        social_casino: true
+        nexcoin_wallet: true
+        marketplace: false
+        vr_lounge: true
+      compliance:
+        classification: "social gaming platform"
+        gambling: false
+        age_verification_required: true
+        
+    GLOBAL:
+      enabled: true
+      features:
+        social_casino: true
+        vr_lounge: true
+        nexcoin_wallet: true
+        skill_games: true
+        marketplace: false
+      compliance:
+        classification: "social entertainment platform"
+        gambling: false
+        
+enforcement:
+  layers:
+    - api_gateway
+    - ui_feature_flags
+    - wallet_rules
+    - service_mesh
+    
+  implementation:
+    type: "feature_flag"
+    config_path: "/config/jurisdiction"
+    reload_method: "hot_reload"
+    no_restart_required: true
+    
+  api_enforcement:
+    endpoint_filtering: true
+    geo_detection: true
+    header_based_override: true # for testing
+    
+  ui_enforcement:
+    component_visibility: true
+    route_guards: true
+    feature_detection: "client_side"
+    
+verification:
+  audit_logging: true
+  compliance_reports: true
+  runtime_validation: true
+  
+deployment:
+  attach_to: "existing_stack"
+  mode: "overlay_only"
+  zero_downtime: true
+  rollback_instant: true

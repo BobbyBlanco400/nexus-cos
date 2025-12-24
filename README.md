@@ -33,6 +33,69 @@ A complete operating system featuring 17 integrated modules, 48 microservices, a
 
 ---
 
+## 🪙 **NexCoin Utility Model (Authoritative)**
+
+**NexCoin is a closed-loop, platform utility credit used exclusively within the Casino Nexus ecosystem.**
+
+### Core Principles
+
+- **NexCoin is purchased, not wagered.**
+- **NexCoin is not real money, not cryptocurrency, and not a security.**
+- **NexCoin cannot be redeemed for fiat during Casino Phases.**
+- **All casino interactions require NexCoin.**
+- **No NexCoin = No Gameplay**
+
+### Wallet Behavior (Canonical)
+
+The platform wallet exists solely to:
+
+- Purchase NexCoin packs
+- Store NexCoin balances
+- Spend NexCoin on:
+  - Skill-based casino games
+  - Casino access tiers
+  - High Roller Suite entry
+  - VR-Lounge experiences
+  - Approved marketplace items (Phase-2+)
+- Track NexCoin transaction history
+
+**The wallet does not custody fiat or crypto.**
+
+### Casino Access Rule (Non-Negotiable)
+
+All Casino Nexus games, lounges, and features are gated by NexCoin balance requirements.
+
+The platform does not permit:
+- ❌ Real-money wagering
+- ❌ Cash jackpots
+- ❌ Fiat-based betting mechanics
+
+### Progressive Rewards (Legal-Safe)
+
+Progressive-style rewards are **platform-issued utility incentives**, not pooled cash prizes.
+
+Rewards may include:
+- Bonus NexCoin
+- Access unlocks
+- Digital collectibles
+- Experience upgrades
+
+### Compliance Position
+
+Casino Nexus operates as a **skill-based digital entertainment platform** utilizing prepaid utility credits.
+
+This architecture is designed for:
+- ✅ Jurisdiction portability
+- ✅ Regulator review
+- ✅ Consumer clarity
+
+**📄 Documentation:**
+- **[Compliance Positioning](docs/COMPLIANCE_POSITIONING.md)** - Legal framework
+- **[Investor Whitepaper](docs/INVESTOR_WHITEPAPER.md)** - Business model
+- **[NexCoin Public Explanation](docs/NEXCOIN_PUBLIC_EXPLANATION.md)** - User-facing docs
+
+---
+
 ## 🤖 **NEW: GitHub Code Agent Orchestration System**
 
 **Automated full-stack reconstruction, build, and deployment for Nexus COS!**
