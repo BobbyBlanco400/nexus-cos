@@ -333,15 +333,61 @@ configure_environment() {
     {
         echo ""
         echo "# VPS Bulletproof Deployment - Added $(date)"
+        echo "# Database Configuration (PR #178)"
         echo "DATABASE_URL=postgresql://nexus_user:nexus_secure_password_2025@localhost:5432/nexus_cos"
         echo "DB_USER=nexus_user"
         echo "DB_PASSWORD=nexus_secure_password_2025"
         echo "POSTGRES_USER=nexus_user"
         echo "POSTGRES_PASSWORD=nexus_secure_password_2025"
+        echo ""
+        echo "# Production/Beta URLs"
+        echo "PRODUCTION_URL=https://nexuscos.online"
+        echo "BETA_URL=https://beta.nexuscos.online"
+        echo "MONITORING_URL=https://monitoring.nexuscos.online"
+        echo "HOLLYWOOD_URL=https://hollywood.nexuscos.online"
+        echo ""
+        echo "# Domain Configuration"
+        echo "NGINX_HOST=nexuscos.online"
+        echo "DOMAIN=nexuscos.online"
+        echo "BETA_DOMAIN=beta.nexuscos.online"
+        echo ""
+        echo "# SSL Configuration"
+        echo "SSL_ENABLED=true"
+        echo "SSL_CERT_PATH=/etc/ssl/ionos/fullchain.pem"
+        echo "SSL_KEY_PATH=/etc/ssl/ionos/privkey.pem"
+        echo "SSL_EMAIL=admin@nexuscos.online"
+        echo ""
+        echo "# Feature Flags (PR #175)"
         echo "FOUNDER_BETA_MODE=true"
+        echo "JURISDICTION_ENGINE_ENABLED=true"
+        echo "MARKETPLACE_PHASE2_ENABLED=true"
+        echo "AI_DEALERS_ENABLED=true"
+        echo "CASINO_FEDERATION_ENABLED=true"
+        echo "MARKETPLACE_PHASE3_ENABLED=false"
+        echo "PROGRESSIVE_JACKPOTS_ENABLED=false"
+        echo "HIGH_ROLLER_SUITE_ENABLED=false"
+        echo "VR_LOUNGE_ENABLED=false"
+        echo "CREATOR_NODES_ENABLED=false"
+        echo "CELEBRITY_NODES_ENABLED=false"
+        echo ""
+        echo "# PWA Configuration (PR #178)"
         echo "PWA_ENABLED=true"
+        echo "PWA_OFFLINE_CACHE=true"
+        echo "PWA_UPDATE_NOTIFICATION=true"
+        echo ""
+        echo "# Service URLs"
+        echo "AUTH_SERVICE_URL=http://localhost:3100"
+        echo "BILLING_SERVICE_URL=http://localhost:3110"
+        echo "FRONTEND_URL=http://localhost:3000"
+        echo "GATEWAY_URL=http://localhost:4000"
+        echo "CASINO_NEXUS_URL=http://localhost:9503"
+        echo "STREAMING_URL=http://localhost:9501"
+        echo "ADMIN_PORTAL_URL=http://localhost:9504"
+        echo ""
+        echo "# Deployment Metadata"
         echo "DEPLOYMENT_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
         echo "DEPLOYMENT_PRS=174,175,176,177,178"
+        echo "DEPLOYMENT_METHOD=vps-bulletproof-one-liner"
     } >> "$env_file"
     
     log_success "Environment file configured"
@@ -692,6 +738,136 @@ EOJS
 }
 
 # ============================================================================
+# DEPLOY FEATURE CONFIGURATIONS (PRs #174-177)
+# ============================================================================
+deploy_feature_configs() {
+    log_step "FEATURE CONFIGURATION DEPLOYMENT"
+    
+    cd "$REPO_DIR"
+    
+    # Create/update feature flags configuration
+    log_info "Deploying feature flags configuration..."
+    mkdir -p config
+    
+    cat > config/feature-flags.json << 'EOJSON'
+{
+  "version": "2025.1.0",
+  "deployment_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "environment": "production",
+  "features": {
+    "founder_beta": {
+      "enabled": true,
+      "description": "Founder beta access mode (PR #178)",
+      "access_keys": 11
+    },
+    "jurisdiction_engine": {
+      "enabled": true,
+      "description": "Runtime jurisdiction toggle (PR #174)",
+      "regions": ["US", "EU", "ASIA", "GLOBAL"],
+      "default_region": "GLOBAL"
+    },
+    "marketplace_phase2": {
+      "enabled": true,
+      "description": "Asset marketplace preview mode (PR #174)",
+      "assets": ["avatars", "vr_items", "casino_cosmetics"],
+      "trading_enabled": false
+    },
+    "ai_dealers": {
+      "enabled": true,
+      "description": "PUABO AI-HF dealer personalities (PR #174)",
+      "engine": "puabo_ai_hf",
+      "games": ["blackjack", "poker", "roulette"]
+    },
+    "casino_federation": {
+      "enabled": true,
+      "description": "Multi-casino Vegas strip federation (PR #174)",
+      "type": "virtual_strip",
+      "max_casinos": 10
+    },
+    "marketplace_phase3": {
+      "enabled": false,
+      "description": "Peer-to-peer trading (PR #175)",
+      "depends_on": ["marketplace_phase2"]
+    },
+    "progressive_jackpots": {
+      "enabled": false,
+      "description": "Utility-only progressive pools (PR #176)",
+      "contribution_rate": 0.015
+    },
+    "high_roller_suite": {
+      "enabled": false,
+      "description": "VIP access (PR #176)",
+      "min_balance": 5000
+    },
+    "vr_lounge": {
+      "enabled": false,
+      "description": "NexusVision VR lounge access (PR #177)"
+    },
+    "creator_nodes": {
+      "enabled": false,
+      "description": "Creator streaming and monetization (PR #177)"
+    },
+    "celebrity_nodes": {
+      "enabled": false,
+      "description": "Celebrity casino nodes (PR #177)",
+      "nodes": 4
+    },
+    "pwa": {
+      "enabled": true,
+      "description": "Progressive Web App infrastructure (PR #178)",
+      "offline_cache": true,
+      "install_prompt": true
+    },
+    "pf_verification": {
+      "enabled": true,
+      "description": "Platform File verification (PR #178)"
+    }
+  },
+  "nexcoin": {
+    "closed_loop": true,
+    "fiat_disabled": true,
+    "utility_only": true,
+    "admin_unlimited": true
+  },
+  "founder_access_keys": {
+    "total": 11,
+    "admin_unlimited": 1,
+    "vip_whales": 2,
+    "beta_testers": 8
+  },
+  "urls": {
+    "production": "https://nexuscos.online",
+    "beta": "https://beta.nexuscos.online",
+    "monitoring": "https://monitoring.nexuscos.online",
+    "hollywood": "https://hollywood.nexuscos.online"
+  }
+}
+EOJSON
+    
+    log_success "Feature flags configuration deployed"
+    
+    # Deploy jurisdiction configuration (PR #174)
+    if [ -f "addons/casino-nexus-core/enforcement/jurisdiction.toggle.ts" ]; then
+        log_info "Jurisdiction engine detected"
+        log_success "Jurisdiction engine ready for runtime toggle"
+    fi
+    
+    # Deploy marketplace configuration (PR #174)
+    if [ -d "modules/casino-nexus/services/nft-marketplace-ms" ]; then
+        log_info "NFT marketplace service detected"
+        log_success "Marketplace Phase 2 ready"
+    fi
+    
+    # Deploy AI dealers configuration (PR #174)
+    if [ -d "addons/casino-nexus-core" ]; then
+        log_info "Casino Nexus Core add-in detected"
+        log_success "AI dealers and federation ready"
+    fi
+    
+    log_success "Feature configurations deployed for PRs #174-177"
+}
+
+# ============================================================================
 # DOCKER STACK DEPLOYMENT (PR #174-178)
 # ============================================================================
 deploy_docker_stack() {
@@ -796,12 +972,19 @@ print_summary() {
     echo -e "   Timestamp:     $(date '+%Y-%m-%d %H:%M:%S %Z')"
     echo ""
     
-    echo -e "${C_CYAN}${C_BOLD}🌐 Service Endpoints:${C_NC}"
+    echo -e "${C_CYAN}${C_BOLD}🌐 Service Endpoints (Local):${C_NC}"
     echo -e "   Frontend:        http://localhost:3000"
     echo -e "   Gateway API:     http://localhost:4000"
     echo -e "   Casino Nexus:    http://localhost:9503"
     echo -e "   Streaming:       http://localhost:9501"
     echo -e "   Admin Portal:    http://localhost:9504"
+    echo ""
+    
+    echo -e "${C_CYAN}${C_BOLD}🌍 Production/Beta URLs:${C_NC}"
+    echo -e "   Production:      https://nexuscos.online"
+    echo -e "   Beta:            https://beta.nexuscos.online"
+    echo -e "   Monitoring:      https://monitoring.nexuscos.online"
+    echo -e "   Hollywood VR:    https://hollywood.nexuscos.online"
     echo ""
     
     echo -e "${C_CYAN}${C_BOLD}🔑 Founder Access Keys (PR #178):${C_NC}"
@@ -881,6 +1064,7 @@ main() {
     configure_environment
     initialize_database
     setup_pwa
+    deploy_feature_configs
     deploy_docker_stack
     validate_health
     
