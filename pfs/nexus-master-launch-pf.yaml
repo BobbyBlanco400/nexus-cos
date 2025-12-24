@@ -1,0 +1,345 @@
+# =========================================================
+# NEXUS COS MASTER ADD-IN PF — FULL STACK / LAUNCH READY
+# =========================================================
+
+pf_name: nexus-master-launch
+pf_version: "1.0"
+attach_to: existing_stack
+mode: overlay_only
+executed_by: TRAE_SOLO_CODER
+timestamp: 2025-12-24
+platform: "NΞ3XUS·COS"
+authority: operational
+
+includes:
+  - public_reveal
+  - celebrity_onboarding
+  - ipo_readiness
+  - full_casino_grid_validation
+  - nexcoin_monetization
+  - founder_to_public_transition
+  - phase_3_marketplace
+  - dual_branding_enforcement
+  - tenant_feature_stack
+
+execution_rules:
+  - DO NOT reset wallets
+  - DO NOT redeploy core containers
+  - APPLY overlay only
+  - VERIFY via health + UI + PF scripts
+  - LOG every step for audit
+
+# =========================================================
+# 1️⃣ PUBLIC REVEAL MOMENT
+# =========================================================
+public_reveal:
+  title: "Vegas, Virtualized"
+  tagline: "Real Stakes. Virtual Skill. Nexus Certified."
+  sequence:
+    - cold_open:
+        duration_sec: 90
+        cinematic_flythrough: true
+        lobby_grid_cards: 9
+    - founder_walkthrough:
+        duration_min: 10
+        modules:
+          - casino_lobby
+          - vr_lounge
+          - high_roller_suite
+          - ai_dealers
+    - tenant_showcase:
+        duration_min: 7
+        tenants: 
+          - "Ashanti's Munch & Mingle"
+          - "Headwina's Comedy Club"
+          - "Ro Ro's Gamer Lounge"
+          - "Faith Through Fitness"
+          - "Club Saditty"
+          - "Nee Nee & Kids"
+          - "Sassie Lash"
+          - "Tyshawn's V-Dance Studio"
+          - "Fayeloni-Kreations"
+          - "Sheda Shay's Butter Bar"
+          - "IDH Live"
+          - "Cocking T with Ya Gurl P"
+          - "Gas Or Crash"
+          - "Rise Sacramento 916"
+    - skill_casino_demo:
+        duration_min: 5
+        modules:
+          - blackjack
+          - roulette
+          - slots_progressive
+        compliance_overlay: true
+    - close_authority:
+        duration_min: 2
+        messaging: "Vegas discipline. Browser scale. Culture-first."
+
+# =========================================================
+# 2️⃣ CELEBRITY CASINO ONBOARDING
+# =========================================================
+celebrity_onboarding:
+  target_roles:
+    - comedian
+    - dj_producer
+    - athlete
+    - streamer
+  celebrity_package:
+    branded_vip_lounge: true
+    hosted_tables:
+      ai_controlled: true
+      live_moderation: true
+    ppv_events: true
+    revenue_split: "70/30"
+    compliance:
+      skill_only: true
+      nexcoin_only: true
+  dm_scripts: celebrity_pitch_ready
+  documentation:
+    path: docs/CELEBRITY_ONBOARDING_GUIDE.md
+    status: ready
+
+# =========================================================
+# 3️⃣ IPO-READINESS MAP
+# =========================================================
+ipo_readiness:
+  corporate_positioning:
+    - interactive_entertainment_platform
+    - skill_based_gaming_network
+    - creator_monetization_infra
+  revenue_lines:
+    - nexcoin_pack_sales
+    - ppv_events
+    - creator_splits
+    - branded_lounges
+    - enterprise_white_label
+  metrics_wall:
+    daus: track_per_tenant
+    maus: track_per_tenant
+    arpu_nexcoin: computed
+    ppv_conversion: computed
+    creator_retention: computed
+    session_length: "casino + vr"
+  exit_paths:
+    - media_conglomerate_acquisition
+    - gaming_tech_acquisition
+    - spin_off_casino_nexus
+    - public_listing_entertainment_tech
+  documentation:
+    path: docs/IPO_READINESS_DECK.md
+    status: generated
+
+# =========================================================
+# 4️⃣ FULL CASINO GRID + WALLET VERIFICATION
+# =========================================================
+casino_grid_validation:
+  expected_cards: 9
+  cards:
+    - card_1: Blackjack
+    - card_2: Roulette
+    - card_3: Slots_Progressive
+    - card_4: Poker
+    - card_5: Baccarat
+    - card_6: Skill_Wheel
+    - card_7: VR_Lounge
+    - card_8: High_Roller_Suite
+    - card_9: Bonus_Special_Event
+  wallet_function:
+    nexcoin_purchase_required: true
+    usage:
+      - play_slots
+      - access_high_roller_suite
+      - ppv_content
+      - creator_tipping
+      - marketplace_phase_3
+    packages:
+      - name: "1k_NC"
+        price: "$100"
+      - name: "5k_NC"
+        price: "$450"
+      - name: "10k_NC"
+        price: "$850"
+      - name: "50k_NC"
+        price: "$4,000"
+  verification_endpoint: /api/casino/grid
+  health_check: /api/wallet/health
+
+# =========================================================
+# 5️⃣ FOUNDER → PUBLIC TRANSITION
+# =========================================================
+founder_to_public_transition:
+  freeze_founder_perks: true
+  enable_public_ui_flags: true
+  activate_jurisdiction_engine: true
+  rotate_api_keys: true
+  rollback: instant_flag_toggle
+  founder_accounts:
+    total: 11
+    admin: 1
+    vip_whales: 2
+    beta_founders: 8
+  documentation:
+    path: FOUNDER_ACCESS_KEYS.md
+    status: active
+
+# =========================================================
+# 6️⃣ PHASE-3 MARKETPLACE UNLOCK
+# =========================================================
+phase_3_marketplace:
+  trading_enabled: true
+  assets_allowed:
+    - avatars
+    - vr_items
+    - casino_cosmetics
+  guardrails:
+    - no_fiat_onramps
+    - wallet_limits
+    - anti_wash_rules
+    - jurisdiction_filters
+  progressive_unlock_schedule:
+    founders: day_0
+    creators: day_7
+    public: day_14
+  api_endpoint: /api/marketplace
+  status: ready_for_activation
+
+# =========================================================
+# 7️⃣ DUAL BRANDING ENFORCEMENT
+# =========================================================
+dual_branding:
+  primary: "NΞ3XUS·COS"
+  secondary: "PUABO Holdings"
+  enforced_platform_wide: true
+  ui_components: 
+    - header
+    - footer
+    - login
+    - tenant_cards
+    - VR_Lounge
+    - high_roller_suite
+  verification:
+    - check_frontend_branding: true
+    - check_api_responses: true
+    - check_documentation: true
+
+# =========================================================
+# 8️⃣ TENANT FEATURE STACK
+# =========================================================
+tenant_feature_stack:
+  total_tenants: 12
+  features:
+    live_streaming: true
+    vod: true
+    ppv: true
+    pixel_streaming: true
+    multi_tenant_isolation: true
+  tenants:
+    - name: "Ashanti's Munch & Mingle"
+      status: active
+    - name: "Headwina's Comedy Club"
+      status: active
+    - name: "Ro Ro's Gamer Lounge"
+      status: active
+    - name: "Faith Through Fitness"
+      status: active
+    - name: "Club Saditty"
+      status: active
+    - name: "Nee Nee & Kids"
+      status: active
+    - name: "Sassie Lash"
+      status: active
+    - name: "Tyshawn's V-Dance Studio"
+      status: active
+    - name: "Fayeloni-Kreations"
+      status: active
+    - name: "Sheda Shay's Butter Bar"
+      status: active
+    - name: "IDH Live"
+      status: active
+    - name: "Cocking T with Ya Gurl P"
+      status: active
+
+# =========================================================
+# EXECUTION VERIFICATION
+# =========================================================
+verification:
+  steps:
+    - name: check_health
+      target: all_services
+      script: ./devops/run_pf_verification.sh
+    - name: validate_casino_grid
+      target: 9_cards
+      endpoint: /api/casino/grid
+    - name: validate_nexcoin_wallet
+      target: packages
+      endpoint: /api/wallet/packages
+    - name: verify_tenant_features
+      target: "live_streaming + vod + ppv"
+      count: 12
+    - name: validate_dual_branding
+      target: platform_wide
+      check: ui_components
+    - name: run_pf_integrity_check
+      target: last_10_addins
+      script: ./devops/run_pf_verification.sh
+
+# =========================================================
+# FOUNDER ACCESS KEYS (Reference)
+# =========================================================
+founder_access:
+  documentation: FOUNDER_ACCESS_KEYS.md
+  accounts:
+    super_admin:
+      username: admin_nexus
+      balance: unlimited
+      type: super_admin
+    vip_whales:
+      count: 2
+      balance: "1,000,000 NC each"
+      usernames:
+        - vip_whale_01
+        - vip_whale_02
+      password: WelcomeToVegas_25
+    beta_founders:
+      count: 8
+      balance: "50,000 NC each"
+      usernames:
+        - beta_tester_01
+        - beta_tester_02
+        - beta_tester_03
+        - beta_tester_04
+        - beta_tester_05
+        - beta_tester_06
+        - beta_tester_07
+        - beta_tester_08
+      password: WelcomeToVegas_25
+
+# =========================================================
+# PLATFORM ENDPOINTS
+# =========================================================
+endpoints:
+  main_portal: "http://localhost:3000"
+  casino: "http://localhost:9503"
+  streaming: "http://localhost:9501"
+  admin: "http://localhost:9504"
+  creator_hub: "http://localhost:9505"
+  meta_twin: "http://localhost:9506"
+  franchise_manager: "http://localhost:9507"
+  v_suite_pro: "http://localhost:9508"
+  vod_service: "http://localhost:9502"
+
+# =========================================================
+# LAUNCH STATUS
+# =========================================================
+launch_status:
+  beta_launch: active
+  platform_status: fully_operational
+  founder_access: enabled
+  security: enforced
+  monitoring: active
+  date: "2025-12-24"
+  version: "1.0.0"
+
+# =========================================================
+# END MASTER PF
+# =========================================================

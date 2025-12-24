@@ -16,7 +16,8 @@ NC='\033[0m' # No Color
 
 # Script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+# NEXUS_FULL_LAUNCH.sh is at repo root, so REPO_ROOT = SCRIPT_DIR
+REPO_ROOT="$SCRIPT_DIR"
 
 clear
 
@@ -62,8 +63,8 @@ echo -e "${BLUE}STEP 1: PRE-LAUNCH VERIFICATION${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
 echo -e "${YELLOW}Running PF verification...${NC}"
-if [ -f "$SCRIPT_DIR/run_pf_verification.sh" ]; then
-    bash "$SCRIPT_DIR/run_pf_verification.sh"
+if [ -f "$REPO_ROOT/devops/run_pf_verification.sh" ]; then
+    bash "$REPO_ROOT/devops/run_pf_verification.sh"
     echo -e "${GREEN}✅ PF verification complete${NC}"
 else
     echo -e "${YELLOW}⚠ PF verification script not found, continuing...${NC}"
@@ -76,8 +77,8 @@ echo -e "${BLUE}STEP 2: DATABASE INITIALIZATION${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
 echo -e "${YELLOW}Setting up PostgreSQL database...${NC}"
-if [ -f "$SCRIPT_DIR/fix_database_and_pwa.sh" ]; then
-    echo "   ✓ Database setup script found"
+if [ -f "$REPO_ROOT/devops/fix_database_and_pwa.sh" ]; then
+    echo -e "${GREEN}   ✓ Database setup script found${NC}"
     # Don't actually run in demo mode to avoid database connection errors
     echo -e "${GREEN}   ✓ Database credentials configured${NC}"
     echo -e "${GREEN}   ✓ User: nexus_user${NC}"
