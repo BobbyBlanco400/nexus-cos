@@ -46,6 +46,8 @@ logs/*.log
 logs/*-*.log
 logs/**/*.log
 logs/**/*-*.log
+# Deployment summary JSON files
+logs/**/deployment_summary_*.json
 .pm2/
 # But keep log directory structure
 !logs/**/.gitkeep
