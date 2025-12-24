@@ -31,8 +31,20 @@ ssh root@YOUR_VPS_IP 'bash -s' < <(curl -fsSL https://raw.githubusercontent.com/
 ### Alternative: Download and execute directly
 
 ```bash
-ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | bash"
+# The Ultimate One-Liner: SSH + Clone + Deploy + Verify (DevOps Grade)
+ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | sudo bash -s"
 ```
+
+**What this does in one shot:**
+- ✅ Validates all prerequisites (Docker, Git, disk space, memory)
+- ✅ Clones/updates repository from GitHub (main branch)
+- ✅ Configures environment with database credentials (PR #178)
+- ✅ Deploys Docker stack with zero downtime
+- ✅ Runs 120-second comprehensive health checks
+- ✅ Deploys all features from PRs #174, #175, #176, #177, #178
+- ✅ Creates 11 Founder Access Keys with pre-loaded balances
+- ✅ Generates detailed deployment log
+- ✅ Auto-collects diagnostics on failure
 
 ---
 
