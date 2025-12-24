@@ -1,23 +1,34 @@
-# 🎰 Nexus COS - Casino Accounts Summary
+# 🎰 Nexus COS - Founder Access Keys
 
 ## 📊 Account Overview
 
-This fix applies to **11 pre-loaded casino accounts** in the Nexus COS system:
+This system provides **11 pre-loaded Founder Access Keys** for the Nexus COS Beta Launch:
 
-### 1 Admin Account (Unlimited Balance)
-- **`admin_nexus`** - YOUR account with UNLIMITED NexCoin
+### 👑 Super Admin (You)
+- **Username**: `admin_nexus`
+- **Password**: *(Your System Default)*
+- **Balance**: ∞ Unlimited NC
+- **Account Type**: Super Admin
 
-### 10 Pre-loaded Casino Accounts (Fixed Balances)
-1. **`casino_vip_01`** - 100,000 NC (VIP High Roller)
-2. **`casino_vip_02`** - 75,000 NC (VIP High Roller)
-3. **`casino_vip_03`** - 50,000 NC (VIP High Roller)
-4. **`casino_pro_01`** - 25,000 NC (Professional Player)
-5. **`casino_pro_02`** - 20,000 NC (Professional Player)
-6. **`casino_player_01`** - 10,000 NC (Regular Player)
-7. **`casino_player_02`** - 10,000 NC (Regular Player)
-8. **`casino_player_03`** - 5,000 NC (Regular Player)
-9. **`casino_test_01`** - 5,000 NC (Test Account)
-10. **`casino_demo`** - 1,000 NC (Demo Account)
+### 🐋 VIP Whales (High Stakes)
+- **Balance**: 1,000,000 NC each
+- **Password**: `WelcomeToVegas_25` (all accounts)
+
+1. **Username**: `vip_whale_01` | **Password**: `WelcomeToVegas_25`
+2. **Username**: `vip_whale_02` | **Password**: `WelcomeToVegas_25`
+
+### 🧪 Beta Founders (Standard)
+- **Balance**: 50,000 NC each
+- **Password**: `WelcomeToVegas_25` (all accounts)
+
+3. **Username**: `beta_tester_01` | **Password**: `WelcomeToVegas_25`
+4. **Username**: `beta_tester_02` | **Password**: `WelcomeToVegas_25`
+5. **Username**: `beta_tester_03` | **Password**: `WelcomeToVegas_25`
+6. **Username**: `beta_tester_04` | **Password**: `WelcomeToVegas_25`
+7. **Username**: `beta_tester_05` | **Password**: `WelcomeToVegas_25`
+8. **Username**: `beta_tester_06` | **Password**: `WelcomeToVegas_25`
+9. **Username**: `beta_tester_07` | **Password**: `WelcomeToVegas_25`
+10. **Username**: `beta_tester_08` | **Password**: `WelcomeToVegas_25`
 
 ---
 
@@ -25,8 +36,9 @@ This fix applies to **11 pre-loaded casino accounts** in the Nexus COS system:
 
 ### admin_nexus (YOUR ACCOUNT)
 - **Balance**: UNLIMITED (999,999,999.99 NC displayed)
+- **Password**: *(Your System Default - NOT WelcomeToVegas_25)*
 - **Special Feature**: Balance never decreases
-- **Account Type**: Admin
+- **Account Type**: Super Admin
 - **Use Case**: Testing, demonstrations, unlimited gameplay
 
 **How It Works:**
@@ -36,23 +48,57 @@ This fix applies to **11 pre-loaded casino accounts** in the Nexus COS system:
 
 ---
 
+## 🐋 VIP Whale Accounts (High Stakes)
+
+### vip_whale_01 & vip_whale_02
+- **Balance**: 1,000,000 NC each
+- **Password**: `WelcomeToVegas_25`
+- **Account Type**: VIP
+- **Use Case**: High-stakes testing, whale player simulation
+
+**Gameplay Capacity:**
+- **Nexus Poker** (100 NC/hand): 10,000 hands each
+- **21X Blackjack** (100 NC/hand): 10,000 hands each
+- **Nexus Slots** (50 NC/spin): 20,000 spins each
+- **Crypto Spin** (50 NC/spin): 20,000 spins each
+
+---
+
+## 🧪 Beta Founder Accounts (Standard)
+
+### beta_tester_01 through beta_tester_08
+- **Balance**: 50,000 NC each (8 accounts)
+- **Password**: `WelcomeToVegas_25` (same for all)
+- **Account Type**: Beta Founder
+- **Use Case**: Standard beta testing, normal player simulation
+
+**Gameplay Capacity:**
+- **Nexus Poker** (100 NC/hand): 500 hands each
+- **21X Blackjack** (100 NC/hand): 500 hands each
+- **Nexus Slots** (50 NC/spin): 1,000 spins each
+- **Crypto Spin** (50 NC/spin): 1,000 spins each
+
+---
+
 ## 💰 Pre-loaded Account Balances
 
-| Account | Balance | Type | Purpose |
-|---------|---------|------|---------|
-| admin_nexus | ♾️ UNLIMITED | Admin | Your unlimited account |
-| casino_vip_01 | 100,000 NC | VIP | High roller testing |
-| casino_vip_02 | 75,000 NC | VIP | High roller testing |
-| casino_vip_03 | 50,000 NC | VIP | High roller testing |
-| casino_pro_01 | 25,000 NC | Professional | Pro player testing |
-| casino_pro_02 | 20,000 NC | Professional | Pro player testing |
-| casino_player_01 | 10,000 NC | Regular | Standard player testing |
-| casino_player_02 | 10,000 NC | Regular | Standard player testing |
-| casino_player_03 | 5,000 NC | Regular | New player testing |
-| casino_test_01 | 5,000 NC | Test | QA/testing purposes |
-| casino_demo | 1,000 NC | Demo | Demo/trial purposes |
+| Account | Balance | Password | Type | Purpose |
+|---------|---------|----------|------|---------|
+| admin_nexus | ♾️ UNLIMITED | *(System Default)* | Super Admin | Your unlimited account |
+| vip_whale_01 | 1,000,000 NC | WelcomeToVegas_25 | VIP | High stakes testing |
+| vip_whale_02 | 1,000,000 NC | WelcomeToVegas_25 | VIP | High stakes testing |
+| beta_tester_01 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_02 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_03 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_04 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_05 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_06 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_07 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
+| beta_tester_08 | 50,000 NC | WelcomeToVegas_25 | Beta Founder | Standard testing |
 
-**Total Pre-loaded Value**: 315,000 NC + UNLIMITED (admin_nexus)
+**Total Pre-loaded Value**: 2,400,000 NC + UNLIMITED (admin_nexus)
+
+**Note**: All accounts except `admin_nexus` use password `WelcomeToVegas_25`
 
 ---
 
@@ -60,31 +106,23 @@ This fix applies to **11 pre-loaded casino accounts** in the Nexus COS system:
 
 ### Nexus Poker (100 NC per hand)
 - ✅ **admin_nexus**: Unlimited play
-- ✅ **VIP accounts**: 500-1000 hands each
-- ✅ **Pro accounts**: 200-250 hands each
-- ✅ **Regular accounts**: 50-100 hands each
-- ✅ **Test/Demo**: 10-50 hands each
+- ✅ **VIP Whales** (vip_whale_01, vip_whale_02): 10,000 hands each
+- ✅ **Beta Founders** (beta_tester_01-08): 500 hands each
 
 ### 21X Blackjack (100 NC per hand)
 - ✅ **admin_nexus**: Unlimited play
-- ✅ **VIP accounts**: 500-1000 hands each
-- ✅ **Pro accounts**: 200-250 hands each
-- ✅ **Regular accounts**: 50-100 hands each
-- ✅ **Test/Demo**: 10-50 hands each
+- ✅ **VIP Whales** (vip_whale_01, vip_whale_02): 10,000 hands each
+- ✅ **Beta Founders** (beta_tester_01-08): 500 hands each
 
 ### Nexus Slots (50 NC per spin)
 - ✅ **admin_nexus**: Unlimited spins
-- ✅ **VIP accounts**: 1000-2000 spins each
-- ✅ **Pro accounts**: 400-500 spins each
-- ✅ **Regular accounts**: 100-200 spins each
-- ✅ **Test/Demo**: 20-100 spins each
+- ✅ **VIP Whales** (vip_whale_01, vip_whale_02): 20,000 spins each
+- ✅ **Beta Founders** (beta_tester_01-08): 1,000 spins each
 
 ### Crypto Spin (50 NC per spin)
 - ✅ **admin_nexus**: Unlimited spins
-- ✅ **VIP accounts**: 1000-2000 spins each
-- ✅ **Pro accounts**: 400-500 spins each
-- ✅ **Regular accounts**: 100-200 spins each
-- ✅ **Test/Demo**: 20-100 spins each
+- ✅ **VIP Whales** (vip_whale_01, vip_whale_02): 20,000 spins each
+- ✅ **Beta Founders** (beta_tester_01-08): 1,000 spins each
 
 ---
 
@@ -126,12 +164,13 @@ CREATE TRIGGER unlimited_balance_trigger
 4. ✅ All transactions logged but balance stays unlimited
 5. ✅ No restrictions on gameplay
 
-### For 10 Pre-loaded Accounts
-1. ✅ Creates each account with specified balance
-2. ✅ Sets appropriate `account_type` (VIP, Professional, Regular, Test, Demo)
-3. ✅ Logs initial balance transaction
-4. ✅ Normal balance deduction applies during gameplay
-5. ✅ Can be topped up manually if needed
+### For 10 Founder Access Accounts
+1. ✅ Creates each account with specified balance (1M NC for VIPs, 50K NC for Beta Founders)
+2. ✅ Sets appropriate `account_type` (VIP for whales, Beta Founder for testers)
+3. ✅ Stores bcrypt-hashed password `WelcomeToVegas_25` in users table
+4. ✅ Logs initial balance transaction
+5. ✅ Normal balance deduction applies during gameplay
+6. ✅ Can be topped up manually if needed
 
 ---
 
@@ -155,28 +194,25 @@ ORDER BY
     CASE account_type
         WHEN 'admin' THEN 1
         WHEN 'vip' THEN 2
-        WHEN 'professional' THEN 3
-        WHEN 'regular' THEN 4
-        WHEN 'test' THEN 5
-        WHEN 'demo' THEN 6
+        WHEN 'beta_founder' THEN 3
     END;
 ```
 
 **Expected Output:**
 ```
-    username     | display_balance | account_type  
------------------+-----------------+---------------
- admin_nexus     | UNLIMITED       | admin
- casino_vip_01   | 100,000.00 NC   | vip
- casino_vip_02   |  75,000.00 NC   | vip
- casino_vip_03   |  50,000.00 NC   | vip
- casino_pro_01   |  25,000.00 NC   | professional
- casino_pro_02   |  20,000.00 NC   | professional
- casino_player_01|  10,000.00 NC   | regular
- casino_player_02|  10,000.00 NC   | regular
- casino_player_03|   5,000.00 NC   | regular
- casino_test_01  |   5,000.00 NC   | test
- casino_demo     |   1,000.00 NC   | demo
+    username     | display_balance   | account_type  
+-----------------+-------------------+---------------
+ admin_nexus     | UNLIMITED         | admin
+ vip_whale_01    | 1,000,000.00 NC   | vip
+ vip_whale_02    | 1,000,000.00 NC   | vip
+ beta_tester_01  |    50,000.00 NC   | beta_founder
+ beta_tester_02  |    50,000.00 NC   | beta_founder
+ beta_tester_03  |    50,000.00 NC   | beta_founder
+ beta_tester_04  |    50,000.00 NC   | beta_founder
+ beta_tester_05  |    50,000.00 NC   | beta_founder
+ beta_tester_06  |    50,000.00 NC   | beta_founder
+ beta_tester_07  |    50,000.00 NC   | beta_founder
+ beta_tester_08  |    50,000.00 NC   | beta_founder
 (11 rows)
 ```
 
@@ -201,49 +237,64 @@ curl http://localhost:9503/api/balance/admin_nexus
 # Expected: Still 999999999.99 (unchanged)
 ```
 
-### Test casino_vip_01 (100,000 NC)
+### Test vip_whale_01 (1,000,000 NC)
 ```bash
 # Get balance
-curl http://localhost:9503/api/balance/casino_vip_01
-# Expected: {"username":"casino_vip_01","balance":100000,"currency":"NC"}
+curl http://localhost:9503/api/balance/vip_whale_01
+# Expected: {"username":"vip_whale_01","balance":1000000,"currency":"NC"}
 
 # Play game
 curl -X POST http://localhost:9503/api/games/nexus-poker/play \
   -H "Content-Type: application/json" \
-  -d '{"username":"casino_vip_01","betAmount":100}'
+  -d '{"username":"vip_whale_01","betAmount":100}'
 # Expected: Balance changes based on win/loss
 
 # Check balance again
-curl http://localhost:9503/api/balance/casino_vip_01
-# Expected: 99900 (if lost) or 100180 (if won with 1.8x payout)
+curl http://localhost:9503/api/balance/vip_whale_01
+# Expected: 999900 (if lost) or 1000180 (if won with 1.8x payout)
+```
+
+### Test beta_tester_01 (50,000 NC)
+```bash
+# Get balance
+curl http://localhost:9503/api/balance/beta_tester_01
+# Expected: {"username":"beta_tester_01","balance":50000,"currency":"NC"}
+
+# Play game
+curl -X POST http://localhost:9503/api/games/nexus-poker/play \
+  -H "Content-Type: application/json" \
+  -d '{"username":"beta_tester_01","betAmount":100}'
+# Expected: Balance changes based on win/loss
+
+# Check balance again
+curl http://localhost:9503/api/balance/beta_tester_01
+# Expected: 49900 (if lost) or 50180 (if won with 1.8x payout)
 ```
 
 ### Test All Other Accounts
 Same pattern for:
-- casino_vip_02, casino_vip_03
-- casino_pro_01, casino_pro_02
-- casino_player_01, casino_player_02, casino_player_03
-- casino_test_01, casino_demo
+- vip_whale_02
+- beta_tester_02 through beta_tester_08
 
 ---
 
 ## 📝 Manual Account Top-Up
 
-If you need to add more NC to any pre-loaded account:
+If you need to add more NC to any Founder Access account:
 
 ```sql
--- Top up casino_vip_01 by 50,000 NC
+-- Top up vip_whale_01 by 500,000 NC
 UPDATE user_wallets 
-SET balance = balance + 50000, 
+SET balance = balance + 500000, 
     updated_at = NOW() 
-WHERE username = 'casino_vip_01';
+WHERE username = 'vip_whale_01';
 
 -- Log the transaction
 INSERT INTO wallet_transactions 
   (username, amount, transaction_type, balance_after, description) 
 VALUES 
-  ('casino_vip_01', 50000, 'manual_topup', 
-   (SELECT balance FROM user_wallets WHERE username = 'casino_vip_01'),
+  ('vip_whale_01', 500000, 'manual_topup', 
+   (SELECT balance FROM user_wallets WHERE username = 'vip_whale_01'),
    'Manual top-up by admin');
 ```
 
@@ -253,9 +304,10 @@ VALUES
 
 ### For Production:
 1. **Change admin_nexus behavior**: Consider removing unlimited balance in production
-2. **Protect test accounts**: Ensure pre-loaded accounts are not accessible to end users
-3. **Monitor transactions**: Set up alerts for unusual activity on pre-loaded accounts
-4. **Rate limiting**: Apply rate limits even to admin accounts
+2. **Protect Founder accounts**: Ensure Founder Access Keys are not accessible to end users
+3. **Monitor transactions**: Set up alerts for unusual activity on Founder Access accounts
+4. **Rate limiting**: Apply rate limits even to VIP accounts
+5. **Password security**: Change `WelcomeToVegas_25` to unique passwords per account in production
 
 ---
 
@@ -292,10 +344,7 @@ ORDER BY
     CASE w.account_type
         WHEN 'admin' THEN 1
         WHEN 'vip' THEN 2
-        WHEN 'professional' THEN 3
-        WHEN 'regular' THEN 4
-        WHEN 'test' THEN 5
-        WHEN 'demo' THEN 6
+        WHEN 'beta_founder' THEN 3
     END;
 ```
 
@@ -303,24 +352,26 @@ ORDER BY
 
 ## ✅ Summary
 
-**This fix creates and manages 11 pre-loaded casino accounts:**
+**This fix creates and manages 11 Founder Access Keys:**
 
-1. **1 Admin Account** (`admin_nexus`) with UNLIMITED balance - THIS IS YOUR ACCOUNT
-2. **10 Casino Accounts** with pre-set balances for testing and gameplay
+1. **1 Super Admin Account** (`admin_nexus`) with UNLIMITED balance - THIS IS YOUR ACCOUNT
+2. **2 VIP Whale Accounts** (`vip_whale_01`, `vip_whale_02`) with 1,000,000 NC each
+3. **8 Beta Founder Accounts** (`beta_tester_01` through `beta_tester_08`) with 50,000 NC each
 
 **Key Features:**
 - ✅ admin_nexus has truly unlimited balance (never decreases)
-- ✅ All 10 casino accounts pre-loaded with specified NC amounts
+- ✅ All 10 Founder Access accounts pre-loaded with specified NC amounts
+- ✅ All accounts use password `WelcomeToVegas_25` (except admin_nexus)
 - ✅ Full transaction logging for all accounts
 - ✅ Database triggers ensure admin account stays unlimited
 - ✅ Ready for immediate testing and gameplay
 - ✅ All accounts work with Poker, Blackjack, Slots, Crypto Spin
 
-**Total Accounts**: 11 (1 admin + 10 casino accounts)
-**Total Pre-loaded NC**: 315,000 NC + UNLIMITED (admin)
+**Total Accounts**: 11 (1 admin + 2 VIP + 8 Beta Founders)
+**Total Pre-loaded NC**: 2,400,000 NC + UNLIMITED (admin)
 
 ---
 
 **Created**: 2025-12-24  
-**Version**: 1.0.0  
+**Version**: 2.0.0 - Founder Access Keys Edition  
 **Status**: Ready for Implementation ✅

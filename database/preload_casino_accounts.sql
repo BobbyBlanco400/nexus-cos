@@ -36,8 +36,17 @@ CREATE TABLE IF NOT EXISTS game_sessions (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- Insert or update the 11 pre-loaded casino accounts
--- Account 1: admin_nexus (UNLIMITED balance)
+-- Create users table for authentication if not exists
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert or update the 11 pre-loaded casino accounts with Founder Access Keys
+-- Account 1: admin_nexus (UNLIMITED balance - Super Admin)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
 VALUES ('admin_nexus', 999999999.99, true, 'admin')
 ON CONFLICT (username) 
@@ -47,110 +56,130 @@ DO UPDATE SET
     account_type = 'admin',
     updated_at = NOW();
 
--- Account 2: casino_vip_01 (High Roller)
+-- Account 2: vip_whale_01 (VIP Whale - High Stakes)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_vip_01', 100000.00, false, 'vip')
+VALUES ('vip_whale_01', 1000000.00, false, 'vip')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 100000.00,
+    balance = 1000000.00,
     account_type = 'vip',
     updated_at = NOW();
 
--- Account 3: casino_vip_02 (High Roller)
+-- Account 3: vip_whale_02 (VIP Whale - High Stakes)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_vip_02', 75000.00, false, 'vip')
+VALUES ('vip_whale_02', 1000000.00, false, 'vip')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 75000.00,
+    balance = 1000000.00,
     account_type = 'vip',
     updated_at = NOW();
 
--- Account 4: casino_vip_03 (High Roller)
+-- Account 4: beta_tester_01 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_vip_03', 50000.00, false, 'vip')
+VALUES ('beta_tester_01', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
     balance = 50000.00,
-    account_type = 'vip',
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 5: casino_pro_01 (Professional Player)
+-- Account 5: beta_tester_02 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_pro_01', 25000.00, false, 'professional')
+VALUES ('beta_tester_02', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 25000.00,
-    account_type = 'professional',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 6: casino_pro_02 (Professional Player)
+-- Account 6: beta_tester_03 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_pro_02', 20000.00, false, 'professional')
+VALUES ('beta_tester_03', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 20000.00,
-    account_type = 'professional',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 7: casino_player_01 (Regular Player)
+-- Account 7: beta_tester_04 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_player_01', 10000.00, false, 'regular')
+VALUES ('beta_tester_04', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 10000.00,
-    account_type = 'regular',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 8: casino_player_02 (Regular Player)
+-- Account 8: beta_tester_05 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_player_02', 10000.00, false, 'regular')
+VALUES ('beta_tester_05', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 10000.00,
-    account_type = 'regular',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 9: casino_player_03 (Regular Player)
+-- Account 9: beta_tester_06 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_player_03', 5000.00, false, 'regular')
+VALUES ('beta_tester_06', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 5000.00,
-    account_type = 'regular',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 10: casino_test_01 (Test Account)
+-- Account 10: beta_tester_07 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_test_01', 5000.00, false, 'test')
+VALUES ('beta_tester_07', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 5000.00,
-    account_type = 'test',
+    balance = 50000.00,
+    account_type = 'beta_founder',
     updated_at = NOW();
 
--- Account 11: casino_demo (Demo Account)
+-- Account 11: beta_tester_08 (Beta Founder - Standard)
 INSERT INTO user_wallets (username, balance, is_unlimited, account_type)
-VALUES ('casino_demo', 1000.00, false, 'demo')
+VALUES ('beta_tester_08', 50000.00, false, 'beta_founder')
 ON CONFLICT (username) 
 DO UPDATE SET 
-    balance = 1000.00,
-    account_type = 'demo',
+    balance = 50000.00,
+    account_type = 'beta_founder',
+    updated_at = NOW();
+
+-- Insert authentication credentials for all accounts
+-- Password: WelcomeToVegas_25 (hashed using bcrypt with salt rounds=10)
+-- Hash generated: $2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm
+INSERT INTO users (username, password_hash)
+VALUES 
+    ('admin_nexus', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('vip_whale_01', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('vip_whale_02', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_01', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_02', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_03', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_04', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_05', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_06', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_07', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm'),
+    ('beta_tester_08', '$2b$10$YzvrzqSmYoDOn2mxigXNtOtLy/ksaYTvB9t1hn4waLXKVemmCnVQm')
+ON CONFLICT (username) DO UPDATE SET 
+    password_hash = EXCLUDED.password_hash,
     updated_at = NOW();
 
 -- Log initial balance transactions for all accounts
 INSERT INTO wallet_transactions (username, amount, transaction_type, balance_after, description)
 VALUES 
-    ('admin_nexus', 999999999.99, 'initial_load', 999999999.99, 'Admin account - Unlimited balance'),
-    ('casino_vip_01', 100000.00, 'initial_load', 100000.00, 'VIP High Roller account'),
-    ('casino_vip_02', 75000.00, 'initial_load', 75000.00, 'VIP High Roller account'),
-    ('casino_vip_03', 50000.00, 'initial_load', 50000.00, 'VIP High Roller account'),
-    ('casino_pro_01', 25000.00, 'initial_load', 25000.00, 'Professional player account'),
-    ('casino_pro_02', 20000.00, 'initial_load', 20000.00, 'Professional player account'),
-    ('casino_player_01', 10000.00, 'initial_load', 10000.00, 'Regular player account'),
-    ('casino_player_02', 10000.00, 'initial_load', 10000.00, 'Regular player account'),
-    ('casino_player_03', 5000.00, 'initial_load', 5000.00, 'Regular player account'),
-    ('casino_test_01', 5000.00, 'initial_load', 5000.00, 'Test account'),
-    ('casino_demo', 1000.00, 'initial_load', 1000.00, 'Demo account')
+    ('admin_nexus', 999999999.99, 'initial_load', 999999999.99, 'Super Admin - Unlimited balance'),
+    ('vip_whale_01', 1000000.00, 'initial_load', 1000000.00, 'VIP Whale - High Stakes'),
+    ('vip_whale_02', 1000000.00, 'initial_load', 1000000.00, 'VIP Whale - High Stakes'),
+    ('beta_tester_01', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_02', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_03', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_04', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_05', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_06', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_07', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard'),
+    ('beta_tester_08', 50000.00, 'initial_load', 50000.00, 'Beta Founder - Standard')
 ON CONFLICT (id) DO NOTHING;
 
 -- Create function to handle unlimited balance for admin_nexus
@@ -177,6 +206,7 @@ CREATE TRIGGER unlimited_balance_trigger
     EXECUTE FUNCTION check_unlimited_balance();
 
 -- Grant permissions
+GRANT ALL PRIVILEGES ON users TO nexus_user;
 GRANT ALL PRIVILEGES ON user_wallets TO nexus_user;
 GRANT ALL PRIVILEGES ON wallet_transactions TO nexus_user;
 GRANT ALL PRIVILEGES ON game_sessions TO nexus_user;
@@ -197,9 +227,6 @@ ORDER BY
     CASE account_type
         WHEN 'admin' THEN 1
         WHEN 'vip' THEN 2
-        WHEN 'professional' THEN 3
-        WHEN 'regular' THEN 4
-        WHEN 'test' THEN 5
-        WHEN 'demo' THEN 6
+        WHEN 'beta_founder' THEN 3
     END,
     balance DESC;
