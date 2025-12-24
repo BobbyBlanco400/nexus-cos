@@ -80,7 +80,7 @@ if [ $? -eq 0 ]; then
     echo -e "  - logs/compliance/"
     echo ""
     echo -e "${GREEN}View latest deployment summary:${NC}"
-    echo -e "  cat logs/global_launch/deployment_summary_*.json | tail -1 | python3 -m json.tool"
+    echo -e "  ls -t logs/global_launch/deployment_summary_*.json | head -1 | xargs cat | python3 -m json.tool"
     echo ""
 else
     echo ""

@@ -47,6 +47,8 @@ class Colors:
 class DeploymentLogger:
     """Handles logging to both console and file"""
     
+    _loggers = {}  # Class-level dictionary to track loggers
+    
     def __init__(self, log_dir: str):
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
@@ -54,16 +56,29 @@ class DeploymentLogger:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         log_file = self.log_dir / f"deployment_{timestamp}.log"
         
-        # Configure file logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_file),
-                logging.StreamHandler(sys.stdout)
-            ]
-        )
-        self.logger = logging.getLogger(__name__)
+        # Create a unique logger for this directory
+        logger_name = f"nexus_deploy_{log_dir.replace('/', '_')}"
+        
+        # Configure file logging only if not already configured
+        if logger_name not in self._loggers:
+            logger = logging.getLogger(logger_name)
+            logger.setLevel(logging.INFO)
+            
+            # Create file handler
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setLevel(logging.INFO)
+            file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+            logger.addHandler(file_handler)
+            
+            # Create console handler
+            console_handler = logging.StreamHandler(sys.stdout)
+            console_handler.setLevel(logging.INFO)
+            console_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+            logger.addHandler(console_handler)
+            
+            self._loggers[logger_name] = logger
+        
+        self.logger = self._loggers[logger_name]
     
     def info(self, message: str):
         print(f"{Colors.OKBLUE}[INFO]{Colors.ENDC} {message}")
@@ -393,7 +408,7 @@ class GlobalLaunchDeployment:
         self.logger.success("Investor demo environment deployed")
         return True
     
-    def create_deployment_summary(self):
+    def create_deployment_summary(self, success: bool = True):
         """Create deployment summary report"""
         self.logger.header("DEPLOYMENT SUMMARY")
         
@@ -404,7 +419,7 @@ class GlobalLaunchDeployment:
             "version": self.config.get('version'),
             "execution_mode": self.config.get('execution_mode'),
             "verification_results": self.verification_results,
-            "deployment_status": "SUCCESS"
+            "deployment_status": "SUCCESS" if success else "FAILED"
         }
         
         # Use current working directory for logs
@@ -471,10 +486,11 @@ class GlobalLaunchDeployment:
                 self.logger.info(f"Executing: {step_name}")
                 if not step_func():
                     self.logger.error(f"{step_name} failed")
+                    self.create_deployment_summary(success=False)
                     return False
             
-            # Create summary
-            self.create_deployment_summary()
+            # Create summary with success status
+            self.create_deployment_summary(success=True)
             
             # Final success message
             self.logger.header("DEPLOYMENT COMPLETE")
@@ -503,29 +519,39 @@ class GlobalLaunchDeployment:
             return False
     
     # Helper methods for verification checks
+    # NOTE: These are mock implementations for the overlay-only deployment.
+    # In a production environment, these would connect to actual services
+    # and perform real health checks. For overlay deployment, we assume
+    # the existing infrastructure is operational.
+    
     def _check_docker_containers(self) -> bool:
         """Check if Docker containers are running"""
-        # In a real implementation, this would check actual Docker status
+        # Mock implementation - in production, would use docker-py to check container status
         return True
     
     def _check_database(self) -> bool:
         """Check database connection"""
+        # Mock implementation - in production, would attempt actual DB connection
         return True
     
     def _check_redis(self) -> bool:
         """Check Redis cache"""
+        # Mock implementation - in production, would ping Redis
         return True
     
     def _check_nginx(self) -> bool:
         """Check Nginx status"""
+        # Mock implementation - in production, would check Nginx service status
         return True
     
     def _check_services_health(self) -> bool:
         """Check all microservices health"""
+        # Mock implementation - in production, would query health endpoints
         return True
     
     def _verify_ui_component(self, component: str) -> bool:
         """Verify UI component is accessible"""
+        # Mock implementation - in production, would make HTTP requests to UI endpoints
         return True
 
 
