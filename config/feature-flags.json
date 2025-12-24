@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "updated": "2024-12-24T00:00:00Z",
+  "feature_flags": {
+    "JURISDICTION_ENGINE_ENABLED": {
+      "enabled": false,
+      "description": "Runtime legal compliance toggle system",
+      "type": "boolean",
+      "default": false,
+      "category": "compliance",
+      "requires": []
+    },
+    "MARKETPLACE_PHASE2_ENABLED": {
+      "enabled": false,
+      "description": "Marketplace preview mode (armed, not live - browse only)",
+      "type": "boolean",
+      "default": false,
+      "category": "marketplace",
+      "requires": []
+    },
+    "MARKETPLACE_PHASE3_ENABLED": {
+      "enabled": false,
+      "description": "Controlled trading ignition (peer-to-peer transactions)",
+      "type": "boolean",
+      "default": false,
+      "category": "marketplace",
+      "requires": ["MARKETPLACE_PHASE2_ENABLED"]
+    },
+    "AI_DEALERS_ENABLED": {
+      "enabled": false,
+      "description": "PUABO AI-HF dealer personalities",
+      "type": "boolean",
+      "default": false,
+      "category": "ai",
+      "requires": []
+    },
+    "CASINO_FEDERATION_ENABLED": {
+      "enabled": false,
+      "description": "Vegas Strip multi-casino model",
+      "type": "boolean",
+      "default": false,
+      "category": "casino",
+      "requires": []
+    },
+    "CREATOR_MONETIZATION_ENABLED": {
+      "enabled": false,
+      "description": "Legal-safe creator revenue sharing",
+      "type": "boolean",
+      "default": false,
+      "category": "creator",
+      "requires": []
+    },
+    "FOUNDER_BETA_MODE": {
+      "enabled": true,
+      "description": "Founder beta access mode",
+      "type": "boolean",
+      "default": true,
+      "category": "access",
+      "requires": []
+    },
+    "PUBLIC_SOFT_LAUNCH_MODE": {
+      "enabled": false,
+      "description": "Public soft launch mode with throttling",
+      "type": "boolean",
+      "default": false,
+      "category": "access",
+      "requires": []
+    },
+    "PUBLIC_FULL_LAUNCH_MODE": {
+      "enabled": false,
+      "description": "Full public launch mode",
+      "type": "boolean",
+      "default": false,
+      "category": "access",
+      "requires": []
+    }
+  },
+  "access_modes": {
+    "founder_beta": {
+      "enabled": true,
+      "features": [
+        "all_casino_games",
+        "vr_lounge_full",
+        "marketplace_preview",
+        "ai_dealers_beta",
+        "creator_tools_full",
+        "feedback_priority"
+      ],
+      "limits": {
+        "nexcoin_bonus": "locked_until_public",
+        "wallet_caps": false,
+        "casino_limits": "skill_based_only"
+      }
+    },
+    "public_soft": {
+      "enabled": false,
+      "features": [
+        "core_casino_games",
+        "vr_lounge_limited",
+        "marketplace_browse_only",
+        "ai_dealers_select",
+        "creator_tools_application"
+      ],
+      "limits": {
+        "wallet_caps": true,
+        "daily_nexcoin_purchase": 1000,
+        "daily_casino_play": 5000,
+        "concurrent_users": "throttled"
+      }
+    },
+    "public_full": {
+      "enabled": false,
+      "features": [
+        "all_available_games",
+        "vr_lounge_24_7",
+        "marketplace_full",
+        "ai_dealers_all",
+        "creator_tools_open"
+      ],
+      "limits": {
+        "jurisdiction_based": true,
+        "responsible_gaming_tools": true
+      }
+    }
+  }
+}
