@@ -32,6 +32,8 @@ if [[ $DISK_AVAIL -lt 12582912 ]]; then
     echo "[ERROR] Insufficient disk space. Need 12GB, have $(($DISK_AVAIL/1024/1024))GB"
     exit 1
 fi
+# NOTE: RAM requirement reduced to 3GB for 4GB VPS compatibility
+# Original requirement was 6GB. Monitor for OOM issues during deployment.
 if [[ $RAM_AVAIL -lt 3000 ]]; then
     echo "[ERROR] Insufficient RAM. Need 3GB, have ${RAM_AVAIL}MB"
     exit 1
@@ -40,6 +42,8 @@ echo "[✓] Prerequisites validated"
 
 # ----------------- Database Initialization -----------------
 echo "[2/13] Initializing PostgreSQL database and 11 Founder Access Keys..."
+# NOTE: Password set to match VPS PostgreSQL configuration
+# IMPORTANT: Change this password immediately after deployment for security
 export PGPASSWORD="password"
 psql -U postgres -h localhost <<'EOSQL'
 -- Create users
