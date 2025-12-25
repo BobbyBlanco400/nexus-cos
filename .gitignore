@@ -20,6 +20,11 @@ PixelStreamingInfrastructure/**/dist/
 PixelStreamingInfrastructure/**/node_modules/
 PixelStreamingInfrastructure/**/package-lock.json
 
+# N.E.X.U.S AI Control Panel
+nexus-ai/control-panel/node_modules/
+nexus-ai/control-panel/package-lock.json
+nexus-ai/control-panel/dist/
+
 # Python
 __pycache__/
 *.py[cod]

@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "locked": true,
+  "platform": "N3XUSCOS",
+  "tenant_count": 13,
+  "description": "Canonical registry of independent streaming mini platforms (first-class tenants)",
+  "tenants": [
+    {
+      "id": 1,
+      "name": "Club Saditty",
+      "slug": "club-saditty",
+      "status": "active",
+      "type": "entertainment_lifestyle",
+      "streaming_capable": true
+    },
+    {
+      "id": 2,
+      "name": "Faith Through Fitness",
+      "slug": "faith-through-fitness",
+      "status": "active",
+      "type": "health_wellness",
+      "streaming_capable": true,
+      "replaced": "Boom Boom Room Live",
+      "replacement_date": "2025-12-25"
+    },
+    {
+      "id": 3,
+      "name": "Ashanti's Munch & Mingle",
+      "slug": "ashantis-munch-and-mingle",
+      "status": "active",
+      "type": "food_community",
+      "streaming_capable": true
+    },
+    {
+      "id": 4,
+      "name": "Ro Ro's Gaming Lounge",
+      "slug": "ro-ros-gaming-lounge",
+      "status": "active",
+      "type": "gaming_esports",
+      "streaming_capable": true
+    },
+    {
+      "id": 5,
+      "name": "IDH Live",
+      "slug": "idh-live",
+      "status": "active",
+      "type": "talk_discussion",
+      "streaming_capable": true
+    },
+    {
+      "id": 6,
+      "name": "Clocking T",
+      "slug": "clocking-t",
+      "status": "active",
+      "type": "urban_entertainment",
+      "streaming_capable": true
+    },
+    {
+      "id": 7,
+      "name": "Tyshawn Dance Studio",
+      "slug": "tyshawn-dance-studio",
+      "status": "active",
+      "type": "dance_performing_arts",
+      "streaming_capable": true
+    },
+    {
+      "id": 8,
+      "name": "Fayeloni Kreation",
+      "slug": "fayeloni-kreation",
+      "status": "active",
+      "type": "creative_arts",
+      "streaming_capable": true
+    },
+    {
+      "id": 9,
+      "name": "Sassie Lashes",
+      "slug": "sassie-lashes",
+      "status": "active",
+      "type": "beauty_fashion",
+      "streaming_capable": true
+    },
+    {
+      "id": 10,
+      "name": "Neenee & Kids",
+      "slug": "neenee-and-kids",
+      "status": "active",
+      "type": "family_children",
+      "streaming_capable": true
+    },
+    {
+      "id": 11,
+      "name": "Headwina's Comedy Club",
+      "slug": "headwinas-comedy-club",
+      "status": "active",
+      "type": "comedy_entertainment",
+      "streaming_capable": true
+    },
+    {
+      "id": 12,
+      "name": "Rise Sacramento 916",
+      "slug": "rise-sacramento-916",
+      "status": "active",
+      "type": "local_community",
+      "streaming_capable": true
+    },
+    {
+      "id": 13,
+      "name": "Gas or Crash Live",
+      "slug": "gas-or-crash-live",
+      "status": "active",
+      "type": "talk_entertainment",
+      "streaming_capable": true
+    }
+  ],
+  "revenue_model": {
+    "split": "80/20",
+    "tenant_percentage": 80,
+    "platform_percentage": 20,
+    "enforcement": "ledger-level",
+    "configurable": false,
+    "bypassable": false
+  },
+  "isolation_rules": {
+    "container_isolation": true,
+    "ledger_isolation": true,
+    "data_isolation": true,
+    "network_isolation": true,
+    "no_shared_wallets": true,
+    "independent_streaming": true
+  },
+  "enforcement": {
+    "handshake_required": "55-45-17",
+    "deployment_validation": true,
+    "runtime_verification": true
+  }
+}
