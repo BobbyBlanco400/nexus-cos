@@ -6,6 +6,8 @@
 # Date: 2025-12-25
 ################################################################################
 
+# Note: We use -uo pipefail but NOT -e because this is a verification script
+# that should run ALL tests and report aggregate results, not exit on first failure
 set -uo pipefail
 
 # Colors
