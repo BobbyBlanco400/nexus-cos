@@ -1,0 +1,172 @@
+---
+# N.E.X.U.S AI Control Panel Guardrails
+# Enforces platform authority and prevents unauthorized operations
+
+version: 1.0.0
+platform: N3XUSCOS
+authority: immutable
+enforcement: strict
+
+handshake_requirement:
+  protocol: "55-45-17"
+  required_for:
+    - stack_boot
+    - service_startup
+    - tenant_activation
+    - revenue_enforcement
+    - health_checks
+  failure_mode: hard_stop
+  bypass_allowed: false
+  degraded_mode: false
+
+tenant_guardrails:
+  canonical_count: 12
+  allow_add: false
+  allow_remove: false
+  allow_modify: false
+  validation_required: true
+  
+  tenant_classification:
+    independent_platforms: true
+    not_modules: true
+    not_services: true
+    not_microservices: true
+  
+  required_capabilities:
+    - full_streaming
+    - independent_ledger
+    - isolated_container
+    - isolated_data
+    - 80_20_revenue_split
+
+control_panel_permissions:
+  founder:
+    can_emergency_lockdown: true
+    can_freeze_wallets: true
+    can_view_all_tenants: true
+    can_modify_tenants: false  # Even founder cannot modify canonical list
+    can_access_revenue: true
+    requires_handshake: true
+  
+  admin:
+    can_start_stop_services: true
+    can_view_tenant_revenue: true
+    can_access_control_panel: true
+    can_modify_tenants: false
+    requires_handshake: true
+  
+  operator:
+    can_view_status: true
+    can_restart_services: true
+    can_modify_tenants: false
+    requires_handshake: true
+  
+  viewer:
+    can_view_status: true
+    can_modify_tenants: false
+    requires_handshake: true
+
+revenue_enforcement:
+  split_ratio: "80/20"
+  tenant_percentage: 80
+  platform_percentage: 20
+  enforcement_level: ledger
+  configurable: false
+  bypassable: false
+  validation_required: true
+
+deployment_guardrails:
+  handshake_verification: required
+  tenant_count_check: required
+  revenue_split_check: required
+  isolation_check: required
+  health_gate: required
+  
+  block_deployment_if:
+    - handshake_missing
+    - handshake_mismatch
+    - tenant_count_mismatch
+    - revenue_split_incorrect
+    - isolation_breach
+    - shared_wallets_detected
+
+runtime_guardrails:
+  continuous_verification: true
+  health_check_interval: 60  # seconds
+  handshake_revalidation: true
+  tenant_isolation_monitoring: true
+  revenue_split_auditing: true
+
+audit_requirements:
+  log_all_operations: true
+  immutable_audit_trail: true
+  retention_period: 2555  # days (7 years)
+  compliance_reporting: true
+
+forbidden_operations:
+  - modify_canonical_tenant_list
+  - bypass_handshake_verification
+  - disable_revenue_enforcement
+  - share_wallets_between_tenants
+  - cross_tenant_data_access
+  - disable_isolation_boundaries
+  - configure_revenue_split
+  - downgrade_tenant_to_module
+
+emergency_controls:
+  founder_authorization_required: true
+  two_factor_required: true
+  audit_log_required: true
+  rollback_capability: true
+  
+  allowed_emergency_actions:
+    - system_wide_lockdown
+    - freeze_all_wallets
+    - stop_all_streaming
+    - isolate_tenant
+    - force_logout_all
+  
+  forbidden_emergency_actions:
+    - modify_tenant_registry
+    - bypass_handshake
+    - disable_revenue_enforcement
+
+compliance_requirements:
+  soc2_compliant: true
+  gdpr_compliant: true
+  ccpa_compliant: true
+  audit_ready: true
+  
+  required_documentation:
+    - canonical_tenant_registry
+    - revenue_enforcement_proof
+    - isolation_verification
+    - handshake_protocol
+
+validation_gates:
+  - name: handshake_gate
+    required: true
+    failure_action: block
+    script: /nexus/health/handshake_gate.sh
+  
+  - name: tenant_count_gate
+    required: true
+    failure_action: block
+    expected_count: 12
+  
+  - name: revenue_split_gate
+    required: true
+    failure_action: block
+    expected_split: "80/20"
+  
+  - name: isolation_gate
+    required: true
+    failure_action: block
+    checks:
+      - container_isolation
+      - ledger_isolation
+      - data_isolation
+      - network_isolation
+
+---
+# End of N.E.X.U.S AI Control Panel Guardrails
