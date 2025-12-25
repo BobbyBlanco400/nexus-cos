@@ -1,0 +1,288 @@
+pf_version: 1.0.0
+pf_name: N3XUSCOS_FULL_STACK_MASTER
+execution_mode: strict
+fail_on_warning: true
+no_partial_success: true
+
+global_rules:
+  no_dormant_services: true
+  no_feature_flags: true
+  all_services_active: true
+  immutable_core: true
+  tenant_isolation: hard
+  platform_fee: 20_percent
+  streaming_parity: required
+  audit_logging: mandatory
+
+#################################################
+# 1. SERVICE CANONICAL INVENTORY (AUTHORITATIVE)
+#################################################
+
+service_inventory:
+  total_expected_services: 96
+  validation_mode: fail_if_mismatch
+
+tiers:
+
+  tier_0_foundation:
+    immutable: true
+    services:
+      - puabo-api
+      - nexus-cos-postgres
+      - nexus-cos-redis
+      - nexus-cos-streamcore
+      - nexus-cos-pv-keys
+      - nexus-cos-puaboai-sdk
+      - auth-service-v2
+
+  tier_1_economic_core:
+    activation_block: true
+    services:
+      - ledger-manager
+      - wallet-service
+      - invoice-service
+      - billing-engine
+      - token-manager
+      - revenue-splitter
+      - payout-orchestrator
+
+  tier_2_platform_services:
+    services:
+      - license-service
+      - content-management
+      - metadata-registry
+      - musicchain-core
+      - dsp-gateway
+      - rights-management
+      - compliance-engine
+
+  tier_3_streaming_stack:
+    services:
+      - live-streaming-v2
+      - vod-service
+      - chat-stream
+      - creator-console
+      - viewer-gateway
+      - stream-metrics
+      - latency-optimizer
+
+  tier_4_mini_platforms:
+    isolation: per_platform
+    count: 11
+    each_platform_includes:
+      - full-streaming-stack
+      - billing-hook
+      - 20_percent_fee_enforcer
+      - independent-ledger
+      - tenant-ai-module
+
+  tier_5_virtual_casino:
+    services:
+      - vscreen-hollywood
+      - casino-nexus-api
+      - gamecore-engine
+      - avatar-engine
+      - rewards-engine
+      - skill-games
+      - world-simulation
+      - nexus-ai-control-panel
+
+#################################################
+# 2. KUBERNETES MIGRATION (MANDATORY)
+#################################################
+
+kubernetes:
+  required: true
+  distribution: k3s
+  namespace_strategy: per_tenant
+  ingress: traefik
+  secrets: sealed-secrets
+  service_mesh: linkerd
+
+autoscaling:
+  hpa:
+    cpu_threshold: 65
+    memory_threshold: 70
+  vpa:
+    enabled: true
+
+cost_controls:
+  throttle_policy:
+    non_revenue_services: aggressive
+    revenue_services: protected
+  idle_shutdown: false
+
+#################################################
+# 3. HELM CHART GENERATION
+#################################################
+
+helm:
+  generate_all: true
+  chart_structure:
+    - foundation
+    - economic-core
+    - streaming
+    - mini-platform
+    - casino
+  values_enforced:
+    no_disabled_services: true
+
+#################################################
+# 4. TERRAFORM INFRASTRUCTURE
+#################################################
+
+terraform:
+  provider: hostinger
+  resources:
+    - vps_cluster
+    - block_storage
+    - load_balancer
+    - private_network
+  state_backend: remote
+  destroy_protection: enabled
+
+#################################################
+# 5. GITHUB ACTIONS (CI/CD)
+#################################################
+
+github_actions:
+  workflows:
+    - name: full-stack-deploy
+      triggers: [push, manual]
+      steps:
+        - validate_pf
+        - terraform_apply
+        - helm_install_all
+        - service_health_check
+        - revenue_path_validation
+
+#################################################
+# 6. ZERO-TRUST ROLLBACK PLAN
+#################################################
+
+rollback:
+  strategy: immutable_snapshots
+  rollback_triggers:
+    - revenue_path_failure
+    - auth_failure
+    - ledger_inconsistency
+  rollback_scope: per_tier
+
+#################################################
+# 7. LIVE SYSTEM VERIFICATION
+#################################################
+
+verification:
+  scripts:
+    - verify_all_services_running
+    - verify_no_disabled_flags
+    - verify_11_platforms_streaming
+    - verify_20_percent_fee_flow
+    - verify_ledgers_balanced
+  fail_on_any_error: true
+
+#################################################
+# 8. SOC-2 / COMPLIANCE OVERLAYS
+#################################################
+
+compliance:
+  soc2:
+    logging: immutable
+    access_control: zero_trust
+    encryption:
+      at_rest: required
+      in_transit: required
+  audit_exports: enabled
+
+#################################################
+# 9. INVESTOR PITCH AUTO-GENERATION
+#################################################
+
+investor_assets:
+  auto_generate: true
+  sources:
+    - live_revenue
+    - active_users
+    - platform_count
+    - service_count
+  output:
+    format: deck_pdf
+    refresh_interval: 24h
+
+#################################################
+# 10. FINAL EXECUTION DIRECTIVE
+#################################################
+
+execution_directive:
+  mode: single_pass
+  allow_manual_override: false
+  fail_if_any_section_missing: true
+  success_condition:
+    - all_services_active
+    - all_platforms_streaming
+    - revenue_verified
+    - compliance_green
+    - nexus_ai_control_panel_active
+
+#################################################
+# 11. PRODUCTION DEPLOYMENT CONFIG
+#################################################
+
+production:
+  server:
+    ip: 72.62.86.217
+    domain: n3xuscos.online
+    user: root
+  
+  deployment:
+    method: docker-compose
+    verification: nexus-ai/verify/run-all.sh
+    control_panel: nexus-ai/control-panel/index.ts
+    
+  url_map:
+    streaming:
+      - /nexus-stream
+      - /nexus-ott
+      - /nexusnet
+      - /nexus-link
+    
+    casino:
+      - /puaboverse
+      - /puaboverse/games/*
+      - /puaboverse/vr-casino.html
+      - /puaboverse/vip.html
+    
+    media:
+      - /tv
+      - /radio
+      - /sports
+      - /news
+    
+    creator:
+      - /studio
+      - /live-manager
+      - /templates
+      - /library
+    
+    vsuite:
+      - /v-suite
+      - /v-suite/vscreen-hollywood
+      - /v-suite/vstage
+    
+    ai:
+      - /ai/*
+      - /analytics/*
+    
+    core:
+      - /health
+      - /api/auth
+      - /api/admin
+    
+    nexus_ai:
+      - /nexus-ai
+      - /nexus-ai/health
+      - /nexus-ai/api/*
+
+#################################################
+# END OF PF-MASTER-COMPREHENSIVE
+#################################################
