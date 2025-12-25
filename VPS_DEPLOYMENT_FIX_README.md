@@ -64,8 +64,8 @@ If the above method doesn't work or you want a self-contained solution with Host
 
 ### Direct Download and Execute on VPS:
 ```bash
-# SSH into your Hostinger VPS (IP: 74.208.155.161)
-ssh root@74.208.155.161
+# SSH into your Hostinger VPS (IP: 72.62.86.217)
+ssh root@72.62.86.217
 
 # Run the fail-proof backup script
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/HOSTINGER_VPS_FAILPROOF_DEPLOY.sh | sudo bash
@@ -74,7 +74,7 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/HOSTI
 ### Or Download and Run Locally:
 ```bash
 # SSH into your VPS
-ssh root@74.208.155.161
+ssh root@72.62.86.217
 
 # Download the script
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/HOSTINGER_VPS_FAILPROOF_DEPLOY.sh -o /tmp/deploy.sh
@@ -96,7 +96,7 @@ sudo bash /tmp/deploy.sh
 - ✅ Has built-in error checking and validation
 
 **Hostinger VPS Details (Embedded in Script):**
-- IP Address: 74.208.155.161
+- IP Address: 72.62.86.217
 - Domain: n3xuscos.online
 - PostgreSQL Password: "password" (CHANGE IMMEDIATELY AFTER DEPLOYMENT)
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # FAIL-PROOF VPS DEPLOYMENT ONE-LINER
-# Hostinger VPS: 74.208.155.161 (n3xuscos.online)
+# Hostinger VPS: 72.62.86.217 (n3xuscos.online)
 # Date: December 25, 2025
 # This script can be run directly on your Hostinger VPS server
 
 set -euo pipefail
 
 # Hostinger VPS Configuration
-VPS_IP="74.208.155.161"
+VPS_IP="72.62.86.217"
 VPS_DOMAIN="n3xuscos.online"
 POSTGRES_PASSWORD="password"  # Change this immediately after deployment!
 

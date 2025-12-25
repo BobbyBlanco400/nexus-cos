@@ -1,7 +1,7 @@
 # 🚨 TRAE SOLO CODER - ZERO EXCUSES DEPLOYMENT CARD 🚨
 
 **Date:** December 25, 2025  
-**Hostinger VPS IP:** 74.208.155.161  
+**Hostinger VPS IP:** 72.62.86.217  
 **Domain:** n3xuscos.online
 
 ---
@@ -10,7 +10,7 @@
 
 ```bash
 # Step 1: SSH into VPS
-ssh root@74.208.155.161
+ssh root@72.62.86.217
 
 # Step 2: Run deployment (ONE COMMAND)
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/HOSTINGER_VPS_FAILPROOF_DEPLOY.sh | sudo bash
@@ -40,7 +40,7 @@ nexus-control health
 
 ### Step 2: Connect to VPS
 ```bash
-ssh root@74.208.155.161
+ssh root@72.62.86.217
 ```
 - When prompted for password, enter your VPS root password
 - Press ENTER
@@ -92,7 +92,7 @@ If all pages load, **YOU'RE DONE!** 🎉
 **Solution:** 
 ```bash
 # Verify the IP is correct
-ping 74.208.155.161
+ping 72.62.86.217
 # Contact Hostinger support if server is down
 ```
 
@@ -151,7 +151,7 @@ nexus-control restart
 
 ## ✅ VERIFICATION CHECKLIST
 
-- [ ] SSH connection successful to 74.208.155.161
+- [ ] SSH connection successful to 72.62.86.217
 - [ ] Fail-proof deployment script downloaded
 - [ ] Pre-flight checks passed (RAM & password verified)
 - [ ] Deployment completed (saw "DEPLOYMENT SUCCESSFUL")
