@@ -77,8 +77,8 @@
 - `pf-master-comprehensive.yaml` - Full 96-service PF
   - 5-tier architecture
   - Kubernetes/Helm/Terraform configs
-  - 12 tenant isolation
-  - 20% platform fee enforcement
+  - 12 independent streaming mini platforms (tenants)
+  - 80/20 revenue split (80% tenant, 20% platform)
   - SOC-2 compliance
 
 **Deployment Automation**
@@ -196,9 +196,9 @@ OR trigger GitHub Actions workflow
 ### Platform Statistics
 - **Total Services:** 96
 - **Service Tiers:** 5
-- **Tenant Count:** 12
+- **Independent Streaming Platforms:** 12 (first-class tenants)
 - **Production Endpoints:** 70+
-- **Platform Fee:** 20%
+- **Revenue Split:** 80% tenant / 20% platform
 - **Uptime Target:** 99.9%
 - **Response Time P95:** <200ms
 
@@ -252,7 +252,10 @@ OR trigger GitHub Actions workflow
 - **Compliance System** - Automated verification and enforcement
 - **Risk Management** - Emergency controls and monitoring
 - **Audit Ready** - Complete logging and reporting
-- **Platform Architecture** - 96 services, 12 tenants, 5 tiers
+- **Platform Architecture** - 96 services, 12 independent streaming platforms, 5 tiers
+- **Revenue Model** - 20% of all tenant revenue (80/20 split)
+- **Diversification** - 12 independent revenue streams
+- **No Content Risk** - Tenants own content liability
 - **Exit Ready** - Can sell OS, license control layer, spin out federations
 
 ### For Regulators
@@ -357,9 +360,9 @@ curl -X POST https://n3xuscos.online/nexus-ai/api/emergency/lockdown \
 ✅ Regulator-proof architecture
 ✅ Clean story for capital
 ✅ 96-service production platform
-✅ 12 independent mini-platforms
+✅ 12 independent streaming platforms (tenants)
 ✅ Full streaming parity
-✅ 20% platform fee enforced
+✅ 80/20 revenue split enforced (80% tenant, 20% platform)
 ✅ Zero-trust deployment/rollback
 
 ### Ready For

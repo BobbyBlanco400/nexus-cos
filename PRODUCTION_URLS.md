@@ -13,6 +13,31 @@
 
 **Security Note:** SSH keys should be used for authentication. Password authentication should be disabled in production.
 
+## 🏢 12 Independent Streaming Mini Platforms (Tenants)
+
+**Platform Model:** N3XUSCOS is a Platform-of-Platforms hosting independent streaming businesses, not creators.
+
+**Revenue Model:** 80/20 split (80% to tenant, 20% to platform) - enforced at ledger level
+
+| # | Tenant Platform | Status | URL Pattern |
+|---|-----------------|--------|-------------|
+| 1 | Club Saditty | Active | `https://n3xuscos.online/club-saditty` |
+| 2 | Faith Through Fitness | Active | `https://n3xuscos.online/faith-through-fitness` |
+| 3 | Ashanti's Munch & Mingle | Active | `https://n3xuscos.online/ashantis-munch` |
+| 4 | Ro Ro's Gaming Lounge | Active | `https://n3xuscos.online/roro-gaming` |
+| 5 | IDH Live | Active | `https://n3xuscos.online/idh-live` |
+| 6 | Clocking T | Active | `https://n3xuscos.online/clocking-t` |
+| 7 | Tyshawn Dance Studio | Active | `https://n3xuscos.online/tyshawn-dance` |
+| 8 | Fayeloni Kreation | Active | `https://n3xuscos.online/fayeloni` |
+| 9 | Sassie Lashes | Active | `https://n3xuscos.online/sassie-lashes` |
+| 10 | Neenee & Kids | Active | `https://n3xuscos.online/neenee-kids` |
+| 11 | Headwina's Comedy Club | Active | `https://n3xuscos.online/headwinas-comedy` |
+| 12 | Rise Sacramento 916 – Gas or Crash Live | Active | `https://n3xuscos.online/rise-sacramento-916` |
+
+**Note:** "Boom Boom Room Live" has been replaced by "Faith Through Fitness" (Tenant #2) as of December 25, 2025.
+
+See `CANONICAL_TENANT_REGISTRY.md` for complete tenant architecture and governance details.
+
 ## 🌐 N3XUS FLEET (Streaming & OTT)
 **The "Netflix-Style" Front-End & Media Network**
 
