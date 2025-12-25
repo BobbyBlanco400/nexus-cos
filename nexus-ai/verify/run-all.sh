@@ -42,6 +42,7 @@ run_verification "Casino Grid" "verify-casino-grid.sh"
 run_verification "NexCoin Enforcement" "verify-nexcoin.sh"
 run_verification "Federation Architecture" "verify-federation.sh"
 run_verification "Tenant Isolation" "verify-tenants.sh"
+run_verification "Security Configuration" "verify-security.sh"
 
 # Generate report
 echo "╔══════════════════════════════════════════════════════════════╗"
@@ -68,7 +69,8 @@ cat > "$REPORT_FILE" << EOF
     "casino_grid": "$([ -f "$SCRIPT_DIR/verify-casino-grid.sh" ] && echo "executed" || echo "skipped")",
     "nexcoin": "$([ -f "$SCRIPT_DIR/verify-nexcoin.sh" ] && echo "executed" || echo "skipped")",
     "federation": "$([ -f "$SCRIPT_DIR/verify-federation.sh" ] && echo "executed" || echo "skipped")",
-    "tenants": "$([ -f "$SCRIPT_DIR/verify-tenants.sh" ] && echo "executed" || echo "skipped")"
+    "tenants": "$([ -f "$SCRIPT_DIR/verify-tenants.sh" ] && echo "executed" || echo "skipped")",
+    "security": "$([ -f "$SCRIPT_DIR/verify-security.sh" ] && echo "executed" || echo "skipped")"
   }
 }
 EOF

@@ -68,8 +68,8 @@ tiers:
 
   tier_4_mini_platforms:
     isolation: per_platform
-    count: 12
-    description: "12 Independent Streaming Mini Platforms (First-Class Tenants)"
+    count: 13
+    description: "13 Independent Streaming Mini Platforms (First-Class Tenants)"
     each_platform_includes:
       - full-streaming-stack
       - billing-hook
@@ -89,6 +89,7 @@ tiers:
       - neenee-and-kids
       - headwinas-comedy-club
       - rise-sacramento-916
+      - gas-or-crash-live
 
   tier_5_virtual_casino:
     services:
@@ -190,7 +191,7 @@ verification:
   scripts:
     - verify_all_services_running
     - verify_no_disabled_flags
-    - verify_12_platforms_streaming
+    - verify_13_platforms_streaming
     - verify_80_20_revenue_split
     - verify_tenant_isolation
     - verify_ledgers_balanced
@@ -234,7 +235,7 @@ execution_directive:
   fail_if_any_section_missing: true
   success_condition:
     - all_services_active
-    - all_12_tenant_platforms_streaming
+    - all_13_tenant_platforms_streaming
     - 80_20_revenue_split_verified
     - tenant_isolation_verified
     - compliance_green

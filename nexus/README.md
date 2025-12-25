@@ -27,7 +27,7 @@ The Nexus-Handshake is a three-component protocol required for all platform oper
 
 ## Canonical Tenant Registry
 
-**Locked Count:** 12 independent streaming mini platforms
+**Locked Count:** 13 independent streaming mini platforms
 
 These are **first-class tenants**, not modules or services:
 
@@ -42,7 +42,8 @@ These are **first-class tenants**, not modules or services:
 9. Sassie Lashes
 10. Neenee & Kids
 11. Headwina's Comedy Club
-12. Rise Sacramento 916 – Gas or Crash Live
+12. Rise Sacramento 916
+13. Gas or Crash Live
 
 **Revenue Model:** 80/20 split (80% tenant, 20% platform)  
 **Enforcement:** Ledger-level, non-configurable, non-bypassable
@@ -54,7 +55,7 @@ These are **first-class tenants**, not modules or services:
 ├── handshake/
 │   └── verify_55-45-17.sh          # Handshake verification
 ├── tenants/
-│   └── canonical_tenants.json       # Locked tenant registry (12)
+│   └── canonical_tenants.json       # Locked tenant registry (13)
 ├── control/
 │   └── nexus_ai_guardrails.yaml    # Control panel authority rules
 ├── audit/

@@ -13,7 +13,7 @@
 
 **Security Note:** SSH keys should be used for authentication. Password authentication should be disabled in production.
 
-## 🏢 12 Independent Streaming Mini Platforms (Tenants)
+## 🏢 13 Independent Streaming Mini Platforms (Tenants)
 
 **Platform Model:** N3XUSCOS is a Platform-of-Platforms hosting independent streaming businesses, not creators.
 
@@ -32,7 +32,8 @@
 | 9 | Sassie Lashes | Active | `https://n3xuscos.online/sassie-lashes` |
 | 10 | Neenee & Kids | Active | `https://n3xuscos.online/neenee-kids` |
 | 11 | Headwina's Comedy Club | Active | `https://n3xuscos.online/headwinas-comedy` |
-| 12 | Rise Sacramento 916 – Gas or Crash Live | Active | `https://n3xuscos.online/rise-sacramento-916` |
+| 12 | Rise Sacramento 916 | Active | `https://n3xuscos.online/rise-sacramento-916` |
+| 13 | Gas or Crash Live | Active | `https://n3xuscos.online/gas-or-crash-live` |
 
 **Note:** "Boom Boom Room Live" has been replaced by "Faith Through Fitness" (Tenant #2) as of December 25, 2025.
 

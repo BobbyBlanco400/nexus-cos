@@ -27,8 +27,8 @@ fi
 TENANT_COUNT=$(grep -o '"id"' "$TENANTS_FILE" | wc -l)
 echo "✅ Loaded canonical tenants: $TENANT_COUNT"
 
-if [ "$TENANT_COUNT" -ne 12 ]; then
-  echo "❌ FAILED: Expected 12 tenants, found $TENANT_COUNT"
+if [ "$TENANT_COUNT" -ne 13 ]; then
+  echo "❌ FAILED: Expected 13 tenants, found $TENANT_COUNT"
   exit 1
 fi
 

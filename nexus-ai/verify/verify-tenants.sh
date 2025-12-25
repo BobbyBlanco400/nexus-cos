@@ -12,14 +12,14 @@ if [ ! -f "CANONICAL_TENANT_REGISTRY.md" ]; then
   exit 1
 fi
 
-# Verify tenant count is 12
+# Verify tenant count is 13
 TENANT_COUNT=$(grep -c "| [0-9]* |" CANONICAL_TENANT_REGISTRY.md | head -1 || echo "0")
-if [ "$TENANT_COUNT" -lt 12 ]; then
-  echo "❌ FAILED: Expected 12 tenants, found $TENANT_COUNT"
+if [ "$TENANT_COUNT" -lt 13 ]; then
+  echo "❌ FAILED: Expected 13 tenants, found $TENANT_COUNT"
   exit 1
 fi
 
-echo "✅ Found 12 independent streaming platforms (tenants)"
+echo "✅ Found 13 independent streaming platforms (tenants)"
 
 # Check for 80/20 revenue split configuration
 if ! grep -q "80/20\|80.*20" CANONICAL_TENANT_REGISTRY.md; then
@@ -61,7 +61,7 @@ fi
 echo "✅ Tenant #2 correctly updated (Faith Through Fitness)"
 
 echo "✅ PASSED: Tenant isolation and configuration verified"
-echo "   - 12 independent streaming platforms confirmed"
+echo "   - 13 independent streaming platforms confirmed"
 echo "   - 80/20 revenue split enforced"
 echo "   - Tenant isolation boundaries intact"
 exit 0

@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "locked": true,
   "platform": "N3XUSCOS",
-  "tenant_count": 12,
+  "tenant_count": 13,
   "description": "Canonical registry of independent streaming mini platforms (first-class tenants)",
   "tenants": [
     {
@@ -97,10 +97,18 @@
     },
     {
       "id": 12,
-      "name": "Rise Sacramento 916 – Gas or Crash Live",
+      "name": "Rise Sacramento 916",
       "slug": "rise-sacramento-916",
       "status": "active",
-      "type": "local_community_talk",
+      "type": "local_community",
+      "streaming_capable": true
+    },
+    {
+      "id": 13,
+      "name": "Gas or Crash Live",
+      "slug": "gas-or-crash-live",
+      "status": "active",
+      "type": "talk_entertainment",
       "streaming_capable": true
     }
   ],
