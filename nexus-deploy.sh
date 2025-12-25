@@ -29,9 +29,15 @@ echo ""
 echo "🚀 Step 2: Launching N.E.X.U.S AI Control Panel..."
 echo ""
 
-# Check if Node.js is available
+# Check if Node.js is available and meets minimum version
 if ! command -v node &> /dev/null; then
-  echo "❌ Node.js not found. Please install Node.js to run the control panel."
+  echo "❌ Node.js not found. Please install Node.js 18+ to run the control panel."
+  exit 1
+fi
+
+NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+if [ "$NODE_VERSION" -lt 18 ]; then
+  echo "❌ Node.js version $NODE_VERSION is too old. Please upgrade to Node.js 18 or higher."
   exit 1
 fi
 

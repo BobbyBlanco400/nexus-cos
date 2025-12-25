@@ -20,11 +20,28 @@ const PORT = process.env.CONTROL_PANEL_PORT || 9000;
 // Middleware
 app.use(express.json());
 
-// Simple authentication middleware (placeholder)
+// Simple authentication middleware (PLACEHOLDER - NOT FOR PRODUCTION)
+// 
+// SECURITY WARNING: This is a development/demo authentication system only!
+// 
+// In production, implement proper authentication:
+// - JWT token verification with secure signing
+// - OAuth 2.0 / OpenID Connect integration
+// - Session management with secure cookies
+// - API key validation with rate limiting
+// - Multi-factor authentication for sensitive operations
+// 
+// DO NOT deploy to production without proper authentication!
 const authenticate = (req: Request, res: Response, next: Function) => {
-  // In production, verify JWT or session
+  // TODO: Replace with real authentication
+  // Example: const token = req.headers.authorization?.replace('Bearer ', '');
+  // Verify token, extract user info, check permissions
+  
   const userId = req.headers['x-user-id'] as string || 'anonymous';
   const userTier = req.headers['x-user-tier'] as PermissionTier || PermissionTier.VIEWER;
+  
+  // WARNING: Client can currently set any tier - this is insecure!
+  // Production should verify tier from authenticated session/token
   
   (req as any).userId = userId;
   (req as any).userTier = userTier;

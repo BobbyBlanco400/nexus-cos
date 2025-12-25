@@ -15,11 +15,11 @@ fi
 # Check for default casino initializations
 CASINO_COUNT=$(grep -o "casinoId:" addons/casino-nexus-core/federation/casino.registry.ts | wc -l)
 
-if [ "$CASINO_COUNT" -lt 4 ]; then
+if [ "$CASINO_COUNT" -lt 9 ]; then
   echo "⚠️  WARNING: Only $CASINO_COUNT casinos registered by default"
-  echo "   (Grid should support at least 9 casino slots)"
+  echo "   Grid should support at least 9 casino slots"
 else
-  echo "✅ Casino registry initialized with $CASINO_COUNT default casinos"
+  echo "✅ Casino registry initialized with $CASINO_COUNT casinos (meets 9 minimum)"
 fi
 
 # Verify casino registration system exists

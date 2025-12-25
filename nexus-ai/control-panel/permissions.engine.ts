@@ -89,17 +89,33 @@ export class PermissionEngine {
 
   /**
    * Validate founder authorization for emergency actions
+   * 
+   * NOTE: In production, this should verify against:
+   * - Secure cryptographic signature (e.g., RSA/ECDSA)
+   * - Hardware security module (HSM)
+   * - Multi-factor authentication
+   * - Time-based one-time password (TOTP)
+   * 
+   * Current implementation is a placeholder for development/demo
    */
   requireFounderAuth(tier: PermissionTier, founderCode?: string): void {
     if (tier !== PermissionTier.FOUNDER) {
       throw new Error('Emergency actions require FOUNDER tier');
     }
     
-    // In production, verify against secure founder code
-    // For now, just ensure tier is correct
+    // SECURITY: In production, implement proper cryptographic verification
+    // Example: Verify HMAC-SHA256 signature, check against HSM, etc.
+    // DO NOT rely on simple code checking in production
     if (!founderCode || founderCode.length < 8) {
       throw new Error('Invalid founder authorization code');
     }
+    
+    // TODO: Production implementation should:
+    // 1. Verify cryptographic signature
+    // 2. Check against secure storage (e.g., AWS KMS, Azure Key Vault)
+    // 3. Log all authorization attempts
+    // 4. Implement rate limiting
+    // 5. Require multi-factor authentication
   }
 
   /**
