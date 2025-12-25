@@ -236,7 +236,8 @@ export class LiveStateMonitor {
    * Notify subscribers of state change
    */
   private notifyUpdate(update: any): void {
-    for (const callback of this.updateCallbacks) {
+    const callbacks = Array.from(this.updateCallbacks);
+    for (const callback of callbacks) {
       try {
         callback(update);
       } catch (error) {
