@@ -37,6 +37,7 @@ This campaign is designed to:
 ├── TRAE_SOLO_EXECUTION_GUIDE.md          # Master execution guide (START HERE)
 ├── QUICK_REFERENCE_CARD.md               # One-page cheat sheet
 ├── CAMPAIGN_TIMELINE.md                  # 7-day detailed timeline
+├── PAYMENT_SETUP_GUIDE.md                # Payment infrastructure setup
 │
 ├── social_content/                       # All social media assets
 │   ├── 01_GENESIS_DECLARATION_PINNED.md  # Pinned video script
@@ -85,7 +86,7 @@ This campaign is designed to:
 4. Set up dev environment shots
 
 ### Step 5: Setup Infrastructure (1 hour)
-1. Payment system (Stripe/PayPal)
+1. **[Payment Setup Guide](./PAYMENT_SETUP_GUIDE.md)** - Configure Stripe/PayPal
 2. Social media accounts
 3. Tracking spreadsheet
 4. Content calendar
