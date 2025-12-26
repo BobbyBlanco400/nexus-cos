@@ -6,9 +6,12 @@
 
 ## 📋 CAMPAIGN OVERVIEW
 
-**MISSION:** Sell 20 Founding Creator Genesis Passes to fund real infrastructure before public launch
+**MISSION:** Sell 25 Founding Creator positions to fund real infrastructure before public launch
 
-**TARGET:** $10,000 ($500 x 20 positions)  
+**TARGET:** $12,500 total
+- **First 5 Verified Builders:** $2,500 ($100/day x 5 days, Dec 27-31)
+- **Genesis Pass (20 positions):** $10,000 ($500 one-time, Dec 26 - Jan 1)
+
 **DEADLINE:** 01/01/2026 @ 11:59 PM  
 **PLATFORMS:** TikTok, Instagram Reels & Stories, Facebook Reels & Feed  
 **STATUS:** ✅ READY FOR EXECUTION
@@ -35,6 +38,7 @@ This campaign is designed to:
 04_genesis_ignition/
 │
 ├── TRAE_SOLO_EXECUTION_GUIDE.md          # Master execution guide (START HERE)
+├── FIRST_5_VERIFIED_BUILDERS.md          # 🔥 NEW: First 5 program ($100/day x 5 days)
 ├── QUICK_REFERENCE_CARD.md               # One-page cheat sheet
 ├── CAMPAIGN_TIMELINE.md                  # 7-day detailed timeline
 ├── PAYMENT_SETUP_GUIDE.md                # Payment infrastructure setup
@@ -63,6 +67,10 @@ This campaign is designed to:
 ---
 
 ## 🚀 QUICK START (TRAE SOLO)
+
+### 🔥 URGENT: Launch First 5 Program Tomorrow Morning
+1. **[FIRST_5_VERIFIED_BUILDERS.md](./FIRST_5_VERIFIED_BUILDERS.md)** - Launch tomorrow at 7 AM
+2. Setup tonight: Announcement video, payment links, tracking
 
 ### Step 1: Read Foundation Documents (30 min)
 1. **[TRAE_SOLO_EXECUTION_GUIDE.md](./TRAE_SOLO_EXECUTION_GUIDE.md)** - Complete mission brief
@@ -101,6 +109,45 @@ This campaign is designed to:
 **Total Prep Time: ~4 hours**  
 **Campaign Duration: 7 days**  
 **Expected Outcome: $10,000 in Genesis Pass sales**
+
+---
+
+## 🔥 NEW: FIRST 5 VERIFIED BUILDERS PROGRAM
+
+**LAUNCH:** Tomorrow Morning (Dec 27) at 7 AM  
+**DURATION:** 5 Days (Dec 27-31)  
+**STRUCTURE:** $100/day for 5 days = $500 total
+
+### What Is It?
+
+The first 5 verified builders who DM tomorrow morning get:
+- Lower barrier: $100/day instead of $500 upfront
+- Daily accountability: Payment + progress update required
+- "Founding 5" designation (exclusive)
+- Founder status (same as Genesis Pass)
+- First access before regular Genesis Pass holders
+
+### How It Works:
+
+1. **Day 1 (Tomorrow):** First 5 to DM get verified → Pay $100 + share what they're building
+2. **Days 2-5:** Same thing daily → $100 payment + progress update
+3. **Complete 5 days:** Founder #1-5 status locked permanently
+4. **Miss a day:** Position forfeited (strict accountability)
+
+### Why This Matters:
+
+- **Revenue:** $2,500 in 5 days (5 builders x $500)
+- **Social Proof:** Daily updates create FOMO
+- **Momentum:** Builds toward Genesis Pass sales
+- **Community:** Early verification of builder quality
+
+### Total Founder Positions:
+
+- **First 5:** Founders #1-5 ($100/day x 5 days)
+- **Genesis Pass:** Founders #6-25 ($500 one-time)
+- **Total:** 25 Founding Creator positions
+
+**Full guide: [FIRST_5_VERIFIED_BUILDERS.md](./FIRST_5_VERIFIED_BUILDERS.md)**
 
 ---
 
@@ -159,8 +206,12 @@ This campaign is designed to:
 
 **Campaign Succeeds If:**
 
-1. ✅ $10,000 collected by Jan 1
-2. ✅ 20 Genesis Passes closed
+1. ✅ $12,500 total collected by Jan 1
+   - First 5: $2,500 (by Dec 31)
+   - Genesis Pass: $10,000 (by Jan 1)
+2. ✅ 25 Founding Creator positions filled
+   - First 5 Verified Builders: #1-5
+   - Genesis Pass: #6-25
 3. ✅ Zero reopens
 4. ✅ Zero discounts
 5. ✅ Zero public overexplanation
