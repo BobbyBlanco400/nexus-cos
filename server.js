@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
 const path = require("path");
+const fs = require("fs");
 
 dotenv.config();
 
@@ -298,16 +299,19 @@ app.get("/api/health", rateLimit, async (req, res) => {
 });
 
 // Serve static files from frontend/dist (React build)
+// with caching for better performance
 const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
-app.use(express.static(frontendDistPath));
+app.use(express.static(frontendDistPath, { 
+  maxAge: '1d',  // Cache static files for 1 day
+  etag: true 
+}));
 
 // Catch-all route to serve React app for client-side routing
 // This must come AFTER all API routes
-app.get('*', (req, res) => {
+app.use((req, res) => {
   const indexPath = path.join(frontendDistPath, 'index.html');
   
   // Check if index.html exists
-  const fs = require('fs');
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
