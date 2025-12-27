@@ -68,6 +68,11 @@ const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 60; // 60 requests per minute
 
+// Separate rate limiter for static file requests (more lenient)
+const staticRateLimitMap = new Map();
+const STATIC_RATE_LIMIT_WINDOW = 60000; // 1 minute
+const STATIC_RATE_LIMIT_MAX_REQUESTS = 300; // 300 requests per minute
+
 function rateLimit(req, res, next) {
   const ip = req.ip || req.connection.remoteAddress;
   const now = Date.now();
@@ -105,6 +110,46 @@ function rateLimit(req, res, next) {
         rateLimitMap.delete(key);
       } else {
         rateLimitMap.set(key, filtered);
+      }
+    }
+  }
+  
+  next();
+}
+
+function staticRateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  const windowStart = now - STATIC_RATE_LIMIT_WINDOW;
+  
+  // Get or create request log for this IP
+  if (!staticRateLimitMap.has(ip)) {
+    staticRateLimitMap.set(ip, []);
+  }
+  
+  const requests = staticRateLimitMap.get(ip);
+  
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(time => time > windowStart);
+  
+  // Check if limit exceeded
+  if (recentRequests.length >= STATIC_RATE_LIMIT_MAX_REQUESTS) {
+    return res.status(429).send('Too many requests. Please try again later.');
+  }
+  
+  // Add current request
+  recentRequests.push(now);
+  staticRateLimitMap.set(ip, recentRequests);
+  
+  // Cleanup old entries periodically
+  if (Math.random() < 0.01) { // 1% chance to cleanup
+    const cutoff = now - STATIC_RATE_LIMIT_WINDOW;
+    for (const [key, value] of staticRateLimitMap.entries()) {
+      const filtered = value.filter(time => time > cutoff);
+      if (filtered.length === 0) {
+        staticRateLimitMap.delete(key);
+      } else {
+        staticRateLimitMap.set(key, filtered);
       }
     }
   }
@@ -308,7 +353,8 @@ app.use(express.static(frontendDistPath, {
 
 // Catch-all route to serve React app for client-side routing
 // This must come AFTER all API routes
-app.use((req, res) => {
+// Apply rate limiting to prevent abuse
+app.use(staticRateLimit, (req, res) => {
   const indexPath = path.join(frontendDistPath, 'index.html');
   
   // Check if index.html exists
