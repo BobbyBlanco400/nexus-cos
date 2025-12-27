@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
+const path = require("path");
+const fs = require("fs");
 
 dotenv.config();
 
@@ -12,6 +14,12 @@ const PORT = process.env.PORT || 3000;
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+
+// Add X-Nexus-Handshake: 55-45-17 header to all responses (55-45-17 Compliance)
+app.use((req, res, next) => {
+  res.setHeader('X-Nexus-Handshake', '55-45-17');
+  next();
+});
 
 // Setup PostgreSQL connection pool
 const pool = new Pool({
@@ -60,6 +68,11 @@ const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 60; // 60 requests per minute
 
+// Separate rate limiter for static file requests (more lenient)
+const staticRateLimitMap = new Map();
+const STATIC_RATE_LIMIT_WINDOW = 60000; // 1 minute
+const STATIC_RATE_LIMIT_MAX_REQUESTS = 300; // 300 requests per minute
+
 function rateLimit(req, res, next) {
   const ip = req.ip || req.connection.remoteAddress;
   const now = Date.now();
@@ -97,6 +110,46 @@ function rateLimit(req, res, next) {
         rateLimitMap.delete(key);
       } else {
         rateLimitMap.set(key, filtered);
+      }
+    }
+  }
+  
+  next();
+}
+
+function staticRateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  const windowStart = now - STATIC_RATE_LIMIT_WINDOW;
+  
+  // Get or create request log for this IP
+  if (!staticRateLimitMap.has(ip)) {
+    staticRateLimitMap.set(ip, []);
+  }
+  
+  const requests = staticRateLimitMap.get(ip);
+  
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(time => time > windowStart);
+  
+  // Check if limit exceeded
+  if (recentRequests.length >= STATIC_RATE_LIMIT_MAX_REQUESTS) {
+    return res.status(429).send('Too many requests. Please try again later.');
+  }
+  
+  // Add current request
+  recentRequests.push(now);
+  staticRateLimitMap.set(ip, recentRequests);
+  
+  // Cleanup old entries periodically
+  if (Math.random() < 0.01) { // 1% chance to cleanup
+    const cutoff = now - STATIC_RATE_LIMIT_WINDOW;
+    for (const [key, value] of staticRateLimitMap.entries()) {
+      const filtered = value.filter(time => time > cutoff);
+      if (filtered.length === 0) {
+        staticRateLimitMap.delete(key);
+      } else {
+        staticRateLimitMap.set(key, filtered);
       }
     }
   }
@@ -266,9 +319,51 @@ app.get("/api/health", rateLimit, async (req, res) => {
   res.json(healthData);
 });
 
-// Catch-all route to prevent 404 errors
-app.use((req, res) => {
-  res.status(200).send('Nexus COS is running!');
+// API health endpoint - alias to main health with API prefix
+app.get("/api/health", rateLimit, async (req, res) => {
+  const healthData = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'production',
+    version: '1.0.0',
+    database: 'down'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    healthData.database = 'up';
+  } catch (error) {
+    console.error('Database health check failed:', error.message);
+    healthData.database = 'down';
+    healthData.dbError = error.message;
+  }
+
+  res.json(healthData);
+});
+
+// Serve static files from frontend/dist (React build)
+// with caching for better performance
+const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
+app.use(express.static(frontendDistPath, { 
+  maxAge: '1d',  // Cache static files for 1 day
+  etag: true 
+}));
+
+// Catch-all route to serve React app for client-side routing
+// This must come AFTER all API routes
+// Apply rate limiting to prevent abuse
+app.use(staticRateLimit, (req, res) => {
+  const indexPath = path.join(frontendDistPath, 'index.html');
+  
+  // Check if index.html exists
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    // Fallback if frontend not built
+    res.status(200).send('Nexus COS is running! Frontend not built yet. Run: cd frontend && npm run build');
+  }
 });
 
 // Start server
