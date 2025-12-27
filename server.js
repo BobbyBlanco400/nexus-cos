@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
+const path = require("path");
 
 dotenv.config();
 
@@ -12,6 +13,12 @@ const PORT = process.env.PORT || 3000;
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+
+// Add X-Nexus-Handshake: 55-45-17 header to all responses (55-45-17 Compliance)
+app.use((req, res, next) => {
+  res.setHeader('X-Nexus-Handshake', '55-45-17');
+  next();
+});
 
 // Setup PostgreSQL connection pool
 const pool = new Pool({
@@ -266,9 +273,47 @@ app.get("/api/health", rateLimit, async (req, res) => {
   res.json(healthData);
 });
 
-// Catch-all route to prevent 404 errors
-app.use((req, res) => {
-  res.status(200).send('Nexus COS is running!');
+// API health endpoint - alias to main health with API prefix
+app.get("/api/health", rateLimit, async (req, res) => {
+  const healthData = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'production',
+    version: '1.0.0',
+    database: 'down'
+  };
+
+  // Check database connectivity
+  try {
+    await pool.query('SELECT 1');
+    healthData.database = 'up';
+  } catch (error) {
+    console.error('Database health check failed:', error.message);
+    healthData.database = 'down';
+    healthData.dbError = error.message;
+  }
+
+  res.json(healthData);
+});
+
+// Serve static files from frontend/dist (React build)
+const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
+app.use(express.static(frontendDistPath));
+
+// Catch-all route to serve React app for client-side routing
+// This must come AFTER all API routes
+app.get('*', (req, res) => {
+  const indexPath = path.join(frontendDistPath, 'index.html');
+  
+  // Check if index.html exists
+  const fs = require('fs');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    // Fallback if frontend not built
+    res.status(200).send('Nexus COS is running! Frontend not built yet. Run: cd frontend && npm run build');
+  }
 });
 
 // Start server
