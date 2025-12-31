@@ -1,0 +1,234 @@
+# ===============================
+# NEXUS COS - MARKETPLACE PHASE-2 ACTIVATION
+# Asset Trading Framework (Gated)
+# ===============================
+
+version: "2.0"
+platform: "Nexus COS"
+module: marketplace
+phase: 2
+status: armed_not_active
+
+# Asset Categories
+assets:
+  avatars:
+    enabled: true
+    types:
+      - avatar_skins
+      - avatar_accessories
+      - avatar_animations
+      - avatar_emotes
+    pricing_currency: nexcoin
+    creator_royalty_percentage: 80
+    platform_fee_percentage: 20
+    
+  vr_items:
+    enabled: true
+    types:
+      - furniture
+      - decorations
+      - environment_themes
+      - interactive_objects
+    pricing_currency: nexcoin
+    creator_royalty_percentage: 80
+    platform_fee_percentage: 20
+    
+  casino_cosmetics:
+    enabled: true
+    types:
+      - table_themes
+      - card_backs
+      - chip_designs
+      - dealer_outfits
+      - lounge_decorations
+    pricing_currency: nexcoin
+    creator_royalty_percentage: 80
+    platform_fee_percentage: 20
+
+# Currency Configuration
+currency:
+  primary: nexcoin
+  fiat_enabled: false
+  crypto_enabled: false
+  utility_only: true
+  
+nexcoin:
+  type: internal_utility_credit
+  transferable: false
+  withdrawable: false
+  exchangeable: false
+  purpose: "Platform utility and access"
+
+# Trading Configuration
+trading:
+  enabled: false
+  gated_until_phase: 3
+  peer_to_peer: false
+  creator_to_user: true
+  marketplace_listings: true
+  
+  when_enabled:
+    peer_to_peer_trading: true
+    auction_system: true
+    bidding_system: true
+    trade_history: true
+    price_discovery: true
+
+# Compliance Rules
+compliance:
+  no_fiat: true
+  no_withdrawals: true
+  utility_only: true
+  closed_loop: true
+  
+  restrictions:
+    - "No conversion to fiat currency"
+    - "No external cryptocurrency integration"
+    - "No cash-out mechanisms"
+    - "Internal platform use only"
+    - "Entertainment and utility value only"
+    
+  legal_posture:
+    - "Digital collectibles for platform use"
+    - "No speculative investment"
+    - "Utility-based value only"
+    - "Not securities or financial instruments"
+
+# Creator Tools
+creator_tools:
+  enabled: true
+  asset_upload: true
+  asset_management: true
+  pricing_control: true
+  analytics_dashboard: true
+  royalty_tracking: true
+  
+  upload_requirements:
+    max_file_size_mb: 50
+    supported_formats:
+      - glb
+      - gltf
+      - fbx
+      - png
+      - jpg
+    moderation_required: true
+    approval_process: automated_with_review
+
+# Marketplace Features
+features:
+  asset_browsing:
+    enabled: true
+    search: true
+    filters: true
+    categories: true
+    trending: true
+    
+  asset_previews:
+    enabled: true
+    3d_viewer: true
+    try_before_buy: true
+    
+  purchases:
+    enabled: true
+    instant_delivery: true
+    ownership_tracking: true
+    
+  creator_storefront:
+    enabled: true
+    custom_branding: false
+    analytics: true
+    
+  collections:
+    enabled: true
+    limited_editions: true
+    series_tracking: true
+
+# Integration Points
+integrations:
+  nexcoin_wallet:
+    service: nexcoin-ms
+    port: 7004
+    endpoints:
+      - /nexcoin/balance
+      - /nexcoin/transfer
+      - /nexcoin/history
+      
+  casino_nexus:
+    service: casino-nexus-api
+    port: 7003
+    apply_cosmetics: true
+    
+  vr_world:
+    service: vr-world-ms
+    port: 7001
+    apply_items: true
+    
+  avatar_system:
+    service: avatar-ms
+    port: 7000
+    apply_skins: true
+
+# Security
+security:
+  fraud_detection: enabled
+  duplicate_detection: enabled
+  content_moderation: enabled
+  transaction_limits:
+    max_per_transaction: 10000
+    max_per_day: 50000
+    max_per_month: 200000
+  
+# Analytics
+analytics:
+  track_purchases: true
+  track_views: true
+  track_searches: true
+  creator_insights: true
+  platform_metrics: true
+
+# Phase 3 Activation Criteria
+phase_3_criteria:
+  requirements:
+    - minimum_active_users: 1000
+    - minimum_creators: 50
+    - minimum_assets: 500
+    - compliance_review: passed
+    - legal_clearance: obtained
+    - technical_audit: passed
+    
+  activation_checklist:
+    - peer_to_peer_trading_enabled
+    - auction_system_deployed
+    - escrow_system_tested
+    - dispute_resolution_ready
+    - kyc_system_optional
+    - fraud_prevention_active
+
+# Services
+services:
+  marketplace_api:
+    name: nft-marketplace-ms
+    port: 7007
+    health: /marketplace/health
+    endpoints:
+      - /marketplace/assets
+      - /marketplace/purchase
+      - /marketplace/creator
+      
+  ledger_integration:
+    name: ledger-mgr
+    port: 4000
+    track_transactions: true
+    platform_fee_enforcement: true
+
+# Health Check
+health:
+  endpoint: /api/marketplace/health
+  status_check: /api/marketplace/status
+  
+# Deployment
+deployment:
+  method: config_overlay
+  database_migration_required: false
+  service_restart_required: false
+  cache_clear_required: true
