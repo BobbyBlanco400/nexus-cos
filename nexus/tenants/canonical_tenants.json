@@ -33,15 +33,15 @@
     },
     {
       "id": 4,
-      "name": "Ro Ro's Gaming Lounge",
-      "slug": "ro-ros-gaming-lounge",
+      "name": "Ro Ro's Gamers Lounge",
+      "slug": "ro-ros-gamers-lounge",
       "status": "active",
       "type": "gaming_esports",
       "streaming_capable": true
     },
     {
       "id": 5,
-      "name": "IDH Live",
+      "name": "IDH-Live!",
       "slug": "idh-live",
       "status": "active",
       "type": "talk_discussion",
@@ -49,7 +49,7 @@
     },
     {
       "id": 6,
-      "name": "Clocking T",
+      "name": "Clocking T. Wit Ya Gurl P",
       "slug": "clocking-t",
       "status": "active",
       "type": "urban_entertainment",
@@ -57,7 +57,7 @@
     },
     {
       "id": 7,
-      "name": "Tyshawn Dance Studio",
+      "name": "Tyshawn's V-Dance Studio",
       "slug": "tyshawn-dance-studio",
       "status": "active",
       "type": "dance_performing_arts",
@@ -65,8 +65,8 @@
     },
     {
       "id": 8,
-      "name": "Fayeloni Kreation",
-      "slug": "fayeloni-kreation",
+      "name": "Fayeloni-Kreations",
+      "slug": "fayeloni-kreations",
       "status": "active",
       "type": "creative_arts",
       "streaming_capable": true
@@ -81,7 +81,7 @@
     },
     {
       "id": 10,
-      "name": "Neenee & Kids",
+      "name": "Nee Nee & Kids",
       "slug": "neenee-and-kids",
       "status": "active",
       "type": "family_children",
@@ -105,11 +105,12 @@
     },
     {
       "id": 13,
-      "name": "Gas or Crash Live",
-      "slug": "gas-or-crash-live",
+      "name": "Sheda Shay's Butter Bar",
+      "slug": "sheda-shays-butter-bar",
       "status": "active",
-      "type": "talk_entertainment",
-      "streaming_capable": true
+      "type": "food_lifestyle",
+      "streaming_capable": true,
+      "note": "Replaced 'Gas or Crash Live' per master governance directive"
     }
   ],
   "revenue_model": {

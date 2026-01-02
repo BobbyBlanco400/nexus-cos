@@ -30,6 +30,8 @@ A complete operating system featuring 17 integrated modules, 48 microservices, a
 - ✅ **Browser-First:** Mandatory architecture
 - ✅ **Phase 1 & 2:** Complete and verified
 
+**🚀 MASTER GOVERNANCE:** [MASTER_GOVERNANCE_EXECUTION_PR.md](./MASTER_GOVERNANCE_EXECUTION_PR.md) ⭐ **START HERE**
+
 **📖 Quick Start:** [TRAE_GOVERNANCE_QUICK_START.md](./TRAE_GOVERNANCE_QUICK_START.md)
 **📋 Charter:** [GOVERNANCE_CHARTER_55_45_17.md](./GOVERNANCE_CHARTER_55_45_17.md)
 **📊 Latest Audit:** [PHASE_1_2_CANONICAL_AUDIT_REPORT.md](./PHASE_1_2_CANONICAL_AUDIT_REPORT.md)
