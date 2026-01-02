@@ -136,7 +136,8 @@ check_kei_ai_removed() {
     fi
     
     print_check "Checking for Kei AI references in code"
-    if grep -r "kei.ai\|kei_ai" --include="*.js" --include="*.py" --include="*.json" . 2>/dev/null | grep -v "backup\|.git" | head -1; then
+    KEI_REFS=$(grep -r "kei.ai\|kei_ai" --include="*.js" --include="*.py" --include="*.json" . 2>/dev/null | grep -v "backup\|.git" || true)
+    if [ -n "$KEI_REFS" ]; then
         print_warn "Found references to Kei AI in code (may be in backups/comments)"
     else
         print_pass "No Kei AI references found in active code"

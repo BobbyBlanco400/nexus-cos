@@ -415,7 +415,8 @@ All services healthy and responding. Ready for final documentation phase.
 | Users (Beta) | 0 | 50 | 200 | 350 | 400 |
 | Uptime % | 85% | 92% | 97% | 99.2% | 99.5% |
 
-### Code Statistics
+### Code Statistics (Phase-4 Snapshot)
+**Note:** These are point-in-time metrics captured at Phase-2 seal (January 2, 2026)
 
 | Metric | Total |
 |--------|-------|

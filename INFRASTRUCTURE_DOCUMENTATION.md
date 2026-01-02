@@ -148,8 +148,11 @@ ssl_stapling_verify on;
 # Check certificate expiry
 openssl x509 -in /etc/ssl/ionos/fullchain.pem -noout -dates
 
-# Manual renewal (if needed)
-certbot renew --force-renewal
+# Manual renewal (standard - respects rate limits)
+certbot renew
+
+# Force renewal (use only in emergency, bypasses rate limits)
+# certbot renew --force-renewal
 ```
 
 ---
