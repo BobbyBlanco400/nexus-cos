@@ -1,0 +1,18 @@
+{
+  "name": "puabo-api-ai-hf",
+  "version": "1.0.0",
+  "description": "PUABO API/AI-HF Hybrid - HuggingFace Inference Service",
+  "main": "server.py",
+  "scripts": {
+    "start": "python server.py",
+    "test": "pytest tests/",
+    "test:unit": "pytest tests/unit/ --cov",
+    "test:integration": "pytest tests/integration/"
+  },
+  "dependencies": {
+    "python": ">=3.9"
+  },
+  "engines": {
+    "python": ">=3.9"
+  }
+}

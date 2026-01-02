@@ -1,0 +1,70 @@
+---
+# Ansible Playbook for PUABO API/AI-HF Hybrid Deployment
+- name: Deploy PUABO API/AI-HF Hybrid to VPS
+  hosts: hostinger
+  become: yes
+  vars:
+    service_name: puabo_api_ai_hf
+    service_path: /opt/nexus-cos/services/{{ service_name }}
+    service_port: 3401
+
+  tasks:
+    - name: Ensure service directory exists
+      file:
+        path: "{{ service_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy service files
+      synchronize:
+        src: ../services/{{ service_name }}/
+        dest: "{{ service_path }}/"
+        delete: yes
+        recursive: yes
+
+    - name: Install Python dependencies
+      pip:
+        requirements: "{{ service_path }}/requirements.txt"
+        virtualenv: "{{ service_path }}/venv"
+        virtualenv_python: python3
+
+    - name: Create systemd service file
+      template:
+        src: puabo_api_ai_hf.service.j2
+        dest: /etc/systemd/system/{{ service_name }}.service
+      notify:
+        - reload systemd
+        - restart service
+
+    - name: Enable and start service
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: started
+
+    - name: Wait for service to be ready
+      wait_for:
+        port: "{{ service_port }}"
+        delay: 5
+        timeout: 60
+
+    - name: Check service health
+      uri:
+        url: "http://localhost:{{ service_port }}/health"
+        return_content: yes
+      register: health_check
+      failed_when: health_check.status != 200
+
+    - name: Display deployment status
+      debug:
+        msg: "✓ PUABO API/AI-HF deployed successfully on port {{ service_port }}"
+
+  handlers:
+    - name: reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: restart service
+      systemd:
+        name: "{{ service_name }}"
+        state: restarted
