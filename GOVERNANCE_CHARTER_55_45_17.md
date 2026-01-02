@@ -178,11 +178,21 @@ This header is **REQUIRED** on all requests.
 - **Bypass Rule:** Any bypass invalidates audit/build/system
 - **Enforcement:** Mandatory, no exceptions
 
-**Implementation:**
-```nginx
-# NGINX Configuration
-proxy_set_header X-N3XUS-Handshake "55-45-17";
-```
+### Implementation Details
+- **Header:** X-N3XUS-Handshake: 55-45-17
+- **Enforcement Point:** NGINX Gateway
+- **Rejection Rule:** All services reject requests without valid handshake
+
+### Configuration Location
+\`\`\`nginx
+# Add to nginx.conf (after "http {" line)
+http {
+    # N3XUS Governance: Handshake 55-45-17 (REQUIRED)
+    proxy_set_header X-N3XUS-Handshake "55-45-17";
+    
+    # ... rest of configuration
+}
+\`\`\`
 
 **Service Validation:**
 ```typescript

@@ -122,7 +122,13 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 TENANT_FILE="${SCRIPT_DIR}/nexus/tenants/canonical_tenants.json"
 
 if [ -f "$TENANT_FILE" ]; then
-    TENANT_COUNT=$(grep -o '"id"' "$TENANT_FILE" | wc -l)
+    # Use jq for reliable JSON parsing
+    if command -v jq >/dev/null 2>&1; then
+        TENANT_COUNT=$(jq '.tenants | length' "$TENANT_FILE" 2>/dev/null || echo 0)
+    else
+        # Fallback to grep if jq not available
+        TENANT_COUNT=$(grep -o '"id"' "$TENANT_FILE" | wc -l)
+    fi
     
     if [ "$TENANT_COUNT" -eq 13 ]; then
         echo -e "${GREEN}✅ Tenant Count: 13 (VERIFIED)${NC}"
@@ -448,7 +454,7 @@ nginx.conf (or nginx.conf.docker / nginx.conf.host)
 
 ### Canonical Count
 - **Expected:** 13 Mini-Platforms
-- **Verified:** $(grep -o '"id"' "${TENANT_FILE}" 2>/dev/null | wc -l)
+- **Verified:** $TENANT_COUNT
 
 ### Revenue Split
 - **Configuration:** 80/20 (Tenant/Platform)
