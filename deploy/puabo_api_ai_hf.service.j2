@@ -1,0 +1,16 @@
+[Unit]
+Description=PUABO API/AI-HF Hybrid Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory={{ service_path }}
+Environment="PATH={{ service_path }}/venv/bin"
+Environment="PORT={{ service_port }}"
+ExecStart={{ service_path }}/venv/bin/python {{ service_path }}/server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

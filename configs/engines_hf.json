@@ -1,0 +1,80 @@
+{
+  "huggingface_engines": {
+    "version": "1.0.0",
+    "api_base": "https://api-inference.huggingface.co/models/",
+    "engines": [
+      {
+        "id": "text-generation",
+        "name": "Text Generation",
+        "models": [
+          {
+            "name": "gpt2",
+            "description": "GPT-2 text generation model",
+            "max_tokens": 1024,
+            "enabled": true
+          },
+          {
+            "name": "distilgpt2",
+            "description": "Smaller, faster GPT-2 variant",
+            "max_tokens": 1024,
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "id": "text-classification",
+        "name": "Text Classification",
+        "models": [
+          {
+            "name": "distilbert-base-uncased-finetuned-sst-2-english",
+            "description": "Sentiment analysis model",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "id": "question-answering",
+        "name": "Question Answering",
+        "models": [
+          {
+            "name": "deepset/roberta-base-squad2",
+            "description": "SQuAD 2.0 question answering",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "id": "summarization",
+        "name": "Text Summarization",
+        "models": [
+          {
+            "name": "facebook/bart-large-cnn",
+            "description": "BART model for summarization",
+            "enabled": true
+          },
+          {
+            "name": "sshleifer/distilbart-cnn-12-6",
+            "description": "Distilled BART for faster summarization",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "id": "translation",
+        "name": "Translation",
+        "models": [
+          {
+            "name": "Helsinki-NLP/opus-mt-en-es",
+            "description": "English to Spanish translation",
+            "enabled": true
+          },
+          {
+            "name": "Helsinki-NLP/opus-mt-en-fr",
+            "description": "English to French translation",
+            "enabled": true
+          }
+        ]
+      }
+    ]
+  }
+}

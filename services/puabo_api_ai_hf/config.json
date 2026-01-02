@@ -1,0 +1,52 @@
+{
+  "service": "puabo_api_ai_hf",
+  "version": "1.0.0",
+  "port": 3401,
+  "huggingface": {
+    "api_endpoint": "https://api-inference.huggingface.co/models/",
+    "default_models": [
+      {
+        "name": "gpt2",
+        "task": "text-generation",
+        "enabled": true
+      },
+      {
+        "name": "distilbert-base-uncased-finetuned-sst-2-english",
+        "task": "text-classification",
+        "enabled": true
+      },
+      {
+        "name": "facebook/bart-large-cnn",
+        "task": "summarization",
+        "enabled": true
+      },
+      {
+        "name": "deepset/roberta-base-squad2",
+        "task": "question-answering",
+        "enabled": true
+      },
+      {
+        "name": "Helsinki-NLP/opus-mt-en-es",
+        "task": "translation",
+        "enabled": true
+      }
+    ]
+  },
+  "autoscaling": {
+    "enabled": true,
+    "min_instances": 1,
+    "max_instances": 5,
+    "cpu_threshold": 70,
+    "memory_threshold": 80
+  },
+  "monitoring": {
+    "health_check_interval": 30,
+    "metrics_enabled": true,
+    "log_level": "INFO"
+  },
+  "inference": {
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "batch_size": 1
+  }
+}
