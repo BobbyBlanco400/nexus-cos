@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 import CoreServicesStatus from './components/CoreServicesStatus'
 import CasinoPortal from './components/CasinoPortal'
 import MusicPortal from './components/MusicPortal'
 
 function App() {
+  console.log('🚀 N3XUS COS Platform Mounted | Handshake: 55-45-17');
+  
   const [loading, setLoading] = useState(true)
   const [activePortal, setActivePortal] = useState<'home' | 'casino' | 'music'>('home')
 
@@ -12,6 +15,7 @@ function App() {
     // Simulate loading of platform services
     const timer = setTimeout(() => {
       setLoading(false)
+      console.log('✅ N3XUS COS Platform Ready | Handshake: 55-45-17');
     }, 1500)
     
     return () => clearTimeout(timer)
@@ -21,7 +25,8 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="loader"></div>
-        <h2>Loading Nexus COS Platform...</h2>
+        <h2>Loading N3XUS COS Platform...</h2>
+        <p style={{ marginTop: '1rem', color: '#64748b' }}>The Creative Operating System</p>
       </div>
     )
   }
@@ -36,15 +41,16 @@ function App() {
               <path d="M35 50 L50 35 L65 50 L50 65 Z" fill="#2563eb"/>
               <circle cx="50" cy="50" r="8" fill="#fff"/>
             </svg>
-            <h1>Nexus COS</h1>
+            <h1>N3XUS COS</h1>
           </div>
+          <p className="header-subtitle">The Creative Operating System</p>
           <nav className="main-nav">
             <button onClick={() => setActivePortal('home')} style={{ background: activePortal === 'home' ? '#2563eb' : 'transparent' }}>Home</button>
             <button onClick={() => setActivePortal('casino')} style={{ background: activePortal === 'casino' ? '#2563eb' : 'transparent' }}>Casino N3XUS</button>
             <button onClick={() => setActivePortal('music')} style={{ background: activePortal === 'music' ? '#8b5cf6' : 'transparent' }}>PMMG Music</button>
-            <a href="/v-suite/prompter">V-Suite</a>
-            <a href="/creator-hub">Creator Hub</a>
-            <a href="/admin">Admin</a>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/founders">Founders</Link>
+            <Link to="/desktop">Desktop</Link>
           </nav>
         </div>
       </header>
@@ -66,14 +72,14 @@ function App() {
           <>
             <section className="hero-section">
               <div className="hero-content">
-                <h2 className="hero-title">Complete Operating System for Modern Content Creators</h2>
+                <h2 className="hero-title">N3XUS COS — The Creative Operating System</h2>
                 <p className="hero-subtitle">
                   Unified platform integrating V-Suite streaming services, PUABO Fleet management, 
                   and comprehensive content creation tools
                 </p>
                 <div className="hero-cta">
-                  <a href="/v-suite/prompter" className="cta-button primary">Launch V-Suite</a>
-                  <a href="/creator-hub" className="cta-button secondary">Creator Hub</a>
+                  <Link to="/dashboard" className="cta-button primary">Launch Dashboard</Link>
+                  <Link to="/desktop" className="cta-button secondary">Virtual Desktop</Link>
                 </div>
               </div>
             </section>
@@ -115,14 +121,18 @@ function App() {
                 </div>
                 
                 <div className="service-card">
-                  <h4>Platform Services</h4>
-                  <p>Core infrastructure and APIs</p>
+                  <h4>Virtual Desktop</h4>
+                  <p>Module-based application environment</p>
                   <ul>
-                    <li>Authentication</li>
-                    <li>Payment Gateway</li>
-                    <li>Media Services</li>
-                    <li>Monitoring</li>
+                    <li>Desktop → Module → App Flow</li>
+                    <li>Multi-Service Integration</li>
+                    <li>Active Tab State Sync</li>
                   </ul>
+                  <div style={{ marginTop: '1rem' }}>
+                    <Link to="/desktop" style={{ color: '#2563eb', textDecoration: 'underline' }}>
+                      Launch Desktop →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </section>
@@ -144,14 +154,14 @@ function App() {
       <footer className="nexus-footer">
         <div className="footer-content">
           <div className="footer-section">
-            <h4>Nexus COS</h4>
-            <p>Complete Operating System for Content Creators</p>
+            <h4>N3XUS COS</h4>
+            <p>The Creative Operating System</p>
           </div>
           <div className="footer-section">
-            <h4>Services</h4>
-            <a href="/v-suite/prompter">V-Suite</a>
-            <a href="/creator-hub">Creator Hub</a>
-            <a href="/puabo-nexus">PUABO Fleet</a>
+            <h4>Navigation</h4>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/founders">Founders</Link>
+            <Link to="/desktop">Virtual Desktop</Link>
           </div>
           <div className="footer-section">
             <h4>Platform</h4>
@@ -161,7 +171,7 @@ function App() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 Nexus COS. All rights reserved.</p>
+          <p>&copy; 2024 N3XUS COS. All rights reserved. | 🔒 Handshake: 55-45-17</p>
         </div>
       </footer>
     </div>
