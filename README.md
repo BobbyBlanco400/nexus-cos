@@ -10,12 +10,36 @@
 ![Services](https://img.shields.io/badge/Services-42-blue)
 ![Modules](https://img.shields.io/badge/Modules-16-purple)
 ![Agent Orchestration](https://img.shields.io/badge/Agent-Orchestration-purple)
+![Governance 55-45-17](https://img.shields.io/badge/Governance-55--45--17-red)
 
 **🚀 The World's First Creative Operating System - Beta Launch Edition**
 
 A complete operating system featuring 17 integrated modules, 48 microservices, and unified ecosystem including PUABO Universe (Nexus Fleet, DSP, BLAC, NUKI), V-Suite, Club Saditty, StreamCore, GameCore, MusicChain, Casino-Nexus, and more.
 
 **Beta Launch:** beta.nexuscos.online
+
+---
+
+## 🔒 **Governance Status (55-45-17)**
+
+**N3XUS COS v3.0** is under **ACTIVE GOVERNANCE** with the following status:
+
+- ✅ **Handshake Enforced:** X-N3XUS-Handshake: 55-45-17
+- ✅ **Tenant Registry:** 13 Mini-Platforms (80/20 locked)
+- ✅ **Technical Freeze:** Active until Public Alpha
+- ✅ **Browser-First:** Mandatory architecture
+- ✅ **Phase 1 & 2:** Complete and verified
+
+**🚀 MASTER GOVERNANCE:** [MASTER_GOVERNANCE_EXECUTION_PR.md](./MASTER_GOVERNANCE_EXECUTION_PR.md) ⭐ **START HERE**
+
+**📖 Quick Start:** [TRAE_GOVERNANCE_QUICK_START.md](./TRAE_GOVERNANCE_QUICK_START.md)
+**📋 Charter:** [GOVERNANCE_CHARTER_55_45_17.md](./GOVERNANCE_CHARTER_55_45_17.md)
+**📊 Latest Audit:** [PHASE_1_2_CANONICAL_AUDIT_REPORT.md](./PHASE_1_2_CANONICAL_AUDIT_REPORT.md)
+
+### Run Governance Verification
+```bash
+./trae-governance-verification.sh
+```
 
 ---
 
