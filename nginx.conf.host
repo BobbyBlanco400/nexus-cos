@@ -7,6 +7,10 @@ events {
 }
 
 http {
+    # N3XUS Governance: Handshake 55-45-17 (REQUIRED)
+    # This header is injected on all proxied requests for governance enforcement
+    proxy_set_header X-N3XUS-Handshake "55-45-17";
+    
     # PF Service Upstreams - localhost with exposed ports
     upstream pf_gateway {
         server localhost:4000;
