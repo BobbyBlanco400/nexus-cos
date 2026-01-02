@@ -9,7 +9,6 @@
     "test:unit": "pytest tests/unit/ --cov",
     "test:integration": "pytest tests/integration/"
   },
-  "dependencies": {},
   "engines": {
     "python": ">=3.9"
   }
