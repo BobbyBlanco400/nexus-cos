@@ -180,9 +180,13 @@ grep -q "X-N3XUS-Handshake.*55-45-17" nginx.conf && echo "✅ PASS" || echo "❌
 
 # Gate 7: 45 Microservices
 echo "Gate 7: Checking microservices count..."
-SERVICE_COUNT=$(ls -d services/*/ 2>/dev/null | wc -l)
-echo "Found $SERVICE_COUNT services (expected: 45+)"
-[ "$SERVICE_COUNT" -ge 45 ] && echo "✅ PASS" || echo "⚠ VERIFY"
+if [ -d "services" ]; then
+    SERVICE_COUNT=$(ls -d services/*/ 2>/dev/null | wc -l)
+    echo "Found $SERVICE_COUNT services (expected: 45+)"
+    [ "$SERVICE_COUNT" -ge 45 ] && echo "✅ PASS" || echo "⚠ VERIFY"
+else
+    echo "❌ FAIL: services directory not found"
+fi
 
 # Gate 8-17: Run automated verification
 ./phase-2-verification.sh | tail -20
@@ -484,8 +488,13 @@ curl -I https://your-domain.com | grep "X-N3XUS-Handshake: 55-45-17"
 
 **Solution:**
 ```bash
-# Add handshake header to nginx.conf
-echo 'proxy_set_header X-N3XUS-Handshake "55-45-17";' >> nginx.conf
+# Check if handshake header already exists
+if ! grep -q "X-N3XUS-Handshake" nginx.conf; then
+    # Add handshake header to nginx.conf (inside location block)
+    echo 'proxy_set_header X-N3XUS-Handshake "55-45-17";' >> nginx.conf
+else
+    echo "N3XUS Handshake already configured"
+fi
 
 # Restart nginx
 sudo systemctl restart nginx

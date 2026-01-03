@@ -62,7 +62,10 @@ cat GOVERNANCE_CHARTER_55_45_17.md
 ```bash
 # ⚠️ Verify N3XUS Handshake compliance FIRST
 grep -r "X-N3XUS-Handshake.*55-45-17" nginx.conf nginx.conf.host nginx.conf.docker
-# MUST return: X-N3XUS-Handshake "55-45-17"
+# Expected output format: 
+# nginx.conf:    proxy_set_header X-N3XUS-Handshake "55-45-17";
+# nginx.conf.host:    proxy_set_header X-N3XUS-Handshake "55-45-17";
+# nginx.conf.docker:    proxy_set_header X-N3XUS-Handshake "55-45-17";
 
 # Run automated verification
 ./phase-2-verification.sh
