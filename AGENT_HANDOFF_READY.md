@@ -56,11 +56,13 @@ Total Checks: 30
 Passed: 29
 Warnings: 1 (Kei AI references in comments - not critical)
 Failed: 0
-Success Rate: 96.7%
+Success Rate: 96.67%
 ```
 
+**Note:** The warning does not count as a failure. All critical checks passed.
+
 ### 4. Changes Applied
-- ✅ Updated `services/puabo_api_ai_hf/package.json` with dependencies field
+- ✅ Corrected `services/puabo_api_ai_hf/package.json` - removed incorrect dependencies field, keeping only engines field
 - ✅ Created `BRANCH_VERIFICATION_COMPLETE.md` with full verification report
 - ✅ Created this `AGENT_HANDOFF_READY.md` document
 
