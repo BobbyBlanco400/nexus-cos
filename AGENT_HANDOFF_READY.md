@@ -41,7 +41,7 @@ All five branches mentioned in the problem statement have been thoroughly verifi
 ✓ PHASE_2_SEALED.md - Official Phase 2 seal
 ✓ PHASE_2_COMPLETION.md - Completion markers
 ✓ PHASE_2_EXECUTION_COMPLETE.md - Execution summary
-✓ GOVERNANCE_CHARTER_55-45-17.md - Governance framework (PLATFORM LAW)
+✓ GOVERNANCE_CHARTER_55_45_17.md - Governance framework (PLATFORM LAW)
 ✓ INFRASTRUCTURE_DOCUMENTATION.md - Infrastructure details
 ✓ V_DOMAINS_ARCHITECTURE.md - Domain architecture
 ✓ 30_FOUNDERS_LOOP_TIMELINE.md - Founder timeline
