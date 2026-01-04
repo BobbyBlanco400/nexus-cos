@@ -15,7 +15,7 @@ The `pf-master-launch-gate.sh` script is a production-ready launch validation to
 ## Prerequisites
 - NGINX installed and configured
 - Backend service running on port 3000
-- Domain `nexuscos.online` configured and pointing to server
+- Domain `n3xuscos.online` configured and pointing to server
 - SSL/TLS certificates properly configured
 - `curl` command available
 - Root/sudo access for NGINX operations
@@ -50,10 +50,10 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 ### SSH Deployment to Remote Server
 ```bash
 # Copy script to server
-scp pf-master-launch-gate.sh root@nexuscos.online:/root/
+scp pf-master-launch-gate.sh root@n3xuscos.online:/root/
 
 # Execute on remote server
-ssh root@nexuscos.online "./pf-master-launch-gate.sh"
+ssh root@n3xuscos.online "./pf-master-launch-gate.sh"
 ```
 
 ## Validation Steps
@@ -61,8 +61,8 @@ ssh root@nexuscos.online "./pf-master-launch-gate.sh"
 The script performs the following checks in order:
 
 ### 1. Active vhost Check
-Confirms that NGINX has an active server block configured for `nexuscos.online`
-- **Command**: `nginx -T | grep -q "server_name nexuscos.online"`
+Confirms that NGINX has an active server block configured for `n3xuscos.online`
+- **Command**: `nginx -T | grep -q "server_name n3xuscos.online"`
 - **Success**: Vhost configuration found
 - **Failure**: Exits with error if domain is not configured
 
@@ -80,7 +80,7 @@ Verifies the backend API is responding on localhost
 
 ### 4. Public API Health
 Confirms the public-facing API is accessible via HTTPS
-- **Endpoint**: `https://nexuscos.online/api/status`
+- **Endpoint**: `https://n3xuscos.online/api/status`
 - **Expected**: HTTP 200 status code
 - **Failure**: Exits if any other status code is returned
 
@@ -93,7 +93,7 @@ Validates that HTTP/2 protocol is active
 ## Configuration Variables
 
 ```bash
-DOMAIN="nexuscos.online"           # Production domain
+DOMAIN="n3xuscos.online"           # Production domain
 API_LOCAL="http://127.0.0.1:3000/status"  # Local backend health endpoint
 API_PUBLIC="https://${DOMAIN}/api/status" # Public API endpoint
 LOG_BACKEND="/var/log/nexus-cos.log"      # Backend log file location
@@ -116,7 +116,7 @@ The script uses `set -euo pipefail` for strict error handling:
 ```yaml
 - name: Production Launch Gate
   run: |
-    ssh root@nexuscos.online "./pf-master-launch-gate.sh"
+    ssh root@n3xuscos.online "./pf-master-launch-gate.sh"
 ```
 
 ### Cron Job for Monitoring
@@ -128,7 +128,7 @@ The script uses `set -euo pipefail` for strict error handling:
 ## Troubleshooting
 
 ### vhost Check Failure
-- Verify NGINX configuration files contain `server_name nexuscos.online`
+- Verify NGINX configuration files contain `server_name n3xuscos.online`
 - Check: `nginx -T | grep server_name`
 
 ### Backend Not Responding
@@ -137,8 +137,8 @@ The script uses `set -euo pipefail` for strict error handling:
 - Check backend logs: `tail -f /var/log/nexus-cos.log`
 
 ### Public API Failure
-- Verify DNS is resolving correctly: `dig nexuscos.online`
-- Check SSL certificates: `openssl s_client -connect nexuscos.online:443`
+- Verify DNS is resolving correctly: `dig n3xuscos.online`
+- Check SSL certificates: `openssl s_client -connect n3xuscos.online:443`
 - Review NGINX error logs: `tail -f /var/log/nginx/error.log`
 
 ### HTTP/2 Not Active
