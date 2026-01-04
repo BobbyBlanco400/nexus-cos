@@ -149,7 +149,7 @@ echo -e "${YELLOW}[4/7] Checking SSL certificates...${NC}"
 
 SSL_DIR="/etc/ssl/ionos"
 mkdir -p "$SSL_DIR"
-mkdir -p "$SSL_DIR/beta.nexuscos.online"
+mkdir -p "$SSL_DIR/beta.n3xuscos.online"
 
 # Check for SSL certs in repo
 if [ -f "$REPO_DIR/ssl/fullchain.pem" ]; then
@@ -158,9 +158,9 @@ if [ -f "$REPO_DIR/ssl/fullchain.pem" ]; then
     echo "Copied SSL certificates from repository"
 fi
 
-if [ -f "$REPO_DIR/ssl/beta.nexuscos.online.crt" ]; then
-    cp "$REPO_DIR/ssl/beta.nexuscos.online.crt" "$SSL_DIR/beta.nexuscos.online/fullchain.pem"
-    cp "$REPO_DIR/ssl/beta.nexuscos.online.key" "$SSL_DIR/beta.nexuscos.online/privkey.pem" 2>/dev/null || true
+if [ -f "$REPO_DIR/ssl/beta.n3xuscos.online.crt" ]; then
+    cp "$REPO_DIR/ssl/beta.n3xuscos.online.crt" "$SSL_DIR/beta.n3xuscos.online/fullchain.pem"
+    cp "$REPO_DIR/ssl/beta.n3xuscos.online.key" "$SSL_DIR/beta.n3xuscos.online/privkey.pem" 2>/dev/null || true
     echo "Copied beta SSL certificates from repository"
 fi
 
@@ -170,14 +170,14 @@ if [ ! -f "$SSL_DIR/fullchain.pem" ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout "$SSL_DIR/privkey.pem" \
         -out "$SSL_DIR/fullchain.pem" \
-        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=nexuscos.online"
+        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=n3xuscos.online"
 fi
 
-if [ ! -f "$SSL_DIR/beta.nexuscos.online/fullchain.pem" ]; then
+if [ ! -f "$SSL_DIR/beta.n3xuscos.online/fullchain.pem" ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout "$SSL_DIR/beta.nexuscos.online/privkey.pem" \
-        -out "$SSL_DIR/beta.nexuscos.online/fullchain.pem" \
-        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=beta.nexuscos.online"
+        -keyout "$SSL_DIR/beta.n3xuscos.online/privkey.pem" \
+        -out "$SSL_DIR/beta.n3xuscos.online/fullchain.pem" \
+        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=beta.n3xuscos.online"
 fi
 
 echo -e "${GREEN}✓ SSL certificates ready${NC}"
@@ -227,13 +227,13 @@ upstream backend {
 
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online beta.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online beta.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     ssl_certificate /etc/ssl/ionos/fullchain.pem;
     ssl_certificate_key /etc/ssl/ionos/privkey.pem;
@@ -250,10 +250,10 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
-    ssl_certificate /etc/ssl/ionos/beta.nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/ssl/ionos/beta.nexuscos.online/privkey.pem;
+    ssl_certificate /etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/ssl/ionos/beta.n3xuscos.online/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     
     add_header X-Environment "beta" always;
@@ -310,8 +310,8 @@ echo -e "${GREEN}✓ Nexus COS is now deployed and running!${NC}"
 echo ""
 echo "Next steps:"
 echo "1. Test your domains:"
-echo "   curl -I https://nexuscos.online/health"
-echo "   curl -I https://beta.nexuscos.online/health"
+echo "   curl -I https://n3xuscos.online/health"
+echo "   curl -I https://beta.n3xuscos.online/health"
 echo ""
 echo "2. Check service status:"
 echo "   docker-compose -f /opt/nexus-cos/docker-compose.pf.yml ps"
@@ -321,7 +321,7 @@ echo "   docker-compose -f /opt/nexus-cos/docker-compose.pf.yml logs -f"
 echo ""
 echo "4. Run full validation:"
 echo "   cd /opt/nexus-cos && ./test-api-validation.sh"
-echo "   BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh"
+echo "   BETA_URL=https://beta.n3xuscos.online ./test-api-validation.sh"
 echo ""
 echo -e "${YELLOW}⚠ Remember to update OAuth credentials in /opt/nexus-cos/.env.pf${NC}"
 echo ""

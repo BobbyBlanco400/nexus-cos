@@ -45,20 +45,20 @@ fi
 
 # Step 1: Create directories
 echo -e "${YELLOW}►${NC} Creating deployment directories..."
-mkdir -p /var/www/nexuscos.online
-mkdir -p /var/www/beta.nexuscos.online
+mkdir -p /var/www/n3xuscos.online
+mkdir -p /var/www/beta.n3xuscos.online
 echo -e "${GREEN}✓${NC} Directories created"
 
 # Step 2: Deploy landing pages
 echo -e "${YELLOW}►${NC} Deploying landing pages..."
-cp "${REPO_ROOT}/apex/index.html" /var/www/nexuscos.online/index.html
-cp "${REPO_ROOT}/web/beta/index.html" /var/www/beta.nexuscos.online/index.html
+cp "${REPO_ROOT}/apex/index.html" /var/www/n3xuscos.online/index.html
+cp "${REPO_ROOT}/web/beta/index.html" /var/www/beta.n3xuscos.online/index.html
 echo -e "${GREEN}✓${NC} Landing pages deployed"
 
 # Step 3: Set permissions
 echo -e "${YELLOW}►${NC} Setting permissions..."
-chown -R www-data:www-data /var/www/nexuscos.online /var/www/beta.nexuscos.online
-chmod 644 /var/www/nexuscos.online/index.html /var/www/beta.nexuscos.online/index.html
+chown -R www-data:www-data /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
+chmod 644 /var/www/n3xuscos.online/index.html /var/www/beta.n3xuscos.online/index.html
 echo -e "${GREEN}✓${NC} Permissions set"
 
 # Step 4: Deploy nginx configuration
@@ -96,11 +96,11 @@ echo -e "${GREEN}║  ✅  Deployment Completed Successfully!               ║$
 echo -e "${GREEN}╚════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${CYAN}Access your landing pages:${NC}"
-echo -e "  🔗 Apex:  https://nexuscos.online"
-echo -e "  🔗 Beta:  https://beta.nexuscos.online"
+echo -e "  🔗 Apex:  https://n3xuscos.online"
+echo -e "  🔗 Beta:  https://beta.n3xuscos.online"
 echo ""
 echo -e "${CYAN}Admin panel still accessible at:${NC}"
-echo -e "  🔗 Admin: https://nexuscos.online/admin/"
+echo -e "  🔗 Admin: https://n3xuscos.online/admin/"
 echo ""
 echo -e "${YELLOW}Next Steps:${NC}"
 echo "  1. Clear browser cache (Ctrl+Shift+Delete)"

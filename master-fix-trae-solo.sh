@@ -15,7 +15,7 @@ fi
 
 # Configuration from problem statement
 PROJECT="nexus-cos"
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 EMAIL="puaboverse@gmail.com"
 HOST="75.208.155.161"
 SSH_USER="root"
@@ -184,17 +184,17 @@ graph LR
     Notifications[📢 Notifications<br/>Slack + Email] --> NexusCore
     
     %% Click handlers for interactive navigation
-    click NexusCore "https://nexuscos.online" "Open Nexus COS Main Portal"
-    click Frontend "https://nexuscos.online" "Access Frontend Application"
-    click BackendNode "https://nexuscos.online/api/node/health" "Check Node.js API Health"
-    click BackendPython "https://nexuscos.online/api/python/health" "Check Python API Health"
-    click AdminPanel "https://nexuscos.online/admin" "Access Admin Panel"
-    click CreatorDash "https://nexuscos.online/creator" "Access Creator Dashboard"
-    click CreatorHub "https://nexuscos.online/api/creator-hub/status" "Creator Hub Status"
-    click VSuite "https://nexuscos.online/api/v-suite/status" "V-Suite Status"
-    click PuaboVerse "https://nexuscos.online/api/puaboverse/status" "PuaboVerse Status"
-    click Database "https://nexuscos.online/health/database" "Database Health Check"
-    click Monitor "https://nexuscos.online/health" "System Health Dashboard"
+    click NexusCore "https://n3xuscos.online" "Open Nexus COS Main Portal"
+    click Frontend "https://n3xuscos.online" "Access Frontend Application"
+    click BackendNode "https://n3xuscos.online/api/node/health" "Check Node.js API Health"
+    click BackendPython "https://n3xuscos.online/api/python/health" "Check Python API Health"
+    click AdminPanel "https://n3xuscos.online/admin" "Access Admin Panel"
+    click CreatorDash "https://n3xuscos.online/creator" "Access Creator Dashboard"
+    click CreatorHub "https://n3xuscos.online/api/creator-hub/status" "Creator Hub Status"
+    click VSuite "https://n3xuscos.online/api/v-suite/status" "V-Suite Status"
+    click PuaboVerse "https://n3xuscos.online/api/puaboverse/status" "PuaboVerse Status"
+    click Database "https://n3xuscos.online/health/database" "Database Health Check"
+    click Monitor "https://n3xuscos.online/health" "System Health Dashboard"
     
     %% Styling
     classDef coreModule fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
@@ -526,16 +526,16 @@ configure_nginx() {
     safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" << 'EOF'
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
 
-    ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
@@ -689,7 +689,7 @@ setup_ssl() {
     print_step "Setting up SSL certificates..."
     
     # Install SSL certificate
-    certbot --nginx -d nexuscos.online -d www.nexuscos.online \
+    certbot --nginx -d n3xuscos.online -d www.n3xuscos.online \
         --non-interactive --agree-tos -m "$EMAIL" || true
     
     print_success "SSL certificates configured"
