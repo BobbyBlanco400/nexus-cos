@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
+
 echo "==> 🚀 Starting Nexus COS Production Deployment"
 
 # -----------------------------------------
@@ -65,7 +74,7 @@ systemctl restart nexus-backend nexus-python
 # -----------------------------------------
 echo "==> Configuring NGINX..."
 
-cat >/etc/nginx/sites-available/nexuscos <<'EOF'
+safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" <<'EOF'
 server {
     listen 80;
     server_name nexuscos.online www.nexuscos.online;
@@ -112,8 +121,16 @@ server {
 }
 EOF
 
-ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/nexuscos
-nginx -t && systemctl reload nginx
+# Enable site and reload nginx
+safe_enable_site "nexuscos" || {
+    echo "ERROR: Failed to enable nginx site"
+    exit 1
+}
+
+reload_nginx || {
+    echo "ERROR: Failed to reload nginx"
+    exit 1
+}
 
 # Obtain / renew SSL certs
 certbot --nginx -d nexuscos.online -d www.nexuscos.online --non-interactive --agree-tos -m admin@nexuscos.online || true

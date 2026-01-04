@@ -4,6 +4,15 @@
 
 set -e
 
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
+
 # Configuration from problem statement
 PROJECT="nexus-cos"
 DOMAIN="nexuscos.online"
@@ -513,8 +522,8 @@ deploy_frontend() {
 configure_nginx() {
     print_step "Configuring Nginx reverse proxy..."
     
-    # Create optimized Nginx configuration for React SPAs
-    cat > /etc/nginx/sites-available/nexuscos << 'EOF'
+    # Create optimized Nginx configuration for React SPAs using safe deployment
+    safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" << 'EOF'
 server {
     listen 80;
     server_name nexuscos.online www.nexuscos.online;
@@ -653,11 +662,23 @@ server {
 }
 EOF
 
-    # Enable site
-    ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/nexuscos
+    # Check if deployment was successful
+    if [[ $? -ne 0 ]]; then
+        print_error "Nginx configuration deployment failed"
+        return 1
+    fi
+
+    # Enable site using safe function
+    safe_enable_site "nexuscos" || {
+        print_error "Failed to enable site"
+        return 1
+    }
     
-    # Test and reload Nginx
-    nginx -t && systemctl reload nginx
+    # Reload Nginx
+    reload_nginx || {
+        print_error "Failed to reload nginx"
+        return 1
+    }
     
     print_success "Nginx configured and reloaded"
     notify "✅ Nginx reverse proxy configured"
