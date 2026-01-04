@@ -25,7 +25,7 @@ pm2 delete all && \
 pm2 start ecosystem.config.js --env production && \
 pm2 save && \
 sleep 10 && \
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 **Expected**: `"up"` ← Success!
@@ -156,7 +156,7 @@ pm2 describe backend-api | grep "DB_HOST"
 # Should show: DB_HOST: 'localhost'
 
 # 6. Check health endpoint (after deployment)
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 # Should output: "up"
 ```
 
@@ -181,7 +181,7 @@ curl -s https://nexuscos.online/health | jq '.db'
 - [ ] All 33 services show "online" in `pm2 list`
 - [ ] Health endpoint returns `"db": "up"`
 - [ ] No `dbError` in health response
-- [ ] App accessible at https://nexuscos.online
+- [ ] App accessible at https://n3xuscos.online
 
 ### ❌ Needs Attention If:
 - Health endpoint shows `"db": "down"`
@@ -212,7 +212,7 @@ curl -s https://nexuscos.online/health | jq '.db'
 
 ## Next Steps After Deployment
 
-1. ✅ Verify health endpoint: `curl -s https://nexuscos.online/health | jq`
+1. ✅ Verify health endpoint: `curl -s https://n3xuscos.online/health | jq`
 2. Configure auto-start: `pm2 startup && pm2 save`
 3. Monitor logs: `pm2 logs`
 4. Test critical flows

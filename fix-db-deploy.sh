@@ -68,7 +68,7 @@ echo ""
 echo -e "${BLUE}Step 6/6: Verifying deployment...${NC}"
 echo "-----------------------------------"
 if command -v jq &> /dev/null; then
-    HEALTH=$(curl -s https://nexuscos.online/health)
+    HEALTH=$(curl -s https://n3xuscos.online/health)
     echo "$HEALTH" | jq .
     
     DB_STATUS=$(echo "$HEALTH" | jq -r '.db')
@@ -90,7 +90,7 @@ if command -v jq &> /dev/null; then
         exit 1
     fi
 else
-    curl -s https://nexuscos.online/health
+    curl -s https://n3xuscos.online/health
     echo ""
     echo -e "${YELLOW}Install jq for better output: apt-get install jq${NC}"
 fi
@@ -101,5 +101,5 @@ echo -e "${BLUE}Deployment Summary${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo "View status: pm2 list"
 echo "View logs: pm2 logs"
-echo "Check health: curl https://nexuscos.online/health | jq"
+echo "Check health: curl https://n3xuscos.online/health | jq"
 echo "Run diagnostics: bash verify-pm2-env.sh"
