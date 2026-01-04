@@ -156,7 +156,7 @@ echo -e "${YELLOW}${BOLD}[4/10] Setting up SSL certificates...${NC}"
 
 SSL_DIR="/etc/ssl/ionos"
 mkdir -p "$SSL_DIR"
-mkdir -p "$SSL_DIR/beta.nexuscos.online"
+mkdir -p "$SSL_DIR/beta.n3xuscos.online"
 
 # Check for SSL certs in repo
 if [ -f "$REPO_DIR/ssl/fullchain.pem" ]; then
@@ -166,9 +166,9 @@ if [ -f "$REPO_DIR/ssl/fullchain.pem" ]; then
     echo "Copied SSL certificates from repository"
 fi
 
-if [ -f "$REPO_DIR/ssl/beta.nexuscos.online.crt" ]; then
-    cp "$REPO_DIR/ssl/beta.nexuscos.online.crt" "$SSL_DIR/beta.nexuscos.online/fullchain.pem"
-    cp "$REPO_DIR/ssl/beta.nexuscos.online.key" "$SSL_DIR/beta.nexuscos.online/privkey.pem" 2>/dev/null || true
+if [ -f "$REPO_DIR/ssl/beta.n3xuscos.online.crt" ]; then
+    cp "$REPO_DIR/ssl/beta.n3xuscos.online.crt" "$SSL_DIR/beta.n3xuscos.online/fullchain.pem"
+    cp "$REPO_DIR/ssl/beta.n3xuscos.online.key" "$SSL_DIR/beta.n3xuscos.online/privkey.pem" 2>/dev/null || true
     echo "Copied beta SSL certificates from repository"
 fi
 
@@ -178,15 +178,15 @@ if [ ! -f "$SSL_DIR/fullchain.pem" ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout "$SSL_DIR/privkey.pem" \
         -out "$SSL_DIR/fullchain.pem" \
-        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=nexuscos.online" 2>/dev/null
+        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=n3xuscos.online" 2>/dev/null
     cp "$SSL_DIR/fullchain.pem" "$SSL_DIR/chain.pem"
 fi
 
-if [ ! -f "$SSL_DIR/beta.nexuscos.online/fullchain.pem" ]; then
+if [ ! -f "$SSL_DIR/beta.n3xuscos.online/fullchain.pem" ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout "$SSL_DIR/beta.nexuscos.online/privkey.pem" \
-        -out "$SSL_DIR/beta.nexuscos.online/fullchain.pem" \
-        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=beta.nexuscos.online" 2>/dev/null
+        -keyout "$SSL_DIR/beta.n3xuscos.online/privkey.pem" \
+        -out "$SSL_DIR/beta.n3xuscos.online/fullchain.pem" \
+        -subj "/C=US/ST=State/L=City/O=NexusCOS/CN=beta.n3xuscos.online" 2>/dev/null
 fi
 
 echo -e "${GREEN}✓ SSL certificates ready${NC}"
@@ -339,37 +339,37 @@ echo ""
 echo -e "${CYAN}${BOLD}Next steps:${NC}"
 echo ""
 echo -e "${BOLD}1. Verify your domains:${NC}"
-echo "   curl -I https://nexuscos.online"
-echo "   curl -I https://beta.nexuscos.online"
+echo "   curl -I https://n3xuscos.online"
+echo "   curl -I https://beta.n3xuscos.online"
 echo ""
 echo -e "${BOLD}2. Test the platform launcher:${NC}"
-echo "   https://nexuscos.online/platform"
+echo "   https://n3xuscos.online/platform"
 echo ""
 echo -e "${BOLD}3. Test streaming (Netflix-style UI):${NC}"
-echo "   https://nexuscos.online/"
-echo "   https://nexuscos.online/streaming"
+echo "   https://n3xuscos.online/"
+echo "   https://n3xuscos.online/streaming"
 echo ""
 echo -e "${BOLD}4. Check branding:${NC}"
-echo "   https://nexuscos.online/brand-check"
+echo "   https://n3xuscos.online/brand-check"
 echo ""
 echo -e "${BOLD}5. Test V-Suite modules:${NC}"
-echo "   https://nexuscos.online/v-suite/hollywood"
-echo "   https://nexuscos.online/v-suite/stage"
-echo "   https://nexuscos.online/v-suite/caster"
-echo "   https://nexuscos.online/v-suite/prompter"
+echo "   https://n3xuscos.online/v-suite/hollywood"
+echo "   https://n3xuscos.online/v-suite/stage"
+echo "   https://n3xuscos.online/v-suite/caster"
+echo "   https://n3xuscos.online/v-suite/prompter"
 echo ""
 echo -e "${BOLD}6. Test API:${NC}"
-echo "   https://nexuscos.online/api"
-echo "   https://nexuscos.online/api/status"
-echo "   https://nexuscos.online/api/health"
+echo "   https://n3xuscos.online/api"
+echo "   https://n3xuscos.online/api/status"
+echo "   https://n3xuscos.online/api/health"
 echo ""
 echo -e "${BOLD}7. Run automated validation:${NC}"
 echo "   cd $REPO_DIR && ./test-api-validation.sh"
-echo "   BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh"
+echo "   BETA_URL=https://beta.n3xuscos.online ./test-api-validation.sh"
 echo ""
 echo -e "${BOLD}8. View logs:${NC}"
 echo "   docker-compose -f $REPO_DIR/docker-compose.pf.yml logs -f"
-echo "   tail -f /var/log/nginx/nexuscos.online_access.log"
+echo "   tail -f /var/log/nginx/n3xuscos.online_access.log"
 echo ""
 echo -e "${YELLOW}${BOLD}⚠ Important:${NC}"
 echo "   - Update OAuth credentials in $REPO_DIR/.env.pf"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # VPS Recovery Script - TRAE Solo Report Implementation
 # Addresses critical infrastructure failures identified in the TRAE Solo report
-# VPS: 74.208.155.161 | Domains: nexuscos.online, beta.nexuscos.online
+# VPS: 74.208.155.161 | Domains: n3xuscos.online, beta.n3xuscos.online
 
 set -e
 
@@ -16,8 +16,8 @@ NC='\033[0m' # No Color
 
 # Configuration based on TRAE Solo report
 VPS_IP="74.208.155.161"
-DOMAIN_MAIN="nexuscos.online"
-DOMAIN_BETA="beta.nexuscos.online"
+DOMAIN_MAIN="n3xuscos.online"
+DOMAIN_BETA="beta.n3xuscos.online"
 SSL_PATH="/etc/ssl/ionos"
 NGINX_CONFIG_PATH="/etc/nginx"
 PM2_PROCESS_NAME="nexus-cos"
@@ -213,8 +213,8 @@ const services = [
     { name: 'Backend API', url: 'http://74.208.155.161:3001/health' },
     { name: 'AI Service', url: 'http://74.208.155.161:3010/health' },
     { name: 'Key Service', url: 'http://74.208.155.161:3014/health' },
-    { name: 'Main Domain', url: 'https://nexuscos.online' },
-    { name: 'Beta Domain', url: 'https://beta.nexuscos.online' }
+    { name: 'Main Domain', url: 'https://n3xuscos.online' },
+    { name: 'Beta Domain', url: 'https://beta.n3xuscos.online' }
 ];
 
 async function checkServices() {
