@@ -28,9 +28,9 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-# Source the library
+# Source the nginx safe deployment library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+REPO_ROOT="$SCRIPT_DIR"
 
 if [[ ! -f "$REPO_ROOT/lib/nginx-safe-deploy.sh" ]]; then
     echo -e "${RED}✗ Library not found: $REPO_ROOT/lib/nginx-safe-deploy.sh${NC}"

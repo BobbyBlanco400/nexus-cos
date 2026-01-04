@@ -643,8 +643,9 @@ server {
 }
 NGINX_EOF
     
-    # Check if deployment was successful
-    if [[ $? -ne 0 ]]; then
+    # Check if deployment was successful and store exit code immediately
+    local deploy_exit_code=$?
+    if [[ $deploy_exit_code -ne 0 ]]; then
         print_error "Nginx configuration deployment failed"
         return 1
     fi

@@ -95,7 +95,7 @@ backup_config_file() {
     
     create_backup_dir
     
-    local timestamp=$(date +%Y%m%d-%H%M%S)
+    local timestamp=$(date -u +%Y%m%d-%H%M%S-UTC)
     local basename=$(basename "$config_file")
     local backup_file="${NGINX_BACKUP_DIR}/${basename}.backup.${timestamp}"
     
@@ -220,8 +220,9 @@ safe_write_nginx_config() {
     backup_file=$(backup_config_file "$dest_config")
     local backup_exists=$?
     
-    # Write config to temporary file first
+    # Write config to temporary file first with secure permissions
     local temp_config=$(mktemp)
+    chmod 600 "$temp_config"
     echo "$config_content" > "$temp_config"
     
     # Copy temp to destination
@@ -257,6 +258,12 @@ safe_write_nginx_config() {
 
 reload_nginx() {
     log_info "Reloading nginx..."
+    
+    # Check if systemctl is available
+    if ! command -v systemctl >/dev/null 2>&1; then
+        log_error "systemctl command not found. Is systemd installed?"
+        return 1
+    fi
     
     if systemctl is-active --quiet nginx; then
         # Nginx is running, use reload for zero-downtime

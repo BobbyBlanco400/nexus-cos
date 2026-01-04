@@ -74,7 +74,8 @@ systemctl restart nexus-backend nexus-python
 # -----------------------------------------
 echo "==> Configuring NGINX..."
 
-safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" <<'EOF'
+# Deploy nginx configuration and reload in one step for atomic operation
+safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" <<'EOF'
 server {
     listen 80;
     server_name nexuscos.online www.nexuscos.online;
@@ -121,14 +122,9 @@ server {
 }
 EOF
 
-# Enable site and reload nginx
+# Enable site (validation happens inside safe_enable_site)
 safe_enable_site "nexuscos" || {
     echo "ERROR: Failed to enable nginx site"
-    exit 1
-}
-
-reload_nginx || {
-    echo "ERROR: Failed to reload nginx"
     exit 1
 }
 
