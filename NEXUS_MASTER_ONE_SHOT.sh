@@ -28,6 +28,15 @@
 # - Interactive Control Panel (Deploy, Verify, Scale, Monitor)
 #
 # DEPLOYMENT:
+
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
 # ssh root@VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/NEXUS_MASTER_ONE_SHOT.sh | sudo bash -s"
 #
 # -----------------------------------------------------------------------------------
@@ -378,7 +387,8 @@ log_success "PWA infrastructure created"
 log_step "STEP 5/12: Nginx Configuration"
 log_info "Generating nginx configuration..."
 
-cat > /etc/nginx/sites-available/nexus-master.conf << 'EOF'
+# Build the complete configuration with tenant routes
+NGINX_CONFIG=$(cat << 'EOF'
 server {
     listen 80;
     server_name n3xuscos.online www.n3xuscos.online;
@@ -456,12 +466,13 @@ server {
     }
 }
 EOF
+)
 
-# Add tenant routes
+# Add tenant routes dynamically
 for i in "${!TENANTS[@]}"; do
     TENANT="${TENANTS[$i]}"
     PORT="${TENANT_PORTS[$i]}"
-    cat >> /etc/nginx/sites-available/nexus-master.conf << EOF
+    NGINX_CONFIG+="
 
     # Tenant: ${TENANT}
     location /${TENANT} {
@@ -470,12 +481,30 @@ for i in "${!TENANTS[@]}"; do
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
     }
-EOF
+"
 done
 
+# Deploy the configuration using safe deployment function
+log_info "Deploying nginx configuration with safe backup and validation..."
+safe_write_nginx_config "/etc/nginx/sites-available/nexus-master.conf" "$NGINX_CONFIG" "true"
+
+if [[ $? -ne 0 ]]; then
+    log_error "Failed to deploy nginx configuration"
+    exit 1
+fi
+
 # Enable configuration
-ln -sf /etc/nginx/sites-available/nexus-master.conf /etc/nginx/sites-enabled/
-nginx -t && systemctl reload nginx
+safe_enable_site "nexus-master.conf" || {
+    log_error "Failed to enable nginx site"
+    exit 1
+}
+
+# Reload nginx
+reload_nginx || {
+    log_error "Failed to reload nginx"
+    exit 1
+}
+
 log_success "Nginx configured and reloaded"
 
 # ---------------------------

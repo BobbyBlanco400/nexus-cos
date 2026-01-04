@@ -10,6 +10,15 @@
 
 set -e  # Exit on error
 
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -206,10 +215,11 @@ if [ -f "$REPO_DIR/nginx.conf" ]; then
     # For Docker mode, nginx runs in container
     echo "Using Docker-based Nginx configuration"
 else
-    # For host mode, configure system nginx
-    NGINX_CONF="/etc/nginx/sites-available/nexuscos.conf"
+    # For host mode, configure system nginx using safe deployment
+    echo "Configuring system nginx..."
     
-    cat > "$NGINX_CONF" << 'EOF'
+    # Use safe deployment with heredoc
+    safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos.conf" "true" << 'EOF'
 # Nexus COS - Host Nginx Configuration
 upstream backend {
     server 127.0.0.1:4000;
@@ -257,12 +267,15 @@ server {
     }
 }
 EOF
-
-    ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/nexuscos.conf
-    rm -f /etc/nginx/sites-enabled/default
     
-    # Test configuration
-    nginx -t
+    # Enable the site
+    safe_enable_site "nexuscos.conf" || {
+        echo "Failed to enable nginx site"
+        exit 1
+    }
+    
+    # Disable default site
+    safe_disable_site "default" 2>/dev/null || true
     
     # Start nginx
     systemctl start nginx

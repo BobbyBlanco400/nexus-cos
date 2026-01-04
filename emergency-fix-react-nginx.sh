@@ -4,6 +4,15 @@
 
 set -e
 
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
+
 echo "🚨 EMERGENCY FIX: Nexus COS React Frontend Nginx Configuration"
 echo "================================================================"
 echo ""
@@ -13,13 +22,6 @@ echo "  ❌ Static assets (JS, CSS) not being served correctly"
 echo "  ❌ React Router client-side routing not working"
 echo "  ❌ <base href=\"/\"> tag conflicts in index.html files"
 echo ""
-
-# Backup current nginx config
-if [ -f "/etc/nginx/sites-available/nexuscos" ]; then
-    echo "📋 Backing up current Nginx configuration..."
-    cp /etc/nginx/sites-available/nexuscos /etc/nginx/sites-available/nexuscos.backup.$(date +%Y%m%d_%H%M%S)
-    echo "   ✅ Backup created"
-fi
 
 # Create directory structure if it doesn't exist
 echo "📁 Ensuring directory structure exists..."
@@ -47,7 +49,7 @@ fi
 # Generate the corrected Nginx configuration
 echo "⚙️  Generating corrected Nginx configuration..."
 
-cat > /etc/nginx/sites-available/nexuscos << 'EOF'
+safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" << 'EOF'
 # Nexus COS React Frontend - Emergency Fix Configuration
 # Addresses redirect loops and static asset serving issues
 
@@ -163,24 +165,18 @@ server {
 # }
 EOF
 
-echo "   ✅ Nginx configuration generated"
-
-# Test the configuration
-echo "🧪 Testing Nginx configuration..."
-if nginx -t; then
-    echo "   ✅ Nginx configuration is valid"
-else
-    echo "   ❌ Nginx configuration has errors"
-    exit 1
-fi
+echo "   ✅ Nginx configuration generated and deployed"
 
 # Enable the site
 echo "🔗 Enabling the site..."
-ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/nexuscos
+safe_enable_site "nexuscos" || {
+    echo "   ❌ Failed to enable site"
+    exit 1
+}
 
 # Reload Nginx
 echo "🔄 Reloading Nginx..."
-if systemctl reload nginx; then
+if reload_nginx; then
     echo "   ✅ Nginx reloaded successfully"
 else
     echo "   ❌ Failed to reload Nginx"

@@ -8,6 +8,15 @@
 
 set -e
 
+# Source the nginx safe deployment library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/lib/nginx-safe-deploy.sh" ]]; then
+    source "$SCRIPT_DIR/lib/nginx-safe-deploy.sh"
+else
+    echo "ERROR: nginx-safe-deploy.sh library not found"
+    exit 1
+fi
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -54,30 +63,31 @@ echo -e "${GREEN}✓${NC} Permissions set"
 
 # Step 4: Deploy nginx configuration
 echo -e "${YELLOW}►${NC} Deploying nginx configuration..."
-cp "${REPO_ROOT}/deployment/nginx/nexuscos-unified.conf" /etc/nginx/sites-available/nexuscos
 
-# Enable site if not already enabled
-if [ ! -L /etc/nginx/sites-enabled/nexuscos ]; then
-    ln -s /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/
-    echo -e "${GREEN}✓${NC} Nginx site enabled"
+# Use safe deployment function
+if safe_deploy_nginx_config "${REPO_ROOT}/deployment/nginx/nexuscos-unified.conf" "/etc/nginx/sites-available/nexuscos" "true"; then
+    echo -e "${GREEN}✓${NC} Nginx configuration deployed"
 else
-    echo -e "${GREEN}✓${NC} Nginx site already enabled"
-fi
-
-# Step 5: Test nginx configuration
-echo -e "${YELLOW}►${NC} Testing nginx configuration..."
-if nginx -t &>/dev/null; then
-    echo -e "${GREEN}✓${NC} Nginx configuration is valid"
-else
-    echo -e "${RED}✗ Nginx configuration test failed!${NC}"
-    nginx -t
+    echo -e "${RED}✗ Failed to deploy nginx configuration${NC}"
     exit 1
 fi
 
-# Step 6: Reload nginx
+# Enable site if not already enabled
+if safe_enable_site "nexuscos"; then
+    echo -e "${GREEN}✓${NC} Nginx site enabled"
+else
+    echo -e "${RED}✗ Failed to enable nginx site${NC}"
+    exit 1
+fi
+
+# Step 5: Reload nginx
 echo -e "${YELLOW}►${NC} Reloading nginx..."
-systemctl reload nginx
-echo -e "${GREEN}✓${NC} Nginx reloaded"
+if reload_nginx; then
+    echo -e "${GREEN}✓${NC} Nginx reloaded"
+else
+    echo -e "${RED}✗ Failed to reload nginx${NC}"
+    exit 1
+fi
 
 # Verification
 echo ""
