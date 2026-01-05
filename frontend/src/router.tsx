@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Founders from './pages/Founders';
 import Desktop from './pages/Desktop';
 import FoundingResidents from './components/FoundingResidents';
+import CpsDashboardPage from './cps/CpsDashboardPage';
 
 // Handshake ID: 55-45-17
 console.log('🔐 N3XUS COS Router Initialized | Handshake: 55-45-17');
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
   {
     path: '/residents',
     element: <FoundingResidents />,
+  },
+  {
+    path: '/cps',
+    element: <CpsDashboardPage />,
   },
   {
     path: '/desktop',
