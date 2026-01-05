@@ -46,6 +46,7 @@ function App() {
           <p className="header-subtitle">The Creative Operating System</p>
           <nav className="main-nav">
             <button onClick={() => setActivePortal('home')} style={{ background: activePortal === 'home' ? '#2563eb' : 'transparent' }}>Home</button>
+            <Link to="/residents" style={{ background: 'linear-gradient(135deg, #2563eb, #8b5cf6)', border: 'none' }}>Founding Residents ✨</Link>
             <button onClick={() => setActivePortal('casino')} style={{ background: activePortal === 'casino' ? '#2563eb' : 'transparent' }}>Casino N3XUS</button>
             <button onClick={() => setActivePortal('music')} style={{ background: activePortal === 'music' ? '#8b5cf6' : 'transparent' }}>PMMG Music</button>
             <Link to="/dashboard">Dashboard</Link>
@@ -78,7 +79,10 @@ function App() {
                   and comprehensive content creation tools
                 </p>
                 <div className="hero-cta">
-                  <Link to="/dashboard" className="cta-button primary">Launch Dashboard</Link>
+                  <Link to="/residents" className="cta-button primary" style={{ background: 'linear-gradient(135deg, #2563eb, #8b5cf6)', boxShadow: '0 10px 30px rgba(37, 99, 235, 0.4)' }}>
+                    Meet Our Founding Residents ✨
+                  </Link>
+                  <Link to="/dashboard" className="cta-button secondary">Launch Dashboard</Link>
                   <Link to="/desktop" className="cta-button secondary">Virtual Desktop</Link>
                 </div>
               </div>
