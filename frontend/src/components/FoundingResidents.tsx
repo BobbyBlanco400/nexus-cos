@@ -57,8 +57,12 @@ export default function FoundingResidents() {
     setSelectedTenant(tenant);
     
     // In production, this would navigate to the tenant's platform
+    // For now, we'll use a simple feedback mechanism
+    // TODO: Replace with proper routing to tenant platform (e.g., /platform/${tenant.slug})
     setTimeout(() => {
-      alert(`🚀 Opening ${tenant.name}\n\nCategory: ${tenant.category}\nStatus: ${tenant.status.toUpperCase()}\n\nIn production, this would navigate to their independent platform.`);
+      // Temporary alert for demonstration - replace with navigation in production
+      const message = `🚀 Opening ${tenant.name}\n\nCategory: ${tenant.category}\nStatus: ${tenant.status.toUpperCase()}\n\nIn production, this would navigate to their independent platform.`;
+      alert(message);
       setSelectedTenant(null);
     }, 300);
   };

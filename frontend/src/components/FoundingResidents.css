@@ -28,7 +28,7 @@
 .cosmic-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(80px); /* Reduced from 120px for better mobile performance */
   opacity: 0.4;
 }
 
@@ -905,8 +905,12 @@
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Allow essential transitions for user feedback */
+  button, a {
+    transition: background-color 0.15s ease, color 0.15s ease !important;
   }
 }
