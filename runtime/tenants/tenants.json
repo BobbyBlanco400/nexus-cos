@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "cohort": "Founding Residents",
+  "updated": "2026-01-05T00:00:00Z",
+  "count": 13,
+  "tenants": [
+    {
+      "id": 1,
+      "name": "Club Saditty",
+      "slug": "club-saditty",
+      "domain": "clubsaditty.nexuscos.online",
+      "category": "Entertainment & Lifestyle",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🎭",
+      "description": "Live entertainment & social experiences"
+    },
+    {
+      "id": 2,
+      "name": "Faith Through Fitness",
+      "slug": "faith-through-fitness",
+      "domain": "faithfitness.nexuscos.online",
+      "category": "Health & Wellness",
+      "status": "active",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "💪",
+      "description": "Faith-based fitness community"
+    },
+    {
+      "id": 3,
+      "name": "Ashanti's Munch & Mingle",
+      "slug": "ashantis-munch-and-mingle",
+      "domain": "ashantifoods.nexuscos.online",
+      "category": "Food & Community",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🍽️",
+      "description": "Culinary experiences & community building"
+    },
+    {
+      "id": 4,
+      "name": "Ro Ro's Gamers Lounge",
+      "slug": "ro-ros-gamers-lounge",
+      "domain": "rorogaming.nexuscos.online",
+      "category": "Gaming & Esports",
+      "status": "streaming",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🎮",
+      "description": "Gaming streams & esports community"
+    },
+    {
+      "id": 5,
+      "name": "IDH-Live!",
+      "slug": "idh-live",
+      "domain": "idhlive.nexuscos.online",
+      "category": "Talk & Discussion",
+      "status": "active",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🎙️",
+      "description": "Live talk show & interactive discussions"
+    },
+    {
+      "id": 6,
+      "name": "Clocking T. Wit Ya Gurl P",
+      "slug": "clocking-t",
+      "domain": "clockingt.nexuscos.online",
+      "category": "Urban Entertainment",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🎵",
+      "description": "Urban culture & entertainment platform"
+    },
+    {
+      "id": 7,
+      "name": "Tyshawn's V-Dance Studio",
+      "slug": "tyshawn-dance-studio",
+      "domain": "tyshawndance.nexuscos.online",
+      "category": "Dance & Performing Arts",
+      "status": "active",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "💃",
+      "description": "Dance instruction & performance showcase"
+    },
+    {
+      "id": 8,
+      "name": "Fayeloni-Kreations",
+      "slug": "fayeloni-kreations",
+      "domain": "fayeloni.nexuscos.online",
+      "category": "Creative Arts",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🎨",
+      "description": "Art, design, and creative expression"
+    },
+    {
+      "id": 9,
+      "name": "Sassie Lashes",
+      "slug": "sassie-lashes",
+      "domain": "sassielashes.nexuscos.online",
+      "category": "Beauty & Fashion",
+      "status": "active",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "💄",
+      "description": "Beauty tutorials & fashion content"
+    },
+    {
+      "id": 10,
+      "name": "Nee Nee & Kids",
+      "slug": "neenee-and-kids",
+      "domain": "neeneekids.nexuscos.online",
+      "category": "Family & Children",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "👨‍👩‍👧‍👦",
+      "description": "Family-friendly content & parenting"
+    },
+    {
+      "id": 11,
+      "name": "Headwina's Comedy Club",
+      "slug": "headwinas-comedy-club",
+      "domain": "headwinacomedy.nexuscos.online",
+      "category": "Comedy & Entertainment",
+      "status": "streaming",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "😂",
+      "description": "Stand-up comedy & comedic content"
+    },
+    {
+      "id": 12,
+      "name": "Rise Sacramento 916",
+      "slug": "rise-sacramento-916",
+      "domain": "risesac916.nexuscos.online",
+      "category": "Local Community",
+      "status": "active",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🏙️",
+      "description": "Sacramento-focused community platform"
+    },
+    {
+      "id": 13,
+      "name": "Sheda Shay's Butter Bar",
+      "slug": "sheda-shays-butter-bar",
+      "domain": "shedasbutterbar.nexuscos.online",
+      "category": "Food & Lifestyle",
+      "status": "live",
+      "deployed": "2026-01-05T00:00:00Z",
+      "icon": "🍰",
+      "description": "Food, lifestyle, and wellness fusion"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "launch": {
+    "tenant": {
+      "name": "${TENANT_NAME}",
+      "slug": "${TENANT_SLUG}",
+      "domain": "${TENANT_DOMAIN}"
+    },
+    "version": "v2.5.0-RC1",
+    "handshake": "55-45-17",
+    "deployed": "${DEPLOY_TIMESTAMP}",
+    "status": "active"
+  },
+  "configuration": {
+    "frontend": {
+      "port": 3000,
+      "build_command": "npm run build",
+      "output_directory": "dist"
+    },
+    "services": {
+      "api_port": 8080,
+      "streaming_port": 8081,
+      "websocket_port": 8082
+    },
+    "monitoring": {
+      "enabled": true,
+      "metrics_port": 9090,
+      "logs_directory": "/var/log/nexus-cos/${TENANT_SLUG}"
+    }
+  },
+  "features": {
+    "streaming": true,
+    "chat": true,
+    "analytics": true,
+    "monetization": true,
+    "api_access": true
+  }
+}

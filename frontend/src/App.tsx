@@ -49,6 +49,7 @@ function App() {
             <Link to="/residents" style={{ background: 'linear-gradient(135deg, #2563eb, #8b5cf6)', border: 'none' }}>Founding Residents ✨</Link>
             <button onClick={() => setActivePortal('casino')} style={{ background: activePortal === 'casino' ? '#2563eb' : 'transparent' }}>Casino N3XUS</button>
             <button onClick={() => setActivePortal('music')} style={{ background: activePortal === 'music' ? '#8b5cf6' : 'transparent' }}>PMMG Music</button>
+            <Link to="/cps">CPS</Link>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/founders">Founders</Link>
             <Link to="/desktop">Desktop</Link>
