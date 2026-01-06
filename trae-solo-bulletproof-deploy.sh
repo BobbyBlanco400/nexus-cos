@@ -33,8 +33,8 @@ ENV_FILE="$REPO_MAIN/.env"
 # Service configuration
 SERVICE_NAME="nexuscos-app"
 MICROSERVICES=("v-suite" "metatwin" "creator-hub" "puaboverse")
-DOMAIN="nexuscos.online"
-WWW_DOMAIN="www.nexuscos.online"
+DOMAIN="n3xuscos.online"
+WWW_DOMAIN="www.n3xuscos.online"
 NGINX_CONFIG="/etc/nginx/sites-enabled/nexuscos.conf"
 
 # Logging
@@ -286,8 +286,8 @@ DB_USER=nexus_user
 DB_PASSWORD=nexus_secure_password
 
 # API Configuration
-API_BASE_URL=https://nexuscos.online/api
-DOMAIN=nexuscos.online
+API_BASE_URL=https://n3xuscos.online/api
+DOMAIN=n3xuscos.online
 
 # Security
 JWT_SECRET=your_jwt_secret_here_change_in_production
@@ -551,7 +551,7 @@ configure_nginx() {
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # Redirect all HTTP to HTTPS
     return 301 https://$host$request_uri;
@@ -561,11 +561,11 @@ server {
 server {
     listen 443 ssl http2 default_server;
     listen [::]:443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
 
     # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
     ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
@@ -876,8 +876,8 @@ REPORT_EOF
 
 ## Configuration Details
 
-**Domain:** nexuscos.online  
-**WWW Domain:** www.nexuscos.online  
+**Domain:** n3xuscos.online  
+**WWW Domain:** www.n3xuscos.online  
 **Repository Path:** /opt/nexus-cos  
 **Environment File:** /opt/nexus-cos/.env  
 **Nginx Config:** /etc/nginx/sites-enabled/nexuscos.conf
@@ -886,10 +886,10 @@ REPORT_EOF
 
 ## Endpoints
 
-- 🌐 **Frontend:** https://nexuscos.online
-- 🔧 **API:** https://nexuscos.online/api/
-- 📊 **Health Check:** https://nexuscos.online/health
-- 🔍 **Health Check Alt:** https://nexuscos.online/healthz
+- 🌐 **Frontend:** https://n3xuscos.online
+- 🔧 **API:** https://n3xuscos.online/api/
+- 📊 **Health Check:** https://n3xuscos.online/health
+- 🔍 **Health Check Alt:** https://n3xuscos.online/healthz
 
 ---
 
@@ -903,13 +903,13 @@ systemctl status nexuscos-app
 ss -ltnp | grep ':3000'
 
 # Test health endpoint
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # Check logs
 journalctl -u nexuscos-app -f
 
 # Test HTTPS
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 ```
 
 ---
@@ -1006,9 +1006,9 @@ main() {
     echo -e "${GREEN}╚══════════════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     
-    print_success "🔗 Frontend: https://nexuscos.online"
-    print_success "🔧 API: https://nexuscos.online/api/"
-    print_success "📊 Health: https://nexuscos.online/health"
+    print_success "🔗 Frontend: https://n3xuscos.online"
+    print_success "🔧 API: https://n3xuscos.online/api/"
+    print_success "📊 Health: https://n3xuscos.online/health"
     print_success "📋 Deployment Report: $REPO_MAIN/TRAE_SOLO_BULLETPROOF_DEPLOYMENT_REPORT.md"
     
     echo ""

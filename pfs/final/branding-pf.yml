@@ -2,9 +2,9 @@
 # Final branding enforcement and consolidation rules
 
 branding:
-  name: "Nexus COS"
+  name: "N3XUS v-COS"
   version: "1.0.0"
-  domain: "nexuscos.online"
+  domain: "n3xuscos.online"
   
   assets:
     logo: "/branding/logo.svg"

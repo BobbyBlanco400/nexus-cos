@@ -14,14 +14,14 @@ bash scripts/nexus-cos-final-system-check.sh
 
 ### On VPS (Production)
 ```bash
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 cd /opt/nexus-cos
 bash scripts/nexus-cos-final-system-check.sh
 ```
 
 ### With Custom Domain
 ```bash
-DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
+DOMAIN=beta.n3xuscos.online bash scripts/nexus-cos-final-system-check.sh
 ```
 
 ---
@@ -51,7 +51,7 @@ DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
 - Service status
 
 ### ✅ SSL Certificate
-- Certificate retrieval for nexuscos.online
+- Certificate retrieval for n3xuscos.online
 - Issuer, subject, validity dates
 - Expiration check (warns if < 30 days)
 
@@ -142,8 +142,8 @@ DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
 nginx -t
 docker compose -f docker-compose.pf.yml ps
 docker compose -f docker-compose.pf.nexus.yml ps
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/puabo-nexus/fleet/health
 ```
 
 ### View Service Logs
@@ -256,7 +256,7 @@ bash /opt/nexus-cos/scripts/deploy_hybrid_fullstack_pf.sh
 ║     PF v2025.10.01 - Full Platform Validation                 ║
 ╚════════════════════════════════════════════════════════════════╝
 
-Domain: nexuscos.online
+Domain: n3xuscos.online
 VPS IP: 74.208.155.161
 Date: 2025-01-08 12:00:00 UTC
 

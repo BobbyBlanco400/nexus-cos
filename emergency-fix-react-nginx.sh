@@ -55,7 +55,7 @@ safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" "true" << 'EOF'
 
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # Comment out HTTPS redirect for immediate testing
     # return 301 https://$host$request_uri;
@@ -154,10 +154,10 @@ server {
 # HTTPS Configuration (enable when SSL is ready)
 # server {
 #     listen 443 ssl http2;
-#     server_name nexuscos.online www.nexuscos.online;
+#     server_name n3xuscos.online www.n3xuscos.online;
 #     
-#     ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+#     ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
 #     ssl_protocols TLSv1.2 TLSv1.3;
 #     ssl_prefer_server_ciphers on;
 #     
@@ -193,14 +193,14 @@ echo "✅ EMERGENCY FIX COMPLETE!"
 echo "=========================="
 echo ""
 echo "🎯 Test the fixed endpoints:"
-echo "   Admin Panel:    http://nexuscos.online/admin/"
-echo "   Creator Hub:    http://nexuscos.online/creator-hub/"
-echo "   API Health:     http://nexuscos.online/health"
+echo "   Admin Panel:    http://n3xuscos.online/admin/"
+echo "   Creator Hub:    http://n3xuscos.online/creator-hub/"
+echo "   API Health:     http://n3xuscos.online/health"
 echo ""
 echo "🔍 Debug commands if issues persist:"
 echo "   Check logs:     tail -f /var/log/nginx/nexuscos.error.log"
 echo "   Test config:    nginx -t"
-echo "   Curl test:      curl -L http://nexuscos.online/admin/"
+echo "   Curl test:      curl -L http://n3xuscos.online/admin/"
 echo ""
 echo "🔧 Key fixes applied:"
 echo "   ✅ Removed problematic <base href> tags"

@@ -218,8 +218,8 @@ class NexusHealthChecker {
         ];
         
         this.externalServices = [
-            { name: 'Main Domain', url: 'https://nexuscos.online', critical: true },
-            { name: 'Beta Domain', url: 'https://beta.nexuscos.online', critical: true }
+            { name: 'Main Domain', url: 'https://n3xuscos.online', critical: true },
+            { name: 'Beta Domain', url: 'https://beta.n3xuscos.online', critical: true }
         ];
         
         this.report = {

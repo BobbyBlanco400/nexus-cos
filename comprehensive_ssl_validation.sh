@@ -1,6 +1,6 @@
 #!/bin/bash
 # comprehensive_ssl_validation.sh
-# Comprehensive SSL Configuration Validation for nexuscos.online
+# Comprehensive SSL Configuration Validation for n3xuscos.online
 # Tests all configuration files, SSL settings, and service endpoints
 
 # Color codes
@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 print_header() {
     echo -e "${BLUE}================================================================${NC}"
     echo -e "${BLUE}    NEXUS COS SSL Configuration Validation${NC}"
-    echo -e "${BLUE}    Domain: nexuscos.online${NC}"
+    echo -e "${BLUE}    Domain: n3xuscos.online${NC}"
     echo -e "${BLUE}================================================================${NC}"
     echo ""
 }
@@ -197,7 +197,7 @@ validate_https_redirect() {
 validate_domain_config() {
     print_section "Domain Configuration Validation"
     
-    required_domains=("nexuscos.online" "www.nexuscos.online" "monitoring.nexuscos.online")
+    required_domains=("n3xuscos.online" "www.n3xuscos.online" "monitoring.n3xuscos.online")
     
     for config in nginx.conf deployment/nginx/*.conf; do
         if [ -f "$config" ]; then
@@ -226,7 +226,7 @@ validate_logging_config() {
     for config in nginx.conf deployment/nginx/*.conf; do
         if [ -f "$config" ]; then
             config_name=$(basename "$config")
-            if grep -q "access_log.*nexuscos.online" "$config" && grep -q "error_log.*nexuscos.online" "$config"; then
+            if grep -q "access_log.*n3xuscos.online" "$config" && grep -q "error_log.*n3xuscos.online" "$config"; then
                 print_success "$config_name has domain-specific logging"
             elif grep -q "access_log" "$config" || grep -q "error_log" "$config"; then
                 print_warning "$config_name has logging but may need domain-specific paths"

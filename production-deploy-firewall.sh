@@ -78,16 +78,16 @@ echo "==> Configuring NGINX..."
 safe_deploy_nginx_heredoc "/etc/nginx/sites-available/nexuscos" <<'EOF'
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
 
-    ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
@@ -129,7 +129,7 @@ safe_enable_site "nexuscos" || {
 }
 
 # Obtain / renew SSL certs
-certbot --nginx -d nexuscos.online -d www.nexuscos.online --non-interactive --agree-tos -m admin@nexuscos.online || true
+certbot --nginx -d n3xuscos.online -d www.n3xuscos.online --non-interactive --agree-tos -m admin@n3xuscos.online || true
 
 # -----------------------------------------
 # 4. Build & Deploy Frontend
@@ -148,8 +148,8 @@ cp -r dist/* /var/www/nexuscos/frontend/
 echo "==> Verifying services..."
 systemctl status nexus-backend --no-pager
 systemctl status nexus-python --no-pager
-curl -k https://nexuscos.online/health || true
-curl -k https://nexuscos.online/py/health || true
+curl -k https://n3xuscos.online/health || true
+curl -k https://n3xuscos.online/py/health || true
 
 # -----------------------------------------
 # 6. Automated Firewall Configuration
@@ -180,8 +180,8 @@ echo "==> Performing final validation..."
 
 # Test all health endpoints through firewall
 echo "Testing health endpoints through firewall..."
-curl -k https://nexuscos.online/health || echo "⚠️  External health check failed"
-curl -k https://nexuscos.online/py/health || echo "⚠️  External Python health check failed"
+curl -k https://n3xuscos.online/health || echo "⚠️  External health check failed"
+curl -k https://n3xuscos.online/py/health || echo "⚠️  External Python health check failed"
 curl -s http://localhost/health || echo "⚠️  Local health check failed"
 curl -s http://localhost/py/health || echo "⚠️  Local Python health check failed"
 

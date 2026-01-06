@@ -292,18 +292,18 @@ orchestration:
   sync_command: "nexusctl sync --pf hybrid-fullstack-2025.10.01"
   
   health_check_endpoints:
-    - "https://nexuscos.online/api/health"
-    - "https://nexuscos.online/health/gateway"
-    - "https://nexuscos.online/puabo-nexus/dispatch/health"
-    - "https://nexuscos.online/puabo-nexus/driver/health"
-    - "https://nexuscos.online/puabo-nexus/fleet/health"
-    - "https://nexuscos.online/puabo-nexus/routes/health"
-    - "https://nexuscos.online/v-suite/prompter/health"
-    - "https://nexuscos.online/v-suite/screen/health"
-    - "https://nexuscos.online/nexus-studio/health"
-    - "https://nexuscos.online/club-saditty/health"
-    - "https://nexuscos.online/auth/health"
-    - "https://nexuscos.online/payment/health"
+    - "https://n3xuscos.online/api/health"
+    - "https://n3xuscos.online/health/gateway"
+    - "https://n3xuscos.online/puabo-nexus/dispatch/health"
+    - "https://n3xuscos.online/puabo-nexus/driver/health"
+    - "https://n3xuscos.online/puabo-nexus/fleet/health"
+    - "https://n3xuscos.online/puabo-nexus/routes/health"
+    - "https://n3xuscos.online/v-suite/prompter/health"
+    - "https://n3xuscos.online/v-suite/screen/health"
+    - "https://n3xuscos.online/nexus-studio/health"
+    - "https://n3xuscos.online/club-saditty/health"
+    - "https://n3xuscos.online/auth/health"
+    - "https://n3xuscos.online/payment/health"
     
   auto_sync_cycle:
     - code-agent
@@ -327,7 +327,7 @@ future_expansion:
 
 deployment:
   target_vps: "74.208.155.161"
-  domain: "nexuscos.online"
+  domain: "n3xuscos.online"
   ssl_enabled: true
   cdn_enabled: false
   

@@ -132,7 +132,7 @@ Result: 17/17 tests PASSED
    ```bash
    cd /var/www/nexus-cos
    sudo chmod +x pf-master-deployment.sh
-   sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+   sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
    ```
 
 3. **Validate the deployment**:
@@ -142,7 +142,7 @@ Result: 17/17 tests PASSED
 
 4. **Test in browser** (clear cache first!):
    - Open: `http://74.208.155.161/`
-   - Open: `https://nexuscos.online/`
+   - Open: `https://n3xuscos.online/`
    - Both should show identical UI/branding
 
 ### What Changed for You
