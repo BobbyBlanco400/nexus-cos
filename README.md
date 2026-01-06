@@ -180,6 +180,87 @@ All v-COS components adhere to **N3XUS Law** and implement the **Handshake Proto
 
 ---
 
+## 🏗️ **N3XUS COS – Stack-Wide Multi-Layer Architecture**
+
+N3XUS COS operates on a **stack-wide, behavior-first, canon-first architecture** shared across all 38 modules. Each module follows a canonical flow ensuring consistency, creator fluency, and seamless integration across the entire platform.
+
+### Standard Module Flow
+
+Each of the 38 modules follows this canonical multi-layer structure:
+
+```
+[IMVU Observation] → [IMCU Creation] → [IMCU-L Assembly] → [Distribution & Export]
+         ↘
+         [MetaTwin / HoloCore] → [Overlay Constellation]
+         ↘
+         [Live Event Feedback Loop]
+```
+
+**Layer Descriptions:**
+
+1. **IMVU Observation:** Behavioral atoms, resident interactions, seed library
+2. **IMCU Creation:** Short-form canon units for module-specific content
+3. **IMCU-L Assembly:** Long-form content assembly (films, docu-series, live events)
+4. **MetaTwin / HoloCore:** Predictive scaffolding and narrative suggestions
+5. **Overlay Constellation:** Emotional/behavioral maps and 3D visualization
+6. **Live Event Feedback Loop:** Real-time canon validation and seed generation
+7. **Distribution & Export:** Internal registry, OTT formats, live broadcast, canonical metadata
+
+### Access Modes
+
+Access is available in both **Hybrid** (desktop) and **Immersive** (N3XUSVISION) modes:
+
+- **Hybrid Mode:** Desktop/browser access with full 2D/hybrid functionality
+- **Immersive Mode:** N3XUSVISION headset with full presence, 3D overlays, and spatial interactions
+- **Feature Flags:** Enable gradual rollout of modules without disrupting the core
+
+### Complete Stack-Wide Specifications
+
+**📖 [Architecture Overview](./spec/stack/architecture_overview.md)** - High-level stack-wide blueprint
+
+#### Core Stack Specifications
+
+1. **[Access Layer](./spec/stack/access_layer.md)** - Hybrid/Immersive modes, login, module selection
+2. **[Module Template](./spec/stack/module_template.md)** - Canonical flow applied to all modules
+3. **[Feature Flags & Rollout](./spec/stack/feature_flags_and_rollout.md)** - Gradual integration strategy
+
+#### Layer-Specific Specifications
+
+4. **[IMVU Observation](./spec/stack/imvu_observation.md)** - Behavioral atoms, seeds, capture logic
+5. **[IMCU Creation](./spec/stack/imcu_creation.md)** - Short-form canon unit generation
+6. **[IMCU-L Assembly](./spec/stack/imcu_l_assembly.md)** - Long-form assembly and validation
+7. **[MetaTwin / HoloCore](./spec/stack/metatwin_holocore.md)** - Predictive scaffolding integration
+8. **[Overlay Constellation](./spec/stack/overlay_constellation.md)** - Emotional/behavioral visualization
+9. **[Live Event Feedback Loop](./spec/stack/live_event_feedback_loop.md)** - Canon feedback and seed regeneration
+10. **[Distribution & Export](./spec/stack/distribution_and_export.md)** - Registry, OTT, live broadcast, metadata
+
+### Stack-Wide Benefits
+
+- **Canonical Consistency:** All modules follow identical seed → canon → output flow
+- **Creator Fluency:** Learn one module, understand them all
+- **Hybrid + Immersive Parity:** Full support stack-wide
+- **MetaTwin Leverage:** Predictive scaffolding extends across every module
+- **Distribution Standardization:** Internal registry, OTT, live events, and canonical metadata unified
+- **Feature-Flag Modularity:** Add or update modules without touching core deployments
+
+### The 38 N3XUS COS Modules
+
+All modules implement the standard architecture:
+
+**Creative Production (8):** Creator's Hub, V-Screen Hollywood, V-Caster Pro, V-Stage, V-Prompter Pro, Nexus Studio AI, StreamCore, GameCore
+
+**Content Management (6):** Content Hub, MusicChain, Asset Pipeline, Version Control, Collaboration Center, Distribution Manager
+
+**PUABO Universe (8):** PUABO Nexus, PUABO DSP, PUABO BLAC, PUABO NUKI, PUABO Studio, PUABO OTT TV, PUABOverse, PUABO AI Hybrid
+
+**Casino & Entertainment (6):** Casino-Nexus, NEXCOIN Wallet, NFT Marketplace, Skill Games, VR Casino World, Rewards System
+
+**Platform Core (5):** v-Platform, v-Auth, v-Content, v-Analytics, v-Compute
+
+**Community & Social (5):** Club Saditty, Creator Network, Event Manager, Community Forums, Feedback System
+
+---
+
 ## 🪙 **NexCoin Utility Model (Authoritative)**
 
 **NexCoin is a closed-loop, platform utility credit used exclusively within the Casino Nexus ecosystem.**
