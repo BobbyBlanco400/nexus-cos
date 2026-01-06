@@ -97,6 +97,89 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 ---
 
+## 🏗️ **N3XUS v-COS Architecture Specifications**
+
+**N3XUS v-COS** (Virtual Creative Operating System) is the foundational architecture that powers the entire ecosystem. The v-COS specifications provide comprehensive documentation of the system's conceptual model, behavioral rules, and operational principles.
+
+### Core v-COS Specifications
+
+**📖 Complete Documentation:** [v-COS Overview](./docs/v-COS/README.md) | [Quick Reference](./N3XUS_V-COS_QUICK_REFERENCE.md)
+
+#### Foundational Specifications
+
+1. **[Ontology](./spec/vcos/ontology.md)** - v-COS entity model and conceptual framework
+   - Core principles and hierarchical composition
+   - Entity definitions (Cosmos, Domains, Modules, Services, Components)
+   - Relationships, interactions, and semantic rules
+   - Extensibility model and ontology governance
+
+2. **[Behavioral Primitives](./spec/vcos/behavioral_primitives.md)** - IMVU/IMCU lifecycle and coordination
+   - Interactive Multi-Verse Unit (IMVU) lifecycle (Genesis → Termination)
+   - Interactive Multi-Component Unit (IMCU) coordination patterns
+   - Handshake protocol and state transition rules
+   - Resource management and error handling
+
+3. **[World State Continuity](./spec/vcos/world_state_continuity.md)** - Persistent state management
+   - Unified world state architecture and consistency model
+   - State layers (Canonical, Operational, Derived)
+   - State synchronization and conflict resolution protocols
+   - Distributed state management patterns (CQRS, Event Sourcing, Saga)
+
+4. **[Canon Memory Layer](./spec/vcos/canon_memory_layer.md)** - Authoritative data storage
+   - Canon as single source of truth
+   - Storage layers (Primary DB, Event Store, Snapshot Store)
+   - Contradiction detection and resolution mechanisms
+   - Canon API for read/write operations
+
+#### Interaction & Evolution Specifications
+
+5. **[Creator Interaction Model](./spec/vcos/creator_interaction_model.md)** - Creator engagement patterns
+   - Creator-first design principles and persistent identity
+   - Interaction patterns (Onboarding, Creative Workflow, Collaboration)
+   - Enhanced integration features (Workspace, Search, Analytics)
+   - Accessibility and inclusivity guidelines
+
+6. **[Genesis Layer](./spec/vcos/genesis_layer.md)** - Origin and design philosophy
+   - Founding vision and the three pillars (Sovereignty, Persistence, Unity)
+   - Origin of the Handshake protocol (55-45-17)
+   - Key design decisions and their rationale
+   - Extended origin narratives and philosophical foundations
+
+7. **[Future Requirements](./spec/vcos/future_requirements.md)** - Roadmap and evolution
+   - Strategic priorities (Scale, Features, Ecosystem, Analytics, Security)
+   - Technical debt and refactoring plans
+   - Research and experimental features
+   - Community governance and success metrics
+
+### Key Concepts
+
+**Handshake Protocol (55-45-17):**
+- **55:** System Integrity (25 checkpoints across 5 layers)
+- **45:** Compliance Validation (20 rules across 4 domains)
+- **17:** Tenant Governance (13 canonical tenants + 4 foundational layers)
+
+**IMVU (Interactive Multi-Verse Unit):**
+> A sovereign runtime container that provides an isolated execution environment with persistent identity, managed lifecycle, and handshake-verified interactions.
+
+**Canon Memory Layer:**
+> The immutable, versioned record of all verified state changes, entity relationships, and system events, serving as the single source of truth.
+
+**Creator Sovereignty:**
+> The principle that creators own their identity, content, and creative destiny, with full control over data, assets, and distribution.
+
+### Architecture Alignment
+
+All v-COS components adhere to **N3XUS Law** and implement the **Handshake Protocol (55-45-17)** for:
+- System integrity verification at every layer
+- Compliance with governance rules
+- Fair 80/20 value distribution to creators
+- Persistent state preservation in Canon Memory Layer
+- Seamless ecosystem integration via n3xus-net
+
+**Note:** The v-COS specifications represent the authoritative architectural model. All implementation work must align with these specifications to maintain system coherence and integrity.
+
+---
+
 ## 🪙 **NexCoin Utility Model (Authoritative)**
 
 **NexCoin is a closed-loop, platform utility credit used exclusively within the Casino Nexus ecosystem.**
