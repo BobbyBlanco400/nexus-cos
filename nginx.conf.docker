@@ -1,17 +1,40 @@
-# Nexus COS - Docker Mode Nginx Configuration
+# N3XUS v-COS - Docker Mode Nginx Configuration
 # This configuration is used when Nginx runs as a Docker container
-# Upstreams use Docker service names for container-to-container communication
+# Upstreams use Docker service names for container-to-container communication on n3xus-net
 
 events {
     worker_connections 1024;
 }
 
 http {
-    # N3XUS Governance: Handshake 55-45-17 (REQUIRED)
+    # N3XUS v-COS Governance: Handshake 55-45-17 (REQUIRED)
     # This header is injected on all proxied requests for governance enforcement
+    # Network: n3xus-net (Sovereign Architecture)
     proxy_set_header X-N3XUS-Handshake "55-45-17";
     
-    # PF Service Upstreams - Docker container names
+    # n3xus-net Internal Service Upstreams (v- prefix denotes virtual/sovereign services)
+    upstream v_stream {
+        server v-stream:3000;  # Main streaming service
+    }
+    
+    upstream v_auth {
+        server v-auth:4000;  # Authentication & identity
+    }
+    
+    upstream v_platform {
+        server v-platform:4001;  # Core platform API
+    }
+    
+    upstream v_suite {
+        server v-suite:4100;  # Creative tools suite
+    }
+    
+    upstream v_content {
+        server v-content:4200;  # Content management
+    }
+    
+    # Legacy PF Service Upstreams - Docker container names
+    # (Maintained for backward compatibility during migration)
     upstream pf_gateway {
         server puabo-api:4000;
     }
