@@ -95,6 +95,20 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 > **Note:** This is documentation only - the platform is live and operational. No code changes are required.
 
+### 🏛️ **V-COS Architecture Specifications**
+
+The **V-COS (Virtual Creative Operating System)** foundational architecture is documented in comprehensive specifications:
+
+- **[V-COS Ontology](./spec/vcos/ontology.md)** - Core conceptual model, entities, relationships, and semantic rules
+- **[Behavioral Primitives](./spec/vcos/behavioral_primitives.md)** - IMVU/IMCU lifecycle rules and interaction patterns  
+- **[World State Continuity](./spec/vcos/world_state_continuity.md)** - Advanced rules for state management and distributed implementation
+- **[Canon Memory Layer](./spec/vcos/canon_memory_layer.md)** - Historical truth management and contradiction resolution
+- **[Creator Interaction Model](./spec/vcos/creator_interaction_model.md)** - Enhanced creator integration and workflow specifications
+- **[Genesis Layer](./spec/vcos/genesis_layer.md)** - Origin mythology, foundational narratives, and design decisions
+- **[Future Requirements](./spec/vcos/future_requirements.md)** - Forward-looking architectural evolution and roadmap
+
+These specifications ensure V-COS adheres to **N3XUS Law** and the **55-45-17 Handshake Protocol** while supporting modular, distributed implementation.
+
 ---
 
 ## 🪙 **NexCoin Utility Model (Authoritative)**
