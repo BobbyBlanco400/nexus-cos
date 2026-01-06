@@ -96,13 +96,13 @@ Test through Nginx (publicly):
 
 ```bash
 # Health check
-curl https://nexuscos.online/health | jq
+curl https://n3xuscos.online/health | jq
 
 # API endpoints
-curl https://nexuscos.online/api | jq
-curl https://nexuscos.online/api/system/status | jq
-curl https://nexuscos.online/api/auth | jq
-curl https://nexuscos.online/api/creator-hub/status | jq
+curl https://n3xuscos.online/api | jq
+curl https://n3xuscos.online/api/system/status | jq
+curl https://n3xuscos.online/api/auth | jq
+curl https://n3xuscos.online/api/creator-hub/status | jq
 ```
 
 ## Nginx Configuration

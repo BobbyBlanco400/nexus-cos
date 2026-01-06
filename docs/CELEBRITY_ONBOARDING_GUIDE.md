@@ -198,7 +198,7 @@ Are you available this week for a quick call?
 ## Contact Information
 
 **Celebrity Partnerships Team**  
-Email: partnerships@nexuscos.online  
+Email: partnerships@n3xuscos.online  
 Phone: (555) NEXUS-COS  
 Website: https://n3xuscos.online/celebrities
 

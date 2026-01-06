@@ -53,16 +53,16 @@ After deployment, verify the landing pages are accessible:
 
 ```bash
 # Test apex domain
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # Test beta domain
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 
 # Verify apex content
-curl -s https://nexuscos.online | head -20
+curl -s https://n3xuscos.online | head -20
 
 # Verify beta badge
-curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
+curl -s https://beta.n3xuscos.online | grep -c 'beta-badge'
 ```
 
 **Expected:**
@@ -75,8 +75,8 @@ curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
 ## 📊 WHAT THIS DEPLOYS
 
 **Files Deployed:**
-- `apex/index.html` (815 lines) → `/var/www/nexuscos.online/index.html`
-- `web/beta/index.html` (826 lines) → `/var/www/beta.nexuscos.online/index.html`
+- `apex/index.html` (815 lines) → `/var/www/n3xuscos.online/index.html`
+- `web/beta/index.html` (826 lines) → `/var/www/beta.n3xuscos.online/index.html`
 
 **Features:**
 - ✅ Navigation with brand logo
@@ -113,10 +113,10 @@ systemctl reload nginx  # Reload if test passes
 
 ### Issue: Permission errors
 ```bash
-sudo chown -R www-data:www-data /var/www/nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
-sudo chmod -R 755 /var/www/nexuscos.online
-sudo chmod -R 755 /var/www/beta.nexuscos.online
+sudo chown -R www-data:www-data /var/www/n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
+sudo chmod -R 755 /var/www/n3xuscos.online
+sudo chmod -R 755 /var/www/beta.n3xuscos.online
 ```
 
 ---

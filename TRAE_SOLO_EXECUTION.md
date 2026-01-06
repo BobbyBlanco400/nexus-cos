@@ -2,7 +2,7 @@
 
 **Target:** Nexus COS Production Framework Deployment  
 **Phase:** 2.5 - OTT Integration + Beta Transition  
-**VPS:** 74.208.155.161 (nexuscos.online)  
+**VPS:** 74.208.155.161 (n3xuscos.online)  
 **Status:** BULLETPROOFED - ZERO ERROR MARGIN  
 **PF ID:** PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5  
 **Date:** 2025-10-07
@@ -13,9 +13,9 @@
 
 **Phase 2.5** introduces unified deployment of three system layers:
 
-1. **OTT Frontend** - `nexuscos.online` (Production streaming interface)
-2. **V-Suite Dashboard** - `nexuscos.online/v-suite/` (Creator control center)
-3. **Beta Portal** - `beta.nexuscos.online` (Active until Nov 17, 2025)
+1. **OTT Frontend** - `n3xuscos.online` (Production streaming interface)
+2. **V-Suite Dashboard** - `n3xuscos.online/v-suite/` (Creator control center)
+3. **Beta Portal** - `beta.n3xuscos.online` (Active until Nov 17, 2025)
 
 **Key Features:**
 - Dual-domain routing with isolated Nginx configurations
@@ -53,8 +53,8 @@ Before executing, ensure you have:
 
 ### 2. IONOS SSL Certificates
 
-- [ ] `nexuscos.online.crt` and `.key` files
-- [ ] `hollywood.nexuscos.online.crt` and `.key` files
+- [ ] `n3xuscos.online.crt` and `.key` files
+- [ ] `hollywood.n3xuscos.online.crt` and `.key` files
 - [ ] Certificates in PEM format
 
 ### 3. OAuth Credentials
@@ -164,10 +164,10 @@ mkdir -p /etc/nginx/ssl/tv
 
 ```bash
 # Copy your IONOS certificates to:
-/etc/nginx/ssl/apex/nexuscos.online.crt
-/etc/nginx/ssl/apex/nexuscos.online.key
-/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt
-/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key
+/etc/nginx/ssl/apex/n3xuscos.online.crt
+/etc/nginx/ssl/apex/n3xuscos.online.key
+/etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt
+/etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.key
 ```
 
 **Set proper permissions:**
@@ -182,7 +182,7 @@ chmod 600 /etc/nginx/ssl/hollywood/*.key
 **Validate certificates:**
 
 ```bash
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
 ```
 
 **Expected:** Valid certificate information displayed
@@ -347,20 +347,20 @@ nano /etc/nginx/sites-available/nexuscos-production
 **Paste this configuration:**
 
 ```nginx
-# Apex Domain - nexuscos.online
+# Apex Domain - n3xuscos.online
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
 
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -410,17 +410,17 @@ server {
 # Hollywood Subdomain
 server {
     listen 80;
-    server_name hollywood.nexuscos.online;
+    server_name hollywood.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name hollywood.nexuscos.online;
+    server_name hollywood.n3xuscos.online;
 
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -448,17 +448,17 @@ server {
 # TV Subdomain (Optional)
 server {
     listen 80;
-    server_name tv.nexuscos.online;
+    server_name tv.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name tv.nexuscos.online;
+    server_name tv.n3xuscos.online;
 
     # Use apex certificates if TV-specific not available
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -504,13 +504,13 @@ nginx -t && systemctl reload nginx
 
 ```bash
 # Test apex domain
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 
 # Test Hollywood subdomain
-curl -I https://hollywood.nexuscos.online/health
+curl -I https://hollywood.n3xuscos.online/health
 
 # Test TV subdomain (if configured)
-curl -I https://tv.nexuscos.online/health
+curl -I https://tv.n3xuscos.online/health
 ```
 
 **Expected:** HTTP/2 200 for all
@@ -520,7 +520,7 @@ curl -I https://tv.nexuscos.online/health
 ### Step 13: Verify SSL Issuer
 
 ```bash
-openssl s_client -connect nexuscos.online:443 -showcerts 2>/dev/null | grep issuer
+openssl s_client -connect n3xuscos.online:443 -showcerts 2>/dev/null | grep issuer
 ```
 
 **Expected Output:** Should contain "IONOS"
@@ -601,7 +601,7 @@ ls -la /etc/nginx/ssl/apex/
 ls -la /etc/nginx/ssl/hollywood/
 
 # Check certificate validity
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -dates
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -dates
 
 # Test Nginx configuration
 nginx -t
@@ -678,8 +678,8 @@ curl http://localhost:8088/health
 curl http://localhost:3016/health
 
 # Production endpoints
-curl https://nexuscos.online/api/health
-curl https://hollywood.nexuscos.online/health
+curl https://n3xuscos.online/api/health
+curl https://hollywood.n3xuscos.online/health
 ```
 
 ---
@@ -698,8 +698,8 @@ chmod +x scripts/deploy-phase-2.5-architecture.sh
 
 **What this deploys:**
 
-1. ✅ OTT Frontend at `/var/www/nexuscos.online/`
-2. ✅ Beta Portal at `/var/www/beta.nexuscos.online/`
+1. ✅ OTT Frontend at `/var/www/n3xuscos.online/`
+2. ✅ Beta Portal at `/var/www/beta.n3xuscos.online/`
 3. ✅ Dual-domain Nginx configuration
 4. ✅ Isolated logging per layer (`/opt/nexus-cos/logs/phase2.5/`)
 5. ✅ Transition automation script
@@ -776,16 +776,16 @@ crontab -l | grep beta-transition
 
 ```bash
 # Test OTT Frontend (Apex)
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test V-Suite Dashboard
-curl -I https://nexuscos.online/v-suite/
+curl -I https://n3xuscos.online/v-suite/
 
 # Test Beta Portal
-curl -I https://beta.nexuscos.online/
+curl -I https://beta.n3xuscos.online/
 
 # Test API Gateway
-curl -I https://nexuscos.online/api/
+curl -I https://n3xuscos.online/api/
 
 # Test Health Endpoints
 curl http://localhost:4000/health  # Gateway
@@ -825,8 +825,8 @@ cd /opt/nexus-cos
 ./scripts/beta-transition-cutover.sh
 
 # Verify beta now redirects to production
-curl -I https://beta.nexuscos.online/
-# Expected: Location: https://nexuscos.online/
+curl -I https://beta.n3xuscos.online/
+# Expected: Location: https://n3xuscos.online/
 
 # If issues, rollback is automatic in the script
 ```
@@ -851,9 +851,9 @@ curl -I https://beta.nexuscos.online/
 
 ### Phase 2.5 Success Criteria
 
-✅ OTT Frontend operational at `nexuscos.online`  
-✅ V-Suite Dashboard accessible at `nexuscos.online/v-suite/`  
-✅ Beta Portal live at `beta.nexuscos.online`  
+✅ OTT Frontend operational at `n3xuscos.online`  
+✅ V-Suite Dashboard accessible at `n3xuscos.online/v-suite/`  
+✅ Beta Portal live at `beta.n3xuscos.online`  
 ✅ All health endpoints returning HTTP 200  
 ✅ Dual-domain routing validated  
 ✅ SSL certificates valid for all domains  

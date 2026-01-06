@@ -6,7 +6,7 @@
 
 **One-Line Deployment**:
 ```bash
-cd /opt/nexus-cos && git pull origin main && pm2 delete all && pm2 start ecosystem.config.js --env production && pm2 save && sleep 10 && curl -s https://nexuscos.online/health | jq '.db'
+cd /opt/nexus-cos && git pull origin main && pm2 delete all && pm2 start ecosystem.config.js --env production && pm2 save && sleep 10 && curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 **Expected Result**: `"up"`
@@ -16,7 +16,7 @@ cd /opt/nexus-cos && git pull origin main && pm2 delete all && pm2 start ecosyst
 ## What Was the Problem?
 
 ### Original Issue
-The production health endpoint at `https://nexuscos.online/health` consistently showed:
+The production health endpoint at `https://n3xuscos.online/health` consistently showed:
 ```json
 {
   "db": "down",
@@ -134,7 +134,7 @@ env: {
 ### Deployment Steps
 ```bash
 # 1. SSH to server
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # 2. Navigate to app directory
 cd /opt/nexus-cos
@@ -149,7 +149,7 @@ pm2 save
 
 # 5. Verify (wait 10 seconds first)
 sleep 10
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 ### Success Criteria
@@ -232,7 +232,7 @@ Before closing this issue, verify:
 - [ ] All 33 services showing "online" in `pm2 list`
 - [ ] Health endpoint returns `"db": "up"`
 - [ ] No `dbError` in health response
-- [ ] Application is accessible at `https://nexuscos.online`
+- [ ] Application is accessible at `https://n3xuscos.online`
 - [ ] PM2 startup configured for server reboot: `pm2 startup && pm2 save`
 
 ---

@@ -124,9 +124,9 @@ RUNNING_SERVICES=$(docker ps --format '{{.Names}}' | wc -l)
 echo -e "${GREEN}✓ Docker services deployed: $RUNNING_SERVICES containers running${NC}"
 
 # Phase 6: Configure Plesk Nginx for Production
-echo -e "${BLUE}[6/8] Configuring Plesk nginx for nexuscos.online...${NC}"
+echo -e "${BLUE}[6/8] Configuring Plesk nginx for n3xuscos.online...${NC}"
 
-PROD_CONF_DIR="/var/www/vhosts/system/nexuscos.online/conf"
+PROD_CONF_DIR="/var/www/vhosts/system/n3xuscos.online/conf"
 mkdir -p "$PROD_CONF_DIR"
 
 cat > "$PROD_CONF_DIR/vhost.conf" << 'EOFPROD'
@@ -259,9 +259,9 @@ EOFPROD
 echo -e "${GREEN}✓ Production vhost configured${NC}"
 
 # Phase 7: Configure Plesk Nginx for Beta
-echo -e "${BLUE}[7/8] Configuring Plesk nginx for beta.nexuscos.online...${NC}"
+echo -e "${BLUE}[7/8] Configuring Plesk nginx for beta.n3xuscos.online...${NC}"
 
-BETA_CONF_DIR="/var/www/vhosts/system/beta.nexuscos.online/conf"
+BETA_CONF_DIR="/var/www/vhosts/system/beta.n3xuscos.online/conf"
 mkdir -p "$BETA_CONF_DIR"
 
 # Copy production config and add beta headers
@@ -303,13 +303,13 @@ echo ""
 echo -e "${BLUE}Next Steps:${NC}"
 echo ""
 echo "1. Verify Production Domain:"
-echo "   curl -I https://nexuscos.online/"
-echo "   curl -I https://nexuscos.online/health"
-echo "   curl -I https://nexuscos.online/platform"
+echo "   curl -I https://n3xuscos.online/"
+echo "   curl -I https://n3xuscos.online/health"
+echo "   curl -I https://n3xuscos.online/platform"
 echo ""
 echo "2. Verify Beta Domain:"
-echo "   curl -I https://beta.nexuscos.online/ | grep X-Environment"
-echo "   curl -I https://beta.nexuscos.online/health"
+echo "   curl -I https://beta.n3xuscos.online/ | grep X-Environment"
+echo "   curl -I https://beta.n3xuscos.online/health"
 echo ""
 echo "3. Update OAuth Credentials (if needed):"
 echo "   nano /opt/nexus-cos/.env.pf"

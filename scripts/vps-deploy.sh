@@ -7,7 +7,7 @@
 # Environment Variables:
 #   VPS_HOST - VPS host IP or domain (default: 74.208.155.161)
 #   VPS_USER - VPS SSH user (default: root)
-#   DOMAIN - Target domain (default: nexuscos.online)
+#   DOMAIN - Target domain (default: n3xuscos.online)
 # ==============================================================================
 
 set -e
@@ -23,7 +23,7 @@ NC='\033[0m' # No Color
 # Configuration
 VPS_HOST="${VPS_HOST:-74.208.155.161}"
 VPS_USER="${VPS_USER:-root}"
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 DEPLOY_DIR="/opt/nexus-cos"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"

@@ -39,55 +39,55 @@ This script will:
 
 ```bash
 # Create directory if it doesn't exist
-sudo mkdir -p /var/www/nexuscos.online
+sudo mkdir -p /var/www/n3xuscos.online
 
 # Copy apex landing page to root domain
-sudo cp apex/index.html /var/www/nexuscos.online/index.html
+sudo cp apex/index.html /var/www/n3xuscos.online/index.html
 
 # Set permissions
-sudo chown www-data:www-data /var/www/nexuscos.online/index.html
-sudo chmod 644 /var/www/nexuscos.online/index.html
+sudo chown www-data:www-data /var/www/n3xuscos.online/index.html
+sudo chmod 644 /var/www/n3xuscos.online/index.html
 ```
 
 #### Option 2: Deploy to Beta Domain
 
 ```bash
 # Create directory if it doesn't exist
-sudo mkdir -p /var/www/beta.nexuscos.online
+sudo mkdir -p /var/www/beta.n3xuscos.online
 
 # Copy beta landing page to beta subdomain
-sudo cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+sudo cp web/beta/index.html /var/www/beta.n3xuscos.online/index.html
 
 # Set permissions
-sudo chown www-data:www-data /var/www/beta.nexuscos.online/index.html
-sudo chmod 644 /var/www/beta.nexuscos.online/index.html
+sudo chown www-data:www-data /var/www/beta.n3xuscos.online/index.html
+sudo chmod 644 /var/www/beta.n3xuscos.online/index.html
 ```
 
 #### Option 3: Deploy Both (Recommended)
 
 ```bash
 # Create directories
-sudo mkdir -p /var/www/nexuscos.online
-sudo mkdir -p /var/www/beta.nexuscos.online
+sudo mkdir -p /var/www/n3xuscos.online
+sudo mkdir -p /var/www/beta.n3xuscos.online
 
 # Deploy apex
-sudo cp apex/index.html /var/www/nexuscos.online/index.html
+sudo cp apex/index.html /var/www/n3xuscos.online/index.html
 
 # Deploy beta
-sudo cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+sudo cp web/beta/index.html /var/www/beta.n3xuscos.online/index.html
 
 # Set permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online /var/www/beta.nexuscos.online
-sudo chmod 644 /var/www/nexuscos.online/index.html /var/www/beta.nexuscos.online/index.html
+sudo chown -R www-data:www-data /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
+sudo chmod 644 /var/www/n3xuscos.online/index.html /var/www/beta.n3xuscos.online/index.html
 ```
 
 ## Nginx Configuration
 
 The updated nginx configuration is in `deployment/nginx/nexuscos-unified.conf`. Key changes:
 
-1. **Root directory changed** from `/var/www/nexus-cos` to `/var/www/nexuscos.online`
+1. **Root directory changed** from `/var/www/nexus-cos` to `/var/www/n3xuscos.online`
 2. **Root path now serves landing page** instead of redirecting to `/admin/`
-3. **Beta subdomain configured** with separate server block at `/var/www/beta.nexuscos.online`
+3. **Beta subdomain configured** with separate server block at `/var/www/beta.n3xuscos.online`
 
 ### Deploy the Configuration
 
@@ -107,14 +107,14 @@ sudo systemctl reload nginx
 
 ### Key Configuration Highlights
 
-**Apex Domain (nexuscos.online):**
-- Root: `/var/www/nexuscos.online`
+**Apex Domain (n3xuscos.online):**
+- Root: `/var/www/n3xuscos.online`
 - Landing page served at `/`
 - Admin panel at `/admin/`
 - API endpoints at `/api/`
 
-**Beta Subdomain (beta.nexuscos.online):**
-- Root: `/var/www/beta.nexuscos.online`
+**Beta Subdomain (beta.n3xuscos.online):**
+- Root: `/var/www/beta.n3xuscos.online`
 - Landing page served at `/`
 - Health checks at `/health/gateway` and `/v-suite/prompter/health`
 - API endpoints at `/api/`
@@ -140,23 +140,23 @@ After deployment, verify the landing pages are working:
 ### 1. Access the Pages
 ```bash
 # Test apex
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # Test beta
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 ```
 
 ### 2. Test Health Checks
 ```bash
 # Test gateway health
-curl https://nexuscos.online/health/gateway
+curl https://n3xuscos.online/health/gateway
 
 # Test prompter health
-curl https://beta.nexuscos.online/v-suite/prompter/health
+curl https://beta.n3xuscos.online/v-suite/prompter/health
 ```
 
 ### 3. Browser Testing
-- Open https://nexuscos.online in a browser
+- Open https://n3xuscos.online in a browser
 - Verify dark mode is default
 - Click "Light" button to test theme toggle
 - Click each module tab (V-Suite, PUABO Fleet, Gateway, etc.)
@@ -175,7 +175,7 @@ curl https://beta.nexuscos.online/v-suite/prompter/health
 - [ ] Stats animate on page load
 - [ ] FAQ section displays all 3 questions
 - [ ] Footer appears at bottom
-- [ ] "Explore the Beta" CTA links to beta.nexuscos.online with UTM params
+- [ ] "Explore the Beta" CTA links to beta.n3xuscos.online with UTM params
 - [ ] Login/Start Free buttons link to /api/auth routes
 - [ ] Responsive design works on mobile view
 - [ ] Beta page shows green "BETA" badge

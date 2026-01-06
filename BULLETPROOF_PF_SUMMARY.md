@@ -168,18 +168,18 @@ ssh root@74.208.155.161 "cd /opt/nexus-cos && ./bulletproof-pf-deploy.sh && ./bu
 Internet → Nginx (IONOS SSL) → Services
 
 Domains:
-├── nexuscos.online
+├── n3xuscos.online
 │   ├── / → Frontend (React)
 │   ├── /api → Gateway API (4000)
 │   └── /v-suite → V-Suite Services
 │
-├── hollywood.nexuscos.online
+├── hollywood.n3xuscos.online
 │   └── V-Screen Hollywood (8088)
 │       ├── StreamCore (3016)
 │       ├── AI SDK (3002)
 │       └── Gateway API (Auth)
 │
-└── tv.nexuscos.online
+└── tv.n3xuscos.online
     └── StreamCore/OTT (3016)
 
 Backend:
@@ -225,7 +225,7 @@ Backend:
 ### StreamCore
 - **Port:** 3016
 - **Features:** FFmpeg/WebRTC, HLS/DASH, Adaptive bitrate
-- **OTT Platform:** tv.nexuscos.online
+- **OTT Platform:** tv.n3xuscos.online
 
 ### V-Caster Pro (Planned)
 - **Port:** 3011

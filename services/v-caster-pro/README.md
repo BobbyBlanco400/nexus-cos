@@ -85,9 +85,9 @@ location /streaming/ {
 ```
 
 This allows accessing the streaming endpoints via:
-- `https://nexuscos.online/streaming/status`
-- `https://nexuscos.online/streaming/catalog`
-- `https://nexuscos.online/streaming/test`
+- `https://n3xuscos.online/streaming/status`
+- `https://n3xuscos.online/streaming/catalog`
+- `https://n3xuscos.online/streaming/test`
 
 ## Running the Service
 

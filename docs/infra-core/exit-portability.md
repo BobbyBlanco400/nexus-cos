@@ -43,14 +43,14 @@ Exit capability is what separates **sovereign infrastructure** from **platform l
 ```
 # BIND Zone File for imvu042.world
 $TTL 3600
-@       IN      SOA     ns1.nexuscos.online. admin.imvu042.world. (
+@       IN      SOA     ns1.n3xuscos.online. admin.imvu042.world. (
                 2025122101 ; Serial
                 7200       ; Refresh
                 3600       ; Retry
                 1209600    ; Expire
                 3600 )     ; Minimum TTL
-        IN      NS      ns1.nexuscos.online.
-        IN      NS      ns2.nexuscos.online.
+        IN      NS      ns1.n3xuscos.online.
+        IN      NS      ns2.n3xuscos.online.
 @       IN      A       203.0.113.42
 www     IN      CNAME   @
 mail    IN      A       203.0.113.43
@@ -265,7 +265,7 @@ Checksum: sha256:abc123...
 **Creator downloads archive:**
 ```bash
 # Download via HTTPS
-curl -O https://exports.nexuscos.online/imvu042/export.tar.gz.enc
+curl -O https://exports.n3xuscos.online/imvu042/export.tar.gz.enc
 
 # Verify checksum
 sha256sum export.tar.gz.enc

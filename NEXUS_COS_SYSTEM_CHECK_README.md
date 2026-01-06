@@ -55,7 +55,7 @@ This implementation provides a comprehensive system check and validation tool fo
 bash scripts/nexus-cos-final-system-check.sh
 
 # On VPS (production)
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 cd /opt/nexus-cos
 bash scripts/nexus-cos-final-system-check.sh
 ```
@@ -67,7 +67,7 @@ bash scripts/nexus-cos-final-system-check.sh
 ║     PF v2025.10.01 - Full Platform Validation                 ║
 ╚════════════════════════════════════════════════════════════════╝
 
-Domain: nexuscos.online
+Domain: n3xuscos.online
 VPS IP: 74.208.155.161
 Date: 2025-01-08 12:00:00 UTC
 
@@ -113,7 +113,7 @@ Success Rate:  96%
 - Service status
 
 ### 5. SSL Certificate
-- Certificate retrieval for nexuscos.online
+- Certificate retrieval for n3xuscos.online
 - Issuer, subject, dates
 - Expiration check (warns < 30 days)
 
@@ -333,7 +333,7 @@ bash check-pf-v2025-health.sh
 docker compose -f docker-compose.pf.yml logs -f
 
 # Check specific service
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 
 # Restart services
 docker compose -f docker-compose.pf.yml restart
@@ -426,7 +426,7 @@ bash scripts/deploy_hybrid_fullstack_pf.sh
 bash scripts/nexus-cos-final-system-check.sh
 
 # Check specific domain
-DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
+DOMAIN=beta.n3xuscos.online bash scripts/nexus-cos-final-system-check.sh
 
 # View logs
 docker compose -f docker-compose.pf.yml logs -f

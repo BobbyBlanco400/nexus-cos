@@ -177,28 +177,28 @@ run_monitoring_cycle() {
     
     # Production Environment Monitoring
     echo -e "${BLUE}Production Environment:${NC}"
-    monitor_url "https://nexuscos.online" "Production Main App"
-    monitor_url "https://www.nexuscos.online" "Production WWW"
-    monitor_url "https://nexuscos.online/health" "Production Health" "ok"
-    monitor_url "https://nexuscos.online:3000/health" "Production Backend" "ok"
-    monitor_url "https://nexuscos.online:3001/health" "Production Python Backend" "ok"
-    monitor_url "https://monitoring.nexuscos.online" "Production Monitoring"
+    monitor_url "https://n3xuscos.online" "Production Main App"
+    monitor_url "https://www.n3xuscos.online" "Production WWW"
+    monitor_url "https://n3xuscos.online/health" "Production Health" "ok"
+    monitor_url "https://n3xuscos.online:3000/health" "Production Backend" "ok"
+    monitor_url "https://n3xuscos.online:3001/health" "Production Python Backend" "ok"
+    monitor_url "https://monitoring.n3xuscos.online" "Production Monitoring"
     
     # SSL Certificate Monitoring
-    monitor_ssl "nexuscos.online" "Production SSL"
-    monitor_ssl "www.nexuscos.online" "Production WWW SSL"
-    monitor_ssl "monitoring.nexuscos.online" "Production Monitoring SSL"
+    monitor_ssl "n3xuscos.online" "Production SSL"
+    monitor_ssl "www.n3xuscos.online" "Production WWW SSL"
+    monitor_ssl "monitoring.n3xuscos.online" "Production Monitoring SSL"
     
     # Beta Environment Monitoring
     echo -e "${PURPLE}Beta Environment:${NC}"
-    monitor_url "https://beta.nexuscos.online" "Beta Main App"
-    monitor_url "https://beta.nexuscos.online/health" "Beta Health" "ok"
-    monitor_url "https://beta.nexuscos.online:3000/health" "Beta Backend" "ok"
-    monitor_url "https://beta.nexuscos.online:3001/health" "Beta Python Backend" "ok"
-    monitor_url "https://beta.nexuscos.online/api/auth/test" "Beta Auth Test"
+    monitor_url "https://beta.n3xuscos.online" "Beta Main App"
+    monitor_url "https://beta.n3xuscos.online/health" "Beta Health" "ok"
+    monitor_url "https://beta.n3xuscos.online:3000/health" "Beta Backend" "ok"
+    monitor_url "https://beta.n3xuscos.online:3001/health" "Beta Python Backend" "ok"
+    monitor_url "https://beta.n3xuscos.online/api/auth/test" "Beta Auth Test"
     
     # Beta SSL Certificate Monitoring
-    monitor_ssl "beta.nexuscos.online" "Beta SSL"
+    monitor_ssl "beta.n3xuscos.online" "Beta SSL"
     
     echo -e "${CYAN}✅ Monitoring cycle complete${NC}"
     echo ""

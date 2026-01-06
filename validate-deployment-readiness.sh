@@ -307,7 +307,7 @@ if [ $ERRORS -eq 0 ]; then
     echo "Next steps:"
     echo "  1. Read START_HERE.md for quick start guide"
     echo "  2. Run: ./nexus-cos-production-deploy.sh"
-    echo "  3. Verify: curl -s https://nexuscos.online/health | jq"
+    echo "  3. Verify: curl -s https://n3xuscos.online/health | jq"
     echo ""
     exit 0
   else

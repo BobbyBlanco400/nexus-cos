@@ -14,16 +14,16 @@ Nexus COS is now **fully configured and ready for global VPS launch** with compl
 
 ### 2. Production Environment Configuration ✅
 - **Frontend URLs**: All V-Suite services configured with production domain
-- **No Localhost**: Production builds use `https://nexuscos.online` exclusively
+- **No Localhost**: Production builds use `https://n3xuscos.online` exclusively
 - **Validation**: Deployment script enforces production URL requirements
 - **Environment Files**:
   ```bash
   frontend/.env:
     VITE_API_URL=/api
-    VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen
-    VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster
-    VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage
-    VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter
+    VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen
+    VITE_V_CASTER_URL=https://n3xuscos.online/v-suite/caster
+    VITE_V_STAGE_URL=https://n3xuscos.online/v-suite/stage
+    VITE_V_PROMPTER_URL=https://n3xuscos.online/v-suite/prompter
   ```
 
 ### 3. Streaming/OTT Service Routes ✅
@@ -86,7 +86,7 @@ ssh root@74.208.155.161
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/scripts/pf-final-deploy.sh -o /tmp/pf-final-deploy.sh
 
 # Execute deployment
-sudo bash /tmp/pf-final-deploy.sh -r https://github.com/BobbyBlanco400/nexus-cos.git -d nexuscos.online
+sudo bash /tmp/pf-final-deploy.sh -r https://github.com/BobbyBlanco400/nexus-cos.git -d n3xuscos.online
 ```
 
 ### Option 2: Windows PowerShell Deployment
@@ -99,7 +99,7 @@ cd nexus-cos
 # Deploy to VPS
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -SshUser "root" `
   -KeyFile "C:\path\to\private\key"
 ```
@@ -113,7 +113,7 @@ cd nexus-cos
 
 Or on Linux/Mac:
 ```bash
-./scripts/validate-streaming-routes.sh nexuscos.online
+./scripts/validate-streaming-routes.sh n3xuscos.online
 ```
 
 ## 🔍 Post-Deployment Validation
@@ -122,31 +122,31 @@ Or on Linux/Mac:
 
 ```bash
 # 1. Frontend
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: 200 OK
 
 # 2. API
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 # Expected: 200 OK
 
 # 3. Health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 # Expected: JSON response
 
 # 4. V-Screen (primary)
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-suite/screen
 # Expected: 200 OK
 
 # 5. V-Screen (alternative)
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-screen
 # Expected: 200 OK
 
 # 6. V-Hollywood
-curl -I https://nexuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-suite/hollywood
 # Expected: 200 OK
 
 # 7. Admin Panel
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/admin
 # Expected: 200 OK
 ```
 
@@ -154,7 +154,7 @@ curl -I https://nexuscos.online/admin
 
 ```bash
 # Comprehensive validation script
-./scripts/validate-streaming-routes.sh nexuscos.online
+./scripts/validate-streaming-routes.sh n3xuscos.online
 ```
 
 ## 📋 Pre-Launch Checklist
@@ -224,23 +224,23 @@ Backend Services (Docker Network: cos-net)
 ## 🎬 Production URLs
 
 ### Public Access
-- **Frontend**: https://nexuscos.online
-- **Admin Panel**: https://nexuscos.online/admin
-- **API**: https://nexuscos.online/api
+- **Frontend**: https://n3xuscos.online
+- **Admin Panel**: https://n3xuscos.online/admin
+- **API**: https://n3xuscos.online/api
 
 ### V-Suite Streaming Services
-- **V-Screen**: https://nexuscos.online/v-suite/screen
-- **V-Screen Alt**: https://nexuscos.online/v-screen
-- **V-Hollywood**: https://nexuscos.online/v-suite/hollywood
-- **V-Prompter Pro**: https://nexuscos.online/v-suite/prompter
-- **V-Caster**: https://nexuscos.online/v-suite/caster
-- **V-Stage**: https://nexuscos.online/v-suite/stage
+- **V-Screen**: https://n3xuscos.online/v-suite/screen
+- **V-Screen Alt**: https://n3xuscos.online/v-screen
+- **V-Hollywood**: https://n3xuscos.online/v-suite/hollywood
+- **V-Prompter Pro**: https://n3xuscos.online/v-suite/prompter
+- **V-Caster**: https://n3xuscos.online/v-suite/caster
+- **V-Stage**: https://n3xuscos.online/v-suite/stage
 
 ### Health & Monitoring
-- **Health**: https://nexuscos.online/health
-- **Gateway Health**: https://nexuscos.online/health/gateway
-- **AI SDK Health**: https://nexuscos.online/health/puaboai-sdk
-- **PV Keys Health**: https://nexuscos.online/health/pv-keys
+- **Health**: https://n3xuscos.online/health
+- **Gateway Health**: https://n3xuscos.online/health/gateway
+- **AI SDK Health**: https://n3xuscos.online/health/puaboai-sdk
+- **PV Keys Health**: https://n3xuscos.online/health/pv-keys
 
 ## 🛠️ Common Commands
 
@@ -379,5 +379,5 @@ For any questions, refer to the documentation in the repository or run the valid
 **Last Updated**: 2025-01-07
 **Status**: ✅ Ready for Production Launch
 **Platform**: Nexus COS - Content Operating System
-**Domain**: nexuscos.online
+**Domain**: n3xuscos.online
 **VPS**: 74.208.155.161

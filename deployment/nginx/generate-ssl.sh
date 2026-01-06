@@ -1,10 +1,10 @@
 #!/bin/bash
-# Generate self-signed SSL certificates for nexuscos.online
+# Generate self-signed SSL certificates for n3xuscos.online
 
 set -e
 
 SSL_DIR="/etc/nginx/ssl"
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 
 echo "🔐 Creating self-signed SSL certificates for $DOMAIN..."
 

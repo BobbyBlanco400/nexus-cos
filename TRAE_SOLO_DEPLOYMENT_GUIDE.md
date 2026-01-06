@@ -41,8 +41,8 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/quick
 Set these environment variables before running the script for custom configuration:
 
 ```bash
-export DOMAIN="nexuscos.online"              # Your domain
-export EMAIL="admin@nexuscos.online"         # SSL certificate email
+export DOMAIN="n3xuscos.online"              # Your domain
+export EMAIL="admin@n3xuscos.online"         # SSL certificate email
 export DEPLOY_PATH="/opt/nexus-cos"          # Deployment directory
 
 # Optional: Notification settings
@@ -59,7 +59,7 @@ export EMAIL_TO="notifications@domain.com"
 The script is configured for the infrastructure specified in the requirements:
 
 - **Host:** 75.208.155.161
-- **Domain:** nexuscos.online
+- **Domain:** n3xuscos.online
 - **Deploy Path:** /opt/nexus-cos
 - **Email:** puaboverse@gmail.com
 
@@ -117,13 +117,13 @@ The script is configured for the infrastructure specified in the requirements:
 
 After successful deployment, these endpoints will be available:
 
-- **🌐 Main Site:** https://nexuscos.online
-- **📊 Interactive Module Map:** https://nexuscos.online/diagram/NexusCOS.html
-- **🔧 Node.js API Health:** https://nexuscos.online/api/node/health
-- **🐍 Python API Health:** https://nexuscos.online/api/python/health
-- **📈 Creator Hub Status:** https://nexuscos.online/api/creator-hub/status
-- **💼 V-Suite Status:** https://nexuscos.online/api/v-suite/status
-- **🌐 PuaboVerse Status:** https://nexuscos.online/api/puaboverse/status
+- **🌐 Main Site:** https://n3xuscos.online
+- **📊 Interactive Module Map:** https://n3xuscos.online/diagram/NexusCOS.html
+- **🔧 Node.js API Health:** https://n3xuscos.online/api/node/health
+- **🐍 Python API Health:** https://n3xuscos.online/api/python/health
+- **📈 Creator Hub Status:** https://n3xuscos.online/api/creator-hub/status
+- **💼 V-Suite Status:** https://n3xuscos.online/api/v-suite/status
+- **🌐 PuaboVerse Status:** https://n3xuscos.online/api/puaboverse/status
 
 ## 🎯 Interactive Module Map Features
 
@@ -178,8 +178,8 @@ curl http://localhost:3000/health
 curl http://localhost:3001/health
 
 # Test external endpoints
-curl https://nexuscos.online/api/node/health
-curl https://nexuscos.online/api/python/health
+curl https://n3xuscos.online/api/node/health
+curl https://n3xuscos.online/api/python/health
 ```
 
 ### Database Connection
@@ -250,4 +250,4 @@ The deployment is successful when you see:
 5. ✅ Nginx serving the application
 6. ✅ Database connections working
 
-The interactive module map at `https://nexuscos.online/diagram/NexusCOS.html` should display all modules with green status indicators and clickable links to each service interface.
+The interactive module map at `https://n3xuscos.online/diagram/NexusCOS.html` should display all modules with green status indicators and clickable links to each service interface.

@@ -56,7 +56,7 @@
     {
       "platform": "Nexus COS",
       "enabled": true,
-      "api_endpoint": "https://api.nexuscos.online/v1/content",
+      "api_endpoint": "https://api.n3xuscos.online/v1/content",
       "authentication": "oauth2"
     },
     {
@@ -97,7 +97,7 @@
     "verify_thiio": "scripts/verify_thiio.py"
   },
   "notifications": {
-    "email": "production@nexuscos.online",
+    "email": "production@n3xuscos.online",
     "slack_webhook": "https://hooks.slack.com/services/placeholder",
     "on_completion": true,
     "on_error": true

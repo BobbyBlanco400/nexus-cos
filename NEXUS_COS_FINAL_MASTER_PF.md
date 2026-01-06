@@ -2,8 +2,8 @@
 
 **Status:** ✅ Production-Frozen · Beta/Additive Enabled  
 **Platform:** Nexus COS (PUABO Stack)  
-**Domain:** https://nexuscos.online  
-**Authoritative Frontend Entry:** https://nexuscos.online/streaming/  
+**Domain:** https://n3xuscos.online  
+**Authoritative Frontend Entry:** https://n3xuscos.online/streaming/  
 
 ---
 
@@ -23,7 +23,7 @@ Nexus COS platform is **fully deployed, verified live over HTTPS, and production
 ## 2. Authoritative Frontend Entry — Nexus Stream
 
 **Canonical Public Entry:**  
-👉 **https://nexuscos.online/streaming/**
+👉 **https://n3xuscos.online/streaming/**
 
 **Supported Deep Links (Production):**
 - `/streaming/catalog`
@@ -75,7 +75,7 @@ X-Nexus-Handshake: 55-45-17
 📅 **12/16/2025 @ 4:01 PM UTC**
 
 **Coverage:**
-- Domain: nexuscos.online
+- Domain: n3xuscos.online
 - All documented endpoints
 - Proxy intent: `/streaming/` → `127.0.0.1:3047`
 
@@ -95,7 +95,7 @@ X-Nexus-Handshake: 55-45-17
 
 ### 5.1 Beta Domain Configuration
 
-**Domain:** beta.nexuscos.online
+**Domain:** beta.n3xuscos.online
 
 **Endpoints:**
 - `/` - Beta home/streaming
@@ -116,7 +116,7 @@ X-Nexus-Handshake: beta-55-45-17
 
 ### 5.2 Beta Nginx Configuration
 
-**Location:** Plesk > Domains > beta.nexuscos.online > Apache & nginx Settings > "Additional nginx directives"
+**Location:** Plesk > Domains > beta.n3xuscos.online > Apache & nginx Settings > "Additional nginx directives"
 
 **Configuration:**
 
@@ -164,9 +164,9 @@ sudo systemctl reload nginx
 
 # Verify all beta endpoints return correct headers
 for endpoint in / /catalog /status /test; do
-    echo "Testing: https://beta.nexuscos.online${endpoint}"
-    curl -sSkI "https://beta.nexuscos.online${endpoint}" | grep -i '^X-Nexus-Handshake'
-    curl -sSkI "https://beta.nexuscos.online${endpoint}" | grep -i '^X-Environment'
+    echo "Testing: https://beta.n3xuscos.online${endpoint}"
+    curl -sSkI "https://beta.n3xuscos.online${endpoint}" | grep -i '^X-Nexus-Handshake'
+    curl -sSkI "https://beta.n3xuscos.online${endpoint}" | grep -i '^X-Environment'
     echo "---"
 done
 ```
@@ -189,22 +189,22 @@ X-Environment: beta
 
    **Request 1: Beta Root**
    - Method: GET
-   - URL: https://beta.nexuscos.online/
+   - URL: https://beta.n3xuscos.online/
    - Expected: HTTP 200, X-Nexus-Handshake: beta-55-45-17
 
    **Request 2: Beta Catalog**
    - Method: GET
-   - URL: https://beta.nexuscos.online/catalog
+   - URL: https://beta.n3xuscos.online/catalog
    - Expected: HTTP 200, X-Nexus-Handshake: beta-55-45-17
 
    **Request 3: Beta Status**
    - Method: GET
-   - URL: https://beta.nexuscos.online/status
+   - URL: https://beta.n3xuscos.online/status
    - Expected: HTTP 200, X-Nexus-Handshake: beta-55-45-17
 
    **Request 4: Beta Test**
    - Method: GET
-   - URL: https://beta.nexuscos.online/test
+   - URL: https://beta.n3xuscos.online/test
    - Expected: HTTP 200, X-Nexus-Handshake: beta-55-45-17
 
 4. Save collection for repeated testing
@@ -244,23 +244,23 @@ curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/copilot/fi
 
 ```bash
 # Main domain - Streaming UI
-curl -I https://nexuscos.online/ | head -n1  # Should return 200
+curl -I https://n3xuscos.online/ | head -n1  # Should return 200
 
 # Platform launcher
-curl -I https://nexuscos.online/platform | head -n1  # Should return 200
+curl -I https://n3xuscos.online/platform | head -n1  # Should return 200
 
 # Brand check
-curl -I https://nexuscos.online/brand-check | head -n1  # Should return 200
+curl -I https://n3xuscos.online/brand-check | head -n1  # Should return 200
 
 # API endpoints
-curl -I https://nexuscos.online/api/status | head -n1  # Should return 200
-curl -I https://nexuscos.online/api/health | head -n1  # Should return 200
+curl -I https://n3xuscos.online/api/status | head -n1  # Should return 200
+curl -I https://n3xuscos.online/api/health | head -n1  # Should return 200
 
 # V-Suite modules
-curl -I https://nexuscos.online/v-suite/hollywood | head -n1
-curl -I https://nexuscos.online/v-suite/stage | head -n1
-curl -I https://nexuscos.online/v-suite/caster | head -n1
-curl -I https://nexuscos.online/v-suite/prompter | head -n1
+curl -I https://n3xuscos.online/v-suite/hollywood | head -n1
+curl -I https://n3xuscos.online/v-suite/stage | head -n1
+curl -I https://n3xuscos.online/v-suite/caster | head -n1
+curl -I https://n3xuscos.online/v-suite/prompter | head -n1
 
 # Local service health
 curl -sI http://localhost:4000/health | head -n1  # PF API
@@ -280,18 +280,18 @@ ss -tln | awk 'NR==1 || /:(4000|3002|3041|3016|8088|3231|3232|3233|3234)\b/'
 **After running the master deployment script, manually configure beta domain:**
 
 ### Step 1: DNS Configuration
-- Ensure `beta.nexuscos.online` points to your VPS IP
+- Ensure `beta.n3xuscos.online` points to your VPS IP
 - Wait for DNS propagation (5-10 minutes)
 
 ### Step 2: Plesk Beta Domain Setup
 1. Log into Plesk
 2. Go to: Domains > Add Domain
-3. Domain name: `beta.nexuscos.online`
+3. Domain name: `beta.n3xuscos.online`
 4. Document root: `/var/www/beta-nexuscos/frontend/dist`
 5. SSL/TLS: Enable Let's Encrypt
 
 ### Step 3: Add Nginx Directives
-1. Go to: Domains > beta.nexuscos.online > Apache & nginx Settings
+1. Go to: Domains > beta.n3xuscos.online > Apache & nginx Settings
 2. Scroll to "Additional nginx directives"
 3. Paste the beta nginx configuration from section 5.2
 4. Click "Apply"
@@ -316,14 +316,14 @@ sudo nginx -t && sudo systemctl reload nginx
 ### Step 7: Verify Beta Domain
 ```bash
 # Run verification commands from section 5.3
-curl -I https://beta.nexuscos.online/ | grep "X-Nexus-Handshake"
+curl -I https://beta.n3xuscos.online/ | grep "X-Nexus-Handshake"
 ```
 
 ---
 
 ## 8. Final Launch Checklist
 
-### Production Domain (nexuscos.online)
+### Production Domain (n3xuscos.online)
 - [x] Database driver fixed (MySQL → PostgreSQL)
 - [x] Missing API endpoints added (/api/status, /api/health)
 - [x] Service paths corrected
@@ -337,7 +337,7 @@ curl -I https://beta.nexuscos.online/ | grep "X-Nexus-Handshake"
 - [x] SSL certificates configured
 - [x] Error interception enabled
 
-### Beta Domain (beta.nexuscos.online)
+### Beta Domain (beta.n3xuscos.online)
 - [ ] DNS configured and propagated
 - [ ] Plesk domain added
 - [ ] SSL certificate active
@@ -362,14 +362,14 @@ curl -I https://beta.nexuscos.online/ | grep "X-Nexus-Handshake"
 ### Common Issues
 
 **Issue: Beta domain returns 404**
-- Check DNS propagation: `dig beta.nexuscos.online`
+- Check DNS propagation: `dig beta.n3xuscos.online`
 - Verify nginx config: `sudo nginx -t`
 - Check document root exists: `ls -la /var/www/beta-nexuscos/frontend/dist`
 
 **Issue: Missing handshake headers**
 - Verify nginx directives applied in Plesk
 - Reload nginx: `sudo systemctl reload nginx`
-- Check headers: `curl -I https://beta.nexuscos.online/ | grep X-Nexus-Handshake`
+- Check headers: `curl -I https://beta.n3xuscos.online/ | grep X-Nexus-Handshake`
 
 **Issue: SSL certificate errors**
 - Check Let's Encrypt in Plesk

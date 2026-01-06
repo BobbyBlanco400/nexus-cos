@@ -135,10 +135,10 @@ https://YOUR_VPS_IP/health   # Health check
 Or if you've configured a domain:
 
 ```
-https://nexuscos.online          # Main platform
-https://nexuscos.online/admin    # Admin panel
-https://nexuscos.online/api/     # API endpoints
-https://nexuscos.online/health   # Health check
+https://n3xuscos.online          # Main platform
+https://n3xuscos.online/admin    # Admin panel
+https://n3xuscos.online/api/     # API endpoints
+https://n3xuscos.online/health   # Health check
 ```
 
 ---

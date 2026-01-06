@@ -85,17 +85,17 @@ Phase 2.5 OTT Integration + Beta Transition framework has been **successfully im
 ├─────────────────────────────────────────────────────────┤
 │                                                          │
 │  1. OTT FRONTEND                                        │
-│     Domain: nexuscos.online                             │
+│     Domain: n3xuscos.online                             │
 │     Purpose: Public streaming interface                 │
 │     Status: Permanent production                        │
 │                                                          │
 │  2. V-SUITE DASHBOARD                                   │
-│     Path: nexuscos.online/v-suite/                      │
+│     Path: n3xuscos.online/v-suite/                      │
 │     Purpose: Creator control center                     │
 │     Status: Permanent production                        │
 │                                                          │
 │  3. BETA PORTAL                                         │
-│     Domain: beta.nexuscos.online                        │
+│     Domain: beta.n3xuscos.online                        │
 │     Purpose: Pre-launch showcase                        │
 │     Status: Until Nov 17, 2025                          │
 │                                                          │
@@ -105,8 +105,8 @@ Phase 2.5 OTT Integration + Beta Transition framework has been **successfully im
 ### Key Features Implemented
 
 ✅ **Dual-Domain Routing**
-- Production: `nexuscos.online` (OTT + V-Suite)
-- Beta: `beta.nexuscos.online` (Pre-launch portal)
+- Production: `n3xuscos.online` (OTT + V-Suite)
+- Beta: `beta.n3xuscos.online` (Pre-launch portal)
 - Isolated Nginx configurations
 - Shared backend services
 

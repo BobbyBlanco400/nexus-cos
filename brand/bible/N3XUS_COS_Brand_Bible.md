@@ -699,9 +699,9 @@ Official brand assets: [internal link to brand assets repository]
 
 ### Contact
 
-Brand questions: brand@nexuscos.online  
-Asset requests: design@nexuscos.online  
-Partnership inquiries: partnerships@nexuscos.online
+Brand questions: brand@n3xuscos.online  
+Asset requests: design@n3xuscos.online  
+Partnership inquiries: partnerships@n3xuscos.online
 
 ---
 

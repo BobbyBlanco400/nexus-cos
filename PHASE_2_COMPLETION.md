@@ -290,13 +290,13 @@ The following actions are **PERMITTED**:
 ### Service Endpoints
 ```bash
 # Backend API health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # PUABO AI status
 curl http://localhost:3401/status
 
 # Gateway health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 ```
 
 ### Test Results

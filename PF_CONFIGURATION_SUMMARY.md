@@ -42,12 +42,12 @@ This document summarizes the PF-only configuration implementation for Nexus COS,
 
 #### `frontend/.env`
 ```env
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 #### `frontend/.env.example`
 ```env
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 All frontends now use a single, standardized API URL pointing to the PF gateway.
@@ -98,14 +98,14 @@ All routes point exclusively to PF services:
 ### Frontend Environment Standardization
 
 - All frontends read `VITE_API_URL` from environment
-- Single API origin: `https://nexuscos.online/api`
+- Single API origin: `https://n3xuscos.online/api`
 - Eliminates confusion from multiple API endpoints
 
 ## 🔧 How It Was Done
 
 1. **Consolidated upstreams** to exact PF container names from `docker-compose.pf.yml`
 2. **Replaced old paths** with PF `/v-suite/*` and `/api` mappings
-3. **Unified frontends** to read `VITE_API_URL` pointing at `https://nexuscos.online/api`
+3. **Unified frontends** to read `VITE_API_URL` pointing at `https://n3xuscos.online/api`
 4. **Added health endpoints** for all PF services
 5. **Created architecture diagram** showing PF-only structure
 
@@ -139,15 +139,15 @@ All routes point exclusively to PF services:
   ```
 
 - [ ] **All PF routes serve without 502**
-  - `https://nexuscos.online/admin`
-  - `https://nexuscos.online/hub`
-  - `https://nexuscos.online/studio`
-  - `https://nexuscos.online/streaming`
-  - `https://nexuscos.online/api`
-  - `https://nexuscos.online/v-suite/hollywood`
-  - `https://nexuscos.online/v-suite/prompter`
-  - `https://nexuscos.online/v-suite/caster`
-  - `https://nexuscos.online/v-suite/stage`
+  - `https://n3xuscos.online/admin`
+  - `https://n3xuscos.online/hub`
+  - `https://n3xuscos.online/studio`
+  - `https://n3xuscos.online/streaming`
+  - `https://n3xuscos.online/api`
+  - `https://n3xuscos.online/v-suite/hollywood`
+  - `https://n3xuscos.online/v-suite/prompter`
+  - `https://n3xuscos.online/v-suite/caster`
+  - `https://n3xuscos.online/v-suite/stage`
 
 - [ ] **Frontends read from correct API URL**
   ```bash

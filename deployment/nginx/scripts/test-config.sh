@@ -55,10 +55,10 @@ test_result() {
 echo -e "${BLUE}Testing configuration files existence...${NC}"
 echo ""
 
-if [[ -f "$REPO_ROOT/deployment/nginx/sites-available/nexuscos.online" ]]; then
+if [[ -f "$REPO_ROOT/deployment/nginx/sites-available/n3xuscos.online" ]]; then
     test_result "Vanilla Nginx config exists" "pass"
 else
-    test_result "Vanilla Nginx config exists" "fail" "File not found: deployment/nginx/sites-available/nexuscos.online"
+    test_result "Vanilla Nginx config exists" "fail" "File not found: deployment/nginx/sites-available/n3xuscos.online"
 fi
 
 if [[ -f "$REPO_ROOT/deployment/nginx/plesk/vhost_nginx.conf" ]]; then
@@ -106,7 +106,7 @@ echo ""
 echo -e "${BLUE}Testing nginx configuration structure...${NC}"
 echo ""
 
-VANILLA_CONFIG="$REPO_ROOT/deployment/nginx/sites-available/nexuscos.online"
+VANILLA_CONFIG="$REPO_ROOT/deployment/nginx/sites-available/n3xuscos.online"
 
 # Check for required server blocks
 if grep -q "listen 80;" "$VANILLA_CONFIG"; then
@@ -248,7 +248,7 @@ else
 fi
 
 # Check if Plesk uses correct paths
-if grep -q "/var/www/vhosts/nexuscos.online/httpdocs" "$PLESK_CONFIG"; then
+if grep -q "/var/www/vhosts/n3xuscos.online/httpdocs" "$PLESK_CONFIG"; then
     test_result "Plesk config uses correct document root" "pass"
 else
     test_result "Plesk config uses correct document root" "warn" "Plesk document root may be incorrect"

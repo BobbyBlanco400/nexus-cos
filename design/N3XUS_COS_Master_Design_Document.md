@@ -627,7 +627,7 @@ const loadingVariants = {
 ```
 N3XUS COS
 The Creative Operating System
-nexuscos.online
+n3xuscos.online
 ```
 
 ### 6.3 Visual Effects Specification

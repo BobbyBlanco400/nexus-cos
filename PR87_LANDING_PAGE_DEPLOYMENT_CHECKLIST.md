@@ -2,7 +2,7 @@
 
 **IRON FIST ENFORCEMENT MODE ACTIVATED**  
 **Target:** Production Deployment of Nexus COS Landing Pages (PR#87)  
-**VPS:** 74.208.155.161 (nexuscos.online)  
+**VPS:** 74.208.155.161 (n3xuscos.online)  
 **Status:** MANDATORY STRICT ADHERENCE REQUIRED  
 **Zero Tolerance:** ALL steps must be completed and verified
 
@@ -13,8 +13,8 @@
 This checklist enforces the **complete and strict deployment** of landing pages from PR#87 with **ZERO DEVIATION** from PF Standards. Every step must be completed, every verification must pass, and every checkpoint must be confirmed.
 
 **Files to Deploy:**
-- `apex/index.html` → `/var/www/nexuscos.online/index.html`
-- `web/beta/index.html` → `/var/www/beta.nexuscos.online/index.html`
+- `apex/index.html` → `/var/www/n3xuscos.online/index.html`
+- `web/beta/index.html` → `/var/www/beta.n3xuscos.online/index.html`
 
 **PF Compliance Requirements:**
 - ✅ IONOS SSL Certificates ONLY (no Let's Encrypt)
@@ -38,7 +38,7 @@ ssh root@74.208.155.161 "hostname && whoami"
 
 **Expected Output:**
 ```
-nexuscos.online (or similar hostname)
+n3xuscos.online (or similar hostname)
 root
 ```
 
@@ -104,27 +104,27 @@ wc -l web/beta/index.html    # Should show 826 lines
 
 ```bash
 # Create deployment directories
-mkdir -p /var/www/nexuscos.online
-mkdir -p /var/www/beta.nexuscos.online
+mkdir -p /var/www/n3xuscos.online
+mkdir -p /var/www/beta.n3xuscos.online
 
 # Set proper permissions
-chown -R www-data:www-data /var/www/nexuscos.online
-chown -R www-data:www-data /var/www/beta.nexuscos.online
-chmod -R 755 /var/www/nexuscos.online
-chmod -R 755 /var/www/beta.nexuscos.online
+chown -R www-data:www-data /var/www/n3xuscos.online
+chown -R www-data:www-data /var/www/beta.n3xuscos.online
+chmod -R 755 /var/www/n3xuscos.online
+chmod -R 755 /var/www/beta.n3xuscos.online
 ```
 
 **Verification Commands:**
 ```bash
 # Verify directories exist and have correct permissions
-ls -ld /var/www/nexuscos.online
-ls -ld /var/www/beta.nexuscos.online
+ls -ld /var/www/n3xuscos.online
+ls -ld /var/www/beta.n3xuscos.online
 
-# Expected: drwxr-xr-x ... www-data www-data ... /var/www/nexuscos.online
+# Expected: drwxr-xr-x ... www-data www-data ... /var/www/n3xuscos.online
 ```
 
-- [ ] `/var/www/nexuscos.online` directory created
-- [ ] `/var/www/beta.nexuscos.online` directory created
+- [ ] `/var/www/n3xuscos.online` directory created
+- [ ] `/var/www/beta.n3xuscos.online` directory created
 - [ ] Ownership set to `www-data:www-data`
 - [ ] Permissions set to `755`
 - [ ] Directories are writable
@@ -141,36 +141,36 @@ ls -ld /var/www/beta.nexuscos.online
 
 ```bash
 # Backup existing file if present
-if [ -f /var/www/nexuscos.online/index.html ]; then
-    cp /var/www/nexuscos.online/index.html \
-       /var/www/nexuscos.online/index.html.backup.$(date +%Y%m%d_%H%M%S)
+if [ -f /var/www/n3xuscos.online/index.html ]; then
+    cp /var/www/n3xuscos.online/index.html \
+       /var/www/n3xuscos.online/index.html.backup.$(date +%Y%m%d_%H%M%S)
     echo "Backup created"
 fi
 
 # Deploy apex landing page
-cp /opt/nexus-cos/apex/index.html /var/www/nexuscos.online/index.html
+cp /opt/nexus-cos/apex/index.html /var/www/n3xuscos.online/index.html
 
 # Set proper permissions
-chown www-data:www-data /var/www/nexuscos.online/index.html
-chmod 644 /var/www/nexuscos.online/index.html
+chown www-data:www-data /var/www/n3xuscos.online/index.html
+chmod 644 /var/www/n3xuscos.online/index.html
 ```
 
 **Verification Commands:**
 ```bash
 # Verify file exists and has correct permissions
-ls -lh /var/www/nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
 
 # Verify file content matches source
-diff /opt/nexus-cos/apex/index.html /var/www/nexuscos.online/index.html
+diff /opt/nexus-cos/apex/index.html /var/www/n3xuscos.online/index.html
 # Expected: No output (files are identical)
 
 # Count lines to verify integrity
-wc -l /var/www/nexuscos.online/index.html
+wc -l /var/www/n3xuscos.online/index.html
 # Expected: 815 lines
 ```
 
 - [ ] Existing file backed up (if present)
-- [ ] `apex/index.html` copied to `/var/www/nexuscos.online/index.html`
+- [ ] `apex/index.html` copied to `/var/www/n3xuscos.online/index.html`
 - [ ] File ownership is `www-data:www-data`
 - [ ] File permissions are `644`
 - [ ] File content matches source (diff returns no differences)
@@ -186,40 +186,40 @@ wc -l /var/www/nexuscos.online/index.html
 
 ```bash
 # Backup existing file if present
-if [ -f /var/www/beta.nexuscos.online/index.html ]; then
-    cp /var/www/beta.nexuscos.online/index.html \
-       /var/www/beta.nexuscos.online/index.html.backup.$(date +%Y%m%d_%H%M%S)
+if [ -f /var/www/beta.n3xuscos.online/index.html ]; then
+    cp /var/www/beta.n3xuscos.online/index.html \
+       /var/www/beta.n3xuscos.online/index.html.backup.$(date +%Y%m%d_%H%M%S)
     echo "Backup created"
 fi
 
 # Deploy beta landing page
-cp /opt/nexus-cos/web/beta/index.html /var/www/beta.nexuscos.online/index.html
+cp /opt/nexus-cos/web/beta/index.html /var/www/beta.n3xuscos.online/index.html
 
 # Set proper permissions
-chown www-data:www-data /var/www/beta.nexuscos.online/index.html
-chmod 644 /var/www/beta.nexuscos.online/index.html
+chown www-data:www-data /var/www/beta.n3xuscos.online/index.html
+chmod 644 /var/www/beta.n3xuscos.online/index.html
 ```
 
 **Verification Commands:**
 ```bash
 # Verify file exists and has correct permissions
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 
 # Verify file content matches source
-diff /opt/nexus-cos/web/beta/index.html /var/www/beta.nexuscos.online/index.html
+diff /opt/nexus-cos/web/beta/index.html /var/www/beta.n3xuscos.online/index.html
 # Expected: No output (files are identical)
 
 # Count lines to verify integrity
-wc -l /var/www/beta.nexuscos.online/index.html
+wc -l /var/www/beta.n3xuscos.online/index.html
 # Expected: 826 lines
 
 # Verify Beta badge is present
-grep -c 'beta-badge' /var/www/beta.nexuscos.online/index.html
+grep -c 'beta-badge' /var/www/beta.n3xuscos.online/index.html
 # Expected: 2 (class definition and usage)
 ```
 
 - [ ] Existing file backed up (if present)
-- [ ] `web/beta/index.html` copied to `/var/www/beta.nexuscos.online/index.html`
+- [ ] `web/beta/index.html` copied to `/var/www/beta.n3xuscos.online/index.html`
 - [ ] File ownership is `www-data:www-data`
 - [ ] File permissions are `644`
 - [ ] File content matches source (diff returns no differences)
@@ -239,11 +239,11 @@ grep -c 'beta-badge' /var/www/beta.nexuscos.online/index.html
 **Verify Apex Domain Configuration:**
 ```bash
 # Check apex domain nginx config
-cat /etc/nginx/sites-available/nexuscos.online
+cat /etc/nginx/sites-available/n3xuscos.online
 
 # Required configuration elements:
-# 1. server_name nexuscos.online www.nexuscos.online
-# 2. root /var/www/nexuscos.online
+# 1. server_name n3xuscos.online www.n3xuscos.online
+# 2. root /var/www/n3xuscos.online
 # 3. index index.html
 # 4. SSL configuration (IONOS certificates)
 # 5. Health check proxy: location /health/gateway
@@ -254,14 +254,14 @@ cat /etc/nginx/sites-available/nexuscos.online
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
-    root /var/www/nexuscos.online;
+    root /var/www/n3xuscos.online;
     index index.html;
     
     # IONOS SSL Configuration
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     # Serve landing page
     location / {
@@ -290,11 +290,11 @@ server {
 **Verify Beta Domain Configuration:**
 ```bash
 # Check beta domain nginx config
-cat /etc/nginx/sites-available/beta.nexuscos.online
+cat /etc/nginx/sites-available/beta.n3xuscos.online
 
 # Required configuration elements:
-# 1. server_name beta.nexuscos.online
-# 2. root /var/www/beta.nexuscos.online
+# 1. server_name beta.n3xuscos.online
+# 2. root /var/www/beta.n3xuscos.online
 # 3. index index.html
 # 4. SSL configuration (IONOS certificates)
 # 5. Prompter health check: location /v-suite/prompter/health
@@ -305,14 +305,14 @@ cat /etc/nginx/sites-available/beta.nexuscos.online
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
-    root /var/www/beta.nexuscos.online;
+    root /var/www/beta.n3xuscos.online;
     index index.html;
     
     # IONOS SSL Configuration
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     # Serve landing page
     location / {
@@ -351,13 +351,13 @@ systemctl reload nginx
 systemctl status nginx
 ```
 
-- [ ] Apex nginx config exists at `/etc/nginx/sites-available/nexuscos.online`
+- [ ] Apex nginx config exists at `/etc/nginx/sites-available/n3xuscos.online`
 - [ ] Apex config has correct `server_name`
 - [ ] Apex config has correct `root` directive
 - [ ] Apex config has IONOS SSL certificates configured
 - [ ] Apex config has `/health/gateway` proxy
 - [ ] Apex config has `/api/` proxy
-- [ ] Beta nginx config exists at `/etc/nginx/sites-available/beta.nexuscos.online`
+- [ ] Beta nginx config exists at `/etc/nginx/sites-available/beta.n3xuscos.online`
 - [ ] Beta config has correct `server_name`
 - [ ] Beta config has correct `root` directive
 - [ ] Beta config has IONOS SSL certificates configured
@@ -378,31 +378,31 @@ systemctl status nginx
 **Validate IONOS SSL Certificates:**
 ```bash
 # Verify apex certificate exists and is valid
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
 
 # Check certificate issuer (must be IONOS)
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -issuer
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -issuer
 
 # Check certificate expiration
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -enddate
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -enddate
 
 # Verify certificate matches private key
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -modulus | md5sum
-openssl rsa -in /etc/nginx/ssl/apex/nexuscos.online.key -noout -modulus | md5sum
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -modulus | md5sum
+openssl rsa -in /etc/nginx/ssl/apex/n3xuscos.online.key -noout -modulus | md5sum
 # Expected: Both MD5 hashes match
 ```
 
 **Test SSL Connection:**
 ```bash
 # Test apex domain SSL
-openssl s_client -connect nexuscos.online:443 -showcerts < /dev/null 2>&1 | grep -E "(issuer|subject)"
+openssl s_client -connect n3xuscos.online:443 -showcerts < /dev/null 2>&1 | grep -E "(issuer|subject)"
 
 # Test beta domain SSL
-openssl s_client -connect beta.nexuscos.online:443 -showcerts < /dev/null 2>&1 | grep -E "(issuer|subject)"
+openssl s_client -connect beta.n3xuscos.online:443 -showcerts < /dev/null 2>&1 | grep -E "(issuer|subject)"
 ```
 
-- [ ] Apex SSL certificate exists at `/etc/nginx/ssl/apex/nexuscos.online.crt`
-- [ ] Apex SSL private key exists at `/etc/nginx/ssl/apex/nexuscos.online.key`
+- [ ] Apex SSL certificate exists at `/etc/nginx/ssl/apex/n3xuscos.online.crt`
+- [ ] Apex SSL private key exists at `/etc/nginx/ssl/apex/n3xuscos.online.key`
 - [ ] Apex certificate is valid (not expired)
 - [ ] Apex certificate issuer is IONOS
 - [ ] Apex certificate matches private key (MD5 hashes match)
@@ -423,41 +423,41 @@ openssl s_client -connect beta.nexuscos.online:443 -showcerts < /dev/null 2>&1 |
 **Test Apex Domain:**
 ```bash
 # Test HTTP to HTTPS redirect
-curl -I http://nexuscos.online
+curl -I http://n3xuscos.online
 # Expected: 301 Moved Permanently or 302 Found (redirect to HTTPS)
 
 # Test HTTPS access
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 # Expected: HTTP/2 200 OK
 
 # Verify HTML content is served
-curl -s https://nexuscos.online | head -20
+curl -s https://n3xuscos.online | head -20
 # Expected: HTML content starting with <!DOCTYPE html>
 
 # Verify title tag
-curl -s https://nexuscos.online | grep -o '<title>.*</title>'
+curl -s https://n3xuscos.online | grep -o '<title>.*</title>'
 # Expected: <title>Nexus COS — Apex</title>
 ```
 
 **Test Beta Domain:**
 ```bash
 # Test HTTP to HTTPS redirect
-curl -I http://beta.nexuscos.online
+curl -I http://beta.n3xuscos.online
 # Expected: 301 Moved Permanently or 302 Found (redirect to HTTPS)
 
 # Test HTTPS access
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 # Expected: HTTP/2 200 OK
 
 # Verify HTML content is served
-curl -s https://beta.nexuscos.online | head -20
+curl -s https://beta.n3xuscos.online | head -20
 # Expected: HTML content starting with <!DOCTYPE html>
 
 # Verify title tag and beta badge
-curl -s https://beta.nexuscos.online | grep -o '<title>.*</title>'
+curl -s https://beta.n3xuscos.online | grep -o '<title>.*</title>'
 # Expected: <title>Nexus COS — Beta</title>
 
-curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
+curl -s https://beta.n3xuscos.online | grep -c 'beta-badge'
 # Expected: 2
 ```
 
@@ -482,22 +482,22 @@ curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
 **Test Gateway Health Endpoint:**
 ```bash
 # Test gateway health check
-curl -I https://nexuscos.online/health/gateway
+curl -I https://n3xuscos.online/health/gateway
 # Expected: HTTP/2 200 OK (if gateway service is running)
 
 # Get health check response
-curl -s https://nexuscos.online/health/gateway
+curl -s https://n3xuscos.online/health/gateway
 # Expected: JSON response with status information
 ```
 
 **Test Prompter Health Endpoint:**
 ```bash
 # Test prompter health check
-curl -I https://beta.nexuscos.online/v-suite/prompter/health
+curl -I https://beta.n3xuscos.online/v-suite/prompter/health
 # Expected: HTTP/2 204 No Content (if prompter service is running)
 
 # Alternative test
-curl -s -o /dev/null -w "%{http_code}" https://beta.nexuscos.online/v-suite/prompter/health
+curl -s -o /dev/null -w "%{http_code}" https://beta.n3xuscos.online/v-suite/prompter/health
 # Expected: 204
 ```
 
@@ -526,36 +526,36 @@ pm2 list
 **Validate Apex Landing Page Features:**
 ```bash
 # Check for critical elements
-curl -s https://nexuscos.online | grep -c 'Nexus COS'
+curl -s https://n3xuscos.online | grep -c 'Nexus COS'
 # Expected: Multiple occurrences
 
-curl -s https://nexuscos.online | grep -c 'The COS for Creative Ecosystems'
+curl -s https://n3xuscos.online | grep -c 'The COS for Creative Ecosystems'
 # Expected: At least 2
 
-curl -s https://nexuscos.online | grep -c 'tab-btn'
+curl -s https://n3xuscos.online | grep -c 'tab-btn'
 # Expected: 6 (one for each module tab)
 
-curl -s https://nexuscos.online | grep -c 'theme-toggle'
+curl -s https://n3xuscos.online | grep -c 'theme-toggle'
 # Expected: 1
 
-curl -s https://nexuscos.online | grep -c 'stat-value'
+curl -s https://n3xuscos.online | grep -c 'stat-value'
 # Expected: 3 (nodes, uptime, latency)
 ```
 
 **Validate Beta Landing Page Features:**
 ```bash
 # Check for beta-specific elements
-curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
+curl -s https://beta.n3xuscos.online | grep -c 'beta-badge'
 # Expected: 2
 
-curl -s https://beta.nexuscos.online | grep -c 'Beta'
+curl -s https://beta.n3xuscos.online | grep -c 'Beta'
 # Expected: Multiple occurrences
 
 # Verify same core features as apex
-curl -s https://beta.nexuscos.online | grep -c 'tab-btn'
+curl -s https://beta.n3xuscos.online | grep -c 'tab-btn'
 # Expected: 6
 
-curl -s https://beta.nexuscos.online | grep -c 'theme-toggle'
+curl -s https://beta.n3xuscos.online | grep -c 'theme-toggle'
 # Expected: 1
 ```
 
@@ -581,7 +581,7 @@ curl -s https://beta.nexuscos.online | grep -c 'theme-toggle'
 
 **This checkpoint requires manual browser testing:**
 
-**Apex Page Testing (https://nexuscos.online):**
+**Apex Page Testing (https://n3xuscos.online):**
 - [ ] Page loads without errors
 - [ ] Navigation bar visible with logo and links
 - [ ] Theme toggle button present
@@ -599,10 +599,10 @@ curl -s https://beta.nexuscos.online | grep -c 'theme-toggle'
 - [ ] Counters animate on page load (128, 100%, 42ms)
 - [ ] FAQ section displays 3 questions
 - [ ] Footer visible at bottom
-- [ ] "Explore the Beta" CTA links to beta.nexuscos.online with UTM parameters
+- [ ] "Explore the Beta" CTA links to beta.n3xuscos.online with UTM parameters
 - [ ] "Start Free" CTA links to /api/auth/signup
 
-**Beta Page Testing (https://beta.nexuscos.online):**
+**Beta Page Testing (https://beta.n3xuscos.online):**
 - [ ] Page loads without errors
 - [ ] Green "BETA" badge visible next to Nexus COS logo
 - [ ] All Apex features work correctly
@@ -643,9 +643,9 @@ ERRORS=0
 WARNINGS=0
 
 # Check apex file
-if [ -f /var/www/nexuscos.online/index.html ]; then
+if [ -f /var/www/n3xuscos.online/index.html ]; then
     echo "✓ Apex landing page deployed"
-    LINES=$(wc -l < /var/www/nexuscos.online/index.html)
+    LINES=$(wc -l < /var/www/n3xuscos.online/index.html)
     if [ "$LINES" -eq 815 ]; then
         echo "✓ Apex file has correct line count: $LINES"
     else
@@ -658,9 +658,9 @@ else
 fi
 
 # Check beta file
-if [ -f /var/www/beta.nexuscos.online/index.html ]; then
+if [ -f /var/www/beta.n3xuscos.online/index.html ]; then
     echo "✓ Beta landing page deployed"
-    LINES=$(wc -l < /var/www/beta.nexuscos.online/index.html)
+    LINES=$(wc -l < /var/www/beta.n3xuscos.online/index.html)
     if [ "$LINES" -eq 826 ]; then
         echo "✓ Beta file has correct line count: $LINES"
     else
@@ -681,9 +681,9 @@ else
 fi
 
 # Check SSL certificates
-if [ -f /etc/nginx/ssl/apex/nexuscos.online.crt ]; then
+if [ -f /etc/nginx/ssl/apex/n3xuscos.online.crt ]; then
     echo "✓ SSL certificate present"
-    if openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -checkend 0 &>/dev/null; then
+    if openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -checkend 0 &>/dev/null; then
         echo "✓ SSL certificate valid (not expired)"
     else
         echo "✗ SSL certificate expired or invalid"
@@ -695,7 +695,7 @@ else
 fi
 
 # Check apex HTTP response
-APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://nexuscos.online 2>/dev/null)
+APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://n3xuscos.online 2>/dev/null)
 if [ "$APEX_STATUS" = "200" ]; then
     echo "✓ Apex domain returns 200 OK"
 else
@@ -704,7 +704,7 @@ else
 fi
 
 # Check beta HTTP response
-BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.nexuscos.online 2>/dev/null)
+BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.n3xuscos.online 2>/dev/null)
 if [ "$BETA_STATUS" = "200" ]; then
     echo "✓ Beta domain returns 200 OK"
 else
@@ -713,7 +713,7 @@ else
 fi
 
 # Check for beta badge
-if curl -s https://beta.nexuscos.online 2>/dev/null | grep -q 'beta-badge'; then
+if curl -s https://beta.n3xuscos.online 2>/dev/null | grep -q 'beta-badge'; then
     echo "✓ Beta badge present in HTML"
 else
     echo "✗ Beta badge NOT found in HTML"
@@ -786,15 +786,15 @@ cat > /tmp/pr87-deployment-report.txt << 'EOF'
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 Deployment Date: $(date '+%Y-%m-%d %H:%M:%S %Z')
-Deployment Target: nexuscos.online + beta.nexuscos.online
+Deployment Target: n3xuscos.online + beta.n3xuscos.online
 VPS: 74.208.155.161
 Execution Mode: STRICT ENFORCEMENT (IRON FIST)
 
 ═══════════════════════════════════════════════════════════════════════════
 
 DEPLOYED FILES:
-  ✓ apex/index.html       → /var/www/nexuscos.online/index.html (815 lines)
-  ✓ web/beta/index.html   → /var/www/beta.nexuscos.online/index.html (826 lines)
+  ✓ apex/index.html       → /var/www/n3xuscos.online/index.html (815 lines)
+  ✓ web/beta/index.html   → /var/www/beta.n3xuscos.online/index.html (826 lines)
 
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -807,8 +807,8 @@ CONFIGURATION:
 ═══════════════════════════════════════════════════════════════════════════
 
 ENDPOINTS VERIFIED:
-  ✓ https://nexuscos.online           → 200 OK
-  ✓ https://beta.nexuscos.online      → 200 OK
+  ✓ https://n3xuscos.online           → 200 OK
+  ✓ https://beta.n3xuscos.online      → 200 OK
   ✓ /health/gateway endpoint          → Configured
   ✓ /v-suite/prompter/health endpoint → Configured
 
@@ -935,8 +935,8 @@ cd /opt/nexus-cos
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 Access your landing pages:
-  🔗 Apex:  https://nexuscos.online
-  🔗 Beta:  https://beta.nexuscos.online
+  🔗 Apex:  https://n3xuscos.online
+  🔗 Beta:  https://beta.n3xuscos.online
 
 Deployment executed with IRON FIST enforcement ✊
 Zero tolerance policy: ENFORCED ✓

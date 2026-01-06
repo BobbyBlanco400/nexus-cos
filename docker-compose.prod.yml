@@ -103,7 +103,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./deployment/nginx/nexuscos.online.conf:/etc/nginx/conf.d/default.conf
+      - ./deployment/nginx/n3xuscos.online.conf:/etc/nginx/conf.d/default.conf
       - ./deployment/ssl:/etc/nginx/ssl
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:

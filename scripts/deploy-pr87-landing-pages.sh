@@ -4,7 +4,7 @@
 # PR#87 Landing Page Deployment Script - STRICT ENFORCEMENT MODE
 # ==============================================================================
 # Purpose: Automated deployment of landing pages from PR#87 with strict validation
-# Target VPS: 74.208.155.161 (nexuscos.online)
+# Target VPS: 74.208.155.161 (n3xuscos.online)
 # Execution Mode: IRON FIST - Zero Tolerance for Errors
 # ==============================================================================
 
@@ -27,8 +27,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
 readonly APEX_SOURCE="${REPO_ROOT}/apex/index.html"
 readonly BETA_SOURCE="${REPO_ROOT}/web/beta/index.html"
-readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
-readonly BETA_TARGET="/var/www/beta.nexuscos.online/index.html"
+readonly APEX_TARGET="/var/www/n3xuscos.online/index.html"
+readonly BETA_TARGET="/var/www/beta.n3xuscos.online/index.html"
 readonly BACKUP_DIR="${REPO_ROOT}/backups/pr87"
 
 # Counters
@@ -160,19 +160,19 @@ prepare_directories() {
     print_step "Creating deployment directories..."
     
     # Create apex directory
-    if [[ ! -d "/var/www/nexuscos.online" ]]; then
-        mkdir -p /var/www/nexuscos.online
-        print_success "Created /var/www/nexuscos.online"
+    if [[ ! -d "/var/www/n3xuscos.online" ]]; then
+        mkdir -p /var/www/n3xuscos.online
+        print_success "Created /var/www/n3xuscos.online"
     else
-        print_info "Directory already exists: /var/www/nexuscos.online"
+        print_info "Directory already exists: /var/www/n3xuscos.online"
     fi
     
     # Create beta directory
-    if [[ ! -d "/var/www/beta.nexuscos.online" ]]; then
-        mkdir -p /var/www/beta.nexuscos.online
-        print_success "Created /var/www/beta.nexuscos.online"
+    if [[ ! -d "/var/www/beta.n3xuscos.online" ]]; then
+        mkdir -p /var/www/beta.n3xuscos.online
+        print_success "Created /var/www/beta.n3xuscos.online"
     else
-        print_info "Directory already exists: /var/www/beta.nexuscos.online"
+        print_info "Directory already exists: /var/www/beta.n3xuscos.online"
     fi
     
     # Create backup directory
@@ -181,10 +181,10 @@ prepare_directories() {
     print_success "Backup directory ready: ${BACKUP_DIR}"
     
     print_step "Setting directory permissions..."
-    chown -R www-data:www-data /var/www/nexuscos.online
-    chown -R www-data:www-data /var/www/beta.nexuscos.online
-    chmod -R 755 /var/www/nexuscos.online
-    chmod -R 755 /var/www/beta.nexuscos.online
+    chown -R www-data:www-data /var/www/n3xuscos.online
+    chown -R www-data:www-data /var/www/beta.n3xuscos.online
+    chmod -R 755 /var/www/n3xuscos.online
+    chmod -R 755 /var/www/beta.n3xuscos.online
     print_success "Directory permissions set (www-data:www-data, 755)"
 }
 
@@ -304,7 +304,7 @@ validate_deployment() {
     print_section "6. DEPLOYMENT VALIDATION"
     
     print_step "Testing apex domain..."
-    APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://nexuscos.online 2>/dev/null || echo "000")
+    APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://n3xuscos.online 2>/dev/null || echo "000")
     if [[ "${APEX_STATUS}" == "200" ]]; then
         print_success "Apex domain returns 200 OK"
     else
@@ -312,7 +312,7 @@ validate_deployment() {
     fi
     
     print_step "Testing beta domain..."
-    BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.nexuscos.online 2>/dev/null || echo "000")
+    BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.n3xuscos.online 2>/dev/null || echo "000")
     if [[ "${BETA_STATUS}" == "200" ]]; then
         print_success "Beta domain returns 200 OK"
     else
@@ -368,15 +368,15 @@ generate_report() {
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 Deployment Date: ${TIMESTAMP}
-Deployment Target: nexuscos.online + beta.nexuscos.online
+Deployment Target: n3xuscos.online + beta.n3xuscos.online
 Execution Mode: STRICT ENFORCEMENT (IRON FIST)
 Script Version: 1.0
 
 ═══════════════════════════════════════════════════════════════════════════
 
 DEPLOYED FILES:
-  ✓ apex/index.html       → /var/www/nexuscos.online/index.html (${APEX_LINES_DEPLOYED:-815} lines)
-  ✓ web/beta/index.html   → /var/www/beta.nexuscos.online/index.html (${BETA_LINES_DEPLOYED:-826} lines)
+  ✓ apex/index.html       → /var/www/n3xuscos.online/index.html (${APEX_LINES_DEPLOYED:-815} lines)
+  ✓ web/beta/index.html   → /var/www/beta.n3xuscos.online/index.html (${BETA_LINES_DEPLOYED:-826} lines)
 
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -396,8 +396,8 @@ VALIDATION RESULTS:
 ═══════════════════════════════════════════════════════════════════════════
 
 ENDPOINTS:
-  • https://nexuscos.online           → Status: ${APEX_STATUS:-Unknown}
-  • https://beta.nexuscos.online      → Status: ${BETA_STATUS:-Unknown}
+  • https://n3xuscos.online           → Status: ${APEX_STATUS:-Unknown}
+  • https://beta.n3xuscos.online      → Status: ${BETA_STATUS:-Unknown}
   • /health/gateway endpoint          → Configured (requires backend service)
   • /v-suite/prompter/health endpoint → Configured (requires backend service)
 
@@ -486,8 +486,8 @@ print_summary() {
         echo -e "${GREEN}${BOLD}╚════════════════════════════════════════════════════════════════╝${NC}"
         echo ""
         echo -e "${CYAN}Access your landing pages:${NC}"
-        echo -e "  🔗 Apex:  ${BOLD}https://nexuscos.online${NC}"
-        echo -e "  🔗 Beta:  ${BOLD}https://beta.nexuscos.online${NC}"
+        echo -e "  🔗 Apex:  ${BOLD}https://n3xuscos.online${NC}"
+        echo -e "  🔗 Beta:  ${BOLD}https://beta.n3xuscos.online${NC}"
         echo ""
         echo -e "${GREEN}Deployment executed with IRON FIST enforcement ✊${NC}"
         echo -e "${GREEN}Zero tolerance policy: ENFORCED ✓${NC}"

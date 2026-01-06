@@ -1,6 +1,6 @@
 # 🎯 TRAE SOLO - Nexus COS Bulletproof Deployment (CONDENSED)
 
-**Target VPS:** 74.208.155.161 | **Domain:** nexuscos.online  
+**Target VPS:** 74.208.155.161 | **Domain:** n3xuscos.online  
 **Status:** ✅ BULLETPROOF | ZERO ERROR MARGIN | PRODUCTION READY
 
 ---
@@ -34,8 +34,8 @@ ssh root@74.208.155.161 "cd /opt/nexus-cos && ./bulletproof-pf-deploy.sh && ./bu
    ```
 
 3. **IONOS SSL Certificates**
-   - `nexuscos.online.crt` and `.key`
-   - `hollywood.nexuscos.online.crt` and `.key`
+   - `n3xuscos.online.crt` and `.key`
+   - `hollywood.n3xuscos.online.crt` and `.key`
    - Must be PEM format from IONOS
 
 4. **VPS Access**
@@ -73,7 +73,7 @@ Internet
 Nginx (IONOS SSL)
     ↓
 ┌─────────────────┬─────────────────┬─────────────────┐
-│  nexuscos.online│  hollywood.*    │  tv.*           │
+│  n3xuscos.online│  hollywood.*    │  tv.*           │
 │  Frontend + API │  V-Screen       │  StreamCore     │
 └─────────────────┴─────────────────┴─────────────────┘
          ↓                 ↓                 ↓
@@ -108,9 +108,9 @@ curl http://localhost:3016/health  # StreamCore
 
 ### 3. Production URLs
 ```bash
-curl https://nexuscos.online
-curl https://hollywood.nexuscos.online
-curl https://tv.nexuscos.online
+curl https://n3xuscos.online
+curl https://hollywood.n3xuscos.online
+curl https://tv.n3xuscos.online
 ```
 **Expected:** All return valid responses
 
@@ -141,8 +141,8 @@ nano .env.pf
 ```bash
 mkdir -p /etc/nginx/ssl/{apex,hollywood}
 # Copy IONOS certificates to:
-# - /etc/nginx/ssl/apex/nexuscos.online.{crt,key}
-# - /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.{crt,key}
+# - /etc/nginx/ssl/apex/n3xuscos.online.{crt,key}
+# - /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.{crt,key}
 chmod 644 /etc/nginx/ssl/*/*.crt
 chmod 600 /etc/nginx/ssl/*/*.key
 ```
@@ -189,13 +189,13 @@ docker compose -f docker-compose.pf.yml logs puabo-api
 ### Issue 3: SSL Errors
 ```bash
 # Verify certificate format (must show "BEGIN CERTIFICATE")
-head -n 1 /etc/nginx/ssl/apex/nexuscos.online.crt
+head -n 1 /etc/nginx/ssl/apex/n3xuscos.online.crt
 
 # Check expiration
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -dates
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -dates
 
 # Verify issuer (must be IONOS)
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -issuer
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -issuer
 ```
 
 ---

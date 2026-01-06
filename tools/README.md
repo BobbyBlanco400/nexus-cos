@@ -60,7 +60,7 @@ Configure these secrets in your GitHub repository settings (`Settings > Secrets 
 gh secret set VPS_HOST --body "your-vps-ip-or-hostname"
 gh secret set VPS_USER --body "root"
 gh secret set VPS_SSH_KEY < ~/.ssh/vps_private_key
-gh secret set PF_DOMAIN --body "nexuscos.online"
+gh secret set PF_DOMAIN --body "n3xuscos.online"
 ```
 
 Or via GitHub web interface:

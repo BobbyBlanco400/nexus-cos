@@ -10,9 +10,9 @@ cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
 
 ## What Gets Deployed
 
-✅ **Apex Landing Page** → `nexuscos.online`  
-✅ **Beta Landing Page** → `beta.nexuscos.online`  
-✅ **V-Suite Dashboard** → `nexuscos.online/v-suite/`  
+✅ **Apex Landing Page** → `n3xuscos.online`  
+✅ **Beta Landing Page** → `beta.n3xuscos.online`  
+✅ **V-Suite Dashboard** → `n3xuscos.online/v-suite/`  
 ✅ **Unified Nexus COS Branding** (#2563eb blue)  
 ✅ **Phase 2.5 Nginx Configuration**  
 ✅ **Automatic Validation**

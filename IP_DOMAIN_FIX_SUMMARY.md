@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-A comprehensive Platform Fix (PF) has been developed to resolve the critical issue where accessing Nexus COS via IP address (`http://74.208.155.161/`) displayed different UI/branding compared to domain access (`https://nexuscos.online/`).
+A comprehensive Platform Fix (PF) has been developed to resolve the critical issue where accessing Nexus COS via IP address (`http://74.208.155.161/`) displayed different UI/branding compared to domain access (`https://n3xuscos.online/`).
 
 **Status:** ✅ SOLUTION COMPLETE - READY FOR DEPLOYMENT
 
@@ -163,7 +163,7 @@ Updated master index with:
 # HTTP - Redirect domain to HTTPS
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 
@@ -171,17 +171,17 @@ server {
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 
 # HTTPS - Unified server (handles all requests)
 server {
     listen 443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     
     # SSL configuration
-    ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
     
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -283,25 +283,25 @@ bash validate-ip-domain-routing.sh
 ```bash
 # Test IP redirect
 curl -I http://74.208.155.161/
-# Expected: 301 redirect to https://nexuscos.online/
+# Expected: 301 redirect to https://n3xuscos.online/
 
 # Test domain access
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: 200 OK or 301 to /admin/
 
 # Test admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 # Expected: 200 OK with HTML content
 
 # Test health endpoint
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 # Expected: "OK - Nexus COS Platform"
 ```
 
 ### Browser Testing
 1. Clear browser cache completely (Ctrl+Shift+Delete)
 2. Visit `http://74.208.155.161/` → Should redirect to domain
-3. Visit `https://nexuscos.online/` → Should load correctly
+3. Visit `https://n3xuscos.online/` → Should load correctly
 4. Check browser console → No CSP errors
 5. Verify branding consistency
 
@@ -365,7 +365,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # 4. Verify rollback
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 Backups are created automatically with timestamps during deployment.
@@ -388,13 +388,13 @@ journalctl -u nexus-python -f
 ### Health Checks
 ```bash
 # Platform health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Python API health
-curl https://nexuscos.online/py/health
+curl https://n3xuscos.online/py/health
 ```
 
 ## Security Considerations
@@ -475,7 +475,7 @@ sudo bash pf-master-deployment.sh
 
 # Or with custom domain:
 cd /var/www/nexus-cos
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 ```
 
 ### Validate
@@ -485,13 +485,13 @@ cd /var/www/nexus-cos
 bash validate-ip-domain-routing.sh
 
 # Or with custom domain/IP:
-DOMAIN=nexuscos.online SERVER_IP=74.208.155.161 bash validate-ip-domain-routing.sh
+DOMAIN=n3xuscos.online SERVER_IP=74.208.155.161 bash validate-ip-domain-routing.sh
 ```
 
 ### Test
 ```bash
 curl -I http://74.208.155.161/
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 ### Monitor

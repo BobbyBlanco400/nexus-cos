@@ -93,7 +93,7 @@ These existing documents complement the operational packages:
 
 ```bash
 # Run system-wide health check
-curl -X GET https://nexuscos.online/api/system/health
+curl -X GET https://n3xuscos.online/api/system/health
 
 # Validate production configuration
 ./pf-master-launch-gate.sh
@@ -119,13 +119,13 @@ cat README.md
 
 ```bash
 # System uptime and health
-curl -X GET https://nexuscos.online/api/system/uptime
+curl -X GET https://n3xuscos.online/api/system/uptime
 
 # Service-specific checks
-curl -X GET https://nexuscos.online/api/{service}/health
+curl -X GET https://n3xuscos.online/api/{service}/health
 
 # Resource utilization
-curl -X GET https://nexuscos.online/api/system/resource-utilization
+curl -X GET https://n3xuscos.online/api/system/resource-utilization
 ```
 
 ---
@@ -139,10 +139,10 @@ curl -X GET https://nexuscos.online/api/system/resource-utilization
 Always verify:
 ```bash
 # Check AI service chain
-curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
 
 # Verify PUABO AI-HF health
-curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
+curl -X GET https://n3xuscos.online/api/puabo-ai-hf/health
 ```
 
 ### Tenant Platform Isolation
@@ -152,10 +152,10 @@ curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
 Verify isolation:
 ```bash
 # Check tenant status
-curl -X GET https://nexuscos.online/api/tenants/club-saditty/status
+curl -X GET https://n3xuscos.online/api/tenants/club-saditty/status
 
 # Verify core services unaffected
-curl -X GET https://nexuscos.online/api/system/health
+curl -X GET https://n3xuscos.online/api/system/health
 ```
 
 ### Identity Persistence

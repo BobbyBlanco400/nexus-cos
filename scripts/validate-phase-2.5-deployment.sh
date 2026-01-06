@@ -79,8 +79,8 @@ validate_directory_structure() {
     print_section "1. DIRECTORY STRUCTURE VALIDATION"
     
     local directories=(
-        "/var/www/nexuscos.online|OTT Frontend"
-        "/var/www/beta.nexuscos.online|Beta Landing"
+        "/var/www/n3xuscos.online|OTT Frontend"
+        "/var/www/beta.n3xuscos.online|Beta Landing"
         "/opt/nexus-cos/logs/phase2.5|Phase 2.5 Logs"
         "/opt/nexus-cos/logs/phase2.5/ott|OTT Logs"
         "/opt/nexus-cos/logs/phase2.5/dashboard|Dashboard Logs"
@@ -106,8 +106,8 @@ validate_landing_pages() {
     
     # Check apex landing page
     print_step "Validating apex landing page..."
-    if [[ -f "/var/www/nexuscos.online/index.html" ]]; then
-        local size=$(stat -f%z "/var/www/nexuscos.online/index.html" 2>/dev/null || stat -c%s "/var/www/nexuscos.online/index.html" 2>/dev/null || echo "0")
+    if [[ -f "/var/www/n3xuscos.online/index.html" ]]; then
+        local size=$(stat -f%z "/var/www/n3xuscos.online/index.html" 2>/dev/null || stat -c%s "/var/www/n3xuscos.online/index.html" 2>/dev/null || echo "0")
         if [[ $size -gt 1000 ]]; then
             print_success "Apex landing page deployed (${size} bytes)"
         else
@@ -119,8 +119,8 @@ validate_landing_pages() {
     
     # Check beta landing page
     print_step "Validating beta landing page..."
-    if [[ -f "/var/www/beta.nexuscos.online/index.html" ]]; then
-        local size=$(stat -f%z "/var/www/beta.nexuscos.online/index.html" 2>/dev/null || stat -c%s "/var/www/beta.nexuscos.online/index.html" 2>/dev/null || echo "0")
+    if [[ -f "/var/www/beta.n3xuscos.online/index.html" ]]; then
+        local size=$(stat -f%z "/var/www/beta.n3xuscos.online/index.html" 2>/dev/null || stat -c%s "/var/www/beta.n3xuscos.online/index.html" 2>/dev/null || echo "0")
         if [[ $size -gt 1000 ]]; then
             print_success "Beta landing page deployed (${size} bytes)"
         else
@@ -168,11 +168,11 @@ validate_ssl_certificates() {
     
     # Check apex certificates
     print_step "Checking apex SSL certificates..."
-    if [[ -f "/etc/nginx/ssl/apex/nexuscos.online.crt" ]] && [[ -f "/etc/nginx/ssl/apex/nexuscos.online.key" ]]; then
+    if [[ -f "/etc/nginx/ssl/apex/n3xuscos.online.crt" ]] && [[ -f "/etc/nginx/ssl/apex/n3xuscos.online.key" ]]; then
         print_success "Apex SSL certificates present"
         
         # Check expiration
-        local expiry=$(openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
+        local expiry=$(openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
         if [[ -n "$expiry" ]]; then
             print_info "Apex cert expires: $expiry"
         fi
@@ -182,11 +182,11 @@ validate_ssl_certificates() {
     
     # Check beta certificates
     print_step "Checking beta SSL certificates..."
-    if [[ -f "/etc/nginx/ssl/beta/beta.nexuscos.online.crt" ]] && [[ -f "/etc/nginx/ssl/beta/beta.nexuscos.online.key" ]]; then
+    if [[ -f "/etc/nginx/ssl/beta/beta.n3xuscos.online.crt" ]] && [[ -f "/etc/nginx/ssl/beta/beta.n3xuscos.online.key" ]]; then
         print_success "Beta SSL certificates present"
         
         # Check expiration
-        local expiry=$(openssl x509 -in /etc/nginx/ssl/beta/beta.nexuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
+        local expiry=$(openssl x509 -in /etc/nginx/ssl/beta/beta.n3xuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
         if [[ -n "$expiry" ]]; then
             print_info "Beta cert expires: $expiry"
         fi
@@ -329,8 +329,8 @@ validate_pr87_integration() {
     print_step "Validating unified Nexus COS branding..."
     
     local landing_pages=(
-        "/var/www/nexuscos.online/index.html|Apex Landing|nexuscos.online"
-        "/var/www/beta.nexuscos.online/index.html|Beta Landing|beta.nexuscos.online"
+        "/var/www/n3xuscos.online/index.html|Apex Landing|n3xuscos.online"
+        "/var/www/beta.n3xuscos.online/index.html|Beta Landing|beta.n3xuscos.online"
     )
     
     for page_info in "${landing_pages[@]}"; do

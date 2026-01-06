@@ -2,7 +2,7 @@
 
 ## 📚 Complete Verification Documentation Suite
 
-This index provides quick access to all deployment verification resources for validating TRAE's deployment on nexuscos.online.
+This index provides quick access to all deployment verification resources for validating TRAE's deployment on n3xuscos.online.
 
 ---
 
@@ -128,9 +128,9 @@ READY FOR PRODUCTION LAUNCH 🚀
 ./verify-trae-deployment.sh
 
 # Step 2: Check key endpoints manually
-curl -I https://nexuscos.online/
-curl -s https://nexuscos.online/health | jq '.'
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/
+curl -s https://n3xuscos.online/health | jq '.'
+curl -I https://n3xuscos.online/v-suite/screen
 
 # Done! ✅
 ```
@@ -143,12 +143,12 @@ curl -I https://nexuscos.online/v-suite/screen
 ./validate-ip-domain-routing.sh
 
 # Step 2: Check container logs (requires SSH)
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 # Step 3: Verify Nginx
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 
 # Done! ✅
 ```
@@ -161,7 +161,7 @@ Use the commands in `TRAE_DEPLOYMENT_QUICK_CHECK.md` for manual testing.
 ## ✅ Launch Readiness Checklist
 
 ### Critical Items (Must Pass)
-- [ ] Domain `https://nexuscos.online/` returns HTTP 200
+- [ ] Domain `https://n3xuscos.online/` returns HTTP 200
 - [ ] Health endpoint returns `{"status":"ok","env":"production"}`
 - [ ] V-Screen routes accessible (both `/v-suite/screen` and `/v-screen`)
 - [ ] All containers show `Up` status
@@ -245,33 +245,33 @@ sudo apt-get install jq
 #### Health endpoint returns error
 ```bash
 # Check API container
-ssh root@nexuscos.online "docker ps | grep puabo-api"
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker ps | grep puabo-api"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
 
 # Restart if needed
-ssh root@nexuscos.online "docker restart puabo-api"
+ssh root@n3xuscos.online "docker restart puabo-api"
 ```
 
 #### V-Screen routes fail
 ```bash
 # Check V-Screen container
-ssh root@nexuscos.online "docker ps | grep vscreen-hollywood"
-ssh root@nexuscos.online "docker logs vscreen-hollywood --tail 100"
+ssh root@n3xuscos.online "docker ps | grep vscreen-hollywood"
+ssh root@n3xuscos.online "docker logs vscreen-hollywood --tail 100"
 
 # Restart if needed
-ssh root@nexuscos.online "docker restart vscreen-hollywood"
+ssh root@n3xuscos.online "docker restart vscreen-hollywood"
 ```
 
 #### Nginx configuration errors
 ```bash
 # Test configuration
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 
 # View configuration
-ssh root@nexuscos.online "cat /etc/nginx/nginx.conf"
+ssh root@n3xuscos.online "cat /etc/nginx/nginx.conf"
 
 # Reload Nginx
-ssh root@nexuscos.online "systemctl reload nginx"
+ssh root@n3xuscos.online "systemctl reload nginx"
 ```
 
 ---
@@ -346,7 +346,7 @@ ssh root@nexuscos.online "systemctl reload nginx"
 ## 💡 Best Practices
 
 ### Before Running Scripts
-1. Ensure you have network access to nexuscos.online
+1. Ensure you have network access to n3xuscos.online
 2. Install required dependencies (curl, jq)
 3. Have SSH access ready if checking containers
 4. Clear browser cache before manual testing

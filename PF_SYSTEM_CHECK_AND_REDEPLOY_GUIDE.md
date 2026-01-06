@@ -1,7 +1,7 @@
 # Nexus COS - PF System Check and Re-deployment Guide
 
 **Created:** 2025-10-03T14:46Z  
-**Target VPS:** 74.208.155.161 (nexuscos.online)  
+**Target VPS:** 74.208.155.161 (n3xuscos.online)  
 **Status:** ✅ Ready for Production Deployment
 
 ---
@@ -28,7 +28,7 @@ This timestamped manifest serves as the single source of truth for:
 - **Public Route:** `/v-suite/prompter/`
 - **Service Target:** `http://127.0.0.1:3502/`
 - **Health Route:** `/v-suite/prompter/health`
-- **Expected Response:** `200 OK` from `https://nexuscos.online/v-suite/prompter/health`
+- **Expected Response:** `200 OK` from `https://n3xuscos.online/v-suite/prompter/health`
 
 ### 2. **PF Final Deployment Script** ✅
 **Location:** `scripts/pf-final-deploy.sh`
@@ -92,7 +92,7 @@ curl http://localhost:3002/health
 curl http://localhost:3041/health
 
 # Test V-Prompter Pro (production)
-curl https://nexuscos.online/v-suite/prompter/health
+curl https://n3xuscos.online/v-suite/prompter/health
 ```
 
 **Expected:** All endpoints return `200 OK` with JSON response.
@@ -173,7 +173,7 @@ sudo mkdir -p /opt/nexus-cos/ssl
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /opt/nexus-cos/ssl/nexus-cos.key \
   -out /opt/nexus-cos/ssl/nexus-cos.crt \
-  -subj "/CN=nexuscos.online"
+  -subj "/CN=n3xuscos.online"
 sudo chmod 644 /opt/nexus-cos/ssl/nexus-cos.crt
 sudo chmod 600 /opt/nexus-cos/ssl/nexus-cos.key
 ```
@@ -350,7 +350,7 @@ docker compose -f docker-compose.pf.yml exec puabo-api curl http://localhost:400
 
 ### Issue 9: V-Prompter Pro 502 Bad Gateway
 
-**Symptom:** `https://nexuscos.online/v-suite/prompter/health` returns 502
+**Symptom:** `https://n3xuscos.online/v-suite/prompter/health` returns 502
 
 **Solution:**
 
@@ -372,7 +372,7 @@ docker compose -f docker-compose.pf.yml restart nexus-cos-puaboai-sdk
 sudo systemctl reload nginx
 
 # Test again
-curl https://nexuscos.online/v-suite/prompter/health
+curl https://n3xuscos.online/v-suite/prompter/health
 ```
 
 ### Issue 10: Nginx Configuration Errors
@@ -436,7 +436,7 @@ docker compose -f docker-compose.pf.yml exec nexus-cos-postgres psql -U nexus_us
 ### 4. Test V-Prompter Pro Production URL
 
 ```bash
-curl -v https://nexuscos.online/v-suite/prompter/health
+curl -v https://n3xuscos.online/v-suite/prompter/health
 ```
 
 **Expected:** `200 OK` response with JSON health data
@@ -444,7 +444,7 @@ curl -v https://nexuscos.online/v-suite/prompter/health
 ### 5. Check SSL Certificate
 
 ```bash
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online < /dev/null
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online < /dev/null
 ```
 
 **Expected:** Valid certificate chain, no errors
@@ -452,12 +452,12 @@ openssl s_client -connect nexuscos.online:443 -servername nexuscos.online < /dev
 ### 6. Verify All Routes
 
 Test these URLs in your browser or with curl:
-- `https://nexuscos.online/` - Main site
-- `https://nexuscos.online/admin` - Admin panel
-- `https://nexuscos.online/hub` - Creator hub
-- `https://nexuscos.online/studio` - Studio
-- `https://nexuscos.online/api/health` - API health
-- `https://nexuscos.online/v-suite/prompter/health` - V-Prompter Pro
+- `https://n3xuscos.online/` - Main site
+- `https://n3xuscos.online/admin` - Admin panel
+- `https://n3xuscos.online/hub` - Creator hub
+- `https://n3xuscos.online/studio` - Studio
+- `https://n3xuscos.online/api/health` - API health
+- `https://n3xuscos.online/v-suite/prompter/health` - V-Prompter Pro
 
 ### 7. Monitor Logs
 
@@ -585,7 +585,7 @@ Your deployment is successful when:
 - ✅ Database is accessible and contains tables
 - ✅ SSL certificate is valid and working
 - ✅ Nginx is serving requests without errors
-- ✅ V-Prompter Pro URL responds: `https://nexuscos.online/v-suite/prompter/health`
+- ✅ V-Prompter Pro URL responds: `https://n3xuscos.online/v-suite/prompter/health`
 - ✅ No errors in Docker logs
 - ✅ All application routes are accessible
 
@@ -648,7 +648,7 @@ cd /opt/nexus-cos && ./scripts/pf-final-deploy.sh
 http://localhost:4000/health
 http://localhost:3002/health
 http://localhost:3041/health
-https://nexuscos.online/v-suite/prompter/health
+https://n3xuscos.online/v-suite/prompter/health
 ```
 
 ### SSL Paths

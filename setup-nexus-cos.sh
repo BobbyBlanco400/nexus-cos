@@ -172,7 +172,7 @@ if ./nexus-cos-production-deploy.sh; then
   echo "Next steps:"
   echo "  1. Check status: ${CYAN}pm2 list${NC}"
   echo "  2. View logs: ${CYAN}pm2 logs${NC}"
-  echo "  3. Check health: ${CYAN}curl -s https://nexuscos.online/health | jq${NC}"
+  echo "  3. Check health: ${CYAN}curl -s https://n3xuscos.online/health | jq${NC}"
   echo ""
   echo "Documentation:"
   echo "  - Quick start: ${CYAN}START_HERE.md${NC}"

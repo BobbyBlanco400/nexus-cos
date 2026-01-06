@@ -274,11 +274,11 @@ GET /desktop               → 200 OK ✅
 ## 🌍 ACCESS POINTS
 
 ### Public URLs
-- **Main Portal**: https://nexuscos.online
-- **Founding Residents**: https://nexuscos.online/residents
-- **CPS Dashboard**: https://nexuscos.online/cps
-- **System Dashboard**: https://nexuscos.online/dashboard
-- **Virtual Desktop**: https://nexuscos.online/desktop
+- **Main Portal**: https://n3xuscos.online
+- **Founding Residents**: https://n3xuscos.online/residents
+- **CPS Dashboard**: https://n3xuscos.online/cps
+- **System Dashboard**: https://n3xuscos.online/dashboard
+- **Virtual Desktop**: https://n3xuscos.online/desktop
 
 ### API Endpoints
 - **Health Check**: /health/gateway
@@ -290,12 +290,12 @@ GET /desktop               → 200 OK ✅
 ## 📞 SUPPORT & CONTACT
 
 ### Technical Support
-- Documentation: nexuscos.online/docs
+- Documentation: n3xuscos.online/docs
 - Status Page: This dashboard
-- API Docs: nexuscos.online/api
+- API Docs: n3xuscos.online/api
 
 ### Creator Onboarding
-- Access: nexuscos.online/cps
+- Access: n3xuscos.online/cps
 - Form: Creator Onboarding Form
 
 ### Press & Media

@@ -9,9 +9,9 @@
 | Item | Value |
 |------|-------|
 | **VPS IP** | 74.208.155.161 |
-| **Primary Domain** | nexuscos.online |
-| **Hollywood Domain** | hollywood.nexuscos.online |
-| **TV/Streaming Domain** | tv.nexuscos.online |
+| **Primary Domain** | n3xuscos.online |
+| **Hollywood Domain** | hollywood.n3xuscos.online |
+| **TV/Streaming Domain** | tv.n3xuscos.online |
 | **Total Services** | 11 (7 active, 4 planned) |
 | **SSL Provider** | IONOS (Exclusive) |
 | **Deployment Time** | < 10 minutes |
@@ -31,8 +31,8 @@
 │                    NGINX GATEWAY                            │
 │                  (Ports 80/443 + IONOS SSL)                 │
 ├─────────────────────────────────────────────────────────────┤
-│  nexuscos.online              │  hollywood.nexuscos.online  │
-│  tv.nexuscos.online           │                             │
+│  n3xuscos.online              │  hollywood.n3xuscos.online  │
+│  tv.n3xuscos.online           │                             │
 └───────────┬───────────────────┴─────────────────────────────┘
             │
             ├──────────────────┬──────────────────┬──────────────
@@ -378,9 +378,9 @@ Redis                6379    redis-cli ping        PONG
    └─ No Let's Encrypt configs in /etc/nginx/conf.d
 
 ✅ Production Domains
-   └─ nexuscos.online responds
-   └─ hollywood.nexuscos.online responds
-   └─ tv.nexuscos.online responds (if configured)
+   └─ n3xuscos.online responds
+   └─ hollywood.n3xuscos.online responds
+   └─ tv.n3xuscos.online responds (if configured)
 
 ✅ Logs
    └─ No critical errors in last 100 lines

@@ -39,8 +39,8 @@ ssh root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && chmod +x s
 ## 📋 WHAT GETS DEPLOYED
 
 ### Landing Pages
-- **Apex:** https://nexuscos.online (815 lines)
-- **Beta:** https://beta.nexuscos.online (826 lines)
+- **Apex:** https://n3xuscos.online (815 lines)
+- **Beta:** https://beta.n3xuscos.online (826 lines)
 
 ### Features
 ✅ Professional design with dark/light themes  
@@ -96,15 +96,15 @@ After deployment, verify success:
 
 ```bash
 # Test apex domain
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 # Expected: HTTP/2 200
 
 # Test beta domain
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 # Expected: HTTP/2 200
 
 # Verify beta badge
-curl -s https://beta.nexuscos.online | grep -c 'beta-badge'
+curl -s https://beta.n3xuscos.online | grep -c 'beta-badge'
 # Expected: 2
 ```
 
@@ -191,8 +191,8 @@ tail -f /var/log/nginx/error.log  # Check logs
 
 ### Issue: Files not deploying
 ```bash
-ls -lh /var/www/nexuscos.online/index.html
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 ```
 
 **For more:** See troubleshooting sections in `PR87_QUICK_DEPLOY.md`
@@ -308,8 +308,8 @@ readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
    ```
 
 3. **Test in browser after deployment**
-   - Visit https://nexuscos.online
-   - Visit https://beta.nexuscos.online
+   - Visit https://n3xuscos.online
+   - Visit https://beta.n3xuscos.online
    - Test theme toggle
    - Click through all module tabs
 

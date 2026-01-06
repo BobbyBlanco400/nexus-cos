@@ -2,7 +2,7 @@
 
 /**
  * Beta 502 Bad Gateway Diagnosis Script
- * Diagnoses and fixes 502 errors on beta.nexuscos.online
+ * Diagnoses and fixes 502 errors on beta.n3xuscos.online
  */
 
 const fs = require('fs');
@@ -25,7 +25,7 @@ class Beta502Diagnosis {
   constructor() {
     this.report = {
       timestamp: new Date().toISOString(),
-      domain: 'beta.nexuscos.online',
+      domain: 'beta.n3xuscos.online',
       checks: [],
       fixes: [],
       status: 'CHECKING'
@@ -33,7 +33,7 @@ class Beta502Diagnosis {
   }
 
   async runDiagnosis() {
-    console.log('🔍 Starting 502 Bad Gateway Diagnosis for beta.nexuscos.online');
+    console.log('🔍 Starting 502 Bad Gateway Diagnosis for beta.n3xuscos.online');
     console.log('=' .repeat(60));
 
     await this.checkDNSResolution();
@@ -60,7 +60,7 @@ class Beta502Diagnosis {
       
       // Check if domain resolves
       try {
-        const result = execSync('nslookup beta.nexuscos.online', { encoding: 'utf8' });
+        const result = execSync('nslookup beta.n3xuscos.online', { encoding: 'utf8' });
         console.log('✅ DNS Resolution successful');
         this.addCheck('dns_resolution', 'PASS', 'Domain resolves correctly', result);
       } catch (error) {
@@ -71,11 +71,11 @@ class Beta502Diagnosis {
       // Check /etc/hosts file
       try {
         const hostsContent = fs.readFileSync('/etc/hosts', 'utf8');
-        if (hostsContent.includes('beta.nexuscos.online')) {
-          console.log('✅ Found beta.nexuscos.online in /etc/hosts');
+        if (hostsContent.includes('beta.n3xuscos.online')) {
+          console.log('✅ Found beta.n3xuscos.online in /etc/hosts');
           this.addCheck('hosts_file', 'PASS', 'Domain found in hosts file');
         } else {
-          console.log('⚠️ beta.nexuscos.online not found in /etc/hosts - may need local development entry');
+          console.log('⚠️ beta.n3xuscos.online not found in /etc/hosts - may need local development entry');
           this.addCheck('hosts_file', 'WARN', 'Domain not in hosts file for local dev');
         }
       } catch (error) {
@@ -136,7 +136,7 @@ class Beta502Diagnosis {
   async checkNginxConfiguration() {
     console.log('\n🔧 Checking Nginx Configuration...');
     
-    const configPath = '/home/runner/work/nexus-cos/nexus-cos/deployment/nginx/beta.nexuscos.online.conf';
+    const configPath = '/home/runner/work/nexus-cos/nexus-cos/deployment/nginx/beta.n3xuscos.online.conf';
     
     try {
       if (fs.existsSync(configPath)) {
@@ -153,7 +153,7 @@ class Beta502Diagnosis {
         }
 
         // Check SSL certificate paths
-        if (config.includes('/etc/ssl/ionos/beta.nexuscos.online/')) {
+        if (config.includes('/etc/ssl/ionos/beta.n3xuscos.online/')) {
           console.log('✅ SSL certificate paths configured');
           this.addCheck('nginx_ssl_config', 'PASS', 'SSL certificate paths configured');
         } else {
@@ -186,8 +186,8 @@ class Beta502Diagnosis {
     console.log('\n🔐 Checking SSL Certificates...');
     
     const sslPaths = [
-      '/etc/ssl/ionos/beta.nexuscos.online/fullchain.pem',
-      '/etc/ssl/ionos/beta.nexuscos.online/privkey.pem'
+      '/etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem',
+      '/etc/ssl/ionos/beta.n3xuscos.online/privkey.pem'
     ];
 
     sslPaths.forEach(sslPath => {
@@ -266,7 +266,7 @@ class Beta502Diagnosis {
     const testUrls = [
       'http://localhost:3000/health',
       'http://localhost:3001/health',
-      'https://beta.nexuscos.online/health'
+      'https://beta.n3xuscos.online/health'
     ];
 
     for (const url of testUrls) {
@@ -300,9 +300,9 @@ class Beta502Diagnosis {
       
       const page = await browser.newPage();
       
-      // Test beta.nexuscos.online
+      // Test beta.n3xuscos.online
       try {
-        const response = await page.goto('https://beta.nexuscos.online', { 
+        const response = await page.goto('https://beta.n3xuscos.online', { 
           waitUntil: 'networkidle2', 
           timeout: 30000 
         });
@@ -361,7 +361,7 @@ class Beta502Diagnosis {
         case 'ssl_cert_fullchain.pem':
         case 'ssl_cert_privkey.pem':
           console.log('🔧 SSL Certificate Fix:');
-          console.log('   - Install SSL certificates in /etc/ssl/ionos/beta.nexuscos.online/');
+          console.log('   - Install SSL certificates in /etc/ssl/ionos/beta.n3xuscos.online/');
           console.log('   - Or update nginx config to use existing certificate paths');
           this.addFix('install_ssl_certs', 'Install or configure SSL certificates');
           break;

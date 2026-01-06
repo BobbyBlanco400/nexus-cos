@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 PASSED=0
 FAILED=0
 
@@ -226,9 +226,9 @@ print_section "Test 7: Deployment Manifest Endpoints Validation"
 print_test "Checking deployment manifest for required endpoints"
 
 manifest_endpoints=(
-    "https://nexuscos.online/"
-    "https://nexuscos.online/api/"
-    "https://nexuscos.online/streaming/"
+    "https://n3xuscos.online/"
+    "https://n3xuscos.online/api/"
+    "https://n3xuscos.online/streaming/"
     "socket.io/?EIO=4&transport=polling"
 )
 

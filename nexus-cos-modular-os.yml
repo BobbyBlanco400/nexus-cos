@@ -2,7 +2,7 @@
 # Nexus COS Modular OS - Complete Docker Compose Stack
 # ==============================================================================
 # PF ID: SCAFFOLD_WIRE_NEXUS_COS_STACK
-# Domains: nexuscos.online, www.nexuscos.online
+# Domains: n3xuscos.online, www.n3xuscos.online
 # Router: apache_plesk
 # Network: nexus-cos-network
 # ==============================================================================
@@ -60,7 +60,7 @@ services:
     container_name: nexus-cos-grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Grafana password required}
-      GF_SERVER_ROOT_URL: https://nexuscos.online/grafana
+      GF_SERVER_ROOT_URL: https://n3xuscos.online/grafana
     ports:
       - "3000:3000"
     volumes:

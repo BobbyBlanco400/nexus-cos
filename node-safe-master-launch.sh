@@ -5,7 +5,7 @@
 
 # Configuration
 export NEXUS_API_KEY="${NEXUS_API_KEY:-PLACEHOLDER_API_KEY_SET_VIA_ENV_VAR}"
-export NEXUS_API_URL="${NEXUS_API_URL:-https://nexuscos.online/api/v1}"
+export NEXUS_API_URL="${NEXUS_API_URL:-https://n3xuscos.online/api/v1}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR" && pwd)"
 REPORT_DIR="$REPO_ROOT/nexus-cos/puabo-core/reports"

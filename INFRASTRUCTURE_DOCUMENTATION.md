@@ -66,7 +66,7 @@ upstream vscreen_hollywood {
 ```nginx
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online beta.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online beta.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 ```
@@ -75,7 +75,7 @@ server {
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # SSL Configuration
     ssl_certificate /etc/ssl/ionos/fullchain.pem;
@@ -175,20 +175,20 @@ certbot renew
 
 #### Public Routes
 ```
-https://nexuscos.online/              → Frontend (port 4000)
-https://nexuscos.online/api/          → Backend API (port 3000)
-https://nexuscos.online/api/ai/       → PUABO AI Hybrid (port 3401)
-https://nexuscos.online/casino/       → Casino Service
-https://nexuscos.online/streaming/    → Streaming Service
-https://nexuscos.online/wallet/       → Wallet Service
-https://nexuscos.online/admin/        → Admin Panel
+https://n3xuscos.online/              → Frontend (port 4000)
+https://n3xuscos.online/api/          → Backend API (port 3000)
+https://n3xuscos.online/api/ai/       → PUABO AI Hybrid (port 3401)
+https://n3xuscos.online/casino/       → Casino Service
+https://n3xuscos.online/streaming/    → Streaming Service
+https://n3xuscos.online/wallet/       → Wallet Service
+https://n3xuscos.online/admin/        → Admin Panel
 ```
 
 #### Health Check Routes
 ```
-https://nexuscos.online/health                → Gateway health
-https://nexuscos.online/health/puaboai-sdk    → PUABOAI SDK health
-https://nexuscos.online/health/pv-keys        → PV Keys health
+https://n3xuscos.online/health                → Gateway health
+https://n3xuscos.online/health/puaboai-sdk    → PUABOAI SDK health
+https://n3xuscos.online/health/pv-keys        → PV Keys health
 http://localhost:3401/health                  → PUABO AI direct health
 http://localhost:3000/health                  → Backend API direct health
 ```
@@ -309,7 +309,7 @@ docker service logs <service-name>
 #### Service Health
 ```bash
 # Gateway health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # PUABO AI health
 curl http://localhost:3401/health
@@ -318,7 +318,7 @@ curl http://localhost:3401/health
 curl http://localhost:3000/health
 
 # All service health
-curl https://nexuscos.online/health/all
+curl https://n3xuscos.online/health/all
 ```
 
 #### System Health Checks
@@ -371,8 +371,8 @@ alerts:
 #### Log Locations
 ```bash
 # Nginx logs
-/var/log/nginx/nexuscos.online_access.log
-/var/log/nginx/nexuscos.online_error.log
+/var/log/nginx/n3xuscos.online_access.log
+/var/log/nginx/n3xuscos.online_error.log
 
 # Service logs (Docker)
 docker logs <container-name>
@@ -497,7 +497,7 @@ const services = {
 ### Health Check Discovery
 ```bash
 # Discover all healthy services
-curl https://nexuscos.online/health/discovery
+curl https://n3xuscos.online/health/discovery
 ```
 
 ---
@@ -573,7 +573,7 @@ docker-compose pull
 docker-compose up -d --no-deps --build <service-name>
 
 # Verify health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 
 ### Rollback Procedures
@@ -635,7 +635,7 @@ docker logs <service-name> | grep -i "memory"
 ./trae-governance-verification.sh
 
 # Check handshake header
-curl -I https://nexuscos.online | grep N3XUS-Handshake
+curl -I https://n3xuscos.online | grep N3XUS-Handshake
 ```
 
 ---

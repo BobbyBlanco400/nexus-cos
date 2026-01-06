@@ -45,8 +45,8 @@ location /api/ {
 ```
 
 This configuration:
-- Request: `https://nexuscos.online/api/auth` → Backend: `http://127.0.0.1:3001/api/auth`
-- Request: `https://nexuscos.online/api/system/status` → Backend: `http://127.0.0.1:3001/api/system/status`
+- Request: `https://n3xuscos.online/api/auth` → Backend: `http://127.0.0.1:3001/api/auth`
+- Request: `https://n3xuscos.online/api/system/status` → Backend: `http://127.0.0.1:3001/api/system/status`
 
 ❌ **Incorrect:**
 ```nginx
@@ -56,7 +56,7 @@ location /api/ {
 ```
 
 This would strip `/api` from the path:
-- Request: `https://nexuscos.online/api/auth` → Backend: `http://127.0.0.1:3001/auth` (404!)
+- Request: `https://n3xuscos.online/api/auth` → Backend: `http://127.0.0.1:3001/auth` (404!)
 
 ### 2. Port Configuration
 
@@ -102,7 +102,7 @@ Here's a complete Nginx server block example:
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # SSL Configuration (adjust paths as needed)
     ssl_certificate /etc/ssl/ionos/fullchain.pem;
@@ -185,7 +185,7 @@ Test that Nginx is proxying correctly:
 curl -I http://localhost/api
 
 # Test externally
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 ```
 
 Expected response:
@@ -240,7 +240,7 @@ location /api/ {
 ✅ Nginx service has been reloaded
 ✅ Backend service is running on port 3001
 ✅ `curl http://localhost:3001/api` returns JSON (backend test)
-✅ `curl https://nexuscos.online/api` returns JSON (full stack test)
+✅ `curl https://n3xuscos.online/api` returns JSON (full stack test)
 ✅ All API endpoints return 200 OK instead of 404
 
 ## Next Steps
@@ -249,7 +249,7 @@ After configuring Nginx, verify all endpoints work:
 
 ```bash
 # Run the test script
-./test-api-routing-fix.sh https://nexuscos.online
+./test-api-routing-fix.sh https://n3xuscos.online
 ```
 
 All tests should pass with 200 OK responses.

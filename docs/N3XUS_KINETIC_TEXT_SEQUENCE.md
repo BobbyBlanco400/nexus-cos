@@ -127,7 +127,7 @@ MAINNET ACTIVATED
 **[Lock into final frame]**
 
 ```
-nexuscos.online
+n3xuscos.online
 ```
 
 **[FADE OUT]**
@@ -162,7 +162,7 @@ One OS. Infinite Creators.
 ### 00:12 - 00:15
 ```
 MAINNET ACTIVATED
-nexuscos.online
+n3xuscos.online
 ```
 
 ---
@@ -186,7 +186,7 @@ The Creative Operating System
 
 ### 00:05 - 00:07
 ```
-nexuscos.online
+n3xuscos.online
 ```
 
 ---
@@ -266,7 +266,7 @@ nexuscos.online
 
 - **Product Name**: Always "N3XUS COS" (never "Nexus" alone)
 - **Tagline**: "The Creative Operating System"
-- **URL**: nexuscos.online (no http://, no www)
+- **URL**: n3xuscos.online (no http://, no www)
 - **Version**: v2.5.0-RC1
 - **Status**: MAINNET ACTIVATED
 

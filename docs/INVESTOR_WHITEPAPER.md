@@ -504,7 +504,7 @@ Nexus COS is not just a gaming platform—it's a new category of interactive ent
 
 **For investor inquiries:**  
 Contact: investors@nexuscos.com  
-Website: https://nexuscos.online
+Website: https://n3xuscos.online
 
 ---
 

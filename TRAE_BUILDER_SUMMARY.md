@@ -2,7 +2,7 @@
 
 ## Overview
 
-Successfully implemented `trae-builder-redeploy.sh`, a comprehensive one-shot shell script that executes a full redeploy of Nexus COS for nexuscos.online with minimal manual intervention.
+Successfully implemented `trae-builder-redeploy.sh`, a comprehensive one-shot shell script that executes a full redeploy of Nexus COS for n3xuscos.online with minimal manual intervention.
 
 ## Files Created
 
@@ -22,8 +22,8 @@ Successfully implemented `trae-builder-redeploy.sh`, a comprehensive one-shot sh
 All requirements from the problem statement have been met:
 
 ### ✅ Environment Variables
-- `VPS_HOST` set to 'nexuscos.online'
-- `DOMAIN` set to 'nexuscos.online'
+- `VPS_HOST` set to 'n3xuscos.online'
+- `DOMAIN` set to 'n3xuscos.online'
 - `EMAIL` set to 'your@email.com' (must be updated before use)
 
 ### ✅ Main Deployment Execution
@@ -64,8 +64,8 @@ Tests three endpoints and reports OK or FAILED:
 ```
 trae-builder-redeploy.sh
 ├── Environment Configuration
-│   ├── VPS_HOST=nexuscos.online
-│   ├── DOMAIN=nexuscos.online
+│   ├── VPS_HOST=n3xuscos.online
+│   ├── DOMAIN=n3xuscos.online
 │   └── EMAIL=your@email.com
 ├── STEP 1: Pre-flight Checks
 │   ├── Root privileges verification
@@ -132,7 +132,7 @@ sudo bash trae-builder-redeploy.sh
 ```bash
 # Override environment variables
 export EMAIL="admin@example.com"
-export DOMAIN="nexuscos.online"
+export DOMAIN="n3xuscos.online"
 sudo bash trae-builder-redeploy.sh
 ```
 
@@ -215,4 +215,4 @@ All requirements from the problem statement have been successfully implemented:
 
 ## Conclusion
 
-The TRAE Builder one-shot redeploy script provides a robust, automated solution for deploying Nexus COS to nexuscos.online. It meets all specified requirements and includes extensive error handling, validation, and documentation to ensure reliable operation in production environments.
+The TRAE Builder one-shot redeploy script provides a robust, automated solution for deploying Nexus COS to n3xuscos.online. It meets all specified requirements and includes extensive error handling, validation, and documentation to ensure reliable operation in production environments.

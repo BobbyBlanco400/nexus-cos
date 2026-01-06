@@ -203,8 +203,8 @@ chmod +x test-pr87-bulletproofing.sh
 ## 🚀 WHAT GETS DEPLOYED
 
 ### Files
-- **Apex:** `apex/index.html` (815 lines) → `/var/www/nexuscos.online/index.html`
-- **Beta:** `web/beta/index.html` (826 lines) → `/var/www/beta.nexuscos.online/index.html`
+- **Apex:** `apex/index.html` (815 lines) → `/var/www/n3xuscos.online/index.html`
+- **Beta:** `web/beta/index.html` (826 lines) → `/var/www/beta.n3xuscos.online/index.html`
 
 ### Features
 ✅ Professional design with dark/light themes  
@@ -220,8 +220,8 @@ chmod +x test-pr87-bulletproofing.sh
 ✅ Accessible (WCAG AA compliant, semantic HTML, ARIA labels)
 
 ### URLs
-- **Production:** https://nexuscos.online
-- **Beta:** https://beta.nexuscos.online
+- **Production:** https://n3xuscos.online
+- **Beta:** https://beta.n3xuscos.online
 
 ---
 
@@ -231,8 +231,8 @@ Deployment is successful when:
 
 - [x] Deploy script shows: "✅ DEPLOYMENT COMPLETED SUCCESSFULLY"
 - [x] Validate script shows: "✅ ALL VALIDATIONS PASSED"
-- [x] `https://nexuscos.online` returns HTTP/2 200 OK
-- [x] `https://beta.nexuscos.online` returns HTTP/2 200 OK
+- [x] `https://n3xuscos.online` returns HTTP/2 200 OK
+- [x] `https://beta.n3xuscos.online` returns HTTP/2 200 OK
 - [x] Beta badge visible on beta page
 - [x] Theme toggle works (dark ↔ light)
 - [x] All 6 module tabs functional
@@ -241,11 +241,11 @@ Deployment is successful when:
 ### Quick Verification
 ```bash
 # Test endpoints
-curl -I https://nexuscos.online          # Expected: HTTP/2 200
-curl -I https://beta.nexuscos.online     # Expected: HTTP/2 200
+curl -I https://n3xuscos.online          # Expected: HTTP/2 200
+curl -I https://beta.n3xuscos.online     # Expected: HTTP/2 200
 
 # Verify beta badge
-curl -s https://beta.nexuscos.online | grep -c 'beta-badge'  # Expected: 2
+curl -s https://beta.n3xuscos.online | grep -c 'beta-badge'  # Expected: 2
 
 # Check nginx
 nginx -t                                  # Expected: syntax is ok
@@ -308,8 +308,8 @@ systemctl reload nginx  # Reload if needed
 
 ### Issue: Files not deploying
 ```bash
-ls -lh /var/www/nexuscos.online/index.html
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 cat PR87_DEPLOYMENT_REPORT_*.txt  # Check deployment log
 ```
 
@@ -397,8 +397,8 @@ ssh root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && chmod +x s
 ### Post-Deployment
 - [ ] Verify deploy script success message
 - [ ] Verify validate script success message
-- [ ] Test https://nexuscos.online in browser
-- [ ] Test https://beta.nexuscos.online in browser
+- [ ] Test https://n3xuscos.online in browser
+- [ ] Test https://beta.n3xuscos.online in browser
 - [ ] Confirm beta badge on beta page
 - [ ] Test theme toggle
 - [ ] Test all 6 module tabs

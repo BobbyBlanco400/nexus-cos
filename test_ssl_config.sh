@@ -1,6 +1,6 @@
 #!/bin/bash
 # test_ssl_config.sh
-# SSL Configuration Validation Script for nexuscos.online
+# SSL Configuration Validation Script for n3xuscos.online
 #
 # Usage: sudo ./test_ssl_config.sh
 # Purpose: Validates SSL certificate installation, security configuration, 
@@ -15,9 +15,9 @@ NC='\033[0m' # No Color
 
 # Variables
 SSL_DIR="/etc/ssl/ionos"
-WEB_ROOT="/var/www/nexuscos.online/html"
-SITE_CONF="/etc/nginx/sites-available/nexuscos.online.conf"
-DOMAIN="nexuscos.online"
+WEB_ROOT="/var/www/n3xuscos.online/html"
+SITE_CONF="/etc/nginx/sites-available/n3xuscos.online.conf"
+DOMAIN="n3xuscos.online"
 FULLCHAIN_PATH="$SSL_DIR/fullchain.pem"
 PRIVKEY_PATH="$SSL_DIR/privkey.pem"
 CHAIN_PATH="$SSL_DIR/chain.pem"
@@ -173,7 +173,7 @@ test_nginx_configuration() {
     fi
     
     # Check if site is enabled
-    if [ -L "/etc/nginx/sites-enabled/nexuscos.online.conf" ]; then
+    if [ -L "/etc/nginx/sites-enabled/n3xuscos.online.conf" ]; then
         print_success "Site is enabled in Nginx"
     else
         print_error "Site is not enabled in Nginx"

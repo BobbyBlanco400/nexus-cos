@@ -252,12 +252,12 @@ Disk Space: $(df -h / | awk 'NR==2 {print $4}') available
 CONFIGURATION DETAILS
 ═══════════════════════════════════════════════════════════════
 
-Domain: nexuscos.online
+Domain: n3xuscos.online
 Server IP: 74.208.155.161
 Webroot: /var/www/nexus-cos
 
 Nginx Config: /etc/nginx/sites-available/nexuscos
-SSL Certificates: /etc/letsencrypt/live/nexuscos.online/
+SSL Certificates: /etc/letsencrypt/live/n3xuscos.online/
 
 Frontend Applications:
   - Admin Panel: /var/www/nexus-cos/admin/build/
@@ -292,29 +292,29 @@ VERIFICATION CHECKLIST
 Execute these commands to verify deployment:
 
 # Test domain access
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test IP redirect
 curl -I http://74.208.155.161/
 
 # Test admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 
 # Test creator hub
-curl -L https://nexuscos.online/creator-hub/
+curl -L https://n3xuscos.online/creator-hub/
 
 # Test health endpoint
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # Test API proxy
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 ═══════════════════════════════════════════════════════════════
 POST-DEPLOYMENT TASKS
 ═══════════════════════════════════════════════════════════════
 
 1. Clear browser cache and test in browser:
-   - https://nexuscos.online/
+   - https://n3xuscos.online/
    - http://74.208.155.161/ (should redirect)
 
 2. Verify branding consistency across all pages
@@ -345,7 +345,7 @@ If issues occur:
    ls -la /var/www/nexus-cos/
 
 4. Test with curl:
-   curl -v -H "Host: nexuscos.online" http://127.0.0.1/
+   curl -v -H "Host: n3xuscos.online" http://127.0.0.1/
 
 5. Rollback if needed:
    cp /etc/nginx/sites-available/nexuscos.backup.[timestamp] \\
@@ -393,9 +393,9 @@ print_summary() {
     echo -e "${GREEN}✓✓✓ MASTER PF DEPLOYMENT SUCCESSFUL ✓✓✓${NC}"
     echo ""
     echo -e "${CYAN}Access your platform:${NC}"
-    echo -e "  • ${BLUE}https://nexuscos.online/${NC}"
-    echo -e "  • ${BLUE}https://nexuscos.online/admin/${NC}"
-    echo -e "  • ${BLUE}https://nexuscos.online/creator-hub/${NC}"
+    echo -e "  • ${BLUE}https://n3xuscos.online/${NC}"
+    echo -e "  • ${BLUE}https://n3xuscos.online/admin/${NC}"
+    echo -e "  • ${BLUE}https://n3xuscos.online/creator-hub/${NC}"
     echo ""
     echo -e "${CYAN}Important:${NC}"
     echo -e "  • IP requests (http://74.208.155.161/) now redirect to domain"

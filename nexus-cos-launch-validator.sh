@@ -47,14 +47,14 @@ validate_configuration_files() {
     local validation_passed=true
     
     # Check nginx configurations
-    if [ -f "deployment/nginx/beta.nexuscos.online.conf" ]; then
+    if [ -f "deployment/nginx/beta.n3xuscos.online.conf" ]; then
         print_success "Beta nginx configuration found"
     else
         print_error "Beta nginx configuration missing"
         validation_passed=false
     fi
     
-    if [ -f "deployment/nginx/production.nexuscos.online.conf" ]; then
+    if [ -f "deployment/nginx/production.n3xuscos.online.conf" ]; then
         print_success "Production nginx configuration found"
     else
         print_error "Production nginx configuration missing"
@@ -113,7 +113,7 @@ validate_launch_phases() {
     
     # Check beta configuration
     print_status "Beta Phase Configuration:"
-    print_status "- Domain: beta.nexuscos.online"
+    print_status "- Domain: beta.n3xuscos.online"
     print_status "- Start Date: 2025-10-01"
     print_status "- SSL Provider: IONOS"
     print_status "- CDN Provider: CloudFlare"
@@ -121,7 +121,7 @@ validate_launch_phases() {
     
     # Check production configuration
     print_status "Production Phase Configuration:"
-    print_status "- Domain: nexuscos.online"
+    print_status "- Domain: n3xuscos.online"
     print_status "- Transition Date: 2025-11-17"
     print_status "- SSL Provider: IONOS"
     print_status "- CDN Provider: CloudFlare"
@@ -138,7 +138,7 @@ validate_security_configuration() {
     local validation_passed=true
     
     # Check beta security headers in nginx config
-    if grep -q "Strict-Transport-Security" deployment/nginx/beta.nexuscos.online.conf; then
+    if grep -q "Strict-Transport-Security" deployment/nginx/beta.n3xuscos.online.conf; then
         print_success "Beta HSTS configuration found"
     else
         print_error "Beta HSTS configuration missing"
@@ -146,7 +146,7 @@ validate_security_configuration() {
     fi
     
     # Check production security headers
-    if grep -q "max-age=63072000" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "max-age=63072000" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production enhanced HSTS configuration found"
     else
         print_error "Production enhanced HSTS configuration missing"
@@ -154,7 +154,7 @@ validate_security_configuration() {
     fi
     
     # Check rate limiting in production
-    if grep -q "limit_req_zone" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "limit_req_zone" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production rate limiting configuration found"
     else
         print_error "Production rate limiting configuration missing"
@@ -170,7 +170,7 @@ validate_ssl_configuration() {
     local validation_passed=true
     
     # Check IONOS SSL paths in beta config
-    if grep -q "/etc/ssl/ionos/beta.nexuscos.online/" deployment/nginx/beta.nexuscos.online.conf; then
+    if grep -q "/etc/ssl/ionos/beta.n3xuscos.online/" deployment/nginx/beta.n3xuscos.online.conf; then
         print_success "Beta IONOS SSL path configuration found"
     else
         print_error "Beta IONOS SSL path configuration missing"
@@ -178,7 +178,7 @@ validate_ssl_configuration() {
     fi
     
     # Check IONOS SSL paths in production config
-    if grep -q "/etc/ssl/ionos/nexuscos.online/" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "/etc/ssl/ionos/n3xuscos.online/" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production IONOS SSL path configuration found"
     else
         print_error "Production IONOS SSL path configuration missing"
@@ -186,8 +186,8 @@ validate_ssl_configuration() {
     fi
     
     # Check SSL protocols
-    if grep -q "TLSv1.2 TLSv1.3" deployment/nginx/beta.nexuscos.online.conf && 
-       grep -q "TLSv1.2 TLSv1.3" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "TLSv1.2 TLSv1.3" deployment/nginx/beta.n3xuscos.online.conf && 
+       grep -q "TLSv1.2 TLSv1.3" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "SSL protocol configuration found"
     else
         print_error "SSL protocol configuration missing"
@@ -229,14 +229,14 @@ validate_monitoring_configuration() {
     local validation_passed=true
     
     # Check logging configuration in nginx configs
-    if grep -q "access_log.*beta.nexuscos.online" deployment/nginx/beta.nexuscos.online.conf; then
+    if grep -q "access_log.*beta.n3xuscos.online" deployment/nginx/beta.n3xuscos.online.conf; then
         print_success "Beta logging configuration found"
     else
         print_error "Beta logging configuration missing"
         validation_passed=false
     fi
     
-    if grep -q "access_log.*nexuscos.online" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "access_log.*n3xuscos.online" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production logging configuration found"
     else
         print_error "Production logging configuration missing"
@@ -244,7 +244,7 @@ validate_monitoring_configuration() {
     fi
     
     # Check monitoring endpoints
-    if grep -q "/monitoring/" deployment/nginx/production.nexuscos.online.conf; then
+    if grep -q "/monitoring/" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production monitoring endpoints found"
     else
         print_warning "Production monitoring endpoints not configured"

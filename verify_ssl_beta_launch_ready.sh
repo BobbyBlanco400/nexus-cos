@@ -1,15 +1,15 @@
 #!/bin/bash
 # Script: verify_ssl_beta_launch_ready.sh
-# Purpose: Beta Launch Readiness Verification for SSL configuration on nexuscos.online
+# Purpose: Beta Launch Readiness Verification for SSL configuration on n3xuscos.online
 # This script verifies all components mentioned in the problem statement are present and functional
 
 echo "=== SSL Configuration Beta Launch Readiness Verification ==="
 echo "Repository: BobbyBlanco400/nexus-cos"
-echo "Domain: nexuscos.online"
+echo "Domain: n3xuscos.online"
 echo ""
 
 echo "----- Overview -----"
-echo "Comprehensive SSL certificate configuration for nexuscos.online."
+echo "Comprehensive SSL certificate configuration for n3xuscos.online."
 echo "Includes automation, security hardening, Nginx config, and validation scripts."
 echo ""
 
@@ -217,8 +217,8 @@ echo "   /etc/ssl/ionos/"
 echo "   ├── fullchain.pem (644 permissions) ✅ Configured"
 echo "   └── privkey.pem (600 permissions) ✅ Configured"
 echo ""
-echo "   /var/www/nexuscos.online/html/ ✅ Configured"
-echo "   /var/log/nginx/nexuscos.online_*.log ✅ Configured"
+echo "   /var/www/n3xuscos.online/html/ ✅ Configured"
+echo "   /var/log/nginx/n3xuscos.online_*.log ✅ Configured"
 echo ""
 
 # Deployment Flow Verification
@@ -236,7 +236,7 @@ deployment_features=(
 for feature in "${deployment_features[@]}"; do
     case "$feature" in
         *"staging"*|*"/tmp"*)
-            if grep -q "/tmp.*nexuscos.online" "./puabo_fix_nginx_ssl.sh"; then
+            if grep -q "/tmp.*n3xuscos.online" "./puabo_fix_nginx_ssl.sh"; then
                 echo "   ✅ $feature"
             else
                 echo "   ❌ $feature"

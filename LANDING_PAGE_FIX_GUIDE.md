@@ -11,8 +11,8 @@ This guide addresses the issues preventing the new landing pages from replacing 
 **Solution:** ✅ Updated to serve `index.html` at root path
 
 ### 2. ❌ Incorrect Directory Structure
-**Problem:** Nginx pointed to `/var/www/nexus-cos` but deployment expected `/var/www/nexuscos.online`
-**Solution:** ✅ Standardized all paths to `/var/www/nexuscos.online` and `/var/www/beta.nexuscos.online`
+**Problem:** Nginx pointed to `/var/www/nexus-cos` but deployment expected `/var/www/n3xuscos.online`
+**Solution:** ✅ Standardized all paths to `/var/www/n3xuscos.online` and `/var/www/beta.n3xuscos.online`
 
 ### 3. ❌ Missing Beta Configuration
 **Problem:** No nginx server block for beta subdomain
@@ -47,16 +47,16 @@ This script will:
 
 ```bash
 # 1. Create directories
-sudo mkdir -p /var/www/nexuscos.online
-sudo mkdir -p /var/www/beta.nexuscos.online
+sudo mkdir -p /var/www/n3xuscos.online
+sudo mkdir -p /var/www/beta.n3xuscos.online
 
 # 2. Deploy landing pages
-sudo cp apex/index.html /var/www/nexuscos.online/index.html
-sudo cp web/beta/index.html /var/www/beta.nexuscos.online/index.html
+sudo cp apex/index.html /var/www/n3xuscos.online/index.html
+sudo cp web/beta/index.html /var/www/beta.n3xuscos.online/index.html
 
 # 3. Set permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online /var/www/beta.nexuscos.online
-sudo chmod 644 /var/www/nexuscos.online/index.html /var/www/beta.nexuscos.online/index.html
+sudo chown -R www-data:www-data /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
+sudo chmod 644 /var/www/n3xuscos.online/index.html /var/www/beta.n3xuscos.online/index.html
 
 # 4. Deploy nginx configuration
 sudo cp deployment/nginx/nexuscos-unified.conf /etc/nginx/sites-available/nexuscos
@@ -82,7 +82,7 @@ The updated configuration includes:
 # Domain HTTP → HTTPS
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 
@@ -90,7 +90,7 @@ server {
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 ```
 
@@ -98,9 +98,9 @@ server {
 ```nginx
 server {
     listen 443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     
-    root /var/www/nexuscos.online;
+    root /var/www/n3xuscos.online;
     index index.html;
     
     # Serve landing page at root
@@ -110,7 +110,7 @@ server {
     
     # Admin panel at /admin/
     location /admin/ {
-        alias /var/www/nexuscos.online/admin/build/;
+        alias /var/www/n3xuscos.online/admin/build/;
         ...
     }
 }
@@ -120,9 +120,9 @@ server {
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
-    root /var/www/beta.nexuscos.online;
+    root /var/www/beta.n3xuscos.online;
     index index.html;
     
     # Serve beta landing page at root
@@ -142,20 +142,20 @@ server {
 
 ```bash
 # Verify apex landing page
-ls -lh /var/www/nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
 
 # Verify beta landing page
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 
 # Check permissions (should be 644)
-stat -c "%a %U:%G %n" /var/www/nexuscos.online/index.html
-stat -c "%a %U:%G %n" /var/www/beta.nexuscos.online/index.html
+stat -c "%a %U:%G %n" /var/www/n3xuscos.online/index.html
+stat -c "%a %U:%G %n" /var/www/beta.n3xuscos.online/index.html
 ```
 
 Expected output:
 ```
-644 www-data:www-data /var/www/nexuscos.online/index.html
-644 www-data:www-data /var/www/beta.nexuscos.online/index.html
+644 www-data:www-data /var/www/n3xuscos.online/index.html
+644 www-data:www-data /var/www/beta.n3xuscos.online/index.html
 ```
 
 ### 2. Test Nginx Configuration
@@ -172,10 +172,10 @@ sudo nginx -t
 
 ```bash
 # Test apex domain
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test beta domain
-curl -I https://beta.nexuscos.online/
+curl -I https://beta.n3xuscos.online/
 
 # Both should return:
 # HTTP/2 200
@@ -184,11 +184,11 @@ curl -I https://beta.nexuscos.online/
 ### 4. Browser Testing
 
 1. **Clear browser cache**: Ctrl+Shift+Delete → "All time" → Clear data
-2. **Test apex**: Visit https://nexuscos.online/
+2. **Test apex**: Visit https://n3xuscos.online/
    - Should show apex landing page
    - Check for "Nexus COS — Apex" title
    - Verify dark mode is default
-3. **Test beta**: Visit https://beta.nexuscos.online/
+3. **Test beta**: Visit https://beta.n3xuscos.online/
    - Should show beta landing page with green "BETA" badge
    - Check for "Nexus COS — Beta" title
 4. **Test theme toggle**: Click "Light" button
@@ -224,16 +224,16 @@ sudo nginx -t && sudo systemctl reload nginx
 **Solution:**
 ```bash
 # Check if files exist
-ls -l /var/www/nexuscos.online/index.html
-ls -l /var/www/beta.nexuscos.online/index.html
+ls -l /var/www/n3xuscos.online/index.html
+ls -l /var/www/beta.n3xuscos.online/index.html
 
 # If missing, deploy them
-sudo cp apex/index.html /var/www/nexuscos.online/
-sudo cp web/beta/index.html /var/www/beta.nexuscos.online/
+sudo cp apex/index.html /var/www/n3xuscos.online/
+sudo cp web/beta/index.html /var/www/beta.n3xuscos.online/
 
 # Fix permissions
-sudo chown www-data:www-data /var/www/nexuscos.online/index.html
-sudo chown www-data:www-data /var/www/beta.nexuscos.online/index.html
+sudo chown www-data:www-data /var/www/n3xuscos.online/index.html
+sudo chown www-data:www-data /var/www/beta.n3xuscos.online/index.html
 ```
 
 ### Issue: Permission Denied
@@ -243,14 +243,14 @@ sudo chown www-data:www-data /var/www/beta.nexuscos.online/index.html
 **Solution:**
 ```bash
 # Fix ownership
-sudo chown -R www-data:www-data /var/www/nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
+sudo chown -R www-data:www-data /var/www/n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
 
 # Fix permissions (755 for directories, 644 for files)
-sudo find /var/www/nexuscos.online -type d -exec chmod 755 {} \;
-sudo find /var/www/nexuscos.online -type f -exec chmod 644 {} \;
-sudo find /var/www/beta.nexuscos.online -type d -exec chmod 755 {} \;
-sudo find /var/www/beta.nexuscos.online -type f -exec chmod 644 {} \;
+sudo find /var/www/n3xuscos.online -type d -exec chmod 755 {} \;
+sudo find /var/www/n3xuscos.online -type f -exec chmod 644 {} \;
+sudo find /var/www/beta.n3xuscos.online -type d -exec chmod 755 {} \;
+sudo find /var/www/beta.n3xuscos.online -type f -exec chmod 644 {} \;
 ```
 
 ### Issue: nginx configuration test failed
@@ -264,10 +264,10 @@ sudo nginx -t
 
 # Common issues:
 # 1. SSL certificate not found
-sudo ls -l /etc/letsencrypt/live/nexuscos.online/
+sudo ls -l /etc/letsencrypt/live/n3xuscos.online/
 
 # If missing, generate SSL certificate:
-sudo certbot certonly --nginx -d nexuscos.online -d www.nexuscos.online -d beta.nexuscos.online
+sudo certbot certonly --nginx -d n3xuscos.online -d www.n3xuscos.online -d beta.n3xuscos.online
 
 # 2. Syntax error - review the error message and fix the config file
 ```
@@ -284,7 +284,7 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsaf
 If still seeing errors:
 ```bash
 # Verify CSP header
-curl -I https://nexuscos.online/ | grep -i content-security
+curl -I https://n3xuscos.online/ | grep -i content-security
 
 # Should include 'unsafe-inline' and 'unsafe-eval'
 ```
@@ -294,7 +294,7 @@ curl -I https://nexuscos.online/ | grep -i content-security
 This fix modified the following files:
 
 1. **`deployment/nginx/nexuscos-unified.conf`**
-   - Changed root path from `/var/www/nexus-cos` to `/var/www/nexuscos.online`
+   - Changed root path from `/var/www/nexus-cos` to `/var/www/n3xuscos.online`
    - Root location now serves landing page instead of redirecting
    - Added beta subdomain server block
    - Updated all application paths
@@ -304,7 +304,7 @@ This fix modified the following files:
    - Uses variable line counts in report
 
 3. **`pf-ip-domain-unification.sh`**
-   - Updated WEBROOT variable to `/var/www/nexuscos.online`
+   - Updated WEBROOT variable to `/var/www/n3xuscos.online`
    - Updated generated nginx config to serve landing page
 
 4. **`LANDING_PAGE_DEPLOYMENT.md`**
@@ -320,7 +320,7 @@ This fix modified the following files:
 
 After successful deployment, you should see:
 
-✅ **Apex Domain (https://nexuscos.online/)**
+✅ **Apex Domain (https://n3xuscos.online/)**
 - Landing page with "Nexus COS — Apex" title
 - Dark theme by default
 - Functional theme toggle
@@ -329,16 +329,16 @@ After successful deployment, you should see:
 - FAQ section
 - No console errors
 
-✅ **Beta Subdomain (https://beta.nexuscos.online/)**
+✅ **Beta Subdomain (https://beta.n3xuscos.online/)**
 - Landing page with green "BETA" badge
 - "Nexus COS — Beta" title
 - All features from apex
 - Environment-specific status indicators
 
 ✅ **Admin Access Still Works**
-- https://nexuscos.online/admin/ - Admin panel loads
-- https://nexuscos.online/creator-hub/ - Creator Hub loads
-- https://nexuscos.online/api/ - API endpoints respond
+- https://n3xuscos.online/admin/ - Admin panel loads
+- https://n3xuscos.online/creator-hub/ - Creator Hub loads
+- https://n3xuscos.online/api/ - API endpoints respond
 
 ✅ **Technical Validation**
 - nginx -t returns success
@@ -357,18 +357,18 @@ After successful deployment, you should see:
 
 2. **Test Health Endpoints**
    ```bash
-   curl https://nexuscos.online/health
-   curl https://beta.nexuscos.online/health/gateway
-   curl https://beta.nexuscos.online/v-suite/prompter/health
+   curl https://n3xuscos.online/health
+   curl https://beta.n3xuscos.online/health/gateway
+   curl https://beta.n3xuscos.online/v-suite/prompter/health
    ```
 
 3. **Update DNS** (if needed)
-   - Ensure beta.nexuscos.online points to correct IP
+   - Ensure beta.n3xuscos.online points to correct IP
    - Verify SSL certificate covers beta subdomain
 
 4. **Clear CDN Cache** (if using CDN)
-   - Purge cache for nexuscos.online
-   - Purge cache for beta.nexuscos.online
+   - Purge cache for n3xuscos.online
+   - Purge cache for beta.n3xuscos.online
 
 ## Support
 
@@ -383,7 +383,7 @@ For issues:
 The landing pages are now properly configured to replace the main page:
 
 - ✅ Nginx serves landing pages at root path
-- ✅ Correct directory structure (`/var/www/nexuscos.online`)
+- ✅ Correct directory structure (`/var/www/n3xuscos.online`)
 - ✅ Beta subdomain fully configured
 - ✅ Admin panel accessible at `/admin/`
 - ✅ Flexible validation in deployment script

@@ -3,12 +3,12 @@
 # Nexus COS — Base Path 200 Blocks Script
 # ==============================================================================
 # Purpose: Insert exact-match base-path 200 blocks that do not affect subroutes
-# Target: PF Gateway configuration for nexuscos.online
+# Target: PF Gateway configuration for n3xuscos.online
 # ==============================================================================
 
 set -e
 
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 PF="/etc/nginx/conf.d/pf_gateway_${DOMAIN}.conf"
 
 echo "═══════════════════════════════════════════════════════════════"

@@ -34,12 +34,12 @@ cd /opt/nexus-cos
 
 | Service | URL |
 |---------|-----|
-| Apex Domain | https://nexuscos.online |
-| Beta Domain | https://beta.nexuscos.online |
-| API Root | https://nexuscos.online/api |
-| API Health | https://nexuscos.online/api/health |
-| Gateway Health | https://nexuscos.online/health/gateway |
-| Dashboard | https://nexuscos.online/dashboard |
+| Apex Domain | https://n3xuscos.online |
+| Beta Domain | https://beta.n3xuscos.online |
+| API Root | https://n3xuscos.online/api |
+| API Health | https://n3xuscos.online/api/health |
+| Gateway Health | https://n3xuscos.online/health/gateway |
+| Dashboard | https://n3xuscos.online/dashboard |
 
 ---
 

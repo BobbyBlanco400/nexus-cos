@@ -2,7 +2,7 @@
 
 ## 📦 What's Included
 
-This verification suite provides comprehensive tools to validate TRAE's deployment on **nexuscos.online**.
+This verification suite provides comprehensive tools to validate TRAE's deployment on **n3xuscos.online**.
 
 ### Files in This Suite
 
@@ -98,7 +98,7 @@ Address failed checks before production launch.
 
 ### Method 1: Automated (Recommended)
 **Time:** 2 minutes  
-**Requires:** Internet access to nexuscos.online
+**Requires:** Internet access to n3xuscos.online
 
 ```bash
 ./verify-trae-deployment.sh
@@ -116,10 +116,10 @@ Address failed checks before production launch.
 
 ```bash
 # Test critical endpoints
-curl -I https://nexuscos.online/
-curl -s https://nexuscos.online/health | jq '.'
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/
+curl -s https://n3xuscos.online/health | jq '.'
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
 ```
 
 **Pros:**
@@ -203,8 +203,8 @@ bash verify-trae-deployment.sh
 
 ### Connection issues
 - Check VPN/firewall
-- Verify domain resolves: `host nexuscos.online`
-- Test connectivity: `ping nexuscos.online`
+- Verify domain resolves: `host n3xuscos.online`
+- Test connectivity: `ping n3xuscos.online`
 
 ---
 

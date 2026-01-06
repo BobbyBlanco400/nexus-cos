@@ -21,8 +21,8 @@ echo -e "${CYAN}================================================${NC}"
 echo ""
 
 # Configuration
-BETA_URL="${BETA_URL:-https://beta.nexuscos.online}"
-PROD_URL="${PROD_URL:-https://nexuscos.online}"
+BETA_URL="${BETA_URL:-https://beta.n3xuscos.online}"
+PROD_URL="${PROD_URL:-https://n3xuscos.online}"
 TIMEOUT=5
 
 # Counters

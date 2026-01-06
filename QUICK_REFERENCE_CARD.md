@@ -19,7 +19,7 @@ ssh root@74.208.155.161 'curl -fsSL https://raw.githubusercontent.com/BobbyBlanc
 | Item | Value |
 |------|-------|
 | **Deployment ID** | nexus-cos-production-v1.0.0 |
-| **Domain** | nexuscos.online |
+| **Domain** | n3xuscos.online |
 | **VPS IP** | 74.208.155.161 |
 | **Services** | 52 microservices |
 | **Modules** | 43 modules |
@@ -32,11 +32,11 @@ ssh root@74.208.155.161 'curl -fsSL https://raw.githubusercontent.com/BobbyBlanc
 
 | Endpoint | URL | Status |
 |----------|-----|--------|
-| Root | `https://nexuscos.online/` | 301 → /streaming/ |
-| API | `https://nexuscos.online/api/` | 200 |
-| Streaming | `https://nexuscos.online/streaming/` | 200 |
-| Socket.IO | `https://nexuscos.online/socket.io/...` | 200 |
-| Socket.IO Streaming | `https://nexuscos.online/streaming/socket.io/...` | 200 |
+| Root | `https://n3xuscos.online/` | 301 → /streaming/ |
+| API | `https://n3xuscos.online/api/` | 200 |
+| Streaming | `https://n3xuscos.online/streaming/` | 200 |
+| Socket.IO | `https://n3xuscos.online/socket.io/...` | 200 |
+| Socket.IO Streaming | `https://n3xuscos.online/streaming/socket.io/...` | 200 |
 | PUABO Core | `http://localhost:7777/health` | 200 |
 
 ---
@@ -102,16 +102,16 @@ ssh root@74.208.155.161 'cd /var/www/nexus-cos/nexus-cos/puabo-core && docker co
 
 ```bash
 # Root redirect
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # API
-curl https://nexuscos.online/api/
+curl https://n3xuscos.online/api/
 
 # Streaming
-curl https://nexuscos.online/streaming/
+curl https://n3xuscos.online/streaming/
 
 # Socket.IO
-curl "https://nexuscos.online/socket.io/?EIO=4&transport=polling"
+curl "https://n3xuscos.online/socket.io/?EIO=4&transport=polling"
 
 # PUABO Core
 curl http://localhost:7777/health

@@ -89,15 +89,15 @@ The FastAPI documentation is enabled by default and accessible at:
 
 1. **Swagger UI**:
    - Local: http://localhost/py/docs
-   - Production: https://nexuscos.online/py/docs
+   - Production: https://n3xuscos.online/py/docs
 
 2. **ReDoc**:
    - Local: http://localhost/py/redoc
-   - Production: https://nexuscos.online/py/redoc
+   - Production: https://n3xuscos.online/py/redoc
 
 3. **OpenAPI JSON**:
    - Local: http://localhost/py/openapi.json
-   - Production: https://nexuscos.online/py/openapi.json
+   - Production: https://n3xuscos.online/py/openapi.json
 
 ## Service Management
 
@@ -142,7 +142,7 @@ The current setup uses self-signed SSL certificates generated automatically when
 - Internal staging environments
 
 ### Production
-For production deployment on `nexuscos.online`, you should:
+For production deployment on `n3xuscos.online`, you should:
 1. Mount actual SSL certificates (e.g., from IONOS, Let's Encrypt)
 2. Update the nginx configuration to use the production certificates
 3. Remove the self-signed certificate generation from the entrypoint

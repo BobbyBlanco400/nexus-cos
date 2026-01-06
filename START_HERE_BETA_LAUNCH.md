@@ -55,8 +55,8 @@ This will:
 
 ### ✅ Landing Pages Ready
 
-- **Apex Domain:** https://nexuscos.online
-- **Beta Domain:** https://beta.nexuscos.online
+- **Apex Domain:** https://n3xuscos.online
+- **Beta Domain:** https://beta.n3xuscos.online
 - Both configured with unified branding
 
 ### ✅ Documentation Complete
@@ -94,11 +94,11 @@ Read these in order:
 
 | Service | URL | Expected |
 |---------|-----|----------|
-| Apex Domain | https://nexuscos.online | 200 OK |
-| Beta Domain | https://beta.nexuscos.online | 200 OK |
-| API Health | https://nexuscos.online/api/health | JSON response |
-| Gateway Health | https://nexuscos.online/health/gateway | 200 OK |
-| Dashboard | https://nexuscos.online/dashboard | Dashboard UI |
+| Apex Domain | https://n3xuscos.online | 200 OK |
+| Beta Domain | https://beta.n3xuscos.online | 200 OK |
+| API Health | https://n3xuscos.online/api/health | JSON response |
+| Gateway Health | https://n3xuscos.online/health/gateway | 200 OK |
+| Dashboard | https://n3xuscos.online/dashboard | Dashboard UI |
 
 ---
 
@@ -106,7 +106,7 @@ Read these in order:
 
 Before running deployment, confirm:
 
-- [ ] You have SSH access: `ssh root@nexuscos.online`
+- [ ] You have SSH access: `ssh root@n3xuscos.online`
 - [ ] You're in the VPS (not local machine)
 - [ ] Repository is cloned to `/opt/nexus-cos`
 - [ ] You have root/sudo privileges
@@ -119,7 +119,7 @@ Before running deployment, confirm:
 ### Step 1: Connect to VPS
 
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 ```
 
 ### Step 2: Navigate to Repository
@@ -167,14 +167,14 @@ You should see:
 
 After deployment, verify branding on these pages:
 
-### Apex Domain (https://nexuscos.online)
+### Apex Domain (https://n3xuscos.online)
 - [ ] Nexus COS logo visible
 - [ ] Primary color #2563eb (Nexus Blue)
 - [ ] Inter font family
 - [ ] Navigation works
 - [ ] All sections load
 
-### Beta Domain (https://beta.nexuscos.online)
+### Beta Domain (https://beta.n3xuscos.online)
 - [ ] Beta badge visible
 - [ ] Same branding as apex
 - [ ] Theme toggle works
@@ -191,13 +191,13 @@ Run these checks:
 
 ```bash
 # Check API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Check gateway
-curl https://nexuscos.online/health/gateway
+curl https://n3xuscos.online/health/gateway
 
 # Check system status
-curl https://nexuscos.online/api/system/status
+curl https://n3xuscos.online/api/system/status
 ```
 
 ### 2. Service Processes

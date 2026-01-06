@@ -144,7 +144,7 @@ pm2 save
 After deployment, check:
 
 ```bash
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 **Success = This output:**

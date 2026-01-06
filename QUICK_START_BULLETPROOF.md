@@ -1,6 +1,6 @@
 # 🚀 Nexus COS - Quick Start (Bulletproof PF)
 
-**VPS:** 74.208.155.161 | **Domains:** nexuscos.online, hollywood.nexuscos.online
+**VPS:** 74.208.155.161 | **Domains:** n3xuscos.online, hollywood.n3xuscos.online
 
 ---
 
@@ -21,8 +21,8 @@ ssh root@74.208.155.161 "cd /opt/nexus-cos && ./bulletproof-pf-deploy.sh && ./bu
 - [ ] DB Password (generate: `openssl rand -base64 24`)
 
 ### Required Files
-- [ ] IONOS SSL certificate for nexuscos.online (.crt and .key)
-- [ ] IONOS SSL certificate for hollywood.nexuscos.online (.crt and .key)
+- [ ] IONOS SSL certificate for n3xuscos.online (.crt and .key)
+- [ ] IONOS SSL certificate for hollywood.n3xuscos.online (.crt and .key)
 
 ---
 
@@ -45,10 +45,10 @@ nano .env.pf
 ```bash
 mkdir -p /etc/nginx/ssl/{apex,hollywood}
 # Copy IONOS certificates to:
-# /etc/nginx/ssl/apex/nexuscos.online.crt
-# /etc/nginx/ssl/apex/nexuscos.online.key
-# /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt
-# /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key
+# /etc/nginx/ssl/apex/n3xuscos.online.crt
+# /etc/nginx/ssl/apex/n3xuscos.online.key
+# /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt
+# /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.key
 ```
 
 ### 4. Deploy
@@ -127,10 +127,10 @@ docker compose -f docker-compose.pf.yml restart puabo-api
 
 ## 🌐 Production URLs
 
-- **Main:** https://nexuscos.online
-- **API:** https://nexuscos.online/api/health
-- **Hollywood:** https://hollywood.nexuscos.online
-- **TV/Streaming:** https://tv.nexuscos.online
+- **Main:** https://n3xuscos.online
+- **API:** https://n3xuscos.online/api/health
+- **Hollywood:** https://hollywood.n3xuscos.online
+- **TV/Streaming:** https://tv.n3xuscos.online
 
 ---
 
@@ -161,7 +161,7 @@ sleep 60
 ### SSL errors?
 ```bash
 # Verify certificates
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
 
 # Check permissions
 ls -la /etc/nginx/ssl/apex/

@@ -2,13 +2,13 @@
 
 ## Status: READY FOR PRODUCTION DEPLOYMENT
 
-This repository now contains a **complete, production-ready solution** to fix the Nginx routing issue for nexuscos.online.
+This repository now contains a **complete, production-ready solution** to fix the Nginx routing issue for n3xuscos.online.
 
 ---
 
 ## 🚨 FOR TRAE: START HERE
 
-**Mission**: Deploy Nginx routing fix for nexuscos.online  
+**Mission**: Deploy Nginx routing fix for n3xuscos.online  
 **Deadline**: Before 12/31/2025 (Beta launch period)  
 **Requirement**: One-shot deployment with 100% green validation
 
@@ -23,7 +23,7 @@ This repository now contains a **complete, production-ready solution** to fix th
 
 ## 🎯 Problem Solved
 
-**Issue**: nexuscos.online was serving the Nginx welcome page instead of the published site.
+**Issue**: n3xuscos.online was serving the Nginx welcome page instead of the published site.
 
 **Root Causes Fixed**:
 1. ✅ Missing or disabled vhost configuration
@@ -37,7 +37,7 @@ This repository now contains a **complete, production-ready solution** to fix th
 ## 📦 What's Included
 
 ### Configuration Files
-- ✅ `deployment/nginx/sites-available/nexuscos.online` - Vanilla Nginx vhost
+- ✅ `deployment/nginx/sites-available/n3xuscos.online` - Vanilla Nginx vhost
 - ✅ `deployment/nginx/plesk/vhost_nginx.conf` - Plesk additional directives
 
 ### Deployment Scripts (All Executable)
@@ -177,7 +177,7 @@ ls -la /etc/ssl/ionos/privkey.pem
 ### Troubleshooting
 - Check Nginx error log: `sudo tail -f /var/log/nginx/error.log`
 - Test configuration: `sudo nginx -t`
-- View active config: `sudo nginx -T | grep -A 10 "server_name nexuscos.online"`
+- View active config: `sudo nginx -T | grep -A 10 "server_name n3xuscos.online"`
 - Check service ports: `sudo netstat -tlnp | grep -E ":(3000|3043)"`
 
 ### Get Help
@@ -196,22 +196,22 @@ If something goes wrong:
 1. **Find Backup**:
    ```bash
    # Vanilla Nginx
-   ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+   ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
    
    # Plesk
-   ls -la /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.*
+   ls -la /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.*
    ```
 
 2. **Restore** (replace TIMESTAMP):
    ```bash
    # Vanilla
-   sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.TIMESTAMP \
-        /etc/nginx/sites-enabled/nexuscos.online
+   sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.TIMESTAMP \
+        /etc/nginx/sites-enabled/n3xuscos.online
    
    # Plesk
-   sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
-        /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
-   sudo plesk repair web -domain nexuscos.online -y
+   sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
+        /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
+   sudo plesk repair web -domain n3xuscos.online -y
    ```
 
 3. **Reload**:
@@ -235,10 +235,10 @@ If something goes wrong:
 ## 🏆 Success Criteria
 
 After deployment, you should see:
-- ✅ https://nexuscos.online/ serves your landing page (not Nginx welcome)
-- ✅ https://nexuscos.online/api/ proxies to your backend
-- ✅ https://nexuscos.online/stream/ connects to streaming service
-- ✅ https://nexuscos.online/health returns "ok"
+- ✅ https://n3xuscos.online/ serves your landing page (not Nginx welcome)
+- ✅ https://n3xuscos.online/api/ proxies to your backend
+- ✅ https://n3xuscos.online/stream/ connects to streaming service
+- ✅ https://n3xuscos.online/health returns "ok"
 - ✅ Security headers present in responses
 - ✅ HTTPS enforced (HTTP redirects to HTTPS)
 

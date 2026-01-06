@@ -26,10 +26,10 @@
 │                          USER ACCESS POINTS                         │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│  🌍 https://nexuscos.online          → Apex Domain (Main Landing)  │
-│  🧪 https://beta.nexuscos.online     → Beta Domain (Beta Testing)  │
-│  🔌 https://nexuscos.online/api      → API Gateway                 │
-│  🎛️  https://nexuscos.online/dashboard → Central Dashboard         │
+│  🌍 https://n3xuscos.online          → Apex Domain (Main Landing)  │
+│  🧪 https://beta.n3xuscos.online     → Beta Domain (Beta Testing)  │
+│  🔌 https://n3xuscos.online/api      → API Gateway                 │
+│  🎛️  https://n3xuscos.online/dashboard → Central Dashboard         │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```

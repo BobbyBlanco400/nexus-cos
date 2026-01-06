@@ -6,7 +6,7 @@
 
 ## Purpose
 
-This script automates the complete redeployment process for the nexuscos.online production environment, integrating all necessary deployment steps, service restarts, configuration updates, and validation checks into a single, self-contained operation.
+This script automates the complete redeployment process for the n3xuscos.online production environment, integrating all necessary deployment steps, service restarts, configuration updates, and validation checks into a single, self-contained operation.
 
 ## Features
 
@@ -41,8 +41,8 @@ The script sets the following environment variables:
 
 | Variable | Default Value | Description |
 |----------|--------------|-------------|
-| `VPS_HOST` | `nexuscos.online` | VPS hostname |
-| `DOMAIN` | `nexuscos.online` | Primary domain |
+| `VPS_HOST` | `n3xuscos.online` | VPS hostname |
+| `DOMAIN` | `n3xuscos.online` | Primary domain |
 | `EMAIL` | `your@email.com` | Contact email (must be changed) |
 
 These can be overridden by exporting them before running the script:
@@ -72,8 +72,8 @@ sudo bash trae-builder-redeploy.sh
 ```bash
 # Set custom environment variables
 export EMAIL="admin@example.com"
-export DOMAIN="nexuscos.online"
-export VPS_HOST="nexuscos.online"
+export DOMAIN="n3xuscos.online"
+export VPS_HOST="n3xuscos.online"
 
 # Run the script
 sudo bash trae-builder-redeploy.sh

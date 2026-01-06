@@ -1,8 +1,8 @@
-# SSL Configuration Guide for nexuscos.online
+# SSL Configuration Guide for n3xuscos.online
 
 ## Overview
 
-This guide provides comprehensive instructions for setting up and managing SSL certificates for the Nexus COS platform at nexuscos.online. The SSL implementation includes automation scripts, security hardening, and validation tools for production deployment.
+This guide provides comprehensive instructions for setting up and managing SSL certificates for the Nexus COS platform at n3xuscos.online. The SSL implementation includes automation scripts, security hardening, and validation tools for production deployment.
 
 ## 🔧 Quick Setup
 
@@ -30,15 +30,15 @@ The SSL configuration uses the following directory structure:
 ├── fullchain.pem      # SSL certificate chain (644 permissions)
 └── privkey.pem        # Private key (600 permissions)
 
-/var/www/nexuscos.online/
+/var/www/n3xuscos.online/
 └── html/              # Web root directory
 
 /var/log/nginx/
-├── nexuscos.online_access.log
-└── nexuscos.online_error.log
+├── n3xuscos.online_access.log
+└── n3xuscos.online_error.log
 
 /etc/nginx/sites-available/
-└── nexuscos.online.conf    # Nginx SSL configuration
+└── n3xuscos.online.conf    # Nginx SSL configuration
 ```
 
 ## 🛠️ Automation Scripts
@@ -58,8 +58,8 @@ The SSL configuration uses the following directory structure:
 **Usage**:
 ```bash
 # Place certificates in /tmp/
-sudo cp your-certificate.crt /tmp/nexuscos.online.crt
-sudo cp your-private-key.key /tmp/nexuscos.online.key
+sudo cp your-certificate.crt /tmp/n3xuscos.online.crt
+sudo cp your-private-key.key /tmp/n3xuscos.online.key
 
 # Run installation script
 sudo ./puabo_fix_nginx_ssl.sh
@@ -117,7 +117,7 @@ ssl_session_timeout 10m;
 ```nginx
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 ```
@@ -126,7 +126,7 @@ server {
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     ssl_certificate     /etc/ssl/ionos/fullchain.pem;
     ssl_certificate_key /etc/ssl/ionos/privkey.pem;
@@ -135,12 +135,12 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     # ... additional SSL settings
     
-    root /var/www/nexuscos.online/html;
+    root /var/www/n3xuscos.online/html;
     index index.html index.htm;
     
     # Domain-specific logging
-    access_log /var/log/nginx/nexuscos.online_access.log;
-    error_log /var/log/nginx/nexuscos.online_error.log;
+    access_log /var/log/nginx/n3xuscos.online_access.log;
+    error_log /var/log/nginx/n3xuscos.online_error.log;
     
     location / {
         try_files $uri $uri/ =404;
@@ -169,7 +169,7 @@ sudo ./puabo_fix_nginx_ssl.sh
 # Fix permissions
 sudo chmod 600 /etc/ssl/ionos/privkey.pem
 sudo chmod 644 /etc/ssl/ionos/fullchain.pem
-sudo chown -R www-data:www-data /var/www/nexuscos.online/
+sudo chown -R www-data:www-data /var/www/n3xuscos.online/
 ```
 
 #### 3. Nginx Configuration Errors
@@ -211,8 +211,8 @@ openssl x509 -in /etc/ssl/ionos/fullchain.pem -noout -dates
 sudo tail -f /var/log/nginx/error.log
 
 # Domain-specific logs
-sudo tail -f /var/log/nginx/nexuscos.online_error.log
-sudo tail -f /var/log/nginx/nexuscos.online_access.log
+sudo tail -f /var/log/nginx/n3xuscos.online_error.log
+sudo tail -f /var/log/nginx/n3xuscos.online_access.log
 
 # System SSL logs
 sudo journalctl -u nginx -f
@@ -306,4 +306,4 @@ For issues with SSL configuration:
 
 ---
 
-*This documentation is part of the Nexus COS SSL configuration for nexuscos.online*
+*This documentation is part of the Nexus COS SSL configuration for n3xuscos.online*

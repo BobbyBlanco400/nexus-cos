@@ -3,7 +3,7 @@
 **Status:** ✅ PRODUCTION READY | BULLETPROOFED | ZERO ERROR MARGIN  
 **Version:** 1.0  
 **Date:** 2025-10-07  
-**VPS:** 74.208.155.161 (nexuscos.online)
+**VPS:** 74.208.155.161 (n3xuscos.online)
 
 ---
 
@@ -157,18 +157,18 @@ Internet
     ↓
 Nginx (80/443) + IONOS SSL
     ↓
-├─→ nexuscos.online
+├─→ n3xuscos.online
 │   ├─→ / (Frontend - React)
 │   ├─→ /api (Gateway API - Port 4000)
 │   └─→ /v-suite (V-Suite Services)
 │
-├─→ hollywood.nexuscos.online
+├─→ hollywood.n3xuscos.online
 │   └─→ V-Screen Hollywood (Port 8088)
 │       ├─→ StreamCore (Port 3016)
 │       ├─→ AI SDK (Port 3002)
 │       └─→ Gateway API (Auth)
 │
-└─→ tv.nexuscos.online
+└─→ tv.n3xuscos.online
     └─→ StreamCore/OTT (Port 3016)
 
 Backend Services:
@@ -185,7 +185,7 @@ Backend Services:
 ### V-Screen Hollywood Edition
 - **Port:** 8088
 - **Features:** Virtual LED Volume, Real-time Camera Sync, 4K/8K Rendering
-- **Access:** `https://hollywood.nexuscos.online`
+- **Access:** `https://hollywood.n3xuscos.online`
 
 ### V-Prompter Pro
 - **Port:** 3002 (via AI SDK)
@@ -195,7 +195,7 @@ Backend Services:
 ### StreamCore
 - **Port:** 3016
 - **Features:** FFmpeg/WebRTC Streaming, HLS/DASH, Adaptive Bitrate
-- **Access:** `https://tv.nexuscos.online`
+- **Access:** `https://tv.n3xuscos.online`
 
 ### V-Caster Pro (Planned)
 - **Port:** 3011
@@ -322,9 +322,9 @@ curl http://localhost:8088/health  # V-Screen Hollywood
 curl http://localhost:3016/health  # StreamCore
 
 # Production endpoints
-curl https://nexuscos.online/api/health
-curl https://hollywood.nexuscos.online/health
-curl https://tv.nexuscos.online/health
+curl https://n3xuscos.online/api/health
+curl https://hollywood.n3xuscos.online/health
+curl https://tv.n3xuscos.online/health
 
 # Database
 docker compose -f docker-compose.pf.yml exec nexus-cos-postgres \

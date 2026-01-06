@@ -12,9 +12,9 @@ Phase 2.5 introduces **unified deployment** of three system layers under one PF 
 
 | Layer | Domain/Path | Purpose | Status |
 |-------|-------------|---------|--------|
-| **OTT Frontend** | `nexuscos.online` | Public streaming interface | Permanent |
-| **V-Suite Dashboard** | `nexuscos.online/v-suite/` | Creator control center | Permanent |
-| **Beta Portal** | `beta.nexuscos.online` | Pre-launch showcase | Until Nov 17, 2025 |
+| **OTT Frontend** | `n3xuscos.online` | Public streaming interface | Permanent |
+| **V-Suite Dashboard** | `n3xuscos.online/v-suite/` | Creator control center | Permanent |
+| **Beta Portal** | `beta.n3xuscos.online` | Pre-launch showcase | Until Nov 17, 2025 |
 
 ---
 
@@ -61,8 +61,8 @@ crontab -e
     └── phase2.5/          # Configuration backups
 
 /var/www/
-├── nexuscos.online/           # OTT frontend files
-└── beta.nexuscos.online/      # Beta portal files
+├── n3xuscos.online/           # OTT frontend files
+└── beta.n3xuscos.online/      # Beta portal files
 
 /etc/nginx/
 ├── sites-available/
@@ -78,9 +78,9 @@ crontab -e
 
 ```bash
 # Check all layers
-curl -I https://nexuscos.online/              # OTT Frontend
-curl -I https://nexuscos.online/v-suite/      # V-Suite Dashboard
-curl -I https://beta.nexuscos.online/         # Beta Portal
+curl -I https://n3xuscos.online/              # OTT Frontend
+curl -I https://n3xuscos.online/v-suite/      # V-Suite Dashboard
+curl -I https://beta.n3xuscos.online/         # Beta Portal
 
 # Check health endpoints
 curl http://localhost:4000/health             # Gateway API
@@ -151,14 +151,14 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ```bash
 # Check files exist
-ls -la /var/www/nexuscos.online/index.html
-ls -la /var/www/beta.nexuscos.online/index.html
+ls -la /var/www/n3xuscos.online/index.html
+ls -la /var/www/beta.n3xuscos.online/index.html
 
 # Check permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
-sudo chmod -R 755 /var/www/nexuscos.online
-sudo chmod -R 755 /var/www/beta.nexuscos.online
+sudo chown -R www-data:www-data /var/www/n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
+sudo chmod -R 755 /var/www/n3xuscos.online
+sudo chmod -R 755 /var/www/beta.n3xuscos.online
 ```
 
 ### Nginx Errors
@@ -199,12 +199,12 @@ ls -la /etc/nginx/ssl/apex/
 ls -la /etc/nginx/ssl/beta/
 
 # Check certificate validity
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -dates
-openssl x509 -in /etc/nginx/ssl/beta/beta.nexuscos.online.crt -noout -dates
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -dates
+openssl x509 -in /etc/nginx/ssl/beta/beta.n3xuscos.online.crt -noout -dates
 
 # Test SSL connection
-openssl s_client -connect nexuscos.online:443 -showcerts
-openssl s_client -connect beta.nexuscos.online:443 -showcerts
+openssl s_client -connect n3xuscos.online:443 -showcerts
+openssl s_client -connect beta.n3xuscos.online:443 -showcerts
 ```
 
 ---
@@ -212,8 +212,8 @@ openssl s_client -connect beta.nexuscos.online:443 -showcerts
 ## 📅 Transition Timeline
 
 ### Pre-Transition (Now - Nov 16, 2025)
-- Beta portal active at `beta.nexuscos.online`
-- OTT and V-Suite operational at `nexuscos.online`
+- Beta portal active at `beta.n3xuscos.online`
+- OTT and V-Suite operational at `n3xuscos.online`
 - All three layers coexist
 
 ### Transition Day (Nov 17, 2025)
@@ -239,8 +239,8 @@ openssl s_client -connect beta.nexuscos.online:443 -showcerts
 - [ ] Backend services running
 
 ### Operational Validation
-- [ ] `nexuscos.online` accessible
-- [ ] `beta.nexuscos.online` accessible
+- [ ] `n3xuscos.online` accessible
+- [ ] `beta.n3xuscos.online` accessible
 - [ ] `/v-suite/` routes correctly
 - [ ] Health endpoints returning 200
 - [ ] Logs being written

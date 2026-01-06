@@ -57,7 +57,7 @@ The nexus-cos repository and deployment are now **fully production-ready** for a
 
 - [x] **Interactive one-liner in README**
   ```bash
-  echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+  echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
   ```
 
 - [x] **Automated endpoint validation**
@@ -106,8 +106,8 @@ The nexus-cos repository and deployment are now **fully production-ready** for a
   - `Strict-Transport-Security` with 1-year max-age
 
 - [x] **Error and access logs active**
-  - Nginx access logs: `/var/log/nginx/nexuscos.online_access.log`
-  - Nginx error logs: `/var/log/nginx/nexuscos.online_error.log`
+  - Nginx access logs: `/var/log/nginx/n3xuscos.online_access.log`
+  - Nginx error logs: `/var/log/nginx/n3xuscos.online_error.log`
   - Domain-specific logging configured
 
 ### 6. Final System Checks ✅ COMPLETE

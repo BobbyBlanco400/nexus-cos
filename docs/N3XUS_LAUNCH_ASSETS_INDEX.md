@@ -105,7 +105,7 @@
   "id": 1,
   "name": "Club Saditty",
   "slug": "club-saditty",
-  "domain": "clubsaditty.nexuscos.online",
+  "domain": "clubsaditty.n3xuscos.online",
   "category": "Entertainment & Lifestyle",
   "status": "live",
   "deployed": "2026-01-05T00:00:00Z"
@@ -211,11 +211,11 @@
 ## 🔗 PUBLIC ACCESS POINTS
 
 ### Live URLs
-- **Main Portal**: https://nexuscos.online
-- **Founding Residents**: https://nexuscos.online/residents
-- **CPS Dashboard**: https://nexuscos.online/cps
-- **System Dashboard**: https://nexuscos.online/dashboard
-- **Virtual Desktop**: https://nexuscos.online/desktop
+- **Main Portal**: https://n3xuscos.online
+- **Founding Residents**: https://n3xuscos.online/residents
+- **CPS Dashboard**: https://n3xuscos.online/cps
+- **System Dashboard**: https://n3xuscos.online/dashboard
+- **Virtual Desktop**: https://n3xuscos.online/desktop
 
 ---
 
@@ -267,12 +267,12 @@
 - Media Contact: [Available in press kit]
 
 ### Creator Onboarding
-- Access: https://nexuscos.online/cps
+- Access: https://n3xuscos.online/cps
 - Form: Creator Onboarding Form
 
 ### Technical Support
-- Documentation: nexuscos.online/docs
-- Status Page: nexuscos.online/status
+- Documentation: n3xuscos.online/docs
+- Status Page: n3xuscos.online/status
 
 ---
 
@@ -307,8 +307,8 @@
 - System Architecture: `/NEXUS_COS_ARCHITECTURE_DIAGRAM.md`
 
 ### Compliance & Legal
-- Terms of Service: nexuscos.online/terms
-- Privacy Policy: nexuscos.online/privacy
+- Terms of Service: n3xuscos.online/terms
+- Privacy Policy: n3xuscos.online/privacy
 - Governance Protocol: 55-45-17 (active)
 
 ---

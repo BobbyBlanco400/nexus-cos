@@ -25,7 +25,7 @@
 
 ## 🎯 WHAT IS THIS?
 
-This is the **FINAL, DEFINITIVE guide** to launch Nexus COS Beta at **beta.nexuscos.online**.
+This is the **FINAL, DEFINITIVE guide** to launch Nexus COS Beta at **beta.n3xuscos.online**.
 
 Everything is ready. Everything is documented. Everything is tested. **Everything is MERGED.**
 
@@ -129,7 +129,7 @@ bash pf-health-check.sh
 ```
 ┌─────────────────────────────────────────┐
 │       NEXUS COS v2025 BETA              │
-│       beta.nexuscos.online              │
+│       beta.n3xuscos.online              │
 └─────────────────────────────────────────┘
                     │
         ┌───────────┴───────────┐
@@ -205,7 +205,7 @@ bash pf-health-check.sh
 ### Before Launch
 1. ✅ VPS meets requirements (8GB RAM, 20GB disk)
 2. ✅ Docker & Docker Compose installed
-3. ✅ Domain DNS configured (beta.nexuscos.online)
+3. ✅ Domain DNS configured (beta.n3xuscos.online)
 4. ✅ `.env.pf` configured with secure credentials
 5. ✅ Firewall configured (ports 80, 443, 22)
 

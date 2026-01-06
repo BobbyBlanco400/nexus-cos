@@ -61,7 +61,7 @@ cd C:\path\to\nexus-cos
 ```powershell
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -SshUser "root"
 ```
 
@@ -70,7 +70,7 @@ cd C:\path\to\nexus-cos
 ```powershell
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -KeyFile "C:\Users\YourName\.ssh\vps_key"
 ```
 
@@ -79,7 +79,7 @@ cd C:\path\to\nexus-cos
 ```powershell
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -UsePlink
 ```
 
@@ -96,7 +96,7 @@ cd C:\path\to\nexus-cos
 # Full deployment with all options
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -SshUser "root" `
   -KeyFile "C:\Users\YourName\.ssh\nexus_vps_key" `
   -RepoUrl "https://github.com/BobbyBlanco400/nexus-cos.git"
@@ -107,7 +107,7 @@ cd C:\path\to\nexus-cos
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `VpsIp` | String | 74.208.155.161 | VPS IP address |
-| `Domain` | String | nexuscos.online | Production domain name |
+| `Domain` | String | n3xuscos.online | Production domain name |
 | `SshUser` | String | root | SSH username |
 | `KeyFile` | String | (empty) | Path to SSH private key |
 | `RepoUrl` | String | https://github.com/BobbyBlanco400/nexus-cos.git | Repository URL |
@@ -130,16 +130,16 @@ cd C:\path\to\nexus-cos
 
 ### 3. Service Validation
 Tests the following endpoints:
-- Frontend: `https://nexuscos.online/`
-- Admin: `https://nexuscos.online/admin`
-- API: `https://nexuscos.online/api`
-- Health: `https://nexuscos.online/health`
-- V-Screen: `https://nexuscos.online/v-suite/screen`
-- V-Screen Alt: `https://nexuscos.online/v-screen`
-- V-Hollywood: `https://nexuscos.online/v-suite/hollywood`
-- V-Prompter: `https://nexuscos.online/v-suite/prompter`
-- V-Caster: `https://nexuscos.online/v-suite/caster`
-- V-Stage: `https://nexuscos.online/v-suite/stage`
+- Frontend: `https://n3xuscos.online/`
+- Admin: `https://n3xuscos.online/admin`
+- API: `https://n3xuscos.online/api`
+- Health: `https://n3xuscos.online/health`
+- V-Screen: `https://n3xuscos.online/v-suite/screen`
+- V-Screen Alt: `https://n3xuscos.online/v-screen`
+- V-Hollywood: `https://n3xuscos.online/v-suite/hollywood`
+- V-Prompter: `https://n3xuscos.online/v-suite/prompter`
+- V-Caster: `https://n3xuscos.online/v-suite/caster`
+- V-Stage: `https://n3xuscos.online/v-suite/stage`
 
 ### 4. Streaming Routes Validation
 - Tests all V-Suite streaming endpoints
@@ -158,7 +158,7 @@ Tests the following endpoints:
   NEXUS COS - PF VPS DEPLOYMENT (POWERSHELL)
 ═══════════════════════════════════════════════════════════════
 
-ℹ Target VPS: 74.208.155.161 (nexuscos.online)
+ℹ Target VPS: 74.208.155.161 (n3xuscos.online)
 ℹ SSH User: root
 ℹ Repository: https://github.com/BobbyBlanco400/nexus-cos.git
 
@@ -184,9 +184,9 @@ Tests the following endpoints:
   3. VALIDATING DEPLOYMENT
 ═══════════════════════════════════════════════════════════════
 
-ℹ Testing Frontend: https://nexuscos.online/
+ℹ Testing Frontend: https://n3xuscos.online/
 ✓ Frontend is accessible (Status: 200)
-ℹ Testing Admin: https://nexuscos.online/admin
+ℹ Testing Admin: https://n3xuscos.online/admin
 ✓ Admin is accessible (Status: 200)
 ...
 
@@ -194,10 +194,10 @@ Tests the following endpoints:
   DEPLOYMENT COMPLETE
 ═══════════════════════════════════════════════════════════════
 
-✓ Nexus COS has been deployed to nexuscos.online
-ℹ Access the platform at: https://nexuscos.online
-ℹ V-Screen: https://nexuscos.online/v-suite/screen
-ℹ Admin Panel: https://nexuscos.online/admin
+✓ Nexus COS has been deployed to n3xuscos.online
+ℹ Access the platform at: https://n3xuscos.online
+ℹ V-Screen: https://n3xuscos.online/v-suite/screen
+ℹ Admin Panel: https://n3xuscos.online/admin
 ```
 
 ## Troubleshooting
@@ -285,7 +285,7 @@ if ($Production) {
 
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -KeyFile "C:\secure\keys\production_vps_key"
 
 # Send notification
@@ -327,7 +327,7 @@ jobs:
         run: |
           .\scripts\pf-vps-deploy.ps1 `
             -VpsIp "${{ secrets.VPS_IP }}" `
-            -Domain "nexuscos.online" `
+            -Domain "n3xuscos.online" `
             -KeyFile "$HOME\.ssh\vps_key"
 ```
 

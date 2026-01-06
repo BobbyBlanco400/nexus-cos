@@ -93,7 +93,7 @@ Open `http://localhost:3000/` - Core Services Status section shows health chips
 ### Frontend Configuration
 Update `frontend/.env`:
 ```env
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 ### Nginx Configuration (existing)

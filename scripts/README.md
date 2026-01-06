@@ -43,7 +43,7 @@ This directory contains automated tools for verifying and monitoring all URLs do
 **Purpose:** Fix Nginx security headers and HTTP→HTTPS redirect configuration
 
 ```bash
-# Default domain (nexuscos.online)
+# Default domain (n3xuscos.online)
 sudo bash scripts/pf-fix-nginx-headers-redirect.sh
 
 # Custom domain
@@ -58,7 +58,7 @@ sudo DOMAIN=yourdomain.com bash scripts/pf-fix-nginx-headers-redirect.sh
   - X-Frame-Options
   - Referrer-Policy
 - ✅ Ensures `conf.d/*.conf` inclusion in nginx.conf
-- ✅ Fixes HTTP→HTTPS redirect to `https://nexuscos.online$request_uri`
+- ✅ Fixes HTTP→HTTPS redirect to `https://n3xuscos.online$request_uri`
 - ✅ Removes any stray backticks from Nginx configs
 - ✅ Validates and reloads Nginx
 - ✅ Verifies headers and redirect results
@@ -112,7 +112,7 @@ sudo DOMAIN=yourdomain.com bash scripts/pf-fix-nginx-headers-redirect.sh
 ```
 
 **Checks:**
-- Primary domain (nexuscos.online, www.nexuscos.online)
+- Primary domain (n3xuscos.online, www.n3xuscos.online)
 - Internal service URLs (Node.js, Python backends)
 - Health check endpoints
 - SSL certificates
@@ -127,7 +127,7 @@ sudo DOMAIN=yourdomain.com bash scripts/pf-fix-nginx-headers-redirect.sh
 ```
 
 **Features:**
-- Beta domain verification (beta.nexuscos.online)
+- Beta domain verification (beta.n3xuscos.online)
 - Launch readiness assessment
 - Local development endpoint checks
 - Beta-specific performance validation
@@ -155,12 +155,12 @@ sudo ./scripts/monitor-urls.sh --setup-service
 ### For Nginx Security Headers & Redirect Fix
 ```bash
 # On VPS (production)
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 cd /opt/nexus-cos
 sudo bash scripts/pf-fix-nginx-headers-redirect.sh
 
 # For custom domain
-sudo DOMAIN=beta.nexuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh
+sudo DOMAIN=beta.n3xuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh
 ```
 
 ### For Complete System Check (Recommended)
@@ -169,10 +169,10 @@ sudo DOMAIN=beta.nexuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh
 ./scripts/nexus-cos-final-system-check.sh
 
 # Check specific domain
-DOMAIN=beta.nexuscos.online ./scripts/nexus-cos-final-system-check.sh
+DOMAIN=beta.n3xuscos.online ./scripts/nexus-cos-final-system-check.sh
 
 # On VPS (production)
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 cd /opt/nexus-cos
 bash scripts/nexus-cos-final-system-check.sh
 ```
@@ -231,19 +231,19 @@ sudo systemctl start nexus-cos-monitor
 **SSL Certificate Errors:**
 ```bash
 # Check certificate manually
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
 ```
 
 **Network Connectivity:**
 ```bash
 # Test basic connectivity
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 ```
 
 **Service Not Responding:**
 ```bash
 # Check specific service health
-curl -s https://nexuscos.online:3000/health | jq '.'
+curl -s https://n3xuscos.online:3000/health | jq '.'
 ```
 
 ### Script Dependencies
@@ -286,7 +286,7 @@ sudo yum install curl openssl jq bc
 
 ### Beta Launch Ready ✅
 - All beta URLs responding with 2xx status codes
-- SSL certificates valid for beta.nexuscos.online
+- SSL certificates valid for beta.n3xuscos.online
 - Response times < 2 seconds
 - Health endpoints returning expected "ok" status
 - All authentication endpoints functional

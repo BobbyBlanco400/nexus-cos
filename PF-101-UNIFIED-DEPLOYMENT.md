@@ -10,9 +10,9 @@
 ## 🎯 Executive Summary
 
 This PF combines Phase 2.5 deployment (PF-100) with the critical /api routing fix to launch Nexus COS platform with:
-- ✅ Apex domain: https://nexuscos.online/ (200 OK)
-- ✅ Beta domain: https://beta.nexuscos.online/ (200 OK)  
-- ✅ API endpoints: https://nexuscos.online/api/* (200 OK)
+- ✅ Apex domain: https://n3xuscos.online/ (200 OK)
+- ✅ Beta domain: https://beta.n3xuscos.online/ (200 OK)  
+- ✅ API endpoints: https://n3xuscos.online/api/* (200 OK)
 
 **Time to Complete:** 5 minutes  
 **Complexity:** Low (single command)
@@ -46,7 +46,7 @@ This PF combines Phase 2.5 deployment (PF-100) with the critical /api routing fi
 
 Before starting deployment, verify:
 
-- [ ] You have SSH access to VPS: `ssh root@nexuscos.online`
+- [ ] You have SSH access to VPS: `ssh root@n3xuscos.online`
 - [ ] VPS is running and accessible
 - [ ] You are logged in as root user
 - [ ] You have stable internet connection
@@ -58,7 +58,7 @@ Before starting deployment, verify:
 ### Step 1: Connect to VPS
 
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 ```
 
 **Expected Output:**
@@ -151,7 +151,7 @@ sudo ./DEPLOY_PHASE_2.5.sh
 ### Step 6: Verify Apex Domain
 
 ```bash
-curl -skI https://nexuscos.online/ | head -n 1
+curl -skI https://n3xuscos.online/ | head -n 1
 ```
 
 **Expected Output:**
@@ -166,7 +166,7 @@ HTTP/2 200
 ### Step 7: Verify Beta Domain
 
 ```bash
-curl -skI https://beta.nexuscos.online/ | head -n 1
+curl -skI https://beta.n3xuscos.online/ | head -n 1
 ```
 
 **Expected Output:**
@@ -181,7 +181,7 @@ HTTP/2 200
 ### Step 8: Verify API Root Endpoint
 
 ```bash
-curl -skI https://nexuscos.online/api/ | head -n 1
+curl -skI https://n3xuscos.online/api/ | head -n 1
 ```
 
 **Expected Output:**
@@ -196,7 +196,7 @@ HTTP/2 200
 ### Step 9: Verify API Health Endpoint
 
 ```bash
-curl -skI https://nexuscos.online/api/health | head -n 1
+curl -skI https://n3xuscos.online/api/health | head -n 1
 ```
 
 **Expected Output:**
@@ -211,7 +211,7 @@ HTTP/2 200
 ### Step 10: Verify API System Status
 
 ```bash
-curl -skI https://nexuscos.online/api/system/status | head -n 1
+curl -skI https://n3xuscos.online/api/system/status | head -n 1
 ```
 
 **Expected Output:**
@@ -254,11 +254,11 @@ HTTP/2 200
 
 After completing all steps, you should have:
 
-1. ✅ Apex domain (https://nexuscos.online/) returns 200 OK
-2. ✅ Beta domain (https://beta.nexuscos.online/) returns 200 OK
-3. ✅ API root (https://nexuscos.online/api/) returns 200 OK
-4. ✅ API health (https://nexuscos.online/api/health) returns 200 OK
-5. ✅ API system status (https://nexuscos.online/api/system/status) returns 200 OK
+1. ✅ Apex domain (https://n3xuscos.online/) returns 200 OK
+2. ✅ Beta domain (https://beta.n3xuscos.online/) returns 200 OK
+3. ✅ API root (https://n3xuscos.online/api/) returns 200 OK
+4. ✅ API health (https://n3xuscos.online/api/health) returns 200 OK
+5. ✅ API system status (https://n3xuscos.online/api/system/status) returns 200 OK
 
 **All 5 criteria must be met for successful deployment.**
 
@@ -460,15 +460,15 @@ The deployment script automatically validates:
 
 After deployment, test in browser:
 
-1. **Navigate to:** https://nexuscos.online/
+1. **Navigate to:** https://n3xuscos.online/
    - **Expected:** Landing page loads
    - **Status:** 200 OK
 
-2. **Navigate to:** https://beta.nexuscos.online/
+2. **Navigate to:** https://beta.n3xuscos.online/
    - **Expected:** Beta landing page loads
    - **Status:** 200 OK
 
-3. **Navigate to:** https://nexuscos.online/api/
+3. **Navigate to:** https://n3xuscos.online/api/
    - **Expected:** JSON API info response
    - **Status:** 200 OK
 
@@ -522,9 +522,9 @@ After deployment, test in browser:
 
 ### Health Check Endpoints
 
-- **System:** https://nexuscos.online/api/system/status
-- **API Health:** https://nexuscos.online/api/health
-- **Services:** https://nexuscos.online/api/services/:service/health
+- **System:** https://n3xuscos.online/api/system/status
+- **API Health:** https://n3xuscos.online/api/health
+- **Services:** https://n3xuscos.online/api/services/:service/health
 
 ---
 
@@ -548,7 +548,7 @@ This PF meets all requirements:
 - **Phase 2.5 Details:** `PF_PHASE_2.5_OTT_INTEGRATION.md`
 - **Deployment Script:** `DEPLOY_PHASE_2.5.sh`
 - **Validation Script:** `scripts/validate-phase-2.5-deployment.sh`
-- **Nginx Configuration:** `deployment/nginx/nexuscos.online.conf`
+- **Nginx Configuration:** `deployment/nginx/n3xuscos.online.conf`
 - **API Documentation:** `API_ROUTES_DEPLOYMENT_GUIDE.md`
 
 ---
@@ -566,9 +566,9 @@ Once all checks pass, you will see:
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
 
-🌐 Apex: https://nexuscos.online/ (200 OK)
-🌐 Beta: https://beta.nexuscos.online/ (200 OK)  
-🌐 API:  https://nexuscos.online/api/* (200 OK)
+🌐 Apex: https://n3xuscos.online/ (200 OK)
+🌐 Beta: https://beta.n3xuscos.online/ (200 OK)  
+🌐 API:  https://n3xuscos.online/api/* (200 OK)
 
 ✅ All systems operational
 ✅ All endpoints validated

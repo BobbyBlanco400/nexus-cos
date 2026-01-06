@@ -150,7 +150,7 @@ function App() {
               <div className="beta-badge">BETA</div>
               <h3>Currently in Beta Launch</h3>
               <p>We're actively onboarding early adopters. Join us in shaping the future of content creation.</p>
-              <a href="https://beta.nexuscos.online" className="cta-button">Visit Beta Portal</a>
+              <a href="https://beta.n3xuscos.online" className="cta-button">Visit Beta Portal</a>
             </section>
           </>
         )}

@@ -81,7 +81,7 @@ app.post('/auth/login', (req, res) => {
     const user = {
         id: 1,
         username: username,
-        email: `${username}@nexuscos.online`
+        email: `${username}@n3xuscos.online`
     };
     
     const { accessToken, refreshToken } = generateTokens(user);

@@ -46,7 +46,7 @@ if [ $# -ne 3 ]; then
     echo "Usage: $0 <tenant-name> <tenant-slug> <domain>"
     echo ""
     echo "Example:"
-    echo "  $0 \"Club Saditty\" \"club-saditty\" \"clubsaditty.nexuscos.online\""
+    echo "  $0 \"Club Saditty\" \"club-saditty\" \"clubsaditty.n3xuscos.online\""
     echo ""
     exit 1
 fi

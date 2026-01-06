@@ -282,11 +282,11 @@ All **13 Founding Residents** verified in tenant registry:
 
 ## 🌐 PUBLIC ACCESS POINTS
 
-- **Main Portal**: https://nexuscos.online
-- **Founding Residents**: https://nexuscos.online/residents
-- **CPS Dashboard**: https://nexuscos.online/cps
-- **System Dashboard**: https://nexuscos.online/dashboard
-- **Virtual Desktop**: https://nexuscos.online/desktop
+- **Main Portal**: https://n3xuscos.online
+- **Founding Residents**: https://n3xuscos.online/residents
+- **CPS Dashboard**: https://n3xuscos.online/cps
+- **System Dashboard**: https://n3xuscos.online/dashboard
+- **Virtual Desktop**: https://n3xuscos.online/desktop
 
 ---
 

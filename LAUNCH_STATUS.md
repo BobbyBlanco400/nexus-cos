@@ -41,17 +41,17 @@
 All documented production endpoints are now functional:
 
 ✅ **Main Domain**
-- https://nexuscos.online
+- https://n3xuscos.online
 
 ✅ **Beta Domain**
-- https://beta.nexuscos.online
+- https://beta.n3xuscos.online
 
 ✅ **API Endpoints**
-- `https://nexuscos.online/api/` - API information and endpoint listing
-- `https://nexuscos.online/api/status` - API operational status
-- `https://nexuscos.online/api/health` - API health with database status
-- `https://nexuscos.online/api/system/status` - Overall system status
-- `https://nexuscos.online/api/v1/imcus/001/status` - IMCUS status endpoint
+- `https://n3xuscos.online/api/` - API information and endpoint listing
+- `https://n3xuscos.online/api/status` - API operational status
+- `https://n3xuscos.online/api/health` - API health with database status
+- `https://n3xuscos.online/api/system/status` - Overall system status
+- `https://n3xuscos.online/api/v1/imcus/001/status` - IMCUS status endpoint
 
 ✅ **Service Health Checks**
 - All services include health check endpoints
@@ -89,10 +89,10 @@ docker compose -f docker-compose.pf.yml ps
 
 ```bash
 # Copy configuration
-sudo cp nginx.conf /etc/nginx/sites-available/nexuscos.online
+sudo cp nginx.conf /etc/nginx/sites-available/n3xuscos.online
 
 # Enable site
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/
 
 # Test and reload
 sudo nginx -t && sudo systemctl reload nginx

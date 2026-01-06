@@ -20,8 +20,8 @@ class BackendHealthFix {
     // Enhanced CORS configuration
     const corsOptions = {
       origin: [
-        'https://beta.nexuscos.online',
-        'https://nexuscos.online',
+        'https://beta.n3xuscos.online',
+        'https://n3xuscos.online',
         'http://localhost:3000',
         'http://localhost:3001',
         'http://localhost',

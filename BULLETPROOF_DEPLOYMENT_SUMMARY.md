@@ -228,7 +228,7 @@ nginx.service
 ├── Port: 80 (redirect to 443)
 ├── Port: 443 (SSL/TLS)
 ├── Config: /etc/nginx/sites-available/nexuscos
-├── SSL: /etc/letsencrypt/live/nexuscos.online/
+├── SSL: /etc/letsencrypt/live/n3xuscos.online/
 └── Logs: /var/log/nginx/nexus-cos.*.log
 ```
 
@@ -308,7 +308,7 @@ After deployment, verify with:
 systemctl status nexuscos-app
 
 # Test health endpoint
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # View deployment report
 cat /opt/nexus-cos/TRAE_SOLO_BULLETPROOF_DEPLOYMENT_REPORT.md
@@ -402,7 +402,7 @@ tail -f /opt/nexus-cos/logs/deployment-*.log
 - **Deployment logs:** `/opt/nexus-cos/logs/deployment-*.log`
 - **Error logs:** `/opt/nexus-cos/logs/errors-*.log`
 - **Service status:** `systemctl status nexuscos-app`
-- **Health check:** `curl https://nexuscos.online/health`
+- **Health check:** `curl https://n3xuscos.online/health`
 
 ### Documentation
 All documentation is comprehensive and includes:

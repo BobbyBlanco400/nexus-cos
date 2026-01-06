@@ -97,7 +97,7 @@ upstream pf_gateway {
 This interactive deployment script handles everything automatically:
 
 ```bash
-echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
 ```
 
 **What it does:**
@@ -244,9 +244,9 @@ sudo systemctl restart nginx
 ./test-pf-configuration.sh
 
 # Test individual endpoints
-curl -I https://nexuscos.online/health
-curl -I https://nexuscos.online/api
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/health
+curl -I https://n3xuscos.online/api
+curl -I https://n3xuscos.online/admin
 ```
 
 ## ✅ Validation
@@ -300,8 +300,8 @@ curl http://localhost:3041/health
 ```bash
 # All critical endpoints
 for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do
-    echo "Testing: https://nexuscos.online$url"
-    curl -I https://nexuscos.online$url
+    echo "Testing: https://n3xuscos.online$url"
+    curl -I https://n3xuscos.online$url
     echo ""
 done
 ```

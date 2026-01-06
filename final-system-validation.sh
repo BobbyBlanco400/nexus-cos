@@ -159,7 +159,7 @@ else
 fi
 
 # Verify endpoint validation in one-liner
-if grep -q "curl -I https://nexuscos.online" NGINX_CONFIGURATION_README.md || grep -q "curl -I https://nexuscos.online" README.md; then
+if grep -q "curl -I https://n3xuscos.online" NGINX_CONFIGURATION_README.md || grep -q "curl -I https://n3xuscos.online" README.md; then
     test_pass "Automated endpoint validation included in one-liner"
 else
     test_warn "Endpoint validation should be in deployment one-liner"

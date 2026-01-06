@@ -30,8 +30,8 @@ sudo bash deploy-direct.sh
 
 ### Both Domains Configured
 
-- ✅ **https://nexuscos.online** - Main production site
-- ✅ **https://beta.nexuscos.online** - Beta experience (12/15/2025 - 12/31/2025)
+- ✅ **https://n3xuscos.online** - Main production site
+- ✅ **https://beta.n3xuscos.online** - Beta experience (12/15/2025 - 12/31/2025)
 
 ### All Services Running
 
@@ -52,12 +52,12 @@ sudo bash deploy-direct.sh
 
 ```bash
 # Test main domain
-curl -I https://nexuscos.online/health
-curl -I https://nexuscos.online/api/status
+curl -I https://n3xuscos.online/health
+curl -I https://n3xuscos.online/api/status
 
 # Test beta domain
-curl -I https://beta.nexuscos.online/health
-curl -I https://beta.nexuscos.online/api/status
+curl -I https://beta.n3xuscos.online/health
+curl -I https://beta.n3xuscos.online/api/status
 ```
 
 All should return `HTTP/2 200`
@@ -80,7 +80,7 @@ cd /opt/nexus-cos
 ./test-api-validation.sh
 
 # Test beta domain
-BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh
+BETA_URL=https://beta.n3xuscos.online ./test-api-validation.sh
 ```
 
 ### 4. View Logs
@@ -133,8 +133,8 @@ The script creates self-signed certificates for testing. For production:
    ```
    /etc/ssl/ionos/fullchain.pem
    /etc/ssl/ionos/privkey.pem
-   /etc/ssl/ionos/beta.nexuscos.online/fullchain.pem
-   /etc/ssl/ionos/beta.nexuscos.online/privkey.pem
+   /etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem
+   /etc/ssl/ionos/beta.n3xuscos.online/privkey.pem
    ```
 
 3. **Reload Nginx:**
@@ -163,8 +163,8 @@ docker-compose -f docker-compose.pf.yml up -d --build --force-recreate
 
 1. **Check DNS:** Ensure your domains point to your server IP
    ```bash
-   dig nexuscos.online
-   dig beta.nexuscos.online
+   dig n3xuscos.online
+   dig beta.n3xuscos.online
    ```
 
 2. **Check Firewall:**
@@ -244,7 +244,7 @@ docker stats $(docker-compose -f docker-compose.pf.yml ps -q)
 
 Your beta domain is **fully configured** and working:
 
-- **URL:** https://beta.nexuscos.online
+- **URL:** https://beta.n3xuscos.online
 - **Same API:** Uses same backend as main domain
 - **Same Services:** All endpoints available
 - **Beta Header:** Includes `X-Environment: beta` header
@@ -254,14 +254,14 @@ Your beta domain is **fully configured** and working:
 
 ```bash
 # Quick test
-curl -I https://beta.nexuscos.online/health
+curl -I https://beta.n3xuscos.online/health
 
 # Full test
 cd /opt/nexus-cos
-BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh
+BETA_URL=https://beta.n3xuscos.online ./test-api-validation.sh
 
 # Check beta header
-curl -I https://beta.nexuscos.online/ | grep "X-Environment"
+curl -I https://beta.n3xuscos.online/ | grep "X-Environment"
 # Should show: X-Environment: beta
 ```
 
@@ -286,8 +286,8 @@ Now (Direct):
 ## Your Global Launch is Ready
 
 Both domains are configured and ready:
-- ✅ `nexuscos.online` - Main production
-- ✅ `beta.nexuscos.online` - Beta experience
+- ✅ `n3xuscos.online` - Main production
+- ✅ `beta.n3xuscos.online` - Beta experience
 
 All API endpoints work:
 - ✅ `/api/`

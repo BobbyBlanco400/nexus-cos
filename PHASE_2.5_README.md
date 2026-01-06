@@ -10,18 +10,18 @@ Phase 2.5 represents a **bulletproofed, production-ready** deployment framework 
 
 ### The Three Layers
 
-1. **🎬 OTT Frontend** (`nexuscos.online`)
+1. **🎬 OTT Frontend** (`n3xuscos.online`)
    - Public-facing streaming interface for media, shows, music, and live events
    - Direct access for all viewers
    - Permanent production layer
 
-2. **🎛️ V-Suite Dashboard** (`nexuscos.online/v-suite/`)
+2. **🎛️ V-Suite Dashboard** (`n3xuscos.online/v-suite/`)
    - Creator and operator control center
    - Modules: DSP, BLAC, Dispatch, Nuki, and more
    - Secured with Nexus ID SSO
    - Permanent production layer
 
-3. **🚀 Beta Launch Portal** (`beta.nexuscos.online`)
+3. **🚀 Beta Launch Portal** (`beta.n3xuscos.online`)
    - Pre-launch promotional hub with countdown
    - Feature showcase and registration
    - Active until **November 17, 2025**
@@ -84,7 +84,7 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 │                                                          │
 │  ┌────────────────────────────────────────────────┐    │
 │  │                                                 │    │
-│  │  OTT FRONTEND (nexuscos.online)                │    │
+│  │  OTT FRONTEND (n3xuscos.online)                │    │
 │  │  Public Streaming Interface                     │    │
 │  │  Permanent Production                           │    │
 │  │                                                 │    │
@@ -102,7 +102,7 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 │                                                          │
 │  ┌────────────────────────────────────────────────┐    │
 │  │                                                 │    │
-│  │  BETA PORTAL (beta.nexuscos.online)            │    │
+│  │  BETA PORTAL (beta.n3xuscos.online)            │    │
 │  │  Pre-Launch Showcase + Countdown               │    │
 │  │  Active until Nov 17, 2025                     │    │
 │  │                                                 │    │
@@ -127,8 +127,8 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 ## 🔐 Key Features
 
 ### Dual-Domain Routing
-- **Production:** `nexuscos.online` serves OTT + V-Suite
-- **Beta:** `beta.nexuscos.online` serves pre-launch portal
+- **Production:** `n3xuscos.online` serves OTT + V-Suite
+- **Beta:** `beta.n3xuscos.online` serves pre-launch portal
 - **Isolated:** Each domain has independent Nginx configuration
 - **Unified:** All layers share backend services
 
@@ -230,9 +230,9 @@ After successful deployment, you should see:
 
 ```bash
 # Check all endpoints
-curl -I https://nexuscos.online/
-curl -I https://nexuscos.online/v-suite/
-curl -I https://beta.nexuscos.online/
+curl -I https://n3xuscos.online/
+curl -I https://n3xuscos.online/v-suite/
+curl -I https://beta.n3xuscos.online/
 
 # Check backend health
 curl http://localhost:4000/health
@@ -266,8 +266,8 @@ tail -f /opt/nexus-cos/logs/phase2.5/beta/access.log
 
 - ✅ Phase 2.5 deployed
 - ✅ All three layers operational
-- ✅ Beta portal active at `beta.nexuscos.online`
-- ✅ OTT and V-Suite live at `nexuscos.online`
+- ✅ Beta portal active at `beta.n3xuscos.online`
+- ✅ OTT and V-Suite live at `n3xuscos.online`
 
 ### Transition Day (Nov 17, 2025)
 
@@ -333,13 +333,13 @@ sudo systemctl reload nginx
 **Solution:**
 ```bash
 # Check files exist
-ls -la /var/www/nexuscos.online/index.html
-ls -la /var/www/beta.nexuscos.online/index.html
+ls -la /var/www/n3xuscos.online/index.html
+ls -la /var/www/beta.n3xuscos.online/index.html
 
 # Fix permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
-sudo chmod -R 755 /var/www/nexuscos.online /var/www/beta.nexuscos.online
+sudo chown -R www-data:www-data /var/www/n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
+sudo chmod -R 755 /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
 
 # Reload nginx
 sudo systemctl reload nginx
@@ -376,10 +376,10 @@ ls -la /etc/nginx/ssl/apex/
 ls -la /etc/nginx/ssl/beta/
 
 # Check certificate validity
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -dates
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -dates
 
 # Test SSL connection
-openssl s_client -connect nexuscos.online:443 -showcerts
+openssl s_client -connect n3xuscos.online:443 -showcerts
 ```
 
 For more troubleshooting, see [PHASE_2.5_QUICK_REFERENCE.md](./PHASE_2.5_QUICK_REFERENCE.md).

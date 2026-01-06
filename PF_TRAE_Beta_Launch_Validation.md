@@ -16,7 +16,7 @@
 - [x] Nginx reloads without error.
 
 ## 4. Security & Access
-- [x] SSL/TLS enabled and tested (`https://nexuscos.online`).
+- [x] SSL/TLS enabled and tested (`https://n3xuscos.online`).
 - [x] Only required ports are exposed.
 - [x] Secrets managed via `.env`, not hardcoded.
 
@@ -29,7 +29,7 @@
 
 ### Core Endpoint Check
 ```sh
-for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
 ```
 - [x] All endpoints respond 200/301/302
 
@@ -48,7 +48,7 @@ for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai
 1. Choose Nginx deployment mode (Docker/Host).
 2. Run the interactive one-liner:
     ```sh
-    echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+    echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
     ```
 3. Review logs and curl output.
 4. Announce Beta launch!

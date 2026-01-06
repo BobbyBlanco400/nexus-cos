@@ -10,7 +10,7 @@ The landing pages (PR#87) could not be deployed as the main page because:
 - **Files Affected**: All nginx configuration files
 
 ### 2. ❌ Wrong Directory Structure
-- **Problem**: Nginx pointed to `/var/www/nexus-cos` but deployment expected `/var/www/nexuscos.online`
+- **Problem**: Nginx pointed to `/var/www/nexus-cos` but deployment expected `/var/www/n3xuscos.online`
 - **Impact**: 404 errors, files deployed to wrong location
 - **Files Affected**: nginx configs, deployment scripts, PF scripts
 
@@ -31,7 +31,7 @@ The landing pages (PR#87) could not be deployed as the main page because:
 **File**: `deployment/nginx/nexuscos-unified.conf`
 
 **Changes**:
-- Changed root from `/var/www/nexus-cos` → `/var/www/nexuscos.online`
+- Changed root from `/var/www/nexus-cos` → `/var/www/n3xuscos.online`
 - Root location now serves landing page instead of redirecting
 - Added complete beta subdomain server block
 - Updated all application paths (admin, creator-hub, app, diagram, branding)
@@ -46,7 +46,7 @@ location = / {
 
 **After**:
 ```nginx
-root /var/www/nexuscos.online;
+root /var/www/n3xuscos.online;
 location = / {
     try_files /index.html =404;  # ✅ Serve landing page
 }
@@ -56,8 +56,8 @@ location = / {
 
 **File**: `deployment/nginx/nexuscos-unified.conf`
 
-**Added**: Complete server block for `beta.nexuscos.online`
-- Root: `/var/www/beta.nexuscos.online`
+**Added**: Complete server block for `beta.n3xuscos.online`
+- Root: `/var/www/beta.n3xuscos.online`
 - Landing page at root
 - Health check endpoints
 - API endpoints
@@ -89,7 +89,7 @@ if [[ "${APEX_LINES}" -ge 800 ]] && [[ "${APEX_LINES}" -le 850 ]]; then
 **File**: `pf-ip-domain-unification.sh`
 
 **Changes**:
-- Updated WEBROOT variable to `/var/www/nexuscos.online`
+- Updated WEBROOT variable to `/var/www/n3xuscos.online`
 - Changed root path to serve landing page
 - Updated all application path references
 
@@ -137,14 +137,14 @@ sudo bash scripts/deploy-pr87-landing-pages.sh
 
 ## What Works Now
 
-### ✅ Apex Domain (nexuscos.online)
+### ✅ Apex Domain (n3xuscos.online)
 - Landing page served at root `/`
 - Admin panel accessible at `/admin/`
 - Creator hub at `/creator-hub/`
 - API endpoints at `/api/`
 - All applications properly routed
 
-### ✅ Beta Subdomain (beta.nexuscos.online)
+### ✅ Beta Subdomain (beta.n3xuscos.online)
 - Landing page with beta badge
 - Health check endpoints configured
 - API endpoints configured
@@ -154,7 +154,7 @@ sudo bash scripts/deploy-pr87-landing-pages.sh
 ### ✅ Directory Structure
 ```
 /var/www/
-├── nexuscos.online/          # Main domain
+├── n3xuscos.online/          # Main domain
 │   ├── index.html            # Landing page (apex)
 │   ├── admin/build/          # Admin panel
 │   ├── creator-hub/build/    # Creator hub
@@ -162,7 +162,7 @@ sudo bash scripts/deploy-pr87-landing-pages.sh
 │   ├── diagram/              # Module diagram
 │   └── branding/             # Branding assets
 │
-└── beta.nexuscos.online/     # Beta subdomain
+└── beta.n3xuscos.online/     # Beta subdomain
     └── index.html            # Landing page (beta)
 ```
 
@@ -199,7 +199,7 @@ All fixes have been validated:
 
 1. **Review the fixes**: See what was changed and why
 2. **Deploy**: Run `sudo bash DEPLOY_LANDING_PAGES_NOW.sh`
-3. **Verify**: Visit https://nexuscos.online and https://beta.nexuscos.online
+3. **Verify**: Visit https://n3xuscos.online and https://beta.n3xuscos.online
 4. **Monitor**: Check nginx logs for any issues
 
 ## Support
@@ -215,11 +215,11 @@ For issues or questions:
 
 | Item | Before | After |
 |------|--------|-------|
-| **Root directory** | `/var/www/nexus-cos` | `/var/www/nexuscos.online` |
+| **Root directory** | `/var/www/nexus-cos` | `/var/www/n3xuscos.online` |
 | **Root location** | `return 301 /admin/` | `try_files /index.html =404` |
-| **Admin path** | `/var/www/nexus-cos/admin/build/` | `/var/www/nexuscos.online/admin/build/` |
-| **Creator path** | `/var/www/nexus-cos/creator-hub/build/` | `/var/www/nexuscos.online/creator-hub/build/` |
-| **Frontend path** | `/var/www/nexus-cos/frontend/dist/` | `/var/www/nexuscos.online/frontend/dist/` |
+| **Admin path** | `/var/www/nexus-cos/admin/build/` | `/var/www/n3xuscos.online/admin/build/` |
+| **Creator path** | `/var/www/nexus-cos/creator-hub/build/` | `/var/www/n3xuscos.online/creator-hub/build/` |
+| **Frontend path** | `/var/www/nexus-cos/frontend/dist/` | `/var/www/n3xuscos.online/frontend/dist/` |
 
 ### Configuration Changes
 

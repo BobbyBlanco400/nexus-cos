@@ -2,12 +2,12 @@
  * Nexus COS PF Master Script - Global Launch Implementation
  * Purpose:
  *   Final Puppeteer readiness verification for NEXUS COS Global Launch
- *   Supports Beta (beta.nexuscos.online) and Production (nexuscos.online) phases
+ *   Supports Beta (beta.n3xuscos.online) and Production (n3xuscos.online) phases
  *   Single-run only. No background daemons, no cronjobs, no extra deps.
  *
  * Launch Phases:
- *   Beta: 2025-10-01 -> beta.nexuscos.online (IONOS SSL, CloudFlare CDN)
- *   Production: 2025-11-17 -> nexuscos.online (IONOS SSL, CloudFlare CDN)
+ *   Beta: 2025-10-01 -> beta.n3xuscos.online (IONOS SSL, CloudFlare CDN)
+ *   Production: 2025-11-17 -> n3xuscos.online (IONOS SSL, CloudFlare CDN)
  *
  * Workflow:
  *   1. Detect current launch phase based on date
@@ -38,7 +38,7 @@ function detectLaunchPhase() {
   if (now >= productionTransitionDate) {
     return {
       phase: 'production',
-      domain: 'https://nexuscos.online',
+      domain: 'https://n3xuscos.online',
       environment: 'production',
       sslProvider: 'IONOS',
       cdnProvider: 'CloudFlare',
@@ -47,7 +47,7 @@ function detectLaunchPhase() {
   } else if (now >= betaStartDate) {
     return {
       phase: 'beta',
-      domain: 'https://beta.nexuscos.online',
+      domain: 'https://beta.n3xuscos.online',
       environment: 'beta',
       sslProvider: 'IONOS',
       cdnProvider: 'CloudFlare',
@@ -56,7 +56,7 @@ function detectLaunchPhase() {
   } else {
     return {
       phase: 'pre-beta',
-      domain: 'https://nexuscos.online',
+      domain: 'https://n3xuscos.online',
       environment: 'development',
       sslProvider: 'Let\'s Encrypt',
       cdnProvider: 'None',

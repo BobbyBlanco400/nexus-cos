@@ -1,8 +1,8 @@
-# PR Summary: Make nexuscos.online Fully Deployable
+# PR Summary: Make n3xuscos.online Fully Deployable
 
 ## Problem Statement Compliance
 
-This PR implements all requirements to make nexuscos.online fully deployable and launch-ready.
+This PR implements all requirements to make n3xuscos.online fully deployable and launch-ready.
 
 ## Changes Summary
 
@@ -20,12 +20,12 @@ This PR implements all requirements to make nexuscos.online fully deployable and
 add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'" always;
 
 # After (exact requirement)
-add_header Content-Security-Policy "default-src 'self' https://nexuscos.online; img-src 'self' data: blob: https://nexuscos.online; script-src 'self' 'unsafe-inline' https://nexuscos.online; style-src 'self' 'unsafe-inline' https://nexuscos.online; connect-src 'self' https://nexuscos.online https://nexuscos.online/streaming wss://nexuscos.online ws://nexuscos.online;" always;
+add_header Content-Security-Policy "default-src 'self' https://n3xuscos.online; img-src 'self' data: blob: https://n3xuscos.online; script-src 'self' 'unsafe-inline' https://n3xuscos.online; style-src 'self' 'unsafe-inline' https://n3xuscos.online; connect-src 'self' https://n3xuscos.online https://n3xuscos.online/streaming wss://n3xuscos.online ws://n3xuscos.online;" always;
 ```
 
 ```bash
 # Before (hardcoded domain)
-return 301 https://nexuscos.online$request_uri;
+return 301 https://n3xuscos.online$request_uri;
 
 # After (dynamic with $host)
 return 301 https://$host$request_uri;
@@ -48,7 +48,7 @@ apply_nginx_hardening() {
     scp scripts/pf-fix-nginx-headers-redirect.sh root@74.208.155.161:/opt/nexus-cos/scripts/
     
     # Execute with DOMAIN environment variable
-    ssh root@74.208.155.161 "cd /opt/nexus-cos && sudo DOMAIN=nexuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh"
+    ssh root@74.208.155.161 "cd /opt/nexus-cos && sudo DOMAIN=n3xuscos.online bash scripts/pf-fix-nginx-headers-redirect.sh"
 }
 ```
 
@@ -87,7 +87,7 @@ All acceptance criteria from problem statement are met:
 - X-Frame-Options
 - Referrer-Policy
 
-✅ **HTTP Redirect**: Returns `Location: https://nexuscos.online/...` using `$host` variable
+✅ **HTTP Redirect**: Returns `Location: https://n3xuscos.online/...` using `$host` variable
 
 ✅ **No Nginx Warnings**: Script handles conflicting configurations and protocol redefinition
 
@@ -99,12 +99,12 @@ All acceptance criteria from problem statement are met:
 
 ### Test HTTPS Headers
 ```bash
-curl -fsSI https://nexuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
+curl -fsSI https://n3xuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
 ```
 
 ### Test HTTP Redirect
 ```bash
-curl -fsSI http://nexuscos.online/ | tr -d '\r' | egrep -i '^(HTTP|Location):'
+curl -fsSI http://n3xuscos.online/ | tr -d '\r' | egrep -i '^(HTTP|Location):'
 ```
 
 ### Test Backend Port
@@ -133,7 +133,7 @@ ssh root@74.208.155.161 'ss -ltnp | grep ":3001"'
 
 ### Quick Deploy
 ```bash
-# Default settings (VPS: 74.208.155.161, Domain: nexuscos.online)
+# Default settings (VPS: 74.208.155.161, Domain: n3xuscos.online)
 bash scripts/vps-deploy.sh
 
 # Custom settings
@@ -144,7 +144,7 @@ VPS_HOST=your.vps.ip DOMAIN=yourdomain.com bash scripts/vps-deploy.sh
 ```bash
 # Upload and execute
 scp scripts/pf-fix-nginx-headers-redirect.sh root@74.208.155.161:/opt/nexus-cos/scripts/
-ssh root@74.208.155.161 "sudo DOMAIN=nexuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh"
+ssh root@74.208.155.161 "sudo DOMAIN=n3xuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh"
 ```
 
 ## Files Changed
@@ -157,7 +157,7 @@ ssh root@74.208.155.161 "sudo DOMAIN=nexuscos.online bash /opt/nexus-cos/scripts
 
 ## Impact
 
-This PR makes nexuscos.online:
+This PR makes n3xuscos.online:
 - ✅ Fully secure with proper headers
 - ✅ Properly redirecting HTTP to HTTPS
 - ✅ Free of configuration conflicts

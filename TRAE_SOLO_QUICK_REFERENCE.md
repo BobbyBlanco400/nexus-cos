@@ -9,7 +9,7 @@
 ## ⚡ ONE-COMMAND DEPLOYMENT
 
 ```bash
-ssh root@nexuscos.online && \
+ssh root@n3xuscos.online && \
 cd /opt && \
 git clone https://github.com/BobbyBlanco400/nexus-cos.git && \
 cd nexus-cos && \
@@ -29,7 +29,7 @@ chmod +x nexus-cos-vps-deployment.sh && \
 
 ### 1. Connect to VPS
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 ```
 
 ### 2. Setup Firewall
@@ -69,13 +69,13 @@ chmod +x nexus-cos-vps-validation.sh
 ### Domain Tests
 ```bash
 # Apex domain
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # Beta domain
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 
 # API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 ```
 
 **Expected:** All return 200 OK
@@ -181,11 +181,11 @@ All health checks: PASSED
 ## 🌐 URLS TO TEST
 
 ```
-Apex:     https://nexuscos.online
-Beta:     https://beta.nexuscos.online
-Admin:    https://nexuscos.online/admin
-Creator:  https://nexuscos.online/creator-hub
-API:      https://nexuscos.online/api/health
+Apex:     https://n3xuscos.online
+Beta:     https://beta.n3xuscos.online
+Admin:    https://n3xuscos.online/admin
+Creator:  https://n3xuscos.online/creator-hub
+API:      https://n3xuscos.online/api/health
 ```
 
 ---

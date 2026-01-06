@@ -210,7 +210,7 @@ echo ""
 
 # Test endpoints
 print_info "Testing apex domain..."
-if curl -skI https://nexuscos.online/ | head -n 1 | grep -q "200"; then
+if curl -skI https://n3xuscos.online/ | head -n 1 | grep -q "200"; then
     print_success "Apex domain: 200 OK"
 else
     echo -e "${YELLOW}⚠ Warning: Apex domain did not return 200${NC}"
@@ -218,7 +218,7 @@ fi
 echo ""
 
 print_info "Testing beta domain..."
-if curl -skI https://beta.nexuscos.online/ | head -n 1 | grep -q "200"; then
+if curl -skI https://beta.n3xuscos.online/ | head -n 1 | grep -q "200"; then
     print_success "Beta domain: 200 OK"
 else
     echo -e "${YELLOW}⚠ Warning: Beta domain did not return 200${NC}"
@@ -226,19 +226,19 @@ fi
 echo ""
 
 print_info "Testing API endpoints..."
-if curl -skI https://nexuscos.online/api/ | head -n 1 | grep -q "200"; then
+if curl -skI https://n3xuscos.online/api/ | head -n 1 | grep -q "200"; then
     print_success "API root: 200 OK"
 else
     echo -e "${YELLOW}⚠ Warning: API root did not return 200${NC}"
 fi
 
-if curl -skI https://nexuscos.online/api/health | head -n 1 | grep -q "200"; then
+if curl -skI https://n3xuscos.online/api/health | head -n 1 | grep -q "200"; then
     print_success "API health: 200 OK"
 else
     echo -e "${YELLOW}⚠ Warning: API health did not return 200${NC}"
 fi
 
-if curl -skI https://nexuscos.online/api/system/status | head -n 1 | grep -q "200"; then
+if curl -skI https://n3xuscos.online/api/system/status | head -n 1 | grep -q "200"; then
     print_success "API system status: 200 OK"
 else
     echo -e "${YELLOW}⚠ Warning: API system status did not return 200${NC}"
@@ -274,11 +274,11 @@ echo ""
 
 echo -e "${CYAN}Your Nexus COS Platform is now live:${NC}"
 echo ""
-echo -e "  ${GREEN}►${NC} Apex Domain:      https://nexuscos.online"
-echo -e "  ${GREEN}►${NC} Beta Domain:      https://beta.nexuscos.online"
-echo -e "  ${GREEN}►${NC} API Endpoints:    https://nexuscos.online/api/*"
-echo -e "  ${GREEN}►${NC} API Health:       https://nexuscos.online/api/health"
-echo -e "  ${GREEN}►${NC} System Status:    https://nexuscos.online/api/system/status"
+echo -e "  ${GREEN}►${NC} Apex Domain:      https://n3xuscos.online"
+echo -e "  ${GREEN}►${NC} Beta Domain:      https://beta.n3xuscos.online"
+echo -e "  ${GREEN}►${NC} API Endpoints:    https://n3xuscos.online/api/*"
+echo -e "  ${GREEN}►${NC} API Health:       https://n3xuscos.online/api/health"
+echo -e "  ${GREEN}►${NC} System Status:    https://n3xuscos.online/api/system/status"
 echo ""
 
 echo -e "${CYAN}Backend Configuration:${NC}"

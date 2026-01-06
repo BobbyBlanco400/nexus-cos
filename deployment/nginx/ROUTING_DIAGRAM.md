@@ -1,4 +1,4 @@
-# Nginx Routing Diagram for nexuscos.online
+# Nginx Routing Diagram for n3xuscos.online
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -28,7 +28,7 @@
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         HTTPS SERVER BLOCK                               │
-│                    (nexuscos.online / www.nexuscos.online)              │
+│                    (n3xuscos.online / www.n3xuscos.online)              │
 └─────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -111,16 +111,16 @@ index.html   apex/        beta/       core/      (Node.js) (WebRTC/  (HLS)
 ```
 External                           Internal
 ────────                          ────────
-https://nexuscos.online/api/   →  http://127.0.0.1:3000/
-https://nexuscos.online/stream/→  http://127.0.0.1:3043/stream/
-https://nexuscos.online/hls/   →  http://127.0.0.1:3043/hls/
+https://n3xuscos.online/api/   →  http://127.0.0.1:3000/
+https://n3xuscos.online/stream/→  http://127.0.0.1:3043/stream/
+https://n3xuscos.online/hls/   →  http://127.0.0.1:3043/hls/
 ```
 
 ## Request Flow Example
 
 ### Example 1: API Request
 ```
-1. Client → https://nexuscos.online/api/users
+1. Client → https://n3xuscos.online/api/users
 2. Nginx → Proxy to http://127.0.0.1:3000/users
 3. Backend processes request
 4. Backend → Response with data
@@ -130,7 +130,7 @@ https://nexuscos.online/hls/   →  http://127.0.0.1:3043/hls/
 
 ### Example 2: SPA Navigation
 ```
-1. Client → https://nexuscos.online/apex/dashboard
+1. Client → https://n3xuscos.online/apex/dashboard
 2. Nginx → try_files checks for /apex/dashboard file
 3. File not found
 4. Nginx → Fallback to /apex/index.html
@@ -140,7 +140,7 @@ https://nexuscos.online/hls/   →  http://127.0.0.1:3043/hls/
 
 ### Example 3: Streaming Connection
 ```
-1. Client → https://nexuscos.online/stream/ (WebSocket upgrade)
+1. Client → https://n3xuscos.online/stream/ (WebSocket upgrade)
 2. Nginx → Detects Upgrade header
 3. Nginx → Proxy to http://127.0.0.1:3043/stream/
 4. Nginx → Forward Upgrade and Connection headers
@@ -164,7 +164,7 @@ https://nexuscos.online/hls/   →  http://127.0.0.1:3043/hls/
 
 ### Plesk
 ```
-/var/www/vhosts/nexuscos.online/httpdocs/
+/var/www/vhosts/n3xuscos.online/httpdocs/
 ├── index.html           ← / (root)
 ├── apex/
 │   └── index.html       ← /apex/* (SPA)
@@ -253,7 +253,7 @@ upstream backend_api {
 
 ┌─────────────────────────────────────┐
 │ Health Endpoint                      │
-│ GET https://nexuscos.online/health  │
+│ GET https://n3xuscos.online/health  │
 │ - Returns: "ok"                     │
 │ - Status: 200                       │
 └─────────────────────────────────────┘

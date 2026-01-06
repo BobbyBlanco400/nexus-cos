@@ -15,7 +15,7 @@ set -euo pipefail
 # ==============================================================================
 
 readonly REPO_ROOT="${REPO_ROOT:-/opt/nexus-cos}"
-readonly DOMAIN="${DOMAIN:-nexuscos.online}"
+readonly DOMAIN="${DOMAIN:-n3xuscos.online}"
 readonly VPS_IP="74.208.155.161"
 readonly TIMEOUT=10
 

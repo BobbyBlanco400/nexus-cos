@@ -1,7 +1,7 @@
 # API Routes Implementation - Complete Summary
 
 ## Problem Statement
-TRAE reported that `/api` and `/api/auth` were returning 404 errors on https://nexuscos.online, even though the backend was running successfully on port 3000 via PM2.
+TRAE reported that `/api` and `/api/auth` were returning 404 errors on https://n3xuscos.online, even though the backend was running successfully on port 3000 via PM2.
 
 ## Root Cause
 PM2 was running `server.js` which had basic auth routes but was missing system status and module endpoints. The complete API routes existed in `backend/src/server.ts` (TypeScript) but weren't being used.
@@ -66,14 +66,14 @@ pm2 restart nexuscos-app
 
 ### Verify Deployment
 ```bash
-curl -s https://nexuscos.online/api | jq .
-curl -s https://nexuscos.online/api/auth | jq .
-curl -s https://nexuscos.online/api/system/status | jq .
+curl -s https://n3xuscos.online/api | jq .
+curl -s https://n3xuscos.online/api/auth | jq .
+curl -s https://n3xuscos.online/api/system/status | jq .
 ```
 
 ### Full Test Suite
 ```bash
-./test-api-routes.sh https://nexuscos.online
+./test-api-routes.sh https://n3xuscos.online
 ```
 
 ## What Changed (Technical Details)
@@ -175,7 +175,7 @@ app.use((req, res) => {
 
 1. **Merge this PR** to main branch
 2. **On VPS**: `cd /opt/nexus-cos && git pull origin main && pm2 restart nexuscos-app`
-3. **Verify**: `curl -s https://nexuscos.online/api | jq .`
+3. **Verify**: `curl -s https://n3xuscos.online/api | jq .`
 4. **Done!** All API routes now return proper JSON responses
 
 ## Support
@@ -183,7 +183,7 @@ app.use((req, res) => {
 If you encounter any issues:
 - Check `API_ROUTES_DEPLOYMENT_GUIDE.md` for troubleshooting
 - Run `pm2 logs nexuscos-app` to see application logs
-- Run `./test-api-routes.sh https://nexuscos.online` for validation
+- Run `./test-api-routes.sh https://n3xuscos.online` for validation
 - Check Nginx logs: `tail -f /var/log/nginx/error.log`
 
 ## Summary

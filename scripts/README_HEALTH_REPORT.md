@@ -3,16 +3,16 @@
 ## Overview
 
 The `nexus_health_report.sh` script provides comprehensive health monitoring for Nexus COS infrastructure, including:
-- Main site health check (https://nexuscos.online/health)
-- Beta site health check (https://beta.nexuscos.online/health)
+- Main site health check (https://n3xuscos.online/health)
+- Beta site health check (https://beta.n3xuscos.online/health)
 - Database connectivity verification
 - Clear exit codes for automation and monitoring
 
 ## Features
 
 ### 1. Proper URL Quoting and Spacing
-- **MAIN_URL**: `"https://nexuscos.online/health"`
-- **BETA_URL**: `"https://beta.nexuscos.online/health"`
+- **MAIN_URL**: `"https://n3xuscos.online/health"`
+- **BETA_URL**: `"https://beta.n3xuscos.online/health"`
 
 All URLs are properly quoted and spaced to prevent shell parsing issues.
 
@@ -120,7 +120,7 @@ esac
  Main Site Health Check
 ========================================
 
-[INFO] Checking Main Site: https://nexuscos.online/health
+[INFO] Checking Main Site: https://n3xuscos.online/health
 [SUCCESS]   ✓ HTTP 200 - Main site is healthy
 [WARNING]   ⚠ Database status: down
 [ERROR]   ✗ DB Error: getaddrinfo EAI_AGAIN admin
@@ -130,7 +130,7 @@ esac
  Beta Site Health Check
 ========================================
 
-[INFO] Checking Beta Site: https://beta.nexuscos.online/health
+[INFO] Checking Beta Site: https://beta.n3xuscos.online/health
 [ERROR]   ✗ Connection failed - Beta site is unreachable
 
 
@@ -205,7 +205,7 @@ The test suite validates:
 **Symptoms**: Beta site returns HTTP 000 or connection failed
 
 **Solutions**:
-1. Verify DNS is configured for beta.nexuscos.online
+1. Verify DNS is configured for beta.n3xuscos.online
 2. Check nginx configuration for beta subdomain
 3. Ensure SSL certificates are valid
 4. Verify firewall allows traffic to port 443
@@ -237,6 +237,6 @@ After running the health report and identifying issues:
 
 ## References
 
-- Main health endpoint: https://nexuscos.online/health
-- Beta health endpoint: https://beta.nexuscos.online/health
+- Main health endpoint: https://n3xuscos.online/health
+- Beta health endpoint: https://beta.n3xuscos.online/health
 - Database configuration: `.env` file (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)

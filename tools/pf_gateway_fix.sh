@@ -52,7 +52,7 @@ print_info() {
 # ==============================================================================
 
 # Domains from PF JSON
-DOMAINS=("nexuscos.online" "www.nexuscos.online")
+DOMAINS=("n3xuscos.online" "www.n3xuscos.online")
 
 # ==============================================================================
 # V-SUITE MODULE PORTS
@@ -407,14 +407,14 @@ print_summary() {
     echo ""
     echo -e "${CYAN}Verification Commands:${NC}"
     echo -e "  # V-Suite health check:"
-    echo -e "  for D in nexuscos.online www.nexuscos.online; do"
+    echo -e "  for D in n3xuscos.online www.n3xuscos.online; do"
     echo -e "    for P in /api/v-suite/health /api/v-suite/vscreen-hollywood/health /api/v-suite/vstage/health /api/v-suite/vprompter-pro/health /api/v-suite/vcaster-pro/health; do"
     echo -e "      curl -sk -o /dev/null -w \"\$D\$P:%{http_code}\\n\" https://\$D\$P"
     echo -e "    done"
     echo -e "  done"
     echo ""
     echo -e "  # Socket.IO check:"
-    echo -e "  for D in nexuscos.online www.nexuscos.online; do"
+    echo -e "  for D in n3xuscos.online www.n3xuscos.online; do"
     echo -e "    for S in '/socket.io/?EIO=4&transport=polling' '/streaming/socket.io/?EIO=4&transport=polling'; do"
     echo -e "      curl -sk \"https://\$D\$S\" | grep -qo '\"sid\":\"' && echo \"\$D\$S: sid=true\" || echo \"\$D\$S: sid=false\""
     echo -e "    done"

@@ -225,13 +225,13 @@ All service directories are validated and ready:
 After deployment, the platform is accessible at:
 
 ```
-🌍 Apex Domain:     https://nexuscos.online
-🧪 Beta Domain:     https://beta.nexuscos.online
-🔌 API Endpoint:    https://nexuscos.online/api
-💓 API Health:      https://nexuscos.online/api/health
-🚪 Gateway Health:  https://nexuscos.online/health/gateway
-📊 System Status:   https://nexuscos.online/api/system/status
-🎛️  Dashboard:      https://nexuscos.online/dashboard
+🌍 Apex Domain:     https://n3xuscos.online
+🧪 Beta Domain:     https://beta.n3xuscos.online
+🔌 API Endpoint:    https://n3xuscos.online/api
+💓 API Health:      https://n3xuscos.online/api/health
+🚪 Gateway Health:  https://n3xuscos.online/health/gateway
+📊 System Status:   https://n3xuscos.online/api/system/status
+🎛️  Dashboard:      https://n3xuscos.online/dashboard
 ```
 
 ---
@@ -274,7 +274,7 @@ After deployment, the platform is accessible at:
 
 Before running deployment:
 
-- [ ] SSH access to VPS: `ssh root@nexuscos.online`
+- [ ] SSH access to VPS: `ssh root@n3xuscos.online`
 - [ ] Repository cloned to: `/opt/nexus-cos`
 - [ ] Git credentials configured
 - [ ] Root/sudo access confirmed
@@ -290,8 +290,8 @@ Deployment is successful when:
 
 - [ ] ✅ Deployment script completes without errors
 - [ ] ✅ Validation script reports all checks passed
-- [ ] ✅ Apex domain loads: https://nexuscos.online
-- [ ] ✅ Beta domain loads: https://beta.nexuscos.online
+- [ ] ✅ Apex domain loads: https://n3xuscos.online
+- [ ] ✅ Beta domain loads: https://beta.n3xuscos.online
 - [ ] ✅ API health endpoint responds: 200 OK
 - [ ] ✅ Branding visible (logo and colors)
 - [ ] ✅ All 16 modules validated
@@ -368,7 +368,7 @@ Nexus COS is a world-first platform with:
 2. **Verify success:** Check all URLs load
 3. **Review documentation:** `TRAE_SOLO_BETA_LAUNCH_HANDOFF.md`
 4. **Finalize landing pages:** Customize content as needed
-5. **Test beta URL:** Ensure beta.nexuscos.online works
+5. **Test beta URL:** Ensure beta.n3xuscos.online works
 6. **Monitor services:** Use health check scripts
 7. **Collect feedback:** Prepare for user testing
 

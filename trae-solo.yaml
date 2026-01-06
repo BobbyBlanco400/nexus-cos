@@ -1,6 +1,6 @@
 # TRAE Solo Configuration for Nexus COS
 # Global Launch Multi-Phase Configuration
-# Supports Beta (beta.nexuscos.online) and Production (nexuscos.online)
+# Supports Beta (beta.n3xuscos.online) and Production (n3xuscos.online)
 
 version: "1.0"
 project:
@@ -8,10 +8,10 @@ project:
   description: "Complete Operating System - Global Launch Multi-Phase Deployment"
   launch_phases:
     beta:
-      domain: "beta.nexuscos.online"
+      domain: "beta.n3xuscos.online"
       start_date: "2025-10-01"
     production:
-      domain: "nexuscos.online"
+      domain: "n3xuscos.online"
       transition_date: "2025-11-17"
   
 # Service definitions for TRAE Solo orchestration
@@ -75,18 +75,18 @@ infrastructure:
     type: "nginx"
     ssl: true
     domains:
-      beta: "beta.nexuscos.online"
-      production: "nexuscos.online"
+      beta: "beta.n3xuscos.online"
+      production: "n3xuscos.online"
     ssl_providers:
       beta: "IONOS"
       production: "IONOS"
     ssl_paths:
       beta:
-        cert: "/etc/ssl/ionos/beta.nexuscos.online/fullchain.pem"
-        key: "/etc/ssl/ionos/beta.nexuscos.online/privkey.pem"
+        cert: "/etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem"
+        key: "/etc/ssl/ionos/beta.n3xuscos.online/privkey.pem"
       production:
-        cert: "/etc/ssl/ionos/nexuscos.online/fullchain.pem"
-        key: "/etc/ssl/ionos/nexuscos.online/privkey.pem"
+        cert: "/etc/ssl/ionos/n3xuscos.online/fullchain.pem"
+        key: "/etc/ssl/ionos/n3xuscos.online/privkey.pem"
     cdn:
       provider: "CloudFlare"
       mode: "Full (Strict)"
@@ -141,13 +141,13 @@ deployment:
       beta: "IONOS"
       production: "IONOS"
     fallback_provider: "letsencrypt"
-    email: "admin@nexuscos.online"
+    email: "admin@n3xuscos.online"
     domains:
       beta:
-        - "beta.nexuscos.online"
+        - "beta.n3xuscos.online"
       production:
-        - "nexuscos.online"
-        - "www.nexuscos.online"
+        - "n3xuscos.online"
+        - "www.n3xuscos.online"
   
   launch_phases:
     beta:
@@ -190,7 +190,7 @@ environment:
   beta:
     NODE_ENV: "beta"
     ENVIRONMENT: "beta"
-    DOMAIN: "beta.nexuscos.online"
+    DOMAIN: "beta.n3xuscos.online"
     SSL_PROVIDER: "IONOS"
     CDN_PROVIDER: "CloudFlare"
     LOG_LEVEL: "info"
@@ -198,7 +198,7 @@ environment:
   production:
     NODE_ENV: "production"
     ENVIRONMENT: "production"
-    DOMAIN: "nexuscos.online"
+    DOMAIN: "n3xuscos.online"
     SSL_PROVIDER: "IONOS"
     CDN_PROVIDER: "CloudFlare"
     LOG_LEVEL: "warn"

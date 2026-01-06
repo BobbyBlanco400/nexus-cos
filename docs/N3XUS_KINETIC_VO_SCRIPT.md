@@ -218,7 +218,7 @@
 - **COS**: "COSS" (rhymes with "boss")
 - **Full Name**: "NEK-sus COSS"
 - **Mainnet**: "MAIN-net" (equal emphasis on both syllables)
-- **nexuscos.online**: "NEK-sus COSS dot ON-line"
+- **n3xuscos.online**: "NEK-sus COSS dot ON-line"
 
 ---
 

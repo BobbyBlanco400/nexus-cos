@@ -1,13 +1,13 @@
 # URGENT: Nginx Welcome Page Still Showing - Troubleshooting Guide
 
 ## Problem
-Despite successful deployment and 200 status codes, nexuscos.online still shows the Nginx welcome page.
+Despite successful deployment and 200 status codes, n3xuscos.online still shows the Nginx welcome page.
 
 ## Root Cause Analysis
 
 This usually means:
 1. **Wrong vhost is active** - The default site is still being served
-2. **server_name mismatch** - Nginx isn't matching nexuscos.online to our vhost
+2. **server_name mismatch** - Nginx isn't matching n3xuscos.online to our vhost
 3. **Wrong config location** - Config was placed but not in the active path
 4. **Browser cache** - Old page cached in browser
 
@@ -19,7 +19,7 @@ This usually means:
 
 ```bash
 # Check what Nginx is actually using
-sudo nginx -T | grep -A 20 "server_name nexuscos.online"
+sudo nginx -T | grep -A 20 "server_name n3xuscos.online"
 ```
 
 **Expected**: Should show our vhost configuration  
@@ -32,7 +32,7 @@ sudo nginx -T | grep -A 20 "server_name nexuscos.online"
 ls -la /etc/nginx/sites-enabled/ | grep nexuscos
 
 # Should show something like:
-# lrwxrwxrwx 1 root root 51 Dec 15 19:00 nexuscos.online -> /etc/nginx/sites-available/nexuscos.online
+# lrwxrwxrwx 1 root root 51 Dec 15 19:00 n3xuscos.online -> /etc/nginx/sites-available/n3xuscos.online
 ```
 
 **If missing**: Symlink wasn't created or was removed
@@ -64,7 +64,7 @@ Look for which `server_name` is handling requests on port 443.
 ### Fix 1: Symlink Missing - Recreate It
 
 ```bash
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -79,17 +79,17 @@ sudo systemctl reload nginx
 
 ### Fix 3: Wrong Config Path - Check Where Config Was Placed
 
-The script placed the config at `/etc/nginx/sites-enabled/nexuscos.online.conf.bak` (backup).
+The script placed the config at `/etc/nginx/sites-enabled/n3xuscos.online.conf.bak` (backup).
 
-But it should be at `/etc/nginx/sites-available/nexuscos.online` (active).
+But it should be at `/etc/nginx/sites-available/n3xuscos.online` (active).
 
 **Fix**:
 ```bash
 # Copy our config to the correct location
-sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/sites-available/nexuscos.online /etc/nginx/sites-available/nexuscos.online
+sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/sites-available/n3xuscos.online /etc/nginx/sites-available/n3xuscos.online
 
 # Create symlink
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 
 # Remove default
 sudo rm -f /etc/nginx/sites-enabled/default
@@ -108,9 +108,9 @@ The backup shows `.conf` extension, but our file doesn't use an extension.
 ls -la /etc/nginx/sites-enabled/
 ```
 
-If you see `nexuscos.online.conf`, rename it:
+If you see `n3xuscos.online.conf`, rename it:
 ```bash
-sudo mv /etc/nginx/sites-enabled/nexuscos.online.conf /etc/nginx/sites-enabled/nexuscos.online
+sudo mv /etc/nginx/sites-enabled/n3xuscos.online.conf /etc/nginx/sites-enabled/n3xuscos.online
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -125,7 +125,7 @@ sudo systemctl restart nginx
 
 After fixing server-side:
 1. Open browser in **Incognito/Private mode**
-2. Navigate to https://nexuscos.online/
+2. Navigate to https://n3xuscos.online/
 3. Or hard refresh: Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
 
 ---
@@ -136,14 +136,14 @@ If nothing above works:
 
 ```bash
 # 1. Remove all existing configs
-sudo rm -f /etc/nginx/sites-enabled/nexuscos.online*
+sudo rm -f /etc/nginx/sites-enabled/n3xuscos.online*
 sudo rm -f /etc/nginx/sites-enabled/default
 
 # 2. Copy our config fresh
-sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/sites-available/nexuscos.online /etc/nginx/sites-available/nexuscos.online
+sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/sites-available/n3xuscos.online /etc/nginx/sites-available/n3xuscos.online
 
 # 3. Create symlink
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 
 # 4. Verify only our config exists
 ls -la /etc/nginx/sites-enabled/
@@ -158,7 +158,7 @@ sudo systemctl restart nginx
 sudo systemctl status nginx
 
 # 8. Check in browser (incognito mode)
-# https://nexuscos.online/
+# https://n3xuscos.online/
 ```
 
 ---
@@ -169,23 +169,23 @@ After applying fixes, verify:
 
 ```bash
 # 1. Nginx is using our config
-sudo nginx -T | grep "server_name nexuscos.online"
+sudo nginx -T | grep "server_name n3xuscos.online"
 # Should show our configuration
 
 # 2. Only our site in sites-enabled
 ls -la /etc/nginx/sites-enabled/
-# Should show ONLY nexuscos.online symlink
+# Should show ONLY n3xuscos.online symlink
 
 # 3. Root directory is correct
 sudo nginx -T | grep "root /var/www"
 # Should show: root /var/www/nexus-cos;
 
 # 4. Test from command line
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Should NOT show "nginx" in Server header
 
 # 5. Test actual content
-curl -s https://nexuscos.online/ | head -20
+curl -s https://n3xuscos.online/ | head -20
 # Should show your HTML, not "Welcome to nginx!"
 ```
 
@@ -193,7 +193,7 @@ curl -s https://nexuscos.online/ | head -20
 
 ## MOST LIKELY ISSUE
 
-Based on TRAE's report that they created backup at `/etc/nginx/sites-enabled/nexuscos.online.conf.bak`, the issue is likely:
+Based on TRAE's report that they created backup at `/etc/nginx/sites-enabled/n3xuscos.online.conf.bak`, the issue is likely:
 
 **The config was backed up but the NEW config wasn't properly activated.**
 
@@ -216,10 +216,10 @@ If this server uses Plesk, the config location is DIFFERENT:
 which plesk
 
 # If Plesk exists, use this instead:
-sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/plesk/vhost_nginx.conf /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
+sudo cp /home/runner/work/nexus-cos/nexus-cos/deployment/nginx/plesk/vhost_nginx.conf /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
 
 # Rebuild Plesk config
-sudo plesk repair web -domain nexuscos.online -y
+sudo plesk repair web -domain n3xuscos.online -y
 
 # Test and reload
 sudo nginx -t
@@ -246,7 +246,7 @@ echo "=== Listening Ports ==="
 sudo nginx -T | grep "listen "
 
 echo "=== Test Content ==="
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 Send the output of all these commands to determine the exact issue.

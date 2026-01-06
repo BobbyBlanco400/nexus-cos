@@ -351,7 +351,7 @@ deployment:
 
 # Nginx configuration
 nginx:
-  server_name: nexuscos.online
+  server_name: n3xuscos.online
   frontend_root: /var/www/nexus-cos
   frontend_index: index.html
   ssl_enabled: true

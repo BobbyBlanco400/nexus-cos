@@ -2,7 +2,7 @@
 
 **Status**: ✅ READY FOR DEPLOYMENT  
 **Deployment ID**: nexus-cos-production-v1.0.0  
-**Domain**: nexuscos.online  
+**Domain**: n3xuscos.online  
 **VPS IP**: 74.208.155.161  
 **Certification**: TIER_1_PRODUCTION  
 
@@ -144,16 +144,16 @@ After deployment completes, test endpoints:
 
 ```bash
 # Test root redirect
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test API
-curl https://nexuscos.online/api/
+curl https://n3xuscos.online/api/
 
 # Test streaming
-curl https://nexuscos.online/streaming/
+curl https://n3xuscos.online/streaming/
 
 # Test Socket.IO
-curl "https://nexuscos.online/socket.io/?EIO=4&transport=polling"
+curl "https://n3xuscos.online/socket.io/?EIO=4&transport=polling"
 
 # Test PUABO Core
 curl http://localhost:7777/health
@@ -165,12 +165,12 @@ curl http://localhost:7777/health
 
 | Endpoint | URL | Status | Description |
 |----------|-----|--------|-------------|
-| **Root** | `https://nexuscos.online/` | 301 | Redirects to `/streaming/` |
-| **API** | `https://nexuscos.online/api/` | 200 | Main API endpoint |
-| **Streaming** | `https://nexuscos.online/streaming/` | 200 | Streaming service |
-| **Socket.IO Main** | `https://nexuscos.online/socket.io/...` | 200 | Real-time communication |
-| **Socket.IO Streaming** | `https://nexuscos.online/streaming/socket.io/...` | 200 | Real-time streaming |
-| **PUABO Core** | `https://nexuscos.online/puabo/` | 200 | Banking API |
+| **Root** | `https://n3xuscos.online/` | 301 | Redirects to `/streaming/` |
+| **API** | `https://n3xuscos.online/api/` | 200 | Main API endpoint |
+| **Streaming** | `https://n3xuscos.online/streaming/` | 200 | Streaming service |
+| **Socket.IO Main** | `https://n3xuscos.online/socket.io/...` | 200 | Real-time communication |
+| **Socket.IO Streaming** | `https://n3xuscos.online/streaming/socket.io/...` | 200 | Real-time streaming |
+| **PUABO Core** | `https://n3xuscos.online/puabo/` | 200 | Banking API |
 
 ---
 
@@ -254,7 +254,7 @@ ssh root@74.208.155.161 'cd /var/www/nexus-cos && docker compose -f docker-compo
 ### Routing
 
 ```
-https://nexuscos.online/
+https://n3xuscos.online/
   ├─ / → 301 redirect → /streaming/
   ├─ /api/ → Backend API (3000)
   ├─ /streaming/ → Streaming Service (3028)
@@ -271,10 +271,10 @@ https://nexuscos.online/
 
 ```bash
 # Main API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Streaming health
-curl https://nexuscos.online/streaming/health
+curl https://n3xuscos.online/streaming/health
 
 # PUABO Core health
 curl http://localhost:7777/health
@@ -377,7 +377,7 @@ After deployment, verify:
 
 ## 🚀 Next Steps After Deployment
 
-1. **DNS**: Verify `nexuscos.online` → `74.208.155.161`
+1. **DNS**: Verify `n3xuscos.online` → `74.208.155.161`
 2. **Monitoring**: Set up external monitoring (UptimeRobot, Pingdom)
 3. **Backups**: Configure automated daily backups
 4. **Alerts**: Set up email/SMS alerts for downtime
@@ -400,7 +400,7 @@ After deployment, verify:
 ```json
 {
   "deployment_id": "nexus-cos-production-v1.0.0",
-  "domain": "nexuscos.online",
+  "domain": "n3xuscos.online",
   "vps_ip": "74.208.155.161",
   "certification": "TIER_1_PRODUCTION",
   "framework": "PF-v2025.10.11",

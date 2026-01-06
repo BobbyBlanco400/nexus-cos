@@ -98,10 +98,10 @@ curl http://localhost:4000/api/v1/imcus/001/status
 
 ```bash
 # Copy nginx configuration
-sudo cp nginx.conf /etc/nginx/sites-available/nexuscos.online
+sudo cp nginx.conf /etc/nginx/sites-available/n3xuscos.online
 
 # Create symbolic link
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/
 
 # Test configuration
 sudo nginx -t
@@ -114,12 +114,12 @@ sudo systemctl reload nginx
 
 ```bash
 # Test production endpoints (requires domain to be configured)
-curl https://nexuscos.online/health
-curl https://nexuscos.online/api/
-curl https://nexuscos.online/api/status
-curl https://nexuscos.online/api/system/status
-curl https://nexuscos.online/api/v1/imcus/001/status
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/health
+curl https://n3xuscos.online/api/
+curl https://n3xuscos.online/api/status
+curl https://n3xuscos.online/api/system/status
+curl https://n3xuscos.online/api/v1/imcus/001/status
+curl https://n3xuscos.online/api/health
 ```
 
 ## Service Architecture

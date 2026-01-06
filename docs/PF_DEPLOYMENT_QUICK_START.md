@@ -1,6 +1,6 @@
 # PF Deployment - Quick Start Card
 
-**Target VPS:** 74.208.155.161 (nexuscos.online)  
+**Target VPS:** 74.208.155.161 (n3xuscos.online)  
 **Created:** 2025-10-03T14:46Z
 
 ---
@@ -50,7 +50,7 @@ curl http://localhost:3041/health
 
 ### Step 5: Test V-Prompter Pro
 ```bash
-curl https://nexuscos.online/v-suite/prompter/health
+curl https://n3xuscos.online/v-suite/prompter/health
 ```
 
 **Expected:** All return `200 OK`
@@ -116,7 +116,7 @@ docker compose -f docker-compose.pf.yml logs puabo-api
 
 ✅ **All services "Up"** in `docker compose ps`  
 ✅ **All health endpoints return 200**  
-✅ **V-Prompter Pro accessible:** `https://nexuscos.online/v-suite/prompter/health`  
+✅ **V-Prompter Pro accessible:** `https://n3xuscos.online/v-suite/prompter/health`  
 ✅ **No errors in logs**  
 ✅ **SSL certificate valid**
 
@@ -143,10 +143,10 @@ docker compose -f docker-compose.pf.yml up -d --force-recreate
 df -h && free -h && docker system df
 
 # Test connectivity
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # SSL check
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
 ```
 
 ---
@@ -158,7 +158,7 @@ openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
 | Gateway | http://localhost:4000/health | 200 OK |
 | AI SDK | http://localhost:3002/health | 200 OK |
 | PV Keys | http://localhost:3041/health | 200 OK |
-| V-Prompter Pro | https://nexuscos.online/v-suite/prompter/health | 200 OK |
+| V-Prompter Pro | https://n3xuscos.online/v-suite/prompter/health | 200 OK |
 
 ---
 

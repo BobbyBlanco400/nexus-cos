@@ -191,7 +191,7 @@ docker exec imvu-a hping3 -S -p 80 --flood imvu-b.world
 **Test:**
 ```bash
 # Attacker sends DNS queries from spoofed IPs
-dig @dns.nexuscos.online ANY example.com
+dig @dns.n3xuscos.online ANY example.com
 # Expected: Rate limited, not amplified
 ```
 **Success Criteria:** DNS cannot be used for DDoS amplification  
@@ -205,7 +205,7 @@ dig @dns.nexuscos.online ANY example.com
 **Test:**
 ```bash
 # Attacker tries to send spam via SMTP
-telnet smtp.nexuscos.online 25
+telnet smtp.n3xuscos.online 25
 MAIL FROM: spammer@evil.com
 RCPT TO: victim@example.com
 # Expected: Rejected, authentication required

@@ -10,7 +10,7 @@
 
 ### Step 1: SSH to Server (30 seconds)
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 # or whatever user@server you use to access the production server
 ```
 
@@ -69,7 +69,7 @@ pm2 save
 sleep 10
 
 # Check health endpoint
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 **Expected Output (SUCCESS):**
@@ -102,7 +102,7 @@ pm2 describe backend-api | grep DB_HOST
 ✅ **Health endpoint returns `"db": "up"`**
 ✅ **No `dbError` in health response**
 ✅ **PM2 processes are all running**: `pm2 list` shows all services online
-✅ **Application is accessible**: https://nexuscos.online returns content
+✅ **Application is accessible**: https://n3xuscos.online returns content
 
 ## 🔧 TROUBLESHOOTING QUICK FIXES
 
@@ -167,7 +167,7 @@ pm2 restart all
 pm2 list
 
 # 2. Check health endpoint
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # 3. Check database connectivity from server
 psql -h localhost -U nexuscos -d nexuscos_db -c "SELECT version();"
@@ -239,5 +239,5 @@ This fix addresses the EXACT root cause identified:
 ---
 
 **Generated**: $(date)
-**Target**: Production Server @ nexuscos.online  
+**Target**: Production Server @ n3xuscos.online  
 **Status**: CRITICAL FIX - DEPLOY IMMEDIATELY

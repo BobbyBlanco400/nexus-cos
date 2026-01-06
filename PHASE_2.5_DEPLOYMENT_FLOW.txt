@@ -91,9 +91,9 @@
 ║                           DEPLOYED SYSTEMS                                ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   🌐 nexuscos.online              →  OTT Frontend (Public)               ║
-║   🌐 nexuscos.online/v-suite/     →  V-Suite Dashboard (Creator)         ║
-║   🌐 beta.nexuscos.online         →  Beta Portal (Active until Nov 17)   ║
+║   🌐 n3xuscos.online              →  OTT Frontend (Public)               ║
+║   🌐 n3xuscos.online/v-suite/     →  V-Suite Dashboard (Creator)         ║
+║   🌐 beta.n3xuscos.online         →  Beta Portal (Active until Nov 17)   ║
 ║                                                                           ║
 ║   🎨 Unified Nexus COS Branding (#2563eb blue) across all layers         ║
 ║                                                                           ║

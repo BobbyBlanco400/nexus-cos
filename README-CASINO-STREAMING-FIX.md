@@ -92,7 +92,7 @@ Follow the step-by-step guide in `CASINO_V5_STREAMING_FIX_GUIDE.md`
 
 ### Casino V5 Frontend
 
-**Location**: `/casino` or `https://nexuscos.online/casino`
+**Location**: `/casino` or `https://n3xuscos.online/casino`
 
 Features:
 - 🎰 Full Casino Nexus V5 interface
@@ -110,7 +110,7 @@ Features:
 
 ### Streaming Module
 
-**Location**: `/streaming` or `https://nexuscos.online/streaming`
+**Location**: `/streaming` or `https://n3xuscos.online/streaming`
 
 Features:
 - 📺 Netflix-style interface
@@ -209,8 +209,8 @@ cd /var/www/nexus-cos
 sudo ./fix-casino-v5-streaming-deployment.sh
 
 # Test URLs
-curl -I https://nexuscos.online/casino
-curl -I https://nexuscos.online/streaming
+curl -I https://n3xuscos.online/casino
+curl -I https://n3xuscos.online/streaming
 
 # Check service status
 systemctl status nginx
@@ -366,11 +366,11 @@ curl -I http://localhost/casino
 
 For production deployment on VPS:
 
-1. SSH into server: `ssh user@nexuscos.online`
+1. SSH into server: `ssh user@n3xuscos.online`
 2. Navigate to repo: `cd /var/www/nexus-cos`
 3. Pull latest: `git pull origin main`
 4. Run deployment: `sudo ./fix-casino-v5-streaming-deployment.sh`
-5. Verify: Visit https://nexuscos.online/casino and https://nexuscos.online/streaming
+5. Verify: Visit https://n3xuscos.online/casino and https://n3xuscos.online/streaming
 6. Monitor: `tail -f /var/log/nginx/access.log`
 
 ---

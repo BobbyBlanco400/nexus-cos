@@ -17,7 +17,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Allow environment variable overrides for flexibility
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 SERVER_IP="${SERVER_IP:-74.208.155.161}"
 
 # Dynamically determine repository root

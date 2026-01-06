@@ -24,7 +24,7 @@ echo ""
 
 # Test 1: Verify CSP value exactly matches requirement
 echo -n "Test 1: CSP matches exact requirement... "
-REQUIRED_CSP="default-src 'self' https://nexuscos.online; img-src 'self' data: blob: https://nexuscos.online; script-src 'self' 'unsafe-inline' https://nexuscos.online; style-src 'self' 'unsafe-inline' https://nexuscos.online; connect-src 'self' https://nexuscos.online https://nexuscos.online/streaming wss://nexuscos.online ws://nexuscos.online;"
+REQUIRED_CSP="default-src 'self' https://n3xuscos.online; img-src 'self' data: blob: https://n3xuscos.online; script-src 'self' 'unsafe-inline' https://n3xuscos.online; style-src 'self' 'unsafe-inline' https://n3xuscos.online; connect-src 'self' https://n3xuscos.online https://n3xuscos.online/streaming wss://n3xuscos.online ws://n3xuscos.online;"
 
 if grep -q "$REQUIRED_CSP" scripts/pf-fix-nginx-headers-redirect.sh; then
     echo -e "${GREEN}PASS${NC}"
@@ -166,7 +166,7 @@ fi
 
 # Test 13: Verify documentation includes validation commands
 echo -n "Test 13: Documentation includes validation... "
-if grep -q "curl -fsSI https://nexuscos.online" DEPLOYMENT_INSTRUCTIONS.md; then
+if grep -q "curl -fsSI https://n3xuscos.online" DEPLOYMENT_INSTRUCTIONS.md; then
     echo -e "${GREEN}PASS${NC}"
     ((PASSED++))
 else

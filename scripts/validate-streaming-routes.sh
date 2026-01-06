@@ -10,7 +10,7 @@
 set -e
 
 # Configuration
-DOMAIN="${1:-nexuscos.online}"
+DOMAIN="${1:-n3xuscos.online}"
 TIMEOUT=10
 
 # Colors

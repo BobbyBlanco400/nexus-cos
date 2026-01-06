@@ -7,9 +7,9 @@
 # Hosting: IONOS VPS (Ubuntu 22+)
 # IP: 74.208.155.161
 # Domains:
-#   - nexuscos.online (Apex)
-#   - hollywood.nexuscos.online (Subdomain)
-#   - tv.nexuscos.online (OTT/Frontend)
+#   - n3xuscos.online (Apex)
+#   - hollywood.n3xuscos.online (Subdomain)
+#   - tv.n3xuscos.online (OTT/Frontend)
 # Status: LIVE | PRODUCTION REDEPLOYMENT | BULLETPROOFED
 # Version: 1.0 BULLETPROOF
 # ==========================================================
@@ -96,18 +96,18 @@ ssl_configuration:
   
   certificate_paths:
     apex:
-      certificate: "/etc/nginx/ssl/apex/nexuscos.online.crt"
-      private_key: "/etc/nginx/ssl/apex/nexuscos.online.key"
+      certificate: "/etc/nginx/ssl/apex/n3xuscos.online.crt"
+      private_key: "/etc/nginx/ssl/apex/n3xuscos.online.key"
       format: "PEM"
     
     hollywood_subdomain:
-      certificate: "/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt"
-      private_key: "/etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key"
+      certificate: "/etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt"
+      private_key: "/etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.key"
       format: "PEM"
     
     tv_subdomain:
-      certificate: "/etc/nginx/ssl/tv/tv.nexuscos.online.crt"
-      private_key: "/etc/nginx/ssl/tv/tv.nexuscos.online.key"
+      certificate: "/etc/nginx/ssl/tv/tv.n3xuscos.online.crt"
+      private_key: "/etc/nginx/ssl/tv/tv.n3xuscos.online.key"
       format: "PEM"
   
   actions:
@@ -122,8 +122,8 @@ ssl_configuration:
     validate_certificates:
       description: "Validate certificate format (PEM)"
       commands:
-        - "openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -subject -issuer -dates"
-        - "openssl x509 -in /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt -noout -subject -issuer -dates"
+        - "openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -subject -issuer -dates"
+        - "openssl x509 -in /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt -noout -subject -issuer -dates"
     
     reload_nginx:
       description: "Test and reload Nginx"
@@ -137,7 +137,7 @@ ssl_configuration:
 architecture:
   domains:
     apex:
-      domain: "nexuscos.online"
+      domain: "n3xuscos.online"
       description: "Main UI / API Gateway"
       services:
         - "Frontend React App"
@@ -145,7 +145,7 @@ architecture:
         - "Admin Panel"
     
     hollywood:
-      domain: "hollywood.nexuscos.online"
+      domain: "hollywood.n3xuscos.online"
       description: "V-Screen Hollywood Virtual Production"
       services:
         - "V-Screen Hollywood Edition"
@@ -153,7 +153,7 @@ architecture:
         - "Real-time Camera Sync"
     
     tv:
-      domain: "tv.nexuscos.online"
+      domain: "tv.n3xuscos.online"
       description: "OTT/Streaming Portal"
       services:
         - "StreamCore Frontend"
@@ -576,14 +576,14 @@ deployment:
     - step: 8
       name: "Endpoint Validation"
       endpoints:
-        - "https://nexuscos.online/"
-        - "https://nexuscos.online/api/health"
-        - "https://hollywood.nexuscos.online/v-suite/hollywood"
-        - "https://tv.nexuscos.online/"
+        - "https://n3xuscos.online/"
+        - "https://n3xuscos.online/api/health"
+        - "https://hollywood.n3xuscos.online/v-suite/hollywood"
+        - "https://tv.n3xuscos.online/"
     
     - step: 9
       name: "Certificate Verification"
-      command: "openssl s_client -connect hollywood.nexuscos.online:443 -showcerts | grep issuer"
+      command: "openssl s_client -connect hollywood.n3xuscos.online:443 -showcerts | grep issuer"
       expected: "IONOS"
 
 # ==========================================================
@@ -596,15 +596,15 @@ validation_checklist:
       expected: "All services show 'Up' status"
     
     - item: "API health check"
-      command: "curl https://nexuscos.online/api/health"
+      command: "curl https://n3xuscos.online/api/health"
       expected: "HTTP 200 OK"
     
     - item: "V-Screen Hollywood reachable"
-      command: "curl https://hollywood.nexuscos.online/health"
+      command: "curl https://hollywood.n3xuscos.online/health"
       expected: "HTTP 200 OK"
     
     - item: "SSL Certificate issuer is IONOS"
-      command: "openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer"
+      command: "openssl s_client -connect n3xuscos.online:443 -showcerts | grep issuer"
       expected: "issuer=.*IONOS"
     
     - item: "JWT authentication functional"
@@ -691,7 +691,7 @@ trae_solo_instructions:
       commands:
         - "mkdir -p /etc/nginx/ssl/apex /etc/nginx/ssl/hollywood /etc/nginx/ssl/tv"
         - "# MANUAL: Place IONOS certificates in respective directories"
-        - "openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text"
+        - "openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text"
     
     - sequence: 6
       action: "Disable Let's Encrypt"
@@ -734,13 +734,13 @@ trae_solo_instructions:
     - sequence: 12
       action: "Verify production endpoints"
       commands:
-        - "curl https://nexuscos.online/api/health"
-        - "curl https://hollywood.nexuscos.online/health"
+        - "curl https://n3xuscos.online/api/health"
+        - "curl https://hollywood.n3xuscos.online/health"
     
     - sequence: 13
       action: "Verify SSL certificates"
       commands:
-        - "openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer"
+        - "openssl s_client -connect n3xuscos.online:443 -showcerts | grep issuer"
         - "# Expected: issuer=.*IONOS"
     
     - sequence: 14
@@ -797,15 +797,15 @@ troubleshooting:
 # ==========================================================
 monitoring:
   health_endpoints:
-    - url: "https://nexuscos.online/api/health"
+    - url: "https://n3xuscos.online/api/health"
       service: "Gateway API"
       interval: "30s"
     
-    - url: "https://hollywood.nexuscos.online/health"
+    - url: "https://hollywood.n3xuscos.online/health"
       service: "V-Screen Hollywood"
       interval: "60s"
     
-    - url: "https://nexuscos.online/v-suite/prompter/health"
+    - url: "https://n3xuscos.online/v-suite/prompter/health"
       service: "V-Prompter Pro"
       interval: "60s"
   

@@ -23,13 +23,13 @@ cd /path/to/nexus-cos && sudo ./deployment/nginx/scripts/deploy-plesk.sh
 
 ```bash
 # Backup existing config
-sudo cp -f /etc/nginx/sites-enabled/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online.bak.$(date +%Y%m%d%H%M%S) 2>/dev/null || true
+sudo cp -f /etc/nginx/sites-enabled/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online.bak.$(date +%Y%m%d%H%M%S) 2>/dev/null || true
 
 # Install vhost configuration
-sudo cp deployment/nginx/sites-available/nexuscos.online /etc/nginx/sites-available/nexuscos.online
+sudo cp deployment/nginx/sites-available/n3xuscos.online /etc/nginx/sites-available/n3xuscos.online
 
 # Enable the site
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 
 # Disable default site
 sudo rm -f /etc/nginx/sites-enabled/default
@@ -47,13 +47,13 @@ sudo systemctl reload nginx
 
 ```bash
 # Backup existing config
-sudo cp -f /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.$(date +%Y%m%d%H%M%S) 2>/dev/null || true
+sudo cp -f /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.$(date +%Y%m%d%H%M%S) 2>/dev/null || true
 
 # Install Plesk vhost configuration
-sudo cp deployment/nginx/plesk/vhost_nginx.conf /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
+sudo cp deployment/nginx/plesk/vhost_nginx.conf /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
 
 # Rebuild Plesk configuration
-sudo plesk repair web -domain nexuscos.online -y || true
+sudo plesk repair web -domain n3xuscos.online -y || true
 
 # Test configuration
 sudo nginx -t
@@ -73,7 +73,7 @@ sudo systemctl reload nginx
 
 ### Manual Validation with curl
 ```bash
-BASE=https://nexuscos.online
+BASE=https://n3xuscos.online
 for path in "/" "/apex/" "/beta/" "/api/" "/stream/" "/hls/" "/health"; do
   code=$(curl -sSI --max-time 8 -k "$BASE$path" | awk 'toupper($0) ~ /^HTTP/{print $2; exit}')
   echo "$path $code"
@@ -95,7 +95,7 @@ Expected results:
 
 The site was returning the Nginx welcome page because:
 
-1. **No active vhost**: The nexuscos.online vhost was not enabled or didn't exist in `sites-enabled`
+1. **No active vhost**: The n3xuscos.online vhost was not enabled or didn't exist in `sites-enabled`
 2. **Server name mismatch**: No vhost matched the domain, causing fallback to `default_server`
 3. **Wrong document root**: Root was pointing to `/var/www/html` (default) instead of `/var/www/nexus-cos`
 4. **Missing proxy config**: `/api`, `/stream`, and `/hls` lacked proper proxy headers and WebSocket support
@@ -139,7 +139,7 @@ sudo systemctl reload nginx
 
 ### Check Active Configuration
 ```bash
-sudo nginx -T | grep -A 20 "server_name nexuscos.online"
+sudo nginx -T | grep -A 20 "server_name n3xuscos.online"
 ```
 
 ---
@@ -149,23 +149,23 @@ sudo nginx -T | grep -A 20 "server_name nexuscos.online"
 ### Find Backup
 ```bash
 # Vanilla Nginx
-ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
 
 # Plesk
-ls -la /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.*
+ls -la /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.*
 ```
 
 ### Restore Backup (Vanilla)
 ```bash
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.TIMESTAMP /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.TIMESTAMP /etc/nginx/sites-enabled/n3xuscos.online
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
 ### Restore Backup (Plesk)
 ```bash
-sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
-     /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
-sudo plesk repair web -domain nexuscos.online -y
+sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
+     /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
+sudo plesk repair web -domain n3xuscos.online -y
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -176,7 +176,7 @@ sudo nginx -t && sudo systemctl reload nginx
 ```
 deployment/nginx/
 ├── sites-available/
-│   └── nexuscos.online          # Vanilla Nginx vhost
+│   └── n3xuscos.online          # Vanilla Nginx vhost
 ├── plesk/
 │   └── vhost_nginx.conf         # Plesk additional directives
 ├── scripts/
@@ -195,7 +195,7 @@ deployment/nginx/
 ```nginx
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 ```

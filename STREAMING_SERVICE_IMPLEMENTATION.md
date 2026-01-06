@@ -114,9 +114,9 @@ Note: The problem statement referenced lines 201, 902, 912, 931 which appeared t
 
 4. Verify endpoints:
    ```bash
-   curl -i https://nexuscos.online/streaming/status
-   curl -i https://nexuscos.online/streaming/catalog
-   curl https://nexuscos.online/streaming/test
+   curl -i https://n3xuscos.online/streaming/status
+   curl -i https://n3xuscos.online/streaming/catalog
+   curl https://n3xuscos.online/streaming/test
    ```
 
 ## Security Summary

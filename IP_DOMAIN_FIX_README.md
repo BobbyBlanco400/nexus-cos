@@ -1,7 +1,7 @@
 # IP/Domain Routing Fix - Quick Start
 
 ## 🚨 Problem
-Accessing `http://74.208.155.161/` shows different UI than `https://nexuscos.online/`
+Accessing `http://74.208.155.161/` shows different UI than `https://n3xuscos.online/`
 
 ## ✅ Solution
 Complete Platform Fix (PF) ready for deployment
@@ -39,7 +39,7 @@ bash validate-ip-domain-routing.sh
 ### 3. Verify in Browser
 - Clear cache: `Ctrl+Shift+Delete`
 - Visit: `http://74.208.155.161/` (should redirect)
-- Visit: `https://nexuscos.online/` (should load)
+- Visit: `https://n3xuscos.online/` (should load)
 
 ## 📚 Documentation
 
@@ -90,11 +90,11 @@ curl -I http://74.208.155.161/
 # Expected: 301 redirect to domain
 
 # Test domain access
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: 200 OK
 
 # Test admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 # Expected: 200 OK with HTML
 ```
 

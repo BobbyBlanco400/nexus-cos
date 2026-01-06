@@ -2,7 +2,7 @@
 
 ## 🚀 Quick Start - One Command Deployment
 
-**For production deployment to nexuscos.online (74.208.155.161):**
+**For production deployment to n3xuscos.online (74.208.155.161):**
 
 ```bash
 ssh root@74.208.155.161 'curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/deploy-nexus-cos-vps-master.sh | bash'
@@ -166,19 +166,19 @@ The deployment script executes 7 phases automatically:
 
 ```bash
 # Root redirect (should return 301 → /streaming/)
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # API endpoint (should return 200)
-curl https://nexuscos.online/api/
+curl https://n3xuscos.online/api/
 
 # Streaming endpoint (should return 200)
-curl https://nexuscos.online/streaming/
+curl https://n3xuscos.online/streaming/
 
 # Socket.IO main (should return 200)
-curl "https://nexuscos.online/socket.io/?EIO=4&transport=polling"
+curl "https://n3xuscos.online/socket.io/?EIO=4&transport=polling"
 
 # Socket.IO streaming (should return 200)
-curl "https://nexuscos.online/streaming/socket.io/?EIO=4&transport=polling"
+curl "https://n3xuscos.online/streaming/socket.io/?EIO=4&transport=polling"
 
 # PUABO Core health (should return healthy)
 curl http://localhost:7777/health
@@ -188,11 +188,11 @@ curl http://localhost:7777/health
 
 | Endpoint | URL | Expected Status | Description |
 |----------|-----|-----------------|-------------|
-| **Root** | `https://nexuscos.online/` | **301** | Redirects to `/streaming/` |
-| **API Base** | `https://nexuscos.online/api/` | **200** | Main API endpoint |
-| **Streaming** | `https://nexuscos.online/streaming/` | **200** | Streaming service |
-| **Socket.IO Main** | `https://nexuscos.online/socket.io/...` | **200** | Real-time communication |
-| **Socket.IO Streaming** | `https://nexuscos.online/streaming/socket.io/...` | **200** | Real-time streaming |
+| **Root** | `https://n3xuscos.online/` | **301** | Redirects to `/streaming/` |
+| **API Base** | `https://n3xuscos.online/api/` | **200** | Main API endpoint |
+| **Streaming** | `https://n3xuscos.online/streaming/` | **200** | Streaming service |
+| **Socket.IO Main** | `https://n3xuscos.online/socket.io/...` | **200** | Real-time communication |
+| **Socket.IO Streaming** | `https://n3xuscos.online/streaming/socket.io/...` | **200** | Real-time streaming |
 | **PUABO Core** | `http://localhost:7777/health` | **200** | Banking API health |
 
 ### Check Service Status
@@ -321,7 +321,7 @@ ls -la /root/ionos/
 openssl x509 -in /root/ionos/cert.pem -noout -dates
 
 # Test SSL connection
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
 ```
 
 ### PUABO Core Not Responding
@@ -392,8 +392,8 @@ cat > /usr/local/bin/nexus-health-check.sh <<'EOF'
 # Nexus COS Health Monitoring
 
 ENDPOINTS=(
-  "https://nexuscos.online/api/"
-  "https://nexuscos.online/streaming/"
+  "https://n3xuscos.online/api/"
+  "https://n3xuscos.online/streaming/"
   "http://localhost:7777/health"
 )
 
@@ -477,7 +477,7 @@ Internet → Nginx (443) → Routes:
 
 ## 🚀 Next Steps After Deployment
 
-1. **DNS Configuration**: Ensure `nexuscos.online` → `74.208.155.161`
+1. **DNS Configuration**: Ensure `n3xuscos.online` → `74.208.155.161`
 2. **Automated Backups**: Set up daily backups
 3. **External Monitoring**: Configure UptimeRobot or Pingdom
 4. **Alerts**: Set up email/SMS alerts for downtime
@@ -522,7 +522,7 @@ pm2 logs
 pm2 restart all
 
 # Health check
-curl https://nexuscos.online/api/
+curl https://n3xuscos.online/api/
 ```
 
 ---

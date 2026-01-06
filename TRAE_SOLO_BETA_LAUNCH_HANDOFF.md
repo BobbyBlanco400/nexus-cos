@@ -158,7 +158,7 @@ Logo: Inline SVG (Nexus COS)
 Connect to VPS and run the deployment script:
 
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 cd /opt/nexus-cos
 ./nexus-cos-vps-deployment.sh
 ```
@@ -202,19 +202,19 @@ Check that both landing pages are accessible:
 
 #### Apex Domain
 ```bash
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 # Expected: HTTP/2 200 OK
 ```
 
-Browser: https://nexuscos.online
+Browser: https://n3xuscos.online
 
 #### Beta Domain
 ```bash
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 # Expected: HTTP/2 200 OK
 ```
 
-Browser: https://beta.nexuscos.online
+Browser: https://beta.n3xuscos.online
 
 ---
 
@@ -224,13 +224,13 @@ Test critical API endpoints:
 
 ```bash
 # Main API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Gateway health
-curl https://nexuscos.online/health/gateway
+curl https://n3xuscos.online/health/gateway
 
 # Backend API status
-curl https://nexuscos.online/api/status
+curl https://n3xuscos.online/api/status
 ```
 
 **Expected:** All should return 200 OK with JSON responses
@@ -284,19 +284,19 @@ docker-compose -f docker-compose.pf.yml ps
 
 Open in browser and verify branding:
 
-1. **Apex Domain:** https://nexuscos.online
+1. **Apex Domain:** https://n3xuscos.online
    - Check logo appears (Nexus COS)
    - Check primary color (#2563eb)
    - Check navigation works
    - Check all links functional
 
-2. **Beta Domain:** https://beta.nexuscos.online
+2. **Beta Domain:** https://beta.n3xuscos.online
    - Check beta badge visible
    - Check branding consistent
    - Check feature tabs work
    - Check theme toggle works
 
-3. **Dashboard:** https://nexuscos.online/dashboard
+3. **Dashboard:** https://n3xuscos.online/dashboard
    - Check dashboard loads
    - Check module cards appear
    - Check navigation to modules works
@@ -310,7 +310,7 @@ Create a simple health monitoring dashboard:
 ```bash
 cd /opt/nexus-cos
 # Run continuous health checks
-watch -n 5 'curl -s https://nexuscos.online/api/health | jq'
+watch -n 5 'curl -s https://n3xuscos.online/api/health | jq'
 ```
 
 Or use the built-in health check script:
@@ -397,13 +397,13 @@ Before considering beta launch complete, verify:
 ## 🌐 URLs Quick Reference
 
 ```
-Apex Domain:     https://nexuscos.online
-Beta Domain:     https://beta.nexuscos.online
-API Root:        https://nexuscos.online/api
-API Health:      https://nexuscos.online/api/health
-Gateway Health:  https://nexuscos.online/health/gateway
-System Status:   https://nexuscos.online/api/system/status
-Dashboard:       https://nexuscos.online/dashboard
+Apex Domain:     https://n3xuscos.online
+Beta Domain:     https://beta.n3xuscos.online
+API Root:        https://n3xuscos.online/api
+API Health:      https://n3xuscos.online/api/health
+Gateway Health:  https://n3xuscos.online/health/gateway
+System Status:   https://n3xuscos.online/api/system/status
+Dashboard:       https://n3xuscos.online/dashboard
 ```
 
 ---
@@ -453,9 +453,9 @@ Before finalizing:
 
 - [ ] Run `./nexus-cos-vps-deployment.sh` successfully
 - [ ] Run `./nexus-cos-vps-validation.sh` - all checks pass
-- [ ] Verify apex domain loads: https://nexuscos.online
-- [ ] Verify beta domain loads: https://beta.nexuscos.online
-- [ ] Test API health endpoint: https://nexuscos.online/api/health
+- [ ] Verify apex domain loads: https://n3xuscos.online
+- [ ] Verify beta domain loads: https://beta.n3xuscos.online
+- [ ] Test API health endpoint: https://n3xuscos.online/api/health
 - [ ] Verify branding consistency across pages
 - [ ] Confirm all module directories exist
 - [ ] Confirm all service directories exist

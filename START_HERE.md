@@ -112,7 +112,7 @@ We created a **bulletproof deployment system** that:
 
 ```bash
 # 1. SSH to your server
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # 2. Navigate to app directory
 cd /opt/nexus-cos
@@ -124,7 +124,7 @@ git pull origin main
 ./nexus-cos-production-deploy.sh
 
 # 5. Verify it's working
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 **Expected output:**
@@ -209,7 +209,7 @@ pm2 monit
 
 ### Quick Health Check
 ```bash
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 ### Verify PM2 Environment
@@ -313,9 +313,9 @@ Your Nexus COS deployment includes:
 After deployment, verify:
 
 - [ ] Run `pm2 list` - All 33 services showing "online"
-- [ ] Run `curl https://nexuscos.online/health` - Shows `"db": "up"`
+- [ ] Run `curl https://n3xuscos.online/health` - Shows `"db": "up"`
 - [ ] Check `pm2 logs` - No error messages
-- [ ] Access https://nexuscos.online - Site loads correctly
+- [ ] Access https://n3xuscos.online - Site loads correctly
 - [ ] Run `pm2 save` - Configuration saved for auto-restart
 
 ---
@@ -360,7 +360,7 @@ pm2 startup           # Enable auto-start on boot
 
 ### Check Health
 ```bash
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 ### View Status

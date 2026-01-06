@@ -9,8 +9,8 @@ cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
 ```
 
 **That's it!** The script will:
-- ✅ Deploy apex landing page to nexuscos.online
-- ✅ Deploy beta landing page to beta.nexuscos.online  
+- ✅ Deploy apex landing page to n3xuscos.online
+- ✅ Deploy beta landing page to beta.n3xuscos.online  
 - ✅ Configure Nginx with Phase 2.5 routing
 - ✅ Verify unified Nexus COS branding (#2563eb)
 - ✅ Validate all deployments automatically
@@ -38,9 +38,9 @@ Before deploying, ensure:
 
 | Layer | Domain/Path | Purpose |
 |-------|-------------|---------|
-| **OTT Frontend** | `nexuscos.online` | Public streaming interface |
-| **V-Suite Dashboard** | `nexuscos.online/v-suite/` | Creator control center |
-| **Beta Portal** | `beta.nexuscos.online` | Beta launch landing (until Nov 17, 2025) |
+| **OTT Frontend** | `n3xuscos.online` | Public streaming interface |
+| **V-Suite Dashboard** | `n3xuscos.online/v-suite/` | Creator control center |
+| **Beta Portal** | `beta.n3xuscos.online` | Beta launch landing (until Nov 17, 2025) |
 
 ### Unified Branding
 
@@ -114,15 +114,15 @@ Followed by:
 
 After deployment, verify your sites are live:
 
-1. **Apex Domain**: https://nexuscos.online
+1. **Apex Domain**: https://n3xuscos.online
    - Should display OTT frontend with Nexus COS branding
    
-2. **Beta Domain**: https://beta.nexuscos.online
+2. **Beta Domain**: https://beta.n3xuscos.online
    - Should display beta landing page
    - Beta badge visible in navigation
    - Correct beta URL in all links
 
-3. **V-Suite Dashboard**: https://nexuscos.online/v-suite/
+3. **V-Suite Dashboard**: https://n3xuscos.online/v-suite/
    - Should proxy to backend services
 
 ---

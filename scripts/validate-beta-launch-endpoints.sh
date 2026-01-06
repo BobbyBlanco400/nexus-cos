@@ -11,8 +11,8 @@
 set -euo pipefail
 
 # Configuration
-readonly DOMAIN="${DOMAIN:-nexuscos.online}"
-readonly BETA_DOMAIN="${BETA_DOMAIN:-beta.nexuscos.online}"
+readonly DOMAIN="${DOMAIN:-n3xuscos.online}"
+readonly BETA_DOMAIN="${BETA_DOMAIN:-beta.n3xuscos.online}"
 
 # Colors
 readonly RED='\033[0;31m'

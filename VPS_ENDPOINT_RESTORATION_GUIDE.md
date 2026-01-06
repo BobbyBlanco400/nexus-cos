@@ -2,7 +2,7 @@
 
 ## 🎯 Objective
 
-Restore `https://nexuscos.online/` endpoints and services to production readiness as defined in `deployment-manifest (1).json` where `legal_status` is `CERTIFIED_PRODUCTION_DEPLOYMENT`.
+Restore `https://n3xuscos.online/` endpoints and services to production readiness as defined in `deployment-manifest (1).json` where `legal_status` is `CERTIFIED_PRODUCTION_DEPLOYMENT`.
 
 ## 📋 Target Endpoints
 
@@ -10,16 +10,16 @@ All endpoints must return the specified HTTP status codes:
 
 | Endpoint | Expected Status | Description |
 |----------|----------------|-------------|
-| `https://nexuscos.online/` | `301` | Root redirect to `/streaming/` |
-| `https://nexuscos.online/api/` | `200` | API base endpoint health check |
-| `https://nexuscos.online/streaming/` | `200` | Streaming base endpoint health check |
-| `https://nexuscos.online/socket.io/?EIO=4&transport=polling` | `200` | Main Socket.IO endpoint |
-| `https://nexuscos.online/streaming/socket.io/?EIO=4&transport=polling` | `200` | Streaming Socket.IO endpoint |
+| `https://n3xuscos.online/` | `301` | Root redirect to `/streaming/` |
+| `https://n3xuscos.online/api/` | `200` | API base endpoint health check |
+| `https://n3xuscos.online/streaming/` | `200` | Streaming base endpoint health check |
+| `https://n3xuscos.online/socket.io/?EIO=4&transport=polling` | `200` | Main Socket.IO endpoint |
+| `https://n3xuscos.online/streaming/socket.io/?EIO=4&transport=polling` | `200` | Streaming Socket.IO endpoint |
 
 ## 🔧 Environment
 
 - **VPS:** `root@74.208.155.161` (Plesk-managed)
-- **Domain:** `nexuscos.online`
+- **Domain:** `n3xuscos.online`
 - **Server Management:** Plesk Control Panel
 - **Web Server:** Nginx (with Apache as optional backend)
 - **SSL Provider:** IONOS
@@ -90,7 +90,7 @@ bash base-path-200-blocks.sh
 .\restore-vps-endpoints.ps1 -SkipVerification
 
 # Custom VPS IP or domain
-.\restore-vps-endpoints.ps1 -VpsIp "74.208.155.161" -Domain "nexuscos.online"
+.\restore-vps-endpoints.ps1 -VpsIp "74.208.155.161" -Domain "n3xuscos.online"
 ```
 
 ### Option 2: Bash (Linux/macOS or Git Bash on Windows)
@@ -106,7 +106,7 @@ DRY_RUN=true bash restore-vps-endpoints.sh
 SKIP_VERIFICATION=true bash restore-vps-endpoints.sh
 
 # Custom configuration
-DOMAIN=nexuscos.online VPS_IP=74.208.155.161 bash restore-vps-endpoints.sh
+DOMAIN=n3xuscos.online VPS_IP=74.208.155.161 bash restore-vps-endpoints.sh
 ```
 
 ### Option 3: Direct SSH Execution
@@ -128,7 +128,7 @@ bash restore-vps-endpoints.sh
 ### Phase 1: Restore Plesk Configurations
 
 1. **Backup Gateway Config**
-   - Creates timestamped backup of `/etc/nginx/conf.d/pf_gateway_nexuscos.online.conf`
+   - Creates timestamped backup of `/etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf`
    - Ensures rollback capability
 
 2. **Fix Invalid Nginx Directives**
@@ -142,7 +142,7 @@ bash restore-vps-endpoints.sh
 ### Phase 2: Reconfigure Domain
 
 1. **Plesk Domain Reconfiguration**
-   - Runs `plesk sbin httpdmng --reconfigure-domain nexuscos.online`
+   - Runs `plesk sbin httpdmng --reconfigure-domain n3xuscos.online`
    - Applies configuration changes
    - Regenerates Nginx configurations
 
@@ -204,13 +204,13 @@ scp chain.pem root@74.208.155.161:/root/ionos/
 # Create certificate in Plesk
 ssh root@74.208.155.161
 plesk bin certificate --create "IONOS SSL" \
-  -domain nexuscos.online \
+  -domain n3xuscos.online \
   -key-file /root/ionos/privkey.pem \
   -cert-file /root/ionos/cert.pem \
   -cacert-file /root/ionos/chain.pem
 
 # Assign to domain
-plesk bin site -u nexuscos.online -certificate-name "IONOS SSL"
+plesk bin site -u n3xuscos.online -certificate-name "IONOS SSL"
 ```
 
 ## 🛡️ Safety Features
@@ -267,7 +267,7 @@ This adds exact-match location blocks for base paths.
 1. Check for syntax errors in configuration files
 2. Restore from backup:
    ```bash
-   cp /etc/nginx/conf.d/pf_gateway_nexuscos.online.conf.backup-* /etc/nginx/conf.d/pf_gateway_nexuscos.online.conf
+   cp /etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf.backup-* /etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf
    nginx -t
    ```
 
@@ -288,7 +288,7 @@ ssh.exe --% -o StrictHostKeyChecking=no root@74.208.155.161 bash -lc "command"
 ```
 ═══════════════════════════════════════════════════════════════
   NEXUS COS - VPS ENDPOINT RESTORATION
-  Domain: nexuscos.online | VPS: 74.208.155.161
+  Domain: n3xuscos.online | VPS: 74.208.155.161
 ═══════════════════════════════════════════════════════════════
 
 ─────────────────────────────────────────────────────────────────

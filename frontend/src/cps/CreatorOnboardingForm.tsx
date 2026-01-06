@@ -60,7 +60,7 @@ export default function CreatorOnboardingForm() {
     
     // Auto-generate domain from slug
     if (name === 'slug') {
-      const generatedDomain = `${value}.nexuscos.online`;
+      const generatedDomain = `${value}.n3xuscos.online`;
       setFormData(prev => ({ ...prev, domain: generatedDomain }));
     }
     
@@ -240,7 +240,7 @@ export default function CreatorOnboardingForm() {
             name="domain"
             value={formData.domain}
             onChange={handleChange}
-            placeholder="e.g., myplatform.nexuscos.online"
+            placeholder="e.g., myplatform.n3xuscos.online"
             className={errors.domain ? 'error' : ''}
             readOnly
           />

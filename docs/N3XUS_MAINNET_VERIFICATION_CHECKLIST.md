@@ -106,7 +106,7 @@
 - [ ] All 13 founding residents listed
 - [ ] Each tenant has: id, name, slug, domain, category, status
 - [ ] Status values are valid: "live", "active", or "streaming"
-- [ ] Domain format correct (e.g., "tenant-slug.nexuscos.online")
+- [ ] Domain format correct (e.g., "tenant-slug.n3xuscos.online")
 - [ ] Categories match Founding Residents list
 
 ### Tenant Data Integrity

@@ -1,7 +1,7 @@
 # URGENT: HTTP/2 404 Error - Site Was Working, Now Broken
 
 ## Problem
-The site was working yesterday but now returns `HTTP/2 404` when accessing nexuscos.online.
+The site was working yesterday but now returns `HTTP/2 404` when accessing n3xuscos.online.
 
 ## What This Means
 
@@ -100,7 +100,7 @@ ls -la /var/www/nexus-cos/
 sudo nginx -T | grep "root /var/www"
 
 # If it's wrong, edit the config
-sudo nano /etc/nginx/sites-available/nexuscos.online
+sudo nano /etc/nginx/sites-available/n3xuscos.online
 
 # Find the line:
 # root /var/www/nexus-cos;
@@ -164,10 +164,10 @@ sudo setenforce 0
 
 ```bash
 # Re-copy our config
-sudo cp /path/to/nexus-cos/deployment/nginx/sites-available/nexuscos.online /etc/nginx/sites-available/nexuscos.online
+sudo cp /path/to/nexus-cos/deployment/nginx/sites-available/n3xuscos.online /etc/nginx/sites-available/n3xuscos.online
 
 # Ensure symlink exists
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 
 # Test and restart
 sudo nginx -t
@@ -198,11 +198,11 @@ ls -la /var/www/ | grep nexus
 
 echo ""
 echo "=== 5. Check active vhost ==="
-sudo nginx -T | grep -A 5 "server_name nexuscos.online"
+sudo nginx -T | grep -A 5 "server_name n3xuscos.online"
 
 echo ""
 echo "=== 6. Test site response ==="
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 echo ""
 echo "=== 7. Check if index.html exists ==="
@@ -231,15 +231,15 @@ sudo chmod -R 755 /var/www/nexus-cos/
 ls -la /var/www/nexus-cos/index.html
 
 # 5. Re-apply Nginx config
-sudo cp /path/to/nexus-cos/deployment/nginx/sites-available/nexuscos.online /etc/nginx/sites-available/nexuscos.online
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /path/to/nexus-cos/deployment/nginx/sites-available/n3xuscos.online /etc/nginx/sites-available/n3xuscos.online
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online /etc/nginx/sites-enabled/n3xuscos.online
 
 # 6. Test and restart
 sudo nginx -t
 sudo systemctl restart nginx
 
 # 7. Test in browser
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 ---
@@ -248,10 +248,10 @@ curl -I https://nexuscos.online/
 
 ```bash
 # 1. Should return 200 (not 404)
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # 2. Should show HTML content
-curl -s https://nexuscos.online/ | head -20
+curl -s https://n3xuscos.online/ | head -20
 
 # 3. Should NOT show errors
 sudo tail -n 10 /var/log/nginx/error.log
@@ -270,7 +270,7 @@ Check these common locations if files are elsewhere:
 ls -la /home/*/nexus-cos/dist/
 ls -la /home/*/nexus-cos/build/
 ls -la /var/www/html/
-ls -la /var/www/vhosts/nexuscos.online/httpdocs/
+ls -la /var/www/vhosts/n3xuscos.online/httpdocs/
 
 # Find index.html anywhere
 sudo find /var/www -name "index.html" -type f

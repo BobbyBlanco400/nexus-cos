@@ -44,10 +44,10 @@ cd /opt/nexus-cos && git pull && npm install && cd services/backend-api && npm i
 curl http://localhost:3001/api | jq
 
 # Test through Nginx
-curl https://nexuscos.online/api | jq
+curl https://n3xuscos.online/api | jq
 
 # Run full test suite
-./test-api-routing-fix.sh https://nexuscos.online
+./test-api-routing-fix.sh https://n3xuscos.online
 ```
 
 ## What Now Works
@@ -181,8 +181,8 @@ pm2 restart backend-api
 - [ ] PM2 service restarted: `pm2 restart backend-api`
 - [ ] Service shows "online": `pm2 status`
 - [ ] Local test passes: `curl http://localhost:3001/api`
-- [ ] Public test passes: `curl https://nexuscos.online/api`
-- [ ] Full test suite passes: `./test-api-routing-fix.sh https://nexuscos.online`
+- [ ] Public test passes: `curl https://n3xuscos.online/api`
+- [ ] Full test suite passes: `./test-api-routing-fix.sh https://n3xuscos.online`
 - [ ] Nginx has `/api/` proxy configured
 
 ## Key Takeaway
@@ -194,4 +194,4 @@ pm2 restart backend-api
 See the detailed documentation files listed above, or check:
 - PM2 logs: `pm2 logs backend-api`
 - Nginx logs: `sudo tail -f /var/log/nginx/error.log`
-- Test results: `./test-api-routing-fix.sh https://nexuscos.online`
+- Test results: `./test-api-routing-fix.sh https://n3xuscos.online`

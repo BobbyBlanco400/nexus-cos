@@ -196,10 +196,10 @@ Industry-specific content (medical education, legal training, etc.) with complia
 ## SHOWCASE & DEMO
 
 ### Public Access Points
-- **Main Portal**: https://nexuscos.online
-- **Founding Residents Showcase**: https://nexuscos.online/residents
-- **CPS Dashboard**: https://nexuscos.online/cps (creator access)
-- **System Dashboard**: https://nexuscos.online/dashboard
+- **Main Portal**: https://n3xuscos.online
+- **Founding Residents Showcase**: https://n3xuscos.online/residents
+- **CPS Dashboard**: https://n3xuscos.online/cps (creator access)
+- **System Dashboard**: https://n3xuscos.online/dashboard
 
 ### Key Pages to See
 1. **`/residents`** — Cinematic showcase of all 13 platforms
@@ -274,10 +274,10 @@ For interviews, demo requests, or additional information:
 **Primary Contact**:  
 Press Team, N3XUS COS  
 Email: [To be provided]  
-Website: nexuscos.online
+Website: n3xuscos.online
 
 **Media Kit**:  
-Available at: nexuscos.online/press (or via direct request)
+Available at: n3xuscos.online/press (or via direct request)
 
 **Social Media**:  
 - Twitter/X: [To be provided]
@@ -323,8 +323,8 @@ Available at: nexuscos.online/press (or via direct request)
 - **Governance**: 55-45-17 Protocol (active)
 - **Compliance**: SOC 2 Type II (in progress)
 - **Privacy**: GDPR and CCPA compliant
-- **Terms of Service**: nexuscos.online/terms
-- **Privacy Policy**: nexuscos.online/privacy
+- **Terms of Service**: n3xuscos.online/terms
+- **Privacy Policy**: n3xuscos.online/privacy
 
 ---
 

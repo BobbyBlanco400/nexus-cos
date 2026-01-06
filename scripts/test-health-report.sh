@@ -63,8 +63,8 @@ echo ""
 echo "=== URL Configuration ==="
 echo ""
 
-check_content "MAIN_URL properly quoted" 'MAIN_URL="https://nexuscos.online/health"'
-check_content "BETA_URL properly quoted" 'BETA_URL="https://beta.nexuscos.online/health"'
+check_content "MAIN_URL properly quoted" 'MAIN_URL="https://n3xuscos.online/health"'
+check_content "BETA_URL properly quoted" 'BETA_URL="https://beta.n3xuscos.online/health"'
 
 echo ""
 echo "=== Environment Path Resolution ==="

@@ -17,8 +17,8 @@ readonly DEPLOYMENT_DATE=$(date +%Y-%m-%d)
 readonly TRANSITION_DATE="2025-11-17"
 
 # Directories
-readonly WWW_APEX="/var/www/nexuscos.online"
-readonly WWW_BETA="/var/www/beta.nexuscos.online"
+readonly WWW_APEX="/var/www/n3xuscos.online"
+readonly WWW_BETA="/var/www/beta.n3xuscos.online"
 readonly LOG_DIR="/opt/nexus-cos/logs/phase2.5"
 readonly BACKUP_DIR="/opt/nexus-cos/backups/phase2.5"
 readonly NGINX_CONF_DIR="/etc/nginx/sites-available"
@@ -209,10 +209,10 @@ deploy_landing_pages() {
             fatal_error "Landing page branding verification failed"
         fi
         
-        if grep -q "beta.nexuscos.online" "$WWW_BETA/index.html"; then
+        if grep -q "beta.n3xuscos.online" "$WWW_BETA/index.html"; then
             print_success "Beta landing page configured with correct beta URL"
         else
-            print_error "Beta landing page missing beta.nexuscos.online URL"
+            print_error "Beta landing page missing beta.n3xuscos.online URL"
             fatal_error "Beta URL verification failed"
         fi
     else
@@ -251,20 +251,20 @@ configure_nginx() {
 # PF ID: PF-HYBRID-FULLSTACK-2025.10.07-PHASE-2.5
 # ==============================================================================
 
-# Production Domain - nexuscos.online
+# Production Domain - n3xuscos.online
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -282,7 +282,7 @@ server {
     
     # OTT Frontend - Public Streaming Interface
     location / {
-        root /var/www/nexuscos.online;
+        root /var/www/n3xuscos.online;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
@@ -323,20 +323,20 @@ server {
     }
 }
 
-# Beta Domain - beta.nexuscos.online (Active until Nov 17, 2025)
+# Beta Domain - beta.n3xuscos.online (Active until Nov 17, 2025)
 server {
     listen 80;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/beta/beta.nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/beta/beta.nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/beta/beta.n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/beta/beta.n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -354,7 +354,7 @@ server {
     
     # Beta Landing Page
     location / {
-        root /var/www/beta.nexuscos.online;
+        root /var/www/beta.n3xuscos.online;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
@@ -492,21 +492,21 @@ cat > /etc/nginx/sites-available/nexuscos-post-transition << 'EOF'
 # Permanent redirect from beta to production
 server {
     listen 80;
-    server_name beta.nexuscos.online;
-    return 301 https://nexuscos.online$request_uri;
+    server_name beta.n3xuscos.online;
+    return 301 https://n3xuscos.online$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
-    ssl_certificate /etc/nginx/ssl/beta/beta.nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/beta/beta.nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/beta/beta.n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/beta/beta.n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     
     # Redirect all traffic to production
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 EOF
 
@@ -536,7 +536,7 @@ fi
 
 # Verify redirect
 echo "Verifying redirect functionality..."
-REDIRECT_TEST=$(curl -sI http://beta.nexuscos.online 2>/dev/null | grep -i "location: https://nexuscos.online")
+REDIRECT_TEST=$(curl -sI http://beta.n3xuscos.online 2>/dev/null | grep -i "location: https://n3xuscos.online")
 if [[ -n "$REDIRECT_TEST" ]]; then
     echo "✓ Redirect verified successfully"
 else
@@ -575,9 +575,9 @@ print_summary() {
     echo ""
     
     echo -e "${CYAN}System Layers:${NC}"
-    echo -e "  ${GREEN}►${NC} OTT Frontend: https://nexuscos.online"
-    echo -e "  ${GREEN}►${NC} V-Suite Dashboard: https://nexuscos.online/v-suite/"
-    echo -e "  ${GREEN}►${NC} Beta Portal: https://beta.nexuscos.online (Until Nov 17, 2025)"
+    echo -e "  ${GREEN}►${NC} OTT Frontend: https://n3xuscos.online"
+    echo -e "  ${GREEN}►${NC} V-Suite Dashboard: https://n3xuscos.online/v-suite/"
+    echo -e "  ${GREEN}►${NC} Beta Portal: https://beta.n3xuscos.online (Until Nov 17, 2025)"
     echo ""
     
     echo -e "${CYAN}Next Steps:${NC}"

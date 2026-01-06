@@ -7,9 +7,9 @@ The deployment has been successfully completed by the Pre-Flight (PF) team. Here
 ### ✅ What's Working
 
 - **Application Status**: Running under PM2 on `0.0.0.0:3000`
-- **HTTPS Access**: Available at https://nexuscos.online/
-- **Health Endpoint**: https://nexuscos.online/health returns 200 with JSON
-- **Root Domain**: https://nexuscos.online/ serves content (frontend or fallback)
+- **HTTPS Access**: Available at https://n3xuscos.online/
+- **Health Endpoint**: https://n3xuscos.online/health returns 200 with JSON
+- **Root Domain**: https://n3xuscos.online/ serves content (frontend or fallback)
 - **PM2 Process**: Configured for auto-restart and reboot persistence
 - **Nginx Configuration**: Properly configured with SSL/TLS
 - **Security**: HTTPS enforced, security headers configured
@@ -86,7 +86,7 @@ After updating the `.env` file on the server (`/opt/nexus-cos/.env`):
 
 ```bash
 # SSH into the server
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 
 # Navigate to the application directory
 cd /opt/nexus-cos
@@ -98,7 +98,7 @@ nano .env
 pm2 restart nexus-cos
 
 # Verify the health endpoint
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 Expected output after successful database connection:
@@ -144,9 +144,9 @@ npm run build
 cd ..
 
 # Upload to server
-scp -r frontend/dist user@nexuscos.online:/opt/nexus-cos/frontend/
-scp -r admin/build user@nexuscos.online:/opt/nexus-cos/admin/
-scp -r creator-hub/build user@nexuscos.online:/opt/nexus-cos/creator-hub/
+scp -r frontend/dist user@n3xuscos.online:/opt/nexus-cos/frontend/
+scp -r admin/build user@n3xuscos.online:/opt/nexus-cos/admin/
+scp -r creator-hub/build user@n3xuscos.online:/opt/nexus-cos/creator-hub/
 ```
 
 #### Option B: Keep Minimal Fallback
@@ -157,9 +157,9 @@ The current setup with a minimal fallback is sufficient if you're focusing on AP
 
 After applying database configuration:
 
-- [ ] Health endpoint shows `db: "up"`: `curl -s https://nexuscos.online/health | jq`
-- [ ] Root domain loads without errors: `curl -I https://nexuscos.online/`
-- [ ] API endpoints are accessible: `curl https://nexuscos.online/api/auth/`
+- [ ] Health endpoint shows `db: "up"`: `curl -s https://n3xuscos.online/health | jq`
+- [ ] Root domain loads without errors: `curl -I https://n3xuscos.online/`
+- [ ] API endpoints are accessible: `curl https://n3xuscos.online/api/auth/`
 - [ ] PM2 process is running: `pm2 list | grep nexus-cos`
 - [ ] Nginx is active: `systemctl is-active nginx`
 
@@ -232,8 +232,8 @@ JWT_REFRESH_EXPIRES_IN=7d
 
 # SSL/TLS
 SSL_ENABLED=true
-SSL_CERT_PATH=/etc/letsencrypt/live/nexuscos.online/fullchain.pem
-SSL_KEY_PATH=/etc/letsencrypt/live/nexuscos.online/privkey.pem
+SSL_CERT_PATH=/etc/letsencrypt/live/n3xuscos.online/fullchain.pem
+SSL_KEY_PATH=/etc/letsencrypt/live/n3xuscos.online/privkey.pem
 ```
 
 ## 🆘 Troubleshooting
@@ -282,7 +282,7 @@ pm2 logs nexus-cos --lines 50
 ## 📞 Contact and Support
 
 - **Repository**: https://github.com/BobbyBlanco400/nexus-cos
-- **Domain**: https://nexuscos.online
+- **Domain**: https://n3xuscos.online
 - **Server IP**: 74.208.155.161
 
 ## 🎯 Immediate Action Required

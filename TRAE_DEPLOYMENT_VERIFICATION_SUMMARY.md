@@ -2,7 +2,7 @@
 
 ## 🎯 Purpose
 
-This document provides a comprehensive verification framework for validating the deployment executed by TRAE on **nexuscos.online**. Use these tools and procedures to confirm that everything is wired correctly and working as intended for production launch.
+This document provides a comprehensive verification framework for validating the deployment executed by TRAE on **n3xuscos.online**. Use these tools and procedures to confirm that everything is wired correctly and working as intended for production launch.
 
 ---
 
@@ -82,13 +82,13 @@ Example output showing what a successful verification looks like.
 ### Option 2: Quick Manual Check - 1 minute
 ```bash
 # Test the 5 critical endpoints
-curl -I https://nexuscos.online/
-curl -s https://nexuscos.online/health | jq '.'
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/
+curl -s https://n3xuscos.online/health | jq '.'
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
 
 # Check containers (requires SSH)
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 ```
 
 ### Option 3: Full Verification - 10 minutes
@@ -99,11 +99,11 @@ ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 ./validate-ip-domain-routing.sh
 
 # Check container logs (requires SSH)
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 # Verify Nginx (requires SSH)
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 ```
 
 ---
@@ -121,7 +121,7 @@ Based on the message from TRAE, here's what needs to be verified:
 
 **Verification:**
 ```bash
-ssh root@nexuscos.online "ls -la /opt/nexus-cos/ && docker ps"
+ssh root@n3xuscos.online "ls -la /opt/nexus-cos/ && docker ps"
 ```
 
 ---
@@ -135,7 +135,7 @@ ssh root@nexuscos.online "ls -la /opt/nexus-cos/ && docker ps"
 
 **Verification:**
 ```bash
-ssh root@nexuscos.online "systemctl status nginx && docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "systemctl status nginx && docker ps --format 'table {{.Names}}\t{{.Status}}'"
 ```
 
 ---
@@ -149,10 +149,10 @@ ssh root@nexuscos.online "systemctl status nginx && docker ps --format 'table {{
 
 **Verification:**
 ```bash
-curl -I https://nexuscos.online/
-curl -s https://nexuscos.online/health | jq '.'
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/
+curl -s https://n3xuscos.online/health | jq '.'
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
 ```
 
 ---
@@ -166,7 +166,7 @@ curl -I https://nexuscos.online/v-screen
 
 **Verification:**
 ```bash
-ssh root@nexuscos.online "whoami && docker ps | grep -v Restarting"
+ssh root@n3xuscos.online "whoami && docker ps | grep -v Restarting"
 ```
 
 ---
@@ -177,8 +177,8 @@ ssh root@nexuscos.online "whoami && docker ps | grep -v Restarting"
 | Check container status | `docker ps --format 'table {{.Names}}\t{{.Status}}'` | Verify all healthy |
 | Check Prompter Pro logs | `docker logs nexus-cos-puaboai-sdk --tail 100` | Ensure no errors |
 | Check PUABO API logs | `docker logs puabo-api --tail 100` | Ensure no errors |
-| Test Prompter health | `curl -I https://nexuscos.online/v-suite/prompter/health` | Verify endpoint |
-| Test V-Screen routes | `curl -I https://nexuscos.online/v-suite/screen` | Verify both routes |
+| Test Prompter health | `curl -I https://n3xuscos.online/v-suite/prompter/health` | Verify endpoint |
+| Test V-Screen routes | `curl -I https://n3xuscos.online/v-suite/screen` | Verify both routes |
 
 **All automated in:** `verify-trae-deployment.sh`
 
@@ -235,14 +235,14 @@ cat /tmp/trae-deployment-verification-*.txt
 #### Manual Quick Check
 ```bash
 # Domain
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Health
-curl -s https://nexuscos.online/health | jq '.'
+curl -s https://n3xuscos.online/health | jq '.'
 
 # V-Screen
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
 ```
 
 ---
@@ -289,19 +289,19 @@ chmod +x verify-trae-deployment.sh
 
 ### Issue: Health Endpoint Fails
 ```bash
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-ssh root@nexuscos.online "docker restart puabo-api"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker restart puabo-api"
 ```
 
 ### Issue: V-Screen Routes Fail
 ```bash
-ssh root@nexuscos.online "docker logs vscreen-hollywood --tail 100"
-ssh root@nexuscos.online "docker restart vscreen-hollywood"
+ssh root@n3xuscos.online "docker logs vscreen-hollywood --tail 100"
+ssh root@n3xuscos.online "docker restart vscreen-hollywood"
 ```
 
 ### Issue: Nginx Configuration Error
 ```bash
-ssh root@nexuscos.online "nginx -t && systemctl reload nginx"
+ssh root@n3xuscos.online "nginx -t && systemctl reload nginx"
 ```
 
 ---

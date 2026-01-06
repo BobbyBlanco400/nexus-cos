@@ -4,7 +4,7 @@
 # ==============================================================================
 # Purpose: Fix IP vs domain routing to ensure consistent branding/UI across all
 #          access methods (IP address vs domain name)
-# Problem: http://74.208.155.161/ shows different UI than https://nexuscos.online/
+# Problem: http://74.208.155.161/ shows different UI than https://n3xuscos.online/
 # Solution: Configure Nginx default_server to route IP requests identically
 # ==============================================================================
 
@@ -21,9 +21,9 @@ NC='\033[0m' # No Color
 
 # Configuration
 # Allow environment variable overrides for flexibility
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 SERVER_IP="${SERVER_IP:-74.208.155.161}"
-WEBROOT="/var/www/nexuscos.online"
+WEBROOT="/var/www/n3xuscos.online"
 FRONTEND_DIST="${WEBROOT}/frontend/dist"
 ADMIN_BUILD="${WEBROOT}/admin/build"
 CREATOR_BUILD="${WEBROOT}/creator-hub/build"
@@ -247,7 +247,7 @@ configure_nginx() {
 # HTTP Server - Redirect to HTTPS (for domain requests)
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # Redirect HTTP to HTTPS
     return 301 https://$server_name$request_uri;
@@ -261,18 +261,18 @@ server {
     server_name _;
     
     # Redirect IP requests to domain for HTTPS
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 
 # HTTPS Server - Main Domain
 server {
     listen 443 ssl http2 default_server;
     listen [::]:443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     
     # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
     ssl_prefer_server_ciphers off;
@@ -290,7 +290,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     
     # Content Security Policy - Allow inline styles and scripts for React
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://nexuscos.online wss://nexuscos.online" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://n3xuscos.online wss://n3xuscos.online" always;
     
     # Gzip compression
     gzip on;
@@ -310,7 +310,7 @@ server {
         image/svg+xml;
     
     # Root directory
-    root /var/www/nexuscos.online;
+    root /var/www/n3xuscos.online;
     
     # Root Path - Serve Landing Page
     location = / {
@@ -319,7 +319,7 @@ server {
     
     # Admin Panel React Application
     location /admin/ {
-        alias /var/www/nexuscos.online/admin/build/;
+        alias /var/www/n3xuscos.online/admin/build/;
         index index.html;
         
         # Handle React Router - try files, then fallback to index.html
@@ -327,7 +327,7 @@ server {
         
         # Cache static assets aggressively
         location ~ ^/admin/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexuscos.online/admin/build/static/;
+            alias /var/www/n3xuscos.online/admin/build/static/;
             expires 1y;
             add_header Cache-Control "public, immutable";
             add_header Access-Control-Allow-Origin "*";
@@ -341,7 +341,7 @@ server {
     
     # Creator Hub React Application
     location /creator-hub/ {
-        alias /var/www/nexuscos.online/creator-hub/build/;
+        alias /var/www/n3xuscos.online/creator-hub/build/;
         index index.html;
         
         # Handle React Router - try files, then fallback to index.html
@@ -349,7 +349,7 @@ server {
         
         # Cache static assets aggressively
         location ~ ^/creator-hub/static/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexuscos.online/creator-hub/build/static/;
+            alias /var/www/n3xuscos.online/creator-hub/build/static/;
             expires 1y;
             add_header Cache-Control "public, immutable";
             add_header Access-Control-Allow-Origin "*";
@@ -363,13 +363,13 @@ server {
     
     # Main Frontend Application
     location /app/ {
-        alias /var/www/nexuscos.online/frontend/dist/;
+        alias /var/www/n3xuscos.online/frontend/dist/;
         index index.html;
         try_files $uri $uri/ /app/index.html;
         
         # Cache static assets
         location ~ ^/app/assets/.+\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            alias /var/www/nexuscos.online/frontend/dist/assets/;
+            alias /var/www/n3xuscos.online/frontend/dist/assets/;
             expires 1y;
             add_header Cache-Control "public, immutable";
         }
@@ -377,7 +377,7 @@ server {
     
     # Interactive Module Diagram
     location /diagram/ {
-        alias /var/www/nexuscos.online/diagram/;
+        alias /var/www/n3xuscos.online/diagram/;
         index index.html;
         try_files $uri $uri/ =404;
         
@@ -480,20 +480,20 @@ verify_routing() {
     print_info ""
     print_info "Quick Verification Commands:"
     echo "  # Test domain request:"
-    echo "  curl -I -H \"Host: nexuscos.online\" http://127.0.0.1/"
+    echo "  curl -I -H \"Host: n3xuscos.online\" http://127.0.0.1/"
     echo ""
     echo "  # Test IP request (should redirect to domain):"
     echo "  curl -I http://127.0.0.1/"
     echo ""
     echo "  # Test HTTPS endpoint:"
-    echo "  curl -I -H \"Host: nexuscos.online\" https://127.0.0.1/ -k"
+    echo "  curl -I -H \"Host: n3xuscos.online\" https://127.0.0.1/ -k"
     echo ""
     echo "  # Verify served index.html:"
-    echo "  curl -sSL -H \"Host: nexuscos.online\" http://127.0.0.1/admin/index.html | head -n 30"
+    echo "  curl -sSL -H \"Host: n3xuscos.online\" http://127.0.0.1/admin/index.html | head -n 30"
     echo ""
     
     print_info "Expected behavior:"
-    print_info "  - IP requests redirect to https://nexuscos.online"
+    print_info "  - IP requests redirect to https://n3xuscos.online"
     print_info "  - Both domain and IP serve identical content"
     print_info "  - All assets load with correct paths"
     print_info "  - CSP headers allow inline styles/scripts"
@@ -594,25 +594,25 @@ VERIFICATION CHECKLIST
 Test these endpoints to verify consistent routing:
 
 1. Domain Request (HTTPS):
-   curl -I https://nexuscos.online/
+   curl -I https://n3xuscos.online/
 
 2. IP Request (should redirect):
    curl -I http://74.208.155.161/
 
 3. Domain with Host Header:
-   curl -I -H "Host: nexuscos.online" http://74.208.155.161/
+   curl -I -H "Host: n3xuscos.online" http://74.208.155.161/
 
 4. Admin Panel:
-   curl -L https://nexuscos.online/admin/
+   curl -L https://n3xuscos.online/admin/
 
 5. Creator Hub:
-   curl -L https://nexuscos.online/creator-hub/
+   curl -L https://n3xuscos.online/creator-hub/
 
 6. API Health:
-   curl https://nexuscos.online/api/health
+   curl https://n3xuscos.online/api/health
 
 7. Health Check:
-   curl https://nexuscos.online/health
+   curl https://n3xuscos.online/health
 
 ═══════════════════════════════════════════════════════════════
 COMMON ISSUES RESOLVED
@@ -631,7 +631,7 @@ NEXT STEPS
 ═══════════════════════════════════════════════════════════════
 
 1. Clear browser cache and hard refresh (Ctrl+Shift+R)
-2. Test both http://74.208.155.161/ and https://nexuscos.online/
+2. Test both http://74.208.155.161/ and https://n3xuscos.online/
 3. Verify consistent branding across all pages
 4. Check browser console for CSP violations
 5. Monitor Nginx logs: tail -f /var/log/nginx/nexus-cos.error.log
@@ -675,9 +675,9 @@ main() {
     print_success "✓ Branding enforcement completed"
     print_info ""
     print_info "Access your platform at:"
-    print_info "  https://nexuscos.online/"
-    print_info "  https://nexuscos.online/admin/"
-    print_info "  https://nexuscos.online/creator-hub/"
+    print_info "  https://n3xuscos.online/"
+    print_info "  https://n3xuscos.online/admin/"
+    print_info "  https://n3xuscos.online/creator-hub/"
     print_info ""
     print_info "Both domain and IP requests now serve identical content!"
 }

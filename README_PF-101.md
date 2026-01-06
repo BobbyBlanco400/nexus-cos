@@ -43,14 +43,14 @@ PF-101 is a unified deployment that combines:
 ### The Single Command
 
 ```bash
-ssh root@nexuscos.online 'cd /opt/nexus-cos && git pull origin main && sudo ./DEPLOY_PHASE_2.5.sh'
+ssh root@n3xuscos.online 'cd /opt/nexus-cos && git pull origin main && sudo ./DEPLOY_PHASE_2.5.sh'
 ```
 
 ### Or Step-by-Step
 
 ```bash
 # 1. Connect
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # 2-4. Navigate and pull code
 cd /opt/nexus-cos
@@ -60,11 +60,11 @@ git pull origin main
 sudo ./DEPLOY_PHASE_2.5.sh
 
 # 6-10. Validate
-curl -skI https://nexuscos.online/ | head -n 1
-curl -skI https://beta.nexuscos.online/ | head -n 1
-curl -skI https://nexuscos.online/api/ | head -n 1
-curl -skI https://nexuscos.online/api/health | head -n 1
-curl -skI https://nexuscos.online/api/system/status | head -n 1
+curl -skI https://n3xuscos.online/ | head -n 1
+curl -skI https://beta.n3xuscos.online/ | head -n 1
+curl -skI https://n3xuscos.online/api/ | head -n 1
+curl -skI https://n3xuscos.online/api/health | head -n 1
+curl -skI https://n3xuscos.online/api/system/status | head -n 1
 ```
 
 **Expected:** All return `HTTP/2 200`
@@ -74,15 +74,15 @@ curl -skI https://nexuscos.online/api/system/status | head -n 1
 ## ✅ What Gets Deployed
 
 ### 1. Domain Configuration
-- **Apex:** https://nexuscos.online/
-- **Beta:** https://beta.nexuscos.online/
+- **Apex:** https://n3xuscos.online/
+- **Beta:** https://beta.n3xuscos.online/
 - SSL/TLS enabled
 - Security headers configured
 
 ### 2. API Routing
-- **Root:** https://nexuscos.online/api/
-- **Health:** https://nexuscos.online/api/health
-- **Status:** https://nexuscos.online/api/system/status
+- **Root:** https://n3xuscos.online/api/
+- **Health:** https://n3xuscos.online/api/health
+- **Status:** https://n3xuscos.online/api/system/status
 - All endpoints proxied to working backend
 
 ### 3. Backend Integration
@@ -101,7 +101,7 @@ curl -skI https://nexuscos.online/api/system/status | head -n 1
 - **`scripts/diagnose-deployment.sh`** - Diagnostic tool
 
 ### Configuration
-- **`deployment/nginx/nexuscos.online.conf`** - Main Nginx config
+- **`deployment/nginx/n3xuscos.online.conf`** - Main Nginx config
 - **`/etc/nginx/conf.d/nexuscos_api_proxy.conf`** - API proxy (created during deployment)
 
 ### Documentation
@@ -142,11 +142,11 @@ Internet
 
 Deployment is successful when all of these return `200 OK`:
 
-1. ✅ `curl -skI https://nexuscos.online/`
-2. ✅ `curl -skI https://beta.nexuscos.online/`
-3. ✅ `curl -skI https://nexuscos.online/api/`
-4. ✅ `curl -skI https://nexuscos.online/api/health`
-5. ✅ `curl -skI https://nexuscos.online/api/system/status`
+1. ✅ `curl -skI https://n3xuscos.online/`
+2. ✅ `curl -skI https://beta.n3xuscos.online/`
+3. ✅ `curl -skI https://n3xuscos.online/api/`
+4. ✅ `curl -skI https://n3xuscos.online/api/health`
+5. ✅ `curl -skI https://n3xuscos.online/api/system/status`
 
 ---
 
@@ -175,7 +175,7 @@ curl http://localhost:3001/api/health
 **Endpoints returning wrong status:**
 ```bash
 # Check detailed response
-curl -skI https://nexuscos.online/api/ 
+curl -skI https://n3xuscos.online/api/ 
 ```
 
 ### 3. Report Issues
@@ -248,9 +248,9 @@ pm2 restart all
 ## 📈 Monitoring
 
 ### Health Endpoints
-- **System:** https://nexuscos.online/api/system/status
-- **API:** https://nexuscos.online/api/health
-- **Services:** https://nexuscos.online/api/services/:service/health
+- **System:** https://n3xuscos.online/api/system/status
+- **API:** https://n3xuscos.online/api/health
+- **Services:** https://n3xuscos.online/api/services/:service/health
 
 ### Logs
 - **Nginx Access:** `/var/log/nginx/access.log`
@@ -277,9 +277,9 @@ pm2 restart all
 ## 🎉 After Successful Deployment
 
 Your platform is live at:
-- **Apex:** https://nexuscos.online/
-- **Beta:** https://beta.nexuscos.online/
-- **API:** https://nexuscos.online/api/*
+- **Apex:** https://n3xuscos.online/
+- **Beta:** https://beta.n3xuscos.online/
+- **API:** https://n3xuscos.online/api/*
 
 ### Next Steps
 1. Test all functionality in browser

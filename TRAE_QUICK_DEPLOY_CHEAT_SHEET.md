@@ -76,9 +76,9 @@ Failed: 0
 ```
 
 ### Step 5: Browser Check
-1. Open: `https://nexuscos.online/`
+1. Open: `https://n3xuscos.online/`
 2. See: Your published site (NOT "Welcome to nginx!")
-3. Test: `https://nexuscos.online/health` → shows "ok"
+3. Test: `https://n3xuscos.online/health` → shows "ok"
 
 ---
 
@@ -105,13 +105,13 @@ pm2 start streaming-service
 
 **Still see welcome page?**
 ```bash
-sudo nginx -T | grep "server_name nexuscos.online"  # Must show config
+sudo nginx -T | grep "server_name n3xuscos.online"  # Must show config
 sudo systemctl restart nginx                         # Force restart
 ```
 
 **SSL errors?**
 ```bash
-ls -la /etc/letsencrypt/live/nexuscos.online/  # Using Let's Encrypt?
+ls -la /etc/letsencrypt/live/n3xuscos.online/  # Using Let's Encrypt?
 # If yes, update paths in config from /etc/ssl/ionos/ to /etc/letsencrypt/
 ```
 
@@ -121,11 +121,11 @@ ls -la /etc/letsencrypt/live/nexuscos.online/  # Using Let's Encrypt?
 
 ```bash
 # Find backup
-ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
 
 # Restore (use actual timestamp)
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.YYYYMMDDHHMMSS \
-     /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.YYYYMMDDHHMMSS \
+     /etc/nginx/sites-enabled/n3xuscos.online
 
 # Reload
 sudo nginx -t && sudo systemctl reload nginx
@@ -143,7 +143,7 @@ Method: [Vanilla/Plesk]
 Time: [X] minutes
 Validation: All PASS
 Tests: 34/34 PASSED
-Status: nexuscos.online serving published site
+Status: n3xuscos.online serving published site
 Issues: None
 
 Platform now 100% complete for beta launch.

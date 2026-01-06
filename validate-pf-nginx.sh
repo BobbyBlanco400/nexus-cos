@@ -127,8 +127,8 @@ echo ""
 # Check frontend .env files
 if [ -f "frontend/.env" ]; then
     echo -e "${GREEN}✓${NC} frontend/.env exists"
-    if grep -q "VITE_API_URL=https://nexuscos.online/api" frontend/.env; then
-        echo -e "${GREEN}✓${NC} VITE_API_URL correctly set to https://nexuscos.online/api"
+    if grep -q "VITE_API_URL=https://n3xuscos.online/api" frontend/.env; then
+        echo -e "${GREEN}✓${NC} VITE_API_URL correctly set to https://n3xuscos.online/api"
     else
         echo -e "${RED}✗${NC} VITE_API_URL not set correctly"
     fi
@@ -138,7 +138,7 @@ fi
 
 if [ -f "frontend/.env.example" ]; then
     echo -e "${GREEN}✓${NC} frontend/.env.example exists"
-    if grep -q "VITE_API_URL=https://nexuscos.online/api" frontend/.env.example; then
+    if grep -q "VITE_API_URL=https://n3xuscos.online/api" frontend/.env.example; then
         echo -e "${GREEN}✓${NC} VITE_API_URL example correctly set"
     else
         echo -e "${RED}✗${NC} VITE_API_URL example not set correctly"

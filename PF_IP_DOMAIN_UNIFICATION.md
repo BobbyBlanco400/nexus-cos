@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Platform Fix (PF) resolves the critical issue where accessing Nexus COS via IP address (`http://74.208.155.161/`) shows different UI/branding than accessing via domain (`https://nexuscos.online/`).
+This Platform Fix (PF) resolves the critical issue where accessing Nexus COS via IP address (`http://74.208.155.161/`) shows different UI/branding than accessing via domain (`https://n3xuscos.online/`).
 
 ## Problem Statement
 
@@ -57,7 +57,7 @@ This PF implements a comprehensive fix that ensures **identical content** is ser
 - Root or sudo access on the VPS
 - Nginx installed and configured
 - Node.js and npm installed
-- SSL certificates in place (`/etc/letsencrypt/live/nexuscos.online/`)
+- SSL certificates in place (`/etc/letsencrypt/live/n3xuscos.online/`)
 
 ### Installation
 
@@ -117,7 +117,7 @@ The script performs these steps automatically:
 # Redirect domain HTTP to HTTPS
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 
@@ -125,7 +125,7 @@ server {
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 ```
 
@@ -134,7 +134,7 @@ server {
 ```nginx
 server {
     listen 443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     
     # This captures both domain and IP requests
     # Serves identical content for all
@@ -158,10 +158,10 @@ After running the script, verify the fix works:
 
 ```bash
 # Should return 200 OK
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Should serve admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 ```
 
 ### 2. Test IP Access
@@ -171,31 +171,31 @@ curl -L https://nexuscos.online/admin/
 curl -I http://74.208.155.161/
 
 # Test with Host header
-curl -I -H "Host: nexuscos.online" http://74.208.155.161/
+curl -I -H "Host: n3xuscos.online" http://74.208.155.161/
 ```
 
 ### 3. Test Index Files
 
 ```bash
 # Verify correct HTML is served
-curl -sSL -H "Host: nexuscos.online" http://127.0.0.1/admin/index.html | head -n 30
+curl -sSL -H "Host: n3xuscos.online" http://127.0.0.1/admin/index.html | head -n 30
 ```
 
 ### 4. Test API Endpoints
 
 ```bash
 # Should proxy to backend
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 
 # Platform health check
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 
 ### 5. Browser Testing
 
 1. Clear browser cache (Ctrl+Shift+F5)
 2. Visit `http://74.208.155.161/` - should redirect to domain
-3. Visit `https://nexuscos.online/` - should load correctly
+3. Visit `https://n3xuscos.online/` - should load correctly
 4. Check browser console for CSP errors (should be none)
 5. Verify branding looks consistent
 
@@ -310,7 +310,7 @@ For issues or questions:
 
 - [ ] Script executed successfully
 - [ ] Nginx configuration valid
-- [ ] Domain access works (https://nexuscos.online/)
+- [ ] Domain access works (https://n3xuscos.online/)
 - [ ] IP redirects to domain (http://74.208.155.161/)
 - [ ] Admin panel loads correctly
 - [ ] Creator hub loads correctly

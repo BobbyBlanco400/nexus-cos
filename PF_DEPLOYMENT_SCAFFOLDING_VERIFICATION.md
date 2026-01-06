@@ -208,12 +208,12 @@ The repository is **100% ready** for the TRAE SOLO deployment sequence.
 - `nginx -s reload` for applying changes
 
 ✓ **Health endpoint probes configured**
-- Gateway: `https://nexuscos.online/api/health`
-- Prompter: `https://nexuscos.online/v-suite/prompter/health`
-- Dispatch: `https://nexuscos.online/puabo-nexus/dispatch/health`
-- Driver: `https://nexuscos.online/puabo-nexus/driver/health`
-- Fleet: `https://nexuscos.online/puabo-nexus/fleet/health`
-- Routes: `https://nexuscos.online/puabo-nexus/routes/health`
+- Gateway: `https://n3xuscos.online/api/health`
+- Prompter: `https://n3xuscos.online/v-suite/prompter/health`
+- Dispatch: `https://n3xuscos.online/puabo-nexus/dispatch/health`
+- Driver: `https://n3xuscos.online/puabo-nexus/driver/health`
+- Fleet: `https://n3xuscos.online/puabo-nexus/fleet/health`
+- Routes: `https://n3xuscos.online/puabo-nexus/routes/health`
 
 ---
 
@@ -263,7 +263,7 @@ The repository is **fully scaffolded** and ready for immediate deployment via th
 ### Execute TRAE SOLO Deployment Command on VPS
 
 ```bash
-ssh -o StrictHostKeyChecking=no root@nexuscos.online bash -lc '
+ssh -o StrictHostKeyChecking=no root@n3xuscos.online bash -lc '
   set -e
   cd /opt/nexus-cos
   mkdir -p logs/phase2.5/verification
@@ -285,12 +285,12 @@ ssh -o StrictHostKeyChecking=no root@nexuscos.online bash -lc '
   nginx -t
   nginx -s reload
   echo "=== Endpoint Probes ==="
-  curl -s -o /dev/null -w "Gateway:%{http_code}\n" https://nexuscos.online/api/health
-  curl -s -o /dev/null -w "Prompter:%{http_code}\n" https://nexuscos.online/v-suite/prompter/health
-  curl -s -o /dev/null -w "Dispatch:%{http_code}\n" https://nexuscos.online/puabo-nexus/dispatch/health
-  curl -s -o /dev/null -w "Driver:%{http_code}\n" https://nexuscos.online/puabo-nexus/driver/health
-  curl -s -o /dev/null -w "Fleet:%{http_code}\n" https://nexuscos.online/puabo-nexus/fleet/health
-  curl -s -o /dev/null -w "Routes:%{http_code}\n" https://nexuscos.online/puabo-nexus/routes/health
+  curl -s -o /dev/null -w "Gateway:%{http_code}\n" https://n3xuscos.online/api/health
+  curl -s -o /dev/null -w "Prompter:%{http_code}\n" https://n3xuscos.online/v-suite/prompter/health
+  curl -s -o /dev/null -w "Dispatch:%{http_code}\n" https://n3xuscos.online/puabo-nexus/dispatch/health
+  curl -s -o /dev/null -w "Driver:%{http_code}\n" https://n3xuscos.online/puabo-nexus/driver/health
+  curl -s -o /dev/null -w "Fleet:%{http_code}\n" https://n3xuscos.online/puabo-nexus/fleet/health
+  curl -s -o /dev/null -w "Routes:%{http_code}\n" https://n3xuscos.online/puabo-nexus/routes/health
   echo "=== Log Excerpts (/opt/nexus-cos/logs) ==="
   for f in $(find /opt/nexus-cos/logs -type f -name "*.log" | head -n 6); do
     echo "----- $f -----"

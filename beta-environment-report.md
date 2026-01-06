@@ -30,7 +30,7 @@
    - SSL paths properly configured in nginx
 
 6. **DNS Resolution** ✅
-   - Local /etc/hosts entry added for beta.nexuscos.online
+   - Local /etc/hosts entry added for beta.n3xuscos.online
    - Domain now resolves correctly in local environment
 
 ### Test Results:
@@ -47,14 +47,14 @@
 1. **Install Production SSL Certificates**
    ```bash
    # Install IONOS SSL certificates to:
-   /etc/ssl/ionos/beta.nexuscos.online/fullchain.pem
-   /etc/ssl/ionos/beta.nexuscos.online/privkey.pem
+   /etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem
+   /etc/ssl/ionos/beta.n3xuscos.online/privkey.pem
    ```
 
 2. **Deploy Enhanced Nginx Configuration**
    ```bash
-   sudo cp deployment/nginx/beta.nexuscos.online-enhanced.conf /etc/nginx/sites-available/
-   sudo ln -sf /etc/nginx/sites-available/beta.nexuscos.online-enhanced.conf /etc/nginx/sites-enabled/
+   sudo cp deployment/nginx/beta.n3xuscos.online-enhanced.conf /etc/nginx/sites-available/
+   sudo ln -sf /etc/nginx/sites-available/beta.n3xuscos.online-enhanced.conf /etc/nginx/sites-enabled/
    sudo nginx -t && sudo systemctl reload nginx
    ```
 
@@ -65,7 +65,7 @@
    ```
 
 4. **Configure DNS**
-   - Point beta.nexuscos.online to your production server IP
+   - Point beta.n3xuscos.online to your production server IP
    - Ensure CloudFlare is configured for the domain
 
 5. **Test Production Environment**
@@ -76,8 +76,8 @@
 ### Monitoring and Logs:
 
 - Backend logs: `logs/node-backend-enhanced.log`
-- Nginx error logs: `/var/log/nginx/beta.nexuscos.online_error.log`
-- Nginx access logs: `/var/log/nginx/beta.nexuscos.online_access.log`
+- Nginx error logs: `/var/log/nginx/beta.n3xuscos.online_error.log`
+- Nginx access logs: `/var/log/nginx/beta.n3xuscos.online_access.log`
 
 ### Key Improvements Made:
 

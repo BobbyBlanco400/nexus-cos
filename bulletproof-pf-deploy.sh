@@ -7,7 +7,7 @@
 # For: Robert White (PUABO / Nexus COS Founder)
 # Version: 1.0 BULLETPROOF
 # Date: 2025-10-07
-# Target VPS: 74.208.155.161 (nexuscos.online)
+# Target VPS: 74.208.155.161 (n3xuscos.online)
 # ==============================================================================
 # This script provides ZERO room for error. Every step is validated.
 # ==============================================================================
@@ -20,9 +20,9 @@ set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 readonly REPO_ROOT="/opt/nexus-cos"
 readonly VPS_IP="74.208.155.161"
-readonly APEX_DOMAIN="nexuscos.online"
-readonly HOLLYWOOD_DOMAIN="hollywood.nexuscos.online"
-readonly TV_DOMAIN="tv.nexuscos.online"
+readonly APEX_DOMAIN="n3xuscos.online"
+readonly HOLLYWOOD_DOMAIN="hollywood.n3xuscos.online"
+readonly TV_DOMAIN="tv.n3xuscos.online"
 readonly SSL_BASE="/etc/nginx/ssl"
 readonly ENV_FILE="${REPO_ROOT}/.env.pf"
 readonly ENV_EXAMPLE="${REPO_ROOT}/.env.pf.example"
@@ -336,10 +336,10 @@ setup_ssl_certificates() {
     
     print_step "Checking for IONOS SSL certificates..."
     
-    local apex_cert="${SSL_BASE}/apex/nexuscos.online.crt"
-    local apex_key="${SSL_BASE}/apex/nexuscos.online.key"
-    local hollywood_cert="${SSL_BASE}/hollywood/hollywood.nexuscos.online.crt"
-    local hollywood_key="${SSL_BASE}/hollywood/hollywood.nexuscos.online.key"
+    local apex_cert="${SSL_BASE}/apex/n3xuscos.online.crt"
+    local apex_key="${SSL_BASE}/apex/n3xuscos.online.key"
+    local hollywood_cert="${SSL_BASE}/hollywood/hollywood.n3xuscos.online.crt"
+    local hollywood_key="${SSL_BASE}/hollywood/hollywood.n3xuscos.online.key"
     
     local certs_missing=false
     
@@ -672,7 +672,7 @@ EOF
     echo ""
     
     echo -e "${CYAN}${BOLD}📋 Next Steps:${NC}"
-    echo -e "  1. Configure production Nginx for domains (nexuscos.online, hollywood.nexuscos.online)"
+    echo -e "  1. Configure production Nginx for domains (n3xuscos.online, hollywood.n3xuscos.online)"
     echo -e "  2. Place IONOS SSL certificates in ${SSL_BASE}/"
     echo -e "  3. Test production endpoints"
     echo -e "  4. Run: ./bulletproof-pf-validate.sh"

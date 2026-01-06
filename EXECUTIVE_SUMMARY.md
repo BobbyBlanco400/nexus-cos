@@ -64,9 +64,9 @@ All 30 tests passing:
 ## 🌐 Access Points
 
 After deployment:
-- 🎰 **Casino V5**: https://nexuscos.online/casino
-- 📺 **Streaming**: https://nexuscos.online/streaming
-- 🏠 **Main Platform**: https://nexuscos.online/
+- 🎰 **Casino V5**: https://n3xuscos.online/casino
+- 📺 **Streaming**: https://n3xuscos.online/streaming
+- 🏠 **Main Platform**: https://n3xuscos.online/
 
 ## 🎨 Casino V5 Features
 

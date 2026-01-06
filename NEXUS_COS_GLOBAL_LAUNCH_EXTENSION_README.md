@@ -82,12 +82,12 @@ createFeatureFlagRoutes(app, featureFlagService);
 
 ```bash
 # Existing services should still work
-curl https://nexuscos.online/api/health
-curl https://nexuscos.online/casino/health
+curl https://n3xuscos.online/api/health
+curl https://n3xuscos.online/casino/health
 
 # New overlay health checks should return 503 (disabled)
-curl https://nexuscos.online/api/pf/jurisdiction/health
-curl https://nexuscos.online/api/pf/marketplace/health
+curl https://n3xuscos.online/api/pf/jurisdiction/health
+curl https://n3xuscos.online/api/pf/marketplace/health
 ```
 
 ### Step 4: Activate Features (When Ready)
@@ -190,7 +190,7 @@ curl http://localhost:8080/api/pf/[feature]/health
 curl -X POST http://localhost:8080/api/feature-flags/reload
 
 # 3. Verify baseline
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 # All core services should still be operational
 ```
 
