@@ -97,6 +97,170 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 ---
 
+## 🏗️ **N3XUS v-COS Architecture Specifications**
+
+**N3XUS v-COS** (Virtual Creative Operating System) is the foundational architecture that powers the entire ecosystem. The v-COS specifications provide comprehensive documentation of the system's conceptual model, behavioral rules, and operational principles.
+
+### Core v-COS Specifications
+
+**📖 Complete Documentation:** [v-COS Overview](./docs/v-COS/README.md) | [Quick Reference](./N3XUS_V-COS_QUICK_REFERENCE.md)
+
+#### Foundational Specifications
+
+1. **[Ontology](./spec/vcos/ontology.md)** - v-COS entity model and conceptual framework
+   - Core principles and hierarchical composition
+   - Entity definitions (Cosmos, Domains, Modules, Services, Components)
+   - Relationships, interactions, and semantic rules
+   - Extensibility model and ontology governance
+
+2. **[Behavioral Primitives](./spec/vcos/behavioral_primitives.md)** - IMVU/IMCU lifecycle and coordination
+   - Interactive Multi-Verse Unit (IMVU) lifecycle (Genesis → Termination)
+   - Interactive Multi-Component Unit (IMCU) coordination patterns
+   - Handshake protocol and state transition rules
+   - Resource management and error handling
+
+3. **[World State Continuity](./spec/vcos/world_state_continuity.md)** - Persistent state management
+   - Unified world state architecture and consistency model
+   - State layers (Canonical, Operational, Derived)
+   - State synchronization and conflict resolution protocols
+   - Distributed state management patterns (CQRS, Event Sourcing, Saga)
+
+4. **[Canon Memory Layer](./spec/vcos/canon_memory_layer.md)** - Authoritative data storage
+   - Canon as single source of truth
+   - Storage layers (Primary DB, Event Store, Snapshot Store)
+   - Contradiction detection and resolution mechanisms
+   - Canon API for read/write operations
+
+#### Interaction & Evolution Specifications
+
+5. **[Creator Interaction Model](./spec/vcos/creator_interaction_model.md)** - Creator engagement patterns
+   - Creator-first design principles and persistent identity
+   - Interaction patterns (Onboarding, Creative Workflow, Collaboration)
+   - Enhanced integration features (Workspace, Search, Analytics)
+   - Accessibility and inclusivity guidelines
+
+6. **[Genesis Layer](./spec/vcos/genesis_layer.md)** - Origin and design philosophy
+   - Founding vision and the three pillars (Sovereignty, Persistence, Unity)
+   - Origin of the Handshake protocol (55-45-17)
+   - Key design decisions and their rationale
+   - Extended origin narratives and philosophical foundations
+
+7. **[Future Requirements](./spec/vcos/future_requirements.md)** - Roadmap and evolution
+   - Strategic priorities (Scale, Features, Ecosystem, Analytics, Security)
+   - Technical debt and refactoring plans
+   - Research and experimental features
+   - Community governance and success metrics
+
+### Key Concepts
+
+**Handshake Protocol (55-45-17):**
+- **55:** System Integrity (25 checkpoints across 5 layers)
+- **45:** Compliance Validation (20 rules across 4 domains)
+- **17:** Tenant Governance (13 canonical tenants + 4 foundational layers)
+
+**IMVU (Interactive Multi-Verse Unit):**
+> A sovereign runtime container that provides an isolated execution environment with persistent identity, managed lifecycle, and handshake-verified interactions.
+
+**Canon Memory Layer:**
+> The immutable, versioned record of all verified state changes, entity relationships, and system events, serving as the single source of truth.
+
+**Creator Sovereignty:**
+> The principle that creators own their identity, content, and creative destiny, with full control over data, assets, and distribution.
+
+### Architecture Alignment
+
+All v-COS components adhere to **N3XUS Law** and implement the **Handshake Protocol (55-45-17)** for:
+- System integrity verification at every layer
+- Compliance with governance rules
+- Fair 80/20 value distribution to creators
+- Persistent state preservation in Canon Memory Layer
+- Seamless ecosystem integration via n3xus-net
+
+**Note:** The v-COS specifications represent the authoritative architectural model. All implementation work must align with these specifications to maintain system coherence and integrity.
+
+---
+
+## 🏗️ **N3XUS COS – Stack-Wide Multi-Layer Architecture**
+
+N3XUS COS operates on a **stack-wide, behavior-first, canon-first architecture** shared across all 38 modules. Each module follows a canonical flow ensuring consistency, creator fluency, and seamless integration across the entire platform.
+
+### Standard Module Flow
+
+Each of the 38 modules follows this canonical multi-layer structure:
+
+```
+[IMVU Observation] → [IMCU Creation] → [IMCU-L Assembly] → [Distribution & Export]
+         ↘
+         [MetaTwin / HoloCore] → [Overlay Constellation]
+         ↘
+         [Live Event Feedback Loop]
+```
+
+**Layer Descriptions:**
+
+1. **IMVU Observation:** Behavioral atoms, resident interactions, seed library
+2. **IMCU Creation:** Short-form canon units for module-specific content
+3. **IMCU-L Assembly:** Long-form content assembly (films, docu-series, live events)
+4. **MetaTwin / HoloCore:** Predictive scaffolding and narrative suggestions
+5. **Overlay Constellation:** Emotional/behavioral maps and 3D visualization
+6. **Live Event Feedback Loop:** Real-time canon validation and seed generation
+7. **Distribution & Export:** Internal registry, OTT formats, live broadcast, canonical metadata
+
+### Access Modes
+
+Access is available in both **Hybrid** (desktop) and **Immersive** (N3XUSVISION) modes:
+
+- **Hybrid Mode:** Desktop/browser access with full 2D/hybrid functionality
+- **Immersive Mode:** N3XUSVISION headset with full presence, 3D overlays, and spatial interactions
+- **Feature Flags:** Enable gradual rollout of modules without disrupting the core
+
+### Complete Stack-Wide Specifications
+
+**📖 [Architecture Overview](./spec/stack/architecture_overview.md)** - High-level stack-wide blueprint
+
+#### Core Stack Specifications
+
+1. **[Access Layer](./spec/stack/access_layer.md)** - Hybrid/Immersive modes, login, module selection
+2. **[Module Template](./spec/stack/module_template.md)** - Canonical flow applied to all modules
+3. **[Feature Flags & Rollout](./spec/stack/feature_flags_and_rollout.md)** - Gradual integration strategy
+
+#### Layer-Specific Specifications
+
+4. **[IMVU Observation](./spec/stack/imvu_observation.md)** - Behavioral atoms, seeds, capture logic
+5. **[IMCU Creation](./spec/stack/imcu_creation.md)** - Short-form canon unit generation
+6. **[IMCU-L Assembly](./spec/stack/imcu_l_assembly.md)** - Long-form assembly and validation
+7. **[MetaTwin / HoloCore](./spec/stack/metatwin_holocore.md)** - Predictive scaffolding integration
+8. **[Overlay Constellation](./spec/stack/overlay_constellation.md)** - Emotional/behavioral visualization
+9. **[Live Event Feedback Loop](./spec/stack/live_event_feedback_loop.md)** - Canon feedback and seed regeneration
+10. **[Distribution & Export](./spec/stack/distribution_and_export.md)** - Registry, OTT, live broadcast, metadata
+
+### Stack-Wide Benefits
+
+- **Canonical Consistency:** All modules follow identical seed → canon → output flow
+- **Creator Fluency:** Learn one module, understand them all
+- **Hybrid + Immersive Parity:** Full support stack-wide
+- **MetaTwin Leverage:** Predictive scaffolding extends across every module
+- **Distribution Standardization:** Internal registry, OTT, live events, and canonical metadata unified
+- **Feature-Flag Modularity:** Add or update modules without touching core deployments
+
+### The 38 N3XUS COS Modules
+
+All modules implement the standard architecture:
+
+**Creative Production (8):** Creator's Hub, V-Screen Hollywood, V-Caster Pro, V-Stage, V-Prompter Pro, Nexus Studio AI, StreamCore, GameCore
+
+**Content Management (6):** Content Hub, MusicChain, Asset Pipeline, Version Control, Collaboration Center, Distribution Manager
+
+**PUABO Universe (8):** PUABO Nexus, PUABO DSP, PUABO BLAC, PUABO NUKI, PUABO Studio, PUABO OTT TV, PUABOverse, PUABO AI Hybrid
+
+**Casino & Entertainment (6):** Casino-Nexus, NEXCOIN Wallet, NFT Marketplace, Skill Games, VR Casino World, Rewards System
+
+**Platform Core (5):** v-Platform, v-Auth, v-Content, v-Analytics, v-Compute
+
+**Community & Social (5):** Club Saditty, Creator Network, Event Manager, Community Forums, Feedback System
+
+---
+
 ## 🪙 **NexCoin Utility Model (Authoritative)**
 
 **NexCoin is a closed-loop, platform utility credit used exclusively within the Casino Nexus ecosystem.**
