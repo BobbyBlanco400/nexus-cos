@@ -280,8 +280,8 @@ validate_ssl() {
     fi
     
     print_check "IONOS SSL certificates"
-    local apex_cert="${ssl_base}/apex/nexuscos.online.crt"
-    local apex_key="${ssl_base}/apex/nexuscos.online.key"
+    local apex_cert="${ssl_base}/apex/n3xuscos.online.crt"
+    local apex_key="${ssl_base}/apex/n3xuscos.online.key"
     
     if [[ -f "$apex_cert" ]] && [[ -f "$apex_key" ]]; then
         print_pass "Apex certificates present"

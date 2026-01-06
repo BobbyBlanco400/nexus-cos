@@ -20,7 +20,7 @@ NGINX_SITES_AVAILABLE="/etc/nginx/sites-available"
 NGINX_SITES_ENABLED="/etc/nginx/sites-enabled"
 NGINX_CONFIG_NAME="nexuscos"
 NGINX_CONFIG_FILE="$NGINX_SITES_AVAILABLE/$NGINX_CONFIG_NAME.conf"
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 
 # Helper functions
 print_info() {

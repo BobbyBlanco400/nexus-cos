@@ -6,7 +6,7 @@
 cd /var/www/nexus-cos
 ls -l pf-master-deployment.sh
 sudo chmod +x /var/www/nexus-cos/pf-master-deployment.sh
-sudo DOMAIN=nexuscos.online bash /var/www/nexus-cos/pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash /var/www/nexus-cos/pf-master-deployment.sh
 ```
 
 ## ✅ Validation
@@ -22,13 +22,13 @@ sudo bash /var/www/nexus-cos/validate-ip-domain-routing.sh
 curl -I http://74.208.155.161/
 
 # HTTPS domain check
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Admin panel check
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/admin
 
 # API health check
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 ```
 
 ## 🛠️ If Something Goes Wrong
@@ -62,15 +62,15 @@ bash /var/www/nexus-cos/validate-ip-domain-routing.sh
 1. **NO leading hyphens**: Type commands directly, don't copy bullets/hyphens
 2. **Clear browser cache**: Ctrl+Shift+Delete before testing
 3. **Use full paths**: `/var/www/nexus-cos/pf-master-deployment.sh`
-4. **Include DOMAIN**: `DOMAIN=nexuscos.online` in the command
+4. **Include DOMAIN**: `DOMAIN=n3xuscos.online` in the command
 
 ## 📊 Expected Results
 
 After successful deployment:
-- ✅ `http://74.208.155.161/` redirects to `https://nexuscos.online/`
+- ✅ `http://74.208.155.161/` redirects to `https://n3xuscos.online/`
 - ✅ Both IP and domain show identical UI/branding
-- ✅ Admin panel works at `https://nexuscos.online/admin`
-- ✅ API responds at `https://nexuscos.online/api/health`
+- ✅ Admin panel works at `https://n3xuscos.online/admin`
+- ✅ API responds at `https://n3xuscos.online/api/health`
 - ✅ All security headers present
 - ✅ No nginx errors in logs
 

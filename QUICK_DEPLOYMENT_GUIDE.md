@@ -34,8 +34,8 @@ node scripts/nexus-health-checker.js
 ### 3. Verify Restoration
 
 After deployment, these endpoints should be operational:
-- https://nexuscos.online (Main domain)
-- https://beta.nexuscos.online (Beta domain)
+- https://n3xuscos.online (Main domain)
+- https://beta.n3xuscos.online (Beta domain)
 - Backend API: Port 3001
 - AI Service: Port 3010
 - Key Service: Port 3014
@@ -76,8 +76,8 @@ Configure CloudFlare with the settings in:
 
 ### SSL Status
 ```
-✅ nexuscos.online: SSL handshake successful
-✅ beta.nexuscos.online: SSL handshake successful
+✅ n3xuscos.online: SSL handshake successful
+✅ beta.n3xuscos.online: SSL handshake successful
 ✅ HTTPS redirects working
 ✅ Security headers present
 ```
@@ -132,13 +132,13 @@ pm2 restart nexus-backend-api
 ### If SSL Fails
 ```bash
 # Check certificate files
-ls -la /etc/ssl/ionos/nexuscos.online/
+ls -la /etc/ssl/ionos/n3xuscos.online/
 
 # Test Nginx configuration
 nginx -t
 
 # Check SSL handshake
-openssl s_client -connect nexuscos.online:443
+openssl s_client -connect n3xuscos.online:443
 ```
 
 ## 📞 Support

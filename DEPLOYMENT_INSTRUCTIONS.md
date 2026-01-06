@@ -18,7 +18,7 @@ This guide covers the deployment of Nexus COS to a production VPS with full Ngin
 Run the complete VPS deployment script:
 
 ```bash
-# Using default settings (VPS: 74.208.155.161, Domain: nexuscos.online)
+# Using default settings (VPS: 74.208.155.161, Domain: n3xuscos.online)
 bash scripts/vps-deploy.sh
 
 # With custom settings
@@ -46,7 +46,7 @@ Upload and run the hardening script on a remote VPS:
 scp scripts/pf-fix-nginx-headers-redirect.sh root@74.208.155.161:/opt/nexus-cos/scripts/
 
 # Execute remotely
-ssh root@74.208.155.161 "sudo DOMAIN=nexuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh"
+ssh root@74.208.155.161 "sudo DOMAIN=n3xuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh"
 ```
 
 ## What Gets Configured
@@ -60,11 +60,11 @@ The deployment adds the following security headers to `/etc/nginx/conf.d/zz-secu
    
 2. **Content-Security-Policy**: 
    ```
-   default-src 'self' https://nexuscos.online; 
-   img-src 'self' data: blob: https://nexuscos.online; 
-   script-src 'self' 'unsafe-inline' https://nexuscos.online; 
-   style-src 'self' 'unsafe-inline' https://nexuscos.online; 
-   connect-src 'self' https://nexuscos.online https://nexuscos.online/streaming wss://nexuscos.online ws://nexuscos.online;
+   default-src 'self' https://n3xuscos.online; 
+   img-src 'self' data: blob: https://n3xuscos.online; 
+   script-src 'self' 'unsafe-inline' https://n3xuscos.online; 
+   style-src 'self' 'unsafe-inline' https://n3xuscos.online; 
+   connect-src 'self' https://n3xuscos.online https://n3xuscos.online/streaming wss://n3xuscos.online ws://n3xuscos.online;
    ```
    - No backticks or escape codes
    
@@ -102,13 +102,13 @@ The deployment script:
 ### Verify HTTPS Headers
 
 ```bash
-curl -fsSI https://nexuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
+curl -fsSI https://n3xuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
 ```
 
 Expected output:
 ```
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-Content-Security-Policy: default-src 'self' https://nexuscos.online; ...
+Content-Security-Policy: default-src 'self' https://n3xuscos.online; ...
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
 Referrer-Policy: no-referrer-when-downgrade
@@ -117,13 +117,13 @@ Referrer-Policy: no-referrer-when-downgrade
 ### Verify HTTP Redirect
 
 ```bash
-curl -fsSI http://nexuscos.online/ | tr -d '\r' | egrep -i '^(HTTP|Location):'
+curl -fsSI http://n3xuscos.online/ | tr -d '\r' | egrep -i '^(HTTP|Location):'
 ```
 
 Expected output:
 ```
 HTTP/1.1 301 Moved Permanently
-Location: https://nexuscos.online/
+Location: https://n3xuscos.online/
 ```
 
 ### Verify Backend Port Ownership
@@ -153,7 +153,7 @@ If you see "conflicting server name" warnings:
 
 ```bash
 # Remove duplicate/conflicting configurations
-ssh root@74.208.155.161 "sudo rm -f /etc/nginx/conf.d/pf_gateway_nexuscos.online.conf /etc/nginx/conf.d/pf_gateway_www.nexuscos.online.conf"
+ssh root@74.208.155.161 "sudo rm -f /etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf /etc/nginx/conf.d/pf_gateway_www.n3xuscos.online.conf"
 
 # Test and reload
 ssh root@74.208.155.161 "sudo nginx -t && sudo systemctl reload nginx"
@@ -191,7 +191,7 @@ ssh root@74.208.155.161 "sudo nginx -t && sudo systemctl reload nginx"
 This is expected behavior. Nginx will return 404 for non-existent paths, but headers should still be present:
 
 ```bash
-curl -fsSI https://nexuscos.online/health | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):' || true
+curl -fsSI https://n3xuscos.online/health | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):' || true
 ```
 
 ## Environment Variables
@@ -200,11 +200,11 @@ curl -fsSI https://nexuscos.online/health | tr -d '\r' | egrep -i '^(Strict-Tran
 
 - **VPS_HOST**: VPS IP address or hostname (default: `74.208.155.161`)
 - **VPS_USER**: SSH user for VPS access (default: `root`)
-- **DOMAIN**: Target domain name (default: `nexuscos.online`)
+- **DOMAIN**: Target domain name (default: `n3xuscos.online`)
 
 ### Nginx Hardening Script (`scripts/pf-fix-nginx-headers-redirect.sh`)
 
-- **DOMAIN**: Target domain name (default: `nexuscos.online`)
+- **DOMAIN**: Target domain name (default: `n3xuscos.online`)
 
 ## Manual Deployment Steps
 
@@ -229,12 +229,12 @@ If you prefer to deploy manually:
 4. **Run hardening script**:
    ```bash
    # On VPS
-   sudo DOMAIN=nexuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh
+   sudo DOMAIN=n3xuscos.online bash /opt/nexus-cos/scripts/pf-fix-nginx-headers-redirect.sh
    ```
 
 5. **Verify deployment**:
    ```bash
-   curl -fsSI https://nexuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
+   curl -fsSI https://n3xuscos.online/ | tr -d '\r' | egrep -i '^(Strict-Transport-Security|Content-Security-Policy|X-Content-Type-Options|X-Frame-Options|Referrer-Policy):'
    ```
 
 ## Acceptance Criteria
@@ -243,7 +243,7 @@ If you prefer to deploy manually:
 
 1. **Security Headers Present**: Strict-Transport-Security, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and CSP show on HTTPS responses
 2. **No Backticks**: CSP and all headers are free of backticks or escape codes
-3. **HTTP Redirect Works**: HTTP requests return `Location: https://nexuscos.online/...`
+3. **HTTP Redirect Works**: HTTP requests return `Location: https://n3xuscos.online/...`
 4. **No Nginx Warnings**: No conflicting server names or protocol redefinition warnings
 5. **Systemd Owns Port 3001**: Port 3001 owned by systemd-managed python3, not PM2
 6. **Automatic Hardening**: Re-running `scripts/vps-deploy.sh` applies headers and redirect hardening automatically
@@ -258,7 +258,7 @@ If you prefer to deploy manually:
 
 After deployment:
 
-1. Test site access: `https://nexuscos.online/`
+1. Test site access: `https://n3xuscos.online/`
 2. Verify all security headers are present
 3. Confirm HTTP→HTTPS redirect works for apex and www
 4. Check backend service health

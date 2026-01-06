@@ -4,7 +4,7 @@
 # PR#87 Landing Page Validation Script
 # ==============================================================================
 # Purpose: Comprehensive validation of deployed landing pages from PR#87
-# Target VPS: 74.208.155.161 (nexuscos.online)
+# Target VPS: 74.208.155.161 (n3xuscos.online)
 # ==============================================================================
 
 set -euo pipefail
@@ -25,8 +25,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
 
 # Configuration
-readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
-readonly BETA_TARGET="/var/www/beta.nexuscos.online/index.html"
+readonly APEX_TARGET="/var/www/n3xuscos.online/index.html"
+readonly BETA_TARGET="/var/www/beta.n3xuscos.online/index.html"
 
 # Counters
 PASSED=0
@@ -251,8 +251,8 @@ validate_nginx() {
     fi
     
     check "Verifying nginx config files..."
-    if [[ -f /etc/nginx/sites-available/nexuscos.online ]] || \
-       [[ -f /etc/nginx/conf.d/nexuscos.online.conf ]] || \
+    if [[ -f /etc/nginx/sites-available/n3xuscos.online ]] || \
+       [[ -f /etc/nginx/conf.d/n3xuscos.online.conf ]] || \
        [[ -f /etc/nginx/nginx.conf ]]; then
         pass "Nginx configuration files present"
     else
@@ -268,8 +268,8 @@ validate_http() {
     print_section "4. HTTP/HTTPS VALIDATION"
     
     # Test apex domain
-    check "Testing apex domain (https://nexuscos.online)..."
-    APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://nexuscos.online 2>/dev/null || echo "000")
+    check "Testing apex domain (https://n3xuscos.online)..."
+    APEX_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://n3xuscos.online 2>/dev/null || echo "000")
     if [[ "${APEX_STATUS}" == "200" ]]; then
         pass "Apex domain returns 200 OK"
     elif [[ "${APEX_STATUS}" == "000" ]]; then
@@ -281,7 +281,7 @@ validate_http() {
     # Verify apex content
     if [[ "${APEX_STATUS}" == "200" ]]; then
         check "Verifying apex content..."
-        APEX_CONTENT=$(curl -s https://nexuscos.online 2>/dev/null || true)
+        APEX_CONTENT=$(curl -s https://n3xuscos.online 2>/dev/null || true)
         if echo "${APEX_CONTENT}" | grep -q 'Nexus COS — Apex'; then
             pass "Apex page title correct"
         else
@@ -290,8 +290,8 @@ validate_http() {
     fi
     
     # Test beta domain
-    check "Testing beta domain (https://beta.nexuscos.online)..."
-    BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.nexuscos.online 2>/dev/null || echo "000")
+    check "Testing beta domain (https://beta.n3xuscos.online)..."
+    BETA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.n3xuscos.online 2>/dev/null || echo "000")
     if [[ "${BETA_STATUS}" == "200" ]]; then
         pass "Beta domain returns 200 OK"
     elif [[ "${BETA_STATUS}" == "000" ]]; then
@@ -303,7 +303,7 @@ validate_http() {
     # Verify beta content and badge
     if [[ "${BETA_STATUS}" == "200" ]]; then
         check "Verifying beta content..."
-        BETA_CONTENT=$(curl -s https://beta.nexuscos.online 2>/dev/null || true)
+        BETA_CONTENT=$(curl -s https://beta.n3xuscos.online 2>/dev/null || true)
         if echo "${BETA_CONTENT}" | grep -q 'Nexus COS — Beta'; then
             pass "Beta page title correct"
         else
@@ -326,22 +326,22 @@ validate_ssl() {
     print_section "5. SSL VALIDATION"
     
     check "Checking SSL certificates..."
-    if [[ -f /etc/nginx/ssl/apex/nexuscos.online.crt ]]; then
-        pass "SSL certificate found: /etc/nginx/ssl/apex/nexuscos.online.crt"
+    if [[ -f /etc/nginx/ssl/apex/n3xuscos.online.crt ]]; then
+        pass "SSL certificate found: /etc/nginx/ssl/apex/n3xuscos.online.crt"
         
         # Check expiration
-        if openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -checkend 0 &>/dev/null; then
+        if openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -checkend 0 &>/dev/null; then
             pass "SSL certificate is valid (not expired)"
             
             # Get expiration date
-            EXPIRY=$(openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
+            EXPIRY=$(openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -enddate 2>/dev/null | cut -d= -f2)
             info "Certificate expires: ${EXPIRY}"
         else
             fail "SSL certificate is expired or invalid"
         fi
         
         # Check issuer
-        ISSUER=$(openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -issuer 2>/dev/null || echo "Unknown")
+        ISSUER=$(openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -issuer 2>/dev/null || echo "Unknown")
         if echo "${ISSUER}" | grep -qi "IONOS"; then
             pass "SSL certificate issued by IONOS"
         else
@@ -353,14 +353,14 @@ validate_ssl() {
     
     # Test SSL connection
     check "Testing SSL connection to apex..."
-    if timeout 5 openssl s_client -connect nexuscos.online:443 -showcerts </dev/null &>/dev/null; then
+    if timeout 5 openssl s_client -connect n3xuscos.online:443 -showcerts </dev/null &>/dev/null; then
         pass "SSL connection to apex successful"
     else
         warn "Could not establish SSL connection to apex (DNS/firewall may not be configured)"
     fi
     
     check "Testing SSL connection to beta..."
-    if timeout 5 openssl s_client -connect beta.nexuscos.online:443 -showcerts </dev/null &>/dev/null; then
+    if timeout 5 openssl s_client -connect beta.n3xuscos.online:443 -showcerts </dev/null &>/dev/null; then
         pass "SSL connection to beta successful"
     else
         warn "Could not establish SSL connection to beta (DNS/firewall may not be configured)"
@@ -375,7 +375,7 @@ validate_health_checks() {
     print_section "6. HEALTH CHECK ENDPOINTS"
     
     check "Testing gateway health endpoint..."
-    GATEWAY_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://nexuscos.online/health/gateway 2>/dev/null || echo "000")
+    GATEWAY_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://n3xuscos.online/health/gateway 2>/dev/null || echo "000")
     if [[ "${GATEWAY_STATUS}" == "200" ]]; then
         pass "Gateway health endpoint returns 200 OK"
     elif [[ "${GATEWAY_STATUS}" == "502" ]] || [[ "${GATEWAY_STATUS}" == "503" ]]; then
@@ -387,7 +387,7 @@ validate_health_checks() {
     fi
     
     check "Testing prompter health endpoint..."
-    PROMPTER_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.nexuscos.online/v-suite/prompter/health 2>/dev/null || echo "000")
+    PROMPTER_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://beta.n3xuscos.online/v-suite/prompter/health 2>/dev/null || echo "000")
     if [[ "${PROMPTER_STATUS}" == "204" ]] || [[ "${PROMPTER_STATUS}" == "200" ]]; then
         pass "Prompter health endpoint returns ${PROMPTER_STATUS}"
     elif [[ "${PROMPTER_STATUS}" == "502" ]] || [[ "${PROMPTER_STATUS}" == "503" ]]; then

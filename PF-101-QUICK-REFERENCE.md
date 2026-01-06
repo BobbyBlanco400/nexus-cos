@@ -8,7 +8,7 @@
 
 ### 1. Connect
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 ```
 
 ### 2. Navigate
@@ -39,31 +39,31 @@ sudo ./DEPLOY_PHASE_2.5.sh
 
 ### 7. Test Apex
 ```bash
-curl -skI https://nexuscos.online/ | head -n 1
+curl -skI https://n3xuscos.online/ | head -n 1
 ```
 Expected: `HTTP/2 200`
 
 ### 8. Test Beta
 ```bash
-curl -skI https://beta.nexuscos.online/ | head -n 1
+curl -skI https://beta.n3xuscos.online/ | head -n 1
 ```
 Expected: `HTTP/2 200`
 
 ### 9. Test API Root
 ```bash
-curl -skI https://nexuscos.online/api/ | head -n 1
+curl -skI https://n3xuscos.online/api/ | head -n 1
 ```
 Expected: `HTTP/2 200`
 
 ### 10. Test API Health
 ```bash
-curl -skI https://nexuscos.online/api/health | head -n 1
+curl -skI https://n3xuscos.online/api/health | head -n 1
 ```
 Expected: `HTTP/2 200`
 
 ### 11. Test API Status
 ```bash
-curl -skI https://nexuscos.online/api/system/status | head -n 1
+curl -skI https://n3xuscos.online/api/system/status | head -n 1
 ```
 Expected: `HTTP/2 200`
 
@@ -108,11 +108,11 @@ curl http://localhost:3004/api/health
 cd /opt/nexus-cos && \
 git pull origin main && \
 sudo ./DEPLOY_PHASE_2.5.sh && \
-curl -skI https://nexuscos.online/ | head -n 1 && \
-curl -skI https://beta.nexuscos.online/ | head -n 1 && \
-curl -skI https://nexuscos.online/api/ | head -n 1 && \
-curl -skI https://nexuscos.online/api/health | head -n 1 && \
-curl -skI https://nexuscos.online/api/system/status | head -n 1
+curl -skI https://n3xuscos.online/ | head -n 1 && \
+curl -skI https://beta.n3xuscos.online/ | head -n 1 && \
+curl -skI https://n3xuscos.online/api/ | head -n 1 && \
+curl -skI https://n3xuscos.online/api/health | head -n 1 && \
+curl -skI https://n3xuscos.online/api/system/status | head -n 1
 ```
 
 ---
@@ -126,9 +126,9 @@ curl -skI https://nexuscos.online/api/system/status | head -n 1
 
 Your Nexus COS Platform is now live:
 
-  ► Apex Domain:      https://nexuscos.online
-  ► Beta Domain:      https://beta.nexuscos.online
-  ► API Endpoints:    https://nexuscos.online/api/*
+  ► Apex Domain:      https://n3xuscos.online
+  ► Beta Domain:      https://beta.n3xuscos.online
+  ► API Endpoints:    https://n3xuscos.online/api/*
 
 ✓ Platform deployed and ready for production use!
 ```

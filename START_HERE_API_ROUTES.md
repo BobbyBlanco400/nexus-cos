@@ -12,7 +12,7 @@ pm2 restart nexuscos-app
 
 Then verify:
 ```bash
-curl -s https://nexuscos.online/api | jq .
+curl -s https://n3xuscos.online/api | jq .
 ```
 
 **Done!** All `/api/*` routes now work.
@@ -74,14 +74,14 @@ curl -s https://nexuscos.online/api | jq .
 
 ### Option 1: Quick Test
 ```bash
-curl -s https://nexuscos.online/api | jq .
-curl -s https://nexuscos.online/api/auth | jq .
-curl -s https://nexuscos.online/api/system/status | jq .
+curl -s https://n3xuscos.online/api | jq .
+curl -s https://n3xuscos.online/api/auth | jq .
+curl -s https://n3xuscos.online/api/system/status | jq .
 ```
 
 ### Option 2: Full Test Suite
 ```bash
-./test-api-routes.sh https://nexuscos.online
+./test-api-routes.sh https://n3xuscos.online
 ```
 
 ---
@@ -223,9 +223,9 @@ cd /opt/nexus-cos && git pull origin main && pm2 restart nexuscos-app
 
 After deployment, you should see:
 
-✅ `curl https://nexuscos.online/api` returns JSON (not 404)
-✅ `curl https://nexuscos.online/api/auth` returns JSON (not 404)
-✅ `curl https://nexuscos.online/api/system/status` returns service health
+✅ `curl https://n3xuscos.online/api` returns JSON (not 404)
+✅ `curl https://n3xuscos.online/api/auth` returns JSON (not 404)
+✅ `curl https://n3xuscos.online/api/system/status` returns service health
 ✅ PM2 shows app running without errors
 ✅ Nginx shows no errors in logs
 
@@ -239,7 +239,7 @@ All answers are in the documentation files. Use this decision tree:
 - **"What changed?"** → `RESPONSE_TO_TRAE_FEEDBACK.md`
 - **"Why this approach?"** → `API_ROUTES_IMPLEMENTATION.md`
 - **"It's not working"** → `API_ROUTES_DEPLOYMENT_GUIDE.md` (Troubleshooting section)
-- **"How do I test?"** → Run `./test-api-routes.sh https://nexuscos.online`
+- **"How do I test?"** → Run `./test-api-routes.sh https://n3xuscos.online`
 
 ---
 

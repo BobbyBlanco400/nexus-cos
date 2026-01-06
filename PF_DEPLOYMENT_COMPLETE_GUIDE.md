@@ -178,10 +178,10 @@ X-Nexus-Handshake: beta-55-45-17
 ```
 
 **Endpoints:**
-- `https://beta.nexuscos.online/`
-- `https://beta.nexuscos.online/catalog`
-- `https://beta.nexuscos.online/status`
-- `https://beta.nexuscos.online/test`
+- `https://beta.n3xuscos.online/`
+- `https://beta.n3xuscos.online/catalog`
+- `https://beta.n3xuscos.online/status`
+- `https://beta.n3xuscos.online/test`
 
 ### 3. PWA Integration
 
@@ -265,10 +265,10 @@ X-Nexus-Handshake: beta-55-45-17
 
 Test with handshake header:
 ```bash
-curl -I https://beta.nexuscos.online/ | grep -i '^X-Nexus-Handshake'
-curl -I https://beta.nexuscos.online/catalog | grep -i '^X-Nexus-Handshake'
-curl -I https://beta.nexuscos.online/status | grep -i '^X-Nexus-Handshake'
-curl -I https://beta.nexuscos.online/test | grep -i '^X-Nexus-Handshake'
+curl -I https://beta.n3xuscos.online/ | grep -i '^X-Nexus-Handshake'
+curl -I https://beta.n3xuscos.online/catalog | grep -i '^X-Nexus-Handshake'
+curl -I https://beta.n3xuscos.online/status | grep -i '^X-Nexus-Handshake'
+curl -I https://beta.n3xuscos.online/test | grep -i '^X-Nexus-Handshake'
 ```
 
 **Expected:** `X-Nexus-Handshake: beta-55-45-17`
@@ -276,10 +276,10 @@ curl -I https://beta.nexuscos.online/test | grep -i '^X-Nexus-Handshake'
 ### Production Core (Frozen)
 
 ```bash
-curl -I https://nexuscos.online/streaming/ | grep -i '^X-Nexus-Handshake'
-curl -I https://nexuscos.online/streaming/catalog | grep -i '^X-Nexus-Handshake'
-curl -I https://nexuscos.online/streaming/status | grep -i '^X-Nexus-Handshake'
-curl -I https://nexuscos.online/streaming/test | grep -i '^X-Nexus-Handshake'
+curl -I https://n3xuscos.online/streaming/ | grep -i '^X-Nexus-Handshake'
+curl -I https://n3xuscos.online/streaming/catalog | grep -i '^X-Nexus-Handshake'
+curl -I https://n3xuscos.online/streaming/status | grep -i '^X-Nexus-Handshake'
+curl -I https://n3xuscos.online/streaming/test | grep -i '^X-Nexus-Handshake'
 ```
 
 ### Additive Modules
@@ -289,14 +289,14 @@ curl -I https://nexuscos.online/streaming/test | grep -i '^X-Nexus-Handshake'
 node -e "const {cimBModule} = require('./src/Modules/CIM_B'); console.log(cimBModule.getStatistics());"
 
 # PWA service worker
-curl -I https://nexuscos.online/service-worker.js
+curl -I https://n3xuscos.online/service-worker.js
 
 # NexusVision/HoloCore
-curl -I https://nexuscos.online/nexusvision/nexusvision-config.json
-curl -I https://nexuscos.online/holocore/holocore-config.json
+curl -I https://n3xuscos.online/nexusvision/nexusvision-config.json
+curl -I https://n3xuscos.online/holocore/holocore-config.json
 
 # OACP UI
-curl -I https://nexuscos.online/oacp/
+curl -I https://n3xuscos.online/oacp/
 ```
 
 ### Full System Verification
@@ -375,8 +375,8 @@ npm run dev
 chmod +x scripts/*.sh
 
 # Run individual checks
-curl -I https://nexuscos.online/
-curl -I https://beta.nexuscos.online/
+curl -I https://n3xuscos.online/
+curl -I https://beta.n3xuscos.online/
 
 # Check logs
 tail -f /var/log/nginx/error.log

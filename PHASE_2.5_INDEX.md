@@ -150,21 +150,21 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 ### System Layers
 
 #### Layer 1: OTT Frontend
-- **Domain:** `nexuscos.online`
-- **Location:** `/var/www/nexuscos.online/`
+- **Domain:** `n3xuscos.online`
+- **Location:** `/var/www/n3xuscos.online/`
 - **Purpose:** Public-facing streaming interface
 - **Lifecycle:** Permanent production
 
 #### Layer 2: V-Suite Dashboard
-- **Path:** `nexuscos.online/v-suite/`
+- **Path:** `n3xuscos.online/v-suite/`
 - **Backend:** `http://localhost:4000`
 - **Purpose:** Creator control center
 - **Lifecycle:** Permanent production
 - **Authentication:** Nexus ID SSO
 
 #### Layer 3: Beta Portal
-- **Domain:** `beta.nexuscos.online`
-- **Location:** `/var/www/beta.nexuscos.online/`
+- **Domain:** `beta.n3xuscos.online`
+- **Location:** `/var/www/beta.n3xuscos.online/`
 - **Purpose:** Pre-launch showcase + countdown
 - **Lifecycle:** Until November 17, 2025
 
@@ -195,9 +195,9 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
     └── phase2.5/                            # Config backups
 
 /var/www/
-├── nexuscos.online/                         # OTT frontend
+├── n3xuscos.online/                         # OTT frontend
 │   └── index.html                           # Apex landing
-└── beta.nexuscos.online/                    # Beta portal
+└── beta.n3xuscos.online/                    # Beta portal
     └── index.html                           # Beta landing
 
 /etc/nginx/
@@ -311,8 +311,8 @@ Beta → Production redirect active ✓
 
 2. **Check Status**
    ```bash
-   curl -I https://nexuscos.online/
-   curl -I https://beta.nexuscos.online/
+   curl -I https://n3xuscos.online/
+   curl -I https://beta.n3xuscos.online/
    curl http://localhost:4000/health
    ```
 

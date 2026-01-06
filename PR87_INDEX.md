@@ -144,8 +144,8 @@ Learn how this fits into the PF framework.
 
 4. **Verify files:**
    ```bash
-   ls -lh /var/www/nexuscos.online/index.html
-   ls -lh /var/www/beta.nexuscos.online/index.html
+   ls -lh /var/www/n3xuscos.online/index.html
+   ls -lh /var/www/beta.n3xuscos.online/index.html
    ```
 
 5. **Consult troubleshooting:**
@@ -177,14 +177,14 @@ Learn how this fits into the PF framework.
 
 ### Files
 - **Source:** `apex/index.html` (815 lines)
-- **Target:** `/var/www/nexuscos.online/index.html`
+- **Target:** `/var/www/n3xuscos.online/index.html`
 
 - **Source:** `web/beta/index.html` (826 lines)
-- **Target:** `/var/www/beta.nexuscos.online/index.html`
+- **Target:** `/var/www/beta.n3xuscos.online/index.html`
 
 ### Endpoints
-- **Apex:** https://nexuscos.online
-- **Beta:** https://beta.nexuscos.online
+- **Apex:** https://n3xuscos.online
+- **Beta:** https://beta.n3xuscos.online
 
 ### Features
 ✅ Navigation with brand logo  
@@ -292,8 +292,8 @@ Learn how this fits into the PF framework.
 
 ### Quick Test
 ```bash
-curl -I https://nexuscos.online
-curl -I https://beta.nexuscos.online
+curl -I https://n3xuscos.online
+curl -I https://beta.n3xuscos.online
 ```
 
 ### Check Nginx
@@ -310,8 +310,8 @@ cat PR87_DEPLOYMENT_REPORT_*.txt | tail -50
 
 ### Verify Files
 ```bash
-ls -lh /var/www/nexuscos.online/index.html
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 wc -l /var/www/*/index.html
 ```
 
@@ -387,8 +387,8 @@ You know deployment is successful when:
 
 ✅ Deploy script shows: "✅ DEPLOYMENT COMPLETED SUCCESSFULLY"  
 ✅ Validation script shows: "✅ ALL VALIDATIONS PASSED"  
-✅ `curl -I https://nexuscos.online` returns "HTTP/2 200"  
-✅ `curl -I https://beta.nexuscos.online` returns "HTTP/2 200"  
+✅ `curl -I https://n3xuscos.online` returns "HTTP/2 200"  
+✅ `curl -I https://beta.n3xuscos.online` returns "HTTP/2 200"  
 ✅ Beta page shows green "BETA" badge  
 ✅ Theme toggle switches dark/light modes  
 ✅ All 6 module tabs work  
@@ -434,8 +434,8 @@ When everything is green:
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 Access your landing pages:
-  🔗 Apex:  https://nexuscos.online
-  🔗 Beta:  https://beta.nexuscos.online
+  🔗 Apex:  https://n3xuscos.online
+  🔗 Beta:  https://beta.n3xuscos.online
 
 Deployment executed with IRON FIST enforcement ✊
 Zero tolerance policy: ENFORCED ✓

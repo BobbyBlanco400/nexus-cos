@@ -46,7 +46,7 @@ The `nexus-cos-final-system-check.sh` script performs **comprehensive validation
 - Reports any configuration errors
 
 ### 5. SSL Certificate Validation ✅
-- Retrieves SSL certificate for nexuscos.online
+- Retrieves SSL certificate for n3xuscos.online
 - Displays issuer, subject, and validity dates
 - Checks certificate expiration and warns if renewal needed
 - Reports days until expiry
@@ -61,36 +61,36 @@ The `nexus-cos-final-system-check.sh` script performs **comprehensive validation
 
 ### 7. Preview URLs ✅
 - Tests main portal pages:
-  - `https://nexuscos.online/` - Home Page
-  - `https://nexuscos.online/admin` - Admin Portal
-  - `https://nexuscos.online/hub` - Creator Hub
-  - `https://nexuscos.online/studio` - Studio
-  - `https://nexuscos.online/v-suite/prompter/health` - V-Suite Prompter
+  - `https://n3xuscos.online/` - Home Page
+  - `https://n3xuscos.online/admin` - Admin Portal
+  - `https://n3xuscos.online/hub` - Creator Hub
+  - `https://n3xuscos.online/studio` - Studio
+  - `https://n3xuscos.online/v-suite/prompter/health` - V-Suite Prompter
 
 ### 8. Service Health Endpoints ✅
 - **Core Platform Services:**
-  - Core API Gateway: `https://nexuscos.online/api/health`
-  - Gateway Health: `https://nexuscos.online/health/gateway`
+  - Core API Gateway: `https://n3xuscos.online/api/health`
+  - Gateway Health: `https://n3xuscos.online/health/gateway`
 
 - **PUABO NEXUS Services:**
-  - AI Dispatch: `https://nexuscos.online/puabo-nexus/dispatch/health`
-  - Driver Backend: `https://nexuscos.online/puabo-nexus/driver/health`
-  - Fleet Manager: `https://nexuscos.online/puabo-nexus/fleet/health`
-  - Route Optimizer: `https://nexuscos.online/puabo-nexus/routes/health`
+  - AI Dispatch: `https://n3xuscos.online/puabo-nexus/dispatch/health`
+  - Driver Backend: `https://n3xuscos.online/puabo-nexus/driver/health`
+  - Fleet Manager: `https://n3xuscos.online/puabo-nexus/fleet/health`
+  - Route Optimizer: `https://n3xuscos.online/puabo-nexus/routes/health`
 
 - **V-Suite Services:**
-  - V-Prompter Pro: `https://nexuscos.online/v-suite/prompter/health`
-  - VScreen Hollywood: `https://nexuscos.online/v-suite/screen/health`
+  - V-Prompter Pro: `https://n3xuscos.online/v-suite/prompter/health`
+  - VScreen Hollywood: `https://n3xuscos.online/v-suite/screen/health`
 
 - **Media & Entertainment:**
-  - Nexus Studio AI: `https://nexuscos.online/nexus-studio/health`
-  - Club Saditty: `https://nexuscos.online/club-saditty/health`
-  - PUABO DSP: `https://nexuscos.online/puabo-dsp/health`
-  - PUABO BLAC: `https://nexuscos.online/puabo-blac/health`
+  - Nexus Studio AI: `https://n3xuscos.online/nexus-studio/health`
+  - Club Saditty: `https://n3xuscos.online/club-saditty/health`
+  - PUABO DSP: `https://n3xuscos.online/puabo-dsp/health`
+  - PUABO BLAC: `https://n3xuscos.online/puabo-blac/health`
 
 - **Authentication & Payment:**
-  - Nexus ID OAuth: `https://nexuscos.online/auth/health`
-  - Nexus Pay Gateway: `https://nexuscos.online/payment/health`
+  - Nexus ID OAuth: `https://n3xuscos.online/auth/health`
+  - Nexus Pay Gateway: `https://n3xuscos.online/payment/health`
 
 ---
 
@@ -109,7 +109,7 @@ bash scripts/nexus-cos-final-system-check.sh
 ```bash
 # Set custom repo root if needed
 export REPO_ROOT=/path/to/nexus-cos
-export DOMAIN=nexuscos.online
+export DOMAIN=n3xuscos.online
 
 # Run the check
 bash scripts/nexus-cos-final-system-check.sh
@@ -119,7 +119,7 @@ bash scripts/nexus-cos-final-system-check.sh
 
 ```bash
 # Check with different domain
-DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
+DOMAIN=beta.n3xuscos.online bash scripts/nexus-cos-final-system-check.sh
 ```
 
 ---
@@ -169,7 +169,7 @@ The script provides:
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
 
-Domain: nexuscos.online
+Domain: n3xuscos.online
 VPS IP: 74.208.155.161
 Date: 2025-01-08 12:00:00 UTC
 
@@ -239,8 +239,8 @@ As displayed by the script:
 nginx -t
 docker compose -f docker-compose.pf.yml ps
 docker compose -f docker-compose.pf.nexus.yml ps
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/puabo-nexus/fleet/health
 ```
 
 ### View Service Logs
@@ -264,9 +264,9 @@ bash /opt/nexus-cos/scripts/deploy_hybrid_fullstack_pf.sh
 
 ### Check Specific Service Health
 ```bash
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
-curl -I https://nexuscos.online/v-suite/prompter/health
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/puabo-nexus/dispatch/health
+curl -I https://n3xuscos.online/v-suite/prompter/health
 ```
 
 ---
@@ -332,10 +332,10 @@ This script ensures PUABO NEXUS Nginx locations are inserted and verified automa
    - Note the success rate percentage
 
 3. **Open preview URLs manually:**
-   - https://nexuscos.online/ (Home)
-   - https://nexuscos.online/admin (Admin Portal)
-   - https://nexuscos.online/hub (Creator Hub)
-   - https://nexuscos.online/studio (Studio)
+   - https://n3xuscos.online/ (Home)
+   - https://n3xuscos.online/admin (Admin Portal)
+   - https://n3xuscos.online/hub (Creator Hub)
+   - https://n3xuscos.online/studio (Studio)
 
 4. **Verify all service health endpoints:**
    - Use browser or curl to spot-check critical endpoints

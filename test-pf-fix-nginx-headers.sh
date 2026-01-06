@@ -123,7 +123,7 @@ fi
 
 # Test 10: Script supports DOMAIN environment variable
 echo -n "Test 10: Supports DOMAIN environment variable... "
-if grep -q 'DOMAIN="${DOMAIN:-nexuscos.online}"' "$SCRIPT_PATH"; then
+if grep -q 'DOMAIN="${DOMAIN:-n3xuscos.online}"' "$SCRIPT_PATH"; then
     echo -e "${GREEN}PASS${NC}"
     ((PASSED++))
 else

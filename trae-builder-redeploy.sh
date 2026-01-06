@@ -13,8 +13,8 @@ set -euo pipefail
 # ==============================================================================
 
 # Set environment variables - UPDATE EMAIL BEFORE RUNNING
-export VPS_HOST="${VPS_HOST:-nexuscos.online}"
-export DOMAIN="${DOMAIN:-nexuscos.online}"
+export VPS_HOST="${VPS_HOST:-n3xuscos.online}"
+export DOMAIN="${DOMAIN:-n3xuscos.online}"
 export EMAIL="${EMAIL:-your@email.com}"
 
 # Derived configuration
@@ -43,7 +43,7 @@ print_header() {
     echo -e "${CYAN}║                                                                ║${NC}"
     echo -e "${CYAN}║          TRAE BUILDER - ONE-SHOT NEXUS COS REDEPLOY           ║${NC}"
     echo -e "${CYAN}║                                                                ║${NC}"
-    echo -e "${CYAN}║  Automated Full Redeploy for nexuscos.online                  ║${NC}"
+    echo -e "${CYAN}║  Automated Full Redeploy for n3xuscos.online                  ║${NC}"
     echo -e "${CYAN}║                                                                ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
     echo ""

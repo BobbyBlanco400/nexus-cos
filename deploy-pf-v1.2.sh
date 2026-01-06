@@ -312,7 +312,7 @@ configure_nginx() {
     cat > "$nginx_config" << 'EOF'
 server {
     listen 80;
-    server_name nexuscos.online;
+    server_name n3xuscos.online;
     
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;

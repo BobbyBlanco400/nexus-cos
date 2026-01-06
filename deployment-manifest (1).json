@@ -1,7 +1,7 @@
 {
   "deployment_id": "nexus-cos-production-v1.0.0",
   "timestamp": "2025-12-08T02:21:53.356Z",
-  "domain": "nexuscos.online",
+  "domain": "n3xuscos.online",
   "vps_ip": "74.208.155.161",
   "legal_status": "CERTIFIED_PRODUCTION_DEPLOYMENT",
   "certification": {
@@ -12,28 +12,28 @@
   },
   "endpoints": {
     "root": {
-      "url": "https://nexuscos.online/",
+      "url": "https://n3xuscos.online/",
       "expected_status": 301,
       "redirect_to": "/streaming/",
       "description": "Root endpoint redirects to streaming"
     },
     "api_base": {
-      "url": "https://nexuscos.online/api/",
+      "url": "https://n3xuscos.online/api/",
       "expected_status": 200,
       "description": "API base endpoint health check"
     },
     "streaming_base": {
-      "url": "https://nexuscos.online/streaming/",
+      "url": "https://n3xuscos.online/streaming/",
       "expected_status": 200,
       "description": "Streaming base endpoint health check"
     },
     "socket_io_main": {
-      "url": "https://nexuscos.online/socket.io/?EIO=4&transport=polling",
+      "url": "https://n3xuscos.online/socket.io/?EIO=4&transport=polling",
       "expected_status": 200,
       "description": "Main Socket.IO endpoint for real-time communication"
     },
     "socket_io_streaming": {
-      "url": "https://nexuscos.online/streaming/socket.io/?EIO=4&transport=polling",
+      "url": "https://n3xuscos.online/streaming/socket.io/?EIO=4&transport=polling",
       "expected_status": 200,
       "description": "Streaming Socket.IO endpoint for real-time streaming"
     }
@@ -42,7 +42,7 @@
     "nginx": {
       "enabled": true,
       "config_path": "/etc/nginx/conf.d/",
-      "vhost_path": "/var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf"
+      "vhost_path": "/var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf"
     },
     "plesk": {
       "enabled": true,
@@ -74,9 +74,9 @@
     "health_check_interval": 300,
     "alert_on_failure": true,
     "endpoints_to_monitor": [
-      "https://nexuscos.online/api/",
-      "https://nexuscos.online/streaming/",
-      "https://nexuscos.online/socket.io/?EIO=4&transport=polling"
+      "https://n3xuscos.online/api/",
+      "https://n3xuscos.online/streaming/",
+      "https://n3xuscos.online/socket.io/?EIO=4&transport=polling"
     ]
   },
   "metadata": {

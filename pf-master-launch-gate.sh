@@ -5,7 +5,7 @@ echo "=============================================="
 echo "🚀 NEXUS COS — PRODUCTION LAUNCH GATE"
 echo "=============================================="
 
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 API_LOCAL="http://127.0.0.1:3000/status"
 API_PUBLIC="https://${DOMAIN}/api/status"
 LOG_BACKEND="/var/log/nexus-cos.log"

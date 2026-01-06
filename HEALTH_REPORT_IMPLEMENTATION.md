@@ -12,8 +12,8 @@ A comprehensive health monitoring script with the following features:
 
 #### ✅ URL Quoting and Spacing (Fixed)
 ```bash
-MAIN_URL="https://nexuscos.online/health"
-BETA_URL="https://beta.nexuscos.online/health"
+MAIN_URL="https://n3xuscos.online/health"
+BETA_URL="https://beta.n3xuscos.online/health"
 ```
 - Proper double-quoting prevents shell parsing issues
 - Clean spacing for readability
@@ -144,7 +144,7 @@ Complete documentation including:
  Main Site Health Check
 ========================================
 
-[INFO] Checking Main Site: https://nexuscos.online/health
+[INFO] Checking Main Site: https://n3xuscos.online/health
 [SUCCESS]   ✓ HTTP 200 - Main site is healthy
 [WARNING]   ⚠ Database status: down
 [ERROR]   ✗ DB Error: getaddrinfo EAI_AGAIN admin
@@ -154,7 +154,7 @@ Complete documentation including:
  Beta Site Health Check
 ========================================
 
-[INFO] Checking Beta Site: https://beta.nexuscos.online/health
+[INFO] Checking Beta Site: https://beta.n3xuscos.online/health
 [ERROR]   ✗ Connection failed - Beta site is unreachable
 
 
@@ -198,7 +198,7 @@ Recommended Actions:
 All requirements from the problem statement have been met:
 
 ### ✅ Script Fixes
-- [x] Corrects URL quoting and spacing: `MAIN_URL="https://nexuscos.online/health"`, `BETA_URL="https://beta.nexuscos.online/health"`
+- [x] Corrects URL quoting and spacing: `MAIN_URL="https://n3xuscos.online/health"`, `BETA_URL="https://beta.n3xuscos.online/health"`
 - [x] Resolves .env path robustly, preferring `ENV_PATH=/opt/nexus-cos/.env` on server with fallback to local `.env`
 - [x] Adds curl timeouts and safe defaults
 - [x] Returns clear exit codes based on health and DB readiness
@@ -247,7 +247,7 @@ systemctl restart nexuscos-app
    # Edit /opt/nexus-cos/.env
    DB_HOST=localhost  # For local DB
    # OR
-   DB_HOST=db.nexuscos.online  # For remote DB
+   DB_HOST=db.n3xuscos.online  # For remote DB
    DB_PORT=5432
    ```
 

@@ -141,11 +141,11 @@ tcp   0.0.0.0:6379   LISTEN  # redis
 **Production VPS Requirements:**
 - System Nginx configured with pf_gateway upstream ✅ (per PR 166)
 - SSL certificates in place ✅ (platform stack handles this)
-- Domain routing configured ✅ (nexuscos.online)
+- Domain routing configured ✅ (n3xuscos.online)
 
 **Expected Production Routes:**
-- `https://nexuscos.online/casino` → routed through pf_gateway
-- `https://nexuscos.online/streaming` → routed through pf_gateway
+- `https://n3xuscos.online/casino` → routed through pf_gateway
+- `https://n3xuscos.online/streaming` → routed through pf_gateway
 
 **Platform Stack Status:**
 Per product owner confirmation:

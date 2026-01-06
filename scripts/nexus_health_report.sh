@@ -48,8 +48,8 @@ EXIT_DB_FAILED=2
 EXIT_BOTH_FAILED=3
 
 # Configuration - URLs with proper quoting and spacing
-MAIN_URL="https://nexuscos.online/health"
-BETA_URL="https://beta.nexuscos.online/health"
+MAIN_URL="https://n3xuscos.online/health"
+BETA_URL="https://beta.n3xuscos.online/health"
 
 # Curl timeout settings (in seconds)
 CURL_TIMEOUT=10

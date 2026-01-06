@@ -356,10 +356,10 @@ nexus-cos/
 ### System Access
 
 After deployment:
-- **Main Dashboard:** https://nexuscos.online
-- **Admin Console:** https://nexuscos.online/admin
-- **Stream Platform:** https://stream.nexuscos.online
-- **OTT Platform:** https://ott.nexuscos.online
+- **Main Dashboard:** https://n3xuscos.online
+- **Admin Console:** https://n3xuscos.online/admin
+- **Stream Platform:** https://stream.n3xuscos.online
+- **OTT Platform:** https://ott.n3xuscos.online
 
 ---
 

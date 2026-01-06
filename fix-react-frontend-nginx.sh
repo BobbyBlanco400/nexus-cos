@@ -7,7 +7,7 @@ set -e
 # Configuration
 NGINX_CONFIG_FILE="/etc/nginx/sites-available/nexuscos"
 WEBROOT="/var/www/nexus-cos"
-DOMAIN="${1:-nexuscos.online}"
+DOMAIN="${1:-n3xuscos.online}"
 
 echo "🚀 Generating Nexus COS React Frontend Nginx Configuration..."
 
@@ -18,7 +18,7 @@ cat > "$NGINX_CONFIG_FILE" << 'EOF'
 
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # HTTP to HTTPS redirect (only if SSL is enabled)
     # return 301 https://$host$request_uri;
@@ -123,10 +123,10 @@ server {
 # HTTPS configuration (uncomment when SSL is ready)
 # server {
 #     listen 443 ssl http2;
-#     server_name nexuscos.online www.nexuscos.online;
+#     server_name n3xuscos.online www.n3xuscos.online;
 #     
-#     ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+#     ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
 #     ssl_protocols TLSv1.2 TLSv1.3;
 #     ssl_prefer_server_ciphers on;
 #     

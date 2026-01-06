@@ -55,8 +55,8 @@ readonly BETA_SOURCE="${REPO_ROOT}/web/beta/index.html"
 **Before:**
 ```bash
 # Configuration
-readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
-readonly BETA_TARGET="/var/www/beta.nexuscos.online/index.html"
+readonly APEX_TARGET="/var/www/n3xuscos.online/index.html"
+readonly BETA_TARGET="/var/www/beta.n3xuscos.online/index.html"
 ```
 
 **After:**
@@ -68,8 +68,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="${REPO_ROOT:-$(dirname "$SCRIPT_DIR")}"
 
 # Configuration
-readonly APEX_TARGET="/var/www/nexuscos.online/index.html"
-readonly BETA_TARGET="/var/www/beta.nexuscos.online/index.html"
+readonly APEX_TARGET="/var/www/n3xuscos.online/index.html"
+readonly BETA_TARGET="/var/www/beta.n3xuscos.online/index.html"
 ```
 
 **Lines Changed:** 5 lines added (after line 19)

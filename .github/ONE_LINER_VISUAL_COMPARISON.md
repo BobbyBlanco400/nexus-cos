@@ -127,7 +127,7 @@ docker logs --tail 200 puabo-api               # ✅ Correct
 6. docker compose up -d --build --remove-orphans
 7. ❌ [MISSING] Wait for services
 8. Health check: 4000, 3002, 3041
-9. Production check: nexuscos.online
+9. Production check: n3xuscos.online
 10. ❌ [WRONG NAMES] Collect logs on failure
 ```
 
@@ -142,7 +142,7 @@ docker logs --tail 200 puabo-api               # ✅ Correct
 6. ✅ docker compose up -d --build --remove-orphans
 7. ✅ sleep 15 (wait for services)
 8. ✅ Health check: 4000, 3002, 3041 (with messages)
-9. ✅ Production check: nexuscos.online
+9. ✅ Production check: n3xuscos.online
 10. ✅ Collect logs with correct names on failure
 ```
 

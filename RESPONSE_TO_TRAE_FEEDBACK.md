@@ -50,9 +50,9 @@ git pull origin main
 pm2 restart nexuscos-app
 
 # Verify it works
-curl -s https://nexuscos.online/api | jq .
-curl -s https://nexuscos.online/api/auth | jq .
-curl -s https://nexuscos.online/api/system/status | jq .
+curl -s https://n3xuscos.online/api | jq .
+curl -s https://n3xuscos.online/api/auth | jq .
+curl -s https://n3xuscos.online/api/system/status | jq .
 ```
 
 That's it! No Nginx changes needed.
@@ -83,7 +83,7 @@ After deployment, run these commands to verify everything works:
 #!/bin/bash
 # Quick validation script
 
-BASE="https://nexuscos.online"
+BASE="https://n3xuscos.online"
 
 echo "Testing /health..."
 curl -sSI $BASE/health | head -1
@@ -183,8 +183,8 @@ cd /opt/nexus-cos && git pull origin main && pm2 restart nexuscos-app
 
 Then verify with:
 ```bash
-curl -s https://nexuscos.online/api | jq .
-curl -s https://nexuscos.online/api/auth | jq .
+curl -s https://n3xuscos.online/api | jq .
+curl -s https://n3xuscos.online/api/auth | jq .
 ```
 
 All `/api/*` routes will now return proper JSON responses instead of 404.
@@ -195,6 +195,6 @@ If you encounter any issues:
 1. Check PM2 logs: `pm2 logs nexuscos-app --lines 50`
 2. Verify server is running: `pm2 list`
 3. Check Nginx logs: `tail -f /var/log/nginx/error.log`
-4. Run the test script: `./test-api-routes.sh https://nexuscos.online`
+4. Run the test script: `./test-api-routes.sh https://n3xuscos.online`
 
 The deployment guide has detailed troubleshooting steps in `API_ROUTES_DEPLOYMENT_GUIDE.md`.

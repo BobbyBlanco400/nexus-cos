@@ -221,7 +221,7 @@ Run the single deployment command on your production server.
 If you want to serve the React frontend via NGINX:
 
 ```nginx
-# Add to your nexuscos.online vhost config
+# Add to your n3xuscos.online vhost config
 location /nexus-stream/ {
     alias /opt/PixelStreamingInfrastructure/Frontend/implementations/react/dist/;
     try_files $uri $uri/ /nexus-stream/index.html;
@@ -245,7 +245,7 @@ nginx -t && systemctl reload nginx
 curl -I http://localhost/nexus-stream/
 
 # Test publicly
-curl -I https://nexuscos.online/nexus-stream/
+curl -I https://n3xuscos.online/nexus-stream/
 ```
 
 ### 4. Monitor Logs

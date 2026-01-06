@@ -31,8 +31,8 @@ To ensure TRAE (or any deployment agent) can deploy the PR#87 landing pages with
 ### Phase 2.5 Integration
 
 PR#87 landing pages are now **fully integrated** with Phase 2.5:
-- **Apex landing** deployed to `/var/www/nexuscos.online/` (OTT layer)
-- **Beta landing** deployed to `/var/www/beta.nexuscos.online/` (Beta layer)
+- **Apex landing** deployed to `/var/www/n3xuscos.online/` (OTT layer)
+- **Beta landing** deployed to `/var/www/beta.n3xuscos.online/` (Beta layer)
 - **Validation** included in Phase 2.5 validation suite
 - **Transition** automated for November 17, 2025
 
@@ -214,8 +214,8 @@ chmod +x scripts/deploy-pr87-landing-pages.sh
 ╚════════════════════════════════════════════════════════════════╝
 
 Access your landing pages:
-  🔗 Apex:  https://nexuscos.online
-  🔗 Beta:  https://beta.nexuscos.online
+  🔗 Apex:  https://n3xuscos.online
+  🔗 Beta:  https://beta.n3xuscos.online
 ```
 
 **Verify:**
@@ -247,9 +247,9 @@ Access your landing pages:
 ### Deployed Files
 ```
 /var/www/
-├── nexuscos.online/
+├── n3xuscos.online/
 │   └── index.html                              # Deployed apex (815 lines)
-└── beta.nexuscos.online/
+└── beta.n3xuscos.online/
     └── index.html                              # Deployed beta (826 lines)
 ```
 
@@ -281,9 +281,9 @@ Access your landing pages:
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
-    root /var/www/nexuscos.online;
+    root /var/www/n3xuscos.online;
     index index.html;
     
     location / {
@@ -300,9 +300,9 @@ server {
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
-    root /var/www/beta.nexuscos.online;
+    root /var/www/beta.n3xuscos.online;
     index index.html;
     
     location / {
@@ -318,8 +318,8 @@ server {
 ### SSL Certificates
 
 **Required:**
-- `/etc/nginx/ssl/apex/nexuscos.online.crt`
-- `/etc/nginx/ssl/apex/nexuscos.online.key`
+- `/etc/nginx/ssl/apex/n3xuscos.online.crt`
+- `/etc/nginx/ssl/apex/n3xuscos.online.key`
 
 **Issuer:** IONOS (no Let's Encrypt)
 
@@ -370,7 +370,7 @@ ls -lh /opt/nexus-cos/backups/pr87/
 **Fix:** Review nginx config, ensure `root` directive points to correct location
 ```bash
 nginx -t
-cat /etc/nginx/sites-available/nexuscos.online
+cat /etc/nginx/sites-available/n3xuscos.online
 ```
 
 ### Issue: Health checks not working
@@ -441,8 +441,8 @@ Before considering PR#87 deployment complete:
 - [ ] Scripts are executable (`chmod +x scripts/*pr87*`)
 - [ ] Deployment script executed successfully
 - [ ] Validation script passed (zero failures)
-- [ ] Apex landing page accessible at https://nexuscos.online
-- [ ] Beta landing page accessible at https://beta.nexuscos.online
+- [ ] Apex landing page accessible at https://n3xuscos.online
+- [ ] Beta landing page accessible at https://beta.n3xuscos.online
 - [ ] Beta badge visible on beta page
 - [ ] Theme toggle works (dark/light)
 - [ ] All 6 module tabs functional
@@ -471,8 +471,8 @@ When all checkpoints pass, you should see:
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 Access your landing pages:
-  🔗 Apex:  https://nexuscos.online
-  🔗 Beta:  https://beta.nexuscos.online
+  🔗 Apex:  https://n3xuscos.online
+  🔗 Beta:  https://beta.n3xuscos.online
 
 Deployment executed with IRON FIST enforcement ✊
 Zero tolerance policy: ENFORCED ✓

@@ -115,11 +115,11 @@ Before deploying the 7-Day Founder Beta:
 1. **System Validation**
    ```bash
    # Run system-wide health check
-   curl -X GET https://nexuscos.online/api/system/health
+   curl -X GET https://n3xuscos.online/api/system/health
    
    # Verify PUABO AI-HF (NOT kei-ai)
-   curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
-   curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+   curl -X GET https://n3xuscos.online/api/puabo-ai-hf/health
+   curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
    ```
 
 2. **Founder Account Provisioning**
@@ -215,24 +215,24 @@ Before deploying the 7-Day Founder Beta:
 
 ```bash
 # Full system health
-curl -X GET https://nexuscos.online/api/system/health
+curl -X GET https://n3xuscos.online/api/system/health
 
 # Service-specific checks
-curl -X GET https://nexuscos.online/api/casino/health
-curl -X GET https://nexuscos.online/api/puaboverse/health
-curl -X GET https://nexuscos.online/api/creator-hub/health
-curl -X GET https://nexuscos.online/api/nft/health
+curl -X GET https://n3xuscos.online/api/casino/health
+curl -X GET https://n3xuscos.online/api/puaboverse/health
+curl -X GET https://n3xuscos.online/api/creator-hub/health
+curl -X GET https://n3xuscos.online/api/nft/health
 
 # CRITICAL: AI service verification (PUABO AI-HF, NOT kei-ai)
-curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
-curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+curl -X GET https://n3xuscos.online/api/puabo-ai-hf/health
+curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
 
 # Identity and session checks
-curl -X GET https://nexuscos.online/api/identity/{uuid}/session-persistence
-curl -X GET https://nexuscos.online/api/wallet/{uuid}/balance
+curl -X GET https://n3xuscos.online/api/identity/{uuid}/session-persistence
+curl -X GET https://n3xuscos.online/api/wallet/{uuid}/balance
 
 # Tenant isolation check (Club Saditty)
-curl -X GET https://nexuscos.online/api/tenants/club-saditty/status
+curl -X GET https://n3xuscos.online/api/tenants/club-saditty/status
 ```
 
 ### Docker Health (if applicable)
@@ -252,16 +252,16 @@ docker logs <container-name> --tail 100
 
 ```bash
 # System uptime
-curl -X GET https://nexuscos.online/api/system/uptime
+curl -X GET https://n3xuscos.online/api/system/uptime
 
 # Resource utilization
-curl -X GET https://nexuscos.online/api/system/resource-utilization
+curl -X GET https://n3xuscos.online/api/system/resource-utilization
 
 # Active sessions
-curl -X GET https://nexuscos.online/api/sessions/active
+curl -X GET https://n3xuscos.online/api/sessions/active
 
 # Transaction throughput
-curl -X GET https://nexuscos.online/api/economy/transaction-metrics
+curl -X GET https://n3xuscos.online/api/economy/transaction-metrics
 ```
 
 ---

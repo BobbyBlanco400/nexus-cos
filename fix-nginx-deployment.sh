@@ -104,21 +104,21 @@ print_success "SSL certificates generated"
 print_status "Configuring nginx..."
 
 # Remove existing site configuration
-sudo rm -f /etc/nginx/sites-enabled/nexuscos.online.conf
-sudo rm -f /etc/nginx/sites-available/nexuscos.online.conf
+sudo rm -f /etc/nginx/sites-enabled/n3xuscos.online.conf
+sudo rm -f /etc/nginx/sites-available/n3xuscos.online.conf
 
 # Install new SSL-enabled configuration
-sudo cp deployment/nginx/nexuscos.online-ssl.conf /etc/nginx/sites-available/nexuscos.online.conf
-sudo ln -sf /etc/nginx/sites-available/nexuscos.online.conf /etc/nginx/sites-enabled/
+sudo cp deployment/nginx/n3xuscos.online-ssl.conf /etc/nginx/sites-available/n3xuscos.online.conf
+sudo ln -sf /etc/nginx/sites-available/n3xuscos.online.conf /etc/nginx/sites-enabled/
 
 # Test nginx configuration
 if sudo nginx -t; then
     print_success "Nginx configuration is valid"
 else
     print_warning "SSL configuration failed, falling back to HTTP-only"
-    sudo rm -f /etc/nginx/sites-enabled/nexuscos.online.conf
-    sudo cp deployment/nginx/nexuscos.online-http.conf /etc/nginx/sites-available/nexuscos.online-http.conf
-    sudo ln -sf /etc/nginx/sites-available/nexuscos.online-http.conf /etc/nginx/sites-enabled/
+    sudo rm -f /etc/nginx/sites-enabled/n3xuscos.online.conf
+    sudo cp deployment/nginx/n3xuscos.online-http.conf /etc/nginx/sites-available/n3xuscos.online-http.conf
+    sudo ln -sf /etc/nginx/sites-available/n3xuscos.online-http.conf /etc/nginx/sites-enabled/
     sudo nginx -t
 fi
 

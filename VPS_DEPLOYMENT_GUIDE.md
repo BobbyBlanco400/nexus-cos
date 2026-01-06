@@ -4,10 +4,10 @@ This guide provides complete instructions for deploying Nexus COS to production 
 
 ## Overview
 
-- **Production Domain**: nexuscos.online
+- **Production Domain**: n3xuscos.online
 - **VPS IP**: 74.208.155.161
-- **Frontend**: Served via Nginx at https://nexuscos.online
-- **API**: Reverse-proxied at https://nexuscos.online/api
+- **Frontend**: Served via Nginx at https://n3xuscos.online
+- **API**: Reverse-proxied at https://n3xuscos.online/api
 - **Streaming Services**: V-Suite routes under `/v-suite/*`
 
 ## Key Differences: Development vs Production
@@ -18,10 +18,10 @@ This guide provides complete instructions for deploying Nexus COS to production 
 - API: `http://localhost:4000`
 - Fast iteration, hot reload
 
-### Production (nexuscos.online)
-- Frontend: `https://nexuscos.online` (Nginx)
-- V-Screen: `https://nexuscos.online/v-suite/screen` or `/v-screen`
-- API: `https://nexuscos.online/api`
+### Production (n3xuscos.online)
+- Frontend: `https://n3xuscos.online` (Nginx)
+- V-Screen: `https://n3xuscos.online/v-suite/screen` or `/v-screen`
+- API: `https://n3xuscos.online/api`
 - Clean domain routes, SSL/TLS, production optimized
 
 ## Streaming/OTT Service Mapping
@@ -50,12 +50,12 @@ Nginx routes all streaming services under the V-Suite namespace:
 VITE_API_URL=/api
 
 # V-Suite Streaming Services
-VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen
-# OR use: VITE_V_SCREEN_URL=https://nexuscos.online/v-screen
+VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen
+# OR use: VITE_V_SCREEN_URL=https://n3xuscos.online/v-screen
 
-VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster
-VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage
-VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter
+VITE_V_CASTER_URL=https://n3xuscos.online/v-suite/caster
+VITE_V_STAGE_URL=https://n3xuscos.online/v-suite/stage
+VITE_V_PROMPTER_URL=https://n3xuscos.online/v-suite/prompter
 ```
 
 ### Development Override
@@ -122,7 +122,7 @@ Execute the deployment script directly on the VPS:
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/scripts/pf-final-deploy.sh -o /tmp/pf-final-deploy.sh
 
 # Execute deployment
-sudo bash /tmp/pf-final-deploy.sh -r https://github.com/BobbyBlanco400/nexus-cos.git -d nexuscos.online
+sudo bash /tmp/pf-final-deploy.sh -r https://github.com/BobbyBlanco400/nexus-cos.git -d n3xuscos.online
 ```
 
 #### What This Does
@@ -153,14 +153,14 @@ cd C:\path\to\nexus-cos
 # Run PowerShell deployment script
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -SshUser "root" `
   -KeyFile "C:\path\to\private\key"
 
 # OR use PuTTY plink
 .\scripts\pf-vps-deploy.ps1 `
   -VpsIp "74.208.155.161" `
-  -Domain "nexuscos.online" `
+  -Domain "n3xuscos.online" `
   -UsePlink
 ```
 
@@ -178,39 +178,39 @@ After deployment, validate all endpoints:
 
 ```bash
 # Frontend
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: 200 OK or 301/302 redirect
 
 # Admin Panel
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/admin
 # Expected: 200 OK or 301/302 redirect
 
 # API
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 # Expected: 200 OK
 
 # Health Check
-curl -s https://nexuscos.online/health
+curl -s https://n3xuscos.online/health
 # Expected: JSON with status
 
 # V-Screen (primary route)
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-suite/screen
 # Expected: 200 OK
 
 # V-Screen (alternative route)
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-screen
 # Expected: 200 OK
 
 # V-Hollywood
-curl -I https://nexuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-suite/hollywood
 # Expected: 200 OK
 
 # V-Prompter
-curl -I https://nexuscos.online/v-suite/prompter
+curl -I https://n3xuscos.online/v-suite/prompter
 # Expected: 200 OK
 
 # WebSocket (if applicable)
-curl -I https://nexuscos.online/socket.io/
+curl -I https://n3xuscos.online/socket.io/
 # Expected: 101 Switching Protocols
 ```
 
@@ -222,7 +222,7 @@ curl -I https://nexuscos.online/socket.io/
 
 **Solution**: 
 - This is expected - localhost:5173 is the dev server
-- Production is at `https://nexuscos.online`
+- Production is at `https://n3xuscos.online`
 - Rebuild frontend with production env vars:
   ```bash
   cd frontend
@@ -263,7 +263,7 @@ curl -I https://nexuscos.online/socket.io/
 cd frontend
 # Edit .env to use production URLs
 echo "VITE_API_URL=/api" > .env
-echo "VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen" >> .env
+echo "VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen" >> .env
 # Rebuild
 npm run build
 ```
@@ -334,10 +334,10 @@ docker logs -f puabo-api
 ### Nginx Logs
 ```bash
 # Access log
-tail -f /var/log/nginx/nexuscos.online_access.log
+tail -f /var/log/nginx/n3xuscos.online_access.log
 
 # Error log
-tail -f /var/log/nginx/nexuscos.online_error.log
+tail -f /var/log/nginx/n3xuscos.online_error.log
 ```
 
 ### Service Status
@@ -393,9 +393,9 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # Test streaming routes
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
-curl -I https://nexuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
+curl -I https://n3xuscos.online/v-suite/hollywood
 ```
 
 ## Support & Documentation

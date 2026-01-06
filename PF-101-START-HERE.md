@@ -55,7 +55,7 @@ This document has:
 → **Check these files:**
 - `DEPLOY_PHASE_2.5.sh` (updated deployment script)
 - `scripts/diagnose-deployment.sh` (new diagnostic tool)
-- `deployment/nginx/nexuscos.online.conf` (existing nginx config)
+- `deployment/nginx/n3xuscos.online.conf` (existing nginx config)
 
 ---
 
@@ -67,7 +67,7 @@ If you just want to deploy right now:
 
 ```bash
 # 1. Connect
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # 2. Navigate
 cd /opt/nexus-cos
@@ -85,11 +85,11 @@ ls -lah DEPLOY_PHASE_2.5.sh
 sudo ./DEPLOY_PHASE_2.5.sh
 
 # 7-11. Validate
-curl -skI https://nexuscos.online/ | head -n 1
-curl -skI https://beta.nexuscos.online/ | head -n 1
-curl -skI https://nexuscos.online/api/ | head -n 1
-curl -skI https://nexuscos.online/api/health | head -n 1
-curl -skI https://nexuscos.online/api/system/status | head -n 1
+curl -skI https://n3xuscos.online/ | head -n 1
+curl -skI https://beta.n3xuscos.online/ | head -n 1
+curl -skI https://n3xuscos.online/api/ | head -n 1
+curl -skI https://n3xuscos.online/api/health | head -n 1
+curl -skI https://n3xuscos.online/api/system/status | head -n 1
 ```
 
 **All should return:** `HTTP/2 200`
@@ -271,9 +271,9 @@ Include:
 ## 🎉 After Success
 
 Your platform will be live at:
-- **Apex:** https://nexuscos.online/
-- **Beta:** https://beta.nexuscos.online/
-- **API:** https://nexuscos.online/api/*
+- **Apex:** https://n3xuscos.online/
+- **Beta:** https://beta.n3xuscos.online/
+- **API:** https://n3xuscos.online/api/*
 
 Test in browser and verify all pages load!
 

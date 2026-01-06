@@ -114,7 +114,7 @@ VITE_API_URL=http://localhost:3004
 ### Production
 File: `frontend/.env`
 ```env
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 ## Testing API Endpoints

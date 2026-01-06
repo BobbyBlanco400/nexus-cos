@@ -11,7 +11,7 @@ This is the production-ready landing page for Nexus COS Beta environment, aligne
 - Indicates this is the beta environment
 
 ### URL
-- Intended for deployment at: https://beta.nexuscos.online
+- Intended for deployment at: https://beta.n3xuscos.online
 
 ## Features
 
@@ -50,7 +50,7 @@ python3 -m http.server 8001
 ## Production Deployment
 
 Deploy to beta subdomain:
-- Primary URL: https://beta.nexuscos.online
+- Primary URL: https://beta.n3xuscos.online
 - Ensure health check endpoints are configured
 - Status checks will query both current origin and beta domain
 
@@ -62,7 +62,7 @@ Deploy to beta subdomain:
 
 ### Production Environment
 - Gateway: Checks current domain at /health/gateway
-- Prompter: Checks https://beta.nexuscos.online/v-suite/prompter/health
+- Prompter: Checks https://beta.n3xuscos.online/v-suite/prompter/health
 - Displays OK (green), ERR (red), or checking (yellow)
 
 ## Content Alignment

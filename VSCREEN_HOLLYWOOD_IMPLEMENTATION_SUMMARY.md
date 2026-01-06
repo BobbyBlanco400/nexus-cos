@@ -99,7 +99,7 @@ vscreen-hollywood
    }
    ```
 
-2. **Subdomain: hollywood.nexuscos.online**
+2. **Subdomain: hollywood.n3xuscos.online**
    - HTTP to HTTPS redirect
    - SSL/TLS configuration
    - Security headers
@@ -112,9 +112,9 @@ vscreen-hollywood
    - Health check endpoint
 
 **URL Mappings:**
-- `https://hollywood.nexuscos.online` → `vscreen-hollywood:8088`
-- `https://nexuscos.online/v-suite/hollywood` → `vscreen-hollywood:8088`
-- WebSocket: `wss://hollywood.nexuscos.online/ws`
+- `https://hollywood.n3xuscos.online` → `vscreen-hollywood:8088`
+- `https://n3xuscos.online/v-suite/hollywood` → `vscreen-hollywood:8088`
+- WebSocket: `wss://hollywood.n3xuscos.online/ws`
 
 ### 5. Environment Configuration ✅
 
@@ -229,7 +229,7 @@ All implementation validation checks passed successfully:
 
 ### ✅ Nginx Configuration
 - [x] vscreen_hollywood upstream defined (2 files)
-- [x] hollywood.nexuscos.online subdomain configured
+- [x] hollywood.n3xuscos.online subdomain configured
 - [x] SSL/TLS configuration added
 - [x] WebSocket support enabled
 - [x] /v-suite/hollywood route configured
@@ -304,14 +304,14 @@ curl http://localhost:8088/health
 
 2. **Production (via Nginx):**
    ```
-   https://hollywood.nexuscos.online
-   https://nexuscos.online/v-suite/hollywood
+   https://hollywood.n3xuscos.online
+   https://n3xuscos.online/v-suite/hollywood
    ```
 
 3. **WebSocket:**
    ```
    ws://localhost:8088        (local)
-   wss://hollywood.nexuscos.online/ws  (production)
+   wss://hollywood.n3xuscos.online/ws  (production)
    ```
 
 ---
@@ -359,7 +359,7 @@ Use a WebSocket client or test script to connect to `ws://localhost:8088`
 
 Configure mobile SDK to connect to:
 - Development: `http://YOUR_VPS_IP:8088`
-- Production: `https://hollywood.nexuscos.online`
+- Production: `https://hollywood.n3xuscos.online`
 
 ---
 
@@ -405,12 +405,12 @@ To maintain minimal impact on existing functionality:
    ```
 
 2. **DNS Configuration**
-   - Add A record: `hollywood.nexuscos.online` → VPS IP
+   - Add A record: `hollywood.n3xuscos.online` → VPS IP
    - Wait for DNS propagation (5-60 minutes)
 
 3. **SSL Certificate**
-   - Ensure Let's Encrypt or IONOS certificate covers `hollywood.nexuscos.online`
-   - Or add wildcard certificate: `*.nexuscos.online`
+   - Ensure Let's Encrypt or IONOS certificate covers `hollywood.n3xuscos.online`
+   - Or add wildcard certificate: `*.n3xuscos.online`
 
 4. **Deploy Services**
    ```bash
@@ -425,7 +425,7 @@ To maintain minimal impact on existing functionality:
    
    # Test health endpoints
    curl http://localhost:8088/health
-   curl https://hollywood.nexuscos.online/health
+   curl https://hollywood.n3xuscos.online/health
    ```
 
 6. **Monitor Logs**
@@ -481,8 +481,8 @@ To maintain minimal impact on existing functionality:
 
 ### Files Modified (5)
 1. `docker-compose.pf.yml` - Added vscreen-hollywood and streamcore services
-2. `nginx.conf.docker` - Added upstream and hollywood.nexuscos.online
-3. `nginx/nginx.conf` - Added upstream and hollywood.nexuscos.online
+2. `nginx.conf.docker` - Added upstream and hollywood.n3xuscos.online
+3. `nginx/nginx.conf` - Added upstream and hollywood.n3xuscos.online
 4. `nginx/conf.d/nexus-proxy.conf` - Updated /v-suite/hollywood route
 5. `PF_EXECUTION_SUMMARY.md` - Updated service tables and documentation
 6. `docs/PF_FINAL_DEPLOYMENT_TURNKEY.md` - Updated service info and ports
@@ -534,7 +534,7 @@ The V-Screen Hollywood Edition service has been successfully implemented and is 
 
 ✅ Service created on port 8088  
 ✅ OAuth credentials configured in .env.pf  
-✅ Nginx proxy configured for https://hollywood.nexuscos.online  
+✅ Nginx proxy configured for https://hollywood.n3xuscos.online  
 ✅ StreamCore integration enabled for OTT/IPTV  
 ✅ Health endpoint returns correct response  
 ✅ Mobile SDK integration ready  

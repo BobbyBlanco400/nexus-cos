@@ -129,7 +129,7 @@ The PF stack is defined in `docker-compose.pf.yml` and includes:
 - **V-Screen Hollywood:** Dedicated service on port 8088
   - Direct access: `http://localhost:8088`
   - Path-based: `/v-suite/hollywood`
-  - Subdomain: `https://hollywood.nexuscos.online`
+  - Subdomain: `https://hollywood.n3xuscos.online`
   - Features: LED volume rendering, virtual production, OTT/IPTV streaming
   - Dependencies: StreamCore, PUABO AI SDK, Nexus Auth
 

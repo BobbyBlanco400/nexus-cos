@@ -114,7 +114,7 @@ This is the master index for the Pre-Flight (PF) deployment configuration. All f
 ### Quick Deployment
 ```bash
 # Set environment variables (optional)
-export DOMAIN=nexuscos.online
+export DOMAIN=n3xuscos.online
 export NETWORK_NAME=nexus-network
 
 # Deploy everything
@@ -252,10 +252,10 @@ docker compose -f docker-compose.pf.yml exec nexus-cos-postgres \
 ## 🌐 Service Endpoints
 
 ### PUABO NEXUS Fleet (PF v2025.10.01)
-- **AI Dispatch Health:** `https://nexuscos.online/puabo-nexus/dispatch/health` (Local: `http://127.0.0.1:9001/health`)
-- **Driver Backend Health:** `https://nexuscos.online/puabo-nexus/driver/health` (Local: `http://127.0.0.1:9002/health`)
-- **Fleet Manager Health:** `https://nexuscos.online/puabo-nexus/fleet/health` (Local: `http://127.0.0.1:9003/health`)
-- **Route Optimizer Health:** `https://nexuscos.online/puabo-nexus/routes/health` (Local: `http://127.0.0.1:9004/health`)
+- **AI Dispatch Health:** `https://n3xuscos.online/puabo-nexus/dispatch/health` (Local: `http://127.0.0.1:9001/health`)
+- **Driver Backend Health:** `https://n3xuscos.online/puabo-nexus/driver/health` (Local: `http://127.0.0.1:9002/health`)
+- **Fleet Manager Health:** `https://n3xuscos.online/puabo-nexus/fleet/health` (Local: `http://127.0.0.1:9003/health`)
+- **Route Optimizer Health:** `https://n3xuscos.online/puabo-nexus/routes/health` (Local: `http://127.0.0.1:9004/health`)
 
 ### puabo-api (Port 4000)
 - **Health:** `http://localhost:4000/health`

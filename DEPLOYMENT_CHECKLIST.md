@@ -5,7 +5,7 @@
 ### System Requirements
 - [ ] VPS access (root or sudo privileges)
 - [ ] Server IP: 74.208.155.161
-- [ ] Domain: nexuscos.online
+- [ ] Domain: n3xuscos.online
 - [ ] SSH access configured
 - [ ] Git repository accessible
 
@@ -105,18 +105,18 @@ bash validate-ip-domain-routing.sh
 curl -I http://74.208.155.161/
 ```
 - [ ] Returns 301 redirect
-- [ ] Location header points to https://nexuscos.online
+- [ ] Location header points to https://n3xuscos.online
 
 #### Test Domain Access
 ```bash
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 - [ ] Returns 200 OK or 301 to /admin/
 - [ ] No errors
 
 #### Test Admin Panel
 ```bash
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 ```
 - [ ] Returns 200 OK
 - [ ] HTML content received
@@ -124,7 +124,7 @@ curl -L https://nexuscos.online/admin/
 
 #### Test Creator Hub
 ```bash
-curl -L https://nexuscos.online/creator-hub/
+curl -L https://n3xuscos.online/creator-hub/
 ```
 - [ ] Returns 200 OK
 - [ ] HTML content received
@@ -132,14 +132,14 @@ curl -L https://nexuscos.online/creator-hub/
 
 #### Test Health Endpoint
 ```bash
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 - [ ] Returns "OK - Nexus COS Platform"
 - [ ] Status 200
 
 #### Test API Proxy
 ```bash
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 ```
 - [ ] Returns status code (200, 502, or 503)
 - [ ] Proxy is configured
@@ -154,25 +154,25 @@ curl -I https://nexuscos.online/api/health
 
 #### Test IP Access
 Open browser to: `http://74.208.155.161/`
-- [ ] Redirects to https://nexuscos.online/
+- [ ] Redirects to https://n3xuscos.online/
 - [ ] Page loads correctly
 - [ ] No redirect loop
 
 #### Test Domain Access
-Open browser to: `https://nexuscos.online/`
+Open browser to: `https://n3xuscos.online/`
 - [ ] Page loads correctly
 - [ ] SSL certificate valid
 - [ ] No browser warnings
 
 #### Test Admin Panel
-Navigate to: `https://nexuscos.online/admin/`
+Navigate to: `https://n3xuscos.online/admin/`
 - [ ] Admin panel loads
 - [ ] Branding appears correct
 - [ ] Navigation works
 - [ ] No console errors
 
 #### Test Creator Hub
-Navigate to: `https://nexuscos.online/creator-hub/`
+Navigate to: `https://n3xuscos.online/creator-hub/`
 - [ ] Creator hub loads
 - [ ] Branding appears correct
 - [ ] Navigation works
@@ -268,7 +268,7 @@ systemctl status nexus-python
 
 ### SSL/TLS
 ```bash
-openssl s_client -connect nexuscos.online:443 < /dev/null
+openssl s_client -connect n3xuscos.online:443 < /dev/null
 ```
 - [ ] Certificate valid
 - [ ] Not expired
@@ -277,7 +277,7 @@ openssl s_client -connect nexuscos.online:443 < /dev/null
 
 ### Security Headers
 ```bash
-curl -I https://nexuscos.online/ | grep -i "x-\|strict\|content-security"
+curl -I https://n3xuscos.online/ | grep -i "x-\|strict\|content-security"
 ```
 - [ ] X-Frame-Options present
 - [ ] X-Content-Type-Options present
@@ -336,7 +336,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # 4. Verify rollback
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 - [ ] Backup config ready
 - [ ] Rollback procedure tested

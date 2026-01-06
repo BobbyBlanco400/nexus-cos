@@ -2,7 +2,7 @@
 # ==============================================================================
 # Nexus COS - Plesk Nginx Deployment Script
 # ==============================================================================
-# This script deploys the nexuscos.online vhost configuration for Plesk-managed
+# This script deploys the n3xuscos.online vhost configuration for Plesk-managed
 # Nginx installations.
 # ==============================================================================
 
@@ -11,7 +11,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 VHOST_SOURCE="$REPO_ROOT/deployment/nginx/plesk/vhost_nginx.conf"
-PLESK_VHOST="/var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf"
+PLESK_VHOST="/var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf"
 
 echo "=============================================================================="
 echo "Nexus COS - Plesk Nginx Deployment"
@@ -42,7 +42,7 @@ fi
 PLESK_VHOST_DIR="$(dirname "$PLESK_VHOST")"
 if [[ ! -d "$PLESK_VHOST_DIR" ]]; then
     echo "❌ Plesk vhost directory not found: $PLESK_VHOST_DIR"
-    echo "ℹ️  Make sure the domain nexuscos.online is configured in Plesk"
+    echo "ℹ️  Make sure the domain n3xuscos.online is configured in Plesk"
     exit 1
 fi
 
@@ -72,7 +72,7 @@ echo "✅ Permissions set"
 # Rebuild Plesk configuration
 echo ""
 echo "🔧 Rebuilding Plesk web configuration..."
-if plesk repair web -domain nexuscos.online -y; then
+if plesk repair web -domain n3xuscos.online -y; then
     echo "✅ Plesk web configuration rebuilt"
 else
     echo "⚠️  Plesk repair command returned non-zero, but may have succeeded"
@@ -88,7 +88,7 @@ else
     echo "⚠️  Rolling back..."
     if [[ -f "$BACKUP_FILE" ]]; then
         cp "$BACKUP_FILE" "$PLESK_VHOST"
-        plesk repair web -domain nexuscos.online -y || true
+        plesk repair web -domain n3xuscos.online -y || true
         echo "✅ Rollback complete"
     fi
     exit 1
@@ -110,15 +110,15 @@ echo "✅ Deployment Complete!"
 echo "=============================================================================="
 echo ""
 echo "📋 Next Steps:"
-echo "   1. Verify site is accessible: https://nexuscos.online/"
-echo "   2. Test API endpoint: https://nexuscos.online/api/"
-echo "   3. Test streaming: https://nexuscos.online/stream/"
+echo "   1. Verify site is accessible: https://n3xuscos.online/"
+echo "   2. Test API endpoint: https://n3xuscos.online/api/"
+echo "   3. Test streaming: https://n3xuscos.online/stream/"
 echo "   4. Run validation script: $REPO_ROOT/deployment/nginx/scripts/validate-endpoints.sh"
 echo ""
 echo "💾 Backup location: $BACKUP_FILE"
 echo ""
 echo "🔄 To rollback, run:"
 echo "   sudo cp $BACKUP_FILE $PLESK_VHOST"
-echo "   sudo plesk repair web -domain nexuscos.online -y"
+echo "   sudo plesk repair web -domain n3xuscos.online -y"
 echo "   sudo nginx -t && sudo systemctl reload nginx"
 echo ""

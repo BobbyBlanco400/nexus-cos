@@ -34,8 +34,8 @@
 ### What TRAE Reported
 
 ```
-✅ Apex https://nexuscos.online/ → 200 OK
-✅ Beta https://beta.nexuscos.online/ → 200 OK
+✅ Apex https://n3xuscos.online/ → 200 OK
+✅ Beta https://beta.n3xuscos.online/ → 200 OK
 ❌ API /api/* → 404 (all endpoints)
 ```
 
@@ -75,8 +75,8 @@
 ### Expected Results
 
 ```
-✅ Apex https://nexuscos.online/ → 200 OK
-✅ Beta https://beta.nexuscos.online/ → 200 OK
+✅ Apex https://n3xuscos.online/ → 200 OK
+✅ Beta https://beta.n3xuscos.online/ → 200 OK
 ✅ API /api/ → 200 OK
 ✅ API /api/health → 200 OK
 ✅ API /api/system/status → 200 OK

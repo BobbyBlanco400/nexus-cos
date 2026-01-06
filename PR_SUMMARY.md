@@ -41,19 +41,19 @@ Comprehensively addresses TRAE's verification report and prepares the Nexus COS 
 
 ### Configuration Files (3 files)
 
-**`deployment/nginx/nexuscos.online.conf`** (+119 lines)
+**`deployment/nginx/n3xuscos.online.conf`** (+119 lines)
 - Added PUABO NEXUS fleet routes (dispatch, driver, fleet, routes)
 - Added `/api/health` and `/health/gateway` endpoints
 - All services map to localhost ports 9001-9004
 
-**`deployment/nginx/beta.nexuscos.online.conf`** (+130 lines)
+**`deployment/nginx/beta.n3xuscos.online.conf`** (+130 lines)
 - Added health check endpoints
 - Added PUABO NEXUS fleet routes
 - Beta domain now has feature parity with main domain
 
 **`frontend/.env`** (modified)
 - Changed from absolute URLs to same-origin paths
-- `VITE_API_URL=/api` instead of `https://nexuscos.online/api`
+- `VITE_API_URL=/api` instead of `https://n3xuscos.online/api`
 - V-Suite services now use relative paths
 
 ### Application Code (3 files)
@@ -165,8 +165,8 @@ location /puabo-nexus/routes/health { proxy_pass http://127.0.0.1:9004/health; }
 **BEFORE:**
 ```bash
 # frontend/.env
-VITE_API_URL=https://nexuscos.online/api  # Absolute URL
-VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen
+VITE_API_URL=https://n3xuscos.online/api  # Absolute URL
+VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen
 
 # admin/.env - MISSING
 # creator-hub/.env - MISSING
@@ -306,17 +306,17 @@ Run the validation script:
 Test individual endpoints:
 ```bash
 # Core platform
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/health/gateway
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/health/gateway
 
 # PUABO NEXUS fleet
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
-curl -I https://nexuscos.online/puabo-nexus/driver/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
-curl -I https://nexuscos.online/puabo-nexus/routes/health
+curl -I https://n3xuscos.online/puabo-nexus/dispatch/health
+curl -I https://n3xuscos.online/puabo-nexus/driver/health
+curl -I https://n3xuscos.online/puabo-nexus/fleet/health
+curl -I https://n3xuscos.online/puabo-nexus/routes/health
 
 # Beta domain
-curl -I https://beta.nexuscos.online/
+curl -I https://beta.n3xuscos.online/
 ```
 
 ### Nginx Validation
@@ -405,7 +405,7 @@ sudo nginx -t 2>&1 | grep -i warning
 cd /opt/nexus-cos && git pull origin main
 
 # 2. Deploy nginx configs
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos && \
+sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/nexuscos && \
 sudo nginx -t && sudo systemctl reload nginx
 
 # 3. Validate

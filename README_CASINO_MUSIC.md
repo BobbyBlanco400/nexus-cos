@@ -318,7 +318,7 @@ docker-compose down
 
 1. Deploy to production using full Docker stack
 2. Configure SSL certificates for HTTPS
-3. Set up domain DNS (nexuscos.online)
+3. Set up domain DNS (n3xuscos.online)
 4. Monitor rate limiting and adjust if needed
 5. Add database persistence volumes
 6. Implement user authentication for portals

@@ -20,7 +20,7 @@
 
 A complete operating system featuring 17 integrated modules, 51 microservices, and unified ecosystem including PUABO Universe (Nexus Fleet, DSP, BLAC, NUKI), V-Suite, Club Saditty, StreamCore, GameCore, MusicChain, Casino-Nexus, and more. Now with **sovereign AI capabilities** via PUABO AI Hybrid.
 
-**Beta Launch:** beta.nexuscos.online
+**Beta Launch:** beta.n3xuscos.online
 
 **⚡ Quick Start:** See [PHASE_2_COMPLETION.md](./PHASE_2_COMPLETION.md) for Phase-2 status and deployment guide.
 
@@ -269,7 +269,7 @@ This automated orchestration system includes:
 **VPS Deployment:** ⏳ READY - Awaiting server access  
 **Issued:** 2025-10-11  
 **Scope:** Complete Nexus COS Ecosystem - 16 Modules, 42+ Services, 44+ Containers  
-**Target:** Production Launch @ nexuscos.online + beta.nexuscos.online
+**Target:** Production Launch @ n3xuscos.online + beta.n3xuscos.online
 
 ### 🚀 **NEW: FINAL PF FOR VPS DEPLOYMENT (2025-10-11)**
 
@@ -674,7 +674,7 @@ After deployment, you should see:
 
 ## 🌐 **Beta Launch**
 
-**Live URL:** beta.nexuscos.online
+**Live URL:** beta.n3xuscos.online
 
 **Beta Landing Page Features:**
 - ✅ Modern, responsive design
@@ -685,8 +685,8 @@ After deployment, you should see:
 
 **Deploy Beta Page:**
 ```bash
-sudo cp -r web/beta /var/www/beta.nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
+sudo cp -r web/beta /var/www/beta.n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
 ```
 
 ---
@@ -842,7 +842,7 @@ Deploy from anywhere with a single command (~2 minutes):
 Or use the direct one-liner:
 
 ```bash
-ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://nexuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"
+ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://n3xuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"
 ```
 
 **What it does:**
@@ -903,7 +903,7 @@ cd /opt/nexus-cos
 
 **Key V-Prompter Pro Configuration:**
 - **Public Route:** `/v-suite/prompter/`
-- **Health Endpoint:** `https://nexuscos.online/v-suite/prompter/health`
+- **Health Endpoint:** `https://n3xuscos.online/v-suite/prompter/health`
 - **Backend:** nexus-cos-puaboai-sdk (port 3002)
 - **Expected Response:** 200 OK
 
@@ -922,7 +922,7 @@ Private Key: /opt/nexus-cos/ssl/nexus-cos.key (600)
 The fastest way to deploy Nexus COS with automated validation:
 
 ```bash
-echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
 ```
 
 **What it does:**
@@ -967,7 +967,7 @@ curl http://localhost:3041/health  # Keys Service
 ./test-pf-configuration.sh
 
 # 7. Test production endpoints
-curl -I https://nexuscos.online/health
+curl -I https://n3xuscos.online/health
 ```
 
 ### Network Architecture
@@ -1077,9 +1077,9 @@ curl http://localhost:3002/health
 curl http://localhost:3041/health
 
 # Test production endpoints
-curl -I https://nexuscos.online/api
-curl -I https://nexuscos.online/health
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/api
+curl -I https://n3xuscos.online/health
+curl -I https://n3xuscos.online/admin
 ```
 
 ### Troubleshooting
@@ -1263,9 +1263,9 @@ TRAE Solo provides built-in monitoring:
 - Additional FastAPI endpoints as needed
 
 ### Production URLs (via TRAE Solo)
-- **Frontend**: `https://nexuscos.online`
-- **Node.js API**: `https://nexuscos.online/api/node/`
-- **Python API**: `https://nexuscos.online/api/python/`
+- **Frontend**: `https://n3xuscos.online`
+- **Node.js API**: `https://n3xuscos.online/api/node/`
+- **Python API**: `https://n3xuscos.online/api/python/`
 
 ## 🏗️ Build and Deployment
 
@@ -1311,7 +1311,7 @@ JWT_SECRET=your-secure-jwt-secret
 BCRYPT_ROUNDS=12
 
 # SSL
-SSL_EMAIL=admin@nexuscos.online
+SSL_EMAIL=admin@n3xuscos.online
 ```
 
 ## 🧪 Testing

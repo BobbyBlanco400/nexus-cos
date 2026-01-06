@@ -8,7 +8,7 @@
 
 set -e
 
-BASE_URL="${BASE_URL:-https://nexuscos.online}"
+BASE_URL="${BASE_URL:-https://n3xuscos.online}"
 TIMEOUT=8
 SKIP_SSL_VERIFY="${SKIP_SSL_VERIFY:-false}"
 

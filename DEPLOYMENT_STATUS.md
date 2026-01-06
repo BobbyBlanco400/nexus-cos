@@ -2,7 +2,7 @@
 
 ## ✅ READY FOR PRODUCTION DEPLOYMENT
 
-All deployment infrastructure has been created and validated for deploying the complete Nexus COS Platform Stack to production at **nexuscos.online** (74.208.155.161).
+All deployment infrastructure has been created and validated for deploying the complete Nexus COS Platform Stack to production at **n3xuscos.online** (74.208.155.161).
 
 ---
 

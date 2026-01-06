@@ -6,7 +6,7 @@ This is the comprehensive Platform Fix (PF) deployment suite for Nexus COS that 
 
 ## Problem Addressed
 
-When accessing the platform via IP address (`http://74.208.155.161/`), users experienced different UI/branding compared to accessing via domain (`https://nexuscos.online/`). This was caused by:
+When accessing the platform via IP address (`http://74.208.155.161/`), users experienced different UI/branding compared to accessing via domain (`https://n3xuscos.online/`). This was caused by:
 
 1. **Nginx Default Server Routing** - IP requests hit a different server block
 2. **Environment Variable Mismatches** - VITE_API_URL pointed to localhost
@@ -66,7 +66,7 @@ sudo bash pf-master-deployment.sh
 
 # With custom domain:
 cd /opt/nexus-cos
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 ```
 
 This single command:
@@ -127,7 +127,7 @@ bash validate-ip-domain-routing.sh
 # HTTP - Domain requests
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 
@@ -135,13 +135,13 @@ server {
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 
 # HTTPS - Unified server (handles all)
 server {
     listen 443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     # ... configuration
 }
 ```
@@ -174,15 +174,15 @@ curl -I http://74.208.155.161/
 # Expected: 301 redirect to domain
 
 # 2. Test domain access
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: 200 OK or 301 to /admin/
 
 # 3. Test admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 # Expected: 200 OK with HTML
 
 # 4. Test API proxy
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 # Expected: "OK - Nexus COS Platform"
 ```
 
@@ -190,7 +190,7 @@ curl https://nexuscos.online/health
 
 1. **Clear browser cache completely** (Ctrl+Shift+Delete, "All time")
 2. Visit `http://74.208.155.161/` - should redirect to domain
-3. Visit `https://nexuscos.online/` - should load correctly
+3. Visit `https://n3xuscos.online/` - should load correctly
 4. Check browser console - no CSP errors
 5. Verify branding is consistent
 
@@ -293,7 +293,7 @@ journalctl -u nexus-backend -f
 Already fixed in the unified config. If still occurring:
 ```bash
 # Verify CSP header
-curl -I https://nexuscos.online/ | grep -i content-security
+curl -I https://n3xuscos.online/ | grep -i content-security
 
 # Should include: 'unsafe-inline' 'unsafe-eval'
 ```
@@ -303,11 +303,11 @@ curl -I https://nexuscos.online/ | grep -i content-security
 **Solution:**
 ```bash
 # Check file permissions
-ls -la /var/www/nexuscos.online/
+ls -la /var/www/n3xuscos.online/
 
 # Fix permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online/
-sudo chmod -R 755 /var/www/nexuscos.online/
+sudo chown -R www-data:www-data /var/www/n3xuscos.online/
+sudo chmod -R 755 /var/www/n3xuscos.online/
 ```
 
 ### Issue: Nginx configuration error
@@ -342,7 +342,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # 4. Verify rollback
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 Backups are automatically created with timestamps during deployment.
@@ -367,13 +367,13 @@ journalctl -u nexus-python -f
 
 ```bash
 # Platform health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # API health
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Python API health
-curl https://nexuscos.online/py/health
+curl https://n3xuscos.online/py/health
 ```
 
 ## Success Criteria

@@ -154,7 +154,7 @@ OAUTH_CLIENT_SECRET=<your-client-secret>
 JWT_SECRET=<secure-jwt-secret>
 
 # Domain Configuration
-DOMAIN=nexuscos.online
+DOMAIN=n3xuscos.online
 EMAIL=<your-email>
 
 # Redis
@@ -180,7 +180,7 @@ REDIS_PORT=6379
 ### Certificate Installation
 ```bash
 # Option 1: Certbot (Let's Encrypt)
-certbot --nginx -d nexuscos.online -d www.nexuscos.online
+certbot --nginx -d n3xuscos.online -d www.n3xuscos.online
 
 # Option 2: Manual Certificate Placement
 sudo mkdir -p /etc/ssl/ionos/
@@ -193,7 +193,7 @@ sudo chmod 600 /etc/ssl/ionos/*.pem
 ### Verification
 ```bash
 # Test SSL configuration
-curl -I https://nexuscos.online/health
+curl -I https://n3xuscos.online/health
 
 # Check certificate expiry
 certbot renew --dry-run
@@ -216,9 +216,9 @@ sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 ```
 
 ### DNS Configuration
-- **Primary Domain:** nexuscos.online
+- **Primary Domain:** n3xuscos.online
 - **DNS A Record:** Must point to VPS IP address
-- **WWW CNAME:** Optional, points to nexuscos.online
+- **WWW CNAME:** Optional, points to n3xuscos.online
 
 ### Cloudflare/CDN Considerations
 - If using Cloudflare proxy, ensure "Orange Cloud" is enabled or disabled based on preference
@@ -275,17 +275,17 @@ sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 ### Manual Health Check Endpoints
 ```bash
 # Gateway health
-curl -I https://nexuscos.online/health
+curl -I https://n3xuscos.online/health
 
 # PF service health checks
-curl -I https://nexuscos.online/health/gateway
-curl -I https://nexuscos.online/health/puaboai-sdk
-curl -I https://nexuscos.online/health/pv-keys
+curl -I https://n3xuscos.online/health/gateway
+curl -I https://n3xuscos.online/health/puaboai-sdk
+curl -I https://n3xuscos.online/health/pv-keys
 
 # API endpoints
-curl -I https://nexuscos.online/api
-curl -I https://nexuscos.online/admin
-curl -I https://nexuscos.online/v-suite/prompter
+curl -I https://n3xuscos.online/api
+curl -I https://n3xuscos.online/admin
+curl -I https://n3xuscos.online/v-suite/prompter
 ```
 
 **Expected responses:**
@@ -411,7 +411,7 @@ curl http://localhost:3041/health
 # Test all critical endpoints
 for url in /health /health/gateway /health/puaboai-sdk /health/pv-keys /api /admin /v-suite/prompter; do
     echo "Testing: $url"
-    curl -I https://nexuscos.online"$url"
+    curl -I https://n3xuscos.online"$url"
     echo "---"
 done
 ```
@@ -420,7 +420,7 @@ done
 ```bash
 # Nginx logs
 sudo tail -f /var/log/nginx/error.log
-sudo tail -f /var/log/nginx/nexuscos.online_error.log
+sudo tail -f /var/log/nginx/n3xuscos.online_error.log
 
 # Docker logs
 docker compose -f docker-compose.pf.yml logs -f --tail=50
@@ -445,18 +445,18 @@ docker compose -f docker-compose.pf.yml logs -f --tail=50
 ### Expected Responses
 ```bash
 # Health endpoints
-curl -I https://nexuscos.online/health
+curl -I https://n3xuscos.online/health
 # Expected: HTTP/2 200
 
-curl -I https://nexuscos.online/health/gateway
+curl -I https://n3xuscos.online/health/gateway
 # Expected: HTTP/2 200
 
 # API endpoints
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 # Expected: HTTP/2 200 or appropriate API response
 
 # V-Suite endpoints
-curl -I https://nexuscos.online/v-suite/prompter
+curl -I https://n3xuscos.online/v-suite/prompter
 # Expected: HTTP/2 200 or appropriate response
 ```
 
@@ -468,7 +468,7 @@ curl -I https://nexuscos.online/v-suite/prompter
 
 **Symptoms:**
 ```bash
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 # HTTP/2 502
 ```
 
@@ -527,7 +527,7 @@ sudo nginx -t && sudo nginx -s reload
 
 **Symptoms:**
 - Local `curl` works but external access fails
-- `curl https://nexuscos.online` times out
+- `curl https://n3xuscos.online` times out
 
 **Fix:**
 ```bash
@@ -567,7 +567,7 @@ certbot renew --dry-run
 
 ### Complete Deployment Command
 ```bash
-echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://nexuscos.online$url; done
+echo "Choose Nginx mode: [1] Docker [2] Host"; read mode; if [ "$mode" = "1" ]; then sudo cp nginx.conf.docker /etc/nginx/nginx.conf; else sudo cp nginx.conf.host /etc/nginx/nginx.conf; fi && git stash && git pull origin main && sudo cp nginx/conf.d/nexus-proxy.conf /etc/nginx/conf.d/ && sudo nginx -t && sudo nginx -s reload && [ -f test-pf-configuration.sh ] && chmod +x test-pf-configuration.sh && ./test-pf-configuration.sh && for url in /api /admin /v-suite/prompter /health /health/gateway /health/puaboai-sdk /health/pv-keys; do curl -I https://n3xuscos.online$url; done
 ```
 
 **What it does:**

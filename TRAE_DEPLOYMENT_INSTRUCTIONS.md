@@ -1,7 +1,7 @@
 # TRAE Deployment Instructions - Nginx Routing Fix
 ## ONE-SHOT DEPLOYMENT - 100% GREEN REQUIRED
 
-**Mission**: Fix nexuscos.online Nginx routing (currently shows welcome page instead of published site)  
+**Mission**: Fix n3xuscos.online Nginx routing (currently shows welcome page instead of published site)  
 **Deadline**: Complete before 12/31/2025 (Beta launch period)  
 **Status**: All code ready, tested, and validated. Just needs deployment.
 
@@ -39,7 +39,7 @@ sudo nginx -v
 # Expected: nginx version output
 
 # 4. Check current site status
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 # Expected: Currently shows Nginx welcome page (this is what we're fixing)
 ```
 
@@ -116,10 +116,10 @@ Failed: 0
 
 ### Step 5: Verify in Browser
 
-1. Open browser and navigate to: `https://nexuscos.online/`
+1. Open browser and navigate to: `https://n3xuscos.online/`
 2. **Expected**: Your published landing page (NOT Nginx welcome page)
-3. Test API: `https://nexuscos.online/api/`
-4. Test health: `https://nexuscos.online/health` (should return "ok")
+3. Test API: `https://n3xuscos.online/api/`
+4. Test health: `https://n3xuscos.online/health` (should return "ok")
 
 ---
 
@@ -161,14 +161,14 @@ Then re-run validation: `./deployment/nginx/scripts/validate-endpoints.sh`
 **Fix**:
 ```bash
 # Check if using Let's Encrypt instead
-ls -la /etc/letsencrypt/live/nexuscos.online/
+ls -la /etc/letsencrypt/live/n3xuscos.online/
 
 # If Let's Encrypt certs exist, update config paths:
-# Edit: deployment/nginx/sites-available/nexuscos.online
+# Edit: deployment/nginx/sites-available/n3xuscos.online
 # Change:
 #   ssl_certificate /etc/ssl/ionos/fullchain.pem;
 # To:
-#   ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
+#   ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
 ```
 
 Then re-run deployment script.
@@ -191,11 +191,11 @@ sudo nginx -t
 **Fix**:
 ```bash
 # Verify our config is loaded
-sudo nginx -T | grep -A 5 "server_name nexuscos.online"
+sudo nginx -T | grep -A 5 "server_name n3xuscos.online"
 
 # If nothing shown, vhost is not loaded
 # Check symlink exists (vanilla Nginx)
-ls -la /etc/nginx/sites-enabled/nexuscos.online
+ls -la /etc/nginx/sites-enabled/n3xuscos.online
 
 # If missing, re-run deployment script
 ```
@@ -219,11 +219,11 @@ If deployment fails and you need to rollback:
 
 ```bash
 # Find the backup
-ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
 
 # Restore (replace TIMESTAMP with actual timestamp from ls output)
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.TIMESTAMP \
-     /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.TIMESTAMP \
+     /etc/nginx/sites-enabled/n3xuscos.online
 
 # Test and reload
 sudo nginx -t && sudo systemctl reload nginx
@@ -232,14 +232,14 @@ sudo nginx -t && sudo systemctl reload nginx
 **For Plesk**:
 ```bash
 # Find backup
-ls -la /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.*
+ls -la /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.*
 
 # Restore
-sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
-     /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
+sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
+     /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
 
 # Rebuild and reload
-sudo plesk repair web -domain nexuscos.online -y
+sudo plesk repair web -domain n3xuscos.online -y
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -275,7 +275,7 @@ Before marking as complete:
 - [ ] Deployment script completed successfully
 - [ ] Validation script shows 100% PASS
 - [ ] Integration tests: 34/34 PASSED (100% green)
-- [ ] Browser shows published site at nexuscos.online
+- [ ] Browser shows published site at n3xuscos.online
 - [ ] API endpoints responding
 - [ ] Streaming endpoints responding
 - [ ] No errors in Nginx logs
@@ -298,7 +298,7 @@ Deployment Method: [Vanilla/Plesk]
 Deployment Time: [X minutes]
 Validation Result: [X/X PASS]
 Integration Tests: [34/34 PASSED]
-Site Status: [nexuscos.online serving published site]
+Site Status: [n3xuscos.online serving published site]
 Issues Encountered: [None / List any]
 
 All success criteria met. Ready for beta launch continuation.

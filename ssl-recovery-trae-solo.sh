@@ -15,8 +15,8 @@ NC='\033[0m' # No Color
 
 # SSL Configuration based on TRAE Solo report
 VPS_IP="74.208.155.161"
-DOMAIN_MAIN="nexuscos.online"
-DOMAIN_BETA="beta.nexuscos.online"
+DOMAIN_MAIN="n3xuscos.online"
+DOMAIN_BETA="beta.n3xuscos.online"
 SSL_BASE_PATH="/etc/ssl/ionos"
 NGINX_SITES_AVAILABLE="/etc/nginx/sites-available"
 NGINX_SITES_ENABLED="/etc/nginx/sites-enabled"
@@ -344,7 +344,7 @@ generate_ssl_test_script() {
 echo "🔐 Testing SSL Configuration for Nexus COS"
 echo "=========================================="
 
-DOMAINS=("nexuscos.online" "beta.nexuscos.online")
+DOMAINS=("n3xuscos.online" "beta.n3xuscos.online")
 
 for domain in "${DOMAINS[@]}"; do
     echo ""
@@ -398,7 +398,7 @@ generate_cloudflare_config() {
 ## DNS Settings
 Configure the following DNS records in CloudFlare:
 
-### Main Domain (nexuscos.online)
+### Main Domain (n3xuscos.online)
 - Type: A
 - Name: @
 - IPv4: 74.208.155.161
@@ -411,7 +411,7 @@ Configure the following DNS records in CloudFlare:
 - Proxy: ✅ (Orange Cloud)
 - TTL: Auto
 
-### Beta Domain (beta.nexuscos.online)
+### Beta Domain (beta.n3xuscos.online)
 - Type: A
 - Name: beta
 - IPv4: 74.208.155.161
@@ -440,17 +440,17 @@ Consider adding these rules:
 
 ## Page Rules
 Create these page rules:
-1. nexuscos.online/* - Cache Level: Standard
-2. nexuscos.online/api/* - Cache Level: Bypass
-3. beta.nexuscos.online/* - Cache Level: Standard
-4. beta.nexuscos.online/api/* - Cache Level: Bypass
+1. n3xuscos.online/* - Cache Level: Standard
+2. n3xuscos.online/api/* - Cache Level: Bypass
+3. beta.n3xuscos.online/* - Cache Level: Standard
+4. beta.n3xuscos.online/api/* - Cache Level: Bypass
 
 ## Origin Certificates
 If using CloudFlare Origin Certificates:
 1. Generate origin certificate in CloudFlare
 2. Install on server at:
-   - /etc/ssl/cloudflare/nexuscos.online/cert.pem
-   - /etc/ssl/cloudflare/nexuscos.online/key.pem
+   - /etc/ssl/cloudflare/n3xuscos.online/cert.pem
+   - /etc/ssl/cloudflare/n3xuscos.online/key.pem
 3. Update Nginx configuration accordingly
 EOF
     
@@ -494,13 +494,13 @@ sudo systemctl reload nginx
 
 # 6. Check SSL certificates
 echo "🔐 Checking SSL certificates..."
-openssl verify /etc/ssl/ionos/nexuscos.online/fullchain.pem
-openssl verify /etc/ssl/ionos/beta.nexuscos.online/fullchain.pem
+openssl verify /etc/ssl/ionos/n3xuscos.online/fullchain.pem
+openssl verify /etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem
 
 # 7. Test SSL handshake
 echo "🤝 Testing SSL handshake..."
-echo | openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
-echo | openssl s_client -connect beta.nexuscos.online:443 -servername beta.nexuscos.online
+echo | openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
+echo | openssl s_client -connect beta.n3xuscos.online:443 -servername beta.n3xuscos.online
 
 echo "✅ SSL deployment complete!"
 EOF

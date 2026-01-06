@@ -195,7 +195,7 @@ I've tested the enhanced health endpoint locally:
 
 2. **Verify Database Connection** (1 minute)
    ```bash
-   curl -s https://nexuscos.online/health | jq '.db'
+   curl -s https://n3xuscos.online/health | jq '.db'
    # Should return: "up"
    ```
 
@@ -240,9 +240,9 @@ cd ../admin && npm run build
 cd ../creator-hub && npm run build
 
 # You can upload:
-scp -r frontend/dist user@nexuscos.online:/opt/nexus-cos/frontend/
-scp -r admin/build user@nexuscos.online:/opt/nexus-cos/admin/
-scp -r creator-hub/build user@nexuscos.online:/opt/nexus-cos/creator-hub/
+scp -r frontend/dist user@n3xuscos.online:/opt/nexus-cos/frontend/
+scp -r admin/build user@n3xuscos.online:/opt/nexus-cos/admin/
+scp -r creator-hub/build user@n3xuscos.online:/opt/nexus-cos/creator-hub/
 ```
 
 **My recommendation**: Let's get database working first, then tackle frontend.
@@ -283,7 +283,7 @@ scp -r creator-hub/build user@nexuscos.online:/opt/nexus-cos/creator-hub/
 
 2. **Confirmation After Update**:
    ```bash
-   curl -s https://nexuscos.online/health | jq
+   curl -s https://n3xuscos.online/health | jq
    ```
    Should show `"db": "up"` ✅
 

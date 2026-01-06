@@ -109,7 +109,7 @@ The problem statement mentioned Hollywood (port 4500) and Prompter (port 3211). 
   - Health check: `curl http://localhost:8088/health`
   - Direct endpoint: `http://localhost:8088`
   - Path-based endpoint: `/v-suite/hollywood`
-  - Subdomain: `https://hollywood.nexuscos.online`
+  - Subdomain: `https://hollywood.n3xuscos.online`
   - Features: Browser-based Virtual LED Volume/Virtual Production Suite
   - Integrations: StreamCore (OTT/IPTV), PUABO AI SDK, Nexus Auth
 
@@ -206,8 +206,8 @@ DB_PASSWORD=your_secure_password_here       # PostgreSQL password
 ### 3. SSL Certificates (Optional)
 
 If using the nginx service, place SSL certificates at:
-- Certificate: `/opt/nexus-cos/ssl/certs/nexuscos.online.crt`
-- Key: `/opt/nexus-cos/ssl/private/nexuscos.online.key`
+- Certificate: `/opt/nexus-cos/ssl/certs/n3xuscos.online.crt`
+- Key: `/opt/nexus-cos/ssl/private/n3xuscos.online.key`
 
 ---
 
@@ -279,9 +279,9 @@ All services implement health check endpoints:
 | `http://localhost:3016/health` | 200 OK | StreamCore |
 
 **Production Endpoints (via Nginx):**
-- `https://nexuscos.online/v-suite/hollywood/health`
-- `https://nexuscos.online/v-suite/prompter/health`
-- `https://hollywood.nexuscos.online/health` (V-Screen Hollywood dedicated subdomain)
+- `https://n3xuscos.online/v-suite/hollywood/health`
+- `https://n3xuscos.online/v-suite/prompter/health`
+- `https://hollywood.n3xuscos.online/health` (V-Screen Hollywood dedicated subdomain)
 
 ---
 

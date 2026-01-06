@@ -1,7 +1,7 @@
 # 🧠 NEXUS COS – FINAL PRODUCTION FRAMEWORK (PF) – BETA LAUNCH EDITION
 **Version:** v2025.10.10 FINAL  
 **Status:** ✅ READY FOR IMMEDIATE DEPLOYMENT  
-**Target:** Beta Launch @ beta.nexuscos.online  
+**Target:** Beta Launch @ beta.n3xuscos.online  
 **Author:** Bobby Blanco / GitHub Code Agent  
 **For:** TRAE Solo - Final VPS Deployment  
 **PR #105:** ✅ MERGED - Complete Production Framework  
@@ -30,7 +30,7 @@ PR #105 has been **MERGED** into main with the complete beta launch system:
 
 ## 🎯 EXECUTIVE SUMMARY
 
-This is the **FINAL, DEFINITIVE Production Framework** for Nexus COS v2025. This PF consolidates all previous work, aligns with the current beta launch at **beta.nexuscos.online**, and provides complete deployment instructions to get the full system live.
+This is the **FINAL, DEFINITIVE Production Framework** for Nexus COS v2025. This PF consolidates all previous work, aligns with the current beta launch at **beta.n3xuscos.online**, and provides complete deployment instructions to get the full system live.
 
 **What Makes This FINAL:**
 - ✅ PR #105 merged with 4 commits (+3,529 lines, -114 lines)
@@ -46,7 +46,7 @@ This is the **FINAL, DEFINITIVE Production Framework** for Nexus COS v2025. This
 
 - **Unifies all 16 modules** into production-ready structure
 - **Deploys 42+ services** with complete Docker orchestration
-- **Launches beta landing page** at beta.nexuscos.online
+- **Launches beta landing page** at beta.n3xuscos.online
 - **Provides one-command deployment** for TRAE Solo
 - **Includes complete health checks** and validation
 - **Documents all endpoints** and service mappings
@@ -54,7 +54,7 @@ This is the **FINAL, DEFINITIVE Production Framework** for Nexus COS v2025. This
 
 ### 🚀 Current Status
 
-- ✅ Beta landing page deployed at **beta.nexuscos.online**
+- ✅ Beta landing page deployed at **beta.n3xuscos.online**
 - ✅ All 16 modules scaffolded in `modules/` directory
 - ✅ 42 services ready in `services/` directory
 - ✅ Docker Compose orchestration files complete
@@ -305,7 +305,7 @@ curl http://localhost:3221/health  # PUABO BLAC
 
 ### Current Status
 - ✅ Beta landing page deployed at `web/beta/index.html`
-- ✅ Accessible at **beta.nexuscos.online**
+- ✅ Accessible at **beta.n3xuscos.online**
 - ✅ Modern, responsive design with dark theme
 - ✅ SEO optimized with meta tags
 - ✅ Integrated with Nexus COS branding
@@ -314,11 +314,11 @@ curl http://localhost:3221/health  # PUABO BLAC
 
 ```bash
 # If using Nginx
-sudo cp -r /opt/nexus-cos/web/beta /var/www/beta.nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
+sudo cp -r /opt/nexus-cos/web/beta /var/www/beta.n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
 
 # Configure Nginx
-sudo nano /etc/nginx/sites-available/beta.nexuscos.online
+sudo nano /etc/nginx/sites-available/beta.n3xuscos.online
 ```
 
 **Nginx Configuration:**
@@ -326,9 +326,9 @@ sudo nano /etc/nginx/sites-available/beta.nexuscos.online
 server {
     listen 80;
     listen [::]:80;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
 
-    root /var/www/beta.nexuscos.online;
+    root /var/www/beta.n3xuscos.online;
     index index.html;
 
     location / {
@@ -337,14 +337,14 @@ server {
 
     # SSL configuration (add after obtaining certificates)
     # listen 443 ssl http2;
-    # ssl_certificate /etc/letsencrypt/live/beta.nexuscos.online/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/beta.nexuscos.online/privkey.pem;
+    # ssl_certificate /etc/letsencrypt/live/beta.n3xuscos.online/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/beta.n3xuscos.online/privkey.pem;
 }
 ```
 
 ```bash
 # Enable site and reload Nginx
-sudo ln -s /etc/nginx/sites-available/beta.nexuscos.online /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/beta.n3xuscos.online /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -834,7 +834,7 @@ docker container prune
 - [ ] Core services responding (puabo-api, backend-api)
 - [ ] All 42 services have healthy status
 - [ ] Health check script passes 100%
-- [ ] Beta landing page accessible at beta.nexuscos.online
+- [ ] Beta landing page accessible at beta.n3xuscos.online
 - [ ] No critical errors in logs
 - [ ] Database connections working
 - [ ] Redis cache working
@@ -859,7 +859,7 @@ docker container prune
 ### Pre-Launch (Complete These First)
 
 - [ ] **VPS Access:** Verify SSH access to production server
-- [ ] **Domain DNS:** Ensure beta.nexuscos.online points to server IP
+- [ ] **Domain DNS:** Ensure beta.n3xuscos.online points to server IP
 - [ ] **Resources:** Verify 8GB+ RAM, 20GB+ disk space
 - [ ] **Docker:** Install Docker and Docker Compose
 - [ ] **Git:** Install Git
@@ -970,7 +970,7 @@ docker container prune
 ✅ **42 Services** - All created with health endpoints  
 ✅ **44 Containers** - Complete Docker orchestration  
 ✅ **Health Checks** - Comprehensive monitoring  
-✅ **Beta Landing Page** - Live at beta.nexuscos.online  
+✅ **Beta Landing Page** - Live at beta.n3xuscos.online  
 ✅ **Documentation** - Complete and current  
 ✅ **Deployment Scripts** - Automated deployment  
 ✅ **Environment Configuration** - Template ready  
@@ -1026,7 +1026,7 @@ bash pf-health-check.sh
 **After deployment, you will have:**
 1. ✅ All 44 containers running in production mode
 2. ✅ All 42 services healthy with /health endpoints
-3. ✅ Beta landing page accessible at beta.nexuscos.online
+3. ✅ Beta landing page accessible at beta.n3xuscos.online
 4. ✅ PostgreSQL and Redis ready for production traffic
 5. ✅ Complete monitoring and health check infrastructure
 6. ✅ System ready for immediate beta user access

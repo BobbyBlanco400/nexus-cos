@@ -4,13 +4,13 @@
 # ==============================================================================
 # Purpose: Restore Plesk configs, SSL certs, and verify endpoint statuses
 # Target VPS: root@74.208.155.161 (Plesk-managed)
-# Domain: nexuscos.online
+# Domain: n3xuscos.online
 # ==============================================================================
 
 set -e
 
 # Configuration
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 VPS_IP="${VPS_IP:-74.208.155.161}"
 SSH_USER="${SSH_USER:-root}"
 DRY_RUN="${DRY_RUN:-false}"
@@ -70,7 +70,7 @@ print_section "Step 1: Preparing Restoration Script"
 
 RESTORE_SCRIPT=$(cat <<'EOF'
 set -e
-DOMAIN=nexuscos.online
+DOMAIN=n3xuscos.online
 VHOST=/var/www/vhosts/system/$DOMAIN/conf/vhost_nginx.conf
 PF=/etc/nginx/conf.d/pf_gateway_${DOMAIN}.conf
 

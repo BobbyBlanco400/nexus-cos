@@ -7,10 +7,10 @@ Use these commands to quickly verify TRAE's deployment claims:
 ### 1. Domain & Health Check (10 seconds)
 ```bash
 # Root domain
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Health endpoint
-curl -s https://nexuscos.online/health | jq '.'
+curl -s https://n3xuscos.online/health | jq '.'
 ```
 
 **Expected:**
@@ -22,10 +22,10 @@ curl -s https://nexuscos.online/health | jq '.'
 ### 2. V-Screen Routes (15 seconds)
 ```bash
 # Primary route
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-suite/screen
 
 # Alternative route
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-screen
 ```
 
 **Expected:** Both return `HTTP/2 200`
@@ -34,7 +34,7 @@ curl -I https://nexuscos.online/v-screen
 
 ### 3. Container Health (20 seconds - requires VPS access)
 ```bash
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 ```
 
 **Expected:** All containers show `Up` with `(healthy)` where applicable
@@ -44,10 +44,10 @@ ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 ### 4. Prompter Pro & PUABO API Logs (30 seconds - requires VPS access)
 ```bash
 # Prompter Pro (AI SDK)
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 # PUABO API
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
 ```
 
 **Look for:** No error messages, successful startup
@@ -56,7 +56,7 @@ ssh root@nexuscos.online "docker logs puabo-api --tail 100"
 
 ### 5. Nginx Configuration (5 seconds - requires VPS access)
 ```bash
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 ```
 
 **Expected:** 
@@ -98,9 +98,9 @@ READY FOR PRODUCTION LAUNCH 🚀
 
 **Check these 5 items before launch:**
 
-1. [ ] `curl -I https://nexuscos.online/` returns 200
-2. [ ] `curl -s https://nexuscos.online/health | jq '.status'` returns `"ok"`
-3. [ ] `curl -I https://nexuscos.online/v-suite/screen` returns 200
+1. [ ] `curl -I https://n3xuscos.online/` returns 200
+2. [ ] `curl -s https://n3xuscos.online/health | jq '.status'` returns `"ok"`
+3. [ ] `curl -I https://n3xuscos.online/v-suite/screen` returns 200
 4. [ ] All containers show `Up` status
 5. [ ] No critical errors in container logs
 
@@ -131,8 +131,8 @@ Test all health endpoints at once:
 
 ```bash
 for endpoint in /health /v-suite/screen /v-screen /v-suite/prompter/health; do
-  echo "Testing: https://nexuscos.online$endpoint"
-  curl -I https://nexuscos.online$endpoint 2>&1 | head -1
+  echo "Testing: https://n3xuscos.online$endpoint"
+  curl -I https://n3xuscos.online$endpoint 2>&1 | head -1
   echo ""
 done
 ```
@@ -154,46 +154,46 @@ done
 ### If Root Domain Fails
 ```bash
 # Check Nginx status
-ssh root@nexuscos.online "systemctl status nginx"
+ssh root@n3xuscos.online "systemctl status nginx"
 
 # Check Nginx config
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 
 # Reload Nginx
-ssh root@nexuscos.online "systemctl reload nginx"
+ssh root@n3xuscos.online "systemctl reload nginx"
 ```
 
 ### If Health Endpoint Fails
 ```bash
 # Check API container
-ssh root@nexuscos.online "docker ps | grep puabo-api"
+ssh root@n3xuscos.online "docker ps | grep puabo-api"
 
 # View API logs
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
 
 # Restart API
-ssh root@nexuscos.online "docker restart puabo-api"
+ssh root@n3xuscos.online "docker restart puabo-api"
 ```
 
 ### If V-Screen Routes Fail
 ```bash
 # Check V-Screen container
-ssh root@nexuscos.online "docker ps | grep vscreen-hollywood"
+ssh root@n3xuscos.online "docker ps | grep vscreen-hollywood"
 
 # View logs
-ssh root@nexuscos.online "docker logs vscreen-hollywood --tail 100"
+ssh root@n3xuscos.online "docker logs vscreen-hollywood --tail 100"
 
 # Restart container
-ssh root@nexuscos.online "docker restart vscreen-hollywood"
+ssh root@n3xuscos.online "docker restart vscreen-hollywood"
 ```
 
 ### If Database Connection Fails
 ```bash
 # Check PostgreSQL
-ssh root@nexuscos.online "docker exec nexus-cos-postgres pg_isready -U nexus_user"
+ssh root@n3xuscos.online "docker exec nexus-cos-postgres pg_isready -U nexus_user"
 
 # Check database logs
-ssh root@nexuscos.online "docker logs nexus-cos-postgres --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-postgres --tail 100"
 ```
 
 ---
@@ -202,10 +202,10 @@ ssh root@nexuscos.online "docker logs nexus-cos-postgres --tail 100"
 
 Open these URLs in a browser to visually verify:
 
-1. **Root Domain:** https://nexuscos.online/
-2. **Health Check:** https://nexuscos.online/health
-3. **V-Screen:** https://nexuscos.online/v-suite/screen
-4. **V-Screen Alt:** https://nexuscos.online/v-screen
+1. **Root Domain:** https://n3xuscos.online/
+2. **Health Check:** https://n3xuscos.online/health
+3. **V-Screen:** https://n3xuscos.online/v-suite/screen
+4. **V-Screen Alt:** https://n3xuscos.online/v-screen
 
 ---
 
@@ -256,12 +256,12 @@ cat /tmp/trae-deployment-verification-*.txt
 
 ### View All Logs
 ```bash
-ssh root@nexuscos.online "docker-compose -f /opt/nexus-cos/docker-compose.pf.yml logs --tail=100"
+ssh root@n3xuscos.online "docker-compose -f /opt/nexus-cos/docker-compose.pf.yml logs --tail=100"
 ```
 
 ### Restart All Services
 ```bash
-ssh root@nexuscos.online "cd /opt/nexus-cos && docker-compose -f docker-compose.pf.yml restart"
+ssh root@n3xuscos.online "cd /opt/nexus-cos && docker-compose -f docker-compose.pf.yml restart"
 ```
 
 ---

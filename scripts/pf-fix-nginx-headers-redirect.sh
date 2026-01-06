@@ -20,7 +20,7 @@ MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 NGINX_CONF_DIR="/etc/nginx"
 NGINX_MAIN_CONF="${NGINX_CONF_DIR}/nginx.conf"
 SECURITY_HEADERS_CONF="${NGINX_CONF_DIR}/conf.d/zz-security-headers.conf"
@@ -106,8 +106,8 @@ create_security_headers() {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
 # Content Security Policy
-# Configured for nexuscos.online with specific source allowances
-add_header Content-Security-Policy "default-src 'self' https://nexuscos.online; img-src 'self' data: blob: https://nexuscos.online; script-src 'self' 'unsafe-inline' https://nexuscos.online; style-src 'self' 'unsafe-inline' https://nexuscos.online; connect-src 'self' https://nexuscos.online https://nexuscos.online/streaming wss://nexuscos.online ws://nexuscos.online;" always;
+# Configured for n3xuscos.online with specific source allowances
+add_header Content-Security-Policy "default-src 'self' https://n3xuscos.online; img-src 'self' data: blob: https://n3xuscos.online; script-src 'self' 'unsafe-inline' https://n3xuscos.online; style-src 'self' 'unsafe-inline' https://n3xuscos.online; connect-src 'self' https://n3xuscos.online https://n3xuscos.online/streaming wss://n3xuscos.online ws://n3xuscos.online;" always;
 
 # X-Content-Type-Options
 # Prevent MIME type sniffing

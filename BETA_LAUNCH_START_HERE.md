@@ -98,7 +98,7 @@ Comprehensive guide:
 cd /opt/nexus-cos && git pull origin main
 
 # 2. Deploy
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos && \
+sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/nexuscos && \
 sudo nginx -t && sudo systemctl reload nginx
 
 # 3. Validate

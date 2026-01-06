@@ -50,7 +50,7 @@ const BetaDashboard: React.FC = () => {
           <div style={styles.endpointList}>
             {endpoints.map((endpoint) => (
               <div key={endpoint} style={styles.endpointItem}>
-                <code>https://beta.nexuscos.online{endpoint}</code>
+                <code>https://beta.n3xuscos.online{endpoint}</code>
               </div>
             ))}
           </div>

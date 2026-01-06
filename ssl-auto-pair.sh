@@ -3,12 +3,12 @@
 # Nexus COS — SSL Auto-Pair Script
 # ==============================================================================
 # Purpose: Automatically align certificate and private key by modulus matching
-# Target: PF Gateway configuration for nexuscos.online
+# Target: PF Gateway configuration for n3xuscos.online
 # ==============================================================================
 
 set -e
 
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 PF="/etc/nginx/conf.d/pf_gateway_${DOMAIN}.conf"
 
 echo "═══════════════════════════════════════════════════════════════"

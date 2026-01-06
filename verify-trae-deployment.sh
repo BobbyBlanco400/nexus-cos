@@ -19,7 +19,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 # Configuration
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 VPS_IP="${VPS_IP:-74.208.155.161}"
 
 # Counters

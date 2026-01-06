@@ -257,7 +257,7 @@ docker compose -f docker-compose.unified.yml logs -f [service-name]
 
 Open browser and navigate to:
 - `http://[your-vps-ip]`
-- `http://beta.nexuscos.online` (if DNS configured)
+- `http://beta.n3xuscos.online` (if DNS configured)
 
 ---
 
@@ -343,7 +343,7 @@ Once all success criteria are met:
    - "🎉 Nexus COS Beta is LIVE!"
    - "🚀 42 services deployed successfully"
    - "🧠 16 modules ready for testing"
-   - "Visit: beta.nexuscos.online"
+   - "Visit: beta.n3xuscos.online"
 
 ---
 

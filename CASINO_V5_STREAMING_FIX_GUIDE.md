@@ -126,7 +126,7 @@ ls -la /var/www/nexus-cos/modules/casino-nexus/frontend/public/assets
 ls -la /var/www/nexus-cos/modules/casino-nexus/frontend/public/index.html
 
 # Test in browser
-curl -I https://nexuscos.online/casino
+curl -I https://n3xuscos.online/casino
 ```
 
 ### 2. Streaming Module
@@ -135,7 +135,7 @@ curl -I https://nexuscos.online/casino
 ls -la /var/www/nexus-cos/modules/puabo-ott-tv-streaming/frontend/public/index.html
 
 # Test in browser
-curl -I https://nexuscos.online/streaming
+curl -I https://n3xuscos.online/streaming
 ```
 
 ### 3. Services Status
@@ -159,13 +159,13 @@ tail -f /var/log/nginx/error.log
    - Firefox: `Ctrl+Shift+Delete` → Cookies and Site Data
 
 2. **Test Casino V5**
-   - Navigate to: `https://nexuscos.online/casino`
+   - Navigate to: `https://n3xuscos.online/casino`
    - Verify: No wireframes, all textures loaded
    - Check: 3D models display correctly
    - Confirm: Sounds play when interacting
 
 3. **Test Streaming**
-   - Navigate to: `https://nexuscos.online/streaming`
+   - Navigate to: `https://n3xuscos.online/streaming`
    - Verify: Netflix-style interface loads
    - Check: All sections display properly
    - Confirm: Navigation works

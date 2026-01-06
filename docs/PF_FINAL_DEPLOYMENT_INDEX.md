@@ -2,7 +2,7 @@
 
 **Created:** 2025-10-03T14:46Z  
 **Status:** ✅ Production Ready  
-**Target VPS:** 74.208.155.161 (nexuscos.online)
+**Target VPS:** 74.208.155.161 (n3xuscos.online)
 
 ---
 
@@ -73,10 +73,10 @@ This index provides links to all PF (Pre-Flight) deployment documentation and re
 
 ```bash
 # Health check
-https://nexuscos.online/v-suite/prompter/health
+https://n3xuscos.online/v-suite/prompter/health
 
 # Service endpoint
-https://nexuscos.online/v-suite/prompter/
+https://n3xuscos.online/v-suite/prompter/
 ```
 
 **Nginx Configuration:** See `nginx/conf.d/nexus-proxy.conf` lines 79-89
@@ -102,8 +102,8 @@ The deployment script automatically searches these locations:
 5. `/ssl/*.key` (ssl directory)
 
 **Current repository certificates:**
-- `ssl/beta.nexuscos.online.crt`
-- `ssl/beta.nexuscos.online.key`
+- `ssl/beta.n3xuscos.online.crt`
+- `ssl/beta.n3xuscos.online.key`
 
 ---
 
@@ -201,7 +201,7 @@ graph TD
 - [ ] Gateway health: `curl http://localhost:4000/health` → 200 OK
 - [ ] AI SDK health: `curl http://localhost:3002/health` → 200 OK
 - [ ] PV Keys health: `curl http://localhost:3041/health` → 200 OK
-- [ ] V-Prompter Pro: `curl https://nexuscos.online/v-suite/prompter/health` → 200 OK
+- [ ] V-Prompter Pro: `curl https://n3xuscos.online/v-suite/prompter/health` → 200 OK
 - [ ] Database accessible and contains tables
 - [ ] No errors in Docker logs
 - [ ] SSL certificate valid
@@ -232,7 +232,7 @@ curl http://localhost:3002/health  # AI SDK
 curl http://localhost:3041/health  # PV Keys
 
 # Production health
-curl https://nexuscos.online/v-suite/prompter/health
+curl https://n3xuscos.online/v-suite/prompter/health
 ```
 
 ### Service Management
@@ -337,7 +337,7 @@ Your deployment is successful when:
 - All routes functioning
 
 ✅ **Production**
-- `https://nexuscos.online` accessible
+- `https://n3xuscos.online` accessible
 - All application features working
 - No 502 or 503 errors
 
@@ -361,7 +361,7 @@ Your deployment is successful when:
 ### Emergency Contacts
 
 - **Repository:** https://github.com/BobbyBlanco400/nexus-cos
-- **VPS:** 74.208.155.161 (nexuscos.online)
+- **VPS:** 74.208.155.161 (n3xuscos.online)
 
 ---
 
@@ -386,7 +386,7 @@ When SSL certificates expire:
 1. Obtain new certificates
 2. Copy to `/opt/nexus-cos/ssl/`
 3. Run: `sudo systemctl reload nginx`
-4. Verify: `curl https://nexuscos.online/v-suite/prompter/health`
+4. Verify: `curl https://n3xuscos.online/v-suite/prompter/health`
 
 ### Backup Procedures
 

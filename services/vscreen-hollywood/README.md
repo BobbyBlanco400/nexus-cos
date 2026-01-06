@@ -17,7 +17,7 @@ V-Screen Hollywood Edition is the world's first and largest browser-based Virtua
 
 ## Specifications
 
-- **Port**: 8088 (internal), proxied via nginx to https://hollywood.nexuscos.online
+- **Port**: 8088 (internal), proxied via nginx to https://hollywood.n3xuscos.online
 - **Protocols**: WebRTC, HLS, DASH, WebSocket
 - **Dependencies**:
   - StreamCore (port 3016)
@@ -110,8 +110,8 @@ curl http://localhost:8088/health
 
 Access via:
 - **Direct**: http://localhost:8088 (internal)
-- **Proxied**: https://hollywood.nexuscos.online (production)
-- **Path-based**: https://nexuscos.online/v-suite/hollywood (alternative)
+- **Proxied**: https://hollywood.n3xuscos.online (production)
+- **Path-based**: https://n3xuscos.online/v-suite/hollywood (alternative)
 
 ### Nginx Configuration
 
@@ -265,6 +265,6 @@ Copyright © 2024 Nexus COS. All rights reserved.
 ## Support
 
 For support, please contact:
-- Email: support@nexuscos.online
-- Documentation: https://docs.nexuscos.online
+- Email: support@n3xuscos.online
+- Documentation: https://docs.n3xuscos.online
 - Issue Tracker: https://github.com/BobbyBlanco400/nexus-cos/issues

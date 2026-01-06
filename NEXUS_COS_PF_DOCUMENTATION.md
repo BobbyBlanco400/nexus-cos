@@ -64,8 +64,8 @@ The system automatically runs via GitHub Actions:
 ## 📊 Monitoring Targets
 
 ### Domains
-- `https://nexuscos.online`
-- `https://www.nexuscos.online`
+- `https://n3xuscos.online`
+- `https://www.n3xuscos.online`
 
 ### Critical Endpoints
 - `/admin/` - Admin Panel
@@ -91,20 +91,20 @@ The system automatically runs via GitHub Actions:
     "successRate": 91
   },
   "domains": {
-    "https://nexuscos.online": {
+    "https://n3xuscos.online": {
       "status": 200,
-      "url": "https://nexuscos.online",
+      "url": "https://n3xuscos.online",
       "sslValid": true
     }
   },
   "eventPages": {
     "/admin/": {
       "status": 200,
-      "url": "https://nexuscos.online/admin/"
+      "url": "https://n3xuscos.online/admin/"
     }
   },
   "performance": {
-    "https://nexuscos.online": {
+    "https://n3xuscos.online": {
       "Timestamp": 1758957001401,
       "Documents": 1,
       "Frames": 1,

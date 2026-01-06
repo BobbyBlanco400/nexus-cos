@@ -207,7 +207,7 @@ All branding assets are in place and verified:
 Before beginning deployment, verify you have:
 
 - [ ] VPS server access (SSH credentials)
-- [ ] Domain configured (nexuscos.online)
+- [ ] Domain configured (n3xuscos.online)
 - [ ] DNS pointed to VPS IP address
 - [ ] VPS meets minimum requirements:
   - [ ] Ubuntu 20.04 LTS or higher
@@ -223,7 +223,7 @@ Before beginning deployment, verify you have:
 #### Step 1: Connect to VPS
 
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 # Or use IP if DNS not configured yet:
 # ssh root@YOUR_VPS_IP
 ```
@@ -333,7 +333,7 @@ nano .env.pf
 
 # Required variables to verify/update:
 # - NODE_ENV=production
-# - DOMAIN=nexuscos.online
+# - DOMAIN=n3xuscos.online
 # - DB_HOST=nexus-cos-postgres
 # - VITE_API_URL=/api
 ```
@@ -401,7 +401,7 @@ docker-compose -f docker-compose.unified.yml ps
 ```bash
 cd /opt/nexus-cos
 chmod +x pf-master-deployment.sh
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 ```
 
 This executes:
@@ -438,20 +438,20 @@ Nexus COS VPS is ready for beta launch
 
 **Test Apex Domain:**
 ```bash
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 # Expected: HTTP/2 200 OK
 ```
 
 **Test Beta Domain:**
 ```bash
-curl -I https://beta.nexuscos.online
+curl -I https://beta.n3xuscos.online
 # Expected: HTTP/2 200 OK
 ```
 
 **Test API Endpoints:**
 ```bash
-curl https://nexuscos.online/api/health
-curl https://nexuscos.online/api/system/status
+curl https://n3xuscos.online/api/health
+curl https://n3xuscos.online/api/system/status
 # Expected: JSON responses with 200 OK
 ```
 
@@ -491,24 +491,24 @@ curl http://localhost:3013/health  # V-Prompter Pro
 
 **Open in browser and verify:**
 
-1. **Apex Domain:** https://nexuscos.online
+1. **Apex Domain:** https://n3xuscos.online
    - [ ] Logo appears (Nexus COS)
    - [ ] Primary color is #2563eb (blue)
    - [ ] Navigation works
    - [ ] All links functional
 
-2. **Beta Domain:** https://beta.nexuscos.online
+2. **Beta Domain:** https://beta.n3xuscos.online
    - [ ] Beta badge visible
    - [ ] Branding consistent with apex
    - [ ] Feature showcase displays
    - [ ] Theme toggle works
 
-3. **Admin Panel:** https://nexuscos.online/admin
+3. **Admin Panel:** https://n3xuscos.online/admin
    - [ ] Loads without errors
    - [ ] Branding consistent
    - [ ] Login page appears
 
-4. **Creator Hub:** https://nexuscos.online/creator-hub
+4. **Creator Hub:** https://n3xuscos.online/creator-hub
    - [ ] Loads without errors
    - [ ] Branding consistent
    - [ ] Dashboard appears
@@ -547,7 +547,7 @@ docker-compose -f docker-compose.unified.yml ps
 crontab -e
 
 # Add this line (checks health every 5 minutes):
-*/5 * * * * curl -f https://nexuscos.online/api/health || echo "Health check failed" | mail -s "Nexus COS Alert" your@email.com
+*/5 * * * * curl -f https://n3xuscos.online/api/health || echo "Health check failed" | mail -s "Nexus COS Alert" your@email.com
 ```
 
 ✅ **Checkpoint:** Monitoring configured
@@ -618,7 +618,7 @@ df -h
 **Diagnosis:**
 ```bash
 # Check DNS
-nslookup nexuscos.online
+nslookup n3xuscos.online
 
 # Check Nginx status
 systemctl status nginx
@@ -773,8 +773,8 @@ Before considering deployment complete, verify ALL items:
 - [ ] SSL certificates valid
 
 ### Domains
-- [ ] Apex domain (nexuscos.online) accessible
-- [ ] Beta domain (beta.nexuscos.online) accessible
+- [ ] Apex domain (n3xuscos.online) accessible
+- [ ] Beta domain (beta.n3xuscos.online) accessible
 - [ ] API endpoints responding
 - [ ] All health checks passing
 
@@ -813,7 +813,7 @@ Before considering deployment complete, verify ALL items:
 │  ┌────────────────────────────────────────────────────────────┐ │
 │  │                     Nginx Reverse Proxy                     │ │
 │  │  - SSL/TLS Termination                                      │ │
-│  │  - Domain Routing (nexuscos.online, beta.nexuscos.online)  │ │
+│  │  - Domain Routing (n3xuscos.online, beta.n3xuscos.online)  │ │
 │  │  - /api Proxy to Backend                                   │ │
 │  │  - Static Asset Serving                                    │ │
 │  └──────────────┬──────────────────────┬──────────────────────┘ │
@@ -940,7 +940,7 @@ Application Logs:
 ### Before You Start
 - [ ] Read this entire document
 - [ ] VPS server credentials obtained
-- [ ] DNS configured for nexuscos.online
+- [ ] DNS configured for n3xuscos.online
 - [ ] Backup of current local build created
 - [ ] Team notified of deployment schedule
 
@@ -967,7 +967,7 @@ Application Logs:
 
 ```bash
 # Step 1: Connect to VPS
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # Step 2: System Setup
 apt update && apt upgrade -y
@@ -992,7 +992,7 @@ chmod +x nexus-cos-vps-validation.sh
 ./nexus-cos-vps-validation.sh
 
 # Step 7: Verify in Browser
-# Open https://nexuscos.online and https://beta.nexuscos.online
+# Open https://n3xuscos.online and https://beta.n3xuscos.online
 ```
 
 **Time Estimate:** 20-30 minutes total
@@ -1100,8 +1100,8 @@ As you deploy, remember you're launching a world-first platform:
 We're excited to announce the beta launch of Nexus COS - 
 the world's first modular Creative Operating System!
 
-🌐 Visit: https://nexuscos.online
-🎯 Beta: https://beta.nexuscos.online
+🌐 Visit: https://n3xuscos.online
+🎯 Beta: https://beta.n3xuscos.online
 
 Features:
 ✅ 16 Integrated Modules

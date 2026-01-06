@@ -3,8 +3,8 @@
 # Handles Beta and Production deployment phases with automated transition
 # 
 # Phase Schedule:
-# - Beta: 2025-10-01 -> beta.nexuscos.online
-# - Production: 2025-11-17 -> nexuscos.online
+# - Beta: 2025-10-01 -> beta.n3xuscos.online
+# - Production: 2025-11-17 -> n3xuscos.online
 
 set -euo pipefail
 
@@ -68,16 +68,16 @@ configure_ssl() {
     
     if [ "$PHASE" = "beta" ]; then
         # IONOS SSL for beta
-        SSL_CERT_PATH="/etc/ssl/ionos/beta.nexuscos.online/fullchain.pem"
-        SSL_KEY_PATH="/etc/ssl/ionos/beta.nexuscos.online/privkey.pem"
+        SSL_CERT_PATH="/etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem"
+        SSL_KEY_PATH="/etc/ssl/ionos/beta.n3xuscos.online/privkey.pem"
     elif [ "$PHASE" = "production" ]; then
         # IONOS SSL for production
-        SSL_CERT_PATH="/etc/ssl/ionos/nexuscos.online/fullchain.pem"
-        SSL_KEY_PATH="/etc/ssl/ionos/nexuscos.online/privkey.pem"
+        SSL_CERT_PATH="/etc/ssl/ionos/n3xuscos.online/fullchain.pem"
+        SSL_KEY_PATH="/etc/ssl/ionos/n3xuscos.online/privkey.pem"
     else
         # Fallback to Let's Encrypt for pre-beta
-        SSL_CERT_PATH="/etc/letsencrypt/live/nexuscos.online/fullchain.pem"
-        SSL_KEY_PATH="/etc/letsencrypt/live/nexuscos.online/privkey.pem"
+        SSL_CERT_PATH="/etc/letsencrypt/live/n3xuscos.online/fullchain.pem"
+        SSL_KEY_PATH="/etc/letsencrypt/live/n3xuscos.online/privkey.pem"
     fi
     
     # Verify SSL certificates exist
@@ -135,12 +135,12 @@ setup_monitoring() {
     
     if [ "$ENV" = "beta" ]; then
         print_status "Beta monitoring setup:"
-        print_status "- Access logs: /var/log/nginx/beta.nexuscos.online_access.log"
-        print_status "- Error logs: /var/log/nginx/beta.nexuscos.online_error.log"
+        print_status "- Access logs: /var/log/nginx/beta.n3xuscos.online_access.log"
+        print_status "- Error logs: /var/log/nginx/beta.n3xuscos.online_error.log"
     elif [ "$ENV" = "production" ]; then
         print_status "Production monitoring setup:"
-        print_status "- Access logs: /var/log/nginx/nexuscos.online_access.log"
-        print_status "- Error logs: /var/log/nginx/nexuscos.online_error.log"
+        print_status "- Access logs: /var/log/nginx/n3xuscos.online_access.log"
+        print_status "- Error logs: /var/log/nginx/n3xuscos.online_error.log"
         print_status "- Metrics endpoint restrictions enabled"
     fi
     
@@ -155,14 +155,14 @@ deploy_nginx_config() {
     local SITE_NAME=""
     
     if [ "$PHASE" = "beta" ]; then
-        CONFIG_FILE="beta.nexuscos.online.conf"
-        SITE_NAME="beta.nexuscos.online"
+        CONFIG_FILE="beta.n3xuscos.online.conf"
+        SITE_NAME="beta.n3xuscos.online"
     elif [ "$PHASE" = "production" ]; then
-        CONFIG_FILE="production.nexuscos.online.conf"
-        SITE_NAME="nexuscos.online"
+        CONFIG_FILE="production.n3xuscos.online.conf"
+        SITE_NAME="n3xuscos.online"
     else
-        CONFIG_FILE="nexuscos.online.conf"
-        SITE_NAME="nexuscos.online"
+        CONFIG_FILE="n3xuscos.online.conf"
+        SITE_NAME="n3xuscos.online"
     fi
     
     local SOURCE_PATH="./deployment/nginx/$CONFIG_FILE"
@@ -192,10 +192,10 @@ deploy_nginx_config() {
 # --- Environment Setup Functions ---
 setup_beta() {
     print_status "🌟 Setting up BETA environment"
-    print_status "Domain: beta.nexuscos.online"
+    print_status "Domain: beta.n3xuscos.online"
     print_status "Start Date: 2025-10-01"
     
-    configure_ssl "beta.nexuscos.online" "beta"
+    configure_ssl "beta.n3xuscos.online" "beta"
     configure_cdn "beta"
     implement_security "beta"
     setup_monitoring "beta"
@@ -206,10 +206,10 @@ setup_beta() {
 
 setup_production() {
     print_status "🏭 Setting up PRODUCTION environment"
-    print_status "Domain: nexuscos.online"
+    print_status "Domain: n3xuscos.online"
     print_status "Transition Date: 2025-11-17"
     
-    configure_ssl "nexuscos.online" "production"
+    configure_ssl "n3xuscos.online" "production"
     configure_cdn "production"
     implement_security "production"
     setup_monitoring "production"
@@ -220,9 +220,9 @@ setup_production() {
 
 setup_pre_beta() {
     print_status "🔧 Setting up PRE-BETA environment"
-    print_status "Domain: nexuscos.online (development)"
+    print_status "Domain: n3xuscos.online (development)"
     
-    configure_ssl "nexuscos.online" "pre-beta"
+    configure_ssl "n3xuscos.online" "pre-beta"
     configure_cdn "pre-beta"
     implement_security "beta"
     setup_monitoring "beta"
@@ -247,17 +247,17 @@ main() {
     case "$LAUNCH_PHASE" in
         "production")
             print_status "🚀 PRODUCTION PHASE ACTIVE"
-            print_status "Deploying to nexuscos.online with full production features"
+            print_status "Deploying to n3xuscos.online with full production features"
             setup_production
             ;;
         "beta")
             print_status "🌟 BETA PHASE ACTIVE"
-            print_status "Deploying to beta.nexuscos.online for beta testing"
+            print_status "Deploying to beta.n3xuscos.online for beta testing"
             setup_beta
             ;;
         "pre-beta")
             print_status "🔧 PRE-BETA PHASE"
-            print_status "Development environment on nexuscos.online"
+            print_status "Development environment on n3xuscos.online"
             setup_pre_beta
             ;;
         *)
@@ -284,12 +284,12 @@ main() {
             print_status "- Continue development and testing"
             ;;
         "beta")
-            print_status "- Monitor beta.nexuscos.online performance"
+            print_status "- Monitor beta.n3xuscos.online performance"
             print_status "- Collect user feedback"
             print_status "- Prepare for production transition on 2025-11-17"
             ;;
         "production")
-            print_status "- Monitor nexuscos.online performance"
+            print_status "- Monitor n3xuscos.online performance"
             print_status "- Check production metrics and logs"
             print_status "- Scale as needed based on traffic"
             ;;

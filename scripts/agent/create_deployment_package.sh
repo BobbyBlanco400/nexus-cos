@@ -134,8 +134,8 @@ JWT_SECRET=CHANGEME_SECURE_SECRET
 BCRYPT_ROUNDS=12
 
 # Domain
-DOMAIN=nexuscos.online
-SSL_EMAIL=admin@nexuscos.online
+DOMAIN=n3xuscos.online
+SSL_EMAIL=admin@n3xuscos.online
 
 # IONOS VPS
 VPS_HOST=your-vps-ip

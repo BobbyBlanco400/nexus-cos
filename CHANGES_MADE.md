@@ -42,7 +42,7 @@ REPO_ROOT="${REPO_ROOT:-$SCRIPT_DIR}"
 
 **Before**:
 ```bash
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 SERVER_IP="74.208.155.161"
 REPO_ROOT="/home/runner/work/nexus-cos/nexus-cos"
 ```
@@ -50,7 +50,7 @@ REPO_ROOT="/home/runner/work/nexus-cos/nexus-cos"
 **After**:
 ```bash
 # Allow environment variable overrides for flexibility
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 SERVER_IP="${SERVER_IP:-74.208.155.161}"
 
 # Dynamically determine repository root
@@ -68,7 +68,7 @@ REPO_ROOT="${REPO_ROOT:-$SCRIPT_DIR}"
 
 **Before**:
 ```bash
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 SERVER_IP="74.208.155.161"
 
 # Later in code:
@@ -77,7 +77,7 @@ if [[ -f "/home/runner/work/nexus-cos/nexus-cos/.env" ]]; then
 
 **After**:
 ```bash
-DOMAIN="${DOMAIN:-nexuscos.online}"
+DOMAIN="${DOMAIN:-n3xuscos.online}"
 SERVER_IP="${SERVER_IP:-74.208.155.161}"
 
 # Dynamically determine repository root
@@ -227,7 +227,7 @@ sudo bash pf-master-deployment.sh
 ### After This Fix
 ```bash
 cd /var/www/nexus-cos
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 # ✅ Success: Repository located: /var/www/nexus-cos
 # ✅ Deployment completes successfully
 # ✅ Official UI/branding deployed

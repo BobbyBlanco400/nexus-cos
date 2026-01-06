@@ -1,4 +1,4 @@
-# SSL Configuration Implementation for nexuscos.online
+# SSL Configuration Implementation for n3xuscos.online
 
 This document details the complete SSL configuration implementation for the Nexus COS platform as per the specified requirements.
 
@@ -7,24 +7,24 @@ This document details the complete SSL configuration implementation for the Nexu
 All SSL configuration requirements have been successfully implemented across the repository. The implementation includes:
 
 ### 1. Domain URLs and SSL Configuration ✅
-- **Primary Domain**: nexuscos.online
-- **www Subdomain**: www.nexuscos.online  
-- **Monitoring Subdomain**: monitoring.nexuscos.online
+- **Primary Domain**: n3xuscos.online
+- **www Subdomain**: www.n3xuscos.online  
+- **Monitoring Subdomain**: monitoring.n3xuscos.online
 
 All domains are configured with proper SSL certificates and HTTP to HTTPS redirection.
 
 ### 2. Frontend Application Routes ✅
-- **Main Application**: https://nexuscos.online/
-- **Admin Panel**: https://nexuscos.online/admin/
-- **Creator Hub**: https://nexuscos.online/creator-hub/
+- **Main Application**: https://n3xuscos.online/
+- **Admin Panel**: https://n3xuscos.online/admin/
+- **Creator Hub**: https://n3xuscos.online/creator-hub/
 
 All routes are properly configured in nginx configurations with SSL termination.
 
 ### 3. API Endpoints ✅
-- **Main API**: https://nexuscos.online/api/ (Port 3001)
-- **AI Service**: https://nexuscos.online/ai/ (Port 3010)
-- **Keys Service**: https://nexuscos.online/keys/ (Port 3014)
-- **Health Check**: https://nexuscos.online/health (Port 3001)
+- **Main API**: https://n3xuscos.online/api/ (Port 3001)
+- **AI Service**: https://n3xuscos.online/ai/ (Port 3010)
+- **Keys Service**: https://n3xuscos.online/keys/ (Port 3014)
+- **Health Check**: https://n3xuscos.online/health (Port 3001)
 
 All API endpoints are configured with proper SSL termination and reverse proxy setup.
 
@@ -67,7 +67,7 @@ Correct file permissions are enforced by scripts:
 ```nginx
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online monitoring.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online monitoring.n3xuscos.online;
     return 301 https://$server_name$request_uri;
 }
 ```
@@ -97,10 +97,10 @@ Implemented in testing scripts:
 nginx -t
 
 # Check HTTPS accessibility
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # Verify SSL certificate
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
 ```
 
 ### 11. Required SSL Files Structure ✅
@@ -114,19 +114,19 @@ openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
 ### 12. Log File Locations ✅
 ```
 /var/log/nginx/
-├── nexuscos.online_access.log
-├── nexuscos.online_error.log
-└── monitoring.nexuscos.online_access.log
-└── monitoring.nexuscos.online_error.log
+├── n3xuscos.online_access.log
+├── n3xuscos.online_error.log
+└── monitoring.n3xuscos.online_access.log
+└── monitoring.n3xuscos.online_error.log
 ```
 
 ## 📁 Implementation Files
 
 ### Main Configuration Files
 - `nginx.conf` - Main nginx configuration with SSL setup
-- `deployment/nginx/nexuscos.online-enhanced.conf` - Comprehensive production configuration
-- `deployment/nginx/production.nexuscos.online.conf` - Production-grade configuration
-- `deployment/nginx/nexuscos.online.conf` - Standard configuration
+- `deployment/nginx/n3xuscos.online-enhanced.conf` - Comprehensive production configuration
+- `deployment/nginx/production.n3xuscos.online.conf` - Production-grade configuration
+- `deployment/nginx/n3xuscos.online.conf` - Standard configuration
 
 ### Automation Scripts
 - `puabo_fix_nginx_ssl.sh` - SSL certificate installation and configuration
@@ -142,8 +142,8 @@ openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
 ### 1. SSL Certificate Installation
 ```bash
 # Place certificates in /tmp/
-sudo cp your-certificate.crt /tmp/nexuscos.online.crt
-sudo cp your-private-key.key /tmp/nexuscos.online.key
+sudo cp your-certificate.crt /tmp/n3xuscos.online.crt
+sudo cp your-private-key.key /tmp/n3xuscos.online.key
 sudo cp your-chain.pem /tmp/chain.pem
 
 # Run installation script
@@ -168,7 +168,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # Verify HTTPS access
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 ```
 
 ## 🔒 Security Features Implemented
@@ -216,8 +216,8 @@ The comprehensive validation script confirms:
 For SSL configuration issues:
 1. Run validation: `./comprehensive_ssl_validation.sh`
 2. Check specific SSL tests: `sudo ./test_ssl_config.sh`
-3. Review nginx logs: `sudo tail -f /var/log/nginx/nexuscos.online_error.log`
+3. Review nginx logs: `sudo tail -f /var/log/nginx/n3xuscos.online_error.log`
 
 ---
 
-*This implementation meets all requirements specified in the problem statement for nexuscos.online SSL configuration.*
+*This implementation meets all requirements specified in the problem statement for n3xuscos.online SSL configuration.*

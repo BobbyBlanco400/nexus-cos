@@ -84,7 +84,7 @@ Added three standardized endpoints:
 
 In production, update `frontend/.env` to:
 ```
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 The API client will automatically use this URL instead of `localhost:3004`.

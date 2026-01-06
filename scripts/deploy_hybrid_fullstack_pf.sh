@@ -7,7 +7,7 @@
 # For: PUABO / Nexus COS
 # Version: v2025.10.01
 # Date: 2025-10-01 23:22 PST
-# Target VPS: 74.208.155.161 (nexuscos.online)
+# Target VPS: 74.208.155.161 (n3xuscos.online)
 # ==============================================================================
 # Purpose: Deploy the complete Nexus COS ecosystem including PUABO NEXUS
 # Fleet Management System (ports 3231-3234) and all integrated services
@@ -21,7 +21,7 @@ set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 readonly REPO_ROOT="/opt/nexus-cos"
 readonly VPS_IP="74.208.155.161"
-readonly DOMAIN="${DOMAIN:-nexuscos.online}"
+readonly DOMAIN="${DOMAIN:-n3xuscos.online}"
 readonly SSL_BASE="/etc/nginx/ssl"
 readonly ENV_FILE="${REPO_ROOT}/.env.pf"
 readonly ENV_EXAMPLE="${REPO_ROOT}/.env.pf.example"

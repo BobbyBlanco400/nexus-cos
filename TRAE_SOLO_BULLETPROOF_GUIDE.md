@@ -70,7 +70,7 @@ The script uses the following paths and can be customized:
 REPO_MAIN="/opt/nexus-cos"                    # Main repository path
 ENV_FILE="$REPO_MAIN/.env"                     # Environment configuration
 SERVICE_NAME="nexuscos-app"                    # Main systemd service name
-DOMAIN="nexuscos.online"                       # Primary domain
+DOMAIN="n3xuscos.online"                       # Primary domain
 NGINX_CONFIG="/etc/nginx/sites-enabled/nexuscos.conf"
 ```
 
@@ -169,13 +169,13 @@ After deployment, verify these endpoints:
 
 ```bash
 # Main health check
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # Alternative health check
-curl https://nexuscos.online/healthz
+curl https://n3xuscos.online/healthz
 
 # API test
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Port check
 ss -ltnp | grep ':3000'
@@ -320,13 +320,13 @@ systemctl restart nexuscos-app
 
 ```bash
 # Check certificates
-ls -la /etc/letsencrypt/live/nexuscos.online/
+ls -la /etc/letsencrypt/live/n3xuscos.online/
 
 # Renew certificates
 certbot renew
 
 # Test SSL
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 ```
 
 ## Error Recovery

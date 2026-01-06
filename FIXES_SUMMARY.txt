@@ -53,11 +53,11 @@
 ║                        PRODUCTION URLS - ALL WORKING                         ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
-✅ https://nexuscos.online/api/
-✅ https://nexuscos.online/api/status
-✅ https://nexuscos.online/api/health
-✅ https://nexuscos.online/api/system/status
-✅ https://nexuscos.online/api/v1/imcus/001/status
+✅ https://n3xuscos.online/api/
+✅ https://n3xuscos.online/api/status
+✅ https://n3xuscos.online/api/health
+✅ https://n3xuscos.online/api/system/status
+✅ https://n3xuscos.online/api/v1/imcus/001/status
 
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                          SERVICES - ALL READY                                ║

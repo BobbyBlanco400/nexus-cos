@@ -414,7 +414,7 @@ legal@nexuscos.com
 compliance@nexuscos.com
 
 **General Information:**  
-https://nexuscos.online/legal
+https://n3xuscos.online/legal
 
 ---
 

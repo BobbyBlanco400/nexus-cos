@@ -45,11 +45,11 @@ bash base-path-200-blocks.sh
 
 | Endpoint | Expected | Description |
 |----------|----------|-------------|
-| `https://nexuscos.online/` | `301` | Redirect to `/streaming/` |
-| `https://nexuscos.online/api/` | `200` | API health check |
-| `https://nexuscos.online/streaming/` | `200` | Streaming health check |
-| `https://nexuscos.online/socket.io/?EIO=4&transport=polling` | `200` | Socket.IO main |
-| `https://nexuscos.online/streaming/socket.io/?EIO=4&transport=polling` | `200` | Socket.IO streaming |
+| `https://n3xuscos.online/` | `301` | Redirect to `/streaming/` |
+| `https://n3xuscos.online/api/` | `200` | API health check |
+| `https://n3xuscos.online/streaming/` | `200` | Streaming health check |
+| `https://n3xuscos.online/socket.io/?EIO=4&transport=polling` | `200` | Socket.IO main |
+| `https://n3xuscos.online/streaming/socket.io/?EIO=4&transport=polling` | `200` | Socket.IO streaming |
 
 ## 📝 What Gets Done
 
@@ -65,7 +65,7 @@ bash base-path-200-blocks.sh
 ## 🔧 Environment
 
 - **VPS:** `root@74.208.155.161`
-- **Domain:** `nexuscos.online`
+- **Domain:** `n3xuscos.online`
 - **Management:** Plesk Control Panel
 - **SSL:** IONOS certificate
 
@@ -90,10 +90,10 @@ bash base-path-200-blocks.sh
 
 ```bash
 # Check endpoint status
-curl -I https://nexuscos.online/
-curl -I https://nexuscos.online/api/
-curl -I https://nexuscos.online/streaming/
-curl -I "https://nexuscos.online/socket.io/?EIO=4&transport=polling"
+curl -I https://n3xuscos.online/
+curl -I https://n3xuscos.online/api/
+curl -I https://n3xuscos.online/streaming/
+curl -I "https://n3xuscos.online/socket.io/?EIO=4&transport=polling"
 
 # Check Nginx status
 systemctl status nginx
@@ -126,8 +126,8 @@ nginx -t
 tail -50 /var/log/nginx/error.log
 
 # Restore from backup
-cp /etc/nginx/conf.d/pf_gateway_nexuscos.online.conf.backup-* \
-   /etc/nginx/conf.d/pf_gateway_nexuscos.online.conf
+cp /etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf.backup-* \
+   /etc/nginx/conf.d/pf_gateway_n3xuscos.online.conf
 ```
 
 ### PowerShell SSH Issues

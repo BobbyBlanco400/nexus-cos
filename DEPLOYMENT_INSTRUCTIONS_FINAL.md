@@ -33,8 +33,8 @@ Before you begin, ensure:
 
 ### Step 1: SSH to Production Server
 ```bash
-ssh root@nexuscos.online
-# Or: ssh your-user@nexuscos.online
+ssh root@n3xuscos.online
+# Or: ssh your-user@n3xuscos.online
 ```
 
 ### Step 2: Navigate to Application Directory
@@ -113,10 +113,10 @@ sleep 10
 pm2 list
 
 # Check health endpoint
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # Check specifically for db status
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 **Success Criteria**: The health endpoint should return:
@@ -178,7 +178,7 @@ sudo systemctl start postgresql
 pm2 restart all
 
 # Verify
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 ### Issue 2: Database Doesn't Exist
@@ -200,7 +200,7 @@ GRANT ALL PRIVILEGES ON DATABASE nexuscos_db TO nexuscos;
 pm2 restart all
 
 # Verify
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 ### Issue 3: Docker Container Not Running (If Using Docker)
@@ -225,7 +225,7 @@ sed -i "s/DB_HOST: 'localhost'/DB_HOST: 'nexus-cos-postgres'/g" ecosystem.config
 pm2 restart all
 
 # Verify
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 ### Issue 4: Wrong Credentials
@@ -247,7 +247,7 @@ nano ecosystem.config.js
 pm2 restart all
 
 # Verify
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 ---
@@ -300,15 +300,15 @@ pm2 list | grep -c "online"
 # Should output: 33
 
 # 2. Check health endpoint
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 # Should output: "up"
 
 # 3. Check main application is accessible
-curl -s https://nexuscos.online/ -I | head -n 1
+curl -s https://n3xuscos.online/ -I | head -n 1
 # Should output: HTTP/2 200
 
 # 4. Check a sample API endpoint
-curl -s https://nexuscos.online/api/health | jq
+curl -s https://n3xuscos.online/api/health | jq
 # Should return valid JSON response
 
 # 5. Verify PM2 startup config is saved

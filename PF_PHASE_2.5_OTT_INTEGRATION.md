@@ -19,7 +19,7 @@ cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
 This bulletproof deployment script automatically:
 - ✅ Deploys apex and beta landing pages with unified Nexus COS branding
 - ✅ Configures Nginx for Phase 2.5 routing
-- ✅ Verifies beta.nexuscos.online URL configuration
+- ✅ Verifies beta.n3xuscos.online URL configuration
 - ✅ Validates all deployments
 - ✅ Reports clear success/failure status
 
@@ -37,9 +37,9 @@ Formalize the coexistence and integration of the Nexus COS OTT Frontend, V-Suite
 
 | Layer | Purpose | Domain/Path | Lifecycle |
 |-------|---------|-------------|-----------|
-| **Beta Launch Portal** | Public pre-launch promo + countdown hub | `beta.nexuscos.online` | Active until Nov 17, 2025 |
-| **OTT / Streaming Frontend** | Public-facing app for media, shows, music, live events | `nexuscos.online` | Permanent production |
-| **Dashboard / Creator Suite** | Creator & operator control center (V-Suite) | `nexuscos.online/v-suite/` | Permanent production |
+| **Beta Launch Portal** | Public pre-launch promo + countdown hub | `beta.n3xuscos.online` | Active until Nov 17, 2025 |
+| **OTT / Streaming Frontend** | Public-facing app for media, shows, music, live events | `n3xuscos.online` | Permanent production |
+| **Dashboard / Creator Suite** | Creator & operator control center (V-Suite) | `n3xuscos.online/v-suite/` | Permanent production |
 
 **Architecture Principle:** All three layers operate under the Nexus COS ecosystem with isolated Nginx routing and shared authentication via Nexus ID SSO.
 
@@ -56,9 +56,9 @@ Formalize the coexistence and integration of the Nexus COS OTT Frontend, V-Suite
 
 ### Deployment Strategy
 
-1. **Maintain** `beta.nexuscos.online` under `/var/www/beta.nexuscos.online/` until 11/17/2025
-2. **Deploy** OTT and Dashboard independently under `/var/www/nexuscos.online/`
-3. **On Nov 17, 2025:** Redirect all traffic from `beta.nexuscos.online` → `https://nexuscos.online`
+1. **Maintain** `beta.n3xuscos.online` under `/var/www/beta.n3xuscos.online/` until 11/17/2025
+2. **Deploy** OTT and Dashboard independently under `/var/www/n3xuscos.online/`
+3. **On Nov 17, 2025:** Redirect all traffic from `beta.n3xuscos.online` → `https://n3xuscos.online`
 4. **Post-transition:** Repurpose Beta domain as staging or enforce permanent redirect
 5. **Automation:** TRAE SOLO will automate redirect scheduling through Nginx or CI-based cron execution
 
@@ -68,17 +68,17 @@ Formalize the coexistence and integration of the Nexus COS OTT Frontend, V-Suite
 
 ### Public Viewers
 ```
-nexuscos.online → OTT Interface → Stream & Interact
+n3xuscos.online → OTT Interface → Stream & Interact
 ```
 
 ### Creators/Admins
 ```
-nexuscos.online/v-suite → SSO Login → Access Modules (DSP, BLAC, Dispatch, Nuki, etc.)
+n3xuscos.online/v-suite → SSO Login → Access Modules (DSP, BLAC, Dispatch, Nuki, etc.)
 ```
 
 ### Beta Visitors (Until Nov 17, 2025)
 ```
-beta.nexuscos.online → Countdown & Feature Showcase → Register Interest
+beta.n3xuscos.online → Countdown & Feature Showcase → Register Interest
 ```
 
 **Architecture Note:** Single backend ecosystem, dynamic UI routing based on user role tokens.
@@ -87,22 +87,22 @@ beta.nexuscos.online → Countdown & Feature Showcase → Register Interest
 
 ## 4. ROUTING STRUCTURE
 
-### 4.1 Production Domain - nexuscos.online
+### 4.1 Production Domain - n3xuscos.online
 
 ```nginx
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/apex/nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/apex/nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/apex/n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/apex/n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -116,7 +116,7 @@ server {
     
     # OTT Frontend - Public Streaming Interface
     location / {
-        root /var/www/nexuscos.online;
+        root /var/www/n3xuscos.online;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
@@ -154,22 +154,22 @@ server {
 }
 ```
 
-### 4.2 Beta Domain - beta.nexuscos.online (Until Nov 17, 2025)
+### 4.2 Beta Domain - beta.n3xuscos.online (Until Nov 17, 2025)
 
 ```nginx
 server {
     listen 80;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/beta/beta.nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/beta/beta.nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/beta/beta.n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/beta/beta.n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -183,7 +183,7 @@ server {
     
     # Beta Landing Page
     location / {
-        root /var/www/beta.nexuscos.online;
+        root /var/www/beta.n3xuscos.online;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
@@ -210,23 +210,23 @@ server {
 # Permanent redirect from beta to production
 server {
     listen 80;
-    server_name beta.nexuscos.online;
-    return 301 https://nexuscos.online$request_uri;
+    server_name beta.n3xuscos.online;
+    return 301 https://n3xuscos.online$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
     
     # IONOS SSL Certificates
-    ssl_certificate /etc/nginx/ssl/beta/beta.nexuscos.online.crt;
-    ssl_certificate_key /etc/nginx/ssl/beta/beta.nexuscos.online.key;
+    ssl_certificate /etc/nginx/ssl/beta/beta.n3xuscos.online.crt;
+    ssl_certificate_key /etc/nginx/ssl/beta/beta.n3xuscos.online.key;
     
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
     
     # Redirect all traffic to production
-    return 301 https://nexuscos.online$request_uri;
+    return 301 https://n3xuscos.online$request_uri;
 }
 ```
 
@@ -246,13 +246,13 @@ PR87 Harness continues to validate all endpoints:
 ```
 CI/CD Pipeline
 │
-├── Production Deploy (nexuscos.online)
-│   ├── Deploy OTT Frontend → /var/www/nexuscos.online/
+├── Production Deploy (n3xuscos.online)
+│   ├── Deploy OTT Frontend → /var/www/n3xuscos.online/
 │   ├── Deploy Backend Services → Docker Compose
 │   └── Validate Production Endpoints
 │
-├── Beta Deploy (beta.nexuscos.online)
-│   ├── Deploy Beta Landing Page → /var/www/beta.nexuscos.online/
+├── Beta Deploy (beta.n3xuscos.online)
+│   ├── Deploy Beta Landing Page → /var/www/beta.n3xuscos.online/
 │   └── Validate Beta Endpoints
 │
 └── Post-Deploy Validation
@@ -342,7 +342,7 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 **Expected Outcome:** 
 - ✅ All three layers operational with isolated routing
 - ✅ Unified Nexus COS branding (#2563eb) verified
-- ✅ Beta landing page at beta.nexuscos.online deployed
+- ✅ Beta landing page at beta.n3xuscos.online deployed
 - ✅ All validation checks passing
 
 **Documentation:** See `PHASE_2.5_DEPLOYMENT_GUIDE.md` for complete deployment instructions
@@ -355,7 +355,7 @@ sudo ./scripts/validate-phase-2.5-deployment.sh
 **Action:** Scaffold centralized UI access dashboard with OTT routing layer
 
 **Tasks:**
-1. Create OTT frontend structure under `/var/www/nexuscos.online/`
+1. Create OTT frontend structure under `/var/www/n3xuscos.online/`
 2. Implement role-based routing (Public vs Creator)
 3. Integrate Nexus ID SSO for dashboard access
 4. Configure service mesh communication
@@ -434,9 +434,9 @@ sudo nginx -t && sudo systemctl reload nginx
 - [ ] Docker services healthy
 
 ### Post-Deployment
-- [ ] Apex landing page accessible at `https://nexuscos.online`
-- [ ] Beta landing page accessible at `https://beta.nexuscos.online`
-- [ ] V-Suite dashboard accessible at `https://nexuscos.online/v-suite/`
+- [ ] Apex landing page accessible at `https://n3xuscos.online`
+- [ ] Beta landing page accessible at `https://beta.n3xuscos.online`
+- [ ] V-Suite dashboard accessible at `https://n3xuscos.online/v-suite/`
 - [ ] All health endpoints returning 200 OK
 - [ ] SSL certificates valid for all domains
 - [ ] Traffic routing correctly to all layers
@@ -485,8 +485,8 @@ sudo nginx -t && sudo systemctl reload nginx
 ### Transition Rollback (If Required)
 ```bash
 # Restore beta standalone operation
-sudo cp /etc/nginx/backups/beta.nexuscos.online.conf.pre-transition \
-       /etc/nginx/sites-available/beta.nexuscos.online.conf
+sudo cp /etc/nginx/backups/beta.n3xuscos.online.conf.pre-transition \
+       /etc/nginx/sites-available/beta.n3xuscos.online.conf
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -548,10 +548,10 @@ Phase 2.5 deployment is considered **SUCCESSFUL** when:
 - `3016` - StreamCore (OTT Engine)
 
 ### C. Domain Mappings
-- `nexuscos.online` → OTT Frontend + V-Suite Backend
-- `beta.nexuscos.online` → Beta Landing (Until Nov 17, 2025)
-- `hollywood.nexuscos.online` → V-Screen Hollywood
-- `tv.nexuscos.online` → StreamCore Direct Access
+- `n3xuscos.online` → OTT Frontend + V-Suite Backend
+- `beta.n3xuscos.online` → Beta Landing (Until Nov 17, 2025)
+- `hollywood.n3xuscos.online` → V-Screen Hollywood
+- `tv.n3xuscos.online` → StreamCore Direct Access
 
 ---
 

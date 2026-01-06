@@ -45,7 +45,7 @@ Before deploying, ensure you have:
 
 ### Step 1: SSH to Production Server
 ```bash
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 ```
 
 ### Step 2: Navigate to Application Directory
@@ -187,7 +187,7 @@ Expected output: All 33 services showing "online"
 
 ### Check Health Endpoint
 ```bash
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 Expected output:
@@ -442,7 +442,7 @@ pm2 restart all
 - [ ] All services show "online" in `pm2 list`
 - [ ] Health endpoint returns `"db": "up"`
 - [ ] No database connection errors in logs
-- [ ] Frontend is accessible at https://nexuscos.online
+- [ ] Frontend is accessible at https://n3xuscos.online
 - [ ] PM2 configuration saved with `pm2 save`
 
 ### Long-Term Monitoring
@@ -483,7 +483,7 @@ pm2 logs
 pm2 monit
 
 # Check health
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # Restart service
 pm2 restart <service-name>
@@ -498,7 +498,7 @@ pm2 stop all
 ### Getting Help
 
 1. Check PM2 logs: `pm2 logs`
-2. Check health endpoint: `curl https://nexuscos.online/health`
+2. Check health endpoint: `curl https://n3xuscos.online/health`
 3. Verify PostgreSQL: `sudo systemctl status postgresql`
 4. Check ecosystem config: `node -c ecosystem.config.js`
 
@@ -511,7 +511,7 @@ When deployment is successful, you should see:
 ✅ All 33 services showing "online" in PM2  
 ✅ Health endpoint returns `{"status": "ok", "db": "up"}`  
 ✅ No errors in `pm2 logs`  
-✅ Application accessible at https://nexuscos.online  
+✅ Application accessible at https://n3xuscos.online  
 ✅ Database queries working correctly  
 
 **🎊 You're ready to use Nexus COS!**

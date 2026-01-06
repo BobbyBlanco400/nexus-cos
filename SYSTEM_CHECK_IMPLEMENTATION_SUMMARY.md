@@ -18,7 +18,7 @@ The user requested a comprehensive system check and confirmation script for the 
 2. ✅ **Artifacts Verification** - Check deployment scripts and configuration files
 3. ✅ **Stacks Report** - Validate both docker-compose files
 4. ✅ **Nginx Validation** - Run nginx -t without errors
-5. ✅ **SSL Certificate Check** - Retrieve and verify SSL cert for nexuscos.online
+5. ✅ **SSL Certificate Check** - Retrieve and verify SSL cert for n3xuscos.online
 6. ✅ **Internal Health Endpoints** - Test 127.0.0.1:9001-9004
 7. ✅ **External Preview URLs** - Check Home, Admin, Hub, Studio, Prompter
 8. ✅ **Service Health Endpoints** - Test Core API and PUABO NEXUS routes
@@ -96,7 +96,7 @@ A comprehensive, production-ready system validation script that performs **60+ i
 - Checks Nginx service status (systemctl or process)
 
 ### 5. SSL Certificate Validation ✅
-- Retrieves SSL certificate for nexuscos.online
+- Retrieves SSL certificate for n3xuscos.online
 - Displays issuer, subject, and dates
 - Calculates days until expiration
 - Warns if expiry < 30 days
@@ -111,11 +111,11 @@ Tests internal services on localhost:
 
 ### 7. Preview URLs Validation ✅
 Tests main portal pages:
-- `https://nexuscos.online/` - Home Page
-- `https://nexuscos.online/admin` - Admin Portal
-- `https://nexuscos.online/hub` - Creator Hub
-- `https://nexuscos.online/studio` - Studio
-- `https://nexuscos.online/v-suite/prompter/health` - V-Suite Prompter
+- `https://n3xuscos.online/` - Home Page
+- `https://n3xuscos.online/admin` - Admin Portal
+- `https://n3xuscos.online/hub` - Creator Hub
+- `https://n3xuscos.online/studio` - Studio
+- `https://n3xuscos.online/v-suite/prompter/health` - V-Suite Prompter
 
 ### 8. Service Health Endpoints ✅
 Comprehensive testing of 14+ service health endpoints:
@@ -211,14 +211,14 @@ bash scripts/nexus-cos-final-system-check.sh
 
 ### On VPS (Production)
 ```bash
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 cd /opt/nexus-cos
 bash scripts/nexus-cos-final-system-check.sh
 ```
 
 ### With Custom Domain
 ```bash
-DOMAIN=beta.nexuscos.online bash scripts/nexus-cos-final-system-check.sh
+DOMAIN=beta.n3xuscos.online bash scripts/nexus-cos-final-system-check.sh
 ```
 
 ### Custom Repository Path
@@ -362,15 +362,15 @@ bash /opt/nexus-cos/scripts/deploy_hybrid_fullstack_pf.sh
    - Review success rate
 
 3. **Verify Preview URLs:**
-   - Open https://nexuscos.online/
-   - Test https://nexuscos.online/admin
-   - Check https://nexuscos.online/hub
-   - Verify https://nexuscos.online/studio
+   - Open https://n3xuscos.online/
+   - Test https://n3xuscos.online/admin
+   - Check https://n3xuscos.online/hub
+   - Verify https://n3xuscos.online/studio
 
 4. **Test Health Endpoints:**
-   - Core API: https://nexuscos.online/api/health
-   - PUABO NEXUS: https://nexuscos.online/puabo-nexus/dispatch/health
-   - V-Suite: https://nexuscos.online/v-suite/prompter/health
+   - Core API: https://n3xuscos.online/api/health
+   - PUABO NEXUS: https://n3xuscos.online/puabo-nexus/dispatch/health
+   - V-Suite: https://n3xuscos.online/v-suite/prompter/health
 
 ### Ongoing Usage
 - **Daily:** During active development

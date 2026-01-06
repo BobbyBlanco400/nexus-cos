@@ -135,18 +135,18 @@ http://localhost:8088
 
 **Subdomain** (Recommended):
 ```
-https://hollywood.nexuscos.online
+https://hollywood.n3xuscos.online
 ```
 
 **Path-based**:
 ```
-https://nexuscos.online/v-suite/hollywood
+https://n3xuscos.online/v-suite/hollywood
 ```
 
 **Health Check**:
 ```
-https://hollywood.nexuscos.online/health
-https://nexuscos.online/v-suite/hollywood/health
+https://hollywood.n3xuscos.online/health
+https://n3xuscos.online/v-suite/hollywood/health
 ```
 
 ---
@@ -155,7 +155,7 @@ https://nexuscos.online/v-suite/hollywood/health
 
 V-Screen Hollywood is proxied through Nginx with the following configuration:
 
-### Subdomain: hollywood.nexuscos.online
+### Subdomain: hollywood.n3xuscos.online
 
 The nginx configuration includes:
 - HTTP to HTTPS redirect
@@ -185,10 +185,10 @@ User Request → Nginx (443) → vscreen-hollywood (8088)
 curl http://localhost:8088/health
 
 # Via Nginx subdomain (requires DNS and SSL setup)
-curl https://hollywood.nexuscos.online/health
+curl https://hollywood.n3xuscos.online/health
 
 # Via path-based route
-curl https://nexuscos.online/v-suite/hollywood/health
+curl https://n3xuscos.online/v-suite/hollywood/health
 ```
 
 ### API Endpoints Test
@@ -216,7 +216,7 @@ ws://localhost:8088
 
 Or via Nginx with WSS:
 ```
-wss://hollywood.nexuscos.online/ws
+wss://hollywood.n3xuscos.online/ws
 ```
 
 ### Mobile SDK Integration Test
@@ -225,7 +225,7 @@ Test with iOS/Android mobile SDK:
 
 ```bash
 # Configure mobile app to connect to:
-# - Production: https://hollywood.nexuscos.online
+# - Production: https://hollywood.n3xuscos.online
 # - Staging: http://YOUR_VPS_IP:8088
 ```
 
@@ -345,7 +345,7 @@ docker compose -f docker-compose.pf.yml restart vscreen-hollywood
 grep -A 5 "location /ws" nginx/nginx.conf
 
 # Check nginx logs
-tail -f /var/log/nginx/hollywood.nexuscos.online_error.log
+tail -f /var/log/nginx/hollywood.n3xuscos.online_error.log
 
 # Ensure proxy timeout is set
 # proxy_read_timeout should be 86400 (24 hours)
@@ -430,7 +430,7 @@ Expected response from `/health` endpoint:
                       ▼
 ┌─────────────────────────────────────────────────────┐
 │  Nginx Reverse Proxy (SSL/TLS, WebSocket)          │
-│  https://hollywood.nexuscos.online                  │
+│  https://hollywood.n3xuscos.online                  │
 └─────────────────────────────────────────────────────┘
                       │
                       ▼

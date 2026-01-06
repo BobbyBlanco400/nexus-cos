@@ -2,7 +2,7 @@
 
 ## Overview
 
-This implementation successfully fixes the Nginx routing issue for nexuscos.online where the domain was serving the Nginx welcome page instead of the published site.
+This implementation successfully fixes the Nginx routing issue for n3xuscos.online where the domain was serving the Nginx welcome page instead of the published site.
 
 ## Problem Statement Compliance
 
@@ -10,10 +10,10 @@ All requirements from the problem statement have been met:
 
 ### ✅ 1. Minimal, Correct Vhost Config for Vanilla Nginx
 
-**Location**: `deployment/nginx/sites-available/nexuscos.online`
+**Location**: `deployment/nginx/sites-available/n3xuscos.online`
 
 **Features Implemented**:
-- ✅ HTTP to HTTPS redirect for nexuscos.online and www subdomain
+- ✅ HTTP to HTTPS redirect for n3xuscos.online and www subdomain
 - ✅ Default server redirect to capture IP and unmatched domain requests
 - ✅ SSL/TLS using IONOS certificates (`/etc/ssl/ionos/fullchain.pem` and `privkey.pem`)
 - ✅ HSTS and security headers (X-Frame-Options, X-Content-Type-Options, etc.)
@@ -31,7 +31,7 @@ All requirements from the problem statement have been met:
 
 The script performs:
 1. Backup existing configuration with timestamp
-2. Copy vhost to `/etc/nginx/sites-available/nexuscos.online`
+2. Copy vhost to `/etc/nginx/sites-available/n3xuscos.online`
 3. Create symlink in `/etc/nginx/sites-enabled/`
 4. Remove default site from sites-enabled
 5. Test Nginx configuration with `nginx -t`
@@ -45,7 +45,7 @@ The script performs:
 **Automated Script**: `deployment/nginx/scripts/deploy-plesk.sh`
 
 The Plesk configuration:
-- Uses correct Plesk paths (`/var/www/vhosts/nexuscos.online/httpdocs`)
+- Uses correct Plesk paths (`/var/www/vhosts/n3xuscos.online/httpdocs`)
 - Includes all required location blocks
 - Integrates with Plesk's repair web command
 - Provides same routing functionality as vanilla config
@@ -75,8 +75,8 @@ SKIP_SSL_VERIFY=true ./deployment/nginx/scripts/validate-endpoints.sh
 
 **Root Causes Identified**:
 
-1. **Default site winning**: The default Nginx site configuration in `sites-enabled` was being served instead of a nexuscos.online-specific vhost
-2. **Server name mismatch**: No active vhost configuration matched `nexuscos.online`, causing requests to fall through to `default_server`
+1. **Default site winning**: The default Nginx site configuration in `sites-enabled` was being served instead of a n3xuscos.online-specific vhost
+2. **Server name mismatch**: No active vhost configuration matched `n3xuscos.online`, causing requests to fall through to `default_server`
 3. **Incorrect document root**: The vhost root was pointing to Nginx's default directory (`/var/www/html`) instead of the published portal at `/var/www/nexus-cos`
 4. **Incomplete proxy configuration**: API and streaming routes lacked complete proxy headers and WebSocket upgrade handling
 5. **Plesk configuration location**: On IONOS/Plesk systems, the correct place to configure per-domain locations is `vhost_nginx.conf`, not `sites-available`
@@ -91,16 +91,16 @@ SKIP_SSL_VERIFY=true ./deployment/nginx/scripts/validate-endpoints.sh
 
 **Vanilla Rollback**:
 ```bash
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.TIMESTAMP \
-     /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.TIMESTAMP \
+     /etc/nginx/sites-enabled/n3xuscos.online
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
 **Plesk Rollback**:
 ```bash
-sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
-     /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
-sudo plesk repair web -domain nexuscos.online -y
+sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
+     /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
+sudo plesk repair web -domain n3xuscos.online -y
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -194,7 +194,7 @@ Failed: 0
 ```
 deployment/nginx/
 ├── sites-available/
-│   └── nexuscos.online              # Vanilla Nginx vhost config (204 lines)
+│   └── n3xuscos.online              # Vanilla Nginx vhost config (204 lines)
 ├── plesk/
 │   └── vhost_nginx.conf             # Plesk additional directives (91 lines)
 ├── scripts/
@@ -296,6 +296,6 @@ All success criteria from the problem statement have been met:
 
 ## Conclusion
 
-This implementation provides a production-ready, well-tested, and thoroughly documented solution to fix the Nginx routing issue for nexuscos.online. All requirements have been met or exceeded, with additional features like integration testing, comprehensive documentation, and robust error handling.
+This implementation provides a production-ready, well-tested, and thoroughly documented solution to fix the Nginx routing issue for n3xuscos.online. All requirements have been met or exceeded, with additional features like integration testing, comprehensive documentation, and robust error handling.
 
 The solution is ready for immediate deployment with minimal risk due to automatic backups, configuration validation, and rollback support.

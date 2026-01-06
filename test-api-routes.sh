@@ -1,7 +1,7 @@
 #!/bin/bash
 # Test all API routes for Nexus COS
 # Usage: ./test-api-routes.sh [base_url]
-# Example: ./test-api-routes.sh https://nexuscos.online
+# Example: ./test-api-routes.sh https://n3xuscos.online
 # Default: ./test-api-routes.sh http://localhost:3000
 
 BASE_URL="${1:-http://localhost:3000}"

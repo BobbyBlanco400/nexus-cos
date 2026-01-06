@@ -4,7 +4,7 @@
 ═══════════════════════════════════════════════════════════════
 
 Date: October 7, 2024
-Purpose: Verify TRAE's deployment message accuracy for nexuscos.online
+Purpose: Verify TRAE's deployment message accuracy for n3xuscos.online
 Status: ✅ COMPLETE AND READY FOR USE
 
 ═══════════════════════════════════════════════════════════════
@@ -89,7 +89,7 @@ Based on TRAE's deployment message, the suite verifies:
    - Container restarts successful
 
 ✅ Domain Validations
-   - https://nexuscos.online/ returns HTTP 200
+   - https://n3xuscos.online/ returns HTTP 200
    - Via Nginx/Express
 
 ✅ Health Endpoint
@@ -136,10 +136,10 @@ Expected output:
 
 Manual Quick Check (1 minute):
 ────────────────────────────────────────────────────────────────
-curl -I https://nexuscos.online/
-curl -s https://nexuscos.online/health | jq '.'
-curl -I https://nexuscos.online/v-suite/screen
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/
+curl -s https://n3xuscos.online/health | jq '.'
+curl -I https://n3xuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-screen
 
 Full Verification (10 minutes):
 ────────────────────────────────────────────────────────────────
@@ -148,9 +148,9 @@ Full Verification (10 minutes):
 ./validate-ip-domain-routing.sh
 
 # Check container logs (requires SSH)
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 ═══════════════════════════════════════════════════════════════
   VERIFICATION SCRIPT FEATURES
@@ -285,16 +285,16 @@ Missing Dependencies:
 
 Connection Issues:
   - Check firewall/VPN
-  - Verify domain: host nexuscos.online
-  - Test connectivity: ping nexuscos.online
+  - Verify domain: host n3xuscos.online
+  - Test connectivity: ping n3xuscos.online
 
 Health Endpoint Fails:
-  ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-  ssh root@nexuscos.online "docker restart puabo-api"
+  ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+  ssh root@n3xuscos.online "docker restart puabo-api"
 
 V-Screen Routes Fail:
-  ssh root@nexuscos.online "docker logs vscreen-hollywood --tail 100"
-  ssh root@nexuscos.online "docker restart vscreen-hollywood"
+  ssh root@n3xuscos.online "docker logs vscreen-hollywood --tail 100"
+  ssh root@n3xuscos.online "docker restart vscreen-hollywood"
 
 ═══════════════════════════════════════════════════════════════
   SUCCESS METRICS
@@ -346,18 +346,18 @@ View Report:
   cat /tmp/trae-deployment-verification-*.txt
 
 Quick Check:
-  curl -I https://nexuscos.online/
-  curl -s https://nexuscos.online/health | jq '.'
+  curl -I https://n3xuscos.online/
+  curl -s https://n3xuscos.online/health | jq '.'
 
 Container Status (requires SSH):
-  ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+  ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 
 Container Logs (requires SSH):
-  ssh root@nexuscos.online "docker logs puabo-api --tail 100"
-  ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+  ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
+  ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 Nginx Validation (requires SSH):
-  ssh root@nexuscos.online "nginx -t"
+  ssh root@n3xuscos.online "nginx -t"
 
 ═══════════════════════════════════════════════════════════════
   CONCLUSION

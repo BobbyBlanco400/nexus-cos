@@ -7,8 +7,8 @@ cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
 ```
 
 **That's it!** This single command deploys everything:
-- ✅ Apex landing page (nexuscos.online)
-- ✅ Beta landing page (beta.nexuscos.online)
+- ✅ Apex landing page (n3xuscos.online)
+- ✅ Beta landing page (beta.n3xuscos.online)
 - ✅ V-Suite Dashboard routing
 - ✅ Unified Nexus COS branding
 - ✅ Phase 2.5 Nginx configuration
@@ -43,9 +43,9 @@ When deployment succeeds, you'll see:
 ```
 
 Then verify your sites:
-- 🌐 https://nexuscos.online
-- 🌐 https://beta.nexuscos.online
-- 🌐 https://nexuscos.online/v-suite/
+- 🌐 https://n3xuscos.online
+- 🌐 https://beta.n3xuscos.online
+- 🌐 https://n3xuscos.online/v-suite/
 
 ---
 
@@ -78,9 +78,9 @@ Before deploying:
 - Zero external dependencies
 
 ### Three System Layers
-1. **OTT Frontend** → nexuscos.online
-2. **V-Suite Dashboard** → nexuscos.online/v-suite/
-3. **Beta Portal** → beta.nexuscos.online (until Nov 17, 2025)
+1. **OTT Frontend** → n3xuscos.online
+2. **V-Suite Dashboard** → n3xuscos.online/v-suite/
+3. **Beta Portal** → beta.n3xuscos.online (until Nov 17, 2025)
 
 ---
 

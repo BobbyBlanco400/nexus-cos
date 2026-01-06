@@ -31,8 +31,8 @@ git pull origin main  # or clone if needed
 ```bash
 # Backup, deploy, and reload nginx
 sudo cp /etc/nginx/sites-available/nexuscos /etc/nginx/backups/nexuscos.backup 2>/dev/null || true
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos
-sudo cp deployment/nginx/beta.nexuscos.online.conf /etc/nginx/sites-available/beta.nexuscos
+sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/nexuscos
+sudo cp deployment/nginx/beta.n3xuscos.online.conf /etc/nginx/sites-available/beta.nexuscos
 sudo ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/
 sudo ln -sf /etc/nginx/sites-available/beta.nexuscos /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
@@ -95,18 +95,18 @@ Test endpoints after deployment:
 
 ```bash
 # Core endpoints
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/health/gateway
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/health/gateway
 
 # PUABO NEXUS fleet
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
-curl -I https://nexuscos.online/puabo-nexus/driver/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
-curl -I https://nexuscos.online/puabo-nexus/routes/health
+curl -I https://n3xuscos.online/puabo-nexus/dispatch/health
+curl -I https://n3xuscos.online/puabo-nexus/driver/health
+curl -I https://n3xuscos.online/puabo-nexus/fleet/health
+curl -I https://n3xuscos.online/puabo-nexus/routes/health
 
 # Beta domain
-curl -I https://beta.nexuscos.online/
-curl -I https://beta.nexuscos.online/api/health
+curl -I https://beta.n3xuscos.online/
+curl -I https://beta.n3xuscos.online/api/health
 ```
 
 **All should return:** `200 OK` (or `204 No Content` for some health endpoints)
@@ -148,8 +148,8 @@ After deployment, you should have:
 
 - ✅ Nginx config valid (`nginx -t` passes)
 - ✅ All health endpoints return 200
-- ✅ Landing page loads at https://nexuscos.online
-- ✅ Beta page loads at https://beta.nexuscos.online
+- ✅ Landing page loads at https://n3xuscos.online
+- ✅ Beta page loads at https://beta.n3xuscos.online
 - ✅ No Nginx warnings about conflicting server_name
 
 ---

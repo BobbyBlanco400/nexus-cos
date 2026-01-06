@@ -155,8 +155,8 @@ echo -e "${BLUE}  8. DOMAIN CHECKS${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
 
-echo "Apex Domain (https://nexuscos.online/):"
-STATUS=$(curl -skI https://nexuscos.online/ 2>/dev/null | head -n 1 || echo "FAILED")
+echo "Apex Domain (https://n3xuscos.online/):"
+STATUS=$(curl -skI https://n3xuscos.online/ 2>/dev/null | head -n 1 || echo "FAILED")
 if echo "$STATUS" | grep -q "200"; then
     echo -e "${GREEN}✓ 200 OK${NC}"
 else
@@ -164,8 +164,8 @@ else
 fi
 echo ""
 
-echo "Beta Domain (https://beta.nexuscos.online/):"
-STATUS=$(curl -skI https://beta.nexuscos.online/ 2>/dev/null | head -n 1 || echo "FAILED")
+echo "Beta Domain (https://beta.n3xuscos.online/):"
+STATUS=$(curl -skI https://beta.n3xuscos.online/ 2>/dev/null | head -n 1 || echo "FAILED")
 if echo "$STATUS" | grep -q "200"; then
     echo -e "${GREEN}✓ 200 OK${NC}"
 else
@@ -173,8 +173,8 @@ else
 fi
 echo ""
 
-echo "API Root (https://nexuscos.online/api/):"
-STATUS=$(curl -skI https://nexuscos.online/api/ 2>/dev/null | head -n 1 || echo "FAILED")
+echo "API Root (https://n3xuscos.online/api/):"
+STATUS=$(curl -skI https://n3xuscos.online/api/ 2>/dev/null | head -n 1 || echo "FAILED")
 if echo "$STATUS" | grep -q "200"; then
     echo -e "${GREEN}✓ 200 OK${NC}"
 else
@@ -182,8 +182,8 @@ else
 fi
 echo ""
 
-echo "API Health (https://nexuscos.online/api/health):"
-STATUS=$(curl -skI https://nexuscos.online/api/health 2>/dev/null | head -n 1 || echo "FAILED")
+echo "API Health (https://n3xuscos.online/api/health):"
+STATUS=$(curl -skI https://n3xuscos.online/api/health 2>/dev/null | head -n 1 || echo "FAILED")
 if echo "$STATUS" | grep -q "200"; then
     echo -e "${GREEN}✓ 200 OK${NC}"
 else
@@ -273,19 +273,19 @@ if ! curl -sf http://localhost:3004/api/health >/dev/null 2>&1 && \
 fi
 
 # Check apex domain
-if ! curl -skI https://nexuscos.online/ 2>/dev/null | grep -q "200"; then
+if ! curl -skI https://n3xuscos.online/ 2>/dev/null | grep -q "200"; then
     echo -e "${RED}✗ Apex domain not returning 200${NC}"
     ((ISSUES++))
 fi
 
 # Check beta domain
-if ! curl -skI https://beta.nexuscos.online/ 2>/dev/null | grep -q "200"; then
+if ! curl -skI https://beta.n3xuscos.online/ 2>/dev/null | grep -q "200"; then
     echo -e "${RED}✗ Beta domain not returning 200${NC}"
     ((ISSUES++))
 fi
 
 # Check API
-if ! curl -skI https://nexuscos.online/api/ 2>/dev/null | grep -q "200"; then
+if ! curl -skI https://n3xuscos.online/api/ 2>/dev/null | grep -q "200"; then
     echo -e "${RED}✗ API endpoint not returning 200${NC}"
     ((ISSUES++))
 fi

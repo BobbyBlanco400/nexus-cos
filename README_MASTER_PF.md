@@ -521,7 +521,7 @@ ls -la 05_pf_json/holocore_platform_config.json
 
 - **Project:** Nexus COS Master PF
 - **Repository:** https://github.com/BobbyBlanco400/nexus-cos
-- **Platform:** https://nexuscos.online
+- **Platform:** https://n3xuscos.online
 - **Documentation:** See repository wiki and docs/
 
 ---

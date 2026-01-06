@@ -146,7 +146,7 @@ check_file "./mobile/builds/BUILD_MANIFEST.json" "Mobile build manifest"
 print_section "7. Deployment Configuration"
 
 check_file "./docker-compose.prod.yml" "Production Docker Compose"
-check_file "./deployment/nginx/nexuscos.online.conf" "Nginx configuration"
+check_file "./deployment/nginx/n3xuscos.online.conf" "Nginx configuration"
 check_file "./monitoring/prometheus.yml" "Prometheus configuration"
 check_file "./.env" "Environment configuration"
 
@@ -221,11 +221,11 @@ fi
 # 12. SSL/TLS Configuration
 print_section "12. SSL/TLS Configuration"
 
-if [ -f "/etc/letsencrypt/live/nexuscos.online/fullchain.pem" ]; then
+if [ -f "/etc/letsencrypt/live/n3xuscos.online/fullchain.pem" ]; then
     print_success "SSL certificate - INSTALLED"
     
     # Check certificate expiry
-    if openssl x509 -checkend 2592000 -noout -in /etc/letsencrypt/live/nexuscos.online/cert.pem 2>/dev/null; then
+    if openssl x509 -checkend 2592000 -noout -in /etc/letsencrypt/live/n3xuscos.online/cert.pem 2>/dev/null; then
         print_success "SSL certificate - VALID (>30 days)"
     else
         print_warning "SSL certificate - EXPIRES SOON (<30 days)"
@@ -258,7 +258,7 @@ else
     echo -e "  ${YELLOW}⚠️  Applications: PARTIAL${NC}"
 fi
 
-if [ -f "docker-compose.prod.yml" ] && [ -f "./deployment/nginx/nexuscos.online.conf" ]; then
+if [ -f "docker-compose.prod.yml" ] && [ -f "./deployment/nginx/n3xuscos.online.conf" ]; then
     echo -e "  ${GREEN}✅ Deployment: CONFIGURED${NC}"
 else
     echo -e "  ${YELLOW}⚠️  Deployment: INCOMPLETE${NC}"
@@ -290,7 +290,7 @@ Applications:
 
 Infrastructure:
 - Docker Compose: $([ -f "docker-compose.prod.yml" ] && echo "CONFIGURED" || echo "MISSING")
-- Nginx Config: $([ -f "./deployment/nginx/nexuscos.online.conf" ] && echo "CONFIGURED" || echo "MISSING")
+- Nginx Config: $([ -f "./deployment/nginx/n3xuscos.online.conf" ] && echo "CONFIGURED" || echo "MISSING")
 - Monitoring: $([ -f "./monitoring/prometheus.yml" ] && echo "CONFIGURED" || echo "MISSING")
 EOF
 

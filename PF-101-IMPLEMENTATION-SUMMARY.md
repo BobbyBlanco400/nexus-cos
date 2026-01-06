@@ -94,8 +94,8 @@ PF-101 provides a complete, single-command deployment solution that launches the
 ### The Issue
 
 After running Phase 2.5 deployment (PF-100):
-- ✅ Apex domain worked (https://nexuscos.online/)
-- ✅ Beta domain worked (https://beta.nexuscos.online/)
+- ✅ Apex domain worked (https://n3xuscos.online/)
+- ✅ Beta domain worked (https://beta.n3xuscos.online/)
 - ❌ API endpoints failed (404 errors)
 
 **Root Cause:**
@@ -250,11 +250,11 @@ Created strict execution guide:
 ### Success Criteria
 
 All must return `HTTP/2 200`:
-- ✅ https://nexuscos.online/
-- ✅ https://beta.nexuscos.online/
-- ✅ https://nexuscos.online/api/
-- ✅ https://nexuscos.online/api/health
-- ✅ https://nexuscos.online/api/system/status
+- ✅ https://n3xuscos.online/
+- ✅ https://beta.n3xuscos.online/
+- ✅ https://n3xuscos.online/api/
+- ✅ https://n3xuscos.online/api/health
+- ✅ https://n3xuscos.online/api/system/status
 
 ### Automatic Checks
 

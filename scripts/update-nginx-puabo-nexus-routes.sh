@@ -11,7 +11,7 @@
 set -euo pipefail
 
 # Configuration
-readonly DOMAIN="${DOMAIN:-nexuscos.online}"
+readonly DOMAIN="${DOMAIN:-n3xuscos.online}"
 readonly NGINX_SITES_AVAILABLE="/etc/nginx/sites-available"
 readonly NGINX_SITES_ENABLED="/etc/nginx/sites-enabled"
 readonly NGINX_CONF="${NGINX_SITES_AVAILABLE}/nexuscos"

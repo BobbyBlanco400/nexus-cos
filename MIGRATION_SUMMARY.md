@@ -164,9 +164,9 @@ npm run trae:logs     # View service logs
 - **Frontend**: Static file serving verification
 
 ### Production URLs (with TRAE Solo)
-- **Frontend**: `https://nexuscos.online`
-- **Node.js API**: `https://nexuscos.online/api/node/`
-- **Python API**: `https://nexuscos.online/api/python/`
+- **Frontend**: `https://n3xuscos.online`
+- **Node.js API**: `https://n3xuscos.online/api/node/`
+- **Python API**: `https://n3xuscos.online/api/python/`
 - **Health Status**: All services accessible via load balancer
 
 ## 🔒 Security Enhancements

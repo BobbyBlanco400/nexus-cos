@@ -15,43 +15,43 @@ This document provides comprehensive URL configurations, monitoring endpoints, a
 ## 🚀 PRODUCTION ENVIRONMENT URLs
 
 ### Primary Domain
-- **Main Application**: `https://nexuscos.online`
-- **WWW Subdomain**: `https://www.nexuscos.online`
-- **API Base URL**: `https://nexuscos.online/api`
+- **Main Application**: `https://n3xuscos.online`
+- **WWW Subdomain**: `https://www.n3xuscos.online`
+- **API Base URL**: `https://n3xuscos.online/api`
 
 ### Internal Service URLs
-- **Node.js Backend**: `https://nexuscos.online:3000`
-- **Python Backend (PUABO)**: `https://nexuscos.online:3001`
-- **Monitoring Service**: `https://monitoring.nexuscos.online`
-- **Admin Portal**: `https://nexuscos.online/admin`
+- **Node.js Backend**: `https://n3xuscos.online:3000`
+- **Python Backend (PUABO)**: `https://n3xuscos.online:3001`
+- **Monitoring Service**: `https://monitoring.n3xuscos.online`
+- **Admin Portal**: `https://n3xuscos.online/admin`
 
 ### Health Check Endpoints
-- **Main Health Check**: `https://nexuscos.online/health`
-- **Backend Health**: `https://nexuscos.online:3000/health`
-- **Python Backend Health**: `https://nexuscos.online:3001/health`
-- **API Status**: `https://nexuscos.online/api/status`
-- **Auth Service**: `https://nexuscos.online/api/auth/test`
+- **Main Health Check**: `https://n3xuscos.online/health`
+- **Backend Health**: `https://n3xuscos.online:3000/health`
+- **Python Backend Health**: `https://n3xuscos.online:3001/health`
+- **API Status**: `https://n3xuscos.online/api/status`
+- **Auth Service**: `https://n3xuscos.online/api/auth/test`
 
 ---
 
 ## 🧪 BETA ENVIRONMENT URLs (Launch: 10/01/2025)
 
 ### Primary Beta Domain
-- **Main Application**: `https://beta.nexuscos.online`
-- **API Base URL**: `https://beta.nexuscos.online/api`
-- **Admin Portal**: `https://beta.nexuscos.online/admin`
+- **Main Application**: `https://beta.n3xuscos.online`
+- **API Base URL**: `https://beta.n3xuscos.online/api`
+- **Admin Portal**: `https://beta.n3xuscos.online/admin`
 
 ### Beta Service URLs
-- **Node.js Backend**: `https://beta.nexuscos.online:3000`
-- **Python Backend**: `https://beta.nexuscos.online:3001`
-- **Frontend Served**: `https://beta.nexuscos.online:8080`
+- **Node.js Backend**: `https://beta.n3xuscos.online:3000`
+- **Python Backend**: `https://beta.n3xuscos.online:3001`
+- **Frontend Served**: `https://beta.n3xuscos.online:8080`
 
 ### Beta Health Monitoring
-- **Beta Health Check**: `https://beta.nexuscos.online/health`
-- **Backend Health**: `https://beta.nexuscos.online:3000/health`
-- **Python Health**: `https://beta.nexuscos.online:3001/health`
-- **Auth Test**: `https://beta.nexuscos.online/api/auth/test`
-- **Login Test**: `https://beta.nexuscos.online/api/auth/login`
+- **Beta Health Check**: `https://beta.n3xuscos.online/health`
+- **Backend Health**: `https://beta.n3xuscos.online:3000/health`
+- **Python Health**: `https://beta.n3xuscos.online:3001/health`
+- **Auth Test**: `https://beta.n3xuscos.online/api/auth/test`
+- **Login Test**: `https://beta.n3xuscos.online/api/auth/login`
 
 ---
 
@@ -59,16 +59,16 @@ This document provides comprehensive URL configurations, monitoring endpoints, a
 
 ### Production SSL (IONOS Provider)
 ```nginx
-ssl_certificate /etc/ssl/ionos/nexuscos.online/fullchain.pem;
-ssl_certificate_key /etc/ssl/ionos/nexuscos.online/privkey.pem;
+ssl_certificate /etc/ssl/ionos/n3xuscos.online/fullchain.pem;
+ssl_certificate_key /etc/ssl/ionos/n3xuscos.online/privkey.pem;
 ssl_protocols TLSv1.2 TLSv1.3;
 ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
 ```
 
 ### Beta SSL (IONOS Provider)
 ```nginx
-ssl_certificate /etc/ssl/ionos/beta.nexuscos.online/fullchain.pem;
-ssl_certificate_key /etc/ssl/ionos/beta.nexuscos.online/privkey.pem;
+ssl_certificate /etc/ssl/ionos/beta.n3xuscos.online/fullchain.pem;
+ssl_certificate_key /etc/ssl/ionos/beta.n3xuscos.online/privkey.pem;
 ssl_protocols TLSv1.2 TLSv1.3;
 ssl_session_cache shared:SSL:10m;
 ssl_session_timeout 5m;
@@ -97,9 +97,9 @@ add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 ### Production CDN Settings
 ```yaml
 domains:
-  - nexuscos.online
-  - www.nexuscos.online
-  - monitoring.nexuscos.online
+  - n3xuscos.online
+  - www.n3xuscos.online
+  - monitoring.n3xuscos.online
 cache_rules:
   - pattern: "*.js|*.css|*.png|*.jpg|*.ico"
     ttl: 31536000
@@ -110,7 +110,7 @@ cache_rules:
 ### Beta CDN Settings
 ```yaml
 domains:
-  - beta.nexuscos.online
+  - beta.n3xuscos.online
 cache_rules:
   - pattern: "*.js|*.css|*.png|*.jpg"
     ttl: 86400
@@ -156,12 +156,12 @@ security:
 ### Log File Locations
 ```bash
 # Nginx Logs
-/var/log/nginx/nexuscos.online_access.log
-/var/log/nginx/nexuscos.online_error.log
-/var/log/nginx/beta.nexuscos.online_access.log
-/var/log/nginx/beta.nexuscos.online_error.log
-/var/log/nginx/monitoring.nexuscos.online_access.log
-/var/log/nginx/monitoring.nexuscos.online_error.log
+/var/log/nginx/n3xuscos.online_access.log
+/var/log/nginx/n3xuscos.online_error.log
+/var/log/nginx/beta.n3xuscos.online_access.log
+/var/log/nginx/beta.n3xuscos.online_error.log
+/var/log/nginx/monitoring.n3xuscos.online_access.log
+/var/log/nginx/monitoring.n3xuscos.online_error.log
 
 # Application Logs
 logs/node-backend-enhanced.log
@@ -179,19 +179,19 @@ logs/frontend-access.log
 ### Health Check Commands
 ```bash
 # Production Health Checks
-curl -f https://nexuscos.online/health
-curl -f https://nexuscos.online:3000/health
-curl -f https://nexuscos.online:3001/health
-curl -f https://monitoring.nexuscos.online/health
+curl -f https://n3xuscos.online/health
+curl -f https://n3xuscos.online:3000/health
+curl -f https://n3xuscos.online:3001/health
+curl -f https://monitoring.n3xuscos.online/health
 
 # Beta Health Checks  
-curl -f https://beta.nexuscos.online/health
-curl -f https://beta.nexuscos.online:3000/health
-curl -f https://beta.nexuscos.online:3001/health
+curl -f https://beta.n3xuscos.online/health
+curl -f https://beta.n3xuscos.online:3000/health
+curl -f https://beta.n3xuscos.online:3001/health
 
 # SSL Certificate Check
-openssl s_client -connect nexuscos.online:443 -servername nexuscos.online < /dev/null
-openssl s_client -connect beta.nexuscos.online:443 -servername beta.nexuscos.online < /dev/null
+openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online < /dev/null
+openssl s_client -connect beta.n3xuscos.online:443 -servername beta.n3xuscos.online < /dev/null
 ```
 
 ---
@@ -206,17 +206,17 @@ openssl s_client -connect beta.nexuscos.online:443 -servername beta.nexuscos.onl
 echo "🔍 Verifying Production URLs..."
 
 # Main application
-curl -I https://nexuscos.online | head -1
-curl -I https://www.nexuscos.online | head -1
+curl -I https://n3xuscos.online | head -1
+curl -I https://www.n3xuscos.online | head -1
 
 # Health endpoints
-curl -s https://nexuscos.online/health | jq '.status'
-curl -s https://nexuscos.online:3000/health | jq '.status'
-curl -s https://nexuscos.online:3001/health | jq '.status'
+curl -s https://n3xuscos.online/health | jq '.status'
+curl -s https://n3xuscos.online:3000/health | jq '.status'
+curl -s https://n3xuscos.online:3001/health | jq '.status'
 
 # API endpoints
-curl -s https://nexuscos.online/api/status | jq '.status'
-curl -s https://nexuscos.online/api/auth/test | jq '.'
+curl -s https://n3xuscos.online/api/status | jq '.status'
+curl -s https://n3xuscos.online/api/auth/test | jq '.'
 
 echo "✅ Production verification complete"
 ```
@@ -229,17 +229,17 @@ echo "✅ Production verification complete"
 echo "🧪 Verifying Beta URLs..."
 
 # Main beta application
-curl -I https://beta.nexuscos.online | head -1
+curl -I https://beta.n3xuscos.online | head -1
 
 # Health endpoints
-curl -s https://beta.nexuscos.online/health | jq '.status'
-curl -s https://beta.nexuscos.online:3000/health | jq '.status'
-curl -s https://beta.nexuscos.online:3001/health | jq '.status'
+curl -s https://beta.n3xuscos.online/health | jq '.status'
+curl -s https://beta.n3xuscos.online:3000/health | jq '.status'
+curl -s https://beta.n3xuscos.online:3001/health | jq '.status'
 
 # API endpoints
-curl -s https://beta.nexuscos.online/api/status | jq '.status'
-curl -s https://beta.nexuscos.online/api/auth/test | jq '.'
-curl -s https://beta.nexuscos.online/api/auth/login | jq '.'
+curl -s https://beta.n3xuscos.online/api/status | jq '.status'
+curl -s https://beta.n3xuscos.online/api/auth/test | jq '.'
+curl -s https://beta.n3xuscos.online/api/auth/login | jq '.'
 
 echo "✅ Beta verification complete"
 ```
@@ -249,7 +249,7 @@ echo "✅ Beta verification complete"
 ## 🎯 BETA LAUNCH READINESS CHECKLIST
 
 ### DNS Configuration ✅
-- [x] beta.nexuscos.online A record configured
+- [x] beta.n3xuscos.online A record configured
 - [x] CloudFlare DNS propagation verified
 - [x] SSL certificate installed and verified
 
@@ -326,14 +326,14 @@ echo "✅ Beta verification complete"
 ## 🔗 QUICK REFERENCE LINKS
 
 ### Production Links
-- [Main App](https://nexuscos.online)
-- [Monitoring](https://monitoring.nexuscos.online)
-- [Health Check](https://nexuscos.online/health)
+- [Main App](https://n3xuscos.online)
+- [Monitoring](https://monitoring.n3xuscos.online)
+- [Health Check](https://n3xuscos.online/health)
 
 ### Beta Links  
-- [Beta App](https://beta.nexuscos.online)
-- [Beta Health](https://beta.nexuscos.online/health)
-- [Beta API Status](https://beta.nexuscos.online/api/status)
+- [Beta App](https://beta.n3xuscos.online)
+- [Beta Health](https://beta.n3xuscos.online/health)
+- [Beta API Status](https://beta.n3xuscos.online/api/status)
 
 ### Monitoring Dashboards
 - CloudFlare Analytics
@@ -392,7 +392,7 @@ watch -n 3600 './scripts/verify-beta-urls.sh'
 
 ### T-24 Hours (September 30, 2025)
 - [ ] Run `./scripts/verify-beta-urls.sh` - All checks must pass
-- [ ] Verify SSL certificates: `openssl s_client -connect beta.nexuscos.online:443`
+- [ ] Verify SSL certificates: `openssl s_client -connect beta.n3xuscos.online:443`
 - [ ] Test all API endpoints manually
 - [ ] Confirm CloudFlare DNS propagation
 - [ ] Start monitoring daemon: `./scripts/monitor-urls.sh --daemon`

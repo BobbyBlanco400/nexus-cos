@@ -40,7 +40,7 @@ Before starting, verify:
 
 ```bash
 # 1. Current system is running
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 # Expected: 200 OK
 
 # 2. No pending deployments
@@ -227,9 +227,9 @@ module.exports = router;
 
 ```bash
 # 1. Check all existing services still healthy
-curl https://nexuscos.online/api/health
-curl https://nexuscos.online/casino/health
-curl https://nexuscos.online/auth/health
+curl https://n3xuscos.online/api/health
+curl https://n3xuscos.online/casino/health
+curl https://n3xuscos.online/auth/health
 
 # All should return 200 OK
 
@@ -243,7 +243,7 @@ docker-compose logs --tail=50 casino-nexus-api
 # Should see NO errors related to new features
 
 # 4. Verify UI is still functional
-# Visit: https://nexuscos.online
+# Visit: https://n3xuscos.online
 # Login as founder user
 # Verify casino games still load
 ```
@@ -325,7 +325,7 @@ curl http://localhost:8080/api/pf/[feature]/health
 curl -X POST http://localhost:8080/api/feature-flags/reload
 
 # Verify all services back to baseline
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 ```
 
 **Recovery Time:** < 30 seconds

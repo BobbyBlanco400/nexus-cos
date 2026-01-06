@@ -81,8 +81,8 @@ fi
 # Step 6: Setup Nginx configuration
 print_status "Setting up Nginx configuration..."
 if command -v nginx >/dev/null 2>&1; then
-    sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/ 2>/dev/null || cp deployment/nginx/nexuscos.online.conf /tmp/
-    sudo ln -sf /etc/nginx/sites-available/nexuscos.online.conf /etc/nginx/sites-enabled/ 2>/dev/null || true
+    sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/ 2>/dev/null || cp deployment/nginx/n3xuscos.online.conf /tmp/
+    sudo ln -sf /etc/nginx/sites-available/n3xuscos.online.conf /etc/nginx/sites-enabled/ 2>/dev/null || true
     sudo nginx -t && sudo systemctl reload nginx 2>/dev/null || print_warning "Nginx configuration available but not activated"
     print_success "Nginx configuration prepared"
 else
@@ -147,7 +147,7 @@ echo "  ✅ Mobile Apps: APK and IPA generated"
 echo "  ✅ Nginx Configuration: Available at deployment/nginx/"
 echo ""
 echo "🔗 Access URLs:"
-echo "  🌐 Web Frontend: http://nexuscos.online (when deployed) or serve frontend/dist/"
+echo "  🌐 Web Frontend: http://n3xuscos.online (when deployed) or serve frontend/dist/"
 echo "  🔧 Node Backend Health: http://localhost:3000/health"
 echo "  🐍 Python Backend Health: http://localhost:3001/health"
 echo "  📱 Android APK: $(pwd)/mobile/builds/android/app.apk"

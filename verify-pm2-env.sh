@@ -42,7 +42,7 @@ echo ""
 
 echo -e "${BLUE}📋 Step 4: Health Endpoint Check${NC}"
 echo "-----------------------------------"
-HEALTH_URL="https://nexuscos.online/health"
+HEALTH_URL="https://n3xuscos.online/health"
 echo "Checking: $HEALTH_URL"
 HEALTH_RESPONSE=$(curl -s "$HEALTH_URL" 2>/dev/null || echo '{"error": "Could not reach health endpoint"}')
 echo "$HEALTH_RESPONSE" | jq . 2>/dev/null || echo "$HEALTH_RESPONSE"

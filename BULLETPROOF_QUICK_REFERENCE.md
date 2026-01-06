@@ -34,7 +34,7 @@ After deployment, test these:
 
 ```bash
 # Main health check
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # Service status
 systemctl status nexuscos-app
@@ -143,7 +143,7 @@ systemctl reload nginx             # Reload if config OK
 After successful deployment, you should see:
 - ✅ `systemctl status nexuscos-app` showing "active (running)"
 - ✅ `ss -ltnp | grep ':3000'` showing listening port
-- ✅ `curl https://nexuscos.online/health` returning success
+- ✅ `curl https://n3xuscos.online/health` returning success
 - ✅ Deployment report generated
 - ✅ All logs showing no errors
 
@@ -151,10 +151,10 @@ After successful deployment, you should see:
 
 ## 🔗 URLs After Deployment
 
-- 🌐 Frontend: https://nexuscos.online
-- 🔧 API: https://nexuscos.online/api/
-- 📊 Health: https://nexuscos.online/health
-- 🔍 Alt Health: https://nexuscos.online/healthz
+- 🌐 Frontend: https://n3xuscos.online
+- 🔧 API: https://n3xuscos.online/api/
+- 📊 Health: https://n3xuscos.online/health
+- 🔍 Alt Health: https://n3xuscos.online/healthz
 
 ---
 

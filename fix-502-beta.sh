@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Fix 502 Bad Gateway for beta.nexuscos.online
+# Fix 502 Bad Gateway for beta.n3xuscos.online
 # Comprehensive solution for NEXUS COS Beta deployment
 
 set -e
@@ -60,7 +60,7 @@ wait_for_service() {
 
 # Function to create SSL certificates for local development
 create_local_ssl() {
-    print_step "Creating local SSL certificates for beta.nexuscos.online"
+    print_step "Creating local SSL certificates for beta.n3xuscos.online"
     
     # Create SSL directory
     SSL_DIR="/home/runner/work/nexus-cos/nexus-cos/ssl"
@@ -68,9 +68,9 @@ create_local_ssl() {
     
     # Generate self-signed certificate
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout "$SSL_DIR/beta.nexuscos.online.key" \
-        -out "$SSL_DIR/beta.nexuscos.online.crt" \
-        -subj "/C=US/ST=State/L=City/O=Organization/CN=beta.nexuscos.online"
+        -keyout "$SSL_DIR/beta.n3xuscos.online.key" \
+        -out "$SSL_DIR/beta.n3xuscos.online.crt" \
+        -subj "/C=US/ST=State/L=City/O=Organization/CN=beta.n3xuscos.online"
     
     print_success "SSL certificates created in $SSL_DIR"
 }
@@ -80,9 +80,9 @@ fix_dns_resolution() {
     print_step "Fixing DNS resolution for local development"
     
     # Add local DNS entry if not exists
-    if ! grep -q "beta.nexuscos.online" /etc/hosts 2>/dev/null; then
-        print_status "Adding beta.nexuscos.online to /etc/hosts"
-        echo "127.0.0.1 beta.nexuscos.online" | sudo tee -a /etc/hosts
+    if ! grep -q "beta.n3xuscos.online" /etc/hosts 2>/dev/null; then
+        print_status "Adding beta.n3xuscos.online to /etc/hosts"
+        echo "127.0.0.1 beta.n3xuscos.online" | sudo tee -a /etc/hosts
         print_success "DNS entry added"
     else
         print_success "DNS entry already exists"
@@ -148,22 +148,22 @@ configure_nginx() {
     print_step "Configuring Nginx for Beta Environment"
     
     # Copy enhanced nginx configuration
-    NGINX_CONFIG="/home/runner/work/nexus-cos/nexus-cos/deployment/nginx/beta.nexuscos.online-enhanced.conf"
+    NGINX_CONFIG="/home/runner/work/nexus-cos/nexus-cos/deployment/nginx/beta.n3xuscos.online-enhanced.conf"
     
     if [ -f "$NGINX_CONFIG" ]; then
         # Update SSL certificate paths in config for local development
-        sed -i 's|/etc/ssl/ionos/beta.nexuscos.online/|/home/runner/work/nexus-cos/nexus-cos/ssl/|g' "$NGINX_CONFIG"
-        sed -i 's|fullchain.pem|beta.nexuscos.online.crt|g' "$NGINX_CONFIG"
-        sed -i 's|privkey.pem|beta.nexuscos.online.key|g' "$NGINX_CONFIG"
+        sed -i 's|/etc/ssl/ionos/beta.n3xuscos.online/|/home/runner/work/nexus-cos/nexus-cos/ssl/|g' "$NGINX_CONFIG"
+        sed -i 's|fullchain.pem|beta.n3xuscos.online.crt|g' "$NGINX_CONFIG"
+        sed -i 's|privkey.pem|beta.n3xuscos.online.key|g' "$NGINX_CONFIG"
         
         print_success "Enhanced nginx configuration prepared"
         
         # Create a simple local version for testing
         cat > /tmp/beta-local.conf << 'EOF'
-# Simple local configuration for beta.nexuscos.online testing
+# Simple local configuration for beta.n3xuscos.online testing
 server {
     listen 8080;
-    server_name beta.nexuscos.online localhost;
+    server_name beta.n3xuscos.online localhost;
     
     # Enhanced logging for debugging 502 errors
     access_log /tmp/beta_access.log combined;
@@ -311,7 +311,7 @@ run_diagnosis() {
 # Main execution
 main() {
     print_step "NEXUS COS Beta 502 Bad Gateway Fix"
-    print_status "Starting comprehensive fix for beta.nexuscos.online"
+    print_status "Starting comprehensive fix for beta.n3xuscos.online"
     
     # Step 1: Create SSL certificates for local development
     create_local_ssl
@@ -344,7 +344,7 @@ main() {
     echo -e "\n${BLUE}Next Steps:${NC}"
     echo "  1. Configure your production nginx with the enhanced config"
     echo "  2. Install proper SSL certificates from IONOS"
-    echo "  3. Update DNS to point beta.nexuscos.online to your server"
+    echo "  3. Update DNS to point beta.n3xuscos.online to your server"
     echo "  4. Run: node nexus-cos-pf-master.js to validate with Puppeteer"
     
     echo -e "\n${BLUE}Logs:${NC}"

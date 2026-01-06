@@ -1,17 +1,17 @@
-# Nginx Configuration for nexuscos.online
+# Nginx Configuration for n3xuscos.online
 
 ## Overview
 
-This directory contains the complete Nginx configuration for **nexuscos.online**, designed to fix routing issues where the domain was serving the Nginx welcome page instead of the published site.
+This directory contains the complete Nginx configuration for **n3xuscos.online**, designed to fix routing issues where the domain was serving the Nginx welcome page instead of the published site.
 
 ## Problem Summary
 
 ### What Was Failing
 
-The nexuscos.online domain was returning the Nginx welcome page for all paths (/, /api, /stream, /hls) instead of serving the published site and proxying API/streaming requests. The root causes were:
+The n3xuscos.online domain was returning the Nginx welcome page for all paths (/, /api, /stream, /hls) instead of serving the published site and proxying API/streaming requests. The root causes were:
 
-1. **Default site winning**: The default Nginx site configuration in `sites-enabled` was being served instead of the nexuscos.online vhost
-2. **Server name mismatch**: No active vhost configuration matched `nexuscos.online`, causing requests to fall through to `default_server`
+1. **Default site winning**: The default Nginx site configuration in `sites-enabled` was being served instead of the n3xuscos.online vhost
+2. **Server name mismatch**: No active vhost configuration matched `n3xuscos.online`, causing requests to fall through to `default_server`
 3. **Incorrect document root**: The vhost root was pointing to Nginx's default directory instead of `/var/www/nexus-cos`
 4. **Missing proxy configuration**: API and streaming routes lacked proper proxy headers and WebSocket upgrade support
 5. **Plesk configuration override**: On IONOS/Plesk systems, per-domain configuration requires using `vhost_nginx.conf` instead of `sites-available`
@@ -21,21 +21,21 @@ The nexuscos.online domain was returning the Nginx welcome page for all paths (/
 This solution provides two deployment approaches:
 
 ### 1. Vanilla Nginx (Standard Linux Installation)
-- Configuration file: `sites-available/nexuscos.online`
+- Configuration file: `sites-available/n3xuscos.online`
 - Deployment script: `scripts/deploy-vanilla.sh`
-- Location: `/etc/nginx/sites-available/nexuscos.online`
+- Location: `/etc/nginx/sites-available/n3xuscos.online`
 
 ### 2. Plesk Nginx (IONOS/Plesk Managed)
 - Configuration file: `plesk/vhost_nginx.conf`
 - Deployment script: `scripts/deploy-plesk.sh`
-- Location: `/var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf`
+- Location: `/var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf`
 
 ## Directory Structure
 
 ```
 deployment/nginx/
 ├── sites-available/
-│   └── nexuscos.online          # Vanilla Nginx vhost configuration
+│   └── n3xuscos.online          # Vanilla Nginx vhost configuration
 ├── plesk/
 │   └── vhost_nginx.conf         # Plesk additional directives
 ├── scripts/
@@ -49,7 +49,7 @@ deployment/nginx/
 
 Both configurations include:
 
-- ✅ **HTTP to HTTPS redirect** for nexuscos.online and www subdomain
+- ✅ **HTTP to HTTPS redirect** for n3xuscos.online and www subdomain
 - ✅ **Default server redirect** to capture IP and unmatched domain requests
 - ✅ **SSL/TLS** using IONOS certificates (`/etc/ssl/ionos/fullchain.pem` and `privkey.pem`)
 - ✅ **Security headers**: HSTS, X-Frame-Options, X-Content-Type-Options, etc.
@@ -76,7 +76,7 @@ sudo ./deployment/nginx/scripts/deploy-vanilla.sh
 
 The script will:
 - Backup existing configuration (if any)
-- Copy vhost to `/etc/nginx/sites-available/nexuscos.online`
+- Copy vhost to `/etc/nginx/sites-available/n3xuscos.online`
 - Create symlink in `/etc/nginx/sites-enabled/`
 - Disable the default site
 - Test Nginx configuration
@@ -96,7 +96,7 @@ sudo ./deployment/nginx/scripts/deploy-plesk.sh
 
 The script will:
 - Backup existing configuration (if any)
-- Copy vhost to `/var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf`
+- Copy vhost to `/var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf`
 - Set proper permissions
 - Rebuild Plesk web configuration
 - Test Nginx configuration
@@ -130,19 +130,19 @@ You can also test endpoints manually with `curl`:
 
 ```bash
 # Test main site
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test API endpoint
-curl -I https://nexuscos.online/api/
+curl -I https://n3xuscos.online/api/
 
 # Test streaming
-curl -I https://nexuscos.online/stream/
+curl -I https://n3xuscos.online/stream/
 
 # Test HLS
-curl -I https://nexuscos.online/hls/
+curl -I https://n3xuscos.online/hls/
 
 # Test health
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 
 ## Service Configuration
@@ -183,10 +183,10 @@ Both deployment scripts create timestamped backups. To rollback:
 ### Vanilla Nginx Rollback
 ```bash
 # Find the backup
-ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
 
 # Restore the backup
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.YYYYMMDDHHMMSS /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.YYYYMMDDHHMMSS /etc/nginx/sites-enabled/n3xuscos.online
 
 # Test and reload
 sudo nginx -t && sudo systemctl reload nginx
@@ -195,14 +195,14 @@ sudo nginx -t && sudo systemctl reload nginx
 ### Plesk Rollback
 ```bash
 # Find the backup
-ls -la /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.*
+ls -la /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.*
 
 # Restore the backup
-sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.YYYYMMDDHHMMSS \
-     /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
+sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.YYYYMMDDHHMMSS \
+     /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
 
 # Rebuild Plesk configuration
-sudo plesk repair web -domain nexuscos.online -y
+sudo plesk repair web -domain n3xuscos.online -y
 
 # Test and reload
 sudo nginx -t && sudo systemctl reload nginx
@@ -214,12 +214,12 @@ sudo nginx -t && sudo systemctl reload nginx
 
 1. **Check active configuration:**
    ```bash
-   sudo nginx -T | grep "server_name nexuscos.online"
+   sudo nginx -T | grep "server_name n3xuscos.online"
    ```
 
 2. **Verify symlink exists (vanilla Nginx):**
    ```bash
-   ls -la /etc/nginx/sites-enabled/nexuscos.online
+   ls -la /etc/nginx/sites-enabled/n3xuscos.online
    ```
 
 3. **Check for default_server conflicts:**
@@ -290,10 +290,10 @@ To change these ports, edit the appropriate configuration file and update the `p
 - Core assets: `/var/www/nexus-cos/core/`
 
 ### Plesk
-- Document root: `/var/www/vhosts/nexuscos.online/httpdocs`
-- Apex SPA: `/var/www/vhosts/nexuscos.online/httpdocs/apex/`
-- Beta SPA: `/var/www/vhosts/nexuscos.online/httpdocs/beta/`
-- Core assets: `/var/www/vhosts/nexuscos.online/httpdocs/core/`
+- Document root: `/var/www/vhosts/n3xuscos.online/httpdocs`
+- Apex SPA: `/var/www/vhosts/n3xuscos.online/httpdocs/apex/`
+- Beta SPA: `/var/www/vhosts/n3xuscos.online/httpdocs/beta/`
+- Core assets: `/var/www/vhosts/n3xuscos.online/httpdocs/core/`
 
 ## Support
 

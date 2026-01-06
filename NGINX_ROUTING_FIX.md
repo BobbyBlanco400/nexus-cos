@@ -1,8 +1,8 @@
-# Nginx Routing Fix for nexuscos.online - Deployment Guide
+# Nginx Routing Fix for n3xuscos.online - Deployment Guide
 
 ## Executive Summary
 
-This document provides instructions for fixing the Nginx routing issue where **nexuscos.online** was serving the Nginx welcome page instead of the published site.
+This document provides instructions for fixing the Nginx routing issue where **n3xuscos.online** was serving the Nginx welcome page instead of the published site.
 
 **Problem**: The domain returns the Nginx welcome page for all paths (/, /api, /stream).  
 **Solution**: Deploy correct vhost configuration with proper routing, proxy headers, and WebSocket support.  
@@ -35,7 +35,7 @@ sudo ./deployment/nginx/scripts/deploy-plesk.sh
 
 ### Configuration Changes
 
-✅ **Enables proper vhost** for nexuscos.online (was missing or not enabled)  
+✅ **Enables proper vhost** for n3xuscos.online (was missing or not enabled)  
 ✅ **Sets correct document root** to `/var/www/nexus-cos` (was pointing to default)  
 ✅ **Adds HTTP to HTTPS redirect** for security  
 ✅ **Configures API proxy** to backend on port 3000 with WebSocket support  
@@ -90,8 +90,8 @@ ls -la /etc/ssl/ionos/privkey.pem
 
 If using Let's Encrypt instead, update the paths in the configuration files:
 ```nginx
-ssl_certificate /etc/letsencrypt/live/nexuscos.online/fullchain.pem;
-ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
+ssl_certificate /etc/letsencrypt/live/n3xuscos.online/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/n3xuscos.online/privkey.pem;
 ```
 
 ---
@@ -108,7 +108,7 @@ ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
 
 2. **Review the configuration** (optional)
    ```bash
-   cat deployment/nginx/sites-available/nexuscos.online
+   cat deployment/nginx/sites-available/n3xuscos.online
    ```
 
 3. **Run the deployment script**
@@ -131,7 +131,7 @@ ssl_certificate_key /etc/letsencrypt/live/nexuscos.online/privkey.pem;
 
 2. **Verify Plesk domain exists**
    ```bash
-   plesk bin domain --list | grep nexuscos.online
+   plesk bin domain --list | grep n3xuscos.online
    ```
 
 3. **Review the configuration** (optional)
@@ -176,10 +176,10 @@ Testing /health ... PASS (200) - Nginx health check
 
 ### Manual Browser Testing
 
-1. **Main site**: https://nexuscos.online/ (should show your landing page, not Nginx welcome)
-2. **API**: https://nexuscos.online/api/ (should proxy to backend, may return 404)
-3. **Streaming**: https://nexuscos.online/stream/ (should proxy to streaming service)
-4. **Health**: https://nexuscos.online/health (should return "ok")
+1. **Main site**: https://n3xuscos.online/ (should show your landing page, not Nginx welcome)
+2. **API**: https://n3xuscos.online/api/ (should proxy to backend, may return 404)
+3. **Streaming**: https://n3xuscos.online/stream/ (should proxy to streaming service)
+4. **Health**: https://n3xuscos.online/health (should return "ok")
 
 ---
 
@@ -190,10 +190,10 @@ Testing /health ... PASS (200) - Nginx health check
 **Diagnosis:**
 ```bash
 # Check which config is active
-sudo nginx -T | grep -A 5 "server_name nexuscos.online"
+sudo nginx -T | grep -A 5 "server_name n3xuscos.online"
 
 # Check sites-enabled symlink (vanilla Nginx)
-ls -la /etc/nginx/sites-enabled/nexuscos.online
+ls -la /etc/nginx/sites-enabled/n3xuscos.online
 
 # Verify document root
 sudo nginx -T | grep -A 2 "root "
@@ -245,7 +245,7 @@ openssl x509 -in /etc/ssl/ionos/fullchain.pem -noout -dates
 **Solution:**
 - If files don't exist, update certificate paths in configuration
 - If expired, renew certificates
-- If using Let's Encrypt, update paths to `/etc/letsencrypt/live/nexuscos.online/`
+- If using Let's Encrypt, update paths to `/etc/letsencrypt/live/n3xuscos.online/`
 
 ### Issue: Configuration Test Fails
 
@@ -269,18 +269,18 @@ Both deployment scripts create automatic timestamped backups.
 
 ```bash
 # Vanilla Nginx
-ls -la /etc/nginx/sites-enabled/nexuscos.online.bak.*
+ls -la /etc/nginx/sites-enabled/n3xuscos.online.bak.*
 
 # Plesk
-ls -la /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.*
+ls -la /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.*
 ```
 
 ### Restore Backup (Vanilla)
 
 ```bash
 # Replace TIMESTAMP with actual timestamp
-sudo cp /etc/nginx/sites-enabled/nexuscos.online.bak.TIMESTAMP \
-     /etc/nginx/sites-enabled/nexuscos.online
+sudo cp /etc/nginx/sites-enabled/n3xuscos.online.bak.TIMESTAMP \
+     /etc/nginx/sites-enabled/n3xuscos.online
 
 # Test and reload
 sudo nginx -t && sudo systemctl reload nginx
@@ -290,11 +290,11 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ```bash
 # Replace TIMESTAMP with actual timestamp
-sudo cp /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
-     /var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf
+sudo cp /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf.bak.TIMESTAMP \
+     /var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf
 
 # Rebuild and reload
-sudo plesk repair web -domain nexuscos.online -y
+sudo plesk repair web -domain n3xuscos.online -y
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -347,7 +347,7 @@ location ^~ /stream/ {
 If you need help, gather this information:
 
 - [ ] Output of `sudo nginx -t`
-- [ ] Output of `sudo nginx -T | grep -A 10 "server_name nexuscos.online"`
+- [ ] Output of `sudo nginx -T | grep -A 10 "server_name n3xuscos.online"`
 - [ ] Last 50 lines of error log: `sudo tail -n 50 /var/log/nginx/error.log`
 - [ ] Service status: `pm2 list` or `systemctl status <service-name>`
 - [ ] Port listeners: `sudo netstat -tlnp | grep -E ":(3000|3043)"`
@@ -357,7 +357,7 @@ If you need help, gather this information:
 
 ## Summary
 
-This deployment fixes the Nginx routing for nexuscos.online by:
+This deployment fixes the Nginx routing for n3xuscos.online by:
 
 1. Creating a proper vhost configuration
 2. Enabling the vhost (disabling default)

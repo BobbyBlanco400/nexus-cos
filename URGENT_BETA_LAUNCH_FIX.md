@@ -65,7 +65,7 @@ If you prefer full control, follow these steps:
 
 ```bash
 # 1. SSH to server
-ssh root@nexuscos.online
+ssh root@n3xuscos.online
 
 # 2. Navigate to app
 cd /opt/nexus-cos
@@ -84,7 +84,7 @@ pm2 save
 sleep 10
 
 # 7. Verify
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 **Expected Result**: `"db": "up"` ✅
@@ -244,7 +244,7 @@ pm2 delete all
 pm2 start ecosystem.config.js
 pm2 save
 sleep 10
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # If you see "db": "up" → YOU'RE DONE! 🎉
 # If not, run: bash verify-pm2-env.sh

@@ -57,19 +57,19 @@ sudo nginx -s reload
 ### 6. Test Routes
 ```bash
 # Frontend routes
-curl -I https://nexuscos.online/admin
-curl -I https://nexuscos.online/hub
-curl -I https://nexuscos.online/studio
-curl -I https://nexuscos.online/streaming
+curl -I https://n3xuscos.online/admin
+curl -I https://n3xuscos.online/hub
+curl -I https://n3xuscos.online/studio
+curl -I https://n3xuscos.online/streaming
 
 # API route
-curl -I https://nexuscos.online/api
+curl -I https://n3xuscos.online/api
 
 # V-Suite routes
-curl -I https://nexuscos.online/v-suite/hollywood
-curl -I https://nexuscos.online/v-suite/prompter
-curl -I https://nexuscos.online/v-suite/caster
-curl -I https://nexuscos.online/v-suite/stage
+curl -I https://n3xuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-suite/prompter
+curl -I https://n3xuscos.online/v-suite/caster
+curl -I https://n3xuscos.online/v-suite/stage
 ```
 
 All should return HTTP 200 (no 502 errors).
@@ -99,7 +99,7 @@ netstat -tlnp | grep -E "4000|3002|3041"
 
 #### Check 4: Nginx Error Log
 ```bash
-sudo tail -f /var/log/nginx/nexuscos.online_error.log
+sudo tail -f /var/log/nginx/n3xuscos.online_error.log
 ```
 
 ### Container Won't Start
@@ -157,7 +157,7 @@ app.get('/health', (req, res) => {
 
 ### Frontend (.env)
 ```env
-VITE_API_URL=https://nexuscos.online/api
+VITE_API_URL=https://n3xuscos.online/api
 ```
 
 ### Backend (docker-compose.pf.yml)

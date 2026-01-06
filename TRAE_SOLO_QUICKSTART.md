@@ -78,10 +78,10 @@ chmod +x *.sh
 - 🛠️ Scripts ready to execute
 
 ### After VPS Deployment:
-- 🌐 **Main Site**: https://nexuscos.online
-- 🔧 **Node.js API**: https://nexuscos.online/api/node/health
-- 🐍 **Python API**: https://nexuscos.online/api/python/health
-- 📊 **Health Dashboard**: https://nexuscos.online/monitoring/
+- 🌐 **Main Site**: https://n3xuscos.online
+- 🔧 **Node.js API**: https://n3xuscos.online/api/node/health
+- 🐍 **Python API**: https://n3xuscos.online/api/python/health
+- 📊 **Health Dashboard**: https://n3xuscos.online/monitoring/
 
 ---
 

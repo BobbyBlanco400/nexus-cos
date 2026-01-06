@@ -98,30 +98,30 @@ echo ""
 
 echo -e "${BLUE}1. Primary Beta Domain Checks${NC}"
 echo "-----------------------------"
-check_url "https://beta.nexuscos.online" "Main Beta Application"
-check_url "https://beta.nexuscos.online/api" "Beta API Base URL"
-check_url "https://beta.nexuscos.online/admin" "Beta Admin Portal"
+check_url "https://beta.n3xuscos.online" "Main Beta Application"
+check_url "https://beta.n3xuscos.online/api" "Beta API Base URL"
+check_url "https://beta.n3xuscos.online/admin" "Beta Admin Portal"
 echo ""
 
 echo -e "${BLUE}2. Beta Service URLs${NC}"
 echo "-------------------"
-check_url "https://beta.nexuscos.online:3000" "Beta Node.js Backend"
-check_url "https://beta.nexuscos.online:3001" "Beta Python Backend"
-check_url "https://beta.nexuscos.online:8080" "Beta Frontend"
+check_url "https://beta.n3xuscos.online:3000" "Beta Node.js Backend"
+check_url "https://beta.n3xuscos.online:3001" "Beta Python Backend"
+check_url "https://beta.n3xuscos.online:8080" "Beta Frontend"
 echo ""
 
 echo -e "${BLUE}3. Beta Health Monitoring${NC}"
 echo "-------------------------"
-check_url_response "https://beta.nexuscos.online/health" "Beta Health Check" "ok"
-check_url_response "https://beta.nexuscos.online:3000/health" "Beta Backend Health" "ok"
-check_url_response "https://beta.nexuscos.online:3001/health" "Beta Python Health" "ok"
-check_url "https://beta.nexuscos.online/api/auth/test" "Beta Auth Test"
-check_url "https://beta.nexuscos.online/api/auth/login" "Beta Login Test"
+check_url_response "https://beta.n3xuscos.online/health" "Beta Health Check" "ok"
+check_url_response "https://beta.n3xuscos.online:3000/health" "Beta Backend Health" "ok"
+check_url_response "https://beta.n3xuscos.online:3001/health" "Beta Python Health" "ok"
+check_url "https://beta.n3xuscos.online/api/auth/test" "Beta Auth Test"
+check_url "https://beta.n3xuscos.online/api/auth/login" "Beta Login Test"
 echo ""
 
 echo -e "${BLUE}4. Beta SSL Certificate Verification${NC}"
 echo "-------------------------------------"
-check_ssl "beta.nexuscos.online"
+check_ssl "beta.n3xuscos.online"
 echo ""
 
 echo -e "${BLUE}5. Local Development Endpoints (Optional)${NC}"
@@ -133,8 +133,8 @@ echo ""
 
 echo -e "${BLUE}6. Beta Performance Checks${NC}"
 echo "--------------------------"
-echo -n "⚡ Response time for beta.nexuscos.online ... "
-response_time=$(curl -o /dev/null -s -w "%{time_total}" https://beta.nexuscos.online 2>/dev/null || echo "FAILED")
+echo -n "⚡ Response time for beta.n3xuscos.online ... "
+response_time=$(curl -o /dev/null -s -w "%{time_total}" https://beta.n3xuscos.online 2>/dev/null || echo "FAILED")
 if [[ "$response_time" != "FAILED" ]]; then
     if (( $(echo "$response_time < 2.0" | bc -l) )); then
         echo -e "${GREEN}✅ PASS${NC} (${response_time}s)"

@@ -176,7 +176,7 @@ curl -I http://localhost/
 # Expected: HTTP/1.1 200 OK
 
 # Test with domain (if DNS configured)
-curl -I http://beta.nexuscos.online/
+curl -I http://beta.n3xuscos.online/
 # Expected: HTTP/1.1 200 OK
 ```
 
@@ -194,7 +194,7 @@ curl -I http://localhost/js/ 2>&1 | grep "HTTP"
 ### 4.3 Browser Testing
 
 **Manual Steps:**
-1. Open browser: `http://[VPS-IP]` or `http://beta.nexuscos.online`
+1. Open browser: `http://[VPS-IP]` or `http://beta.n3xuscos.online`
 2. Verify page loads completely
 3. Check for console errors (F12 → Console)
 4. Verify all images load
@@ -285,11 +285,11 @@ sudo netstat -tulpn | grep LISTEN | grep -E ':(80|443|22)\s'
 
 ```bash
 # Test SSL certificate (if configured)
-curl -I https://beta.nexuscos.online/ 2>&1 | grep "HTTP"
+curl -I https://beta.n3xuscos.online/ 2>&1 | grep "HTTP"
 # Expected: HTTP/2 200 or HTTP/1.1 200
 
 # Check certificate validity
-echo | openssl s_client -servername beta.nexuscos.online -connect beta.nexuscos.online:443 2>/dev/null | openssl x509 -noout -dates
+echo | openssl s_client -servername beta.n3xuscos.online -connect beta.n3xuscos.online:443 2>/dev/null | openssl x509 -noout -dates
 ```
 
 ✅ **Pass Criteria:** Valid SSL certificate (if using HTTPS)

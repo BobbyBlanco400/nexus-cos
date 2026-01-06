@@ -158,10 +158,10 @@ N3XUS COS represents a fundamental shift:
 
 ## Access Points
 
-- **Main Portal**: https://nexuscos.online
-- **Founding Residents**: https://nexuscos.online/residents
-- **CPS Dashboard**: https://nexuscos.online/cps
-- **System Dashboard**: https://nexuscos.online/dashboard
+- **Main Portal**: https://n3xuscos.online
+- **Founding Residents**: https://n3xuscos.online/residents
+- **CPS Dashboard**: https://n3xuscos.online/cps
+- **System Dashboard**: https://n3xuscos.online/dashboard
 - **Status Page**: [View Status Dashboard]
 
 ---

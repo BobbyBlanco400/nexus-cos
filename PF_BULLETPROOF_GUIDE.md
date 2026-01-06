@@ -100,9 +100,9 @@ sudo ./bulletproof-pf-deploy.sh
 
 | Domain | Purpose | IP |
 |--------|---------|-----|
-| `nexuscos.online` | Apex domain - Main UI/API | 74.208.155.161 |
-| `hollywood.nexuscos.online` | V-Screen Hollywood | 74.208.155.161 |
-| `tv.nexuscos.online` | OTT/Streaming Portal | 74.208.155.161 |
+| `n3xuscos.online` | Apex domain - Main UI/API | 74.208.155.161 |
+| `hollywood.n3xuscos.online` | V-Screen Hollywood | 74.208.155.161 |
+| `tv.n3xuscos.online` | OTT/Streaming Portal | 74.208.155.161 |
 
 ---
 
@@ -160,10 +160,10 @@ The deployment script automatically handles:
 1. **IONOS Certificate Setup**
    ```bash
    # Certificates should be placed at:
-   /etc/nginx/ssl/apex/nexuscos.online.crt
-   /etc/nginx/ssl/apex/nexuscos.online.key
-   /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.crt
-   /etc/nginx/ssl/hollywood/hollywood.nexuscos.online.key
+   /etc/nginx/ssl/apex/n3xuscos.online.crt
+   /etc/nginx/ssl/apex/n3xuscos.online.key
+   /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.crt
+   /etc/nginx/ssl/hollywood/hollywood.n3xuscos.online.key
    ```
 
 2. **Let's Encrypt Removal**
@@ -174,7 +174,7 @@ The deployment script automatically handles:
 
 3. **Certificate Validation**
    ```bash
-   openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+   openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
    ```
 
 ### Phase 3: Service Deployment
@@ -270,7 +270,7 @@ Nginx Gateway (80/443)
 **Endpoints:**
 - Primary: `/v-suite/hollywood`
 - Health: `http://localhost:8088/health`
-- Subdomain: `https://hollywood.nexuscos.online`
+- Subdomain: `https://hollywood.n3xuscos.online`
 
 **Dependencies:**
 - StreamCore (port 3016)
@@ -331,14 +331,14 @@ Nginx Gateway (80/443)
 ```
 /etc/nginx/ssl/
 ├── apex/
-│   ├── nexuscos.online.crt
-│   └── nexuscos.online.key
+│   ├── n3xuscos.online.crt
+│   └── n3xuscos.online.key
 ├── hollywood/
-│   ├── hollywood.nexuscos.online.crt
-│   └── hollywood.nexuscos.online.key
+│   ├── hollywood.n3xuscos.online.crt
+│   └── hollywood.n3xuscos.online.key
 └── tv/
-    ├── tv.nexuscos.online.crt
-    └── tv.nexuscos.online.key
+    ├── tv.n3xuscos.online.crt
+    └── tv.n3xuscos.online.key
 ```
 
 ### Certificate Requirements
@@ -354,17 +354,17 @@ Nginx Gateway (80/443)
 
 ```bash
 # Verify certificate format
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
 
 # Check certificate details
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -subject -issuer -dates
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -subject -issuer -dates
 
 # Verify certificate matches key
-openssl x509 -noout -modulus -in nexuscos.online.crt | openssl md5
-openssl rsa -noout -modulus -in nexuscos.online.key | openssl md5
+openssl x509 -noout -modulus -in n3xuscos.online.crt | openssl md5
+openssl rsa -noout -modulus -in n3xuscos.online.key | openssl md5
 
 # Test SSL connection
-openssl s_client -connect nexuscos.online:443 -showcerts
+openssl s_client -connect n3xuscos.online:443 -showcerts
 ```
 
 ### Disabling Let's Encrypt
@@ -472,7 +472,7 @@ docker compose -f docker-compose.pf.yml exec nexus-cos-postgres pg_isready -U ne
 docker compose -f docker-compose.pf.yml exec nexus-cos-redis redis-cli ping
 
 # Verify SSL
-openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer
+openssl s_client -connect n3xuscos.online:443 -showcerts | grep issuer
 # Should show: issuer=...IONOS...
 ```
 
@@ -480,9 +480,9 @@ openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer
 
 ```bash
 # Test production domains
-curl https://nexuscos.online/api/health
-curl https://hollywood.nexuscos.online/health
-curl https://tv.nexuscos.online/health
+curl https://n3xuscos.online/api/health
+curl https://hollywood.n3xuscos.online/health
+curl https://tv.n3xuscos.online/health
 ```
 
 ---
@@ -655,7 +655,7 @@ mkdir -p /etc/nginx/ssl/{apex,hollywood,tv}
 # (Manual step - certificates must be obtained from IONOS)
 
 # Verify certificates
-openssl x509 -in /etc/nginx/ssl/apex/nexuscos.online.crt -noout -text
+openssl x509 -in /etc/nginx/ssl/apex/n3xuscos.online.crt -noout -text
 ```
 
 **Validation:** Certificates valid and in PEM format
@@ -694,8 +694,8 @@ nginx -t && systemctl reload nginx
 #### Step 9: Verify Production Endpoints
 
 ```bash
-curl https://nexuscos.online/api/health
-curl https://hollywood.nexuscos.online/health
+curl https://n3xuscos.online/api/health
+curl https://hollywood.n3xuscos.online/health
 ```
 
 **Expected:** HTTP 200 OK responses
@@ -703,7 +703,7 @@ curl https://hollywood.nexuscos.online/health
 #### Step 10: Final SSL Verification
 
 ```bash
-openssl s_client -connect nexuscos.online:443 -showcerts | grep issuer
+openssl s_client -connect n3xuscos.online:443 -showcerts | grep issuer
 ```
 
 **Expected:** Contains "IONOS" in issuer field

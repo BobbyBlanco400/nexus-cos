@@ -373,13 +373,13 @@ kill -9 <PID>
 ## Support & Contact
 
 ### Technical Support
-- **Email**: support@nexuscos.online
+- **Email**: support@n3xuscos.online
 - **Documentation**: Check files above
 - **PM2 Logs**: `pm2 logs`
 
 ### Business Development
-- **Partnerships**: partnerships@nexuscos.online
-- **Investors**: investors@nexuscos.online
+- **Partnerships**: partnerships@n3xuscos.online
+- **Investors**: investors@n3xuscos.online
 
 ### Platform Access
 - **Website**: https://n3xuscos.online

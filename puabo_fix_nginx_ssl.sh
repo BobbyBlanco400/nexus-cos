@@ -1,58 +1,58 @@
 #!/bin/bash
 # puabo_fix_nginx_ssl.sh
-# Script to fix Nginx SSL for nexuscos.online
+# Script to fix Nginx SSL for n3xuscos.online
 #
 # Usage: sudo ./puabo_fix_nginx_ssl.sh
 # Prerequisites: 
-#   - SSL certificates should be present in /tmp (nexuscos.online.crt and nexuscos.online.key)
+#   - SSL certificates should be present in /tmp (n3xuscos.online.crt and n3xuscos.online.key)
 #   - nginx package should be installed 
 #   - Script should be run with sudo privileges
 
 # Variables
 SSL_DIR="/etc/ssl/ionos"
-WEB_ROOT="/var/www/nexuscos.online/html"
-SITE_CONF="/etc/nginx/sites-available/nexuscos.online.conf"
+WEB_ROOT="/var/www/n3xuscos.online/html"
+SITE_CONF="/etc/nginx/sites-available/n3xuscos.online.conf"
 CERT_TMP_DIR="/tmp"
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 
 # Step 1: Create directories
 sudo mkdir -p "$SSL_DIR"
 sudo mkdir -p "$WEB_ROOT"
 
 # Step 2: Move SSL certs from /tmp with validation
-if [ -f "$CERT_TMP_DIR/nexuscos.online.crt" ]; then
+if [ -f "$CERT_TMP_DIR/n3xuscos.online.crt" ]; then
     # Validate certificate before copying
-    if openssl x509 -in "$CERT_TMP_DIR/nexuscos.online.crt" -noout -checkend 0 > /dev/null 2>&1; then
-        sudo cp "$CERT_TMP_DIR/nexuscos.online.crt" "$SSL_DIR/fullchain.pem"
+    if openssl x509 -in "$CERT_TMP_DIR/n3xuscos.online.crt" -noout -checkend 0 > /dev/null 2>&1; then
+        sudo cp "$CERT_TMP_DIR/n3xuscos.online.crt" "$SSL_DIR/fullchain.pem"
         echo "✅ Certificate validated and copied"
     else
         echo "❌ Certificate validation failed - certificate may be expired or invalid"
         exit 1
     fi
 else
-    echo "❌ Certificate file not found: $CERT_TMP_DIR/nexuscos.online.crt"
-    echo "Please place your certificate file at $CERT_TMP_DIR/nexuscos.online.crt"
+    echo "❌ Certificate file not found: $CERT_TMP_DIR/n3xuscos.online.crt"
+    echo "Please place your certificate file at $CERT_TMP_DIR/n3xuscos.online.crt"
     exit 1
 fi
 
-if [ -f "$CERT_TMP_DIR/nexuscos.online.key" ]; then
+if [ -f "$CERT_TMP_DIR/n3xuscos.online.key" ]; then
     # Validate private key before copying
-    if openssl rsa -in "$CERT_TMP_DIR/nexuscos.online.key" -check -noout > /dev/null 2>&1; then
-        sudo cp "$CERT_TMP_DIR/nexuscos.online.key" "$SSL_DIR/privkey.pem"
+    if openssl rsa -in "$CERT_TMP_DIR/n3xuscos.online.key" -check -noout > /dev/null 2>&1; then
+        sudo cp "$CERT_TMP_DIR/n3xuscos.online.key" "$SSL_DIR/privkey.pem"
         echo "✅ Private key validated and copied"
     else
         echo "❌ Private key validation failed - key may be corrupted or invalid"
         exit 1
     fi
 else
-    echo "❌ Private key file not found: $CERT_TMP_DIR/nexuscos.online.key"
-    echo "Please place your private key file at $CERT_TMP_DIR/nexuscos.online.key"
+    echo "❌ Private key file not found: $CERT_TMP_DIR/n3xuscos.online.key"
+    echo "Please place your private key file at $CERT_TMP_DIR/n3xuscos.online.key"
     exit 1
 fi
 
 # Copy chain certificate if available
-if [ -f "$CERT_TMP_DIR/nexuscos.online.chain.pem" ]; then
-    sudo cp "$CERT_TMP_DIR/nexuscos.online.chain.pem" "$SSL_DIR/chain.pem"
+if [ -f "$CERT_TMP_DIR/n3xuscos.online.chain.pem" ]; then
+    sudo cp "$CERT_TMP_DIR/n3xuscos.online.chain.pem" "$SSL_DIR/chain.pem"
     echo "✅ Certificate chain copied"
 elif [ -f "$CERT_TMP_DIR/chain.pem" ]; then
     sudo cp "$CERT_TMP_DIR/chain.pem" "$SSL_DIR/chain.pem"
@@ -128,7 +128,7 @@ server {
 EOL
 
 # Step 5: Enable site
-if [ ! -L "/etc/nginx/sites-enabled/nexuscos.online.conf" ]; then
+if [ ! -L "/etc/nginx/sites-enabled/n3xuscos.online.conf" ]; then
     sudo ln -s "$SITE_CONF" /etc/nginx/sites-enabled/
 fi
 

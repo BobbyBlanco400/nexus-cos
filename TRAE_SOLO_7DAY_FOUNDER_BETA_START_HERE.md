@@ -49,17 +49,17 @@ Run these commands to ensure Nexus COS is ready:
 
 ```bash
 # System health
-curl -X GET https://nexuscos.online/api/system/health
+curl -X GET https://n3xuscos.online/api/system/health
 
 # CRITICAL: Verify PUABO AI-HF (NOT kei-ai)
-curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
-curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+curl -X GET https://n3xuscos.online/api/puabo-ai-hf/health
+curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
 
 # Check all core services
-curl -X GET https://nexuscos.online/api/casino/health
-curl -X GET https://nexuscos.online/api/puaboverse/health
-curl -X GET https://nexuscos.online/api/creator-hub/health
-curl -X GET https://nexuscos.online/api/nft/health
+curl -X GET https://n3xuscos.online/api/casino/health
+curl -X GET https://n3xuscos.online/api/puaboverse/health
+curl -X GET https://n3xuscos.online/api/creator-hub/health
+curl -X GET https://n3xuscos.online/api/nft/health
 ```
 
 ### Step 3: Execute the 7-Day Beta
@@ -88,7 +88,7 @@ This has been corrected throughout all documentation.
 
 **Verification command included:**
 ```bash
-curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
 ```
 
 If kei-ai is detected → **CRITICAL FAILURE** → Must investigate immediately.

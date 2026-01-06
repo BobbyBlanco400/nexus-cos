@@ -26,7 +26,7 @@ const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
 const jsonOutputFile = path.join(currentOutputDir, `nexuscos_pf_${timestamp}.json`);
 const pdfOutputFile = path.join(currentOutputDir, `nexuscos_pf_report_${timestamp}.pdf`);
 
-const domains = ['https://nexuscos.online', 'https://www.nexuscos.online'];
+const domains = ['https://n3xuscos.online', 'https://www.n3xuscos.online'];
 const endpoints = [
   '/admin/', '/creator-hub/', '/diagram/',
   '/api/health', '/api/backend/status', '/api/auth-service/status',
@@ -100,7 +100,7 @@ const endpoints = [
         
         report.eventPages[endpoint] = {
           status: isSuccess ? 200 : 'fail',
-          url: `https://nexuscos.online${endpoint}`,
+          url: `https://n3xuscos.online${endpoint}`,
           mockTest: true
         };
       }
@@ -145,11 +145,11 @@ const endpoints = [
         try {
           console.log(`🔍 Checking endpoint: ${endpoint}`);
           const page = await browser.newPage();
-          const response = await page.goto(`https://nexuscos.online${endpoint}`, { waitUntil: 'networkidle2', timeout: 30000 });
+          const response = await page.goto(`https://n3xuscos.online${endpoint}`, { waitUntil: 'networkidle2', timeout: 30000 });
 
           total++;
           if (response.ok()) passed++;
-          report.eventPages[endpoint] = { status: response.status(), url: `https://nexuscos.online${endpoint}` };
+          report.eventPages[endpoint] = { status: response.status(), url: `https://n3xuscos.online${endpoint}` };
           await page.close();
         } catch (err) {
           console.log(`❌ Endpoint ${endpoint} failed: ${err.message}`);

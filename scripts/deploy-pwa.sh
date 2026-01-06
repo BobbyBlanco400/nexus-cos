@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 PWA_DIR="${PWA_DIR:-./frontend}"
-PUBLIC_DIR="${PUBLIC_DIR:-/var/www/nexuscos.online}"
+PUBLIC_DIR="${PUBLIC_DIR:-/var/www/n3xuscos.online}"
 SERVICE_WORKER="${PWA_DIR}/public/service-worker.js"
 MANIFEST="${PWA_DIR}/public/manifest.json"
 
@@ -153,4 +153,4 @@ echo "   ✓ Service worker registered"
 echo "   ✓ PWA manifest configured"
 echo "   ✓ Mobile app experience"
 echo ""
-echo "🌐 Test PWA at: https://nexuscos.online"
+echo "🌐 Test PWA at: https://n3xuscos.online"

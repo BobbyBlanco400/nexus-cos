@@ -4,7 +4,7 @@
 
 ### Your Original Request
 1. ✅ **Fix production URLs** - All documented endpoints working
-2. ✅ **Beta domain support** - beta.nexuscos.online fully configured
+2. ✅ **Beta domain support** - beta.n3xuscos.online fully configured
 3. ✅ **Direct deployment command** - No TRAE, simple one-command deploy
 4. ✅ **TRAE streaming integration** - Streaming as legal front-facing entrypoint
 
@@ -26,42 +26,42 @@ This document is strictly documentation - no code changes required.
 
 ## 🌐 Both Domains Ready
 
-### Main Production: nexuscos.online
+### Main Production: n3xuscos.online
 ```bash
 # Streaming (legal front-facing entrypoint)
-https://nexuscos.online → redirects to /streaming
-https://nexuscos.online/streaming
+https://n3xuscos.online → redirects to /streaming
+https://n3xuscos.online/streaming
 
 # API Endpoints
-https://nexuscos.online/api/
-https://nexuscos.online/api/status  
-https://nexuscos.online/api/health
-https://nexuscos.online/api/system/status
-https://nexuscos.online/api/v1/imcus/001/status
-https://nexuscos.online/health
+https://n3xuscos.online/api/
+https://n3xuscos.online/api/status  
+https://n3xuscos.online/api/health
+https://n3xuscos.online/api/system/status
+https://n3xuscos.online/api/v1/imcus/001/status
+https://n3xuscos.online/health
 
 # VR Modules (via PF gateway)
 # Note: V-Suite is 1 module with 4 sub-modules - see ARCHITECTURE_CLARIFICATION_IMVU_HANDSHAKE.md
-https://nexuscos.online/v-screen  # V-Screen Hollywood Edition (V-Suite sub-module)
-https://nexuscos.online/v-suite/stage  # V-Stage (V-Suite sub-module)
-https://nexuscos.online/v-suite/caster  # V-Caster Pro (V-Suite sub-module)
-https://nexuscos.online/v-suite/hollywood  # V-Screen Hollywood Edition (V-Suite sub-module)
+https://n3xuscos.online/v-screen  # V-Screen Hollywood Edition (V-Suite sub-module)
+https://n3xuscos.online/v-suite/stage  # V-Stage (V-Suite sub-module)
+https://n3xuscos.online/v-suite/caster  # V-Caster Pro (V-Suite sub-module)
+https://n3xuscos.online/v-suite/hollywood  # V-Screen Hollywood Edition (V-Suite sub-module)
 
 # SPA Routes
-https://nexuscos.online/apex/
-https://nexuscos.online/beta/
-https://nexuscos.online/drops/
-https://nexuscos.online/docs/
-https://nexuscos.online/assets/
+https://n3xuscos.online/apex/
+https://n3xuscos.online/beta/
+https://n3xuscos.online/drops/
+https://n3xuscos.online/docs/
+https://n3xuscos.online/assets/
 ```
 
-### Beta Experience: beta.nexuscos.online (12/15/2025 - 12/31/2025)
+### Beta Experience: beta.n3xuscos.online (12/15/2025 - 12/31/2025)
 ```bash
 # All same routes as main domain
-https://beta.nexuscos.online → redirects to /streaming
-https://beta.nexuscos.online/streaming
-https://beta.nexuscos.online/api/health
-https://beta.nexuscos.online/v-screen
+https://beta.n3xuscos.online → redirects to /streaming
+https://beta.n3xuscos.online/streaming
+https://beta.n3xuscos.online/api/health
+https://beta.n3xuscos.online/v-screen
 # ... etc (mirrors all main domain routes)
 
 # Plus beta-specific
@@ -77,7 +77,7 @@ Separate logging
 ### One-Command Deploy
 
 ```bash
-# On your server (nexuscos.online)
+# On your server (n3xuscos.online)
 curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/deploy-direct.sh | sudo bash
 ```
 
@@ -141,42 +141,42 @@ All TRAE's routing requirements implemented:
 
 ```bash
 # 1. Main domain streaming redirect
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 # Expected: HTTP/2 301 → Location: /streaming
 
 # 2. Streaming endpoint
-curl -I https://nexuscos.online/streaming
+curl -I https://n3xuscos.online/streaming
 # Expected: HTTP/2 200
 
 # 3. API endpoints
-curl -I https://nexuscos.online/api
-curl -I https://nexuscos.online/api/status
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/health
+curl -I https://n3xuscos.online/api
+curl -I https://n3xuscos.online/api/status
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/health
 # Expected: All HTTP/2 200
 
 # 4. VR modules
-curl -I https://nexuscos.online/v-screen
-curl -I https://nexuscos.online/v-suite/stage
-curl -I https://nexuscos.online/v-suite/caster
-curl -I https://nexuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-screen
+curl -I https://n3xuscos.online/v-suite/stage
+curl -I https://n3xuscos.online/v-suite/caster
+curl -I https://n3xuscos.online/v-suite/hollywood
 # Expected: All HTTP/2 200 or 3xx
 
 # 5. SPA routes
-curl -I https://nexuscos.online/apex/
-curl -I https://nexuscos.online/beta/
-curl -I https://nexuscos.online/drops/
-curl -I https://nexuscos.online/docs/
+curl -I https://n3xuscos.online/apex/
+curl -I https://n3xuscos.online/beta/
+curl -I https://n3xuscos.online/drops/
+curl -I https://n3xuscos.online/docs/
 # Expected: All HTTP/2 200
 
 # 6. Beta domain
-curl -I https://beta.nexuscos.online
-curl -I https://beta.nexuscos.online/streaming
-curl -I https://beta.nexuscos.online/api/health
+curl -I https://beta.n3xuscos.online
+curl -I https://beta.n3xuscos.online/streaming
+curl -I https://beta.n3xuscos.online/api/health
 # Expected: All HTTP/2 200 or 301
 
 # 7. Check beta environment header
-curl -I https://beta.nexuscos.online/ | grep X-Environment
+curl -I https://beta.n3xuscos.online/ | grep X-Environment
 # Expected: X-Environment: beta
 
 # 8. Run automated test suite
@@ -184,7 +184,7 @@ cd /opt/nexus-cos
 ./test-api-validation.sh
 
 # 9. Test beta domain specifically
-BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh
+BETA_URL=https://beta.n3xuscos.online ./test-api-validation.sh
 ```
 
 ---
@@ -193,7 +193,7 @@ BETA_URL=https://beta.nexuscos.online ./test-api-validation.sh
 
 ### Files Modified
 1. **nginx.conf**
-   - Added beta.nexuscos.online server block
+   - Added beta.n3xuscos.online server block
    - Added streaming redirect (root → /streaming)
    - Added VR module routes
    - Added SPA routes (apex, beta, drops, docs, assets)
@@ -288,7 +288,7 @@ sudo tail -f /var/log/nginx/error.log
 - Security: Rate limiting added ✅
 
 ### ✅ Beta Domain Complete
-- beta.nexuscos.online configured ✅
+- beta.n3xuscos.online configured ✅
 - Separate SSL certificates ✅
 - All endpoints working ✅
 - Beta environment header ✅
@@ -312,14 +312,14 @@ sudo tail -f /var/log/nginx/error.log
 ## 🚀 You're Ready to Launch!
 
 ### Main Domain
-✅ nexuscos.online fully operational
+✅ n3xuscos.online fully operational
 ✅ Streaming as legal front-facing entry
 ✅ All API endpoints working
 ✅ All VR modules accessible
 ✅ SPA routes enabled
 
 ### Beta Domain
-✅ beta.nexuscos.online fully operational
+✅ beta.n3xuscos.online fully operational
 ✅ Beta experience configured (12/15-12/31)
 ✅ All features mirror main domain
 ✅ Beta-specific headers and logging

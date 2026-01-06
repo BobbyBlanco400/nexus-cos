@@ -119,7 +119,7 @@ Next Action:
 Execute the TRAE SOLO deployment command from local machine to VPS.
 
 Command:
-ssh -o StrictHostKeyChecking=no root@nexuscos.online bash -lc '
+ssh -o StrictHostKeyChecking=no root@n3xuscos.online bash -lc '
   set -e
   cd /opt/nexus-cos
   mkdir -p logs/phase2.5/verification

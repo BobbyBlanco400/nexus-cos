@@ -1,7 +1,7 @@
 # Phoenix Launch Agent (PLA) - Execution Guide
 
 ## Objective
-Achieve a 100% verified, production-ready state for nexuscos.online platform with all core services and infrastructure correctly configured for public launch.
+Achieve a 100% verified, production-ready state for n3xuscos.online platform with all core services and infrastructure correctly configured for public launch.
 
 ## Execution Rules
 
@@ -122,7 +122,7 @@ curl -I http://localhost:8088/ || echo "FAILED: Port 8088 not responding"
 **Commands**:
 ```bash
 # Check SSL certificate
-curl -Iv https://nexuscos.online 2>&1 | grep -E "HTTP/2|subject|issuer|expire"
+curl -Iv https://n3xuscos.online 2>&1 | grep -E "HTTP/2|subject|issuer|expire"
 
 # Expected output should show:
 # - HTTP/2 200 (or other 2xx/3xx status)
@@ -133,7 +133,7 @@ curl -Iv https://nexuscos.online 2>&1 | grep -E "HTTP/2|subject|issuer|expire"
 **Verification**:
 ```bash
 # Should show HTTP/2 and valid cert
-curl -I https://nexuscos.online/ 2>&1 | head -5
+curl -I https://n3xuscos.online/ 2>&1 | head -5
 
 # Check Nginx is listening on 443 with SSL
 sudo netstat -tlnp | grep :443
@@ -158,15 +158,15 @@ echo "=== Testing Status API Endpoints ==="
 
 # Test system status
 echo "Testing /api/system/status:"
-curl -s https://nexuscos.online/api/system/status | jq '.' || echo "FAILED"
+curl -s https://n3xuscos.online/api/system/status | jq '.' || echo "FAILED"
 
 # Test IMCUS status
 echo "Testing /api/v1/imcus/001/status:"
-curl -s https://nexuscos.online/api/v1/imcus/001/status | jq '.' || echo "FAILED"
+curl -s https://n3xuscos.online/api/v1/imcus/001/status | jq '.' || echo "FAILED"
 
 # Alternative if jq not available:
-curl -i https://nexuscos.online/api/system/status
-curl -i https://nexuscos.online/api/v1/imcus/001/status
+curl -i https://n3xuscos.online/api/system/status
+curl -i https://n3xuscos.online/api/v1/imcus/001/status
 ```
 
 **Verification**: Both endpoints return successful JSON responses (status 200)
@@ -186,7 +186,7 @@ echo "=== Testing Action API Endpoints ==="
 
 # Test deploy action
 echo "Testing POST /api/v1/imcus/001/deploy:"
-curl -X POST https://nexuscos.online/api/v1/imcus/001/deploy \
+curl -X POST https://n3xuscos.online/api/v1/imcus/001/deploy \
   -H "Content-Type: application/json" \
   -d '{"test": true}' \
   -i
@@ -242,7 +242,7 @@ sudo tail -n 100 /var/log/node-backend.log | grep -i "error\|timeout\|500"
 echo "=== Testing Database Persistence ==="
 
 # Option 1: If API endpoint exists
-curl -X POST https://nexuscos.online/api/test/create \
+curl -X POST https://n3xuscos.online/api/test/create \
   -H "Content-Type: application/json" \
   -d '{"name": "test_user", "email": "test@test.com"}' \
   -i
@@ -255,7 +255,7 @@ curl -X POST https://nexuscos.online/api/test/create \
 # psql -U nexus -d nexuscos -c "INSERT INTO test (name) VALUES ('test');"
 
 # Verify record exists
-curl -s https://nexuscos.online/api/test/list | grep "test_user"
+curl -s https://n3xuscos.online/api/test/list | grep "test_user"
 ```
 
 **Verification**: Database operation succeeds and record is verifiable
@@ -278,23 +278,23 @@ curl -s https://nexuscos.online/api/test/list | grep "test_user"
 echo "=== Testing Frontend Asset Delivery ==="
 
 # Get the main page
-curl -s https://nexuscos.online/ > /tmp/index.html
+curl -s https://n3xuscos.online/ > /tmp/index.html
 
 # Extract asset URLs
 grep -oP 'src="[^"]+"|href="[^"]+"' /tmp/index.html | head -10
 
 # Test loading key assets
 echo "Testing CSS:"
-curl -I https://nexuscos.online/assets/main.css || echo "FAILED"
+curl -I https://n3xuscos.online/assets/main.css || echo "FAILED"
 
 echo "Testing JS:"
-curl -I https://nexuscos.online/assets/main.js || echo "FAILED"
+curl -I https://n3xuscos.online/assets/main.js || echo "FAILED"
 
 echo "Testing images:"
-curl -I https://nexuscos.online/assets/logo.png || echo "FAILED"
+curl -I https://n3xuscos.online/assets/logo.png || echo "FAILED"
 
 # Check for mixed content
-curl -s https://nexuscos.online/ | grep -i "http://" | grep -v "localhost"
+curl -s https://n3xuscos.online/ | grep -i "http://" | grep -v "localhost"
 # Should NOT show any http:// URLs (except localhost)
 ```
 
@@ -314,17 +314,17 @@ curl -s https://nexuscos.online/ | grep -i "http://" | grep -v "localhost"
 echo "=== Testing Page Load Performance ==="
 
 # Test main page load time
-time curl -s https://nexuscos.online/ > /dev/null
+time curl -s https://n3xuscos.online/ > /dev/null
 
 # With timing details
 curl -w "\nTime Total: %{time_total}s\nHTTP Code: %{http_code}\n" \
-  -o /dev/null -s https://nexuscos.online/
+  -o /dev/null -s https://n3xuscos.online/
 
 # Expected: Time < 2 seconds, HTTP 200
 
 # Test internal page (if applicable)
 curl -w "\nTime Total: %{time_total}s\nHTTP Code: %{http_code}\n" \
-  -o /dev/null -s https://nexuscos.online/app/
+  -o /dev/null -s https://n3xuscos.online/app/
 ```
 
 **Verification**: Main page loads within 2 seconds, no 404/500 errors
@@ -343,20 +343,20 @@ curl -w "\nTime Total: %{time_total}s\nHTTP Code: %{http_code}\n" \
 echo "=== Checking Security Headers ==="
 
 # Check all security headers
-curl -I https://nexuscos.online/ 2>&1 | grep -i "strict-transport-security\|x-frame-options\|x-content-type-options\|content-security-policy\|referrer-policy"
+curl -I https://n3xuscos.online/ 2>&1 | grep -i "strict-transport-security\|x-frame-options\|x-content-type-options\|content-security-policy\|referrer-policy"
 
 # Detailed check
 echo "HSTS:"
-curl -I https://nexuscos.online/ 2>&1 | grep -i "strict-transport-security"
+curl -I https://n3xuscos.online/ 2>&1 | grep -i "strict-transport-security"
 
 echo "X-Frame-Options:"
-curl -I https://nexuscos.online/ 2>&1 | grep -i "x-frame-options"
+curl -I https://n3xuscos.online/ 2>&1 | grep -i "x-frame-options"
 
 echo "X-Content-Type-Options:"
-curl -I https://nexuscos.online/ 2>&1 | grep -i "x-content-type-options"
+curl -I https://n3xuscos.online/ 2>&1 | grep -i "x-content-type-options"
 
 echo "Content-Security-Policy:"
-curl -I https://nexuscos.online/ 2>&1 | grep -i "content-security-policy"
+curl -I https://n3xuscos.online/ 2>&1 | grep -i "content-security-policy"
 ```
 
 **Expected Headers**:
@@ -386,7 +386,7 @@ echo "Nginx error log (last 10 entries):"
 sudo tail -n 10 /var/log/nginx/error.log
 
 # Make a test request
-curl -s https://nexuscos.online/health > /dev/null
+curl -s https://n3xuscos.online/health > /dev/null
 
 # Verify it was logged
 echo "Verifying request was logged:"
@@ -424,10 +424,10 @@ cd /path/to/nexus-cos
 echo "Re-testing critical endpoints:"
 
 endpoints=(
-  "https://nexuscos.online/"
-  "https://nexuscos.online/health"
-  "https://nexuscos.online/api/system/status"
-  "https://nexuscos.online/api/v1/imcus/001/status"
+  "https://n3xuscos.online/"
+  "https://n3xuscos.online/health"
+  "https://n3xuscos.online/api/system/status"
+  "https://n3xuscos.online/api/v1/imcus/001/status"
 )
 
 for endpoint in "${endpoints[@]}"; do
@@ -543,9 +543,9 @@ All critical systems verified and operational:
 ## Platform is READY for Public Launch
 
 ### Key URLs:
-- Main Site: https://nexuscos.online/
-- API Status: https://nexuscos.online/api/system/status
-- Health Check: https://nexuscos.online/health
+- Main Site: https://n3xuscos.online/
+- API Status: https://n3xuscos.online/api/system/status
+- Health Check: https://n3xuscos.online/health
 
 ### Next Steps:
 1. Monitor access logs: `sudo tail -f /var/log/nginx/access.log`
@@ -599,7 +599,7 @@ Phase 4 - Final Verification:             ✅ COMPLETE
 
 🎯 All $(grep -c '\\[x\\]' LAUNCH_STATUS.md || echo '16') verification steps: PASSED
 
-🌐 Platform URL: https://nexuscos.online/
+🌐 Platform URL: https://n3xuscos.online/
 📈 Resource Utilization: Within limits
 🔒 Security: Headers configured
 ✅ Ready for Beta Launch (Through 12/31/2025)
@@ -680,7 +680,7 @@ git push origin copilot/fix-nginx-routing-nexuscos
 sudo nginx -t
 
 # Fix whitespace/empty lines
-sudo sed -i '/^[[:space:]]*$/d' /etc/nginx/sites-enabled/nexuscos.online
+sudo sed -i '/^[[:space:]]*$/d' /etc/nginx/sites-enabled/n3xuscos.online
 
 # Re-test
 sudo nginx -t

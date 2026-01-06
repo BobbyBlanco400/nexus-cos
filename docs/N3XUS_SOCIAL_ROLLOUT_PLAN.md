@@ -47,7 +47,7 @@ An Operating System.
 - Black screen with "01.05.2026" in white text
 - Fade to "N3XUS COS" logo
 - Final frame: "An Operating System for Creators"
-- Swipe-up: nexuscos.online
+- Swipe-up: n3xuscos.online
 
 **Assets**: 9:16 story-format teaser
 
@@ -110,7 +110,7 @@ Meet the Founding Residents:
 • Rise Sacramento 916
 • Sheda Shay's Butter Bar
 
-🔗 nexuscos.online/residents
+🔗 n3xuscos.online/residents
 ```
 
 **Tweet 4**:
@@ -147,7 +147,7 @@ Mainnet activated. Founding Residents deployed. System verified.
 
 This is Day 1.
 
-🔗 nexuscos.online
+🔗 n3xuscos.online
 ```
 
 ---
@@ -159,7 +159,7 @@ This is Day 1.
 **Slide 3**: "13 Founding Residents"  
 **Slide 4**: Grid showing all 13 platform names  
 **Slide 5**: "Not channels. Platforms."  
-**Slide 6**: "Live now → nexuscos.online"  
+**Slide 6**: "Live now → n3xuscos.online"  
 
 **Caption**:
 ```
@@ -193,7 +193,7 @@ Key differentiators:
 
 This represents a fundamental shift: from creators as users to creators as platform owners.
 
-Technical documentation, press kit, and showcase available at nexuscos.online
+Technical documentation, press kit, and showcase available at n3xuscos.online
 
 #CreativeTech #Infrastructure #Innovation #ContentCreation
 ```
@@ -209,7 +209,7 @@ Today we launch the world's first infrastructure platform designed specifically 
 
 N3XUS COS enables creators to own and operate their own platforms — not channels, not profiles — full platforms with streaming, audiences, and creative control.
 
-Meet the 13 Founding Residents at nexuscos.online/residents
+Meet the 13 Founding Residents at n3xuscos.online/residents
 
 This is the future of content creation.
 
@@ -430,7 +430,7 @@ This is Day 1.
 
 Next: onboard the next cohort of creators.
 
-Apply at nexuscos.online/cps
+Apply at n3xuscos.online/cps
 
 #N3XUSCOS
 ```
@@ -554,7 +554,7 @@ Required for rollout:
 ### Engagement Metrics
 - Impressions
 - Engagements (likes, shares, comments)
-- Click-through rate to nexuscos.online
+- Click-through rate to n3xuscos.online
 - Video view completion rate
 
 ### Conversion Metrics

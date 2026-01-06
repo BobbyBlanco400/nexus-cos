@@ -50,14 +50,14 @@ main() {
     # Validate configuration files
     print_step "Validating configuration files..."
     
-    if [ -f "deployment/nginx/beta.nexuscos.online.conf" ]; then
+    if [ -f "deployment/nginx/beta.n3xuscos.online.conf" ]; then
         print_success "Beta nginx configuration found"
     else
         print_error "Beta nginx configuration missing"
         ((validation_errors++))
     fi
     
-    if [ -f "deployment/nginx/production.nexuscos.online.conf" ]; then
+    if [ -f "deployment/nginx/production.n3xuscos.online.conf" ]; then
         print_success "Production nginx configuration found"
     else
         print_error "Production nginx configuration missing"
@@ -97,14 +97,14 @@ main() {
     # Validate launch phases
     print_step "Validating launch phase configuration..."
     print_status "Beta Phase Configuration:"
-    print_status "- Domain: beta.nexuscos.online"
+    print_status "- Domain: beta.n3xuscos.online"
     print_status "- Start Date: 2025-10-01"
     print_status "- SSL Provider: IONOS"
     print_status "- CDN Provider: CloudFlare"
     print_success "Beta phase configuration validated"
     
     print_status "Production Phase Configuration:"
-    print_status "- Domain: nexuscos.online"
+    print_status "- Domain: n3xuscos.online"
     print_status "- Transition Date: 2025-11-17"
     print_status "- SSL Provider: IONOS"
     print_status "- CDN Provider: CloudFlare"
@@ -117,21 +117,21 @@ main() {
     # Validate security configuration
     print_step "Validating security configuration..."
     
-    if [ -f "deployment/nginx/beta.nexuscos.online.conf" ] && grep -q "Strict-Transport-Security" deployment/nginx/beta.nexuscos.online.conf; then
+    if [ -f "deployment/nginx/beta.n3xuscos.online.conf" ] && grep -q "Strict-Transport-Security" deployment/nginx/beta.n3xuscos.online.conf; then
         print_success "Beta HSTS configuration found"
     else
         print_error "Beta HSTS configuration missing"
         ((validation_errors++))
     fi
     
-    if [ -f "deployment/nginx/production.nexuscos.online.conf" ] && grep -q "max-age=63072000" deployment/nginx/production.nexuscos.online.conf; then
+    if [ -f "deployment/nginx/production.n3xuscos.online.conf" ] && grep -q "max-age=63072000" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production enhanced HSTS configuration found"
     else
         print_error "Production enhanced HSTS configuration missing"
         ((validation_errors++))
     fi
     
-    if [ -f "deployment/nginx/production.nexuscos.online.conf" ] && grep -q "limit_req_zone" deployment/nginx/production.nexuscos.online.conf; then
+    if [ -f "deployment/nginx/production.n3xuscos.online.conf" ] && grep -q "limit_req_zone" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production rate limiting configuration found"
     else
         print_error "Production rate limiting configuration missing"
@@ -143,14 +143,14 @@ main() {
     # Validate SSL configuration
     print_step "Validating SSL configuration..."
     
-    if [ -f "deployment/nginx/beta.nexuscos.online.conf" ] && grep -q "/etc/ssl/ionos/beta.nexuscos.online/" deployment/nginx/beta.nexuscos.online.conf; then
+    if [ -f "deployment/nginx/beta.n3xuscos.online.conf" ] && grep -q "/etc/ssl/ionos/beta.n3xuscos.online/" deployment/nginx/beta.n3xuscos.online.conf; then
         print_success "Beta IONOS SSL path configuration found"
     else
         print_error "Beta IONOS SSL path configuration missing"
         ((validation_errors++))
     fi
     
-    if [ -f "deployment/nginx/production.nexuscos.online.conf" ] && grep -q "/etc/ssl/ionos/nexuscos.online/" deployment/nginx/production.nexuscos.online.conf; then
+    if [ -f "deployment/nginx/production.n3xuscos.online.conf" ] && grep -q "/etc/ssl/ionos/n3xuscos.online/" deployment/nginx/production.n3xuscos.online.conf; then
         print_success "Production IONOS SSL path configuration found"
     else
         print_error "Production IONOS SSL path configuration missing"

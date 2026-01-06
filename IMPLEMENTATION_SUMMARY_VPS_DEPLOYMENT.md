@@ -293,13 +293,13 @@ After deployment:
 
 | Service | URL | Expected |
 |---------|-----|----------|
-| Apex Domain | https://nexuscos.online | 200 OK |
-| Beta Domain | https://beta.nexuscos.online | 200 OK |
-| API Root | https://nexuscos.online/api | 200 OK |
-| API Health | https://nexuscos.online/api/health | JSON response |
-| Gateway Health | https://nexuscos.online/health/gateway | 200 OK |
-| System Status | https://nexuscos.online/api/system/status | JSON response |
-| Dashboard | https://nexuscos.online/dashboard | Dashboard UI |
+| Apex Domain | https://n3xuscos.online | 200 OK |
+| Beta Domain | https://beta.n3xuscos.online | 200 OK |
+| API Root | https://n3xuscos.online/api | 200 OK |
+| API Health | https://n3xuscos.online/api/health | JSON response |
+| Gateway Health | https://n3xuscos.online/health/gateway | 200 OK |
+| System Status | https://n3xuscos.online/api/system/status | JSON response |
+| Dashboard | https://n3xuscos.online/dashboard | Dashboard UI |
 
 ---
 

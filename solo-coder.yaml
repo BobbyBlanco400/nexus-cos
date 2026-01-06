@@ -229,16 +229,16 @@ verification:
       command: "curl -f http://localhost:3000/health"
       
     - name: "Beta handshake"
-      command: "curl -I https://beta.nexuscos.online/ | grep 'X-Nexus-Handshake: beta-55-45-17'"
+      command: "curl -I https://beta.n3xuscos.online/ | grep 'X-Nexus-Handshake: beta-55-45-17'"
       
     - name: "PWA service worker"
-      command: "test -f /var/www/nexuscos.online/service-worker.js || curl -I https://nexuscos.online/service-worker.js"
+      command: "test -f /var/www/n3xuscos.online/service-worker.js || curl -I https://n3xuscos.online/service-worker.js"
       
     - name: "NexusVision config"
-      command: "curl -f https://nexuscos.online/nexusvision/nexusvision-config.json"
+      command: "curl -f https://n3xuscos.online/nexusvision/nexusvision-config.json"
       
     - name: "HoloCore config"
-      command: "curl -f https://nexuscos.online/holocore/holocore-config.json"
+      command: "curl -f https://n3xuscos.online/holocore/holocore-config.json"
   
   success_threshold: 0.95  # 95% of tests must pass
   

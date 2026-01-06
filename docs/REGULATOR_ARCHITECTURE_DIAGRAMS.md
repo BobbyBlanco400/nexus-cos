@@ -374,7 +374,7 @@ For regulatory inquiries or platform review:
 
 **Compliance Team**  
 Email: compliance@nexuscos.com  
-Portal: https://nexuscos.online/regulator-portal (planned)
+Portal: https://n3xuscos.online/regulator-portal (planned)
 
 **Legal Counsel**  
 Email: legal@nexuscos.com

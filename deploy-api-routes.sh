@@ -34,7 +34,7 @@ echo ""
 
 # Test health endpoint
 echo -n "Testing /health... "
-if curl -sf https://nexuscos.online/health > /dev/null; then
+if curl -sf https://n3xuscos.online/health > /dev/null; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "❌ Failed"
@@ -42,7 +42,7 @@ fi
 
 # Test /api endpoint
 echo -n "Testing /api... "
-if curl -sf https://nexuscos.online/api > /dev/null; then
+if curl -sf https://n3xuscos.online/api > /dev/null; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "❌ Failed"
@@ -50,7 +50,7 @@ fi
 
 # Test /api/auth endpoint
 echo -n "Testing /api/auth... "
-if curl -sf https://nexuscos.online/api/auth > /dev/null; then
+if curl -sf https://n3xuscos.online/api/auth > /dev/null; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "❌ Failed"
@@ -58,7 +58,7 @@ fi
 
 # Test /api/system/status endpoint
 echo -n "Testing /api/system/status... "
-if curl -sf https://nexuscos.online/api/system/status > /dev/null; then
+if curl -sf https://n3xuscos.online/api/system/status > /dev/null; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "❌ Failed"
@@ -66,7 +66,7 @@ fi
 
 # Test module endpoints
 echo -n "Testing /api/creator-hub/status... "
-if curl -sf https://nexuscos.online/api/creator-hub/status > /dev/null; then
+if curl -sf https://n3xuscos.online/api/creator-hub/status > /dev/null; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "❌ Failed"
@@ -76,12 +76,12 @@ echo ""
 echo -e "${GREEN}✅ Deployment Complete!${NC}"
 echo ""
 echo "All API routes are now accessible at:"
-echo "  - https://nexuscos.online/api"
-echo "  - https://nexuscos.online/api/auth"
-echo "  - https://nexuscos.online/api/system/status"
-echo "  - https://nexuscos.online/api/services/:service/health"
-echo "  - https://nexuscos.online/api/creator-hub/status"
-echo "  - https://nexuscos.online/api/v-suite/status"
-echo "  - https://nexuscos.online/api/puaboverse/status"
+echo "  - https://n3xuscos.online/api"
+echo "  - https://n3xuscos.online/api/auth"
+echo "  - https://n3xuscos.online/api/system/status"
+echo "  - https://n3xuscos.online/api/services/:service/health"
+echo "  - https://n3xuscos.online/api/creator-hub/status"
+echo "  - https://n3xuscos.online/api/v-suite/status"
+echo "  - https://n3xuscos.online/api/puaboverse/status"
 echo ""
-echo "Run './test-api-routes.sh https://nexuscos.online' for detailed testing."
+echo "Run './test-api-routes.sh https://n3xuscos.online' for detailed testing."

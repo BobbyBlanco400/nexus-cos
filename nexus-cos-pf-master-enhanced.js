@@ -3,7 +3,7 @@
 /**
  * Nexus COS PF Master Script - Enhanced for 502 Bad Gateway Fix
  * Purpose:
- *   Enhanced Puppeteer validation for beta.nexuscos.online 502 issue resolution
+ *   Enhanced Puppeteer validation for beta.n3xuscos.online 502 issue resolution
  *   Includes comprehensive testing and debugging capabilities
  *   
  * Features:
@@ -39,7 +39,7 @@ function detectLaunchPhase() {
   if (now >= productionTransitionDate) {
     return {
       phase: 'production',
-      domain: 'https://nexuscos.online',
+      domain: 'https://n3xuscos.online',
       environment: 'production',
       sslProvider: 'IONOS',
       cdnProvider: 'CloudFlare',
@@ -48,7 +48,7 @@ function detectLaunchPhase() {
   } else if (now >= betaStartDate) {
     return {
       phase: 'beta',
-      domain: 'https://beta.nexuscos.online',
+      domain: 'https://beta.n3xuscos.online',
       environment: 'beta',
       sslProvider: 'IONOS',
       cdnProvider: 'CloudFlare',
@@ -57,7 +57,7 @@ function detectLaunchPhase() {
   } else {
     return {
       phase: 'pre-beta',
-      domain: 'https://nexuscos.online',
+      domain: 'https://n3xuscos.online',
       environment: 'development',
       sslProvider: 'Let\'s Encrypt',
       cdnProvider: 'CloudFlare',

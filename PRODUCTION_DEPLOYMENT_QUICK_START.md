@@ -79,7 +79,7 @@ Expected response:
 
 ### Test Through Nginx (public)
 ```bash
-curl https://nexuscos.online/api | jq
+curl https://n3xuscos.online/api | jq
 ```
 
 Should return the same JSON response.
@@ -87,7 +87,7 @@ Should return the same JSON response.
 ## Run Full Test Suite
 
 ```bash
-./test-api-routing-fix.sh https://nexuscos.online
+./test-api-routing-fix.sh https://n3xuscos.online
 ```
 
 Expected output:
@@ -164,15 +164,15 @@ pm2 logs backend-api
 - [x] PM2 service restarted
 - [x] Service shows "online" in `pm2 status`
 - [x] Local test returns JSON: `curl http://localhost:3001/api`
-- [x] Public test returns JSON: `curl https://nexuscos.online/api`
-- [x] Full test suite passes: `./test-api-routing-fix.sh https://nexuscos.online`
+- [x] Public test returns JSON: `curl https://n3xuscos.online/api`
+- [x] Full test suite passes: `./test-api-routing-fix.sh https://n3xuscos.online`
 
 ## Next Steps
 
 Once deployed:
 1. Monitor logs: `pm2 logs backend-api -f`
-2. Check health: `curl https://nexuscos.online/health`
-3. Test all endpoints: `./test-api-routing-fix.sh https://nexuscos.online`
+2. Check health: `curl https://n3xuscos.online/health`
+3. Test all endpoints: `./test-api-routing-fix.sh https://n3xuscos.online`
 4. Update any documentation with new endpoints
 
 ## Documentation

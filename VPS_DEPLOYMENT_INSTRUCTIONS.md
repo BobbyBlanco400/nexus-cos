@@ -60,7 +60,7 @@ sudo chmod +x validate-ip-domain-routing.sh
 
 ```bash
 cd /var/www/nexus-cos
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 ```
 
 **What this does**:
@@ -97,7 +97,7 @@ sudo bash /var/www/nexus-cos/validate-ip-domain-routing.sh
 2. **Test both access methods**:
    ```
    http://74.208.155.161/
-   https://nexuscos.online/
+   https://n3xuscos.online/
    ```
 
 3. **Verify**:
@@ -113,13 +113,13 @@ sudo bash /var/www/nexus-cos/validate-ip-domain-routing.sh
 curl -I http://74.208.155.161/
 
 # Check HTTPS domain
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Check admin panel
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/admin
 
 # Check API health
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 ```
 
 ## Troubleshooting
@@ -190,7 +190,7 @@ If you need to deploy to a different location:
 ```bash
 # Deploy from custom location
 cd /custom/path/to/nexus-cos
-sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh
 
 # The script will automatically detect its location
 ```
@@ -256,7 +256,7 @@ The scripts are now fully compatible with VPS deployment. Simply:
 
 1. Upload repository to `/var/www/nexus-cos`
 2. Run: `cd /var/www/nexus-cos`
-3. Run: `sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh`
+3. Run: `sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh`
 4. Validate: `bash validate-ip-domain-routing.sh`
 5. Test in browser with cleared cache
 

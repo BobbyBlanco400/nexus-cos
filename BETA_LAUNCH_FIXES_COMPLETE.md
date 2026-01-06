@@ -32,7 +32,7 @@ admin/.env              # VITE_API_URL=/api
 admin/.env.example      # Template for deployment
 creator-hub/.env        # VITE_API_URL=/api + VITE_PUABO_API_URL=/api
 creator-hub/.env.example # Template for deployment
-frontend/.env           # Updated to use /api instead of https://nexuscos.online/api
+frontend/.env           # Updated to use /api instead of https://n3xuscos.online/api
 ```
 
 ---
@@ -67,8 +67,8 @@ location /puabo-nexus/routes/health { proxy_pass http://127.0.0.1:9004/health; }
 ```
 
 **Files Updated:**
-- `deployment/nginx/nexuscos.online.conf`
-- `deployment/nginx/beta.nexuscos.online.conf`
+- `deployment/nginx/n3xuscos.online.conf`
+- `deployment/nginx/beta.n3xuscos.online.conf`
 
 ---
 
@@ -184,8 +184,8 @@ sudo mkdir -p /etc/nginx/backups
 sudo cp /etc/nginx/sites-available/nexuscos /etc/nginx/backups/nexuscos.$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
 
 # Copy updated configurations
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos
-sudo cp deployment/nginx/beta.nexuscos.online.conf /etc/nginx/sites-available/beta.nexuscos
+sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/nexuscos
+sudo cp deployment/nginx/beta.n3xuscos.online.conf /etc/nginx/sites-available/beta.nexuscos
 
 # Enable sites (if not already enabled)
 sudo ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/
@@ -238,18 +238,18 @@ npm run build
 
 ```bash
 # Create deployment directories
-sudo mkdir -p /var/www/nexuscos.online
-sudo mkdir -p /var/www/beta.nexuscos.online
+sudo mkdir -p /var/www/n3xuscos.online
+sudo mkdir -p /var/www/beta.n3xuscos.online
 
 # Deploy frontend builds
-sudo cp -r /opt/nexus-cos/frontend/dist/* /var/www/nexuscos.online/
-sudo cp -r /opt/nexus-cos/web/beta/index.html /var/www/beta.nexuscos.online/
+sudo cp -r /opt/nexus-cos/frontend/dist/* /var/www/n3xuscos.online/
+sudo cp -r /opt/nexus-cos/web/beta/index.html /var/www/beta.n3xuscos.online/
 
 # Set permissions
-sudo chown -R www-data:www-data /var/www/nexuscos.online
-sudo chown -R www-data:www-data /var/www/beta.nexuscos.online
-sudo chmod -R 755 /var/www/nexuscos.online
-sudo chmod -R 755 /var/www/beta.nexuscos.online
+sudo chown -R www-data:www-data /var/www/n3xuscos.online
+sudo chown -R www-data:www-data /var/www/beta.n3xuscos.online
+sudo chmod -R 755 /var/www/n3xuscos.online
+sudo chmod -R 755 /var/www/beta.n3xuscos.online
 ```
 
 ### Step 6: Validate Deployment
@@ -289,25 +289,25 @@ chmod +x scripts/validate-beta-launch-endpoints.sh
 ## Health Check Endpoints Reference
 
 ### Core Platform
-- `https://nexuscos.online/api/health` → Core API Health (NEW)
-- `https://nexuscos.online/health/gateway` → Gateway Health (Canonical)
-- `https://nexuscos.online/health` → Legacy Health Endpoint
+- `https://n3xuscos.online/api/health` → Core API Health (NEW)
+- `https://n3xuscos.online/health/gateway` → Gateway Health (Canonical)
+- `https://n3xuscos.online/health` → Legacy Health Endpoint
 
 ### PUABO NEXUS Fleet Services (NEW)
-- `https://nexuscos.online/puabo-nexus/dispatch/health` → AI Dispatch (Port 9001)
-- `https://nexuscos.online/puabo-nexus/driver/health` → Driver Backend (Port 9002)
-- `https://nexuscos.online/puabo-nexus/fleet/health` → Fleet Manager (Port 9003)
-- `https://nexuscos.online/puabo-nexus/routes/health` → Route Optimizer (Port 9004)
+- `https://n3xuscos.online/puabo-nexus/dispatch/health` → AI Dispatch (Port 9001)
+- `https://n3xuscos.online/puabo-nexus/driver/health` → Driver Backend (Port 9002)
+- `https://n3xuscos.online/puabo-nexus/fleet/health` → Fleet Manager (Port 9003)
+- `https://n3xuscos.online/puabo-nexus/routes/health` → Route Optimizer (Port 9004)
 
 ### V-Suite Services
-- `https://nexuscos.online/v-suite/prompter/health` → V-Prompter Pro (Port 3011)
-- `https://nexuscos.online/v-suite/screen/health` → VScreen Hollywood (Port 8088)
+- `https://n3xuscos.online/v-suite/prompter/health` → V-Prompter Pro (Port 3011)
+- `https://n3xuscos.online/v-suite/screen/health` → VScreen Hollywood (Port 8088)
 
 ### Beta Domain
-- `https://beta.nexuscos.online/` → Beta Landing Page
-- `https://beta.nexuscos.online/api/health` → Beta API Health
-- `https://beta.nexuscos.online/health/gateway` → Beta Gateway Health
-- `https://beta.nexuscos.online/v-suite/prompter/health` → Beta V-Prompter
+- `https://beta.n3xuscos.online/` → Beta Landing Page
+- `https://beta.n3xuscos.online/api/health` → Beta API Health
+- `https://beta.n3xuscos.online/health/gateway` → Beta Gateway Health
+- `https://beta.n3xuscos.online/v-suite/prompter/health` → Beta V-Prompter
 
 ---
 
@@ -355,7 +355,7 @@ All frontend applications now use unified Nexus COS branding:
 **Diagnosis:**
 ```bash
 sudo nginx -t
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
+curl -I https://n3xuscos.online/puabo-nexus/dispatch/health
 ```
 
 **Solution:**
@@ -394,8 +394,8 @@ sudo nginx -t 2>&1 | grep conflicting
 ## Files Changed Summary
 
 ### Configuration Files
-- `deployment/nginx/nexuscos.online.conf` - Added PUABO NEXUS routes, /api/health
-- `deployment/nginx/beta.nexuscos.online.conf` - Added health endpoints, PUABO NEXUS routes
+- `deployment/nginx/n3xuscos.online.conf` - Added PUABO NEXUS routes, /api/health
+- `deployment/nginx/beta.n3xuscos.online.conf` - Added health endpoints, PUABO NEXUS routes
 - `frontend/.env` - Updated to use same-origin /api paths
 - `admin/.env.example` - Created with PF configuration
 - `creator-hub/.env.example` - Created with PF configuration

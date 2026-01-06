@@ -133,7 +133,7 @@ git pull origin main
 pm2 delete all
 pm2 start ecosystem.config.js --env production
 pm2 list  # All services should be running
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 ```
 
 ## Success Criteria
@@ -150,7 +150,7 @@ curl -s https://nexuscos.online/health | jq
 After deploying this fix on the production server:
 
 1. **Deploy the fix**: Follow the deployment instructions above
-2. **Verify health**: Check that `https://nexuscos.online/health` shows `"db": "up"`
+2. **Verify health**: Check that `https://n3xuscos.online/health` shows `"db": "up"`
 3. **Monitor logs**: Use `pm2 logs` to ensure services are running correctly
 4. **Test endpoints**: Verify that all services are accessible
 

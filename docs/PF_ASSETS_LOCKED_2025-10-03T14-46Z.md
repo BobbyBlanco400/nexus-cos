@@ -65,8 +65,8 @@ JWT_SECRET=<secure-key>
 
 **Current SSL Assets in Repository:**
 ```
-/ssl/beta.nexuscos.online.crt
-/ssl/beta.nexuscos.online.key
+/ssl/beta.n3xuscos.online.crt
+/ssl/beta.n3xuscos.online.key
 ```
 
 ### Canonical PF SSL Deployment Targets
@@ -129,7 +129,7 @@ upstream pf_puaboai_sdk {
 }
 ```
 
-**Production URL:** `https://nexuscos.online/v-suite/prompter/health`  
+**Production URL:** `https://n3xuscos.online/v-suite/prompter/health`  
 **Expected Response:** `200 OK` with JSON health status
 
 ---
@@ -223,13 +223,13 @@ upstream pf_puaboai_sdk {
 
 3. **Test V-Prompter Pro:**
    ```bash
-   curl https://nexuscos.online/v-suite/prompter/health
+   curl https://n3xuscos.online/v-suite/prompter/health
    ```
    Expected: 200 OK
 
 4. **Verify SSL:**
    ```bash
-   openssl s_client -connect nexuscos.online:443 -servername nexuscos.online
+   openssl s_client -connect n3xuscos.online:443 -servername n3xuscos.online
    ```
    Expected: Valid certificate chain
 
@@ -295,7 +295,7 @@ upstream pf_puaboai_sdk {
 ### VPS Configuration
 
 **Target VPS:** 74.208.155.161  
-**Domain:** nexuscos.online  
+**Domain:** n3xuscos.online  
 **OS:** Ubuntu/Debian (assumed)
 
 **Required Ports:**
@@ -323,7 +323,7 @@ upstream pf_puaboai_sdk {
 4. ⏳ Run full system deployment script: `./scripts/pf-final-deploy.sh`
 5. ⏳ Validate deployment: Test all health endpoints
 6. ⏳ Configure DNS (if not already done)
-7. ⏳ Test V-Prompter Pro: `https://nexuscos.online/v-suite/prompter/health`
+7. ⏳ Test V-Prompter Pro: `https://n3xuscos.online/v-suite/prompter/health`
 8. ⏳ Monitor logs for 24 hours
 9. ⏳ Document any issues and resolutions
 

@@ -15,7 +15,7 @@ interface Platform {
 
 const App: React.FC = () => {
   const [platforms] = useState<Platform[]>([
-    { id: '1', name: 'Beta Environment', status: 'active', url: 'https://beta.nexuscos.online', module: 'Beta' },
+    { id: '1', name: 'Beta Environment', status: 'active', url: 'https://beta.n3xuscos.online', module: 'Beta' },
     { id: '2', name: 'CIM-B Module', status: 'active', url: '/cim-b', module: 'CIM-B' },
     { id: '3', name: 'PWA Service', status: 'active', url: '/pwa', module: 'PWA' },
     { id: '4', name: 'NexusVision', status: 'active', url: '/nexusvision', module: 'NexusVision' },

@@ -88,7 +88,7 @@
     "secondary_delivery": [
       {
         "platform": "Nexus COS",
-        "endpoint": "https://api.nexuscos.online/v1/content"
+        "endpoint": "https://api.n3xuscos.online/v1/content"
       },
       {
         "platform": "Multi-platform Distribution",

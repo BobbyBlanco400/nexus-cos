@@ -129,7 +129,7 @@ deploy_trae_solo() {
     print_success "Frontend service started with Nginx"
     
     print_status "Configuring load balancer and SSL..."
-    print_success "Load balancer configured for nexuscos.online"
+    print_success "Load balancer configured for n3xuscos.online"
     print_success "SSL certificates configured via Let's Encrypt"
 }
 
@@ -195,9 +195,9 @@ main() {
     echo "  ✅ Health Checks: All services responding"
     echo ""
     echo "🔗 TRAE Solo Service Endpoints:"
-    echo "  🌐 Frontend: https://nexuscos.online"
-    echo "  🔧 Node.js API: https://nexuscos.online/api/node/"
-    echo "  🐍 Python API: https://nexuscos.online/api/python/"
+    echo "  🌐 Frontend: https://n3xuscos.online"
+    echo "  🔧 Node.js API: https://n3xuscos.online/api/node/"
+    echo "  🐍 Python API: https://n3xuscos.online/api/python/"
     echo "  📊 Health Status: All services healthy"
     echo ""
     echo "🚀 Nexus COS is now running on TRAE Solo!"

@@ -26,7 +26,7 @@
 Execute this command from your local machine to deploy to the VPS:
 
 ```bash
-ssh -o StrictHostKeyChecking=no root@nexuscos.online bash -lc '
+ssh -o StrictHostKeyChecking=no root@n3xuscos.online bash -lc '
   set -e
   cd /opt/nexus-cos
   mkdir -p logs/phase2.5/verification
@@ -39,12 +39,12 @@ ssh -o StrictHostKeyChecking=no root@nexuscos.online bash -lc '
   echo "=== Nginx Test/Reload ==="
   nginx -t && nginx -s reload
   echo "=== Endpoint Probes ==="
-  curl -sw "Gateway:%{http_code}\n" https://nexuscos.online/api/health
-  curl -sw "Prompter:%{http_code}\n" https://nexuscos.online/v-suite/prompter/health
-  curl -sw "Dispatch:%{http_code}\n" https://nexuscos.online/puabo-nexus/dispatch/health
-  curl -sw "Driver:%{http_code}\n" https://nexuscos.online/puabo-nexus/driver/health
-  curl -sw "Fleet:%{http_code}\n" https://nexuscos.online/puabo-nexus/fleet/health
-  curl -sw "Routes:%{http_code}\n" https://nexuscos.online/puabo-nexus/routes/health
+  curl -sw "Gateway:%{http_code}\n" https://n3xuscos.online/api/health
+  curl -sw "Prompter:%{http_code}\n" https://n3xuscos.online/v-suite/prompter/health
+  curl -sw "Dispatch:%{http_code}\n" https://n3xuscos.online/puabo-nexus/dispatch/health
+  curl -sw "Driver:%{http_code}\n" https://n3xuscos.online/puabo-nexus/driver/health
+  curl -sw "Fleet:%{http_code}\n" https://n3xuscos.online/puabo-nexus/fleet/health
+  curl -sw "Routes:%{http_code}\n" https://n3xuscos.online/puabo-nexus/routes/health
 '
 ```
 
@@ -123,12 +123,12 @@ After deployment, verify all endpoints:
 
 ```bash
 # Quick health check
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/v-suite/prompter/health
-curl -I https://nexuscos.online/puabo-nexus/dispatch/health
-curl -I https://nexuscos.online/puabo-nexus/driver/health
-curl -I https://nexuscos.online/puabo-nexus/fleet/health
-curl -I https://nexuscos.online/puabo-nexus/routes/health
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/v-suite/prompter/health
+curl -I https://n3xuscos.online/puabo-nexus/dispatch/health
+curl -I https://n3xuscos.online/puabo-nexus/driver/health
+curl -I https://n3xuscos.online/puabo-nexus/fleet/health
+curl -I https://n3xuscos.online/puabo-nexus/routes/health
 ```
 
 Or use the automated health check script:

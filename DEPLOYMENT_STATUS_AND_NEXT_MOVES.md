@@ -10,15 +10,15 @@ The Pre-Flight (PF) team has finalized the end-to-end deployment:
    - Service: PM2 managed process
    - Binding: 0.0.0.0:3000
    - Protocol: HTTPS
-   - Domain: https://nexuscos.online
+   - Domain: https://n3xuscos.online
 
 2. **Health Endpoint**
-   - URL: https://nexuscos.online/health
+   - URL: https://n3xuscos.online/health
    - Status: Returns HTTP 200 with JSON
    - Content: System status information
 
 3. **Root Domain**
-   - URL: https://nexuscos.online/
+   - URL: https://n3xuscos.online/
    - Content: Serving built frontend or minimal dist fallback
    - Status: Responding correctly
 
@@ -72,7 +72,7 @@ Based on the current deployment status and your goals, here are prioritized reco
 
 4. Verify:
    ```bash
-   curl -s https://nexuscos.online/health | jq '.db'
+   curl -s https://n3xuscos.online/health | jq '.db'
    # Should show: "up"
    ```
 
@@ -128,12 +128,12 @@ cd admin && npm install && npm run build && cd ..
 cd creator-hub && npm install && npm run build && cd ..
 
 # Upload to server
-scp -r frontend/dist user@nexuscos.online:/opt/nexus-cos/frontend/
-scp -r admin/build user@nexuscos.online:/opt/nexus-cos/admin/
-scp -r creator-hub/build user@nexuscos.online:/opt/nexus-cos/creator-hub/
+scp -r frontend/dist user@n3xuscos.online:/opt/nexus-cos/frontend/
+scp -r admin/build user@n3xuscos.online:/opt/nexus-cos/admin/
+scp -r creator-hub/build user@n3xuscos.online:/opt/nexus-cos/creator-hub/
 
 # Reload Nginx
-ssh user@nexuscos.online "sudo systemctl reload nginx"
+ssh user@n3xuscos.online "sudo systemctl reload nginx"
 ```
 
 **Time Estimate**: 30-60 minutes  
@@ -154,7 +154,7 @@ Once database connection is established:
 **Commands**:
 ```bash
 # SSH to server
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 
 cd /opt/nexus-cos
 
@@ -178,16 +178,16 @@ Test all API endpoints to ensure they work with database:
 
 ```bash
 # Test authentication endpoints
-curl -X POST https://nexuscos.online/api/auth/register \
+curl -X POST https://n3xuscos.online/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Test123!"}'
 
-curl -X POST https://nexuscos.online/api/auth/login \
+curl -X POST https://n3xuscos.online/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Test123!"}'
 
 # Test user endpoints
-curl https://nexuscos.online/api/users \
+curl https://n3xuscos.online/api/users \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 

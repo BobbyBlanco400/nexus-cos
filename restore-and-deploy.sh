@@ -208,7 +208,7 @@ main() {
     echo -e "${GREEN}✅ Services deployment initiated${NC}"
     echo ""
     echo -e "${BLUE}📍 Installation Directory:${NC} $(pwd)"
-    echo -e "${BLUE}🌐 Expected Domain:${NC} nexuscos.online"
+    echo -e "${BLUE}🌐 Expected Domain:${NC} n3xuscos.online"
     echo -e "${BLUE}🖥️  Target Server:${NC} 75.208.155.161"
     echo ""
     echo -e "${YELLOW}📋 Next Steps:${NC}"

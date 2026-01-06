@@ -256,8 +256,8 @@ START: Need to deploy Nexus COS?
 │  ☐ API endpoints responding                                         │
 │                                                                      │
 │  DOMAINS                                                             │
-│  ☐ Apex domain loads (nexuscos.online)                             │
-│  ☐ Beta domain loads (beta.nexuscos.online)                        │
+│  ☐ Apex domain loads (n3xuscos.online)                             │
+│  ☐ Beta domain loads (beta.n3xuscos.online)                        │
 │  ☐ SSL certificates valid                                           │
 │  ☐ HTTPS working                                                    │
 │  ☐ HTTP redirects to HTTPS                                          │
@@ -411,13 +411,13 @@ START: Need to deploy Nexus COS?
 ║  VALIDATION                                                           ║
 ║  ┌────────────────────────────────────────────────────────────┐      ║
 ║  │  Test apex:                                                 │      ║
-║  │  curl -I https://nexuscos.online                           │      ║
+║  │  curl -I https://n3xuscos.online                           │      ║
 ║  │                                                             │      ║
 ║  │  Test beta:                                                 │      ║
-║  │  curl -I https://beta.nexuscos.online                      │      ║
+║  │  curl -I https://beta.n3xuscos.online                      │      ║
 ║  │                                                             │      ║
 ║  │  Test API:                                                  │      ║
-║  │  curl https://nexuscos.online/api/health                   │      ║
+║  │  curl https://n3xuscos.online/api/health                   │      ║
 ║  └────────────────────────────────────────────────────────────┘      ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝

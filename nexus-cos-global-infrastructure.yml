@@ -10,12 +10,12 @@ project:
 
 launch_phases:
   beta:
-    domain: "beta.nexuscos.online"
+    domain: "beta.n3xuscos.online"
     start_date: "2025-10-01T00:00:00Z"
     environment: "beta"
     ssl:
       provider: "IONOS"
-      cert_path: "/etc/ssl/ionos/beta.nexuscos.online/"
+      cert_path: "/etc/ssl/ionos/beta.n3xuscos.online/"
       protocols: ["TLSv1.2", "TLSv1.3"]
       ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256"
     cdn:
@@ -27,8 +27,8 @@ launch_phases:
       csp: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
       frame_options: "SAMEORIGIN"
     logging:
-      access_log: "/var/log/nginx/beta.nexuscos.online_access.log"
-      error_log: "/var/log/nginx/beta.nexuscos.online_error.log"
+      access_log: "/var/log/nginx/beta.n3xuscos.online_access.log"
+      error_log: "/var/log/nginx/beta.n3xuscos.online_error.log"
       level: "warn"
     features:
       - "basic_ssl"
@@ -37,12 +37,12 @@ launch_phases:
       - "cdn_integration"
       
   production:
-    domain: "nexuscos.online"
+    domain: "n3xuscos.online"
     transition_date: "2025-11-17T00:00:00Z"
     environment: "production"
     ssl:
       provider: "IONOS"
-      cert_path: "/etc/ssl/ionos/nexuscos.online/"
+      cert_path: "/etc/ssl/ionos/n3xuscos.online/"
       protocols: ["TLSv1.2", "TLSv1.3"]
       ciphers: "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
       session_cache: "shared:SSL:50m"
@@ -63,8 +63,8 @@ launch_phases:
         login_zone: "10m"
         login_rate: "1r/s"
     logging:
-      access_log: "/var/log/nginx/nexuscos.online_access.log"
-      error_log: "/var/log/nginx/nexuscos.online_error.log"
+      access_log: "/var/log/nginx/n3xuscos.online_access.log"
+      error_log: "/var/log/nginx/n3xuscos.online_error.log"
       level: "warn"
     features:
       - "enhanced_ssl"
@@ -173,14 +173,14 @@ automation:
 environment_variables:
   beta:
     NODE_ENV: "beta"
-    DOMAIN: "beta.nexuscos.online"
+    DOMAIN: "beta.n3xuscos.online"
     SSL_PROVIDER: "IONOS"
     CDN_PROVIDER: "CloudFlare"
     LOG_LEVEL: "info"
     
   production:
     NODE_ENV: "production"
-    DOMAIN: "nexuscos.online"
+    DOMAIN: "n3xuscos.online"
     SSL_PROVIDER: "IONOS"
     CDN_PROVIDER: "CloudFlare"
     LOG_LEVEL: "warn"

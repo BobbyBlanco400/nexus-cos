@@ -21,7 +21,7 @@ readonly NC='\033[0m'
 readonly REPO_PATH="${REPO_PATH:-/opt/nexus-cos}"
 readonly REPO_URL="https://github.com/BobbyBlanco400/nexus-cos.git"
 readonly VPS_IP="74.208.155.161"
-readonly DOMAIN="nexuscos.online"
+readonly DOMAIN="n3xuscos.online"
 
 # ==============================================================================
 # Banner

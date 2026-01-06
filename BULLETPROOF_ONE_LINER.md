@@ -212,10 +212,10 @@ After successful deployment:
 
 ### Main URLs
 ```
-https://nexuscos.online          # Main frontend
-https://nexuscos.online/admin    # Admin panel
-https://nexuscos.online/api/     # API endpoints
-https://nexuscos.online/health   # Health check
+https://n3xuscos.online          # Main frontend
+https://n3xuscos.online/admin    # Admin panel
+https://n3xuscos.online/api/     # API endpoints
+https://n3xuscos.online/health   # Health check
 ```
 
 ### Service Management
@@ -248,13 +248,13 @@ After deployment, run these to verify:
 
 ```bash
 # Test main endpoint
-curl -I https://nexuscos.online
+curl -I https://n3xuscos.online
 
 # Test health check
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 
 # Test API
-curl https://nexuscos.online/api/health
+curl https://n3xuscos.online/api/health
 
 # Check service status
 systemctl status nexuscos-app

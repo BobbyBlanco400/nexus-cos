@@ -234,7 +234,7 @@
 
 **Visual**:
 - Everything fades except:
-- "nexuscos.online" (centered, clean, simple)
+- "n3xuscos.online" (centered, clean, simple)
 - Optional: QR code in corner
 
 **Camera**:
@@ -300,7 +300,7 @@ Before rendering:
 - [ ] Color grading is consistent (blacks are true black, whites are bright)
 - [ ] No jarring transitions
 - [ ] Audio levels are balanced
-- [ ] Final frame (nexuscos.online) holds for at least 1 second
+- [ ] Final frame (n3xuscos.online) holds for at least 1 second
 - [ ] Export in multiple aspect ratios (16:9, 9:16, 1:1)
 - [ ] Add captions/subtitles for accessibility
 

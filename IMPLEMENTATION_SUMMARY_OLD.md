@@ -156,7 +156,7 @@ Created 6 new documentation files totaling ~46KB of content:
 node test-health-endpoint.js
 
 # Remote test
-HOST=nexuscos.online PORT=443 node test-health-endpoint.js
+HOST=n3xuscos.online PORT=443 node test-health-endpoint.js
 ```
 
 **Output Example**:
@@ -249,7 +249,7 @@ HOST=nexuscos.online PORT=443 node test-health-endpoint.js
 4. Run `test-health-endpoint.js` to verify
 
 ### For Operations Team
-1. Monitor health endpoint: `https://nexuscos.online/health`
+1. Monitor health endpoint: `https://n3xuscos.online/health`
 2. Alert on `db: "down"` status
 3. Follow troubleshooting guides
 4. Use verification commands
@@ -364,7 +364,7 @@ Implementation Details
 ### Immediate (Today)
 1. PF team reviews `RESPONSE_TO_PF_DEPLOYMENT.md`
 2. Configure database per `QUICK_FIX_DATABASE.md`
-3. Verify with `curl https://nexuscos.online/health`
+3. Verify with `curl https://n3xuscos.online/health`
 
 ### Short Term (This Week)
 1. Initialize database schema

@@ -1,7 +1,7 @@
 # API Routes Deployment Guide
 
 ## Overview
-This guide documents the changes made to expose `/api/*` routes publicly on https://nexuscos.online.
+This guide documents the changes made to expose `/api/*` routes publicly on https://n3xuscos.online.
 
 ## Changes Made
 
@@ -68,24 +68,24 @@ Added the following API endpoints to the root `server.js` file:
 3. **Verify the deployment**:
    ```bash
    # Test health endpoint
-   curl -s https://nexuscos.online/health | jq .
+   curl -s https://n3xuscos.online/health | jq .
    
    # Test API root
-   curl -s https://nexuscos.online/api | jq .
+   curl -s https://n3xuscos.online/api | jq .
    
    # Test auth endpoint
-   curl -s https://nexuscos.online/api/auth | jq .
+   curl -s https://n3xuscos.online/api/auth | jq .
    
    # Test system status
-   curl -s https://nexuscos.online/api/system/status | jq .
+   curl -s https://n3xuscos.online/api/system/status | jq .
    
    # Test service health
-   curl -s https://nexuscos.online/api/services/auth/health | jq .
+   curl -s https://n3xuscos.online/api/services/auth/health | jq .
    
    # Test module status
-   curl -s https://nexuscos.online/api/creator-hub/status | jq .
-   curl -s https://nexuscos.online/api/v-suite/status | jq .
-   curl -s https://nexuscos.online/api/puaboverse/status | jq .
+   curl -s https://n3xuscos.online/api/creator-hub/status | jq .
+   curl -s https://n3xuscos.online/api/v-suite/status | jq .
+   curl -s https://n3xuscos.online/api/puaboverse/status | jq .
    ```
 
 ## Nginx Configuration
@@ -143,7 +143,7 @@ Use the following commands to test all endpoints:
 #!/bin/bash
 # Test all API endpoints
 
-BASE_URL="https://nexuscos.online"
+BASE_URL="https://n3xuscos.online"
 
 echo "Testing /health endpoint..."
 curl -sSI $BASE_URL/health

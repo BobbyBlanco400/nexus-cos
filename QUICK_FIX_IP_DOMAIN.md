@@ -1,7 +1,7 @@
 # Quick Fix: IP vs Domain Routing Issue
 
 ## Problem
-Accessing `http://74.208.155.161/` shows different UI than `https://nexuscos.online/`
+Accessing `http://74.208.155.161/` shows different UI than `https://n3xuscos.online/`
 
 ## Root Cause
 Nginx's `default_server` block serves different content for IP requests
@@ -37,7 +37,7 @@ Ctrl + Shift + Delete
 
 # Test both URLs
 http://74.208.155.161/      # Should redirect to domain
-https://nexuscos.online/     # Should load correctly
+https://n3xuscos.online/     # Should load correctly
 ```
 
 ## What Changed
@@ -46,7 +46,7 @@ https://nexuscos.online/     # Should load correctly
 ```nginx
 server {
     listen 443 ssl;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     # IP requests go to default server ❌
 }
 ```
@@ -55,7 +55,7 @@ server {
 ```nginx
 server {
     listen 443 ssl http2 default_server;
-    server_name nexuscos.online www.nexuscos.online 74.208.155.161 _;
+    server_name n3xuscos.online www.n3xuscos.online 74.208.155.161 _;
     # IP requests handled by same server ✅
 }
 ```
@@ -67,8 +67,8 @@ server {
    - Captures all unmatched requests including IP
 
 2. **Multiple Server Names**
-   - `nexuscos.online` - Main domain
-   - `www.nexuscos.online` - WWW variant
+   - `n3xuscos.online` - Main domain
+   - `www.n3xuscos.online` - WWW variant
    - `74.208.155.161` - IP address
    - `_` - Fallback for any other name
 
@@ -98,16 +98,16 @@ server {
 curl -I http://74.208.155.161/
 
 # Test domain access
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Test with Host header
-curl -I -H "Host: nexuscos.online" http://74.208.155.161/
+curl -I -H "Host: n3xuscos.online" http://74.208.155.161/
 
 # Test admin panel
-curl -L https://nexuscos.online/admin/
+curl -L https://n3xuscos.online/admin/
 
 # Test API
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 
 ## Troubleshooting
@@ -178,13 +178,13 @@ sudo nginx -t && sudo systemctl reload nginx
 ```
 http://74.208.155.161/
     ↓ (301 Redirect)
-https://nexuscos.online/
+https://n3xuscos.online/
 ```
 
 ### HTTPS Requests
 ```
 https://74.208.155.161/  →  Serves admin panel ✅
-https://nexuscos.online/  →  Serves admin panel ✅
+https://n3xuscos.online/  →  Serves admin panel ✅
 (Same content, same branding)
 ```
 

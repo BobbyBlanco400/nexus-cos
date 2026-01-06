@@ -35,7 +35,7 @@ Upload the repository to `/var/www/nexus-cos` on your VPS.
 cd /var/www/nexus-cos
 ls -l pf-master-deployment.sh
 sudo chmod +x /var/www/nexus-cos/pf-master-deployment.sh
-sudo DOMAIN=nexuscos.online bash /var/www/nexus-cos/pf-master-deployment.sh
+sudo DOMAIN=n3xuscos.online bash /var/www/nexus-cos/pf-master-deployment.sh
 ```
 
 ### Step 3: Validate Deployment
@@ -53,7 +53,7 @@ sudo bash /var/www/nexus-cos/validate-ip-domain-routing.sh
 
 2. **Open these URLs**:
    - `http://74.208.155.161/`
-   - `https://nexuscos.online/`
+   - `https://n3xuscos.online/`
 
 3. **Verify**:
    - Both URLs should show the SAME UI/branding
@@ -71,13 +71,13 @@ Run these to verify everything is working:
 curl -I http://74.208.155.161/
 
 # Check HTTPS domain
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 
 # Check admin panel
-curl -I https://nexuscos.online/admin
+curl -I https://n3xuscos.online/admin
 
 # Check API health
-curl -I https://nexuscos.online/api/health
+curl -I https://n3xuscos.online/api/health
 ```
 
 ---
@@ -146,7 +146,7 @@ After deployment, you should have:
 - [ ] Scripts ran without errors
 - [ ] Validation shows all/most tests passing
 - [ ] Browser cache is cleared
-- [ ] `http://74.208.155.161/` redirects to `https://nexuscos.online/`
+- [ ] `http://74.208.155.161/` redirects to `https://n3xuscos.online/`
 - [ ] Both IP and domain show identical UI/branding
 - [ ] Your official Nexus COS interface is visible
 - [ ] Admin panel works at `/admin`
@@ -159,7 +159,7 @@ After deployment, you should have:
 ## 🎉 Expected Result
 
 After following these steps, when you:
-- Click `https://nexuscos.online/`
+- Click `https://n3xuscos.online/`
 - Or visit `http://74.208.155.161/`
 
 You will see:

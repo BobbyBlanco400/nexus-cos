@@ -110,13 +110,13 @@ After deployment, test these endpoints:
 
 ```bash
 # Test admin panel
-curl -L http://nexuscos.online/admin/
+curl -L http://n3xuscos.online/admin/
 
 # Test creator hub
-curl -L http://nexuscos.online/creator-hub/
+curl -L http://n3xuscos.online/creator-hub/
 
 # Test API health
-curl http://nexuscos.online/health
+curl http://n3xuscos.online/health
 
 # Check nginx logs if issues
 tail -f /var/log/nginx/nexuscos.error.log

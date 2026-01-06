@@ -93,7 +93,7 @@ python3 -m http.server 8000
 ## Links & CTAs
 
 ### External
-- Beta: https://beta.nexuscos.online/?utm_source=apex&utm_medium=hero&utm_campaign=beta_launch_2025_11
+- Beta: https://beta.n3xuscos.online/?utm_source=apex&utm_medium=hero&utm_campaign=beta_launch_2025_11
 
 ### Internal
 - Login: /api/auth/login

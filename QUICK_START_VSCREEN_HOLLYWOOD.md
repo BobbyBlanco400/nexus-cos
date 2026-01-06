@@ -39,9 +39,9 @@ Expected response:
 | Type | URL |
 |------|-----|
 | Local | `http://localhost:8088` |
-| Subdomain | `https://hollywood.nexuscos.online` |
-| Path-based | `https://nexuscos.online/v-suite/hollywood` |
-| WebSocket | `wss://hollywood.nexuscos.online/ws` |
+| Subdomain | `https://hollywood.n3xuscos.online` |
+| Path-based | `https://n3xuscos.online/v-suite/hollywood` |
+| WebSocket | `wss://hollywood.n3xuscos.online/ws` |
 
 ---
 

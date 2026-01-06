@@ -30,12 +30,12 @@ All issues identified in TRAE's verification report have been comprehensively ad
   - Route Optimizer: `/puabo-nexus/routes` → `http://127.0.0.1:9004`
 
 **Files Updated:**
-- `deployment/nginx/nexuscos.online.conf`
-- `deployment/nginx/beta.nexuscos.online.conf`
+- `deployment/nginx/n3xuscos.online.conf`
+- `deployment/nginx/beta.n3xuscos.online.conf`
 
 **Verification:**
 ```bash
-grep -A 5 "puabo-nexus/dispatch" deployment/nginx/nexuscos.online.conf
+grep -A 5 "puabo-nexus/dispatch" deployment/nginx/n3xuscos.online.conf
 # Route and health endpoint confirmed
 ```
 
@@ -73,8 +73,8 @@ location /health/gateway {
 
 **Verification:**
 ```bash
-curl -I https://nexuscos.online/api/health
-curl -I https://nexuscos.online/health/gateway
+curl -I https://n3xuscos.online/api/health
+curl -I https://n3xuscos.online/health/gateway
 # Both should return 200 OK
 ```
 
@@ -231,8 +231,8 @@ All ports match PF specification. Nginx routes configured accordingly.
 cd /opt/nexus-cos && git pull origin main
 
 # 2. Deploy nginx configs
-sudo cp deployment/nginx/nexuscos.online.conf /etc/nginx/sites-available/nexuscos && \
-sudo cp deployment/nginx/beta.nexuscos.online.conf /etc/nginx/sites-available/beta.nexuscos && \
+sudo cp deployment/nginx/n3xuscos.online.conf /etc/nginx/sites-available/nexuscos && \
+sudo cp deployment/nginx/beta.n3xuscos.online.conf /etc/nginx/sites-available/beta.nexuscos && \
 sudo ln -sf /etc/nginx/sites-available/nexuscos /etc/nginx/sites-enabled/ && \
 sudo ln -sf /etc/nginx/sites-available/beta.nexuscos /etc/nginx/sites-enabled/ && \
 sudo nginx -t && sudo systemctl reload nginx
@@ -266,22 +266,22 @@ After deployment with backend services running:
 
 ```bash
 # Core Platform
-✅ https://nexuscos.online/api/health → 200 OK
-✅ https://nexuscos.online/health/gateway → 200 OK
+✅ https://n3xuscos.online/api/health → 200 OK
+✅ https://n3xuscos.online/health/gateway → 200 OK
 
 # PUABO NEXUS Fleet
-✅ https://nexuscos.online/puabo-nexus/dispatch/health → 200 OK
-✅ https://nexuscos.online/puabo-nexus/driver/health → 200 OK
-✅ https://nexuscos.online/puabo-nexus/fleet/health → 200 OK
-✅ https://nexuscos.online/puabo-nexus/routes/health → 200 OK
+✅ https://n3xuscos.online/puabo-nexus/dispatch/health → 200 OK
+✅ https://n3xuscos.online/puabo-nexus/driver/health → 200 OK
+✅ https://n3xuscos.online/puabo-nexus/fleet/health → 200 OK
+✅ https://n3xuscos.online/puabo-nexus/routes/health → 200 OK
 
 # V-Suite
-✅ https://nexuscos.online/v-suite/prompter/health → 200 OK
+✅ https://n3xuscos.online/v-suite/prompter/health → 200 OK
 
 # Beta Domain
-✅ https://beta.nexuscos.online/ → 200 OK
-✅ https://beta.nexuscos.online/api/health → 200 OK
-✅ https://beta.nexuscos.online/health/gateway → 200 OK
+✅ https://beta.n3xuscos.online/ → 200 OK
+✅ https://beta.n3xuscos.online/api/health → 200 OK
+✅ https://beta.n3xuscos.online/health/gateway → 200 OK
 ```
 
 ### Nginx Configuration
@@ -317,8 +317,8 @@ See `PF_v2025.10.01_COMPLIANCE_CHECKLIST.md` for detailed verification.
 ## Files Updated/Created
 
 ### Configuration Files
-- ✅ `deployment/nginx/nexuscos.online.conf` - PUABO NEXUS routes, /api/health
-- ✅ `deployment/nginx/beta.nexuscos.online.conf` - Complete beta config
+- ✅ `deployment/nginx/n3xuscos.online.conf` - PUABO NEXUS routes, /api/health
+- ✅ `deployment/nginx/beta.n3xuscos.online.conf` - Complete beta config
 - ✅ `frontend/.env` - Same-origin paths
 - ✅ `admin/.env.example` - Template for deployment
 - ✅ `creator-hub/.env.example` - Template for deployment

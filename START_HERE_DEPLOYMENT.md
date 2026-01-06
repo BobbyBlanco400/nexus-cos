@@ -12,7 +12,7 @@
 - ✅ **Infrastructure** (Nginx + SSL, PM2, Docker, Plesk)
 - ✅ **Real-time** (Socket.IO endpoints)
 
-**Domain**: nexuscos.online  
+**Domain**: n3xuscos.online  
 **VPS**: 74.208.155.161  
 **Time**: ~20-25 minutes  
 
@@ -44,9 +44,9 @@ ssh root@74.208.155.161 'curl -fsSL https://raw.githubusercontent.com/BobbyBlanc
 
 ```bash
 # Test endpoints
-curl -I https://nexuscos.online/
-curl https://nexuscos.online/api/
-curl https://nexuscos.online/streaming/
+curl -I https://n3xuscos.online/
+curl https://n3xuscos.online/api/
+curl https://n3xuscos.online/streaming/
 curl http://localhost:7777/health
 ```
 
@@ -133,11 +133,11 @@ All these should work:
 
 | Endpoint | Expected |
 |----------|----------|
-| `https://nexuscos.online/` | 301 redirect to /streaming/ |
-| `https://nexuscos.online/api/` | 200 OK |
-| `https://nexuscos.online/streaming/` | 200 OK |
-| `https://nexuscos.online/socket.io/...` | 200 OK |
-| `https://nexuscos.online/streaming/socket.io/...` | 200 OK |
+| `https://n3xuscos.online/` | 301 redirect to /streaming/ |
+| `https://n3xuscos.online/api/` | 200 OK |
+| `https://n3xuscos.online/streaming/` | 200 OK |
+| `https://n3xuscos.online/socket.io/...` | 200 OK |
+| `https://n3xuscos.online/streaming/socket.io/...` | 200 OK |
 
 ### Check Status
 
@@ -178,7 +178,7 @@ ssh root@74.208.155.161 'pm2 logs'
 
 ### Check Health
 ```bash
-curl https://nexuscos.online/api/
+curl https://n3xuscos.online/api/
 curl http://localhost:7777/health
 ```
 
@@ -212,7 +212,7 @@ ssh root@74.208.155.161 'cd /var/www/nexus-cos/nexus-cos/puabo-core && docker co
 
 After successful deployment:
 
-1. **DNS**: Ensure `nexuscos.online` points to `74.208.155.161`
+1. **DNS**: Ensure `n3xuscos.online` points to `74.208.155.161`
 2. **Monitoring**: Set up external monitoring (UptimeRobot, Pingdom)
 3. **Backups**: Configure automated daily backups
 4. **Alerts**: Set up email/SMS alerts for downtime
@@ -318,7 +318,7 @@ After deployment:
 │  Nexus COS Platform Stack - Production Deployment      │
 ├─────────────────────────────────────────────────────────┤
 │  Deployment ID:  nexus-cos-production-v1.0.0           │
-│  Domain:         nexuscos.online                        │
+│  Domain:         n3xuscos.online                        │
 │  VPS:            74.208.155.161                         │
 │  Services:       52 microservices                       │
 │  Modules:        43 modules                             │

@@ -172,13 +172,13 @@ echo ""
 echo -e "${BLUE}Test 6: Frontend Environment${NC}"
 echo ""
 
-if grep -q "VITE_API_URL=https://nexuscos.online/api" frontend/.env; then
+if grep -q "VITE_API_URL=https://n3xuscos.online/api" frontend/.env; then
     test_pass "Frontend .env has correct API URL"
 else
     test_fail "Frontend .env missing or has incorrect API URL"
 fi
 
-if grep -q "VITE_API_URL=https://nexuscos.online/api" frontend/.env.example; then
+if grep -q "VITE_API_URL=https://n3xuscos.online/api" frontend/.env.example; then
     test_pass "Frontend .env.example has correct API URL"
 else
     test_fail "Frontend .env.example missing or has incorrect API URL"

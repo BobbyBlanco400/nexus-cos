@@ -4,7 +4,7 @@
 **Status:** ✅ READY TO LAUNCH  
 **PR #105:** ✅ MERGED - Production Framework Complete  
 **Updated:** 2025-10-11  
-**URL:** beta.nexuscos.online
+**URL:** beta.n3xuscos.online
 
 ---
 
@@ -228,7 +228,7 @@ docker compose -f docker-compose.unified.yml up -d
 - [ ] VPS with 8GB+ RAM, 20GB+ disk
 - [ ] Docker & Docker Compose installed
 - [ ] Git installed
-- [ ] Domain DNS configured (beta.nexuscos.online)
+- [ ] Domain DNS configured (beta.n3xuscos.online)
 - [ ] `.env.pf` configured with secure credentials
 - [ ] Firewall ports opened (80, 443, 22)
 - [ ] Repository cloned to `/opt/nexus-cos`

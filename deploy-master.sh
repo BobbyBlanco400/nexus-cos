@@ -41,8 +41,8 @@ print_step() {
 }
 
 # Configuration
-DOMAIN=${DOMAIN:-"nexuscos.online"}
-EMAIL=${EMAIL:-"admin@nexuscos.online"}
+DOMAIN=${DOMAIN:-"n3xuscos.online"}
+EMAIL=${EMAIL:-"admin@n3xuscos.online"}
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-"nexus_secure_password"}
 GRAFANA_PASSWORD=${GRAFANA_PASSWORD:-"admin123"}
 JWT_SECRET=${JWT_SECRET:-"your_jwt_secret_key_here"}
@@ -246,7 +246,7 @@ print_success "Docker infrastructure configured"
 # Step 8: SSL/TLS Configuration
 print_step "8. Configuring SSL/TLS certificates..."
 
-if [[ "$DOMAIN" != "nexuscos.online" ]] && [[ "$DOMAIN" != "localhost" ]]; then
+if [[ "$DOMAIN" != "n3xuscos.online" ]] && [[ "$DOMAIN" != "localhost" ]]; then
     print_status "Obtaining SSL certificate for $DOMAIN..."
     
     # Test Nginx configuration first

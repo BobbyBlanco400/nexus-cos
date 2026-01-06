@@ -30,7 +30,7 @@ DB_HOST=your-db-ip-or-hostname
 
 ```bash
 # SSH to server
-ssh user@nexuscos.online
+ssh user@n3xuscos.online
 
 # Edit .env file
 sudo nano /opt/nexus-cos/.env
@@ -50,7 +50,7 @@ pm2 restart nexus-cos
 ### Step 4: Verify Fix
 
 ```bash
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 ```
 
 **Expected Result**: `"up"` ✅
@@ -107,7 +107,7 @@ pm2 restart nexus-cos
 
 - [ ] Updated DB_HOST in `/opt/nexus-cos/.env`
 - [ ] Restarted PM2: `pm2 restart nexus-cos`
-- [ ] Health check shows `db: "up"`: `curl -s https://nexuscos.online/health`
+- [ ] Health check shows `db: "up"`: `curl -s https://n3xuscos.online/health`
 - [ ] No errors in logs: `pm2 logs nexus-cos`
 
 ## 🆘 Still Not Working?

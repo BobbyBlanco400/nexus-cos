@@ -60,7 +60,7 @@ To verify that the Nexus COS stack is operating as a single continuous ecosystem
 **Verification Command:**
 ```bash
 # Check identity persistence
-curl -X GET https://nexuscos.online/api/identity/{founder_uuid}/session-persistence
+curl -X GET https://n3xuscos.online/api/identity/{founder_uuid}/session-persistence
 
 # Expected: Single session ID across all modules
 ```
@@ -108,7 +108,7 @@ curl -X GET https://nexuscos.online/api/identity/{founder_uuid}/session-persiste
 **Verification Command:**
 ```bash
 # Check NexusVision session health
-curl -X GET https://nexuscos.online/api/nexusvision/session/{session_id}/health
+curl -X GET https://n3xuscos.online/api/nexusvision/session/{session_id}/health
 
 # Expected: continuous=true, transitions=seamless
 ```
@@ -153,8 +153,8 @@ curl -X GET https://nexuscos.online/api/nexusvision/session/{session_id}/health
 **Verification Command:**
 ```bash
 # Test Casino health and wallet sync
-curl -X GET https://nexuscos.online/api/casino/health
-curl -X GET https://nexuscos.online/api/wallet/{founder_uuid}/balance
+curl -X GET https://n3xuscos.online/api/casino/health
+curl -X GET https://n3xuscos.online/api/wallet/{founder_uuid}/balance
 
 # Expected: Real-time balance, no cache delay
 ```
@@ -197,8 +197,8 @@ curl -X GET https://nexuscos.online/api/wallet/{founder_uuid}/balance
 **Verification Command:**
 ```bash
 # Check PuaboVerse health and HoloCore
-curl -X GET https://nexuscos.online/api/puaboverse/health
-curl -X GET https://nexuscos.online/api/holocore/presence/{founder_uuid}
+curl -X GET https://n3xuscos.online/api/puaboverse/health
+curl -X GET https://n3xuscos.online/api/holocore/presence/{founder_uuid}
 
 # Expected: avatar_loaded=true, spatial_presence=active
 ```
@@ -242,8 +242,8 @@ curl -X GET https://nexuscos.online/api/holocore/presence/{founder_uuid}
 **Verification Command:**
 ```bash
 # Check NFT ownership and cross-environment sync
-curl -X GET https://nexuscos.online/api/nft/owner/{founder_uuid}
-curl -X GET https://nexuscos.online/api/economy/assets/{founder_uuid}/cross-env-check
+curl -X GET https://n3xuscos.online/api/nft/owner/{founder_uuid}
+curl -X GET https://n3xuscos.online/api/economy/assets/{founder_uuid}/cross-env-check
 
 # Expected: NFTs present in all environment contexts
 ```
@@ -296,12 +296,12 @@ curl -X GET https://nexuscos.online/api/economy/assets/{founder_uuid}/cross-env-
 **Verification Command:**
 ```bash
 # Check PUABO AI-HF (NOT kei-ai) and identity consistency
-curl -X GET https://nexuscos.online/api/puabo-ai-hf/health
-curl -X GET https://nexuscos.online/api/metatwin/{founder_uuid}/memory-state
-curl -X GET https://nexuscos.online/api/holocore/{founder_uuid}/behavior-profile
+curl -X GET https://n3xuscos.online/api/puabo-ai-hf/health
+curl -X GET https://n3xuscos.online/api/metatwin/{founder_uuid}/memory-state
+curl -X GET https://n3xuscos.online/api/holocore/{founder_uuid}/behavior-profile
 
 # CRITICAL CHECK: Ensure kei-ai is NOT in the response chain
-curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
+curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || echo "ERROR: kei-ai detected!"
 
 # Expected: PUABO AI-HF active, memory persistent, kei-ai absent
 ```
@@ -350,8 +350,8 @@ curl -X GET https://nexuscos.online/api/ai/service-chain | grep -v "kei-ai" || e
 **Verification Command:**
 ```bash
 # Check Creator Hub and streaming health
-curl -X GET https://nexuscos.online/api/creator-hub/health
-curl -X GET https://nexuscos.online/api/streaming/session/{session_id}/metrics
+curl -X GET https://n3xuscos.online/api/creator-hub/health
+curl -X GET https://n3xuscos.online/api/streaming/session/{session_id}/metrics
 
 # Expected: V-Caster active, latency acceptable, content persisted
 ```
@@ -394,8 +394,8 @@ curl -X GET https://nexuscos.online/api/streaming/session/{session_id}/metrics
 **Verification Command:**
 ```bash
 # Verify tenant status and isolation
-curl -X GET https://nexuscos.online/api/tenants/club-saditty/status
-curl -X GET https://nexuscos.online/api/tenants/club-saditty/isolation-check
+curl -X GET https://n3xuscos.online/api/tenants/club-saditty/status
+curl -X GET https://n3xuscos.online/api/tenants/club-saditty/isolation-check
 
 # Expected: tenant=true, core=false, isolated=true
 ```
@@ -438,9 +438,9 @@ curl -X GET https://nexuscos.online/api/tenants/club-saditty/isolation-check
 **Verification Command:**
 ```bash
 # System-wide health check
-curl -X GET https://nexuscos.online/api/system/health
-curl -X GET https://nexuscos.online/api/system/uptime
-curl -X GET https://nexuscos.online/api/system/resource-utilization
+curl -X GET https://n3xuscos.online/api/system/health
+curl -X GET https://n3xuscos.online/api/system/uptime
+curl -X GET https://n3xuscos.online/api/system/resource-utilization
 
 # Docker health check (if applicable)
 docker ps --format "table {{.Names}}\t{{.Status}}" | grep -i "up"

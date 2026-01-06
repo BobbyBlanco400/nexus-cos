@@ -16,7 +16,7 @@
 #   SSH into VPS: ssh root@74.208.155.161
 #   Run: bash deploy-nexus-cos-vps-master.sh
 #
-# Domain: nexuscos.online
+# Domain: n3xuscos.online
 # IP: 74.208.155.161
 # SSL: IONOS certificates
 # Platform: PLESK + Nginx
@@ -35,7 +35,7 @@ BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Configuration from deployment manifest
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 VPS_IP="74.208.155.161"
 DEPLOYMENT_ID="nexus-cos-production-v1.0.0"
 REPO_URL="https://github.com/BobbyBlanco400/nexus-cos.git"
@@ -43,7 +43,7 @@ DEPLOYMENT_DIR="/var/www/nexus-cos"
 SSL_KEY="/root/ionos/privkey.pem"
 SSL_CERT="/root/ionos/cert.pem"
 SSL_CHAIN="/root/ionos/chain.pem"
-NGINX_VHOST="/var/www/vhosts/system/nexuscos.online/conf/vhost_nginx.conf"
+NGINX_VHOST="/var/www/vhosts/system/n3xuscos.online/conf/vhost_nginx.conf"
 
 # Logging
 LOG_DIR="/var/log/nexus-cos"
@@ -335,7 +335,7 @@ configure_nginx() {
   
   cat > "$nginx_config" <<EOF
 # Nexus COS Platform - Nginx Configuration
-# Domain: nexuscos.online
+# Domain: n3xuscos.online
 # Generated: ${gen_date}
 
 upstream backend_api {
@@ -355,7 +355,7 @@ upstream puabo_core {
 
 server {
     listen 80;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # Redirect HTTP to HTTPS
     return 301 https://$server_name$request_uri;
@@ -363,7 +363,7 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name nexuscos.online www.nexuscos.online;
+    server_name n3xuscos.online www.n3xuscos.online;
     
     # SSL Configuration
     ssl_certificate /root/ionos/cert.pem;

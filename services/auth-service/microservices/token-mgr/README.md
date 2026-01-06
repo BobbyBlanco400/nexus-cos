@@ -157,7 +157,7 @@ JWT_REFRESH_SECRET=your-refresh-secret-key
 JWT_REFRESH_EXPIRES_IN=7d
 
 # CORS Configuration
-ALLOWED_ORIGINS=https://nexuscos.online,https://beta.nexuscos.online
+ALLOWED_ORIGINS=https://n3xuscos.online,https://beta.n3xuscos.online
 ```
 
 ## Deployment

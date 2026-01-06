@@ -41,7 +41,7 @@ DB_PASSWORD=YourSecurePassword123!
 pm2 restart nexus-cos
 
 # 6. Verify database connection
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 # Should return: "up"
 ```
 
@@ -78,7 +78,7 @@ DB_PASSWORD=Momoney2025$
 pm2 restart nexus-cos
 
 # 6. Verify database connection
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 # Should return: "up"
 ```
 
@@ -108,7 +108,7 @@ DB_PASSWORD=your_db_password
 pm2 restart nexus-cos
 
 # 5. Verify database connection
-curl -s https://nexuscos.online/health | jq '.db'
+curl -s https://n3xuscos.online/health | jq '.db'
 # Should return: "up"
 ```
 
@@ -119,7 +119,7 @@ After configuring the database, run these checks:
 ### 1. Check Health Endpoint
 
 ```bash
-curl -s https://nexuscos.online/health
+curl -s https://n3xuscos.online/health
 ```
 
 Expected output:
@@ -291,7 +291,7 @@ Once your database shows `db: "up"`:
 pm2 restart nexus-cos
 
 # Check health
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # View logs
 pm2 logs nexus-cos

@@ -2,7 +2,7 @@
 
 **Status:** Production-Ready  
 **Environment:** Plesk-Managed VPS  
-**Target:** nexuscos.online + beta.nexuscos.online
+**Target:** n3xuscos.online + beta.n3xuscos.online
 
 ---
 
@@ -25,8 +25,8 @@ This guide provides Plesk-specific deployment instructions for Nexus COS. Plesk 
 - Plesk Obsidian or newer
 - Root or admin access
 - Domains configured in Plesk:
-  - nexuscos.online
-  - beta.nexuscos.online
+  - n3xuscos.online
+  - beta.n3xuscos.online
 - SSL certificates installed via Plesk
 
 ---
@@ -145,10 +145,10 @@ docker ps
 
 ```bash
 # Create directory
-sudo mkdir -p /var/www/vhosts/system/nexuscos.online/conf
+sudo mkdir -p /var/www/vhosts/system/n3xuscos.online/conf
 
 # Create vhost configuration
-sudo tee /var/www/vhosts/system/nexuscos.online/conf/vhost.conf > /dev/null << 'EOF'
+sudo tee /var/www/vhosts/system/n3xuscos.online/conf/vhost.conf > /dev/null << 'EOF'
 # Nexus COS Production - Plesk vhost configuration
 # DO NOT modify directly - managed by deployment script
 
@@ -352,10 +352,10 @@ EOF
 
 ```bash
 # Create directory
-sudo mkdir -p /var/www/vhosts/system/beta.nexuscos.online/conf
+sudo mkdir -p /var/www/vhosts/system/beta.n3xuscos.online/conf
 
 # Create vhost configuration
-sudo tee /var/www/vhosts/system/beta.nexuscos.online/conf/vhost.conf > /dev/null << 'EOF'
+sudo tee /var/www/vhosts/system/beta.n3xuscos.online/conf/vhost.conf > /dev/null << 'EOF'
 # Nexus COS Beta - Plesk vhost configuration
 # Beta experience period: 12/15/2025 - 12/31/2025
 
@@ -368,7 +368,7 @@ add_header X-Nexus-Handshake "beta-55-45-17" always;
 EOF
 
 # Copy production config and add beta headers
-sudo bash -c 'cat /var/www/vhosts/system/nexuscos.online/conf/vhost.conf >> /var/www/vhosts/system/beta.nexuscos.online/conf/vhost.conf'
+sudo bash -c 'cat /var/www/vhosts/system/n3xuscos.online/conf/vhost.conf >> /var/www/vhosts/system/beta.n3xuscos.online/conf/vhost.conf'
 ```
 
 ### 7. Reload Plesk Nginx
@@ -388,19 +388,19 @@ sudo systemctl status nginx
 ### Test Production Domain
 
 ```bash
-curl -I https://nexuscos.online/
-curl -I https://nexuscos.online/health
-curl -I https://nexuscos.online/platform
-curl -I https://nexuscos.online/brand-check
-curl -I https://nexuscos.online/api/status
+curl -I https://n3xuscos.online/
+curl -I https://n3xuscos.online/health
+curl -I https://n3xuscos.online/platform
+curl -I https://n3xuscos.online/brand-check
+curl -I https://n3xuscos.online/api/status
 ```
 
 ### Test Beta Domain
 
 ```bash
-curl -I https://beta.nexuscos.online/ | grep X-Environment
-curl -I https://beta.nexuscos.online/ | grep X-Nexus-Handshake
-curl -I https://beta.nexuscos.online/health
+curl -I https://beta.n3xuscos.online/ | grep X-Environment
+curl -I https://beta.n3xuscos.online/ | grep X-Nexus-Handshake
+curl -I https://beta.n3xuscos.online/health
 ```
 
 ### Test Docker Services
@@ -431,8 +431,8 @@ curl -sI http://localhost:8088/health | head -n1
 **Fix:**
 ```bash
 # Ensure files exist
-ls -la /var/www/vhosts/system/nexuscos.online/conf/
-ls -la /var/www/vhosts/system/beta.nexuscos.online/conf/
+ls -la /var/www/vhosts/system/n3xuscos.online/conf/
+ls -la /var/www/vhosts/system/beta.n3xuscos.online/conf/
 
 # Reconfigure
 sudo /usr/local/psa/admin/bin/httpdmng --reconfigure-all
@@ -464,10 +464,10 @@ docker-compose -f docker-compose.pf.yml logs --tail=50
 **Symptom:** HTTPS not working
 
 **Fix:**
-1. Go to Plesk → Domains → nexuscos.online → SSL/TLS Certificates
+1. Go to Plesk → Domains → n3xuscos.online → SSL/TLS Certificates
 2. Install Let's Encrypt certificate
 3. Enable "Secure your site"
-4. Repeat for beta.nexuscos.online
+4. Repeat for beta.n3xuscos.online
 
 ---
 
@@ -487,10 +487,10 @@ sudo /usr/local/psa/admin/bin/httpdmng --reconfigure-all
 
 ```bash
 # Nginx access log
-sudo tail -f /var/www/vhosts/system/nexuscos.online/logs/access_log
+sudo tail -f /var/www/vhosts/system/n3xuscos.online/logs/access_log
 
 # Nginx error log
-sudo tail -f /var/www/vhosts/system/nexuscos.online/logs/error_log
+sudo tail -f /var/www/vhosts/system/n3xuscos.online/logs/error_log
 
 # Docker services
 cd /opt/nexus-cos
@@ -502,8 +502,8 @@ docker-compose -f docker-compose.pf.yml logs -f
 ```bash
 # Backup vhost configs
 sudo tar -czf nexus-cos-plesk-backup-$(date +%Y%m%d).tar.gz \
-  /var/www/vhosts/system/nexuscos.online/conf/ \
-  /var/www/vhosts/system/beta.nexuscos.online/conf/ \
+  /var/www/vhosts/system/n3xuscos.online/conf/ \
+  /var/www/vhosts/system/beta.n3xuscos.online/conf/ \
   /opt/nexus-cos/.env.pf
 ```
 

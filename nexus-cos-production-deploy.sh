@@ -339,7 +339,7 @@ verify_deployment() {
   if command -v curl &> /dev/null; then
     print_info "Checking health endpoint..."
     
-    local health_url="https://nexuscos.online/health"
+    local health_url="https://n3xuscos.online/health"
     if curl -s --connect-timeout 5 "$health_url" > /dev/null 2>&1; then
       local health_response=$(curl -s --max-time 10 "$health_url")
       
@@ -381,7 +381,7 @@ show_deployment_summary() {
   echo -e "  ${CYAN}pm2 monit${NC}         - Monitor services in real-time"
   echo ""
   echo "Health check:"
-  echo -e "  ${CYAN}curl -s https://nexuscos.online/health | jq${NC}"
+  echo -e "  ${CYAN}curl -s https://n3xuscos.online/health | jq${NC}"
   echo ""
   echo "Backup location:"
   echo -e "  ${CYAN}$BACKUP_DIR${NC}"

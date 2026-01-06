@@ -118,7 +118,7 @@ Quick steps to get database connection working.
 node test-health-endpoint.js
 
 # Test remote server
-HOST=nexuscos.online PORT=443 node test-health-endpoint.js
+HOST=n3xuscos.online PORT=443 node test-health-endpoint.js
 ```
 
 ---
@@ -235,7 +235,7 @@ DATABASE.md     DEPLOYMENT.md
 2. Pick option (Local/Docker/Remote)
 3. Update `/opt/nexus-cos/.env`
 4. Restart: `pm2 restart nexus-cos`
-5. Verify: `curl -s https://nexuscos.online/health | jq '.db'`
+5. Verify: `curl -s https://n3xuscos.online/health | jq '.db'`
 
 ### Scenario 2: "I need to understand what changed"
 1. Read `RESPONSE_TO_PF_DEPLOYMENT.md`
@@ -265,8 +265,8 @@ DATABASE.md     DEPLOYMENT.md
 ## 🔍 Quick Reference
 
 ### Current Deployment Status
-- ✅ App running: https://nexuscos.online
-- ✅ Health endpoint: https://nexuscos.online/health
+- ✅ App running: https://n3xuscos.online
+- ✅ Health endpoint: https://n3xuscos.online/health
 - ✅ PM2 managing process
 - ✅ Nginx serving HTTPS
 - ⚠️ Database: needs configuration
@@ -274,7 +274,7 @@ DATABASE.md     DEPLOYMENT.md
 ### Key Commands
 ```bash
 # Check health
-curl -s https://nexuscos.online/health | jq
+curl -s https://n3xuscos.online/health | jq
 
 # View PM2 status
 pm2 list

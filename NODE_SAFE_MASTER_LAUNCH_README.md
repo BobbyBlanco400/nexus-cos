@@ -107,7 +107,7 @@ The `node-safe-master-launch.sh` script automates the entire deployment process.
 ```bash
 # Set environment variables (REQUIRED for API operations)
 export NEXUS_API_KEY="your-secure-api-key"
-export NEXUS_API_URL="https://nexuscos.online/api/v1"
+export NEXUS_API_URL="https://n3xuscos.online/api/v1"
 
 # Execute the script
 ./node-safe-master-launch.sh
@@ -145,7 +145,7 @@ Run the test suite to verify the implementation:
 ### Environment Variables
 
 - `NEXUS_API_KEY` - API authentication key (**REQUIRED**: Set via environment variable)
-- `NEXUS_API_URL` - API base URL (default: https://nexuscos.online/api/v1)
+- `NEXUS_API_URL` - API base URL (default: https://n3xuscos.online/api/v1)
 - `NEXUS_NET_PORT` - Nexus-/Net service port (default: 3100)
 
 **Security Note:** Never hardcode API keys in scripts. Always set the `NEXUS_API_KEY` environment variable before running the script:

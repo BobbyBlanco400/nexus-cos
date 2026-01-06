@@ -235,7 +235,7 @@ For production with SSL:
 sudo apt install certbot python3-certbot-nginx
 
 # Obtain SSL certificate
-sudo certbot --nginx -d nexuscos.online -d www.nexuscos.online
+sudo certbot --nginx -d n3xuscos.online -d www.n3xuscos.online
 
 # Test auto-renewal
 sudo certbot renew --dry-run

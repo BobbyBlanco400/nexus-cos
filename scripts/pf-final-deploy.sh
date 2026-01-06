@@ -4,7 +4,7 @@
 # Nexus COS - PF Final Deployment Script
 # ==============================================================================
 # Purpose: Complete system check and re-deployment for Nexus COS Pre-Flight
-# Target VPS: 74.208.155.161 (nexuscos.online)
+# Target VPS: 74.208.155.161 (n3xuscos.online)
 # Created: 2025-10-03T14:46Z
 # ==============================================================================
 
@@ -27,7 +27,7 @@ KEY_TARGET="${SSL_DIR}/nexus-cos.key"
 ENV_FILE="${REPO_ROOT}/.env"
 ENV_PF_FILE="${REPO_ROOT}/.env.pf"
 NGINX_CONF_DIR="/etc/nginx"
-DOMAIN="nexuscos.online"
+DOMAIN="n3xuscos.online"
 
 # Counters
 CHECKS_PASSED=0
@@ -444,10 +444,10 @@ configure_environment() {
             print_info ""
             print_info "Expected production URLs:"
             print_info "  VITE_API_URL=/api"
-            print_info "  VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen"
-            print_info "  VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster"
-            print_info "  VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage"
-            print_info "  VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter"
+            print_info "  VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen"
+            print_info "  VITE_V_CASTER_URL=https://n3xuscos.online/v-suite/caster"
+            print_info "  VITE_V_STAGE_URL=https://n3xuscos.online/v-suite/stage"
+            print_info "  VITE_V_PROMPTER_URL=https://n3xuscos.online/v-suite/prompter"
             echo ""
             read -p "Continue anyway? (y/N): " -n 1 -r
             echo
@@ -467,10 +467,10 @@ configure_environment() {
             else
                 print_warning "Frontend .env missing V-Suite streaming URLs"
                 print_info "Consider adding:"
-                print_info "  VITE_V_SCREEN_URL=https://nexuscos.online/v-suite/screen"
-                print_info "  VITE_V_CASTER_URL=https://nexuscos.online/v-suite/caster"
-                print_info "  VITE_V_STAGE_URL=https://nexuscos.online/v-suite/stage"
-                print_info "  VITE_V_PROMPTER_URL=https://nexuscos.online/v-suite/prompter"
+                print_info "  VITE_V_SCREEN_URL=https://n3xuscos.online/v-suite/screen"
+                print_info "  VITE_V_CASTER_URL=https://n3xuscos.online/v-suite/caster"
+                print_info "  VITE_V_STAGE_URL=https://n3xuscos.online/v-suite/stage"
+                print_info "  VITE_V_PROMPTER_URL=https://n3xuscos.online/v-suite/prompter"
             fi
         fi
     else

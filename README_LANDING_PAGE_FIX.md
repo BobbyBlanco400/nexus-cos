@@ -8,7 +8,7 @@ sudo bash DEPLOY_LANDING_PAGES_NOW.sh
 ```
 
 **Time:** 2 minutes  
-**Result:** Landing pages live at https://nexuscos.online and https://beta.nexuscos.online
+**Result:** Landing pages live at https://n3xuscos.online and https://beta.n3xuscos.online
 
 ---
 
@@ -21,7 +21,7 @@ This PR fixes **ALL issues** preventing the new landing pages from replacing the
 | # | Problem | Solution |
 |---|---------|----------|
 | 1️⃣ | Root `/` redirected to `/admin/` | ✅ Now serves landing page at root |
-| 2️⃣ | Wrong directory `/var/www/nexus-cos` | ✅ Changed to `/var/www/nexuscos.online` |
+| 2️⃣ | Wrong directory `/var/www/nexus-cos` | ✅ Changed to `/var/www/n3xuscos.online` |
 | 3️⃣ | Beta subdomain not configured | ✅ Full beta configuration added |
 | 4️⃣ | Strict validation (exact 815/826 lines) | ✅ Flexible range (800-850 lines) |
 
@@ -60,13 +60,13 @@ Choose based on your needs:
 
 ## ✅ What Works Now
 
-### Apex Domain (nexuscos.online)
+### Apex Domain (n3xuscos.online)
 - ✅ Landing page at `/` (not redirected)
 - ✅ Admin panel at `/admin/`
 - ✅ Creator hub at `/creator-hub/`
 - ✅ API endpoints at `/api/`
 
-### Beta Subdomain (beta.nexuscos.online)
+### Beta Subdomain (beta.n3xuscos.online)
 - ✅ Landing page with beta badge
 - ✅ Health check endpoints
 - ✅ API endpoints
@@ -75,14 +75,14 @@ Choose based on your needs:
 ### Directory Structure
 ```
 /var/www/
-├── nexuscos.online/
+├── n3xuscos.online/
 │   ├── index.html          ← Apex landing page
 │   ├── admin/build/        ← Admin panel
 │   ├── creator-hub/build/  ← Creator hub
 │   ├── frontend/dist/      ← Main frontend
 │   └── diagram/            ← Module diagram
 │
-└── beta.nexuscos.online/
+└── beta.n3xuscos.online/
     └── index.html          ← Beta landing page
 ```
 
@@ -120,7 +120,7 @@ location = / {
 
 **After:**
 ```nginx
-root /var/www/nexuscos.online;
+root /var/www/n3xuscos.online;
 location = / {
     try_files /index.html =404;  # Serves landing page ✅
 }
@@ -131,8 +131,8 @@ location = / {
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name beta.nexuscos.online;
-    root /var/www/beta.nexuscos.online;
+    server_name beta.n3xuscos.online;
+    root /var/www/beta.n3xuscos.online;
     
     location / {
         try_files $uri $uri/ /index.html;
@@ -153,12 +153,12 @@ After deployment, verify with:
 
 ```bash
 # Check files exist
-ls -lh /var/www/nexuscos.online/index.html
-ls -lh /var/www/beta.nexuscos.online/index.html
+ls -lh /var/www/n3xuscos.online/index.html
+ls -lh /var/www/beta.n3xuscos.online/index.html
 
 # Test HTTP responses
-curl -I https://nexuscos.online/
-curl -I https://beta.nexuscos.online/
+curl -I https://n3xuscos.online/
+curl -I https://beta.n3xuscos.online/
 
 # Check nginx
 sudo nginx -t
@@ -183,17 +183,17 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ### 404 Not Found?
 ```bash
-sudo cp apex/index.html /var/www/nexuscos.online/
-sudo cp web/beta/index.html /var/www/beta.nexuscos.online/
-sudo chown www-data:www-data /var/www/nexuscos.online/index.html
-sudo chown www-data:www-data /var/www/beta.nexuscos.online/index.html
+sudo cp apex/index.html /var/www/n3xuscos.online/
+sudo cp web/beta/index.html /var/www/beta.n3xuscos.online/
+sudo chown www-data:www-data /var/www/n3xuscos.online/index.html
+sudo chown www-data:www-data /var/www/beta.n3xuscos.online/index.html
 ```
 
 ### Permission Denied?
 ```bash
-sudo chown -R www-data:www-data /var/www/nexuscos.online /var/www/beta.nexuscos.online
-sudo chmod 755 /var/www/nexuscos.online /var/www/beta.nexuscos.online
-sudo chmod 644 /var/www/nexuscos.online/index.html /var/www/beta.nexuscos.online/index.html
+sudo chown -R www-data:www-data /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
+sudo chmod 755 /var/www/n3xuscos.online /var/www/beta.n3xuscos.online
+sudo chmod 644 /var/www/n3xuscos.online/index.html /var/www/beta.n3xuscos.online/index.html
 ```
 
 More troubleshooting → [LANDING_PAGE_FIX_GUIDE.md](LANDING_PAGE_FIX_GUIDE.md#troubleshooting)

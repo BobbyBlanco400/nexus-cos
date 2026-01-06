@@ -148,7 +148,7 @@ echo ""
 
 echo "========== NETWORK CONNECTIVITY =========="
 check_item "Internet connectivity" "ping -c 1 google.com" false
-check_item "DNS resolution" "nslookup nexuscos.online" false
+check_item "DNS resolution" "nslookup n3xuscos.online" false
 echo ""
 
 echo ""

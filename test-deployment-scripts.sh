@@ -97,7 +97,7 @@ test_unification_path_detection() {
     print_section "3. PF-IP-DOMAIN-UNIFICATION PATH DETECTION"
     
     print_test "DOMAIN supports override"
-    if grep -q 'DOMAIN="\${DOMAIN:-nexuscos.online}"' pf-ip-domain-unification.sh; then
+    if grep -q 'DOMAIN="\${DOMAIN:-n3xuscos.online}"' pf-ip-domain-unification.sh; then
         print_pass "DOMAIN supports environment variable override"
     else
         print_fail "DOMAIN override not configured"
@@ -129,7 +129,7 @@ test_validation_path_detection() {
     print_section "4. VALIDATE-IP-DOMAIN-ROUTING PATH DETECTION"
     
     print_test "DOMAIN supports override"
-    if grep -q 'DOMAIN="\${DOMAIN:-nexuscos.online}"' validate-ip-domain-routing.sh; then
+    if grep -q 'DOMAIN="\${DOMAIN:-n3xuscos.online}"' validate-ip-domain-routing.sh; then
         print_pass "DOMAIN supports environment variable override"
     else
         print_fail "DOMAIN override not configured"
@@ -208,7 +208,7 @@ print_summary() {
         echo -e "Next steps:"
         echo -e "  1. Copy repository to /var/www/nexus-cos on VPS"
         echo -e "  2. Run: ${YELLOW}cd /var/www/nexus-cos${NC}"
-        echo -e "  3. Run: ${YELLOW}sudo DOMAIN=nexuscos.online bash pf-master-deployment.sh${NC}"
+        echo -e "  3. Run: ${YELLOW}sudo DOMAIN=n3xuscos.online bash pf-master-deployment.sh${NC}"
         return 0
     else
         echo -e "${RED}✗ SOME TESTS FAILED${NC}"

@@ -7,13 +7,13 @@ The `nexus-cos-pf-master.js` script provides final Puppeteer readiness verificat
 ## Launch Phases
 
 ### Beta Phase (Starting 2025-10-01)
-- **Domain:** beta.nexuscos.online
+- **Domain:** beta.n3xuscos.online
 - **SSL Provider:** IONOS
 - **CDN Provider:** CloudFlare (Full Strict)
 - **Features:** Basic SSL, compression, security headers
 
 ### Production Phase (Starting 2025-11-17)
-- **Domain:** nexuscos.online
+- **Domain:** n3xuscos.online
 - **SSL Provider:** IONOS
 - **CDN Provider:** CloudFlare (Full Strict)
 - **Features:** Enhanced SSL, rate limiting, IP restrictions, advanced security
@@ -56,9 +56,9 @@ Where `[phase]` is one of: `pre-beta`, `beta`, or `production`.
 
 The script automatically detects the current launch phase based on the system date:
 
-- **Pre-Beta** (Before 2025-10-01): Uses nexuscos.online with Let's Encrypt SSL
-- **Beta** (2025-10-01 to 2025-11-16): Uses beta.nexuscos.online with IONOS SSL
-- **Production** (From 2025-11-17): Uses nexuscos.online with IONOS SSL and enhanced features
+- **Pre-Beta** (Before 2025-10-01): Uses n3xuscos.online with Let's Encrypt SSL
+- **Beta** (2025-10-01 to 2025-11-16): Uses beta.n3xuscos.online with IONOS SSL
+- **Production** (From 2025-11-17): Uses n3xuscos.online with IONOS SSL and enhanced features
 
 ### Example Output Structure
 
@@ -67,13 +67,13 @@ The script automatically detects the current launch phase based on the system da
   "timestamp": "2025-10-15T10:30:00.000Z",
   "launchPhase": {
     "phase": "beta",
-    "domain": "https://beta.nexuscos.online",
+    "domain": "https://beta.n3xuscos.online",
     "environment": "beta",
     "sslProvider": "IONOS",
     "cdnProvider": "CloudFlare",
     "startDate": "2025-10-01T00:00:00.000Z"
   },
-  "domain": "https://beta.nexuscos.online",
+  "domain": "https://beta.n3xuscos.online",
   "status": "HEALTHY",
   "checks": [
     {
@@ -166,5 +166,5 @@ If you see Chrome browser errors:
 - Script creates `output/` directory automatically
 
 ### Network Issues
-- In production mode, requires network access to nexuscos.online
+- In production mode, requires network access to n3xuscos.online
 - Mock mode works offline for testing purposes

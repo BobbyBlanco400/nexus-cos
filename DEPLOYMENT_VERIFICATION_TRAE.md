@@ -2,10 +2,10 @@
 
 ## 📋 Overview
 
-This document provides comprehensive verification procedures for the deployment executed by TRAE on nexuscos.online. Use this guide to validate that everything is wired correctly and working as intended for production launch.
+This document provides comprehensive verification procedures for the deployment executed by TRAE on n3xuscos.online. Use this guide to validate that everything is wired correctly and working as intended for production launch.
 
 **Deployment Date:** (As reported by TRAE)  
-**Production Domain:** https://nexuscos.online  
+**Production Domain:** https://n3xuscos.online  
 **VPS IP:** 74.208.155.161  
 **Deployment Method:** Password auth with non-interactive remote commands  
 **Deploy Script:** pf-final-deploy.sh
@@ -24,7 +24,7 @@ This document provides comprehensive verification procedures for the deployment 
 
 **Verification Command:**
 ```bash
-ssh root@nexuscos.online "ls -la /opt/nexus-cos/ && cat /opt/nexus-cos/.deploy-timestamp"
+ssh root@n3xuscos.online "ls -la /opt/nexus-cos/ && cat /opt/nexus-cos/.deploy-timestamp"
 ```
 
 #### Nginx Service Status
@@ -35,10 +35,10 @@ ssh root@nexuscos.online "ls -la /opt/nexus-cos/ && cat /opt/nexus-cos/.deploy-t
 **Verification Commands:**
 ```bash
 # Check Nginx status
-ssh root@nexuscos.online "systemctl status nginx"
+ssh root@n3xuscos.online "systemctl status nginx"
 
 # Verify Nginx is listening on ports 80 and 443
-ssh root@nexuscos.online "ss -tlnp | grep nginx"
+ssh root@n3xuscos.online "ss -tlnp | grep nginx"
 ```
 
 **Expected Output:**
@@ -57,7 +57,7 @@ ssh root@nexuscos.online "ss -tlnp | grep nginx"
 **Verification Commands:**
 ```bash
 # Check all container statuses
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}'"
 
 # Expected containers:
 # - puabo-api
@@ -83,10 +83,10 @@ vscreen-hollywood            Up X minutes (healthy)
 **Commands:**
 ```bash
 # Check Prompter Pro logs
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 # Check PUABO API logs
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
 ```
 
 **What to Look For:**
@@ -107,7 +107,7 @@ ssh root@nexuscos.online "docker logs puabo-api --tail 100"
 
 **Verification Command:**
 ```bash
-curl -I https://nexuscos.online/
+curl -I https://n3xuscos.online/
 ```
 
 **Expected Response:**
@@ -123,7 +123,7 @@ content-type: text/html
 
 **Verification Command:**
 ```bash
-curl -s https://nexuscos.online/health | jq '.'
+curl -s https://n3xuscos.online/health | jq '.'
 ```
 
 **Expected Response:**
@@ -154,13 +154,13 @@ curl -s https://nexuscos.online/health | jq '.'
 **Verification Commands:**
 ```bash
 # Test primary V-Suite route
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-suite/screen
 
 # Test alternative V-Screen route
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-screen
 
 # Test V-Hollywood route (if configured)
-curl -I https://nexuscos.online/v-suite/hollywood
+curl -I https://n3xuscos.online/v-suite/hollywood
 ```
 
 **Expected Response for Each:**
@@ -173,13 +173,13 @@ server: nginx
 **Commands:**
 ```bash
 # Test V-Prompter route
-curl -I https://nexuscos.online/v-suite/prompter/health
+curl -I https://n3xuscos.online/v-suite/prompter/health
 
 # Test V-Caster route
-curl -I https://nexuscos.online/v-suite/caster/health
+curl -I https://n3xuscos.online/v-suite/caster/health
 
 # Test V-Stage route
-curl -I https://nexuscos.online/v-suite/stage/health
+curl -I https://n3xuscos.online/v-suite/stage/health
 ```
 
 ---
@@ -193,7 +193,7 @@ curl -I https://nexuscos.online/v-suite/stage/health
 
 **Verification Command:**
 ```bash
-ssh root@nexuscos.online "nginx -t"
+ssh root@n3xuscos.online "nginx -t"
 ```
 
 **Expected Output:**
@@ -207,7 +207,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 #### Verify Upstream Configuration
 **Command:**
 ```bash
-ssh root@nexuscos.online "grep -A 3 'upstream' /etc/nginx/nginx.conf"
+ssh root@n3xuscos.online "grep -A 3 'upstream' /etc/nginx/nginx.conf"
 ```
 
 **Expected Upstreams:**
@@ -236,7 +236,7 @@ Check deployment logs for successful command execution without shell parsing err
 
 **Command:**
 ```bash
-ssh root@nexuscos.online "whoami"
+ssh root@n3xuscos.online "whoami"
 ```
 
 **Expected Output:** `root`
@@ -251,13 +251,13 @@ ssh root@nexuscos.online "whoami"
 **Commands:**
 ```bash
 # Check container status
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}' | grep prompter"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}' | grep prompter"
 
 # Check recent logs
-ssh root@nexuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
+ssh root@n3xuscos.online "docker logs nexus-cos-puaboai-sdk --tail 100"
 
 # Test health endpoint
-curl -I https://nexuscos.online/v-suite/prompter/health
+curl -I https://n3xuscos.online/v-suite/prompter/health
 ```
 
 **Success Criteria:**
@@ -269,13 +269,13 @@ curl -I https://nexuscos.online/v-suite/prompter/health
 **Commands:**
 ```bash
 # Check container status
-ssh root@nexuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}' | grep puabo-api"
+ssh root@n3xuscos.online "docker ps --format 'table {{.Names}}\t{{.Status}}' | grep puabo-api"
 
 # Check recent logs
-ssh root@nexuscos.online "docker logs puabo-api --tail 100"
+ssh root@n3xuscos.online "docker logs puabo-api --tail 100"
 
 # Test health endpoint
-curl https://nexuscos.online/health
+curl https://n3xuscos.online/health
 ```
 
 **Success Criteria:**
@@ -291,13 +291,13 @@ curl https://nexuscos.online/health
 **Commands:**
 ```bash
 # V-Suite Prompter Health
-curl -I https://nexuscos.online/v-suite/prompter/health
+curl -I https://n3xuscos.online/v-suite/prompter/health
 
 # V-Suite Screen (primary)
-curl -I https://nexuscos.online/v-suite/screen
+curl -I https://n3xuscos.online/v-suite/screen
 
 # V-Screen (alternative)
-curl -I https://nexuscos.online/v-screen
+curl -I https://n3xuscos.online/v-screen
 ```
 
 **Expected Results:**
@@ -322,7 +322,7 @@ This is **NOT RECOMMENDED** as it may break IP-to-domain redirects, but if neede
 
 ```bash
 # Review current default server configuration
-ssh root@nexuscos.online "grep -A 10 'default_server' /etc/nginx/nginx.conf"
+ssh root@n3xuscos.online "grep -A 10 'default_server' /etc/nginx/nginx.conf"
 ```
 
 **Recommendation:** **Leave as-is** - the warning is cosmetic and the configuration is correct.
@@ -364,33 +364,33 @@ echo ""
 
 # Test 1: Root Domain
 echo "1. Testing Root Domain..."
-curl -I https://nexuscos.online/ 2>&1 | head -1
+curl -I https://n3xuscos.online/ 2>&1 | head -1
 echo ""
 
 # Test 2: Health Endpoint
 echo "2. Testing Health Endpoint..."
-curl -s https://nexuscos.online/health | jq '.status, .env'
+curl -s https://n3xuscos.online/health | jq '.status, .env'
 echo ""
 
 # Test 3: V-Screen Routes
 echo "3. Testing V-Screen Routes..."
-curl -I https://nexuscos.online/v-suite/screen 2>&1 | head -1
-curl -I https://nexuscos.online/v-screen 2>&1 | head -1
+curl -I https://n3xuscos.online/v-suite/screen 2>&1 | head -1
+curl -I https://n3xuscos.online/v-screen 2>&1 | head -1
 echo ""
 
 # Test 4: V-Suite Prompter
 echo "4. Testing V-Suite Prompter..."
-curl -I https://nexuscos.online/v-suite/prompter/health 2>&1 | head -1
+curl -I https://n3xuscos.online/v-suite/prompter/health 2>&1 | head -1
 echo ""
 
 # Test 5: Container Status (requires SSH access)
 echo "5. Container Status (run on VPS):"
-echo "   ssh root@nexuscos.online \"docker ps --format 'table {{.Names}}\t{{.Status}}'\""
+echo "   ssh root@n3xuscos.online \"docker ps --format 'table {{.Names}}\t{{.Status}}'\""
 echo ""
 
 # Test 6: Nginx Config
 echo "6. Nginx Configuration (run on VPS):"
-echo "   ssh root@nexuscos.online \"nginx -t\""
+echo "   ssh root@n3xuscos.online \"nginx -t\""
 echo ""
 
 echo "======================================"
@@ -449,7 +449,7 @@ docker ps --format 'table {{.Names}}\t{{.Status}}'
 # Check all health endpoints
 for url in /health /v-suite/screen /v-screen /v-suite/prompter/health; do
   echo "Testing: $url"
-  curl -I https://nexuscos.online$url | head -1
+  curl -I https://n3xuscos.online$url | head -1
 done
 
 # View recent logs for all services
@@ -467,7 +467,7 @@ Use this template to document your verification results:
 
 **Date:** [Date]
 **Verified By:** [Your Name]
-**Domain:** https://nexuscos.online
+**Domain:** https://n3xuscos.online
 
 ## Status Summary
 - [ ] All containers healthy
@@ -486,11 +486,11 @@ Use this template to document your verification results:
 - vscreen-hollywood: [Status]
 
 ## Endpoint Test Results
-- https://nexuscos.online/ - [Result]
-- https://nexuscos.online/health - [Result]
-- https://nexuscos.online/v-suite/screen - [Result]
-- https://nexuscos.online/v-screen - [Result]
-- https://nexuscos.online/v-suite/prompter/health - [Result]
+- https://n3xuscos.online/ - [Result]
+- https://n3xuscos.online/health - [Result]
+- https://n3xuscos.online/v-suite/screen - [Result]
+- https://n3xuscos.online/v-screen - [Result]
+- https://n3xuscos.online/v-suite/prompter/health - [Result]
 
 ## Issues Found
 [List any issues discovered during verification]

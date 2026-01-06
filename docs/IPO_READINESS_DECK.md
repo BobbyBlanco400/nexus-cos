@@ -313,7 +313,7 @@
 - **Week 5-6**: Close round and deploy capital
 
 **Contact**
-- **Email**: investors@nexuscos.online
+- **Email**: investors@n3xuscos.online
 - **Website**: https://n3xuscos.online
 - **Data Room**: Available upon NDA signature
 
