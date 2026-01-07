@@ -1,12 +1,17 @@
 // auth-service - Nexus COS Authentication Service
 // JWT token generation, validation, and refresh functionality
+// N3XUS Handshake 55-45-17 Compliant
 
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3100;
+
+// N3XUS Handshake Middleware (55-45-17)
+const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, '../../middleware/handshake-validator'));
 
 // JWT configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'nexus-cos-secret-key-2024';
@@ -17,6 +22,10 @@ const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+// N3XUS Governance: Apply handshake to all responses and validate on all non-health endpoints
+app.use(setHandshakeResponse);
+app.use(validateHandshakeConditional);
 
 // In-memory token blacklist (in production, use Redis or database)
 const tokenBlacklist = new Set();

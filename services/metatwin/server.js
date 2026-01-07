@@ -1,15 +1,24 @@
 // Nexus COS - META-TWIN v2.5 Service
 // Port: 3403
 // AI Personality Engine for Nexus COS Platform
+// N3XUS Handshake 55-45-17 Compliant
 
 const express = require('express');
 const WebSocket = require('ws');
 const http = require('http');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3403;
 
+// N3XUS Handshake Middleware (55-45-17)
+const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, '../../middleware/handshake-validator'));
+
 app.use(express.json());
+
+// N3XUS Governance: Apply handshake to all responses and validate on all non-health endpoints
+app.use(setHandshakeResponse);
+app.use(validateHandshakeConditional);
 
 // In-memory storage for MetaTwins (in production, use database)
 const metaTwins = new Map();
