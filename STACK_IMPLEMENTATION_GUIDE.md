@@ -261,7 +261,7 @@ export class IMVUObserver {
 
   // Helper methods
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private async inferIntent(action: string, context: any) {
@@ -418,7 +418,7 @@ export class IMCUCreator {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 }
 ```
@@ -563,7 +563,7 @@ export class IMCULAssembler {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 }
 ```
@@ -689,7 +689,7 @@ export class DistributionManager {
   }
 
   private generateStreamKey(): string {
-    return `sk-${Date.now()}-${Math.random().toString(36).substr(2, 16)}`;
+    return `sk-${Date.now()}-${Math.random().toString(36).substring(2, 18)}`;
   }
 }
 ```
