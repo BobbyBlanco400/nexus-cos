@@ -184,6 +184,16 @@ All v-COS components adhere to **N3XUS Law** and implement the **Handshake Proto
 
 N3XUS COS operates on a **stack-wide, behavior-first, canon-first architecture** shared across all 38 modules. Each module follows a canonical flow ensuring consistency, creator fluency, and seamless integration across the entire platform.
 
+### 📋 Complete Architecture Documentation
+
+**⭐ START HERE:** **[STACK_ARCHITECTURE_INDEX.md](./STACK_ARCHITECTURE_INDEX.md)** - Complete index of all architecture documentation
+
+**Key Architecture Documents:**
+- **[Stack-Wide Architecture Overview](./spec/stack/architecture_overview.md)** - Complete blueprint for all 38 modules
+- **[Module Template](./spec/stack/module_template.md)** - Canonical flow every module follows
+- **[Access Layer](./spec/stack/access_layer.md)** - Hybrid + Immersive entry points
+- **[Feature Flags & Rollout](./spec/stack/feature_flags_and_rollout.md)** - Gradual deployment strategy
+
 ### Standard Module Flow
 
 Each of the 38 modules follows this canonical multi-layer structure:
