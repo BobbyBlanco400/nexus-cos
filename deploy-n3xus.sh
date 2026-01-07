@@ -72,9 +72,26 @@ if [ ! -d "${SCRIPT_DIR}/frontend/dist" ]; then
     echo -e "${YELLOW}Frontend not built. Building now...${NC}"
     if [ -d "${SCRIPT_DIR}/frontend" ]; then
         cd "${SCRIPT_DIR}/frontend"
-        npm install > /dev/null 2>&1
-        npm run build > /dev/null 2>&1
-        echo -e "${GREEN}✅ Frontend built successfully${NC}"
+        
+        # Create log directory
+        mkdir -p /tmp/nexus-build-logs
+        
+        echo "Installing dependencies..."
+        if npm install > /tmp/nexus-build-logs/npm-install.log 2>&1; then
+            echo -e "${GREEN}✅ Dependencies installed${NC}"
+        else
+            echo -e "${RED}❌ Failed to install dependencies. Check /tmp/nexus-build-logs/npm-install.log${NC}"
+            exit 1
+        fi
+        
+        echo "Building frontend..."
+        if npm run build > /tmp/nexus-build-logs/npm-build.log 2>&1; then
+            echo -e "${GREEN}✅ Frontend built successfully${NC}"
+        else
+            echo -e "${RED}❌ Failed to build frontend. Check /tmp/nexus-build-logs/npm-build.log${NC}"
+            exit 1
+        fi
+        
         cd "${SCRIPT_DIR}"
     else
         echo -e "${YELLOW}⚠️  Frontend directory not found (skipping)${NC}"

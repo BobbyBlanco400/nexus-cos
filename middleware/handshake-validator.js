@@ -17,13 +17,14 @@
  */
 function validateHandshake(req, res, next) {
     const handshake = req.headers['x-n3xus-handshake'] || req.headers['x-nexus-handshake'];
+    const expectedHandshake = process.env.N3XUS_HANDSHAKE || '55-45-17';
     
-    if (!handshake || handshake !== '55-45-17') {
+    if (!handshake || handshake !== expectedHandshake) {
         return res.status(403).json({
             error: 'Invalid or missing N3XUS Handshake',
             code: 'HANDSHAKE_REQUIRED',
             governance: '55-45-17',
-            message: 'All requests must include X-N3XUS-Handshake: 55-45-17 header'
+            message: `All requests must include X-N3XUS-Handshake: ${expectedHandshake} header`
         });
     }
     
@@ -43,9 +44,16 @@ function setHandshakeResponse(req, res, next) {
 /**
  * Health check endpoints should be excluded from handshake validation
  * This function returns true if the path should bypass validation
+ * 
+ * Configurable via N3XUS_BYPASS_PATHS environment variable (comma-separated)
  */
 function shouldBypassHandshake(path) {
-    const bypassPaths = ['/health', '/ping', '/status'];
+    const defaultBypassPaths = ['/health', '/ping', '/status'];
+    const envBypassPaths = process.env.N3XUS_BYPASS_PATHS 
+        ? process.env.N3XUS_BYPASS_PATHS.split(',').map(p => p.trim())
+        : [];
+    
+    const bypassPaths = [...defaultBypassPaths, ...envBypassPaths];
     return bypassPaths.some(bp => path === bp || path.startsWith(bp));
 }
 
