@@ -9,11 +9,9 @@ services:
     container_name: nexus-nginx
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx.conf.docker:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./ssl:/etc/ssl/ionos:ro
       - nginx_logs:/var/log/nginx
       # Casino V5 Frontend
       - ./modules/casino-nexus/frontend/public:/usr/share/nginx/html/casino:ro
