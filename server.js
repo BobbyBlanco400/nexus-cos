@@ -319,30 +319,6 @@ app.get("/api/health", rateLimit, async (req, res) => {
   res.json(healthData);
 });
 
-// API health endpoint - alias to main health with API prefix
-app.get("/api/health", rateLimit, async (req, res) => {
-  const healthData = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'production',
-    version: '1.0.0',
-    database: 'down'
-  };
-
-  // Check database connectivity
-  try {
-    await pool.query('SELECT 1');
-    healthData.database = 'up';
-  } catch (error) {
-    console.error('Database health check failed:', error.message);
-    healthData.database = 'down';
-    healthData.dbError = error.message;
-  }
-
-  res.json(healthData);
-});
-
 // Serve static files from frontend/dist (React build)
 // with caching for better performance
 const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
