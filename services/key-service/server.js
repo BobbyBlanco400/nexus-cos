@@ -1,12 +1,21 @@
 // Nexus COS - key-service
 // Port: 3014
 // Auto-generated service
+// N3XUS Handshake 55-45-17 Compliant
 
 const express = require('express');
+const path = require('path');
 const app = express();
 const port = process.env.PORT || 3014;
 
+// N3XUS Handshake Middleware (55-45-17)
+const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, '../../middleware/handshake-validator'));
+
 app.use(express.json());
+
+// N3XUS Governance: Apply handshake to all responses and validate on all non-health endpoints
+app.use(setHandshakeResponse);
+app.use(validateHandshakeConditional);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

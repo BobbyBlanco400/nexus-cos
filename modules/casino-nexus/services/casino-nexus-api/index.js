@@ -1,11 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 9500;
 
+// N3XUS Handshake Middleware (55-45-17)
+const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, '../../../../middleware/handshake-validator'));
+
 app.use(cors());
 app.use(express.json());
+
+// N3XUS Governance: Apply handshake to all responses and validate on all non-health endpoints
+app.use(setHandshakeResponse);
+app.use(validateHandshakeConditional);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
