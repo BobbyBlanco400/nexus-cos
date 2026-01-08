@@ -1,0 +1,195 @@
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] N3XUS COS Canon-Verifier: TRAE GO/NO-GO Harness
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] Timestamp: 2026-01-08T20:16:48.309244Z
+[2026-01-08 20:16:48] [INFO] Log Directory: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/logs/run_20260108_201648
+[2026-01-08 20:16:48] [INFO] ================================================================================
+
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] PHASE: Directory Structure Verification
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [SUCCESS] ✓ Directory exists: branding/official
+[2026-01-08 20:16:48] [SUCCESS] ✓ Directory exists: canon-verifier/config
+[2026-01-08 20:16:48] [SUCCESS] ✓ Directory exists: canon-verifier/logs
+[2026-01-08 20:16:48] [ERROR] ✗ Directory missing: canon-verifier/output
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] PHASE: Configuration Verification
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [SUCCESS] ✓ Configuration file valid: canon_assets.json
+[2026-01-08 20:16:48] [INFO]   ✓ Key present: OfficialLogo
+[2026-01-08 20:16:48] [INFO]   ✓ Key present: AssetRegistry
+[2026-01-08 20:16:48] [INFO]   ✓ Key present: VerificationRules
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] PHASE: Canonical Logo Verification
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [ERROR] OfficialLogo not configured in canon_assets.json
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] PHASE: Service Readiness Check
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [WARNING] ✗ PM2 check failed: [Errno 2] No such file or directory: 'pm2'
+[2026-01-08 20:16:48] [SUCCESS] ✓ Docker available: Docker version 28.0.4, build b8034c0
+[2026-01-08 20:16:48] [WARNING] ✗ docker-compose check failed: [Errno 2] No such file or directory: 'docker-compose'
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] PHASE: Canon-Verifier Full Harness
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] Running canon-verifier orchestrator...
+[2026-01-08 20:16:48] [INFO] Canon-verifier output:
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Enumerating system inventory...
+[2026-01-08 20:16:48] [INFO]   PM2 enumeration failed: [Errno 2] No such file or directory: 'pm2'
+[2026-01-08 20:16:48] [INFO]   ✓ Inventory saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/inventory_phase/../output/inventory.json
+[2026-01-08 20:16:48] [INFO]     Docker containers: 0
+[2026-01-08 20:16:48] [INFO]     PM2 processes: 0
+[2026-01-08 20:16:48] [INFO]     Listening ports: 7
+[2026-01-08 20:16:48] [INFO]     Total runtime units: 0
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Validating service responsibilities...
+[2026-01-08 20:16:48] [INFO]   Testing: Backend API
+[2026-01-08 20:16:48] [INFO]     Claims: Core API gateway and service orchestration
+[2026-01-08 20:16:48] [INFO]     Endpoint: http://localhost:3000/api/health
+[2026-01-08 20:16:48] [INFO]     ✗ BLOCKED - Connection failed: [Errno 111] Connection refused
+[2026-01-08 20:16:48] [INFO]   Testing: Backend System Status
+[2026-01-08 20:16:48] [INFO]     Claims: System health monitoring and status reporting
+[2026-01-08 20:16:48] [INFO]     Endpoint: http://localhost:4000/api/system/status
+[2026-01-08 20:16:48] [INFO]     ✗ BLOCKED - Connection failed: [Errno 111] Connection refused
+[2026-01-08 20:16:48] [INFO]   Testing: Auth Service
+[2026-01-08 20:16:48] [INFO]     Claims: User authentication and identity management
+[2026-01-08 20:16:48] [INFO]     Endpoint: http://localhost:3001/health
+[2026-01-08 20:16:48] [INFO]     ✗ BLOCKED - Connection failed: [Errno 111] Connection refused
+[2026-01-08 20:16:48] [INFO]   Testing: Streaming Service
+[2026-01-08 20:16:48] [INFO]     Claims: Real-time streaming and WebSocket management
+[2026-01-08 20:16:48] [INFO]     Endpoint: http://localhost:3002/health
+[2026-01-08 20:16:48] [INFO]     ✗ BLOCKED - Connection failed: [Errno 111] Connection refused
+[2026-01-08 20:16:48] [INFO]   ✓ Service Responsibility Matrix saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/responsibility_validation/../output/service-responsibility-matrix.json
+[2026-01-08 20:16:48] [INFO]     Verified: 0
+[2026-01-08 20:16:48] [INFO]     Degraded: 0
+[2026-01-08 20:16:48] [INFO]     Blocked: 4
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Building dependency graph...
+[2026-01-08 20:16:48] [INFO]   ✓ Dependency graph saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/dependency_tests/../output/dependency-graph.json
+[2026-01-08 20:16:48] [INFO]     Total services: 5
+[2026-01-08 20:16:48] [INFO]     Total edges: 7
+[2026-01-08 20:16:48] [INFO]     Critical services: 4
+[2026-01-08 20:16:48] [INFO]     Dead links: 0
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Analyzing event bus and orchestration...
+[2026-01-08 20:16:48] [INFO]   ✓ Event propagation report saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/event_orchestration/../output/event-propagation-report.json
+[2026-01-08 20:16:48] [INFO]     Total events: 5
+[2026-01-08 20:16:48] [INFO]     Critical events: 4
+[2026-01-08 20:16:48] [INFO]     Potential issues: 0
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Validating Identity → MetaTwin → Runtime chain...
+[2026-01-08 20:16:48] [INFO]   ✓ Meta-claim validation saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/meta_claim_validation/../output/meta-claim-validation.json
+[2026-01-08 20:16:48] [INFO]     Chain steps defined: 5
+[2026-01-08 20:16:48] [INFO]     Chain integrity: requires_integration_testing
+[2026-01-08 20:16:48] [INFO]   ⚠ Note: Read-only mode - actual chain testing requires state creation and integration tests
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Simulating hardware orchestration...
+[2026-01-08 20:16:48] [INFO]   ✓ Hardware simulation saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/hardware_simulation/../output/hardware-simulation.json
+[2026-01-08 20:16:48] [INFO]     Workflow steps: 4
+[2026-01-08 20:16:48] [INFO]     Modules found: 0/5
+[2026-01-08 20:16:48] [INFO]     Human interpretation required: False
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Checking runtime health...
+[2026-01-08 20:16:48] [INFO]   ✓ Performance sanity check saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/performance_sanity/../output/performance-sanity.json
+[2026-01-08 20:16:48] [INFO]     System load: 0.05 (normal)
+[2026-01-08 20:16:48] [INFO]     Zombie processes: 0
+[2026-01-08 20:16:48] [INFO]     Issues detected: 0
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier Extension: Mapping Docker + PM2 to repository...
+[2026-01-08 20:16:48] [INFO]   ✓ Runtime truth map saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/extensions/../output/runtime-truth-map.json
+[2026-01-08 20:16:48] [INFO]     Total mappings: 5
+[2026-01-08 20:16:48] [INFO]     Verified (running): 0
+[2026-01-08 20:16:48] [INFO]     Not running: 5
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier Extension: Building Service Responsibility Matrix...
+[2026-01-08 20:16:48] [INFO]   ✓ Complete Service Responsibility Matrix saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/extensions/../output/service-responsibility-matrix-complete.json
+[2026-01-08 20:16:48] [INFO]     Total services: 9
+[2026-01-08 20:16:48] [INFO]     Verified: 0
+[2026-01-08 20:16:48] [INFO]     Degraded: 0
+[2026-01-08 20:16:48] [INFO]     Blocked: 9
+[2026-01-08 20:16:48] [INFO]     With evidence: 4
+[2026-01-08 20:16:48] [INFO]     With runtime info: 5
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier: Generating final verdict...
+[2026-01-08 20:16:48] [INFO]   ✓ Canon verdict saved: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/final_verdict/../output/canon-verdict.json
+[2026-01-08 20:16:48] [INFO]   ================================================================================
+[2026-01-08 20:16:48] [INFO]   EXECUTIVE TRUTH: Partially operational architecture
+[2026-01-08 20:16:48] [INFO]   ================================================================================
+[2026-01-08 20:16:48] [INFO]     Verified systems: 0
+[2026-01-08 20:16:48] [INFO]     Degraded systems: 0
+[2026-01-08 20:16:48] [INFO]     Ornamental systems: 0
+[2026-01-08 20:16:48] [INFO]     Critical blockers: 4
+[2026-01-08 20:16:48] [INFO]   Rationale: 4 critical blocker(s) prevent full operation
+[2026-01-08 20:16:48] [INFO]   Canon-Verifier Orchestrator
+[2026-01-08 20:16:48] [INFO]   Output directory: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/output
+[2026-01-08 20:16:48] [INFO]   Timestamp: 2026-01-08T20:16:48.350543Z
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: System Inventory
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'System Inventory' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Service Responsibility Validation
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Service Responsibility Validation' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Dependency Graph
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Dependency Graph' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Event Orchestration
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Event Orchestration' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Meta-Claim Validation
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Meta-Claim Validation' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Hardware Simulation
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Hardware Simulation' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Performance Sanity
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Performance Sanity' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Docker/PM2 Mapping
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Docker/PM2 Mapping' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Service Responsibility Matrix
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Service Responsibility Matrix' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   PHASE: Final Verdict
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   ✓ Phase 'Final Verdict' completed successfully
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   CANON-VERIFIER EXECUTION SUMMARY
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   Total Phases: 10
+[2026-01-08 20:16:48] [INFO]   Successful: 10
+[2026-01-08 20:16:48] [INFO]   Failed: 0
+[2026-01-08 20:16:48] [INFO]   Generated Artifacts:
+[2026-01-08 20:16:48] [INFO]     ✓ canon-verdict.json (1,156 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ dependency-graph.json (1,586 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ event-propagation-report.json (2,376 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ hardware-simulation.json (1,051 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ inventory.json (1,530 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ meta-claim-validation.json (1,519 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ performance-sanity.json (811 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ runtime-truth-map.json (1,778 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ service-responsibility-matrix-complete.json (4,370 bytes)
+[2026-01-08 20:16:48] [INFO]     ✓ service-responsibility-matrix.json (1,749 bytes)
+[2026-01-08 20:16:48] [INFO]   ====================================================================================================
+[2026-01-08 20:16:48] [INFO]   EXECUTIVE TRUTH: Partially operational architecture
+[2026-01-08 20:16:48] [INFO]   Rationale: 4 critical blocker(s) prevent full operation
+[2026-01-08 20:16:48] [INFO] Canon-verifier errors:
+[2026-01-08 20:16:48] [WARNING]   /home/runner/work/nexus-cos/nexus-cos/canon-verifier/run_verification.py:27: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+[2026-01-08 20:16:48] [WARNING]     print(f"Timestamp: {datetime.utcnow().isoformat()}Z\n")
+[2026-01-08 20:16:48] [SUCCESS] ✓ Canon-verifier harness completed successfully
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] FINAL VERIFICATION REPORT
+[2026-01-08 20:16:48] [INFO] ================================================================================
+[2026-01-08 20:16:48] [INFO] Total Phases: 4
+[2026-01-08 20:16:48] [INFO] Passed: 2
+[2026-01-08 20:16:48] [INFO] Failed: 1
+[2026-01-08 20:16:48] [INFO] Warnings/Skipped: 1
+[2026-01-08 20:16:48] [INFO] 
+================================================================================
+[2026-01-08 20:16:48] [ERROR] NO-GO: Verification failed. See logs for details.
+[2026-01-08 20:16:48] [INFO] ================================================================================
+
+[2026-01-08 20:16:48] [INFO] Verification report saved to: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/logs/run_20260108_201648/verification_report.json
+[2026-01-08 20:16:48] [INFO] All logs saved to: /home/runner/work/nexus-cos/nexus-cos/canon-verifier/logs/run_20260108_201648

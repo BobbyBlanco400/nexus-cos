@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-01-08T20:16:48.309244Z",
+  "phases": {
+    "directory_structure": {
+      "status": "FAIL",
+      "directories_checked": [
+        "branding/official",
+        "canon-verifier/config",
+        "canon-verifier/logs",
+        "canon-verifier/output"
+      ]
+    },
+    "configuration": {
+      "status": "PASS",
+      "config_file": "/home/runner/work/nexus-cos/nexus-cos/canon-verifier/config/canon_assets.json"
+    },
+    "service_readiness": {
+      "status": "WARNING",
+      "note": "Services can be started manually if needed"
+    },
+    "canon_verifier_harness": {
+      "status": "PASS",
+      "exit_code": 0
+    }
+  },
+  "overall_status": "NO-GO",
+  "verdict": "FAIL",
+  "message": "Critical verifications failed. System is NO-GO for launch."
+}
