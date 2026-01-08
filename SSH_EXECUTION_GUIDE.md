@@ -1,42 +1,45 @@
-# Canon-Verifier SSH Execution Guide for TRAE
+# <span style="color:red">**Canon-Verifier SSH Execution Guide for TRAE**</span>
 
-**N3XUS LAW Compliant Single-Line Execution**
+## <span style="color:red">**🔴 N3XUS LAW Compliant Single-Line Execution 🔴**</span>
 
 ---
 
-## Single-Line SSH Command
+## <span style="color:red">**⚠️ CRITICAL: Single-Line SSH Command ⚠️**</span>
 
 For TRAE to execute canon-verifier on the VPS (72.62.86.217) or any remote server:
 
-### Full Verification (Recommended)
+### <span style="color:red">**🔴 Full Verification (RECOMMENDED) 🔴**</span>
 
 ```bash
+# ⚠️ EXECUTE THIS COMMAND ⚠️
 ssh user@72.62.86.217 "cd /path/to/nexus-cos && bash canon-verifier/ssh_execute.sh"
 ```
 
-### Alternative: Direct Python Execution
+### <span style="color:red">**Alternative: Direct Python Execution**</span>
 
 ```bash
+# ⚠️ ALTERNATIVE COMMAND ⚠️
 ssh user@72.62.86.217 "cd /path/to/nexus-cos/canon-verifier && python3 run_verification.py && echo 'Artifacts generated in output/'"
 ```
 
-### With Output Capture
+### <span style="color:red">**With Output Capture**</span>
 
 ```bash
+# ⚠️ COMMAND WITH LOGGING ⚠️
 ssh user@72.62.86.217 "cd /path/to/nexus-cos && bash canon-verifier/ssh_execute.sh" 2>&1 | tee canon_verification_$(date +%Y%m%d_%H%M%S).log
 ```
 
 ---
 
-## Execution Order (N3XUS LAW Compliant)
+## <span style="color:red">**🔴 Execution Order (N3XUS LAW Compliant) 🔴**</span>
 
 The execution follows this strict order:
 
-1. **Navigate** to repository root
-2. **Verify** canon-verifier directory exists
-3. **Execute** `run_verification.py` orchestrator
-4. **Generate** all 10 JSON artifacts in `output/`
-5. **Report** exit code and artifact locations
+1. <span style="color:red">**Navigate**</span> to repository root
+2. <span style="color:red">**Verify**</span> canon-verifier directory exists
+3. <span style="color:red">**Execute**</span> `run_verification.py` orchestrator
+4. <span style="color:red">**Generate**</span> all 10 JSON artifacts in `output/`
+5. <span style="color:red">**Report**</span> exit code and artifact locations
 
 ---
 
@@ -100,10 +103,10 @@ All files created in `canon-verifier/output/`:
 
 ---
 
-## Example Full Session
+## <span style="color:red">**🔴 Example Full Session 🔴**</span>
 
 ```bash
-# Connect and execute
+# ⚠️ CRITICAL: Connect and execute ⚠️
 ssh trae@72.62.86.217 "cd /var/www/nexus-cos && bash canon-verifier/ssh_execute.sh"
 
 # Output:
@@ -151,18 +154,18 @@ ssh trae@72.62.86.217 "cd /var/www/nexus-cos && bash canon-verifier/ssh_execute.
 
 ---
 
-## Retrieve Artifacts
+## <span style="color:red">**🔴 Retrieve Artifacts 🔴**</span>
 
 After execution, download artifacts:
 
 ```bash
-# Download all artifacts
+# ⚠️ Download all artifacts ⚠️
 scp -r trae@72.62.86.217:/var/www/nexus-cos/canon-verifier/output/ ./canon_artifacts_$(date +%Y%m%d)/
 
-# Download just the verdict
+# ⚠️ Download just the verdict ⚠️
 scp trae@72.62.86.217:/var/www/nexus-cos/canon-verifier/output/canon-verdict.json ./
 
-# View verdict remotely
+# ⚠️ View verdict remotely ⚠️
 ssh trae@72.62.86.217 "cat /var/www/nexus-cos/canon-verifier/output/canon-verdict.json" | jq .
 ```
 
@@ -216,19 +219,21 @@ For automated execution in pipelines:
 
 ---
 
-## Quick Reference
+## <span style="color:red">**🔴 Quick Reference 🔴**</span>
 
-| Task | Command |
+| <span style="color:red">**Task**</span> | <span style="color:red">**Command**</span> |
 |------|---------|
-| Run verification | `ssh user@host "cd /path && bash canon-verifier/ssh_execute.sh"` |
-| Check verdict | `ssh user@host "cat /path/canon-verifier/output/canon-verdict.json" \| jq .verdict.executive_truth` |
-| Download artifacts | `scp -r user@host:/path/canon-verifier/output/ ./` |
-| View logs | Add `2>&1 \| tee verification.log` to command |
+| <span style="color:red">**Run verification**</span> | `ssh user@host "cd /path && bash canon-verifier/ssh_execute.sh"` |
+| <span style="color:red">**Check verdict**</span> | `ssh user@host "cat /path/canon-verifier/output/canon-verdict.json" \| jq .verdict.executive_truth` |
+| <span style="color:red">**Download artifacts**</span> | `scp -r user@host:/path/canon-verifier/output/ ./` |
+| <span style="color:red">**View logs**</span> | Add `2>&1 \| tee verification.log` to command |
 
 ---
 
-**Status:** Ready for TRAE execution on staging/production VPS
+## <span style="color:red">**🔴 CRITICAL STATUS 🔴**</span>
 
-**Compliance:** Full N3XUS LAW 55-45-17 compliance guaranteed
+**<span style="color:red">Status:</span>** <span style="color:red">**Ready for TRAE execution on staging/production VPS**</span>
 
-**Safety:** 100% read-only, non-destructive, deterministic
+**<span style="color:red">Compliance:</span>** <span style="color:red">**Full N3XUS LAW 55-45-17 compliance guaranteed**</span>
+
+**<span style="color:red">Safety:</span>** <span style="color:red">**100% read-only, non-destructive, deterministic**</span>

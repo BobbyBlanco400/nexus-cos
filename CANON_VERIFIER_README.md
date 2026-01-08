@@ -1,44 +1,44 @@
-# Canon-Verifier
+# <span style="color:red">**Canon-Verifier**</span>
 
-**N3XUS CANON-VERIFIER**  
-Full-stack non-destructive system truth validation
+## <span style="color:red">**🔴 N3XUS CANON-VERIFIER 🔴**</span>  
+**<span style="color:red">Full-stack non-destructive system truth validation</span>**
 
-## Quick Start
+## <span style="color:red">**⚠️ CRITICAL: Quick Start ⚠️**</span>
 
 ```bash
-# One-command execution
-python3 canon-verifier
+# ⚠️ One-command execution ⚠️
+python3 canon-verifier-legacy
 ```
 
 ## Overview
 
 `canon-verifier` is a canonical, read-only, non-destructive verification framework for N3XUS COS designed to prove — with observable evidence — whether N3XUS COS is a fully operational operating system or a partially operational architecture.
 
-### Core Principle
+### <span style="color:red">**🔴 Core Principle 🔴**</span>
 
-**This tool does not fix systems.**  
-**This tool does not change systems.**  
-**This tool extracts truth.**
+**<span style="color:red">This tool does not fix systems.</span>**  
+**<span style="color:red">This tool does not change systems.</span>**  
+**<span style="color:red">This tool extracts truth.</span>**
 
-## Compliance
+## <span style="color:red">**🔴 Compliance 🔴**</span>
 
-- **Handshake:** 55-45-17
-- **Execution Mode:** Read-Only | Non-Destructive | Deterministic
-- **Authority:** Canonical
-- **Failure Tolerance:** Zero Silent Failures
+- **<span style="color:red">Handshake:</span>** <span style="color:red">55-45-17</span>
+- **<span style="color:red">Execution Mode:</span>** <span style="color:red">Read-Only | Non-Destructive | Deterministic</span>
+- **<span style="color:red">Authority:</span>** <span style="color:red">Canonical</span>
+- **<span style="color:red">Failure Tolerance:</span>** <span style="color:red">Zero Silent Failures</span>
 
-## What It Does
+## <span style="color:red">**🔴 What It Does 🔴**</span>
 
-### 10-Phase Verification Process
+### <span style="color:red">**10-Phase Verification Process**</span>
 
-#### Phase 1: System Inventory (Reality Enumeration)
+#### <span style="color:red">**Phase 1: System Inventory (Reality Enumeration)**</span>
 - Enumerates all Docker containers (running + stopped)
 - Enumerates all PM2 processes with metrics
 - Lists all listening ports
 - Assesses system load with thresholds
 - Maps runtime units to source paths
 
-#### Phase 2: Service Responsibility Validation
+#### <span style="color:red">**Phase 2: Service Responsibility Validation**</span>
 - Asserts each service's claimed responsibility
 - Proves service purpose through execution evidence:
   - HTTP endpoint responses
@@ -47,14 +47,14 @@ python3 canon-verifier
   - Log evidence
   - Artifact generation
 
-#### Phase 3: Inter-Service Dependency Test (Truth Graph)
+#### <span style="color:red">**Phase 3: Inter-Service Dependency Test (Truth Graph)**</span>
 - Maps inbound and outbound dependencies
 - Constructs dependency graph
 - Identifies dead links and silent failures
 - Detects mocked dependencies in production
 - Finds hard-coded bypasses
 
-#### Phase 4: Event Bus & Orchestration Verification
+#### <span style="color:red">**Phase 4: Event Bus & Orchestration Verification**</span>
 - Tests canonical events:
   - Identity created
   - MetaTwin instantiated

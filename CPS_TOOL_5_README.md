@@ -1,11 +1,11 @@
-# CPS Tool #5 - Master Stack Verification
+# <span style="color:red">**CPS Tool #5 - Master Stack Verification**</span>
 
-**N3XUS COS MASTER FULL-STACK VERIFICATION PF**
+## <span style="color:red">**🔴 N3XUS COS MASTER FULL-STACK VERIFICATION PF 🔴**</span>
 
-## Quick Start
+## <span style="color:red">**⚠️ CRITICAL: Quick Start ⚠️**</span>
 
 ```bash
-# One-command execution
+# ⚠️ One-command execution ⚠️
 python3 cps_tool_5_master_verification.py
 ```
 
@@ -13,34 +13,34 @@ python3 cps_tool_5_master_verification.py
 
 CPS Tool #5 is a comprehensive Platform Forensic / Systems Validation tool that verifies the integrity, compliance, and operational status of the entire N3XUS COS stack.
 
-### Execution Mode
-- **Read-Only:** No modifications to system
-- **Non-Destructive:** Safe to run in production
-- **Deterministic:** Consistent results
-- **Authority:** Canonical
-- **Failure Tolerance:** Zero Silent Failures
+### <span style="color:red">**🔴 Execution Mode 🔴**</span>
+- <span style="color:red">**Read-Only:**</span> No modifications to system
+- <span style="color:red">**Non-Destructive:**</span> Safe to run in production
+- <span style="color:red">**Deterministic:**</span> Consistent results
+- <span style="color:red">**Authority:**</span> Canonical
+- <span style="color:red">**Failure Tolerance:**</span> Zero Silent Failures
 
-## What It Does
+## <span style="color:red">**🔴 What It Does 🔴**</span>
 
-### Phase 1: System Inventory (Reality Enumeration)
+### <span style="color:red">**Phase 1: System Inventory (Reality Enumeration)**</span>
 ✅ Enumerates all Docker containers (running and stopped)  
 ✅ Detects all PM2 processes with status and metrics  
 ✅ Assesses system load with critical thresholds  
 ✅ Maps runtime units to source directories
 
-### Phase 2: Service Responsibility Validation
+### <span style="color:red">**Phase 2: Service Responsibility Validation**</span>
 ✅ Checks HTTP endpoints for health/status  
 ✅ Validates service availability  
 ✅ Detects critical blockers (timeouts, connection failures)  
 ✅ Categorizes services (verified/degraded/ornamental)
 
-### Phase 3: Canon Consistency Check
+### <span style="color:red">**Phase 3: Canon Consistency Check**</span>
 ✅ Verifies "PMMG N3XUS R3CORDINGS" branding (N3XUS LAW)  
 ✅ Validates "Handshake 55-45-17" protocol  
 ✅ Confirms Master Blueprint documentation  
 ✅ Checks supporting documentation files
 
-### Phase 4: Executive Verdict
+### <span style="color:red">**Phase 4: Executive Verdict**</span>
 ✅ Generates comprehensive statistics  
 ✅ Provides GO/NO-GO decision  
 ✅ Lists critical blockers with recommendations  

@@ -1,11 +1,11 @@
-# Canon-Verifier: Modular Verification Harness
+# <span style="color:red">**Canon-Verifier: Modular Verification Harness**</span>
 
-**Full-stack non-destructive system truth validation framework**
+## <span style="color:red">**🔴 CRITICAL: Full-stack non-destructive system truth validation framework 🔴**</span>
 
-Handshake Compliance: **55-45-17**  
-Execution Mode: **Read-Only | Non-Destructive | Deterministic**  
-Authority: **Canonical**  
-Failure Tolerance: **Zero Silent Failures**
+**<span style="color:red">Handshake Compliance:</span>** <span style="color:red">**55-45-17**</span>  
+**<span style="color:red">Execution Mode:</span>** <span style="color:red">**Read-Only | Non-Destructive | Deterministic**</span>  
+**<span style="color:red">Authority:</span>** <span style="color:red">**Canonical**</span>  
+**<span style="color:red">Failure Tolerance:</span>** <span style="color:red">**Zero Silent Failures**</span>
 
 ---
 
@@ -13,12 +13,12 @@ Failure Tolerance: **Zero Silent Failures**
 
 Canon-verifier is a modular, machine-executable verification harness that orchestrates comprehensive system truth validation across all layers of N3XUS COS.
 
-This is the **full atomic implementation** with:
-- ✅ Organized phase modules
-- ✅ Runtime binding layer (Docker + PM2)
-- ✅ Service Responsibility Matrix (SRM)
-- ✅ CI Gatekeeper mode
-- ✅ Structured JSON artifacts
+This is the **<span style="color:red">full atomic implementation</span>** with:
+- ✅ <span style="color:red">**Organized phase modules**</span>
+- ✅ <span style="color:red">**Runtime binding layer (Docker + PM2)**</span>
+- ✅ <span style="color:red">**Service Responsibility Matrix (SRM)**</span>
+- ✅ <span style="color:red">**CI Gatekeeper mode**</span>
+- ✅ <span style="color:red">**Structured JSON artifacts**</span>
 
 ---
 
@@ -63,42 +63,42 @@ canon-verifier/
 
 ---
 
-## Quick Start
+## <span style="color:red">**🔴 CRITICAL: Quick Start 🔴**</span>
 
-### Run Complete Verification
+### <span style="color:red">**⚠️ Run Complete Verification ⚠️**</span>
 
 ```bash
-# Execute all phases
+# ⚠️ EXECUTE THIS COMMAND ⚠️
 cd canon-verifier
 python3 run_verification.py
 ```
 
-### Run Individual Phases
+### <span style="color:red">**Run Individual Phases**</span>
 
 ```bash
-# Phase 1: System Inventory
+# ⚠️ Phase 1: System Inventory ⚠️
 python3 inventory_phase/enumerate_services.py
 
-# Phase 2: Service Responsibility
+# ⚠️ Phase 2: Service Responsibility ⚠️
 python3 responsibility_validation/validate_claims.py
 
-# Phase 3: Dependency Graph
+# ⚠️ Phase 3: Dependency Graph ⚠️
 python3 dependency_tests/dependency_graph.py
 
-# Extensions: Runtime Mapping
+# ⚠️ Extensions: Runtime Mapping ⚠️
 python3 extensions/docker_pm2_mapping.py
 
-# Extensions: Service Responsibility Matrix
+# ⚠️ Extensions: Service Responsibility Matrix ⚠️
 python3 extensions/service_responsibility_matrix.py
 
-# Final: Generate Verdict
+# ⚠️ Final: Generate Verdict ⚠️
 python3 final_verdict/generate_verdict.py
 ```
 
-### Run CI Gatekeeper
+### <span style="color:red">**⚠️ Run CI Gatekeeper ⚠️**</span>
 
 ```bash
-# After running verification, check CI status
+# ⚠️ After running verification, check CI status ⚠️
 python3 ci_gatekeeper/gatekeeper.py
 
 # Exit codes:
