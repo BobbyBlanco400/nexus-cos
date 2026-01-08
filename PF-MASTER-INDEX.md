@@ -127,6 +127,26 @@ Located in `scripts/` directory:
    ./scripts/generate-investor-deck.sh
    ```
 
+### CPS Tools (Canonical Platform Services)
+
+**CPS Tool #5: Master Stack Verification**
+
+8. **[cps_tool_5_master_verification.py](./cps_tool_5_master_verification.py)** (20KB)
+   - **Platform Forensic / Systems Validation**
+   - **Execution Mode:** Read-Only | Non-Destructive | Deterministic
+   - **Capabilities:**
+     - ✅ System Inventory: Detects Docker & PM2 processes
+     - ✅ Service Responsibility: Checks HTTP endpoints
+     - ✅ Canon Consistency: Verifies "PMMG N3XUS R3CORDINGS" and "55-45-17"
+     - ✅ Executive Verdict: Generates definitive GO/NO-GO statement
+   - **Usage:**
+     ```bash
+     python3 cps_tool_5_master_verification.py
+     ```
+   - **Output:** JSON verification report with system status and critical findings
+   - **Authority:** Canonical
+   - **Failure Tolerance:** Zero Silent Failures
+
 ---
 
 ## ☸️ Kubernetes Manifests
