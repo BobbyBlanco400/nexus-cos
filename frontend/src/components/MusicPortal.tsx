@@ -16,7 +16,7 @@ export const MusicPortal = ({ className = '' }: MusicPortalProps) => {
     }}>
       <header style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          🎵 PMMG Music Platform
+          🎵 PMMG N3XUS R3CORDINGS Platform
         </h2>
         <p style={{ color: '#94a3b8' }}>
           Professional Music Production, Distribution, and Blockchain Rights Management

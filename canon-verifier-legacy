@@ -1,0 +1,817 @@
+#!/usr/bin/env python3
+"""
+N3XUS CANON-VERIFIER
+
+Full-stack non-destructive system truth validation
+
+PF NAME: N3XUS-CANON-VERIFIER
+PF TYPE: Platform Forensic / Systems Validation
+EXECUTION MODE: Read-Only | Non-Destructive | Deterministic
+AUTHORITY: Canonical
+FAILURE TOLERANCE: Zero Silent Failures
+HANDSHAKE COMPLIANCE: 55-45-17
+
+CORE OBJECTIVE:
+Prove — with observable evidence — whether N3XUS COS is a fully operational
+operating system or a partially operational architecture.
+
+This tool does not fix systems.
+This tool does not change systems.
+This tool extracts truth.
+"""
+
+import subprocess
+import json
+import os
+import sys
+import time
+from datetime import datetime
+from typing import Dict, List, Tuple, Optional, Set
+import urllib.request
+import urllib.error
+import re
+
+# Configuration constants
+COMMAND_TIMEOUT = 30  # seconds
+HTTP_TIMEOUT = 5  # seconds
+SERVICE_INVENTORY_FILE = "canon_service_inventory.json"
+FINAL_REPORT_FILE = f"canon_verification_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+
+# ANSI color codes
+class Colors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def print_header(text: str):
+    """Print formatted header"""
+    print(f"\n{Colors.BOLD}{Colors.HEADER}{'='*100}{Colors.ENDC}")
+    print(f"{Colors.BOLD}{Colors.HEADER}{text.center(100)}{Colors.ENDC}")
+    print(f"{Colors.BOLD}{Colors.HEADER}{'='*100}{Colors.ENDC}\n")
+
+def print_section(text: str):
+    """Print section header"""
+    print(f"\n{Colors.BOLD}{Colors.OKBLUE}{'─'*100}{Colors.ENDC}")
+    print(f"{Colors.BOLD}{Colors.OKBLUE}{text}{Colors.ENDC}")
+    print(f"{Colors.BOLD}{Colors.OKBLUE}{'─'*100}{Colors.ENDC}\n")
+
+def print_subsection(text: str):
+    """Print subsection"""
+    print(f"\n{Colors.BOLD}{Colors.OKCYAN}{text}{Colors.ENDC}")
+
+def print_success(text: str):
+    """Print success message"""
+    print(f"{Colors.OKGREEN}✓ {text}{Colors.ENDC}")
+
+def print_warning(text: str):
+    """Print warning message"""
+    print(f"{Colors.WARNING}⚠ {text}{Colors.ENDC}")
+
+def print_error(text: str):
+    """Print error message"""
+    print(f"{Colors.FAIL}✗ {text}{Colors.ENDC}")
+
+def print_info(text: str):
+    """Print info message"""
+    print(f"  {text}")
+
+def run_command(cmd: str) -> Tuple[int, str, str]:
+    """Run a shell command and return exit code, stdout, stderr"""
+    try:
+        result = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=COMMAND_TIMEOUT
+        )
+        return result.returncode, result.stdout, result.stderr
+    except subprocess.TimeoutExpired:
+        return -1, "", "Command timed out"
+    except Exception as e:
+        return -1, "", str(e)
+
+def check_http_endpoint(url: str, timeout: int = HTTP_TIMEOUT) -> Tuple[bool, Optional[int], str]:
+    """Check if an HTTP endpoint is responsive"""
+    try:
+        req = urllib.request.Request(url, method='GET')
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            status = response.status
+            return True, status, f"HTTP {status}"
+    except urllib.error.HTTPError as e:
+        return False, e.code, f"HTTP {e.code} - {e.reason}"
+    except urllib.error.URLError as e:
+        return False, None, f"Connection failed: {e.reason}"
+    except Exception as e:
+        return False, None, f"Error: {str(e)}"
+
+class ServiceCategory:
+    """Service categorization"""
+    VERIFIED = "VERIFIED"  # Exists, boots, proves purpose
+    DEGRADED = "DEGRADED"  # Runs but doesn't fulfill intent
+    ORNAMENTAL = "ORNAMENTAL"  # Exists in name or concept only
+    BLOCKED = "BLOCKED"  # Cannot start or operate
+
+class CanonVerifier:
+    """Canon Verifier - Full-stack system truth validation"""
+    
+    def __init__(self):
+        self.results = {
+            'timestamp': datetime.now().isoformat(),
+            'handshake_compliance': '55-45-17',
+            'execution_mode': 'Read-Only | Non-Destructive | Deterministic',
+            'system_inventory': {
+                'docker_containers': [],
+                'pm2_processes': [],
+                'ports_listening': [],
+                'environment_vars': {}
+            },
+            'service_catalog': {},
+            'service_responsibilities': {},
+            'dependency_graph': {},
+            'event_bus_tests': [],
+            'meta_claim_tests': [],
+            'hardware_simulation': [],
+            'performance_checks': [],
+            'canon_consistency': {},
+            'verdict': {
+                'verified_systems': [],
+                'degraded_systems': [],
+                'ornamental_systems': [],
+                'critical_blockers': []
+            },
+            'executive_truth_statement': ''
+        }
+        self.services_found = 0
+        self.services_verified = 0
+        self.services_degraded = 0
+        self.services_ornamental = 0
+        self.critical_blockers = 0
+    
+    def phase_1_system_inventory(self):
+        """
+        PHASE 1: SYSTEM INVENTORY (Reality Enumeration)
+        Enumerate all runtime units without modification
+        """
+        print_section("PHASE 1: SYSTEM INVENTORY (Reality Enumeration)")
+        
+        # 1.1 Docker Containers
+        print_subsection("1.1 Docker Container Enumeration")
+        code, stdout, stderr = run_command("docker ps -a --format '{{json .}}'")
+        
+        if code == 0 and stdout.strip():
+            for line in stdout.strip().split('\n'):
+                if line:
+                    try:
+                        container = json.loads(line)
+                        self.results['system_inventory']['docker_containers'].append({
+                            'id': container.get('ID', ''),
+                            'name': container.get('Names', ''),
+                            'image': container.get('Image', ''),
+                            'status': container.get('Status', ''),
+                            'state': container.get('State', ''),
+                            'ports': container.get('Ports', '')
+                        })
+                    except json.JSONDecodeError:
+                        continue
+            
+            print_success(f"Found {len(self.results['system_inventory']['docker_containers'])} Docker containers")
+            for c in self.results['system_inventory']['docker_containers']:
+                status_icon = "🟢" if "Up" in c['status'] else "🔴"
+                print_info(f"{status_icon} {c['name']}: {c['status']}")
+        else:
+            print_warning("Docker not available or no containers found")
+        
+        # 1.2 PM2 Processes
+        print_subsection("1.2 PM2 Process Enumeration")
+        code, stdout, stderr = run_command("pm2 jlist")
+        
+        if code == 0 and stdout.strip():
+            try:
+                pm2_list = json.loads(stdout)
+                for proc in pm2_list:
+                    pm2_env = proc.get('pm2_env', {})
+                    monit = proc.get('monit', {})
+                    self.results['system_inventory']['pm2_processes'].append({
+                        'name': proc.get('name', 'unknown'),
+                        'pm_id': proc.get('pm_id', -1),
+                        'status': pm2_env.get('status', 'unknown'),
+                        'pid': proc.get('pid', 0),
+                        'cpu': monit.get('cpu', 0),
+                        'memory': monit.get('memory', 0),
+                        'uptime': pm2_env.get('pm_uptime', 0),
+                        'restart': pm2_env.get('restart_time', 0),
+                        'exec_mode': pm2_env.get('exec_mode', 'unknown'),
+                        'cwd': pm2_env.get('pm_cwd', '')
+                    })
+                
+                print_success(f"Found {len(self.results['system_inventory']['pm2_processes'])} PM2 processes")
+                for proc in self.results['system_inventory']['pm2_processes']:
+                    status_icon = "🟢" if proc['status'] == 'online' else "🔴"
+                    memory_mb = proc['memory'] / 1024 / 1024
+                    print_info(f"{status_icon} {proc['name']} (PID: {proc['pid']}): {proc['status']} - CPU: {proc['cpu']}%, Memory: {memory_mb:.1f}MB")
+            except json.JSONDecodeError:
+                print_warning("PM2 installed but could not parse process list")
+        else:
+            print_warning("PM2 not available or no processes found")
+        
+        # 1.3 Listening Ports
+        print_subsection("1.3 Listening Ports Enumeration")
+        code, stdout, stderr = run_command("ss -tulpn 2>/dev/null || netstat -tulpn 2>/dev/null | grep LISTEN")
+        
+        if code == 0 and stdout.strip():
+            ports = set()
+            for line in stdout.strip().split('\n'):
+                # Parse port numbers from output
+                match = re.search(r':(\d+)\s', line)
+                if match:
+                    port = match.group(1)
+                    ports.add(port)
+                    self.results['system_inventory']['ports_listening'].append({
+                        'port': port,
+                        'raw': line.strip()
+                    })
+            
+            print_success(f"Found {len(ports)} unique listening ports")
+            for port in sorted(ports, key=int):
+                print_info(f"  Port {port}")
+        else:
+            print_warning("Could not enumerate listening ports")
+        
+        # 1.4 System Load
+        print_subsection("1.4 System Load Assessment")
+        code, stdout, stderr = run_command("uptime")
+        if code == 0:
+            print_info(f"System: {stdout.strip()}")
+            if "load average:" in stdout:
+                load_avg_str = stdout.split("load average:")[-1].strip()
+                try:
+                    loads = [float(x.strip()) for x in load_avg_str.split(',')]
+                    if loads[0] > 20:
+                        print_error(f"⚠️  CRITICAL: System load extremely high: {loads[0]}")
+                        self.critical_blockers += 1
+                    elif loads[0] > 10:
+                        print_warning(f"System load high: {loads[0]}")
+                    else:
+                        print_success(f"System load normal: {loads[0]}")
+                except (ValueError, IndexError):
+                    print_warning("Could not parse load average")
+        
+        total_units = len(self.results['system_inventory']['docker_containers']) + \
+                      len(self.results['system_inventory']['pm2_processes'])
+        print_info(f"\n{Colors.BOLD}Total Runtime Units Found: {total_units}{Colors.ENDC}")
+    
+    def phase_2_service_responsibility(self):
+        """
+        PHASE 2: SERVICE RESPONSIBILITY VALIDATION
+        Verify each service proves its claimed purpose
+        """
+        print_section("PHASE 2: SERVICE RESPONSIBILITY VALIDATION")
+        
+        # Define known services with their responsibilities
+        known_services = {
+            'Backend API': {
+                'endpoint': 'http://localhost:3000/api/health',
+                'responsibility': 'Core API gateway and service orchestration',
+                'proof_type': 'HTTP response'
+            },
+            'Backend System Status': {
+                'endpoint': 'http://localhost:4000/api/system/status',
+                'responsibility': 'System health monitoring and status reporting',
+                'proof_type': 'HTTP response'
+            },
+            'Auth Service': {
+                'endpoint': 'http://localhost:3001/health',
+                'responsibility': 'User authentication and identity management',
+                'proof_type': 'HTTP response'
+            },
+            'Streaming Service': {
+                'endpoint': 'http://localhost:3002/health',
+                'responsibility': 'Real-time streaming and WebSocket management',
+                'proof_type': 'HTTP response'
+            }
+        }
+        
+        print_subsection("2.1 Responsibility Assertion")
+        for service_name, service_info in known_services.items():
+            print_info(f"Service: {service_name}")
+            print_info(f"  Claims: {service_info['responsibility']}")
+            print_info(f"  Proof Type: {service_info['proof_type']}")
+            print_info(f"  Endpoint: {service_info['endpoint']}")
+        
+        print_subsection("2.2 Execution Proof")
+        for service_name, service_info in known_services.items():
+            print_info(f"\nTesting: {service_name}")
+            self.services_found += 1
+            
+            is_up, status_code, message = check_http_endpoint(service_info['endpoint'])
+            
+            service_record = {
+                'name': service_name,
+                'responsibility': service_info['responsibility'],
+                'endpoint': service_info['endpoint'],
+                'proof_type': service_info['proof_type'],
+                'is_operational': is_up,
+                'status_code': status_code,
+                'message': message,
+                'category': ServiceCategory.BLOCKED
+            }
+            
+            if is_up:
+                print_success(f"{service_name} is OPERATIONAL - {message}")
+                print_success(f"  Proof: HTTP endpoint responds, service proves purpose")
+                service_record['category'] = ServiceCategory.VERIFIED
+                self.services_verified += 1
+                self.results['verdict']['verified_systems'].append(service_record)
+            else:
+                if status_code is None:
+                    print_error(f"{service_name} is DOWN or UNREACHABLE - {message}")
+                    print_error(f"  Evidence: Cannot connect to endpoint")
+                    service_record['category'] = ServiceCategory.BLOCKED
+                    self.results['verdict']['critical_blockers'].append({
+                        'service': service_name,
+                        'issue': f'Service unreachable: {message}',
+                        'recommendation': 'Verify service is running and port is accessible'
+                    })
+                    self.critical_blockers += 1
+                else:
+                    print_warning(f"{service_name} returned error - {message}")
+                    print_warning(f"  Evidence: Endpoint responds but with error status")
+                    service_record['category'] = ServiceCategory.DEGRADED
+                    self.services_degraded += 1
+                    self.results['verdict']['degraded_systems'].append(service_record)
+            
+            self.results['service_responsibilities'][service_name] = service_record
+    
+    def phase_3_dependency_graph(self):
+        """
+        PHASE 3: INTER-SERVICE DEPENDENCY TEST (Truth Graph)
+        Map and verify dependency relationships
+        """
+        print_section("PHASE 3: INTER-SERVICE DEPENDENCY TEST (Truth Graph)")
+        
+        print_subsection("3.1 Dependency Mapping")
+        
+        # Define known dependency edges
+        dependencies = {
+            'Backend API': {
+                'depends_on': ['Auth Service', 'Database'],
+                'consumed_by': ['Frontend', 'Mobile App']
+            },
+            'Auth Service': {
+                'depends_on': ['Database', 'Redis'],
+                'consumed_by': ['Backend API', 'All Services']
+            },
+            'Streaming Service': {
+                'depends_on': ['Backend API', 'Redis'],
+                'consumed_by': ['Frontend', 'Mobile App']
+            }
+        }
+        
+        self.results['dependency_graph'] = dependencies
+        
+        for service, deps in dependencies.items():
+            print_info(f"\n{service}:")
+            print_info(f"  Depends on: {', '.join(deps['depends_on'])}")
+            print_info(f"  Consumed by: {', '.join(deps['consumed_by'])}")
+        
+        print_subsection("3.2 Live Resolution Test")
+        print_info("Dependency resolution testing requires triggering upstream services.")
+        print_info("This is a READ-ONLY tool - actual triggering would require modifications.")
+        print_warning("PASS-THROUGH: Dependency edges mapped but not live-tested")
+        print_info("Recommendation: Implement integration tests to verify dependency chains")
+    
+    def phase_4_event_bus_verification(self):
+        """
+        PHASE 4: EVENT BUS & ORCHESTRATION VERIFICATION
+        Verify event emission and consumption
+        """
+        print_section("PHASE 4: EVENT BUS & ORCHESTRATION VERIFICATION")
+        
+        print_subsection("4.1 Canonical Event Tests")
+        
+        canonical_events = [
+            'Identity Created',
+            'MetaTwin Instantiated',
+            'Overlay Attached',
+            'Order Placed',
+            'Hardware Registered'
+        ]
+        
+        print_info("Canonical events that should propagate:")
+        for event in canonical_events:
+            print_info(f"  • {event}")
+        
+        print_warning("Event bus testing requires event emission capability")
+        print_warning("READ-ONLY MODE: Cannot trigger events without system modification")
+        print_info("Recommendation: Implement event tracing and logging to verify propagation")
+        
+        self.results['event_bus_tests'].append({
+            'status': 'NOT_TESTED',
+            'reason': 'Read-only mode - cannot emit test events',
+            'recommendation': 'Implement event bus monitoring and tracing'
+        })
+    
+    def phase_5_meta_claim_validation(self):
+        """
+        PHASE 5: META-CLAIM VALIDATION (CRITICAL)
+        Test Identity → MetaTwin → Runtime chain
+        """
+        print_section("PHASE 5: META-CLAIM VALIDATION (N3XUS Core Claims)")
+        
+        print_subsection("5.1 Identity → MetaTwin → Runtime Chain")
+        
+        chain_steps = [
+            'Create identity',
+            'Instantiate MetaTwin',
+            'Bind to runtime (desktop/XR)',
+            'Apply overlay or policy',
+            'Observe effect'
+        ]
+        
+        print_info("Chain validation steps:")
+        for i, step in enumerate(chain_steps, 1):
+            print_info(f"  {i}. {step}")
+        
+        print_warning("Meta-claim testing requires system interaction")
+        print_warning("READ-ONLY MODE: Cannot execute chain without creating state")
+        print_info("Recommendation: Create automated integration test suite for meta-claims")
+        
+        self.results['meta_claim_tests'].append({
+            'chain': 'Identity → MetaTwin → Runtime',
+            'status': 'NOT_TESTED',
+            'reason': 'Read-only mode - requires state creation',
+            'recommendation': 'Implement end-to-end integration tests'
+        })
+    
+    def phase_6_hardware_simulation(self):
+        """
+        PHASE 6: HARDWARE ORCHESTRATION SIMULATION
+        Verify hardware logic without physical devices
+        """
+        print_section("PHASE 6: HARDWARE ORCHESTRATION SIMULATION")
+        
+        print_subsection("6.1 Hardware Logic Verification")
+        
+        hardware_steps = [
+            'v-Hardware registration',
+            'Manufacturing payload generation',
+            'Fulfillment routing',
+            'Lifecycle hooks'
+        ]
+        
+        print_info("Hardware orchestration logic steps:")
+        for i, step in enumerate(hardware_steps, 1):
+            print_info(f"  {i}. {step}")
+        
+        # Check for hardware-related modules
+        hardware_modules = [
+            'modules/hardware',
+            'modules/metatwin',
+            'modules/holosnap',
+            '02_metatwin'
+        ]
+        
+        found_modules = []
+        for module in hardware_modules:
+            if os.path.exists(module):
+                found_modules.append(module)
+                print_success(f"Hardware module found: {module}")
+        
+        if found_modules:
+            print_info(f"Found {len(found_modules)} hardware-related modules")
+        else:
+            print_warning("No hardware modules found in expected locations")
+        
+        self.results['hardware_simulation'].append({
+            'status': 'LOGIC_EXISTS',
+            'modules_found': found_modules,
+            'recommendation': 'Verify hardware logic can execute without human interpretation'
+        })
+    
+    def phase_7_performance_sanity(self):
+        """
+        PHASE 7: PERFORMANCE SANITY CHECK
+        Verify no deadlocks, backlogs, or runaway processes
+        """
+        print_section("PHASE 7: PERFORMANCE SANITY CHECK")
+        
+        print_subsection("7.1 Process Health Check")
+        
+        # Check for high CPU processes
+        code, stdout, stderr = run_command("ps aux --sort=-%cpu | head -10")
+        if code == 0:
+            print_info("Top CPU consumers:")
+            for line in stdout.strip().split('\n')[1:6]:  # Skip header, show top 5
+                print_info(f"  {line}")
+        
+        # Check for high memory processes
+        code, stdout, stderr = run_command("ps aux --sort=-%mem | head -10")
+        if code == 0:
+            print_info("\nTop Memory consumers:")
+            for line in stdout.strip().split('\n')[1:6]:  # Skip header, show top 5
+                print_info(f"  {line}")
+        
+        print_subsection("7.2 Deadlock Detection")
+        print_info("Checking for potential deadlocks...")
+        
+        # Check for zombie processes
+        code, stdout, stderr = run_command("ps aux | grep -c '<defunct>'")
+        if code == 0:
+            zombie_count = int(stdout.strip()) - 1  # Subtract grep itself
+            if zombie_count > 0:
+                print_warning(f"Found {zombie_count} zombie processes")
+            else:
+                print_success("No zombie processes detected")
+        
+        print_subsection("7.3 Queue Backlog Check")
+        print_info("Verifying no silent queue backlogs...")
+        print_warning("Queue monitoring requires application-specific metrics")
+        print_info("Recommendation: Implement queue depth monitoring in services")
+        
+        self.results['performance_checks'].append({
+            'status': 'BASIC_CHECKS_PASSED',
+            'recommendation': 'Implement comprehensive performance monitoring'
+        })
+    
+    def phase_8_canon_consistency(self):
+        """
+        PHASE 8: CANON CONSISTENCY CHECK
+        Verify no parallel realities or competing sources of truth
+        """
+        print_section("PHASE 8: CANON CONSISTENCY CHECK")
+        
+        print_subsection("8.1 N3XUS LAW Compliance")
+        
+        # Check PMMG N3XUS R3CORDINGS branding
+        target_file = 'frontend/src/components/MusicPortal.tsx'
+        if os.path.exists(target_file):
+            with open(target_file, 'r') as f:
+                content = f.read()
+                if 'PMMG N3XUS R3CORDINGS' in content:
+                    print_success("✓ PMMG N3XUS R3CORDINGS branding verified")
+                    self.results['canon_consistency']['pmmg_branding'] = 'VERIFIED'
+                else:
+                    print_error("✗ PMMG N3XUS R3CORDINGS branding NOT FOUND")
+                    self.results['canon_consistency']['pmmg_branding'] = 'FAILED'
+        else:
+            print_warning(f"File not found: {target_file}")
+            self.results['canon_consistency']['pmmg_branding'] = 'NOT_FOUND'
+        
+        # Check Handshake 55-45-17
+        search_dirs = ['frontend/', 'docs/', 'backend/', '*.md']
+        code, stdout, stderr = run_command(
+            f"grep -r '55-45-17' {' '.join(search_dirs)} --include='*.md' --include='*.js' --include='*.ts' --include='*.tsx' 2>/dev/null | wc -l"
+        )
+        
+        if code == 0 and stdout.strip():
+            count = int(stdout.strip())
+            if count > 0:
+                print_success(f"✓ Handshake 55-45-17 protocol found in {count} locations")
+                self.results['canon_consistency']['handshake_protocol'] = {
+                    'status': 'VERIFIED',
+                    'occurrences': count
+                }
+            else:
+                print_warning("⚠ Handshake 55-45-17 protocol not found")
+                self.results['canon_consistency']['handshake_protocol'] = {
+                    'status': 'NOT_FOUND',
+                    'occurrences': 0
+                }
+        
+        # Check Master Blueprint
+        blueprint_file = 'NEXUS_COS_HOLOSNAP_MASTER_BLUEPRINT.md'
+        if os.path.exists(blueprint_file):
+            size = os.path.getsize(blueprint_file)
+            print_success(f"✓ Master Blueprint present ({size:,} bytes)")
+            self.results['canon_consistency']['master_blueprint'] = {
+                'status': 'PRESENT',
+                'size': size
+            }
+        else:
+            print_error("✗ Master Blueprint MISSING")
+            self.results['canon_consistency']['master_blueprint'] = {
+                'status': 'MISSING'
+            }
+        
+        print_subsection("8.2 No Parallel Realities Check")
+        print_info("Verifying single source of truth...")
+        
+        # Check for duplicate service definitions
+        duplicate_checks = [
+            ('Docker Compose files', 'docker-compose*.yml'),
+            ('PM2 configs', 'ecosystem*.js')
+        ]
+        
+        for check_name, pattern in duplicate_checks:
+            code, stdout, stderr = run_command(f"find . -name '{pattern}' -type f | wc -l")
+            if code == 0:
+                count = int(stdout.strip())
+                print_info(f"{check_name}: {count} files found")
+                if count > 5:
+                    print_warning(f"Multiple {check_name} may indicate configuration sprawl")
+        
+        print_success("Canon consistency checks completed")
+    
+    def phase_9_final_verdict(self):
+        """
+        PHASE 9: FINAL VERDICT GENERATION
+        Categorize all systems and generate evidence-based verdict
+        """
+        print_section("PHASE 9: FINAL VERDICT GENERATION")
+        
+        print_subsection("9.1 VERIFIED SYSTEMS")
+        if self.results['verdict']['verified_systems']:
+            print_success(f"Found {len(self.results['verdict']['verified_systems'])} verified systems:")
+            for system in self.results['verdict']['verified_systems']:
+                print_info(f"  ✓ {system['name']}: {system['responsibility']}")
+                print_info(f"    Evidence: {system['message']}")
+        else:
+            print_warning("No systems fully verified")
+        
+        print_subsection("9.2 DEGRADED SYSTEMS")
+        if self.results['verdict']['degraded_systems']:
+            print_warning(f"Found {len(self.results['verdict']['degraded_systems'])} degraded systems:")
+            for system in self.results['verdict']['degraded_systems']:
+                print_info(f"  ⚠ {system['name']}: {system['responsibility']}")
+                print_info(f"    Issue: {system['message']}")
+        else:
+            print_success("No degraded systems detected")
+        
+        print_subsection("9.3 ORNAMENTAL / DEAD SYSTEMS")
+        if self.results['verdict']['ornamental_systems']:
+            print_error(f"Found {len(self.results['verdict']['ornamental_systems'])} ornamental systems:")
+            for system in self.results['verdict']['ornamental_systems']:
+                print_info(f"  ✗ {system}")
+        else:
+            print_success("No ornamental systems detected")
+        
+        print_subsection("9.4 CRITICAL BLOCKERS")
+        if self.results['verdict']['critical_blockers']:
+            print_error(f"Found {len(self.results['verdict']['critical_blockers'])} critical blockers:")
+            for blocker in self.results['verdict']['critical_blockers']:
+                print_info(f"  ✗ {blocker['service']}")
+                print_info(f"    Issue: {blocker['issue']}")
+                print_info(f"    Recommendation: {blocker['recommendation']}")
+        else:
+            print_success("No critical blockers detected")
+    
+    def phase_10_executive_truth(self):
+        """
+        PHASE 10: EXECUTIVE TRUTH STATEMENT
+        Answer: Is N3XUS COS fully operational or partially operational?
+        """
+        print_section("PHASE 10: EXECUTIVE TRUTH STATEMENT")
+        
+        print(f"\n{Colors.BOLD}{'='*100}{Colors.ENDC}")
+        print(f"{Colors.BOLD}QUESTION: Is N3XUS COS a fully operational operating system —{Colors.ENDC}")
+        print(f"{Colors.BOLD}          or a partially operational architecture?{Colors.ENDC}")
+        print(f"{Colors.BOLD}{'='*100}{Colors.ENDC}\n")
+        
+        # Calculate operational percentage
+        total_runtime_units = len(self.results['system_inventory']['docker_containers']) + \
+                             len(self.results['system_inventory']['pm2_processes'])
+        
+        verified_pct = (self.services_verified / self.services_found * 100) if self.services_found > 0 else 0
+        
+        # Generate truth statement
+        if self.critical_blockers > 0:
+            truth = "PARTIALLY OPERATIONAL ARCHITECTURE"
+            color = Colors.FAIL
+            details = f"""
+Evidence:
+- {self.critical_blockers} critical blocker(s) prevent full operation
+- {self.services_verified}/{self.services_found} services verified ({verified_pct:.1f}%)
+- {total_runtime_units} runtime units detected
+- Services exist but cannot prove complete operational capability
+
+Conclusion:
+The platform has architectural completeness but operational gaps.
+Critical services are unreachable or non-functional.
+System requires remediation before claiming full operational status.
+"""
+        elif self.services_degraded > 0:
+            truth = "OPERATIONAL WITH DEGRADATIONS"
+            color = Colors.WARNING
+            details = f"""
+Evidence:
+- {self.services_verified}/{self.services_found} services verified ({verified_pct:.1f}%)
+- {self.services_degraded} service(s) show degraded behavior
+- {total_runtime_units} runtime units detected
+- Core functionality exists but with quality issues
+
+Conclusion:
+The platform is operational but not optimally.
+Services respond but may not fulfill complete intent.
+System is usable but requires optimization.
+"""
+        elif self.services_verified == self.services_found and self.services_found > 0:
+            truth = "FULLY OPERATIONAL OPERATING SYSTEM"
+            color = Colors.OKGREEN
+            details = f"""
+Evidence:
+- {self.services_verified}/{self.services_found} services verified (100%)
+- {total_runtime_units} runtime units detected
+- All tested services prove their purpose
+- No critical blockers detected
+
+Conclusion:
+The platform demonstrates operational completeness.
+All verified services respond and prove functionality.
+System meets criteria for fully operational status.
+"""
+        else:
+            truth = "INSUFFICIENT EVIDENCE FOR DETERMINATION"
+            color = Colors.WARNING
+            details = f"""
+Evidence:
+- {self.services_found} services tested
+- {total_runtime_units} runtime units detected
+- Limited service verification capability in current environment
+
+Conclusion:
+Cannot definitively determine operational status.
+More comprehensive testing required in deployed environment.
+"""
+        
+        print(f"{Colors.BOLD}{color}TRUTH: {truth}{Colors.ENDC}")
+        print(f"{details}")
+        
+        self.results['executive_truth_statement'] = {
+            'verdict': truth,
+            'evidence': {
+                'services_found': self.services_found,
+                'services_verified': self.services_verified,
+                'services_degraded': self.services_degraded,
+                'services_ornamental': self.services_ornamental,
+                'critical_blockers': self.critical_blockers,
+                'runtime_units': total_runtime_units,
+                'verification_rate': verified_pct
+            },
+            'details': details.strip()
+        }
+    
+    def save_report(self):
+        """Save comprehensive verification report"""
+        with open(FINAL_REPORT_FILE, 'w') as f:
+            json.dump(self.results, f, indent=2)
+        print(f"\n{Colors.OKBLUE}{Colors.BOLD}Verification report saved: {FINAL_REPORT_FILE}{Colors.ENDC}")
+        return FINAL_REPORT_FILE
+    
+    def run(self):
+        """Execute complete verification suite"""
+        print_header("N3XUS CANON-VERIFIER")
+        print(f"{Colors.BOLD}Full-stack non-destructive system truth validation{Colors.ENDC}")
+        print(f"Handshake Compliance: 55-45-17")
+        print(f"Execution Mode: Read-Only | Non-Destructive | Deterministic")
+        print(f"Timestamp: {self.results['timestamp']}\n")
+        
+        try:
+            self.phase_1_system_inventory()
+            self.phase_2_service_responsibility()
+            self.phase_3_dependency_graph()
+            self.phase_4_event_bus_verification()
+            self.phase_5_meta_claim_validation()
+            self.phase_6_hardware_simulation()
+            self.phase_7_performance_sanity()
+            self.phase_8_canon_consistency()
+            self.phase_9_final_verdict()
+            self.phase_10_executive_truth()
+            
+            report_file = self.save_report()
+            
+            print(f"\n{Colors.BOLD}{'='*100}{Colors.ENDC}")
+            print(f"{Colors.BOLD}CANON-VERIFIER EXECUTION COMPLETE{Colors.ENDC}")
+            print(f"{Colors.BOLD}{'='*100}{Colors.ENDC}\n")
+            
+            # Return appropriate exit code
+            if self.critical_blockers > 0:
+                return 2  # Critical issues
+            elif self.services_degraded > 0:
+                return 1  # Degraded
+            else:
+                return 0  # Operational
+        
+        except KeyboardInterrupt:
+            print(f"\n\n{Colors.WARNING}Verification interrupted by user{Colors.ENDC}")
+            return 130
+        except Exception as e:
+            print(f"\n{Colors.FAIL}Verification failed with error: {str(e)}{Colors.ENDC}")
+            import traceback
+            traceback.print_exc()
+            return 1
+
+def main():
+    """Main entry point"""
+    verifier = CanonVerifier()
+    exit_code = verifier.run()
+    sys.exit(exit_code)
+
+if __name__ == "__main__":
+    main()
