@@ -1,7 +1,7 @@
 # N3XUS COS — GOVERNANCE CHARTER
 ## Founders/Beta Mode • Governance Order: 55-45-17
 
-**Version:** 3.0
+**Version:** 3.1
 **Status:** ACTIVE & BINDING
 **Effective:** Immediately until Public Alpha
 **Authority:** Executive Directive
@@ -387,7 +387,92 @@ Exit codes:
 
 ---
 
-## Ⅷ. ENFORCEMENT & COMPLIANCE
+## Ⅷ. DOCUMENTATION & CRITICAL ELEMENT HIGHLIGHTING
+
+### Red Highlighting Protocol (N3XUS LAW)
+
+**Effective immediately. Mandatory for all documentation and executables.**
+
+All future documentation, scripts, and critical instructions **MUST** include red highlighting for maximum visibility and clarity.
+
+### Required Red Highlighting Elements
+
+#### 🔴 Documentation Files (Markdown)
+All README files, guides, and documentation must highlight:
+
+✅ **All executable commands** - Wrapped in red markers or bold red text
+✅ **All critical instructions** - Warning symbols (⚠️) with red highlighting
+✅ **All compliance notices** - Handshake 55-45-17 and N3XUS LAW references
+✅ **All quick start sections** - Primary usage commands prominently displayed
+✅ **All important paths** - File paths, directories, and configuration locations
+
+Example format:
+```markdown
+⚠️ **CRITICAL COMMAND:**
+```bash
+python3 verification_tool.py
+```
+
+🔴 **IMPORTANT:** This must be run before deployment.
+```
+
+#### 🔴 Executable Scripts (Bash/Python)
+All automation scripts and tools must include:
+
+✅ **Bold red ANSI terminal colors** - For headers, sections, and critical output
+✅ **Red error messages** - All failures and warnings in red
+✅ **Red status indicators** - Execution progress and completion messages
+✅ **Red artifact listings** - Output file locations and paths
+✅ **Red summary information** - Final verdicts and exit codes
+
+ANSI color codes to use:
+```bash
+RED='\033[1;31m'     # Bold red
+NC='\033[0m'         # No color
+
+echo -e "${RED}⚠️ CRITICAL OPERATION${NC}"
+```
+
+#### 🔴 Tool Output
+All verification, validation, and governance tools must:
+
+✅ Use red for phase headers and dividers
+✅ Use red for critical findings and blockers
+✅ Use red for compliance status indicators
+✅ Use red for artifact generation notifications
+✅ Use red for executive verdicts and final statements
+
+### Mandatory Application
+
+This protocol applies to:
+- ✅ All new documentation (README, guides, instructions)
+- ✅ All new executable scripts (verification, deployment, automation)
+- ✅ All new verification tools (governance, compliance, validation)
+- ✅ All updates to existing documentation
+- ✅ All updates to existing scripts and tools
+
+### Non-Compliance Consequences
+
+**Failure to apply red highlighting protocol results in:**
+
+❌ Documentation marked as non-compliant
+❌ Pull request requires revision
+❌ Script requires enhancement before deployment
+❌ Governance audit failure
+
+### Verification
+
+Red highlighting compliance is verified by:
+1. Visual inspection of documentation
+2. Terminal output testing of scripts
+3. Governance audit tools
+4. Pre-merge PR reviews
+
+**This is now permanent N3XUS LAW.** All personnel must comply.
+
+---
+
+## Ⅸ. ENFORCEMENT & COMPLIANCE
 
 ### Non-Compliance Consequences
 
@@ -423,7 +508,7 @@ All governance checks are logged:
 
 ---
 
-## Ⅸ. GOVERNANCE AUTHORITY
+## Ⅹ. GOVERNANCE AUTHORITY
 
 ### Enforcement Chain
 
@@ -447,12 +532,12 @@ Issues requiring escalation:
 
 ---
 
-## Ⅹ. DOCUMENT CONTROL
+## ⅩⅠ. DOCUMENT CONTROL
 
 **Document ID:** GOVERNANCE_CHARTER_55_45_17
-**Version:** 3.0
+**Version:** 3.1
 **Status:** ACTIVE & BINDING
-**Last Updated:** 2026-01-02
+**Last Updated:** 2026-01-08
 **Next Review:** Public Alpha Launch
 **Authority:** Executive Directive
 
@@ -460,6 +545,7 @@ Issues requiring escalation:
 
 | Version | Date | Changes | Approved By |
 |---------|------|---------|-------------|
+| 3.1 | 2026-01-08 | Added Article VIII: Red Highlighting Protocol | Executive |
 | 3.0 | 2026-01-02 | Initial governance charter for TRAE | Executive |
 | 2.0 | 2025-12-25 | Updated tenant registry (Tenant #2) | Executive |
 | 1.0 | 2025-10-10 | Initial handshake enforcement | Executive |
