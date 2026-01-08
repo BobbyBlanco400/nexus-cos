@@ -100,7 +100,11 @@ class TraeGoNoGoVerifier:
             
             # Verify file extension
             allowed_formats = rules.get('logoFormats', ['svg', 'png'])
-            file_ext = logo_path.suffix[1:].lower()
+            file_ext = logo_path.suffix[1:].lower() if logo_path.suffix else ''
+            
+            if not file_ext:
+                self.log(f"Logo has no file extension", 'ERROR')
+                return False
             
             if file_ext not in allowed_formats:
                 self.log(f"Invalid logo format: {file_ext} not in {allowed_formats}", 'ERROR')
@@ -222,12 +226,15 @@ class TraeGoNoGoVerifier:
             
             self.log(f"Running canon-verifier orchestrator...")
             
+            # Get timeout from environment or use default
+            timeout = int(os.environ.get('CANON_VERIFIER_TIMEOUT', '120'))
+            
             result = subprocess.run(
                 [sys.executable, str(run_verification_script)],
                 cwd=str(self.base_dir),
                 capture_output=True,
                 text=True,
-                timeout=120
+                timeout=timeout
             )
             
             # Log output

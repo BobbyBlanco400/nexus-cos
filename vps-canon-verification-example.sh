@@ -52,7 +52,17 @@ if [ ! -f "$CANON_LOGO_PATH" ]; then
     echo "✗ Canonization failed — logo missing"
     exit 1
 fi
-LOGO_SIZE=$(stat -f%z "$CANON_LOGO_PATH" 2>/dev/null || stat -c%s "$CANON_LOGO_PATH" 2>/dev/null)
+
+# Get file size (cross-platform)
+if stat -f%z "$CANON_LOGO_PATH" 2>/dev/null; then
+    LOGO_SIZE=$(stat -f%z "$CANON_LOGO_PATH" 2>/dev/null)
+elif stat -c%s "$CANON_LOGO_PATH" 2>/dev/null; then
+    LOGO_SIZE=$(stat -c%s "$CANON_LOGO_PATH" 2>/dev/null)
+else
+    echo "✗ Error: Unable to determine file size"
+    exit 1
+fi
+
 echo "✓ Logo verified: $CANON_LOGO_PATH ($LOGO_SIZE bytes)"
 echo ""
 
@@ -67,7 +77,17 @@ if [ ! -f "$CANON_CONFIG" ]; then
 fi
 
 # Update logo path using jq
+if [ ! -d "$(dirname "$CANON_LOGO_PATH")" ]; then
+    echo "✗ Error: Logo directory does not exist: $(dirname "$CANON_LOGO_PATH")"
+    exit 1
+fi
+
 ABSOLUTE_LOGO_PATH="$(cd "$(dirname "$CANON_LOGO_PATH")" && pwd)/$(basename "$CANON_LOGO_PATH")"
+if [ -z "$ABSOLUTE_LOGO_PATH" ]; then
+    echo "✗ Error: Failed to determine absolute logo path"
+    exit 1
+fi
+
 jq --arg logo "$ABSOLUTE_LOGO_PATH" '.OfficialLogo = $logo' "$CANON_CONFIG" > "$CANON_CONFIG.tmp"
 mv "$CANON_CONFIG.tmp" "$CANON_CONFIG"
 echo "✓ Configuration updated with logo path"
