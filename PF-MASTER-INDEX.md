@@ -147,6 +147,35 @@ Located in `scripts/` directory:
    - **Authority:** Canonical
    - **Failure Tolerance:** Zero Silent Failures
 
+**Canon-Verifier: Full-Stack Truth Validation**
+
+9. **[canon-verifier](./canon-verifier)** (34KB)
+   - **Comprehensive Platform Forensic / Systems Truth Extraction**
+   - **Handshake Compliance:** 55-45-17
+   - **Execution Mode:** Read-Only | Non-Destructive | Deterministic
+   - **10-Phase Verification:**
+     1. System Inventory (Reality Enumeration)
+     2. Service Responsibility Validation (Proof of Purpose)
+     3. Inter-Service Dependency Test (Truth Graph)
+     4. Event Bus & Orchestration Verification
+     5. Meta-Claim Validation (Identity→MetaTwin→Runtime)
+     6. Hardware Orchestration Simulation
+     7. Performance Sanity Check
+     8. Canon Consistency Check
+     9. Final Verdict (VERIFIED/DEGRADED/ORNAMENTAL/BLOCKED)
+     10. Executive Truth Statement
+   - **Usage:**
+     ```bash
+     python3 canon-verifier
+     ```
+   - **Output:** 
+     - Comprehensive color-coded terminal report
+     - JSON audit trail: `canon_verification_report_YYYYMMDD_HHMMSS.json`
+   - **Exit Codes:** 0 (Operational), 1 (Degraded), 2 (Partially Operational)
+   - **Authority:** Canonical
+   - **Failure Tolerance:** Zero Silent Failures
+   - **Documentation:** [CANON_VERIFIER_README.md](./CANON_VERIFIER_README.md)
+
 ---
 
 ## ☸️ Kubernetes Manifests
