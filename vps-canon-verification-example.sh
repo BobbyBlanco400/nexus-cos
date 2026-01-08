@@ -76,21 +76,16 @@ if [ ! -f "$CANON_CONFIG" ]; then
     echo "✓ Initialized config file: $CANON_CONFIG"
 fi
 
-# Update logo path using jq
+# Update logo path using jq (use relative path for portability)
 if [ ! -d "$(dirname "$CANON_LOGO_PATH")" ]; then
     echo "✗ Error: Logo directory does not exist: $(dirname "$CANON_LOGO_PATH")"
     exit 1
 fi
 
-ABSOLUTE_LOGO_PATH="$(cd "$(dirname "$CANON_LOGO_PATH")" && pwd)/$(basename "$CANON_LOGO_PATH")"
-if [ -z "$ABSOLUTE_LOGO_PATH" ]; then
-    echo "✗ Error: Failed to determine absolute logo path"
-    exit 1
-fi
-
-jq --arg logo "$ABSOLUTE_LOGO_PATH" '.OfficialLogo = $logo' "$CANON_CONFIG" > "$CANON_CONFIG.tmp"
+# Use relative path for better portability
+jq --arg logo "$CANON_LOGO_PATH" '.OfficialLogo = $logo' "$CANON_CONFIG" > "$CANON_CONFIG.tmp"
 mv "$CANON_CONFIG.tmp" "$CANON_CONFIG"
-echo "✓ Configuration updated with logo path"
+echo "✓ Configuration updated with logo path (relative)"
 echo ""
 
 # Step 6: Create timestamped logging folder

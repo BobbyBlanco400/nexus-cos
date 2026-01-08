@@ -13,10 +13,7 @@
   },
   "VerificationRules": {
     "logoRequired": true,
-    "logoFormats": [
-      "svg",
-      "png"
-    ],
+    "logoFormats": ["svg", "png"],
     "minLogoSize": 1024,
     "maxLogoSize": 10485760
   }
