@@ -31,6 +31,10 @@ from typing import Dict, List, Tuple, Optional
 import urllib.request
 import urllib.error
 
+# Configuration constants
+COMMAND_TIMEOUT = 30  # seconds
+HTTP_TIMEOUT = 5  # seconds
+
 # ANSI color codes for output
 class Colors:
     HEADER = '\033[95m'
@@ -75,7 +79,7 @@ def run_command(cmd: str, capture_output: bool = True) -> Tuple[int, str, str]:
             shell=True,
             capture_output=capture_output,
             text=True,
-            timeout=30
+            timeout=COMMAND_TIMEOUT
         )
         return result.returncode, result.stdout, result.stderr
     except subprocess.TimeoutExpired:
@@ -83,7 +87,7 @@ def run_command(cmd: str, capture_output: bool = True) -> Tuple[int, str, str]:
     except Exception as e:
         return -1, "", str(e)
 
-def check_http_endpoint(url: str, timeout: int = 5) -> Tuple[bool, Optional[int], str]:
+def check_http_endpoint(url: str, timeout: int = HTTP_TIMEOUT) -> Tuple[bool, Optional[int], str]:
     """Check if an HTTP endpoint is responsive"""
     try:
         req = urllib.request.Request(url, method='GET')
@@ -191,23 +195,27 @@ class MasterVerification:
             print(f"  System: {stdout.strip()}")
             # Parse load average
             if "load average:" in stdout:
-                load_avg = stdout.split("load average:")[-1].strip()
-                loads = [float(x.strip()) for x in load_avg.split(',')]
-                if loads[0] > 20:
-                    print_error(f"⚠️  CRITICAL: System load extremely high: {loads[0]}")
-                    self.results['critical_blockers'].append({
-                        'category': 'System Load',
-                        'severity': 'CRITICAL',
-                        'issue': f'System load average is {loads[0]} (threshold: 20)',
-                        'recommendation': 'Investigate high load - may cause API timeouts'
-                    })
-                    self.failed_checks += 1
-                elif loads[0] > 10:
-                    print_warning(f"System load high: {loads[0]}")
+                load_avg_str = stdout.split("load average:")[-1].strip()
+                try:
+                    loads = [float(x.strip()) for x in load_avg_str.split(',')]
+                    if loads[0] > 20:
+                        print_error(f"⚠️  CRITICAL: System load extremely high: {loads[0]}")
+                        self.results['critical_blockers'].append({
+                            'category': 'System Load',
+                            'severity': 'CRITICAL',
+                            'issue': f'System load average is {loads[0]} (threshold: 20)',
+                            'recommendation': 'Investigate high load - may cause API timeouts'
+                        })
+                        self.failed_checks += 1
+                    elif loads[0] > 10:
+                        print_warning(f"System load high: {loads[0]}")
+                        self.warning_checks += 1
+                    else:
+                        print_success(f"System load normal: {loads[0]}")
+                        self.passed_checks += 1
+                except (ValueError, IndexError):
+                    print_warning("Could not parse load average")
                     self.warning_checks += 1
-                else:
-                    print_success(f"System load normal: {loads[0]}")
-                    self.passed_checks += 1
             else:
                 self.warning_checks += 1
         
@@ -275,33 +283,46 @@ class MasterVerification:
         print(f"{Colors.BOLD}3.1 Checking N3XUS LAW Compliance: PMMG N3XUS R3CORDINGS{Colors.ENDC}")
         self.total_checks += 1
         
-        code, stdout, stderr = run_command("grep -r 'PMMG N3XUS R3CORDINGS' frontend/src/components/MusicPortal.tsx 2>/dev/null")
-        
-        if code == 0 and stdout.strip():
-            print_success("✓ PMMG N3XUS R3CORDINGS branding verified in MusicPortal.tsx")
-            self.results['canon_checks'].append({
-                'check': 'PMMG N3XUS R3CORDINGS Branding',
-                'status': 'PASSED',
-                'location': 'frontend/src/components/MusicPortal.tsx'
-            })
-            self.passed_checks += 1
+        target_file = 'frontend/src/components/MusicPortal.tsx'
+        if os.path.exists(target_file):
+            try:
+                with open(target_file, 'r') as f:
+                    content = f.read()
+                    if 'PMMG N3XUS R3CORDINGS' in content:
+                        print_success("✓ PMMG N3XUS R3CORDINGS branding verified in MusicPortal.tsx")
+                        self.results['canon_checks'].append({
+                            'check': 'PMMG N3XUS R3CORDINGS Branding',
+                            'status': 'PASSED',
+                            'location': target_file
+                        })
+                        self.passed_checks += 1
+                    else:
+                        print_error("✗ PMMG N3XUS R3CORDINGS branding NOT FOUND")
+                        self.results['canon_checks'].append({
+                            'check': 'PMMG N3XUS R3CORDINGS Branding',
+                            'status': 'FAILED',
+                            'location': target_file
+                        })
+                        self.failed_checks += 1
+            except IOError:
+                print_error(f"✗ Could not read {target_file}")
+                self.failed_checks += 1
         else:
-            print_error("✗ PMMG N3XUS R3CORDINGS branding NOT FOUND")
-            self.results['canon_checks'].append({
-                'check': 'PMMG N3XUS R3CORDINGS Branding',
-                'status': 'FAILED',
-                'location': 'frontend/src/components/MusicPortal.tsx'
-            })
+            print_error(f"✗ {target_file} not found")
             self.failed_checks += 1
         
         # Check for Handshake 55-45-17
         print(f"\n{Colors.BOLD}3.2 Checking Handshake Protocol: 55-45-17{Colors.ENDC}")
         self.total_checks += 1
         
-        code, stdout, stderr = run_command("grep -r '55-45-17' . --include='*.md' --include='*.js' --include='*.ts' --include='*.tsx' 2>/dev/null | head -5")
+        # Search in specific directories to limit scope
+        search_dirs = ['frontend/', 'docs/', 'backend/', '*.md']
+        code, stdout, stderr = run_command(
+            f"grep -r '55-45-17' {' '.join(search_dirs)} --include='*.md' --include='*.js' --include='*.ts' --include='*.tsx' 2>/dev/null | head -5"
+        )
         
         if code == 0 and stdout.strip():
-            matches = len(stdout.strip().split('\n'))
+            matches = len([line for line in stdout.strip().split('\n') if line])
             print_success(f"✓ Handshake 55-45-17 protocol found in {matches} locations")
             self.results['canon_checks'].append({
                 'check': 'Handshake 55-45-17 Protocol',
