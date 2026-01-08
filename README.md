@@ -102,6 +102,12 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 - **Implementation Guide** — Owner-level technical specifications
 - **Visual Architecture** — Complete system diagrams and data flows
 
+### Supporting Documentation
+
+- **[HoloSnap Technical Specification](./docs/HOLOSNAP_TECHNICAL_SPECIFICATION.md)** — Hardware specs, firmware architecture, manufacturing pipeline
+- **[NexCoin Quick Reference](./docs/NEXCOIN_QUICK_REFERENCE.md)** — Economic system, exchange rates, earning mechanisms
+- **[Founding Tenant Rights Guide](./docs/FOUNDING_TENANT_RIGHTS_GUIDE.md)** — FTR benefits, legal framework, estimated value
+
 > **PDF-Ready Documentation** — Complete, verified, and ready for executive review.
 
 ---
