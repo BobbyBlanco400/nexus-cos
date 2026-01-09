@@ -65,6 +65,15 @@ logs/**/deployment_summary_*.json
 # But keep log directory structure
 !logs/**/.gitkeep
 
+# Canon-Verifier Logs (timestamped runs)
+canon-verifier/logs/run_*/*.log
+canon-verifier/logs/run_*/*.json
+canon-verifier/output/*.json
+# But keep README and structure
+!canon-verifier/logs/README.md
+!canon-verifier/logs/.gitkeep
+!canon-verifier/output/.gitkeep
+
 # Environment files with secrets
 .env
 .env.local

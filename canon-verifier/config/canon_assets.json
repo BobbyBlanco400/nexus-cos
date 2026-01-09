@@ -1,0 +1,20 @@
+{
+  "OfficialLogo": "branding/official/N3XUS-vCOS.svg",
+  "VerificationTimestamp": "",
+  "AssetRegistry": {
+    "logos": {
+      "official": "",
+      "alternate": []
+    },
+    "branding": {
+      "colors": "",
+      "theme": ""
+    }
+  },
+  "VerificationRules": {
+    "logoRequired": true,
+    "logoFormats": ["svg", "png"],
+    "minLogoSize": 1024,
+    "maxLogoSize": 10485760
+  }
+}
