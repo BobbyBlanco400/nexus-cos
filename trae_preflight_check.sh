@@ -183,12 +183,12 @@ if [ -f "canon-verifier/config/canon_assets.json" ]; then
     echo -e "${GREEN}  ✓ Configuration file exists${NC}"
     
     # Validate JSON
-    if cat canon-verifier/config/canon_assets.json | jq '.' > /dev/null 2>&1; then
+    if jq '.' canon-verifier/config/canon_assets.json > /dev/null 2>&1; then
         echo -e "${GREEN}  ✓ Configuration file is valid JSON${NC}"
         
         # Check for required keys
-        if cat canon-verifier/config/canon_assets.json | jq -e '.OfficialLogo' > /dev/null 2>&1; then
-            LOGO_PATH=$(cat canon-verifier/config/canon_assets.json | jq -r '.OfficialLogo')
+        if jq -e '.OfficialLogo' canon-verifier/config/canon_assets.json > /dev/null 2>&1; then
+            LOGO_PATH=$(jq -r '.OfficialLogo' canon-verifier/config/canon_assets.json)
             echo -e "${GREEN}  ✓ OfficialLogo configured: $LOGO_PATH${NC}"
         else
             echo -e "${YELLOW}  ⚠ OfficialLogo not configured${NC}"
@@ -248,16 +248,24 @@ echo -e "${BLUE}[CHECK 8/10]${NC} Output Directories"
 
 if [ ! -d "canon-verifier/output" ]; then
     echo -e "${YELLOW}  ⚠ Output directory not found (will be created)${NC}"
-    mkdir -p canon-verifier/output
-    echo -e "${GREEN}  ✓ Output directory created${NC}"
+    if mkdir -p canon-verifier/output 2>/dev/null; then
+        echo -e "${GREEN}  ✓ Output directory created${NC}"
+    else
+        echo -e "${RED}  ✗ Failed to create output directory${NC}"
+        ((ERRORS++))
+    fi
 else
     echo -e "${GREEN}  ✓ Output directory exists${NC}"
 fi
 
 if [ ! -d "canon-verifier/logs" ]; then
     echo -e "${YELLOW}  ⚠ Logs directory not found (will be created)${NC}"
-    mkdir -p canon-verifier/logs
-    echo -e "${GREEN}  ✓ Logs directory created${NC}"
+    if mkdir -p canon-verifier/logs 2>/dev/null; then
+        echo -e "${GREEN}  ✓ Logs directory created${NC}"
+    else
+        echo -e "${RED}  ✗ Failed to create logs directory${NC}"
+        ((ERRORS++))
+    fi
 else
     echo -e "${GREEN}  ✓ Logs directory exists${NC}"
 fi
@@ -295,7 +303,9 @@ echo ""
 echo -e "${BLUE}[CHECK 10/10]${NC} Quick Verification Test"
 
 echo -e "${YELLOW}  → Testing trae_go_nogo.py execution...${NC}"
-if python3 canon-verifier/trae_go_nogo.py > /tmp/trae_test.log 2>&1; then
+# Create secure temporary log file
+TEMP_LOG=$(mktemp -t trae_test.XXXXXX.log 2>/dev/null || mktemp /tmp/trae_test.XXXXXX.log)
+if python3 canon-verifier/trae_go_nogo.py > "$TEMP_LOG" 2>&1; then
     echo -e "${GREEN}  ✓ trae_go_nogo.py executed successfully${NC}"
     
     # Check for GO verdict
@@ -307,9 +317,12 @@ if python3 canon-verifier/trae_go_nogo.py > /tmp/trae_test.log 2>&1; then
     fi
 else
     echo -e "${RED}  ✗ trae_go_nogo.py execution failed${NC}"
-    echo -e "${RED}    Check logs: /tmp/trae_test.log${NC}"
+    echo -e "${RED}    Check logs: $TEMP_LOG${NC}"
     ((ERRORS++))
 fi
+
+# Clean up temporary log file
+rm -f "$TEMP_LOG" 2>/dev/null
 
 echo ""
 
