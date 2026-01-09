@@ -8,7 +8,7 @@ import os
 import sys
 import subprocess
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 class CanonVerifierOrchestrator:
     """Orchestrates all canon-verifier phases"""
@@ -24,7 +24,7 @@ class CanonVerifierOrchestrator:
         os.makedirs(self.output_dir, exist_ok=True)
         print(f"Canon-Verifier Orchestrator")
         print(f"Output directory: {self.output_dir}")
-        print(f"Timestamp: {datetime.utcnow().isoformat()}Z\n")
+        print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}\n")
         print("="*100)
     
     def run_phase(self, name: str, script_path: str) -> bool:
