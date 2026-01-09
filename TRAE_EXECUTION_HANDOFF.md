@@ -24,6 +24,26 @@ TRAE, your VPS canon-verification workflow (PR #207) has been **fully verified, 
 
 ---
 
+## 🔒 Canon Sovereignty Mode (NEW)
+
+This workflow enforces **Canon Sovereignty**.
+
+A GO verdict is valid only if all Canon Sovereignty clauses remain satisfied at runtime.
+
+If any sovereignty condition is violated, TRAE must treat the result as an immediate **NO-GO**, regardless of prior phase success.
+
+**Key Principles:**
+- N3XUS COS cannot misrepresent itself
+- Services must prove capabilities through observable execution
+- Degraded or partial systems cannot be masked as operational
+- No duplicate canonical authorities permitted
+
+**Full Declaration:** See `CANON_SOVEREIGNTY.md` for complete sovereignty rules.
+
+**Status:** ✅ ENFORCED by canon-verifier
+
+---
+
 ## 📋 Quick Reference - What You Need
 
 ### Essential Files (In Priority Order)

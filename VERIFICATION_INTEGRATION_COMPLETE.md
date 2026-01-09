@@ -18,6 +18,8 @@ Both systems are now operational and work together to provide comprehensive veri
 
 **✅ RE-VERIFIED 2026-01-09:** All components tested and confirmed working. TRAE execution guide and preflight check added for production deployment.
 
+**🔒 CANON SOVEREIGNTY:** canon-verifier enforces both execution truth and Canon Sovereignty constraints. See `CANON_SOVEREIGNTY.md` for complete framework.
+
 ---
 
 ## System Architecture
