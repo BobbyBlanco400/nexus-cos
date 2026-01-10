@@ -44,7 +44,7 @@ See `CANONICAL_TENANT_REGISTRY.md` for complete tenant architecture and governan
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| N3XUS STREAM | `https://n3xuscos.online/nexus-stream` | Primary Frontend |
+| N3XSTR3AM | `https://n3xuscos.online/nexus-stream` | Primary Frontend |
 | N3XUS OTT | `https://n3xuscos.online/nexus-ott` | Over-the-Top Service |
 | NexusNet | `https://n3xuscos.online/nexusnet` | Network Hub |
 | Nexus Link | `https://n3xuscos.online/nexus-link` | Integration Gateway |

@@ -202,7 +202,7 @@ Interactive `nexus-control` CLI with 8 commands:
 ## Production URLs
 
 **Main Platform:**
-- N3XUS STREAM: https://n3xuscos.online
+- N3XSTR3AM: https://n3xuscos.online
 - Casino-Nexus Lounge: https://n3xuscos.online/puaboverse
 - Wallet: https://n3xuscos.online/wallet
 - Gateway API: https://n3xuscos.online/api

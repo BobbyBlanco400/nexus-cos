@@ -164,8 +164,8 @@ All Phase 1 modules are operational with full stack architecture compliance:
 43. ✅ **puaboverse-v2** - PUABOverse v2
 44. ✅ **puabomusicchain** - MusicChain service
 45. ✅ **glitch** - Glitch service
-46. ✅ **nexus-stream** - N3XUS STREAM service
-47. ✅ **ott-mini** - N3XUS OTT Mini service
+46. ✅ **nexus-stream** - N3XSTR3AM service
+47. ✅ **ott-mini** - N3XOTT-mini service
 48. ✅ **pmmg-music** - PMMG Music service
 49. ✅ **admin-dashboard** - Admin dashboard service
 50. ✅ **v-stage** - Virtual stage service (Port: 8088)
@@ -272,8 +272,8 @@ All Phase 1 modules are operational with full stack architecture compliance:
 
 ## 🌐 Specialized Systems & Verticles
 
-### N3XUS STREAM ✅
-**Type:** Streaming verticle  
+### N3XSTR3AM ✅
+**Type:** Streaming runtime  
 **Status:** Operational  
 **Service:** `nexus-stream`  
 **Capabilities:**
@@ -282,13 +282,13 @@ All Phase 1 modules are operational with full stack architecture compliance:
 - Multi-bitrate adaptive streaming
 - HLS/DASH formats
 
-### N3XUS OTT Mini ✅
-**Type:** OTT distribution verticle  
+### N3XOTT-mini ✅
+**Type:** OTT distribution runtime  
 **Status:** Operational  
 **Service:** `ott-mini`  
 **Capabilities:**
 - Lightweight OTT platform
-- Content delivery
+- IMVU delivery
 - DRM protection
 - CDN integration
 
@@ -498,8 +498,8 @@ The Creator Hub serves as the canonical reference implementation for all other m
 - ✅ Live Event Feedback Loop
 
 **Specialized Systems:** All operational ✅
-- ✅ N3XUS STREAM
-- ✅ N3XUS OTT Mini
+- ✅ N3XSTR3AM
+- ✅ N3XOTT-mini
 - ✅ PMMG Music
 - ✅ Admin Dashboard
 - ✅ V-Suite (complete)

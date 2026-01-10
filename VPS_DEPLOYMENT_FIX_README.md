@@ -232,7 +232,7 @@ nexus-control monitor
 
 After deployment, test these URLs:
 
-- **N3XUS STREAM**: https://n3xuscos.online
+- **N3XSTR3AM**: https://n3xuscos.online
 - **Casino-Nexus Lounge**: https://n3xuscos.online/puaboverse
 - **Wallet**: https://n3xuscos.online/wallet
 - **API Gateway**: https://n3xuscos.online/api
