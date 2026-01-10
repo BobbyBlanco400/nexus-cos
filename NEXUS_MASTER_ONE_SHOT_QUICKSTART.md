@@ -15,7 +15,7 @@ ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco40
 ## ✨ What Gets Deployed
 
 ### Core Platform (12 Services)
-- **N3XUS STREAM** - Front-facing platform entrypoint (port 3000)
+- **N3XSTR3AM** - Front-facing platform entrypoint (port 3000)
 - **Gateway API** - PUABO API Gateway (port 4000)
 - **Casino-Nexus Lounge** - 9-Card interface (port 3060)
 - **Casino-Nexus Core** - Gaming backend (port 9503)
@@ -89,7 +89,7 @@ nexus-control deploy
 
 After deployment, access your platform at:
 
-- **N3XUS STREAM**: https://n3xuscos.online
+- **N3XSTR3AM**: https://n3xuscos.online
 - **Casino-Nexus Lounge**: https://n3xuscos.online/puaboverse
 - **Wallet**: https://n3xuscos.online/wallet
 - **Live Streaming**: https://n3xuscos.online/live

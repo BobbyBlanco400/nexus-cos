@@ -6,7 +6,7 @@ Complete URL mapping for all 12 platform tenants on Hostinger VPS (n3xuscos.onli
 
 | Tenant | Port | URL | Status |
 |--------|------|-----|--------|
-| **N3XUS STREAM** | 3000 | https://n3xuscos.online | ✅ Primary entrypoint |
+| **N3XSTR3AM** | 3000 | https://n3xuscos.online | ✅ Primary entrypoint |
 | **Casino-Nexus Lounge** | 3060 | https://n3xuscos.online/puaboverse | ✅ 9 Cards interface |
 | **Casino-Nexus Core** | 9503 | Internal only | ✅ Backend service |
 | **PUABO API Gateway** | 4000 | https://n3xuscos.online/api | ✅ API endpoint |
@@ -23,7 +23,7 @@ Complete URL mapping for all 12 platform tenants on Hostinger VPS (n3xuscos.onli
 
 | Tenant | Local URL |
 |--------|-----------|
-| N3XUS STREAM | http://localhost:3000 |
+| N3XSTR3AM | http://localhost:3000 |
 | Casino-Nexus Lounge | http://localhost:3060/puaboverse |
 | PUABO API Gateway | http://localhost:4000 |
 | Streaming Service | http://localhost:3070 |
@@ -33,7 +33,7 @@ Complete URL mapping for all 12 platform tenants on Hostinger VPS (n3xuscos.onli
 ## Nginx Reverse Proxy Routes
 
 ```nginx
-# N3XUS STREAM (Frontend Entrypoint)
+# N3XSTR3AM (Frontend Entrypoint)
 location / {
     proxy_pass http://localhost:3000;
 }
@@ -94,7 +94,7 @@ The Casino-Nexus Lounge (https://n3xuscos.online/puaboverse) provides access thr
 
 | Service | Health Check URL | Expected Response |
 |---------|------------------|-------------------|
-| N3XUS STREAM | http://localhost:3000/ | 200 OK |
+| N3XSTR3AM | http://localhost:3000/ | 200 OK |
 | Casino-Nexus Lounge | http://localhost:3060/puaboverse | 200 OK |
 | PUABO API | http://localhost:4000/health | 200 OK |
 | Streaming | http://localhost:3070/health | 200 OK |
@@ -102,7 +102,7 @@ The Casino-Nexus Lounge (https://n3xuscos.online/puaboverse) provides access thr
 
 ## Security Notes
 
-- **Public Access**: N3XUS STREAM, Casino Lounge, API Gateway, Streaming, Wallet
+- **Public Access**: N3XSTR3AM, Casino Lounge, API Gateway, Streaming, Wallet
 - **Internal Only**: PUABO AI SDK, PV Keys, Auth Service, Admin Portal, Databases
 - **Authentication Required**: All casino and wallet operations
 - **NexCoin Gating**: Enforced on all casino entry points

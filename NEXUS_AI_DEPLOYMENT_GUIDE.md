@@ -36,7 +36,7 @@ Replace `YOUR_VPS_IP` with your actual VPS IP address (e.g., `root@45.76.123.45`
 
 After deployment, access your platform at:
 
-- **N3XUS STREAM**: https://n3xuscos.online
+- **N3XSTR3AM**: https://n3xuscos.online
 - **Casino-Nexus Lounge**: https://n3xuscos.online/puaboverse (9 Cards)
 - **Wallet**: https://n3xuscos.online/wallet
 - **Live Streaming**: https://n3xuscos.online/live
@@ -167,7 +167,7 @@ Multi-stream management supporting HLS, DASH, and WebRTC protocols
 5G Hybrid connectivity layer for ultra-low latency
 
 ### Nexus-Handshake 55-45-17
-- **55%** - Core platform stability (N3XUS STREAM, Gateway, DB, Redis)
+- **55%** - Core platform stability (N3XSTR3AM, Gateway, DB, Redis)
 - **45%** - Feature layer integrity (Casino-Nexus, Streaming, Tenants)
 - **17** - Minimum critical microservices
 
