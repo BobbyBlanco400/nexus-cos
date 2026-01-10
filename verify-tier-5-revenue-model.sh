@@ -60,22 +60,25 @@ if command -v psql &> /dev/null; then
     echo ""
     echo -e "${RED}Checking database records...${NC}"
     
+    # Note: Database authentication should use .pgpass file or other secure method
+    # Set PGPASSFILE environment variable to point to your .pgpass file
     DB_HOST="${DB_HOST:-localhost}"
     DB_USER="${DB_USER:-postgres}"
     DB_NAME="${DB_NAME:-nexuscos}"
     
     # Check if table exists
-    TABLE_EXISTS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'permanent_residents');" 2>/dev/null || echo "false")
+    # Security: psql will use .pgpass file or trust authentication - no password in process list
+    TABLE_EXISTS=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'permanent_residents');" 2>/dev/null || echo "false")
     
     if [ "$TABLE_EXISTS" = "t" ]; then
         # Check for any invalid revenue splits
-        INVALID_SPLITS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE tenant_share != 0.80 OR platform_share != 0.20 OR revenue_split_locked != true;" 2>/dev/null || echo "0")
+        INVALID_SPLITS=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE tenant_share != 0.80 OR platform_share != 0.20 OR revenue_split_locked != true;" 2>/dev/null || echo "0")
         
         if [ "$INVALID_SPLITS" -eq "0" ]; then
             echo -e "${GREEN}✅ All Tier 5 residents have locked 80/20 split${NC}"
             
             # Show count of residents with valid splits
-            VALID_COUNT=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE status='active';" 2>/dev/null || echo "0")
+            VALID_COUNT=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE status='active';" 2>/dev/null || echo "0")
             echo -e "   Valid residents: ${GREEN}$VALID_COUNT${NC}"
         else
             echo -e "${RED}❌ VIOLATION: $INVALID_SPLITS residents have invalid revenue split${NC}"

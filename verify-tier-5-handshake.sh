@@ -18,6 +18,9 @@ API_BASE_URL="${API_BASE_URL:-http://localhost:3000}"
 TIER_5_ENDPOINT="/api/v1/tiers/tier-5/status"
 REQUIRED_HANDSHAKE="55-45-17"
 
+# Note: For production, use HTTPS endpoints with proper SSL/TLS certificate validation
+# Example: API_BASE_URL="https://api.n3xuscos.online" with --cacert /path/to/ca-cert.pem
+
 echo -e "${RED}Testing Tier 5 handshake enforcement...${NC}"
 echo -e "   API endpoint: ${YELLOW}${API_BASE_URL}${TIER_5_ENDPOINT}${NC}"
 echo -e "   Required handshake: ${RED}${REQUIRED_HANDSHAKE}${NC}"

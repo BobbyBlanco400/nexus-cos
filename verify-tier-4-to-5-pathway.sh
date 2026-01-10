@@ -72,22 +72,25 @@ if command -v psql &> /dev/null; then
     echo ""
     echo -e "${RED}Checking database records...${NC}"
     
+    # Note: Database authentication should use .pgpass file or other secure method
+    # Set PGPASSFILE environment variable to point to your .pgpass file
     DB_HOST="${DB_HOST:-localhost}"
     DB_USER="${DB_USER:-postgres}"
     DB_NAME="${DB_NAME:-nexuscos}"
     
     # Check if table exists
-    TABLE_EXISTS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'permanent_residents');" 2>/dev/null || echo "false")
+    # Security: psql will use .pgpass file or trust authentication - no password in process list
+    TABLE_EXISTS=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'permanent_residents');" 2>/dev/null || echo "false")
     
     if [ "$TABLE_EXISTS" = "t" ]; then
         # Check all Tier 5 residents came from Tier 4
-        INVALID_PROMOTIONS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE promoted_from_tier != 'tier_4_digi_renter';" 2>/dev/null || echo "0")
+        INVALID_PROMOTIONS=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE promoted_from_tier != 'tier_4_digi_renter';" 2>/dev/null || echo "0")
         
         if [ "$INVALID_PROMOTIONS" -eq "0" ]; then
             echo -e "${GREEN}✅ All Tier 5 promotions from valid source (Tier 4)${NC}"
             
             # Show promotion statistics
-            TOTAL_PROMOTIONS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE status='active';" 2>/dev/null || echo "0")
+            TOTAL_PROMOTIONS=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE status='active';" 2>/dev/null || echo "0")
             echo -e "   Total valid promotions: ${GREEN}$TOTAL_PROMOTIONS${NC}"
         else
             echo -e "${RED}❌ VIOLATION: $INVALID_PROMOTIONS residents promoted from invalid tier${NC}"
@@ -97,7 +100,7 @@ if command -v psql &> /dev/null; then
         # Check for canon approval requirement
         echo ""
         echo -e "${RED}Verifying canon approval requirement...${NC}"
-        MISSING_APPROVAL=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE canon_approval_id IS NULL;" 2>/dev/null || echo "0")
+        MISSING_APPROVAL=$(psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -tAc "SELECT COUNT(*) FROM permanent_residents WHERE canon_approval_id IS NULL;" 2>/dev/null || echo "0")
         
         if [ "$MISSING_APPROVAL" -eq "0" ]; then
             echo -e "${GREEN}✅ All Tier 5 residents have canon approval${NC}"
