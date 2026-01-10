@@ -1,0 +1,93 @@
+{
+  "tier_5": {
+    "name": "Permanent Resident",
+    "status": "CONDITIONALLY_OPEN",
+    "gating": "CANON_GATED",
+    "handshake": "55-45-17",
+    "version": "1.0.0",
+    "effective_date": "2026-01-10",
+    "max_slots": 13,
+    "current_slots_filled": 0,
+    "description": "Tier 5 Permanent Residency is conditionally open and canon-gated. Access is only through promotion from Tier 4 (Digi-Renter–Micro Tenant) with Canon approval.",
+    "promotion": {
+      "source_tier": "tier_4_digi_renter",
+      "minimum_tenure_days": 90,
+      "performance_threshold": "high",
+      "canon_approval_required": true,
+      "no_violations_required": true,
+      "documentation": "All promotions must be approved by Canon authority and documented in audit log"
+    },
+    "economic_model": {
+      "tenant_share": 0.80,
+      "platform_share": 0.20,
+      "locked": true,
+      "modifiable": false,
+      "enforcement_level": "ledger",
+      "description": "80/20 revenue split is permanently locked and enforced at the ledger level"
+    },
+    "rights": {
+      "governance_voting": true,
+      "stewardship_authority": true,
+      "irrevocable_residency": true,
+      "transfer_allowed": false,
+      "downgrade_allowed": false,
+      "description": "Tier 5 residents have full governance rights and irrevocable residency status"
+    },
+    "restrictions": {
+      "direct_purchase": false,
+      "direct_application": false,
+      "bypass_mechanisms": false,
+      "slot_transfer": false,
+      "description": "No direct purchase, application, or bypass mechanisms are permitted"
+    },
+    "enforcement": {
+      "handshake_validation": true,
+      "database_constraints": true,
+      "api_gateway_validation": true,
+      "ledger_enforcement": true,
+      "audit_logging": true,
+      "description": "Multi-layer enforcement ensures compliance with Tier 5 canonical rules"
+    },
+    "slot_management": {
+      "initial_allocation": 13,
+      "expansion_policy": "core_canon_approval_required",
+      "slot_reclamation": "only_on_canon_breach",
+      "slot_assignment": "sequential",
+      "description": "13 slots initially allocated, expansion requires Core Canon approval"
+    },
+    "compliance": {
+      "governance_charter": "GOVERNANCE_CHARTER_55_45_17.md",
+      "canonical_definition": "CANONICAL_TIER_5_DEFINITION.md",
+      "execution_instructions": "TRAE_SOLO_TIER_5_EXECUTION_INSTRUCTIONS.md",
+      "verification_scripts": [
+        "verify-tier-5-slots.sh",
+        "verify-tier-5-revenue-model.sh",
+        "verify-tier-4-to-5-pathway.sh",
+        "verify-tier-5-handshake.sh"
+      ]
+    },
+    "audit": {
+      "retention_period_years": 7,
+      "required_log_fields": [
+        "timestamp",
+        "action",
+        "user_id",
+        "canon_authority_id",
+        "slot_number",
+        "handshake_verified",
+        "reason",
+        "metadata"
+      ],
+      "alert_on_violations": true
+    }
+  },
+  "metadata": {
+    "created_at": "2026-01-10T00:00:00Z",
+    "created_by": "Canon Authority",
+    "canonical_lock": true,
+    "version": "1.0.0",
+    "handshake": "55-45-17",
+    "authority": "Canonical",
+    "status": "SEALED"
+  }
+}
