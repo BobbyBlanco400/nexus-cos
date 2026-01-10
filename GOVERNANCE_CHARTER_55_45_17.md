@@ -532,12 +532,71 @@ Issues requiring escalation:
 
 ---
 
-## ⅩⅠ. DOCUMENT CONTROL
+## ⅩⅠ. TIER STRUCTURE & ECONOMIC CONSTITUTION
+
+### Tier 5 — Permanent Resident (Canonical Definition)
+
+**Status:** CONDITIONALLY OPEN | CANON-GATED  
+**Authority:** Canonical  
+**Handshake:** 55-45-17
+
+#### Canonical Reference
+
+The complete Tier 5 (Permanent Resident) definition is documented in:
+
+**📘 [CANONICAL_TIER_5_DEFINITION.md](./CANONICAL_TIER_5_DEFINITION.md)**
+
+**🔴 [TRAE_SOLO_TIER_5_EXECUTION_INSTRUCTIONS.md](./TRAE_SOLO_TIER_5_EXECUTION_INSTRUCTIONS.md)**
+
+**📋 [TIER_5_CANONICAL_UPDATE_QUICK_REFERENCE.md](./TIER_5_CANONICAL_UPDATE_QUICK_REFERENCE.md)**
+
+#### Key Parameters (LOCKED)
+
+| Parameter | Value | Status |
+|-----------|-------|--------|
+| Status | CONDITIONALLY OPEN \| CANON-GATED | SEALED |
+| Max Slots | 13 | LOCKED |
+| Promotion Source | Tier 4 (Digi-Renter) only | LOCKED |
+| Revenue Split | 80/20 (Tenant/Platform) | LOCKED |
+| Canon Approval | Required | LOCKED |
+| Direct Purchase | Disabled | LOCKED |
+| Direct Application | Disabled | LOCKED |
+| Governance Rights | Enabled | LOCKED |
+| Residency | Irrevocable | LOCKED |
+
+#### Verification Commands
+
+```bash
+# Run full Tier 5 verification suite
+./verify-tier-5-canonical.sh
+
+# Individual verifications
+./verify-tier-5-slots.sh              # Slot count (13 max)
+./verify-tier-5-revenue-model.sh      # 80/20 revenue split
+./verify-tier-4-to-5-pathway.sh       # Promotion pathway
+./verify-tier-5-handshake.sh          # Handshake enforcement
+```
+
+#### Compliance
+
+All Tier 5 operations must comply with:
+- ✅ Handshake 55-45-17 validation
+- ✅ Canon governance rules
+- ✅ 13-slot maximum constraint
+- ✅ 80/20 revenue split (locked)
+- ✅ Tier 4 → 5 promotion pathway only
+- ✅ Canon approval requirement
+
+**Non-compliance = deployment rejection**
+
+---
+
+## ⅩⅡ. DOCUMENT CONTROL
 
 **Document ID:** GOVERNANCE_CHARTER_55_45_17
-**Version:** 3.1
+**Version:** 3.2
 **Status:** ACTIVE & BINDING
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-01-10
 **Next Review:** Public Alpha Launch
 **Authority:** Executive Directive
 
@@ -545,6 +604,7 @@ Issues requiring escalation:
 
 | Version | Date | Changes | Approved By |
 |---------|------|---------|-------------|
+| 3.2 | 2026-01-10 | Added Article XI: Tier 5 Canonical Definition | Canon Executive |
 | 3.1 | 2026-01-08 | Added Article VIII: Red Highlighting Protocol | Executive |
 | 3.0 | 2026-01-02 | Initial governance charter for TRAE | Executive |
 | 2.0 | 2025-12-25 | Updated tenant registry (Tenant #2) | Executive |
@@ -558,6 +618,7 @@ This charter is distributed to:
 - ✅ Deployment automation
 - ✅ Executive stakeholders
 - ✅ Compliance auditors
+- ✅ Canon authority
 
 ---
 
