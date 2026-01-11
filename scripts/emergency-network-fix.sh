@@ -14,8 +14,19 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Detect docker compose command (v1 or v2)
+if command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
+elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
+    DOCKER_COMPOSE="docker compose"
+else
+    echo -e "${RED}❌ ERROR: Neither 'docker-compose' nor 'docker compose' command found${NC}"
+    exit 1
+fi
+
 echo -e "${BLUE}🔵 Starting Emergency Network Repair...${NC}"
 echo -e "${BLUE}🔒 Enforcing N3XUS Handshake 55-45-17...${NC}"
+echo -e "${BLUE}   Using: $DOCKER_COMPOSE${NC}"
 
 # Verify N3XUS Handshake 55-45-17 in configuration files
 verify_handshake() {
@@ -36,7 +47,7 @@ verify_handshake "server.js" || echo -e "${YELLOW}⚠️  Warning: Handshake che
 
 # Stop and remove all existing containers
 echo -e "${BLUE}🛑 Stopping all existing containers...${NC}"
-docker-compose down --remove-orphans 2>/dev/null || true
+$DOCKER_COMPOSE down --remove-orphans 2>/dev/null || true
 
 # Remove dangling images
 echo -e "${BLUE}🧹 Cleaning up dangling images...${NC}"
@@ -44,7 +55,7 @@ docker image prune -f 2>/dev/null || true
 
 # Build and start services with N3XUS Handshake enforcement
 echo -e "${BLUE}🚀 Building and starting services with N3XUS Handshake 55-45-17...${NC}"
-docker-compose up --build -d
+$DOCKER_COMPOSE up --build -d
 
 # Wait for services to initialize
 echo -e "${BLUE}⏳ Waiting for services to stabilize (30s)...${NC}"
@@ -104,7 +115,7 @@ fi
 
 # Display running containers
 echo -e "${BLUE}📦 Running Containers:${NC}"
-docker-compose ps
+$DOCKER_COMPOSE ps
 
 # Final verification summary
 echo -e ""
