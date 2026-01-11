@@ -863,7 +863,8 @@ This section details the path to **100% functionality** for all partially implem
 
 **Quick Deploy:**
 ```bash
-cd /opt/nexus-cos && sudo ./DEPLOY_PHASE_2.5.sh
+# From repository root (adjust path if installed elsewhere)
+sudo ./DEPLOY_PHASE_2.5.sh
 ```
 
 ---

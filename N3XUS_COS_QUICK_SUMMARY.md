@@ -213,7 +213,7 @@
 
 ## Documentation
 
-📄 **Full Synopsis:** See `N3XUS_COS_COMPLETE_SYSTEM_SYNOPSIS.md` (1,050+ lines)
+📄 **Full Synopsis:** See `N3XUS_COS_COMPLETE_SYSTEM_SYNOPSIS.md` (950+ lines)
 
 **Covers:**
 - Complete PR history analysis
