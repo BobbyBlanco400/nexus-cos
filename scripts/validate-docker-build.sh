@@ -2,6 +2,9 @@
 
 # Docker Build Validation Script
 # This script validates the Docker build process and helps diagnose issues
+#
+# NOTE: Ensure this script has executable permissions:
+#   chmod +x scripts/validate-docker-build.sh
 
 set -e
 
@@ -91,6 +94,11 @@ if ! docker info &> /dev/null; then
 fi
 print_success "Docker daemon is running"
 
+# Check curl availability
+if ! command -v curl &> /dev/null; then
+    print_warning "curl is not installed (required for testing health endpoint)"
+fi
+
 echo ""
 
 # Step 4: Build the Docker image
@@ -159,10 +167,14 @@ if [ "$CONTAINER_STATUS" = "running" ]; then
     # Test health endpoint (might fail if DB is not available, but that's okay)
     echo ""
     echo "Testing health endpoint..."
-    if curl -f http://localhost:3001/health 2>/dev/null; then
-        print_success "Health endpoint responding"
+    if command -v curl &> /dev/null; then
+        if curl -f http://localhost:3001/health 2>/dev/null; then
+            print_success "Health endpoint responding"
+        else
+            print_warning "Health endpoint not responding (expected if database is not available)"
+        fi
     else
-        print_warning "Health endpoint not responding (expected if database is not available)"
+        print_warning "curl not available, skipping health endpoint test"
     fi
 elif [ "$CONTAINER_STATUS" = "exited" ]; then
     # Check exit code
