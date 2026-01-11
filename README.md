@@ -26,6 +26,10 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 **📘 MASTER BLUEPRINT:** [NEXUS_COS_HOLOSNAP_MASTER_BLUEPRINT.md](./NEXUS_COS_HOLOSNAP_MASTER_BLUEPRINT.md) - Complete system documentation covering N3XUS COS + HoloSnap hardware, NexCoin economy, governance, and launch strategy.
 
+**📊 COMPLETE SYSTEM SYNOPSIS:** [N3XUS_COS_COMPLETE_SYSTEM_SYNOPSIS.md](./N3XUS_COS_COMPLETE_SYSTEM_SYNOPSIS.md) - Comprehensive analysis of ALL solutions, systems, services, layers, engines, modules, and micro-services (1,500+ lines covering 20+ PRs).
+
+**⚡ QUICK SUMMARY:** [N3XUS_COS_QUICK_SUMMARY.md](./N3XUS_COS_QUICK_SUMMARY.md) - Fast reference guide with key metrics, status, and achievements.
+
 ---
 
 ## 🔒 **Phase-2 SEALED — Production Ready**
