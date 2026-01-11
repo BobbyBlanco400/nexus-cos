@@ -3,23 +3,41 @@
 
 LEDGER_DB="puabo-ledger-db"
 OUTPUT_FILE="/var/www/nexus-cos/snapshots/billing_snapshot.json"
+LOCK_FILE="/var/www/nexus-cos/snapshots/billing_snapshot.lock"
+
+# Prevent concurrent execution
+if ! mkdir "$LOCK_FILE" 2>/dev/null; then
+    echo "Another instance is already running. Exiting."
+    exit 1
+fi
+
+# Ensure lock is released on exit
+trap "rmdir '$LOCK_FILE' 2>/dev/null" EXIT
 
 mkdir -p $(dirname "$OUTPUT_FILE")
-echo "[" > $OUTPUT_FILE
 
-docker exec $LEDGER_DB psql -U ledger_user -d ledger_db -c "\copy (SELECT uid, subscription_plan, status, split_profile, role FROM subscriptions) TO STDOUT WITH CSV HEADER" \
-  | while IFS=, read -r uid plan status split role; do
-    echo "  {" >> $OUTPUT_FILE
-    echo "    \"uid\": \"$uid\"," >> $OUTPUT_FILE
-    echo "    \"billing_state\": \"$status\"," >> $OUTPUT_FILE
-    echo "    \"plan\": \"$plan\"," >> $OUTPUT_FILE
-    echo "    \"split\": \"$split\"," >> $OUTPUT_FILE
-    echo "    \"role\": \"$role\"," >> $OUTPUT_FILE
-    echo "    \"last_verified\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"" >> $OUTPUT_FILE
-    echo "  }," >> $OUTPUT_FILE
-done
+# Use PostgreSQL's JSON output directly for robust handling
+TEMP_FILE="${OUTPUT_FILE}.tmp"
+docker exec $LEDGER_DB psql -U ledger_user -d ledger_db -t -c "
+  SELECT json_agg(row_to_json(t))
+  FROM (
+    SELECT 
+      uid,
+      status as billing_state,
+      subscription_plan as plan,
+      split_profile as split,
+      role,
+      '$(date -u +%Y-%m-%dT%H:%M:%SZ)' as last_verified
+    FROM subscriptions
+  ) t
+" > "$TEMP_FILE"
 
-sed -i '$ s/,$//' $OUTPUT_FILE
-echo "]" >> $OUTPUT_FILE
+# Handle empty result set
+if [ ! -s "$TEMP_FILE" ] || grep -q "^$" "$TEMP_FILE"; then
+    echo "[]" > "$TEMP_FILE"
+fi
+
+# Atomic move
+mv "$TEMP_FILE" "$OUTPUT_FILE"
 
 echo "Billing snapshot generated at $OUTPUT_FILE"
