@@ -3,6 +3,27 @@ networks:
     driver: bridge
 
 services:
+  # PostgreSQL Database - Required for API
+  postgres:
+    image: postgres:15-alpine
+    container_name: nexus-postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-nexus_db}
+      POSTGRES_USER: ${DATABASE_USER:-nexus_user}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-nexus_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-nexus_user} -d ${DATABASE_NAME:-nexus_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - cos-net
+
   # Nginx Gateway (Docker Mode)
   nginx:
     image: nginx:alpine
@@ -18,7 +39,8 @@ services:
       # Streaming Frontend
       - ./modules/puabo-ott-tv-streaming/frontend/public:/usr/share/nginx/html/streaming:ro
     depends_on:
-      - api
+      api:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - cos-net
@@ -34,11 +56,33 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      # Database variables with both DB_ and DATABASE_ prefixes
+      # DB_* is used by server.js, DATABASE_* is used by docker-compose variable substitution
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DATABASE_NAME:-nexus_db}
+      DB_USER: ${DATABASE_USER:-nexus_user}
+      DB_PASSWORD: ${DATABASE_PASSWORD:-nexus_pass}
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-nexus_db}
+      DATABASE_USER: ${DATABASE_USER:-nexus_user}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-nexus_pass}
     ports:
       - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - cos-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   nginx_logs:
+  postgres_data:
