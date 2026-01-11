@@ -1,0 +1,11 @@
+{
+  "collection": "n3xus_billing_snapshot",
+  "fields": {
+    "uid": "string",
+    "billing_state": "string",
+    "plan": "string",
+    "split": "string",
+    "role": "string",
+    "last_verified": "iso_timestamp"
+  }
+}
