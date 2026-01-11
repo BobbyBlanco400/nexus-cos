@@ -7,6 +7,10 @@
 
 set -e
 
+# Configuration
+DEFAULT_DB_USER="nexus_user"
+DEFAULT_DB_NAME="nexus_db"
+
 # Color codes for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -15,10 +19,10 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Detect docker compose command (v1 or v2)
-if command -v docker-compose &> /dev/null; then
-    DOCKER_COMPOSE="docker-compose"
-elif command -v docker &> /dev/null && docker compose version &> /dev/null; then
+if command -v docker &> /dev/null && docker compose version &> /dev/null; then
     DOCKER_COMPOSE="docker compose"
+elif command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
 else
     echo -e "${RED}❌ ERROR: Neither 'docker-compose' nor 'docker compose' command found${NC}"
     exit 1
@@ -36,6 +40,22 @@ verify_handshake() {
         return 0
     else
         echo -e "${RED}✗ N3XUS Handshake 55-45-17 missing in $file${NC}"
+        return 1
+    fi
+}
+
+# Verify N3XUS Handshake in HTTP response headers
+verify_handshake_header() {
+    local url=$1
+    local service_name=$2
+    
+    local HANDSHAKE=$(curl -sf -I "$url" | grep -i "X-Nexus-Handshake" | grep -i "55-45-17" || echo "")
+    if [ -n "$HANDSHAKE" ]; then
+        echo -e "${GREEN}✅ N3XUS Handshake 55-45-17 VERIFIED in $service_name Response${NC}"
+        echo -e "${GREEN}   Header: $HANDSHAKE${NC}"
+        return 0
+    else
+        echo -e "${YELLOW}⚠️  N3XUS Handshake 55-45-17 not found in $service_name response headers${NC}"
         return 1
     fi
 }
@@ -67,13 +87,7 @@ if curl -sf http://localhost:3000/health > /dev/null 2>&1; then
     echo -e "${GREEN}✅ BACKEND OPERATIONAL on Port 3000${NC}"
     
     # Verify N3XUS Handshake in response
-    HANDSHAKE=$(curl -sf -I http://localhost:3000/health | grep -i "X-Nexus-Handshake" | grep -i "55-45-17" || echo "")
-    if [ -n "$HANDSHAKE" ]; then
-        echo -e "${GREEN}✅ N3XUS Handshake 55-45-17 VERIFIED in API Response${NC}"
-        echo -e "${GREEN}   Header: $HANDSHAKE${NC}"
-    else
-        echo -e "${YELLOW}⚠️  N3XUS Handshake 55-45-17 not found in API response headers${NC}"
-    fi
+    verify_handshake_header "http://localhost:3000/health" "API"
     
     # Get backend health data
     echo -e "${BLUE}📊 Backend Health:${NC}"
@@ -90,13 +104,7 @@ if curl -sf http://localhost:80/health > /dev/null 2>&1; then
     echo -e "${GREEN}✅ NGINX PROXY OPERATIONAL${NC}"
     
     # Verify N3XUS Handshake in Nginx response
-    HANDSHAKE=$(curl -sf -I http://localhost:80/health | grep -i "X-Nexus-Handshake" | grep -i "55-45-17" || echo "")
-    if [ -n "$HANDSHAKE" ]; then
-        echo -e "${GREEN}✅ N3XUS Handshake 55-45-17 VERIFIED in Nginx Response${NC}"
-        echo -e "${GREEN}   Header: $HANDSHAKE${NC}"
-    else
-        echo -e "${YELLOW}⚠️  N3XUS Handshake 55-45-17 not found in Nginx response headers${NC}"
-    fi
+    verify_handshake_header "http://localhost:80/health" "Nginx"
 else
     echo -e "${RED}❌ NGINX PROXY FAILED${NC}"
     echo -e "${RED}📜 Nginx Logs (CRITICAL):${NC}"
@@ -105,7 +113,7 @@ fi
 
 # Verify Database Connectivity
 echo -e "${BLUE}🔍 Verifying Database Connection...${NC}"
-if docker exec nexus-postgres pg_isready -U ${DATABASE_USER:-nexus_user} -d ${DATABASE_NAME:-nexus_db} > /dev/null 2>&1; then
+if docker exec nexus-postgres pg_isready -U ${DATABASE_USER:-$DEFAULT_DB_USER} -d ${DATABASE_NAME:-$DEFAULT_DB_NAME} > /dev/null 2>&1; then
     echo -e "${GREEN}✅ DATABASE OPERATIONAL${NC}"
 else
     echo -e "${RED}❌ DATABASE CONNECTION FAILED${NC}"
@@ -133,7 +141,7 @@ fi
 if ! curl -sf http://localhost:80/health > /dev/null 2>&1; then
     ALL_HEALTHY=false
 fi
-if ! docker exec nexus-postgres pg_isready -U ${DATABASE_USER:-nexus_user} -d ${DATABASE_NAME:-nexus_db} > /dev/null 2>&1; then
+if ! docker exec nexus-postgres pg_isready -U ${DATABASE_USER:-$DEFAULT_DB_USER} -d ${DATABASE_NAME:-$DEFAULT_DB_NAME} > /dev/null 2>&1; then
     ALL_HEALTHY=false
 fi
 
