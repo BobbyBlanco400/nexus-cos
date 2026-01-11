@@ -1,17 +1,35 @@
+# Dependencies - these are installed during build
 node_modules
 npm-debug.log
+
+# Git files - not needed in image
 .git
 .gitignore
-README.md
+
+# Documentation - not needed for runtime
+# Note: README.md is excluded, but package.json and server.js MUST be included
+
+# Environment files - set via docker-compose
 .env
 .env.local
 .env.*.local
+
+# Build artifacts
 dist
 coverage
+
+# Logs
 *.log
+
+# OS files
 .DS_Store
+
+# IDE files
 .vscode
 .idea
 *.swp
 *.swo
 *~
+
+# IMPORTANT: Do NOT add package.json or server.js to this file
+# These files are required for the Docker build to work
