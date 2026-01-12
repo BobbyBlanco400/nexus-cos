@@ -2,7 +2,7 @@
 
 ## Overview
 
-The UI/UX System provides comprehensive interface designs for The Cypher Dome™, including arena HUD, battler profiles, crowd interface, belt displays, and spectator views. All interfaces designed for both desktop and immersive N3XUSVISION modes.
+The UI/UX System provides comprehensive interface designs for N3X-UP: The Cypher Dome™, including arena HUD, battler profiles, crowd interface, belt displays, and spectator views. All interfaces designed for both desktop and immersive N3XUSVISION modes.
 
 ## Arena HUD
 

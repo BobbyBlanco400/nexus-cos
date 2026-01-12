@@ -4,6 +4,8 @@
 
 The Battle Belt system represents championship status through dynamic, evolving NFTs that track defense history, legendary moments, and champion economics. Belts are non-transferable while active and become collectible upon retirement.
 
+**NEW**: Belt mechanics now integrate with the **Layered Progression System**, reading from Rank, Momentum, and Monetization layers to determine eligibility and economics.
+
 ## Belt Types
 
 ### Regional Belts
@@ -158,6 +160,38 @@ Belts evolve visually based on defenses:
 - Community engagement
 - Uphold champion conduct standards
 
+### Layer Integration
+
+**Belt mechanics read from Progression Layers:**
+
+#### Rank Layer → Belt Eligibility
+- Must be Champion tier (Level 5)
+- Tier requirements include layer minimums:
+  - Skill Layer: 80+
+  - Momentum Layer: 75+
+  - Narrative Layer: 70+
+  - Monetization Layer: 70+
+
+#### Momentum Layer → Defense Tracking
+- Win streaks affect defense bonuses
+- Comeback factor influences championship economics
+- Rivalry outcomes feed narrative arcs
+
+#### Monetization Layer → Belt Economics
+- Defense bonuses update Monetization Layer
+- Echo royalty rates reflect belt holder status
+- Sponsorship eligibility driven by Monetization Layer score
+
+**Belt Impact on Layers:**
+```
+[Belt Won] 
+     │
+     ├─> Rank Layer: Tier = Champion
+     ├─> Momentum Layer: +10 momentum boost
+     ├─> Narrative Layer: New championship arc
+     └─> Monetization Layer: Activates belt economics
+```
+
 ### Upon Retirement
 
 **Belt NFT Transformation**
@@ -295,7 +329,7 @@ All belt history permanently stored on Neon Vault:
 - Every legendary moment
 - Complete lineage
 
-This creates an immutable championship record spanning the entire history of The Cypher Dome™.
+This creates an immutable championship record spanning the entire history of N3X-UP: The Cypher Dome™.
 
 ---
 

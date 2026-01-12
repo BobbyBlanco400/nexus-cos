@@ -2,7 +2,51 @@
 
 ## Overview
 
-The Battlers System manages battler profiles, statistics, tier progression, and identity within The Cypher Dome™. It tracks performance history, style preferences, rivalry threads, and progression through the ranking tiers.
+The Battlers System manages battler profiles, statistics, tier progression, and identity within N3X-UP: The Cypher Dome™. It tracks performance history, style preferences, rivalry threads, and progression through the ranking tiers.
+
+**NEW in Phase 3**: Multi-dimensional **Layered Progression System** - Battlers evolve across 5 interconnected layers that update simultaneously with each battle.
+
+## Layered Progression System
+
+### Overview: Multi-Dimensional Evolution
+
+**"You don't just rank up… you level up across 5 layers."**
+
+N3X-UP battlers progress through a comprehensive **5-layer system** where each battle updates all dimensions simultaneously:
+
+```
+┌─────────────────────────────────────┐
+│   MONETIZATION LAYER (Top)          │ ← Echoes™, Sponsorships, Belt Rewards
+├─────────────────────────────────────┤
+│   RANK LAYER                         │ ← Tier Progression, Champion Status
+├─────────────────────────────────────┤
+│   NARRATIVE LAYER                    │ ← Rivalries, Era Conflicts, Story Arcs
+├─────────────────────────────────────┤
+│   MOMENTUM LAYER                     │ ← Streaks, Style Wins, Crowd Reaction
+├─────────────────────────────────────┤
+│   SKILL LAYER (Base)                 │ ← Punchlines, Schemes, Cadence, Freestyle
+└─────────────────────────────────────┘
+```
+
+### How Layers Work
+
+**Simultaneous Updates**: Every battle outcome updates all 5 layers at once
+- **Skill Layer** tracks technical mastery
+- **Momentum Layer** tracks win streaks and rivalries
+- **Narrative Layer** tracks story arcs and era conflicts
+- **Rank Layer** tracks visible tier progression
+- **Monetization Layer** tracks economic benefits
+
+**Cross-Layer Synergies**: Layers amplify each other
+- High skill + win streak = faster tier acceleration
+- Active rivalry + echoes sales = increased royalty rates
+- Narrative impact + momentum = belt economics boost
+
+**Persistent Evolution**: All layer data stored immutably in Neon Vault
+
+See [progression-layers.json](./progression-layers.json) for complete configuration.
+
+---
 
 ## Tier System
 
@@ -59,7 +103,91 @@ Legacy (Retired Champion)
 - Belt becomes collectible NFT
 - Lifetime royalties on Echoes™
 
-## Battler Profile Structure
+---
+
+## Layer Details
+
+### Layer 1: Skill Layer (Base)
+**Purpose**: Technical mastery of battle rap fundamentals  
+**Weight in Rank**: 35%
+
+**Components**:
+- **Bars Quality**: Punchline impact, wordplay, metaphor density
+- **Style Mastery**: Proficiency across punchline, scheme, performance, angle, freestyle
+- **Multisyllabics**: Rhyme pattern complexity, flow variation
+- **Freestyle Precision**: Improvisation quality, rebuttal speed
+- **Scheme Complexity**: Internal rhymes, multi-layered wordplay
+
+**Feeds Into**: Judging scores, Rank Layer progression
+
+### Layer 2: Momentum Layer
+**Purpose**: Win streaks, rivalry outcomes, cross-region success  
+**Weight in Rank**: 20%
+
+**Components**:
+- **Win Streaks**: Current and longest streaks with bonus multipliers
+- **Rivalry Outcomes**: Head-to-head records, rivalry intensity
+- **Cross-Region Success**: Regional win rates, global ranking
+- **Crowd Reaction Trend**: Recent crowd scores and trend direction
+- **Comeback Factor**: Clutch performance, rounds won when behind
+
+**Feeds Into**: Tier acceleration, Narrative Layer triggers
+
+**Note**: Momentum decays 5% per 30 days of inactivity
+
+### Layer 3: Narrative Layer
+**Purpose**: Era conflicts, rivalries, storylines, serialized arcs  
+**Weight in Rank**: 15%
+
+**Components**:
+- **Era Conflict Participation**: Pen vs Performance, Freestyle vs Written, Underground vs Algorithm, Legacy vs New Blood
+- **Rivalries**: Active rivalries with tier classification (emerging/heated/legendary)
+- **Storyline Threads**: Current arcs, completion rates, narrative milestones
+- **Serialized IMVU-L Arcs**: Season participation, protagonist/antagonist roles
+- **Legacy Building**: Memorable moments, killshot highlights, signature events
+
+**Feeds Into**: Echoes™ value, Belt privileges, Content priority
+
+**Special**: Auto-generates story arcs based on battle outcomes
+
+### Layer 4: Rank Layer
+**Purpose**: Visible tier badges, battle privileges, progression gates  
+**Weight in Rank**: 100% (fed by other layers)
+
+**Components**:
+- **Tier Progression**: Current tier, level, progression percentage
+- **Visible Badges**: Tier badge, Genesis badge, achievement badges
+- **Battle Privileges**: Regional, cross-region, championship, belt challenges
+- **Tier Acceleration**: Multipliers from Momentum, Skill, and Narrative bonuses
+
+**Fed By**: Skill Layer (35%), Momentum Layer (20%), Narrative Layer (15%), Monetization Layer (10%)
+
+**Protection**: 30-day grace period prevents demotion
+
+### Layer 5: Monetization Layer (Top)
+**Purpose**: Echoes™ royalties, belt defenses, sponsorship points  
+**Weight in Rank**: 10%
+
+**Components**:
+- **Echoes™ Royalties**: Tier-based rates (65%-90%), Genesis bonus (+5%)
+- **Belt Defense Economics**: 5,000+ NexCoin per defense, passive income
+- **Sponsorship Points**: Eligibility at Ascendant+, tier-based opportunities
+- **Battle Pool Earnings**: Wagering participation, win bonuses
+- **Premium Content Sales**: Echoes sold, killshot highlights, revenue share
+
+**Feeds Into**: Rank Layer, Champion status qualification
+
+**Unlocks by Tier**:
+- Initiate: Basic Echoes™
+- Contender: Standard Echoes™
+- Challenger: Belt contention economics
+- Ascendant: Limited sponsorships
+- Champion: Full monetization suite
+- Legacy: Lifetime royalties
+
+---
+
+## Battler Profile Structure (Enhanced with Layers)
 
 ```json
 {
@@ -72,6 +200,43 @@ Legacy (Retired Champion)
     "wins": 8,
     "losses": 4,
     "win_rate": 0.667
+  },
+  "layers": {
+    "skill": {
+      "overall_score": 78,
+      "bars_quality": 82,
+      "style_mastery": 75,
+      "multisyllabics": 80,
+      "freestyle_precision": 72,
+      "scheme_complexity": 81
+    },
+    "momentum": {
+      "current_streak": 3,
+      "longest_streak": 5,
+      "rivalry_win_rate": 0.67,
+      "cross_region_success": 2,
+      "crowd_reaction_trend": "up",
+      "comeback_factor": 68
+    },
+    "narrative": {
+      "era_alignment": "pen_era",
+      "active_rivalries": 2,
+      "storyline_participation": ["regional_champion_arc"],
+      "arc_completion": 0.65,
+      "narrative_impact_score": 72
+    },
+    "rank": {
+      "current_tier": "contender",
+      "tier_level": 2,
+      "progression_percentage": 68,
+      "tier_acceleration_multiplier": 1.25
+    },
+    "monetization": {
+      "echoes_royalty_rate": 0.75,
+      "lifetime_earnings": 12500,
+      "sponsorship_eligible": false,
+      "belt_economics_active": false
+    }
   },
   "style_tags": ["punchline", "performance"],
   "region": "west",

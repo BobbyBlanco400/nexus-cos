@@ -1,0 +1,319 @@
+{
+  "_description": "N3X-UP Layered Progression System - Multi-dimensional battler evolution",
+  "_version": "1.0.0",
+  "_last_updated": "2026-01-12",
+  
+  "layers": {
+    "skill": {
+      "name": "Skill Layer",
+      "description": "Technical mastery of battle rap elements",
+      "weight_in_rank": 0.35,
+      "components": {
+        "bars_quality": {
+          "metrics": ["punchline_impact", "wordplay_complexity", "metaphor_density"],
+          "max_score": 100,
+          "detection": "bar_intelligence_engine"
+        },
+        "style_mastery": {
+          "metrics": ["punchline", "scheme", "performance", "angle", "freestyle"],
+          "max_score": 100,
+          "detection": "style_analysis_engine"
+        },
+        "multisyllabics": {
+          "metrics": ["syllable_density", "rhyme_pattern_complexity", "flow_variation"],
+          "max_score": 100,
+          "detection": "automated"
+        },
+        "freestyle_precision": {
+          "metrics": ["improvisation_quality", "rebuttal_speed", "topical_accuracy"],
+          "max_score": 100,
+          "detection": "ai_analysis"
+        },
+        "scheme_complexity": {
+          "metrics": ["rhyme_schemes", "internal_rhymes", "multi_layered_wordplay"],
+          "max_score": 100,
+          "detection": "bar_intelligence_engine"
+        }
+      },
+      "progression_tracking": {
+        "battles_to_analyze": "all",
+        "rolling_average_window": 10,
+        "improvement_rate_tracking": true
+      },
+      "feeds_into": ["rank_layer", "judging_scores"]
+    },
+    
+    "momentum": {
+      "name": "Momentum Layer",
+      "description": "Win streaks, rivalry outcomes, cross-region success",
+      "weight_in_rank": 0.20,
+      "components": {
+        "win_streaks": {
+          "current_streak": "integer",
+          "longest_streak": "integer",
+          "streak_bonus_multiplier": 1.1,
+          "affects": ["tier_acceleration", "narrative_triggers"]
+        },
+        "rivalry_outcomes": {
+          "tracked_rivalries": "array",
+          "win_loss_per_rivalry": "object",
+          "rivalry_intensity_score": "0-100",
+          "affects": ["narrative_arcs", "battle_privileges"]
+        },
+        "cross_region_success": {
+          "regions_battled": "array",
+          "regional_win_rates": "object",
+          "global_ranking": "integer",
+          "affects": ["reputation", "scheduling_priority"]
+        },
+        "crowd_reaction_trend": {
+          "recent_crowd_scores": "array",
+          "average_crowd_rating": "0-5",
+          "trend_direction": "up|stable|down",
+          "affects": ["arena_selection", "fan_engagement"]
+        },
+        "comeback_factor": {
+          "rounds_won_when_behind": "integer",
+          "clutch_performance_score": "0-100",
+          "affects": ["champion_economics", "narrative_arcs"]
+        }
+      },
+      "progression_tracking": {
+        "decay_enabled": true,
+        "decay_rate": "5% per 30 days inactive",
+        "momentum_events": ["wins", "losses", "rivalries", "cross_region"]
+      },
+      "feeds_into": ["rank_layer", "narrative_layer", "tier_acceleration"]
+    },
+    
+    "narrative": {
+      "name": "Narrative Layer",
+      "description": "Era conflicts, rivalries, storylines, serialized arcs",
+      "weight_in_rank": 0.15,
+      "components": {
+        "era_conflict_participation": {
+          "active_conflicts": [
+            "pen_era_vs_performance_era",
+            "freestyle_vs_written",
+            "underground_vs_algorithm",
+            "legacy_vs_new_blood"
+          ],
+          "alignment": "string",
+          "conflict_victories": "integer",
+          "affects": ["narrative_unlock", "serialized_arcs"]
+        },
+        "rivalries": {
+          "active_rivalries": "array",
+          "rivalry_tier": ["emerging", "heated", "legendary"],
+          "story_arc_progression": "0-100",
+          "affects": ["imvu_l_arcs", "special_battles", "echoes_value"]
+        },
+        "storyline_threads": {
+          "current_arcs": "array",
+          "arc_completion_rate": "percentage",
+          "narrative_milestones": "array",
+          "affects": ["content_generation", "fan_engagement"]
+        },
+        "serialized_imvu_l_arcs": {
+          "season_participation": "array",
+          "arc_role": ["protagonist", "antagonist", "wildcard"],
+          "narrative_impact_score": "0-100",
+          "affects": ["belt_contention", "premium_battles"]
+        },
+        "legacy_building": {
+          "memorable_moments": "array",
+          "killshot_highlights": "array",
+          "signature_style_events": "array",
+          "affects": ["hall_of_fame_track", "echoes_sales"]
+        }
+      },
+      "progression_tracking": {
+        "narrative_events_tracked": true,
+        "auto_arc_generation": true,
+        "story_consistency_enforcement": true
+      },
+      "feeds_into": ["echoes_value", "belt_privileges", "content_priority"]
+    },
+    
+    "rank": {
+      "name": "Rank Layer",
+      "description": "Visible tier badges, battle privileges, progression gates",
+      "weight_in_rank": 1.0,
+      "components": {
+        "tier_progression": {
+          "current_tier": "initiate|contender|challenger|ascendant|champion|legacy",
+          "tier_level": "1-6",
+          "progression_percentage": "0-100",
+          "next_tier_requirements": "object"
+        },
+        "visible_badges": {
+          "tier_badge": "string",
+          "genesis_badge": "boolean",
+          "style_mastery_badges": "array",
+          "special_achievement_badges": "array"
+        },
+        "battle_privileges": {
+          "regional_battles": "boolean",
+          "cross_region_battles": "boolean",
+          "championship_battles": "boolean",
+          "belt_challenges": "boolean",
+          "premium_arena_slots": "boolean"
+        },
+        "tier_acceleration": {
+          "normal_progression": "baseline",
+          "momentum_multiplier": "1.0-2.0",
+          "skill_bonus": "0-0.5",
+          "narrative_bonus": "0-0.3"
+        }
+      },
+      "progression_tracking": {
+        "tier_change_history": "array",
+        "demotion_protection": "boolean",
+        "grace_period_days": 30
+      },
+      "feeds_into": ["all_systems"],
+      "fed_by": ["skill_layer", "momentum_layer", "narrative_layer", "monetization_layer"]
+    },
+    
+    "monetization": {
+      "name": "Monetization Layer",
+      "description": "Echoes™ royalties, belt defenses, sponsorship points",
+      "weight_in_rank": 0.10,
+      "components": {
+        "echoes_royalties": {
+          "base_rate": "tier_based",
+          "tier_multipliers": {
+            "initiate": 0.65,
+            "contender": 0.70,
+            "challenger": 0.75,
+            "ascendant": 0.80,
+            "champion": 0.85,
+            "legacy": 0.90
+          },
+          "genesis_bonus": 0.05,
+          "narrative_bonus": "0-0.10",
+          "lifetime_earnings": "integer"
+        },
+        "belt_defense_economics": {
+          "defense_bonus_nexcoin": {
+            "champion": 5000,
+            "successful_defense_multiplier": 1.2
+          },
+          "belt_holder_passive_income": "boolean",
+          "defense_interval_days": 90
+        },
+        "sponsorship_points": {
+          "eligibility": "ascendant|champion",
+          "sponsor_tier": ["local", "regional", "platform_wide"],
+          "sponsorship_value_potential": "0-100",
+          "active_sponsorships": "array"
+        },
+        "battle_pool_earnings": {
+          "wagering_participation": "boolean",
+          "win_bonus_percentage": "tier_based",
+          "pool_contribution_history": "array"
+        },
+        "premium_content_sales": {
+          "echoes_sold": "integer",
+          "killshot_highlights_sold": "integer",
+          "revenue_share_total": "integer"
+        }
+      },
+      "progression_tracking": {
+        "revenue_history": "array",
+        "payout_schedule": "weekly",
+        "minimum_payout_threshold": 100
+      },
+      "feeds_into": ["rank_layer", "champion_status"],
+      "unlocks": {
+        "tier_gates": {
+          "initiate": "echoes_basic",
+          "contender": "echoes_standard",
+          "challenger": "belt_contention_economics",
+          "ascendant": "sponsorship_limited",
+          "champion": "full_monetization_suite",
+          "legacy": "lifetime_royalties"
+        }
+      }
+    }
+  },
+  
+  "layer_interactions": {
+    "simultaneous_update": {
+      "enabled": true,
+      "description": "All layers update with each battle outcome",
+      "update_order": ["skill", "momentum", "narrative", "monetization", "rank"]
+    },
+    "cross_layer_bonuses": {
+      "skill_momentum_synergy": {
+        "condition": "skill_layer > 80 AND win_streak >= 3",
+        "bonus": "tier_acceleration +15%"
+      },
+      "narrative_monetization_synergy": {
+        "condition": "active_rivalry AND high_echoes_sales",
+        "bonus": "echoes_royalty +5%"
+      },
+      "rank_skill_unlock": {
+        "condition": "tier_up_event",
+        "bonus": "skill_layer_components_unlocked"
+      }
+    },
+    "layer_dependencies": {
+      "monetization_requires": ["rank >= challenger"],
+      "belt_economics_requires": ["rank = champion", "momentum > 60"],
+      "sponsorship_requires": ["rank >= ascendant", "narrative_impact > 50"]
+    }
+  },
+  
+  "visualization": {
+    "3d_layer_stack": {
+      "description": "Visual representation of layered progression",
+      "layers_order": [
+        "monetization (top)",
+        "rank",
+        "narrative",
+        "momentum",
+        "skill (base)"
+      ],
+      "color_coding": {
+        "skill": "#4444ff",
+        "momentum": "#ff4444",
+        "narrative": "#9d00ff",
+        "rank": "#ffd700",
+        "monetization": "#00ff9d"
+      },
+      "animation": "layers_pulse_on_update"
+    }
+  },
+  
+  "persistence": {
+    "storage": "neon_vault",
+    "immutable": true,
+    "historical_tracking": true,
+    "snapshot_frequency": "per_battle",
+    "rollback_protection": true
+  },
+  
+  "integration": {
+    "judging_system": {
+      "outputs_to": ["skill_layer", "momentum_layer"],
+      "weights": {
+        "human_judges": 0.40,
+        "crowd_ai": 0.35,
+        "bar_intelligence_engine": 0.25
+      }
+    },
+    "belt_system": {
+      "reads_from": ["rank_layer", "momentum_layer", "monetization_layer"],
+      "affects": ["monetization_layer", "rank_layer"]
+    },
+    "echoes_system": {
+      "reads_from": ["monetization_layer", "narrative_layer", "skill_layer"],
+      "calculates": "dynamic_royalty_rate"
+    },
+    "narrative_system": {
+      "reads_from": ["narrative_layer", "momentum_layer", "rank_layer"],
+      "generates": ["serialized_arcs", "rivalry_threads", "story_content"]
+    }
+  }
+}

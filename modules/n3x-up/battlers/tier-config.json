@@ -1,5 +1,6 @@
 {
   "_note": "Sponsorship eligibility: Ascendant tier allows limited/regional sponsorships. Champion tier allows platform-wide premium sponsorships. Both tiers are eligible but with different scope and value.",
+  "_layered_progression": "Each tier progression now considers all 5 layers: Skill (35%), Momentum (20%), Narrative (15%), Rank (100%), Monetization (10%)",
   "tiers": {
     "initiate": {
       "level": 1,
@@ -15,7 +16,13 @@
         "belt_eligible": false,
         "rivalry_tracking": "basic"
       },
-      "badge_color": "#808080"
+      "badge_color": "#808080",
+      "layer_requirements": {
+        "skill_min": 0,
+        "momentum_min": 0,
+        "narrative_min": 0,
+        "monetization_min": 0
+      }
     },
     "contender": {
       "level": 2,
@@ -32,7 +39,13 @@
         "rivalry_tracking": "standard",
         "standard_battle_scheduling": true
       },
-      "badge_color": "#2563eb"
+      "badge_color": "#2563eb",
+      "layer_requirements": {
+        "skill_min": 40,
+        "momentum_min": 30,
+        "narrative_min": 0,
+        "monetization_min": 0
+      }
     },
     "challenger": {
       "level": 3,
@@ -53,7 +66,13 @@
         "profile_visibility": "enhanced",
         "narrative_arc_participation": true
       },
-      "badge_color": "#9d00ff"
+      "badge_color": "#9d00ff",
+      "layer_requirements": {
+        "skill_min": 60,
+        "momentum_min": 50,
+        "narrative_min": 40,
+        "monetization_min": 0
+      }
     },
     "ascendant": {
       "level": 4,
@@ -72,7 +91,13 @@
         "mentor_opportunities": true,
         "sponsorship_eligible": true
       },
-      "badge_color": "#00ff9d"
+      "badge_color": "#00ff9d",
+      "layer_requirements": {
+        "skill_min": 75,
+        "momentum_min": 65,
+        "narrative_min": 55,
+        "monetization_min": 50
+      }
     },
     "champion": {
       "level": 5,
@@ -94,6 +119,12 @@
         "belt_defense_required": true,
         "defense_interval_days": 90,
         "championship_economics": true
+      },
+      "layer_requirements": {
+        "skill_min": 80,
+        "momentum_min": 75,
+        "narrative_min": 70,
+        "monetization_min": 70
       }
     },
     "legacy": {
@@ -116,6 +147,12 @@
         "battles_optional": true,
         "exhibition_only": true,
         "royalties_permanent": true
+      },
+      "layer_requirements": {
+        "skill_min": 85,
+        "momentum_min": 0,
+        "narrative_min": 80,
+        "monetization_min": 75
       }
     }
   },

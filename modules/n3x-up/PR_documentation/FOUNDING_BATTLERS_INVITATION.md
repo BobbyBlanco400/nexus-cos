@@ -145,7 +145,7 @@ Schedule your first battle:
 - Join the matchmaking pool
 
 ### Step 5: Make History
-Step into The Cypher Dome™ and become legend.
+Step into N3X-UP: The Cypher Dome™ and become legend.
 
 ---
 
@@ -153,7 +153,7 @@ Step into The Cypher Dome™ and become legend.
 
 > *We are the first.*
 > 
-> *We step into The Cypher Dome™ not just to compete, but to be recorded.*
+> *We step into N3X-UP: The Cypher Dome™ not just to compete, but to be recorded.*
 > 
 > *Our bars will not fade. They will echo.*
 > 
@@ -214,7 +214,7 @@ Email: press@n3xuscos.online
 
 ## THE CHOICE IS YOURS
 
-### Step into The Cypher Dome™, or remain unrecorded.
+### Step into N3X-UP: The Cypher Dome™, or remain unrecorded.
 
 # [ACCEPT INVITATION →](https://n3xuscos.online/n3x-up/register)
 

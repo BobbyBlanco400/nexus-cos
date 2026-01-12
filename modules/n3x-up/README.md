@@ -13,10 +13,49 @@ N3X-UP: The Cypher Dome™ is a persistent virtual battle arena featuring rap ba
 N3X-UP represents a revolutionary battle system where:
 - Battles are recorded permanently on the Neon Vault ledger
 - Performance is judged by a hybrid AI + Crowd + Human system
-- Progression follows a tiered ranking system from Initiate to Legacy
+- **Progression follows a 5-layer multi-dimensional evolution system**
+- **All layers update simultaneously with each battle**
 - Belts are earned as dynamic NFTs with real value and history
 - Every bar, killshot, and moment is preserved as monetizable Echoes™
 - Compliance-ready wagering allows skill-based competition
+
+## NEW: Layered Progression System
+
+**"You don't just rank up… you level up across 5 layers."**
+
+N3X-UP Phase 3 introduces a revolutionary **multi-dimensional progression system** where battlers evolve across 5 interconnected layers simultaneously:
+
+```
+┌─────────────────────────────────────┐
+│   MONETIZATION LAYER (Top)          │ ← Echoes™, Sponsorships, Belt Rewards
+├─────────────────────────────────────┤
+│   RANK LAYER                         │ ← Tier Progression, Champion Status
+├─────────────────────────────────────┤
+│   NARRATIVE LAYER                    │ ← Rivalries, Era Conflicts, Story Arcs
+├─────────────────────────────────────┤
+│   MOMENTUM LAYER                     │ ← Streaks, Style Wins, Crowd Reaction
+├─────────────────────────────────────┤
+│   SKILL LAYER (Base)                 │ ← Punchlines, Schemes, Cadence, Freestyle
+└─────────────────────────────────────┘
+```
+
+### How It Works
+
+**Simultaneous Updates**: Every battle updates all 5 layers at once
+- **Skill Layer** (35% weight): Technical mastery, bars quality, style proficiency
+- **Momentum Layer** (20% weight): Win streaks, rivalries, cross-region success
+- **Narrative Layer** (15% weight): Story arcs, era conflicts, legacy building
+- **Rank Layer** (100% composite): Visible tier progression, battle privileges
+- **Monetization Layer** (10% weight): Echoes™ royalties, belt economics, sponsorships
+
+**Cross-Layer Synergies**: Layers amplify each other
+- High skill + win streak = faster tier acceleration
+- Active rivalry + echoes sales = increased royalty rates  
+- Narrative impact + momentum = belt economics boost
+
+**Persistent Evolution**: All layer data stored immutably in Neon Vault
+
+See [battlers/progression-layers.json](./battlers/progression-layers.json) for complete specification.
 
 ## Module Structure
 
@@ -36,43 +75,56 @@ n3x-up/
 
 ## Core Features
 
-### 1. Level-Up System
+### 1. Layered Progression System (NEW)
+- **5 Interconnected Layers**: Skill, Momentum, Narrative, Rank, Monetization
+- **Simultaneous Updates**: All layers evolve with each battle
+- **Cross-Layer Synergies**: Layers amplify each other for accelerated growth
+- **Persistent Tracking**: Immutable storage in Neon Vault
+- **Dynamic Calculation**: Real-time layer metrics inform all systems
+
+### 2. Level-Up System (Tier Progression)
 - **Tiers**: Initiate → Contender → Challenger → Ascendant → Champion → Legacy
-- **Progression**: Earned via Bar Intelligence Engine, Crowd AI, and Human Judges
+- **Layer Requirements**: Each tier requires minimum scores across all layers
+- **Progression**: Driven by Bar Intelligence Engine, Crowd AI, and Human Judges
 - **Unlocks**: Narrative arcs, rivalries, monetization, UI badges, belt eligibility
 
-### 2. Season 1 War Map
+### 3. Season 1 War Map
 - **Regional Circuits**: West, Midwest, South, East, Global Wildcard
 - **Styles**: Punchline, Scheme, Performance, Angle, Freestyle
 - **Era Conflicts**: Pen vs Performance, Freestyle vs Written, Underground vs Algorithm, Legacy vs New Blood
 - **Serialized Content**: Cyclic arcs, persistent storylines via IMVU-L
+- **Layer Integration**: Narrative Layer auto-generates story arcs from battle outcomes
 
-### 3. Founding Battlers Invite
+### 4. Founding Battlers Invite
 - Genesis Season Badge for early participants
 - Ledger recognition in Neon Vault
 - Echoes™ royalty activation from day one
+- +5% royalty bonus across all tiers
 - Permanent record: "You are invited not to compete — but to be recorded."
 
-### 4. Hybrid Judging System
+### 5. Hybrid Judging System
 - **Human Judges**: 40% weight - Expert panel scoring
 - **Crowd AI**: 35% weight - Aggregated crowd reactions
 - **Bar Intelligence Engine**: 25% weight - Technical analysis
 - **Metrics**: Killshot detection, multisyllabic density, originality delta, momentum swings
 - **Immutability**: All verdicts recorded on Neon Vault
+- **Layer Outputs**: Feeds Skill and Momentum layers with each verdict
 
-### 5. Battle Belt NFT Mechanics
+### 6. Battle Belt NFT Mechanics
 - Dynamic visual evolution based on defenses
 - Non-transferable while active; collectible on retirement
 - Champion economics: defense bonuses, replay royalties, sponsorships
 - Permanent belt history and legendary moments
+- **Layer Integration**: Reads from Rank, Momentum, Monetization layers for eligibility
 
-### 6. Battle Echoes™ Monetization
+### 7. Battle Echoes™ Monetization
 - Monetized replay clips from battles
-- Royalty distribution to battlers
+- Royalty distribution to battlers (65%-90% tier-based)
 - Killshot highlights and legendary moments
 - Permanent archive of all performances
+- **Dynamic Royalties**: Calculated using Monetization, Narrative, and Skill layers
 
-### 7. Compliance-Ready Wagering
+### 8. Compliance-Ready Wagering
 - Skill-based, deterministic system
 - Pre-battle pool closure
 - Geo-fenced, age-verified, auditable
@@ -99,17 +151,19 @@ N3X-UP is registered natively under v-COS core:
 [Hybrid Judging System] <--- [Crowd AI] & [Human Judges] & [Bar Intelligence Engine]
      │
      ▼
-[Verdict Ledger] --- stores ---> [Neon Vault]
+[Layered Progression System] 
+     ├─ Skill Layer        ← Technical analysis, bars quality
+     ├─ Momentum Layer     ← Win streaks, rivalries
+     ├─ Narrative Layer    ← Story arcs, era conflicts
+     ├─ Rank Layer         ← Tier progression
+     └─ Monetization Layer ← Echoes™, belt economics
+     │
+     ├─> [Belt Mechanics]       ← Defense Tracking + Champion Economics
+     │
+     └─> [Battle Echoes™ Monetization] ← Replay Royalties
      │
      ▼
-[Rank & Tier Progression] 
-     │
-     ├─> [Belt Mechanics]
-     │       ├─ Defense Tracking
-     │       └─ Champion Economics
-     │
-     └─> [Battle Echoes™ Monetization]
-             └─ Replay Royalties
+[Ledger Storage] --- Immutable Neon Vault
 ```
 
 ## Season 1 Structure

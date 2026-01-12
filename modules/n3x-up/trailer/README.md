@@ -21,7 +21,7 @@ AUDIO: Silence, then low rumble begins
 
 VISUAL:
 - Camera pulls back from black
-- Reveals massive neon-lit arena (The Cypher Dome™)
+- Reveals massive neon-lit arena (N3X-UP: The Cypher Dome™)
 - Crowd of thousands (virtual and real)
 - Purple and green neon lighting
 
@@ -227,7 +227,7 @@ AUDIO:
 > "Press inquiries: press@n3xuscos.online"
 
 **Public Version:**
-> "Step into The Cypher Dome™ at n3xuscos.online/n3x-up"
+> "Step into N3X-UP: The Cypher Dome™ at n3xuscos.online/n3x-up"
 
 ## Extended Content
 
@@ -285,9 +285,9 @@ Full presentation including:
 
 ### Pitch Deck Sections
 1. **Problem**: Battle rap is ephemeral, unmonetized, unfair judging
-2. **Solution**: N3X-UP permanent, monetized, fair system
+2. **Solution**: N3X-UP: The Cypher Dome™ permanent, monetized, fair system
 3. **Market**: Battle rap + esports + NFT market size
-4. **Product**: The Cypher Dome™ features
+4. **Product**: N3X-UP: The Cypher Dome™ features
 5. **Technology**: v-COS, IMVU-L, Neon Vault, Bar Intelligence
 6. **Business Model**: Platform fees, Echoes™, NexCoin, NFTs
 7. **Traction**: Phase 3 complete, ready for beta

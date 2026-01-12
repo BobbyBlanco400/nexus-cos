@@ -114,7 +114,8 @@
                     ┌───────────────────────────────────┐
                     │    SUPPORTING SYSTEMS             │
                     │                                   │
-                    │  NARRATIVE:                       │
+                    │  NARRATIVE (Narrative Layer):     │
+                    │  • Auto-generates story arcs      │
                     │  • Rivalry tracking               │
                     │  • Season arcs                    │
                     │  • Regional wars                  │
@@ -129,8 +130,8 @@
                     │  • Responsible gaming             │
                     │                                   │
                     │  UI/UX:                           │
-                    │  • Arena HUD                      │
-                    │  • Battler profiles               │
+                    │  • Arena HUD + Layer visualization│
+                    │  • Battler profiles (layered)     │
                     │  • Crowd interface                │
                     │  • Belt displays                  │
                     │  • Echo marketplace               │
@@ -162,10 +163,11 @@
 │                                                                       │
 │  FOR BATTLERS:                                                       │
 │  ✓ Permanent legacy on Neon Vault                                   │
-│  ✓ Monetizable Echoes™ with ongoing royalties                       │
+│  ✓ Multi-dimensional progression (5 layers)                         │
+│  ✓ Monetizable Echoes™ with dynamic royalties                       │
 │  ✓ Championship belts as valuable NFTs                              │
-│  ✓ Fair, transparent judging                                         │
-│  ✓ Tiered progression system                                         │
+│  ✓ Fair, transparent hybrid judging                                  │
+│  ✓ Cross-layer synergies accelerate growth                          │
 │                                                                       │
 │  FOR SPECTATORS:                                                     │
 │  ✓ Immersive battle experience (live or replay)                     │
@@ -193,8 +195,9 @@ nexus-cos/
 │  │  │  ├─ README.md           # Arena system documentation
 │  │  │  └─ config.json          # Arena configuration
 │  │  ├─ battlers/               # Profiles, stats, progression
-│  │  │  ├─ README.md           # Battler system documentation
-│  │  │  └─ tier-config.json     # Tier system configuration
+│  │  │  ├─ README.md           # Battler system documentation (layered)
+│  │  │  ├─ tier-config.json     # Tier system configuration (layer requirements)
+│  │  │  └─ progression-layers.json  # NEW: Complete layered progression spec
 │  │  ├─ judging/                # Hybrid judging system
 │  │  │  └─ README.md           # Judging system documentation
 │  │  ├─ belts/                  # NFT mechanics, championships

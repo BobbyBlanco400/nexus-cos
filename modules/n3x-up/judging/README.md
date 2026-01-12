@@ -18,6 +18,8 @@ This distribution balances:
 - Democratic crowd sentiment and reactions
 - Objective technical analysis
 
+**NEW**: Judging outputs now feed into the **Layered Progression System**, updating Skill and Momentum layers simultaneously.
+
 ## Human Judges (40% Weight)
 
 ### Judge Panel
@@ -223,6 +225,95 @@ While verdicts are immutable, disputes can be filed:
 - Can result in sanctions (not verdict changes)
 - Protects against provable judge corruption
 - Does not alter historical record
+
+---
+
+## Layer Integration
+
+### Judging Outputs to Progression Layers
+
+Each battle verdict updates multiple progression layers simultaneously:
+
+#### Skill Layer Updates
+Judging system outputs feed directly into Skill Layer components:
+- **Bar Intelligence Engine** → Bars Quality, Scheme Complexity, Multisyllabics
+- **Human Judges** → Style Mastery, Freestyle Precision
+- **Technical Analysis** → Overall Skill Score (0-100)
+
+#### Momentum Layer Updates
+Battle outcomes and reactions update Momentum Layer:
+- **Win/Loss** → Win Streaks, Comeback Factor
+- **Crowd AI Scores** → Crowd Reaction Trend
+- **Round-by-Round Performance** → Momentum Average
+
+#### Data Flow
+```
+[Battle Verdict] 
+     │
+     ├─> [Skill Layer]
+     │      ├─ bars_quality
+     │      ├─ style_mastery
+     │      ├─ multisyllabics
+     │      ├─ freestyle_precision
+     │      └─ scheme_complexity
+     │
+     └─> [Momentum Layer]
+            ├─ win_streaks
+            ├─ crowd_reaction_trend
+            ├─ comeback_factor
+            └─ momentum_avg
+```
+
+### Verdict Format (Enhanced with Layers)
+```json
+{
+  "verdict": {
+    "battle_id": "battle_123",
+    "winner": "battler_a",
+    "scores": {
+      "human_judges": 0.40,
+      "crowd_ai": 0.35,
+      "bar_intelligence": 0.25
+    },
+    "layer_updates": {
+      "battler_a": {
+        "skill": {
+          "bars_quality": 85,
+          "style_mastery": 78,
+          "multisyllabics": 82,
+          "freestyle_precision": 74,
+          "scheme_complexity": 88
+        },
+        "momentum": {
+          "win_streak_updated": 4,
+          "crowd_reaction_trend": "up",
+          "comeback_factor": 0,
+          "momentum_avg": 76
+        }
+      },
+      "battler_b": {
+        "skill": {
+          "bars_quality": 72,
+          "style_mastery": 80,
+          "multisyllabics": 75,
+          "freestyle_precision": 78,
+          "scheme_complexity": 70
+        },
+        "momentum": {
+          "win_streak_updated": 0,
+          "crowd_reaction_trend": "stable",
+          "comeback_factor": 45,
+          "momentum_avg": 68
+        }
+      }
+    },
+    "neon_vault_hash": "0xabc123...",
+    "immutable": true
+  }
+}
+```
+
+---
 
 ## Transparency Features
 
