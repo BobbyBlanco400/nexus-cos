@@ -40,11 +40,14 @@ npm run preview
 
 The demo loads the logo from `../assets/3d/logo.glb`. Generate this file using:
 
-1. Open Blender
-2. Load `assets/3d/blender_extrude_logo.py`
-3. Run the script to export logo.glb
+1. Open Blender (version 3.0+)
+2. Create a new `.blend` file in the `assets/3d/` directory
+3. Open the Blender Scripting workspace
+4. Load `assets/3d/blender_extrude_logo.py`
+5. Run the script (Alt+P or click Run Script button)
+6. The script will generate `logo.glb` in the same directory
 
-Alternatively, place any GLTF model at that path.
+**Note**: If the logo.glb file is not found, the demo will display a fallback placeholder box with the holographic material applied and log instructions to the console.
 
 ## Customization
 

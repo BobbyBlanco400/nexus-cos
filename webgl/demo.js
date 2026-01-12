@@ -71,8 +71,10 @@ let logo = null;
 
 // Load GLTF logo
 const loader = new GLTFLoader();
+const logoPath = '../assets/3d/logo.glb';
+
 loader.load(
-  '../assets/3d/logo.glb',
+  logoPath,
   (gltf) => {
     logo = gltf.scene;
     logo.traverse((child) => {
@@ -81,10 +83,26 @@ loader.load(
       }
     });
     scene.add(logo);
+    console.log('Logo loaded successfully from:', logoPath);
   },
-  undefined,
+  (progress) => {
+    const percent = (progress.loaded / progress.total) * 100;
+    console.log(`Loading logo: ${percent.toFixed(0)}%`);
+  },
   (error) => {
-    console.error('Error loading GLTF:', error);
+    console.error('Error loading GLTF from:', logoPath, error);
+    console.warn('Logo file not found. Please generate it using the Blender script:');
+    console.warn('1. Open Blender');
+    console.warn('2. Load assets/3d/blender_extrude_logo.py');
+    console.warn('3. Run the script to generate logo.glb');
+    
+    // Create a fallback placeholder
+    const geometry = new THREE.BoxGeometry(2, 0.5, 0.2);
+    const fallbackMesh = new THREE.Mesh(geometry, holoMaterial);
+    logo = new THREE.Group();
+    logo.add(fallbackMesh);
+    scene.add(logo);
+    console.log('Using fallback placeholder geometry');
   }
 );
 
