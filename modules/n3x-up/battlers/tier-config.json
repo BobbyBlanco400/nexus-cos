@@ -69,7 +69,7 @@
         "echoes_royalty": 0.80,
         "premium_arena_slots": true,
         "mentor_opportunities": true,
-        "sponsorship_eligible": false
+        "sponsorship_eligible": true
       },
       "badge_color": "#00ff9d"
     },

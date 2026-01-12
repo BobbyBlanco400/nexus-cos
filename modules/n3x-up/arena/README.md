@@ -94,6 +94,141 @@ arena-service:
     - echoes-service
 ```
 
+### API Specifications
+
+**GET /arena/status**
+```yaml
+description: Get current arena status and queue
+authentication: Bearer token (optional for public view)
+parameters: none
+response:
+  200:
+    body:
+      status: "available" | "in_use" | "maintenance"
+      current_battle: battle_id | null
+      queue_length: integer
+      next_available: ISO8601_timestamp
+  500:
+    body:
+      error: "Internal server error"
+      message: string
+```
+
+**POST /arena/initiate**
+```yaml
+description: Initiate a new battle
+authentication: Bearer token (required)
+authorization: Battler tier >= Contender
+request:
+  body:
+    challenger_id: uuid (required)
+    opponent_id: uuid (required)
+    battle_type: "standard" | "championship" (required)
+    scheduled_time: ISO8601_timestamp (optional)
+validation:
+  - Both battlers must exist and be verified
+  - Both battlers must meet tier requirements
+  - No active sanctions on either battler
+  - Scheduled time must be future (if provided)
+  - Opponent must accept challenge (if not auto-match)
+response:
+  201:
+    body:
+      battle_id: uuid
+      status: "scheduled"
+      scheduled_time: ISO8601_timestamp
+      wagering_pool_status: "open"
+  400:
+    body:
+      error: "Bad request"
+      message: "Invalid battler ID" | "Tier requirement not met"
+      details: object
+  401:
+    body:
+      error: "Unauthorized"
+      message: "Authentication required"
+  403:
+    body:
+      error: "Forbidden"
+      message: "Battler has active sanction" | "Insufficient permissions"
+  409:
+    body:
+      error: "Conflict"
+      message: "Battler already has scheduled battle"
+```
+
+**GET /arena/state**
+```yaml
+description: Get real-time arena state during battle
+authentication: Bearer token (optional for spectators)
+parameters:
+  battle_id: uuid (required)
+response:
+  200:
+    body:
+      battle_id: uuid
+      status: "waiting" | "in_progress" | "concluded"
+      round: integer
+      battlers: array[battler_state]
+      crowd: crowd_state
+      judges: array[judge_state]
+      momentum_graph: array[momentum_point]
+  404:
+    body:
+      error: "Not found"
+      message: "Battle not found"
+```
+
+**GET /arena/recording**
+```yaml
+description: Get battle recording and metadata
+authentication: Bearer token (required for premium recordings)
+parameters:
+  battle_id: uuid (required)
+response:
+  200:
+    body:
+      battle_id: uuid
+      recording_url: string (CDN URL)
+      duration_seconds: integer
+      resolution: "4k" | "1080p" | "720p"
+      neon_vault_hash: string
+      echo_clips: array[echo_reference]
+  402:
+    body:
+      error: "Payment required"
+      message: "Premium recording requires purchase"
+      cost_nexcoin: integer
+  404:
+    body:
+      error: "Not found"
+      message: "Recording not available"
+```
+
+### Error Handling
+
+**Standard Error Response Format**
+```json
+{
+  "error": "Error category",
+  "message": "Human-readable error message",
+  "code": "ERROR_CODE",
+  "details": {
+    "field": "Additional context"
+  },
+  "timestamp": "ISO8601_timestamp"
+}
+```
+
+**Common Error Codes**
+- `AUTH_REQUIRED`: Authentication token missing or invalid
+- `INSUFFICIENT_PERMISSIONS`: User lacks required permissions
+- `RESOURCE_NOT_FOUND`: Requested resource does not exist
+- `VALIDATION_ERROR`: Request data failed validation
+- `RATE_LIMIT_EXCEEDED`: Too many requests
+- `SERVICE_UNAVAILABLE`: Arena service temporarily unavailable
+- `BATTLE_IN_PROGRESS`: Cannot modify battle in progress
+
 ### State Management
 ```javascript
 arenaState: {

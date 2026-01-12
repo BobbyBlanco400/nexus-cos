@@ -21,6 +21,62 @@ N3X-UP wagering is **skill-based competition**, not gambling:
 
 ## Wagering Mechanics
 
+### Input Validation & Fraud Prevention
+
+**User Eligibility Validation**
+```javascript
+validateUserEligibility(userId) {
+  required_checks: [
+    { check: "age_verified", value: true, error: "Age verification required (18+)" },
+    { check: "geo_location", value: "allowed_region", error: "Service unavailable in your region" },
+    { check: "account_status", value: "active", error: "Account suspended or inactive" },
+    { check: "self_exclusion", value: false, error: "Account self-excluded until {date}" },
+    { check: "identity_verified", value: true, error: "Identity verification pending" },
+    { check: "payment_method", value: "valid", error: "Valid payment method required" }
+  ]
+}
+```
+
+**Betting Limits Validation**
+```javascript
+validateBettingLimits(userId, amount) {
+  constraints: {
+    per_battle: { min: 100, max: 10000 },
+    daily: { max: 10000 },
+    weekly: { max: 50000 },
+    monthly: { max: 150000 },
+    balance: { required: amount }
+  },
+  custom_limits: user_defined_limits,
+  errors: {
+    insufficient: "Insufficient NexCoin balance",
+    limit_exceeded: "Betting limit exceeded: {limit_type}",
+    invalid_amount: "Bet must be 100-10,000 NexCoin"
+  }
+}
+```
+
+**Fraud Detection Signals**
+```javascript
+fraudDetection(userId, transaction) {
+  detection_methods: [
+    "multi_account_pattern_analysis",
+    "unusual_betting_pattern_detection",
+    "rapid_deposit_withdraw_monitoring",
+    "coordinated_betting_analysis",
+    "vpn_proxy_abuse_detection",
+    "device_fingerprint_verification",
+    "behavioral_anomaly_detection"
+  ],
+  risk_levels: {
+    low: "allow_with_monitoring",
+    medium: "flag_for_manual_review",
+    high: "suspend_pending_investigation",
+    critical: "immediate_account_freeze"
+  }
+}
+```
+
 ### Pool Structure
 
 **Pre-Battle Pool**
