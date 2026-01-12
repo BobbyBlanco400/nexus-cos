@@ -1,0 +1,17 @@
+{
+  "name": "n3xus-vcos-webgl",
+  "version": "1.0.0",
+  "description": "Three.js WebGL holographic demo for the N3XUS v-COS logo",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
