@@ -1,0 +1,197 @@
+# ===============================
+# NEXUS COS - JURISDICTION TOGGLE ENGINE
+# Runtime Jurisdiction Configuration
+# No redeploys required
+# ===============================
+
+version: "1.0"
+platform: "Nexus COS"
+engine: jurisdiction_toggle
+mode: runtime_toggle
+default: skill_only
+
+# Regional Configuration
+regions:
+  US:
+    enabled: true
+    features:
+      skill_games: true
+      nexcoin_wallet: true
+      vr_lounge: true
+      social_casino: true
+      ai_dealers: true
+      marketplace: false
+    disabled:
+      chance_simulation: true
+      fiat_gambling: true
+      withdrawals: true
+    compliance:
+      - "Skill-based gaming only"
+      - "No wagering on chance outcomes"
+      - "Closed-loop economy"
+    
+  EU:
+    enabled: true
+    features:
+      skill_games: true
+      nexcoin_wallet: true
+      marketplace: true
+      vr_lounge: true
+      social_casino: true
+      ai_dealers: true
+    disabled:
+      chance_simulation: true
+      fiat_gambling: true
+      withdrawals: true
+    compliance:
+      - "GDPR compliant"
+      - "Skill-based gaming only"
+      - "No real money gambling"
+      
+  GLOBAL:
+    enabled: true
+    features:
+      social_casino: true
+      vr_lounge: true
+      nexcoin_wallet: true
+      skill_games: true
+      ai_dealers: true
+      marketplace: false
+    disabled:
+      chance_simulation: true
+      fiat_gambling: true
+      real_money_withdrawals: true
+    compliance:
+      - "Entertainment only"
+      - "No gambling"
+      - "Closed-loop credits"
+
+# Enforcement Layers
+enforcement:
+  layers:
+    - api_gateway
+    - ui_flags
+    - wallet_rules
+    - service_layer
+    
+  api_gateway:
+    description: "API-level feature gating"
+    implementation: nginx_config
+    config_file: /etc/nginx/jurisdiction.conf
+    
+  ui_flags:
+    description: "Frontend feature toggles"
+    implementation: react_feature_flags
+    config_file: /app/config/features.json
+    
+  wallet_rules:
+    description: "Wallet operation restrictions"
+    implementation: nexcoin_service
+    service: nexcoin-ms
+    
+  service_layer:
+    description: "Microservice-level enforcement"
+    implementation: env_variables
+    
+# Runtime Toggle Mechanism
+toggle_mechanism:
+  type: config_based
+  reload_required: false
+  propagation_time_seconds: 5
+  cache_ttl_seconds: 60
+  
+  endpoints:
+    set_region: /api/jurisdiction/set
+    get_region: /api/jurisdiction/current
+    get_features: /api/jurisdiction/features
+    
+# Feature Flags
+feature_flags:
+  skill_games:
+    name: "Skill-based Games"
+    service: skill-games-ms
+    default: true
+    
+  nexcoin_wallet:
+    name: "NexCoin Wallet"
+    service: nexcoin-ms
+    default: true
+    
+  vr_lounge:
+    name: "VR Lounge Access"
+    service: vr-world-ms
+    default: true
+    
+  marketplace:
+    name: "Marketplace Trading"
+    service: nft-marketplace-ms
+    default: false
+    phase: 3
+    
+  ai_dealers:
+    name: "AI Dealer Personalities"
+    service: puaboai-sdk
+    default: true
+    
+  social_casino:
+    name: "Social Casino Features"
+    service: casino-nexus-api
+    default: true
+    
+  chance_simulation:
+    name: "Chance-based Simulation"
+    service: casino-nexus-api
+    default: false
+    compliance_risk: high
+    
+  fiat_gambling:
+    name: "Real Money Gambling"
+    service: wallet-ms
+    default: false
+    compliance_risk: critical
+    
+  withdrawals:
+    name: "Fiat Withdrawals"
+    service: wallet-ms
+    default: false
+    compliance_risk: critical
+
+# Legal Posture
+legal_posture:
+  primary: "Software platform, not a betting operator"
+  principles:
+    - "No fiat custody"
+    - "No gambling offered"
+    - "Skill-based interaction only"
+    - "Closed-loop digital economy"
+    - "Browser-native, no hardware lock-in"
+  
+# Audit Trail
+audit:
+  enabled: true
+  log_all_toggles: true
+  retention_days: 365
+  immutable: true
+  
+# Emergency Controls
+emergency:
+  kill_switch_enabled: true
+  kill_switch_endpoint: /api/emergency/disable
+  admin_override: true
+  notification_channels:
+    - discord_webhook
+    - email_alert
+    - sms_alert
+    
+# Health Check
+health:
+  endpoint: /api/jurisdiction/health
+  check_interval_seconds: 30
+  
+# Deployment
+deployment:
+  method: config_overlay
+  no_rebuild_required: true
+  no_fork_required: true
+  restart_services: false
+  hot_reload: true

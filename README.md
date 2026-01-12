@@ -116,6 +116,36 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 ---
 
+## 🚀 **NEW: EXPANSION LAYER - Live & Ready**
+
+**Five-Artifact Master Add-In Package transforming Nexus COS into a complete immersive OS!**
+
+### One-Shot Deployment
+
+```bash
+bash deploy-nexus-expansion-layer.sh
+```
+
+**What's Included:**
+- ✅ **Jurisdiction Toggle Engine** - Runtime region compliance (US, EU, Global)
+- ✅ **Marketplace Phase-2** - Asset trading framework (gated for Phase-3)
+- ✅ **AI Dealer Expansion** - PUABO AI-HF personalities (Blackjack, Poker, Roulette)
+- ✅ **Vegas Strip Casino Federation** - Multi-casino ecosystem (3 casinos)
+- ✅ **Investor Whitepaper** - Complete market positioning & investment terms
+
+**📄 Full Documentation:** [NEXUS_EXPANSION_LAYER_README.md](./NEXUS_EXPANSION_LAYER_README.md)
+
+**Key Features:**
+- Browser-native immersive OS
+- Virtual Vegas Strip with multiple casinos
+- Closed-loop digital economy (NexCoin only)
+- AI-powered experience platform
+- Jurisdiction-adaptive system
+
+**Status:** ✅ READY FOR INTEGRATION - Config overlay, no core changes
+
+---
+
 ## 📚 **Architecture Reference**
 
 **⚠️ IMPORTANT:** For authoritative understanding of platform architecture:
