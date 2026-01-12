@@ -21,6 +21,13 @@ Each module contains:
 - `business-tools/` - Enterprise business utilities
 - `integrations/` - Third-party service integrations
 
+### Creative & Competition Modules
+- `n3x-up/` - **The Cypher Dome™** - Persistent virtual battle arena with hybrid judging, belt NFTs, and Echoes™ monetization
+- `casino-nexus/` - Virtual crypto-integrated casino universe
+- `streamcore/` - Live streaming engine
+- `gamecore/` - Gaming platform
+- `musicchain/` - Blockchain music verification
+
 ## Dependency Management
 
 Each module includes a `deps.yaml` file that defines:
