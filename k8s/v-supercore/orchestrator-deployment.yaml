@@ -1,0 +1,143 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+  labels:
+    app: v-supercore-orchestrator
+    tier: control-plane
+    nexus.handshake: "55-45-17"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: v-supercore-orchestrator
+  template:
+    metadata:
+      labels:
+        app: v-supercore-orchestrator
+        tier: control-plane
+    spec:
+      serviceAccountName: v-supercore-orchestrator
+      containers:
+      - name: orchestrator
+        image: nexus-cos/v-supercore-orchestrator:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: grpc
+          containerPort: 9090
+          protocol: TCP
+        - name: metrics
+          containerPort: 9091
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: HANDSHAKE_PROTOCOL
+          value: "55-45-17"
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: v-supercore-db
+              key: host
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: v-supercore-db
+              key: database
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: v-supercore-db
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: v-supercore-db
+              key: password
+        - name: REDIS_HOST
+          value: "v-supercore-redis"
+        - name: REDIS_PORT
+          value: "6379"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+  labels:
+    app: v-supercore-orchestrator
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: grpc
+    port: 9090
+    targetPort: grpc
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: metrics
+    protocol: TCP
+  selector:
+    app: v-supercore-orchestrator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "persistentvolumeclaims"]
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "statefulsets"]
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+subjects:
+- kind: ServiceAccount
+  name: v-supercore-orchestrator
+  namespace: v-supercore
+roleRef:
+  kind: Role
+  name: v-supercore-orchestrator
+  apiGroup: rbac.authorization.k8s.io

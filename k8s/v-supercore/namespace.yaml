@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: v-supercore
+  labels:
+    app.kubernetes.io/name: v-supercore
+    app.kubernetes.io/part-of: nexus-vcos
+    nexus.handshake: "55-45-17"
+    nexus.phase: "3.0"

@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: v-supercore-session-pool
+  namespace: v-supercore
+  labels:
+    app: v-supercore-session-pool
+    tier: compute
+spec:
+  serviceName: v-supercore-session-pool
+  replicas: 10
+  selector:
+    matchLabels:
+      app: v-supercore-session-pool
+  template:
+    metadata:
+      labels:
+        app: v-supercore-session-pool
+        tier: compute
+    spec:
+      containers:
+      - name: virtual-desktop
+        image: nexus-cos/virtual-desktop:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: vnc
+          containerPort: 5900
+          protocol: TCP
+        - name: webrtc
+          containerPort: 8443
+          protocol: TCP
+        env:
+        - name: TIER
+          value: "standard"
+        - name: VNC_RESOLUTION
+          value: "1920x1080"
+        - name: VNC_DEPTH
+          value: "24"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 4Gi
+            ephemeral-storage: 20Gi
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+            ephemeral-storage: 50Gi
+        volumeMounts:
+        - name: user-data
+          mountPath: /home/user
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
+      volumes:
+      - name: tmp
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: user-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: fast-ssd
+      resources:
+        requests:
+          storage: 50Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: v-supercore-session-pool
+  namespace: v-supercore
+  labels:
+    app: v-supercore-session-pool
+spec:
+  clusterIP: None
+  ports:
+  - name: vnc
+    port: 5900
+    targetPort: vnc
+    protocol: TCP
+  - name: webrtc
+    port: 8443
+    targetPort: webrtc
+    protocol: TCP
+  selector:
+    app: v-supercore-session-pool

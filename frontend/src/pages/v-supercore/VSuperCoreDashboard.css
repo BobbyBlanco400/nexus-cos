@@ -1,0 +1,346 @@
+.v-supercore-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.dashboard-header {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(37, 99, 235, 0.1);
+  border-bottom: 2px solid #2563eb;
+}
+
+.dashboard-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nexus-logo {
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin: 1rem 0 0 0;
+}
+
+.dashboard-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Quick Launch Section */
+.quick-launch-section {
+  margin-bottom: 3rem;
+}
+
+.quick-launch-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #2563eb;
+}
+
+.tier-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tier-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tier-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+}
+
+.tier-card.selected {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.15);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+}
+
+.tier-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: #60a5fa;
+}
+
+.tier-specs {
+  margin-bottom: 1rem;
+}
+
+.spec {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.spec .label {
+  color: #94a3b8;
+}
+
+.spec .value {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.tier-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tier-features li {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.tier-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: bold;
+}
+
+.launch-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.launch-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5);
+}
+
+.launch-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Sessions Section */
+.sessions-section {
+  margin-bottom: 3rem;
+}
+
+.sessions-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #2563eb;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: #94a3b8;
+}
+
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.session-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.session-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-creating {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.status-active {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.status-paused {
+  background: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+.status-terminated {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.session-tier {
+  font-size: 0.875rem;
+  color: #60a5fa;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.session-resources {
+  margin-bottom: 1rem;
+}
+
+.resource-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.resource-label {
+  color: #94a3b8;
+}
+
+.resource-value {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.session-actions {
+  margin-top: 1rem;
+}
+
+.connect-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.connect-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.connect-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Info Section */
+.info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(37, 99, 235, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.75rem 0;
+  color: #60a5fa;
+}
+
+.info-card p {
+  margin: 0;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .tier-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .sessions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-section {
+    grid-template-columns: 1fr;
+  }
+}
