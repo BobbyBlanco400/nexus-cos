@@ -57,7 +57,7 @@ const VSuperCoreDashboard: React.FC = () => {
 
   const fetchSessions = async () => {
     try {
-      const response = await fetch('/api/v1/supercore/sessions/list', {
+      const response = await fetch('/api/v1/supercore/sessions', {
         headers: {
           'X-N3XUS-Handshake': '55-45-17',
           'Authorization': `Bearer ${localStorage.getItem('token')}`

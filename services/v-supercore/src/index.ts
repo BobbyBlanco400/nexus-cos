@@ -33,11 +33,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Metrics (before handshake to capture all requests)
+setupMetrics(app);
+
 // N3XUS Handshake verification
 app.use(handshakeMiddleware);
-
-// Metrics
-setupMetrics(app);
 
 // Public routes
 app.use('/health', healthRoutes);

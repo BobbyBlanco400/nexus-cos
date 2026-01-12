@@ -73,7 +73,7 @@ router.delete('/:fileId', async (req: Request, res: Response) => {
 });
 
 // List files
-router.get('/list', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
     const { sessionId, limit = 50, offset = 0 } = req.query;

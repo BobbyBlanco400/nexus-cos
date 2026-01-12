@@ -116,7 +116,7 @@ GET /sessions/:id
 List all sessions for the authenticated user.
 
 ```http
-GET /sessions/list
+GET /sessions
 ```
 
 **Query Parameters:**
@@ -511,7 +511,7 @@ DELETE /storage/:fileId
 List files for the authenticated user.
 
 ```http
-GET /storage/list?sessionId=sess_abc123&limit=50&offset=0
+GET /storage?sessionId=sess_abc123&limit=50&offset=0
 ```
 
 **Query Parameters:**

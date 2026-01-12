@@ -68,7 +68,7 @@ curl -X POST https://api.n3xuscos.online/v1/supercore/sessions/create \
 ### List Sessions
 
 ```bash
-curl https://api.n3xuscos.online/v1/supercore/sessions/list \
+curl https://api.n3xuscos.online/v1/supercore/sessions \
   -H "X-N3XUS-Handshake: 55-45-17" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
