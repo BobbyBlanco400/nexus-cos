@@ -12,6 +12,7 @@ import { healthRoutes } from './routes/health';
 import { handshakeMiddleware } from './middleware/handshake';
 import { authMiddleware } from './middleware/auth';
 import { errorHandler } from './middleware/errorHandler';
+import { standardRateLimit, sessionRateLimit } from './middleware/rateLimit';
 import { initDatabase } from './utils/database';
 import { initRedis } from './utils/redis';
 import { initKubernetes } from './utils/kubernetes';
@@ -42,11 +43,11 @@ app.use(handshakeMiddleware);
 // Public routes
 app.use('/health', healthRoutes);
 
-// Protected routes
-app.use('/api/v1/supercore/sessions', authMiddleware, sessionRoutes);
-app.use('/api/v1/supercore/resources', authMiddleware, resourceRoutes);
-app.use('/api/v1/supercore/stream', authMiddleware, streamRoutes);
-app.use('/api/v1/supercore/storage', authMiddleware, storageRoutes);
+// Protected routes with rate limiting
+app.use('/api/v1/supercore/sessions', authMiddleware, sessionRateLimit, sessionRoutes);
+app.use('/api/v1/supercore/resources', authMiddleware, standardRateLimit, resourceRoutes);
+app.use('/api/v1/supercore/stream', authMiddleware, standardRateLimit, streamRoutes);
+app.use('/api/v1/supercore/storage', authMiddleware, standardRateLimit, storageRoutes);
 
 // WebSocket handling
 wss.on('connection', (ws, req) => {
