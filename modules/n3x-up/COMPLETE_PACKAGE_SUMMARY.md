@@ -4,6 +4,8 @@
 
 **N3X-UP: The Cypher Dome™** is a revolutionary persistent virtual battle arena system that transforms battle rap into a permanent, monetizable, and fairly judged competitive platform. This Phase 3 package provides complete documentation and structure for safe integration into the N3XUS v-COS ecosystem.
 
+**Phase 3 Enhancement**: Introduces the **Layered Progression System** - a multi-dimensional evolution model where battlers progress across 5 interconnected layers that update simultaneously with each battle.
+
 ## Package Contents
 
 ### ✅ Complete Documentation (17 Files, ~95KB)
@@ -37,11 +39,31 @@
 
 ### ✅ Key Features Documented
 
+**Layered Progression System (NEW)**
+```
+┌─────────────────────────────────────┐
+│   MONETIZATION LAYER (Top)          │ ← Echoes™, Sponsorships, Belt Rewards
+├─────────────────────────────────────┤
+│   RANK LAYER                         │ ← Tier Progression, Champion Status
+├─────────────────────────────────────┤
+│   NARRATIVE LAYER                    │ ← Rivalries, Era Conflicts, Story Arcs
+├─────────────────────────────────────┤
+│   MOMENTUM LAYER                     │ ← Streaks, Style Wins, Crowd Reaction
+├─────────────────────────────────────┤
+│   SKILL LAYER (Base)                 │ ← Punchlines, Schemes, Cadence, Freestyle
+└─────────────────────────────────────┘
+```
+- **Simultaneous Updates**: All 5 layers evolve with each battle
+- **Cross-Layer Synergies**: Layers amplify each other
+- **Persistent Tracking**: Immutable storage in Neon Vault
+- **Dynamic Calculation**: Real-time metrics inform all systems
+
 **Level-Up System**
 ```
 Initiate → Contender → Challenger → Ascendant → Champion → Legacy
 ```
-- Tier-based progression with unlocks
+- Tier-based progression with layer requirements
+- Each tier requires minimum scores across all 5 layers
 - Genesis Season Badge for founding battlers
 - Performance stats tracking
 - Rivalry management
@@ -55,18 +77,21 @@ Bar Intelligence Engine: 25%
 - Fair, transparent, immutable verdicts
 - Real-time scoring and momentum tracking
 - Permanent storage on Neon Vault
+- **Outputs to Layers**: Feeds Skill and Momentum layers
 
 **Battle Belts as NFTs**
 - Dynamic evolution with defenses
 - Non-transferable while active
 - Collectible upon retirement
 - Champion economics (5k-10k NexCoin bonuses)
+- **Layer Integration**: Reads from Rank, Momentum, Monetization layers
 
 **Battle Echoes™ Monetization**
 - Automatic killshot clip generation
 - 65-90% royalties to battlers (tier-based)
 - Permanent archive on Neon Vault
 - Shareable, embeddable content
+- **Dynamic Royalties**: Calculated using Monetization, Narrative, Skill layers
 
 **Compliance-Ready Wagering**
 - Skill-based, deterministic outcomes
@@ -128,21 +153,22 @@ Bar Intelligence Engine: 25%
 
 ```
 modules/n3x-up/
-├─ README.md                               # Main overview
+├─ README.md                               # Main overview (enhanced with layers)
 ├─ arena/
 │  ├─ README.md                            # Arena system (5.4KB)
-│  └─ config.json                          # Arena configuration
+│  └─ config.json                          # Arena configuration (layer tracking added)
 ├─ battlers/
-│  ├─ README.md                            # Battler system (7.0KB)
-│  └─ tier-config.json                     # Tier configuration
+│  ├─ README.md                            # Battler system (enhanced with layers)
+│  ├─ tier-config.json                     # Tier configuration (layer requirements added)
+│  └─ progression-layers.json              # NEW: Complete layer specification
 ├─ judging/
-│  └─ README.md                            # Judging system (7.6KB)
+│  └─ README.md                            # Judging system (layer outputs documented)
 ├─ belts/
-│  └─ README.md                            # Belt system (7.5KB)
+│  └─ README.md                            # Belt system (layer integration added)
 ├─ echoes/
-│  └─ README.md                            # Echoes™ system (8.1KB)
+│  └─ README.md                            # Echoes™ system (dynamic royalties via layers)
 ├─ narrative/
-│  ├─ README.md                            # Narrative system (8.8KB)
+│  ├─ README.md                            # Narrative system (operates as Narrative Layer)
 │  └─ SEASON_1_BATTLES.md                  # Battle structures
 ├─ ui/
 │  └─ README.md                            # UI/UX system (11.6KB)
@@ -171,8 +197,9 @@ compliance-service:   port 3306 (Regulatory)
 
 ### Data Flow
 ```
-Battle → IMVU-L Arena → Hybrid Judging → Verdict Ledger →
-→ Neon Vault → Rank Progression → [Belts | Echoes™]
+Battle → IMVU-L Arena → Hybrid Judging → Layered Progression System →
+→ [Skill | Momentum | Narrative | Rank | Monetization] → 
+→ Neon Vault → [Belts | Echoes™]
 ```
 
 ### API Standards
