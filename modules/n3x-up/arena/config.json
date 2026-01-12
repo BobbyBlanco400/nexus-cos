@@ -1,0 +1,137 @@
+{
+  "arena_config": {
+    "version": "1.0.0",
+    "arena_id": "cypher_dome_main",
+    "type": "persistent_virtual_space",
+    "imvu_l_version": "2.0",
+    "capacity": {
+      "battlers": 2,
+      "judges": {
+        "standard": 3,
+        "championship": 5
+      },
+      "crowd": "unlimited_virtual"
+    },
+    "environment": {
+      "visual_theme": "neon_vault_aesthetic",
+      "primary_color": "#00ff9d",
+      "secondary_color": "#9d00ff",
+      "lighting": "dynamic_mood_responsive",
+      "audio": {
+        "enabled": true,
+        "spatial_3d": true,
+        "crowd_mix": true
+      }
+    },
+    "battle_settings": {
+      "standard_battle": {
+        "round_count": 3,
+        "time_per_round_seconds": 120,
+        "break_between_rounds_seconds": 30,
+        "rebuttal_enabled": false,
+        "total_duration_minutes": 20
+      },
+      "championship_battle": {
+        "round_count": 5,
+        "time_per_round_seconds": 120,
+        "break_between_rounds_seconds": 45,
+        "rebuttal_enabled": true,
+        "total_duration_minutes": 35
+      },
+      "exhibition_battle": {
+        "round_count": "custom",
+        "rules": "custom",
+        "ranking_impact": false
+      }
+    },
+    "recording": {
+      "enabled": true,
+      "storage_provider": "neon_vault",
+      "resolution": "4k",
+      "fps": 60,
+      "camera_angles": [
+        "wide_arena",
+        "battler_left_close",
+        "battler_right_close",
+        "crowd_reaction",
+        "judges_panel",
+        "overhead"
+      ],
+      "audio_tracks": {
+        "battler_a": true,
+        "battler_b": true,
+        "crowd": true,
+        "judges": true,
+        "ambient": true
+      },
+      "archival": {
+        "permanent": true,
+        "echo_clips_generated": true,
+        "killshot_isolation": true
+      }
+    },
+    "hud": {
+      "battler_names": true,
+      "tier_badges": true,
+      "round_timer": true,
+      "momentum_graph": true,
+      "crowd_intensity_meter": true,
+      "judge_reactions": true,
+      "bar_text_overlay": "optional"
+    },
+    "crowd_interface": {
+      "emote_wheel": [
+        "fire",
+        "skull",
+        "crown",
+        "coffin",
+        "explosion",
+        "mic_drop",
+        "chef_kiss",
+        "cringe"
+      ],
+      "intensity_voting": true,
+      "live_chat": true,
+      "momentum_influence": true
+    },
+    "integrations": {
+      "judging_system": {
+        "endpoint": "/judging/arena-feed",
+        "real_time": true
+      },
+      "neon_vault": {
+        "endpoint": "/vault/store",
+        "immutable": true
+      },
+      "crowd_ai": {
+        "endpoint": "/crowd-ai/analyze",
+        "weight": 0.35
+      },
+      "belt_system": {
+        "endpoint": "/belts/verify",
+        "active": true
+      },
+      "echoes_system": {
+        "endpoint": "/echoes/capture",
+        "auto_generate": true
+      }
+    },
+    "monitoring": {
+      "health_check_interval_seconds": 10,
+      "metrics": [
+        "battle_queue_length",
+        "active_battles_count",
+        "recording_storage_rate_mb_per_sec",
+        "crowd_participation_rate",
+        "system_latency_ms",
+        "imvu_l_instance_health"
+      ]
+    },
+    "compliance": {
+      "age_verification_required": true,
+      "geo_fencing_enabled": true,
+      "content_rating": "mature",
+      "wagering_integration": "skill_based_only"
+    }
+  }
+}

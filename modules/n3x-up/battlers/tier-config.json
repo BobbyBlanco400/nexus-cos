@@ -1,0 +1,228 @@
+{
+  "_note": "Sponsorship eligibility: Ascendant tier allows limited/regional sponsorships. Champion tier allows platform-wide premium sponsorships. Both tiers are eligible but with different scope and value.",
+  "tiers": {
+    "initiate": {
+      "level": 1,
+      "name": "Initiate",
+      "requirements": {
+        "battles_min": 0,
+        "win_rate_min": 0,
+        "special": "entry_tier"
+      },
+      "unlocks": {
+        "regional_battles": false,
+        "echoes_royalty": 0.65,
+        "belt_eligible": false,
+        "rivalry_tracking": "basic"
+      },
+      "badge_color": "#808080"
+    },
+    "contender": {
+      "level": 2,
+      "name": "Contender",
+      "requirements": {
+        "battles_min": 5,
+        "win_rate_min": 0.40,
+        "disqualifications_max": 0
+      },
+      "unlocks": {
+        "regional_battles": true,
+        "echoes_royalty": 0.70,
+        "belt_eligible": false,
+        "rivalry_tracking": "standard",
+        "standard_battle_scheduling": true
+      },
+      "badge_color": "#2563eb"
+    },
+    "challenger": {
+      "level": 3,
+      "name": "Challenger",
+      "requirements": {
+        "battles_min": 15,
+        "win_rate_min": 0.55,
+        "wins_vs_contenders": 3,
+        "killshots_min": 3
+      },
+      "unlocks": {
+        "regional_battles": true,
+        "cross_region_battles": true,
+        "echoes_royalty": 0.75,
+        "belt_eligible": true,
+        "belt_contention_matches": true,
+        "rivalry_tracking": "enhanced",
+        "profile_visibility": "enhanced",
+        "narrative_arc_participation": true
+      },
+      "badge_color": "#9d00ff"
+    },
+    "ascendant": {
+      "level": 4,
+      "name": "Ascendant",
+      "requirements": {
+        "battles_min": 30,
+        "win_rate_min": 0.65,
+        "wins_vs_challengers": 5,
+        "human_judge_validation": true
+      },
+      "unlocks": {
+        "championship_battles": true,
+        "belt_challenges": true,
+        "echoes_royalty": 0.80,
+        "premium_arena_slots": true,
+        "mentor_opportunities": true,
+        "sponsorship_eligible": true
+      },
+      "badge_color": "#00ff9d"
+    },
+    "champion": {
+      "level": 5,
+      "name": "Champion",
+      "requirements": {
+        "belt_holder": true,
+        "active_status": true
+      },
+      "unlocks": {
+        "belt_holder_privileges": true,
+        "defense_bonus_nexcoin": 5000,
+        "echoes_royalty": 0.85,
+        "sponsorship_eligible": true,
+        "hall_of_fame_track": true,
+        "premium_narrative_arcs": true
+      },
+      "badge_color": "#ffd700",
+      "special_features": {
+        "belt_defense_required": true,
+        "defense_interval_days": 90,
+        "championship_economics": true
+      }
+    },
+    "legacy": {
+      "level": 6,
+      "name": "Legacy",
+      "requirements": {
+        "retired_champion": true,
+        "minimum_defenses": 1
+      },
+      "unlocks": {
+        "hall_of_fame": true,
+        "belt_as_nft_collectible": true,
+        "lifetime_echoes_royalty": 0.90,
+        "judge_mentor_role": true,
+        "permanent_ledger_recognition": true,
+        "founding_battler_privileges": true
+      },
+      "badge_color": "#ff00ff",
+      "special_features": {
+        "battles_optional": true,
+        "exhibition_only": true,
+        "royalties_permanent": true
+      }
+    }
+  },
+  "genesis_badge": {
+    "name": "Genesis Season Badge",
+    "description": "Awarded to founding battlers",
+    "benefits": {
+      "priority_scheduling": true,
+      "echoes_royalty_bonus": 0.05,
+      "ledger_recognition": true,
+      "title": "Founding Battler"
+    },
+    "visual": {
+      "icon": "genesis_star",
+      "color": "#00ffff",
+      "animated": true
+    }
+  },
+  "style_tags": [
+    {
+      "id": "punchline",
+      "name": "Punchline",
+      "description": "Impactful one-liners and wordplay",
+      "color": "#ff4444"
+    },
+    {
+      "id": "scheme",
+      "name": "Scheme",
+      "description": "Complex rhyme patterns and multi-syllabic flows",
+      "color": "#4444ff"
+    },
+    {
+      "id": "performance",
+      "name": "Performance",
+      "description": "Delivery, presence, crowd engagement",
+      "color": "#ff44ff"
+    },
+    {
+      "id": "angle",
+      "name": "Angle",
+      "description": "Personal attacks, character work, psychological warfare",
+      "color": "#ffaa00"
+    },
+    {
+      "id": "freestyle",
+      "name": "Freestyle",
+      "description": "Off-the-top improvisation",
+      "color": "#00ff44"
+    }
+  ],
+  "regions": [
+    {
+      "id": "west",
+      "name": "West Coast",
+      "characteristics": "Performance-heavy, stage presence",
+      "dominant_style": "performance"
+    },
+    {
+      "id": "midwest",
+      "name": "Midwest",
+      "characteristics": "Scheme-focused, technical excellence",
+      "dominant_style": "scheme"
+    },
+    {
+      "id": "south",
+      "name": "South",
+      "characteristics": "Punchline-driven, call-and-response",
+      "dominant_style": "punchline"
+    },
+    {
+      "id": "east",
+      "name": "East Coast",
+      "characteristics": "Lyricism, multi-layered wordplay",
+      "dominant_style": "scheme"
+    },
+    {
+      "id": "global",
+      "name": "Global Wildcard",
+      "characteristics": "International, diverse styles",
+      "dominant_style": "mixed"
+    }
+  ],
+  "stats_tracking": {
+    "killshots": {
+      "description": "Decisive bars that swing momentum",
+      "weight": "high",
+      "detection": "bar_intelligence_engine"
+    },
+    "multisyllabic_avg": {
+      "description": "Average syllables per rhyme scheme",
+      "weight": "medium",
+      "detection": "automated"
+    },
+    "originality_score": {
+      "description": "AI-detected uniqueness (0-100)",
+      "weight": "high",
+      "detection": "ai_analysis"
+    },
+    "crowd_favorite_rating": {
+      "description": "Aggregate crowd reactions (1-5)",
+      "weight": "medium",
+      "detection": "crowd_ai"
+    },
+    "momentum_avg": {
+      "description": "Average momentum score (0-100)",
+      "weight": "high",
+      "detection": "real_time_calculation"
+    }
+  }
+}
