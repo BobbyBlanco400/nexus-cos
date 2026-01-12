@@ -29,6 +29,9 @@ Phase 4 represents the **Full Public Launch** of Nexus COS, completing the phase
 # Navigate to repository
 cd /opt/nexus-cos
 
+# Make script executable (if needed)
+chmod +x deploy-phase-4-full-launch.sh
+
 # Run Phase 4 deployment script
 sudo ./deploy-phase-4-full-launch.sh
 ```

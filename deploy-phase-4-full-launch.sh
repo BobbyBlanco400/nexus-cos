@@ -678,7 +678,17 @@ validate_deployment() {
 print_deployment_summary() {
     local end_time=$(date +%s)
     local duration=$((end_time - DEPLOYMENT_STATE["start_time"]))
-    local duration_formatted="$(date -u -d @${duration} +%T 2>/dev/null || echo "${duration}s")"
+    # Portable duration formatting
+    local duration_formatted
+    if date -u -d "@${duration}" +%T >/dev/null 2>&1; then
+        duration_formatted="$(date -u -d "@${duration}" +%T)"
+    else
+        # Fallback for non-GNU date
+        local hours=$((duration / 3600))
+        local minutes=$(( (duration % 3600) / 60 ))
+        local seconds=$((duration % 60))
+        duration_formatted=$(printf "%02d:%02d:%02d" $hours $minutes $seconds)
+    fi
     
     echo ""
     echo -e "${C_MAGENTA}╔═══════════════════════════════════════════════════════════════════════════╗${C_NC}"

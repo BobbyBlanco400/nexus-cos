@@ -47,7 +47,7 @@ fi
 
 echo ""
 echo "3. Checking script syntax..."
-if bash -n ./deploy-phase-4-full-launch.sh 2>&1; then
+if bash -n ./deploy-phase-4-full-launch.sh >/dev/null 2>&1; then
     test_pass "Script syntax is valid"
 else
     test_fail "Script syntax has errors"
