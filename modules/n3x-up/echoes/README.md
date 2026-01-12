@@ -6,6 +6,8 @@
 
 Battle Echoes™ is the monetization and replay system that transforms battle moments into valuable, shareable content. Every killshot, legendary bar, and memorable moment becomes a monetizable asset with royalty distribution to battlers.
 
+**NEW**: Echoes™ royalty rates are now dynamically calculated using the **Layered Progression System**, reading from Monetization, Narrative, and Skill layers.
+
 ## Core Concept
 
 Echoes™ are:
@@ -116,7 +118,7 @@ All prices in NexCoin.
 - Split among featured battlers
 - Platform: 15%
 
-### Tier-Based Royalties
+### Tier-Based Royalties (Base Rates)
 ```
 Initiate:    65%
 Contender:   70%
@@ -128,6 +130,54 @@ Legacy:      90%
 Genesis Badge Bonus: +5%
 Belt Holder Bonus:   +1% per defense (max +10%)
 ```
+
+---
+
+## Layer Integration
+
+### Dynamic Royalty Calculation
+
+Echoes™ royalty rates are calculated using **Progression Layers**:
+
+#### Monetization Layer → Base Royalty Rate
+- Tier-based base rate (65%-90%)
+- Genesis badge bonus (+5%)
+- Belt holder bonuses applied
+
+#### Narrative Layer → Echo Value Multiplier
+- Active rivalry: +10% echo value
+- Legendary moment participation: +15% value
+- Era-defining content: +20% value
+- Storyline completion bonuses
+
+#### Skill Layer → Premium Echo Eligibility
+- High skill scores (85+) qualify for premium pricing
+- Killshot quality affects automatic promotion
+- Style mastery unlocks specialty compilations
+
+**Dynamic Rate Formula:**
+```
+Final_Royalty_Rate = Base_Rate (Monetization Layer)
+                   + Genesis_Bonus (if applicable)
+                   + Belt_Bonus (if champion)
+                   + Narrative_Bonus (Narrative Layer)
+```
+
+**Echo Value Calculation:**
+```
+Echo_Value = Base_Price 
+           × Skill_Quality_Multiplier (Skill Layer)
+           × Narrative_Impact_Multiplier (Narrative Layer)
+```
+
+### Layer Updates from Echo Sales
+
+Echo sales feed back into layers:
+- **Monetization Layer**: Lifetime earnings updated
+- **Narrative Layer**: Popular echoes boost narrative impact score
+- **Rank Layer**: High echo sales contribute to tier progression
+
+---
 
 ## Echo Generation
 

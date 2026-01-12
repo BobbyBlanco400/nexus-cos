@@ -4,6 +4,8 @@
 
 The Narrative System creates persistent, serialized storylines across battles, building rivalries, regional conflicts, style wars, and era-defining moments. It transforms individual battles into an ongoing IMVU-L (Interactive Multi-Verse Unit - League) saga.
 
+**NEW**: Narrative arcs are now dynamically generated and tracked through the **Layered Progression System**, reading from and feeding into Narrative, Momentum, and Rank layers.
+
 ## Season 1 War Map
 
 ### Regional Circuits
@@ -183,6 +185,88 @@ Season Structure:
   }
 }
 ```
+
+---
+
+## Layer Integration
+
+### Narrative Layer Mechanics
+
+The Narrative System operates as the **Narrative Layer** in the progression system:
+
+#### Auto-Generation from Battle Outcomes
+```
+[Battle Result]
+     │
+     ├─> Rivalry intensity updated
+     ├─> Era conflict alignment tracked
+     ├─> Storyline threads extended
+     └─> Narrative impact score calculated
+```
+
+#### Layer Components Tracked
+
+**Era Conflict Participation**
+- Pen Era vs Performance Era
+- Freestyle vs Written
+- Underground vs Algorithm
+- Legacy vs New Blood
+- Alignment and victories tracked per battler
+
+**Rivalries**
+- Auto-generated from close battles
+- Intensity levels: emerging → heated → legendary
+- Head-to-head records maintained
+- Story arc progression tracked (0-100%)
+
+**Storyline Threads**
+- Current active arcs
+- Arc completion rates
+- Narrative milestones achieved
+- Cross-battler story connections
+
+**Serialized IMVU-L Arcs**
+- Season participation tracking
+- Role assignment (protagonist/antagonist/wildcard)
+- Narrative impact score (0-100)
+- Story-driven battle scheduling
+
+**Legacy Building**
+- Memorable moments captured
+- Killshot highlights preserved
+- Signature style events logged
+- Hall of Fame trajectory
+
+#### Feeds Into Other Layers
+
+**→ Monetization Layer**
+- High narrative impact = increased Echo value
+- Active rivalries boost royalty rates
+- Legendary status unlocks premium pricing
+
+**→ Rank Layer**  
+- Narrative participation counts toward tier progression
+- Story completion bonuses accelerate ranking
+- Era-defining moments provide rank boosts
+
+**→ Momentum Layer**
+- Rivalry wins boost momentum scores
+- Story arc climaxes trigger momentum spikes
+- Cross-region narrative success tracked
+
+#### Fed By Other Layers
+
+**← Momentum Layer**
+- Win streaks trigger new story arcs
+- Comeback victories create narrative moments
+- Crowd reaction trends influence storyline direction
+
+**← Rank Layer**
+- Tier progression unlocks narrative participation
+- Champion status activates championship arcs
+- Legacy tier enables mentor storylines
+
+---
 
 ## Placeholder Battle Structure
 

@@ -77,7 +77,20 @@
       "momentum_graph": true,
       "crowd_intensity_meter": true,
       "judge_reactions": true,
-      "bar_text_overlay": "optional"
+      "bar_text_overlay": "optional",
+      "layer_visualization": {
+        "enabled": true,
+        "display_mode": "3d_stack",
+        "layers_shown": ["skill", "momentum", "narrative", "rank", "monetization"],
+        "update_frequency": "real_time",
+        "color_coding": {
+          "skill": "#4444ff",
+          "momentum": "#ff4444",
+          "narrative": "#9d00ff",
+          "rank": "#ffd700",
+          "monetization": "#00ff9d"
+        }
+      }
     },
     "crowd_interface": {
       "emote_wheel": [
@@ -114,6 +127,11 @@
       "echoes_system": {
         "endpoint": "/echoes/capture",
         "auto_generate": true
+      },
+      "progression_layers": {
+        "endpoint": "/battlers/layers/update",
+        "simultaneous_update": true,
+        "layers": ["skill", "momentum", "narrative", "rank", "monetization"]
       }
     },
     "monitoring": {
@@ -124,7 +142,9 @@
         "recording_storage_rate_mb_per_sec",
         "crowd_participation_rate",
         "system_latency_ms",
-        "imvu_l_instance_health"
+        "imvu_l_instance_health",
+        "layer_update_success_rate",
+        "layer_processing_time_ms"
       ]
     },
     "compliance": {
