@@ -2,7 +2,7 @@
 
 ## Overview
 
-v-SuperCore is the world's first fully virtualized Super PC, providing on-demand cloud computing resources accessible from any device.
+v-SuperCore is the world's first fully virtualized Super PC, providing on-demand cloud computing resources accessible from any device. Powered by N.E.X.U.S AI for intelligent resource optimization and predictive scaling.
 
 ## Quick Start
 
