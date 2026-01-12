@@ -136,8 +136,7 @@ async function init() {
       ]
     },
     primitive: {
-      topology: 'triangle-strip',
-      stripIndexFormat: 'uint32'
+      topology: 'triangle-strip'
     }
   });
 
