@@ -413,6 +413,43 @@ preparation:
 5. **Regional authenticity** — Match battlers to appropriate circuits
 6. **Narrative coherence** — Ensure storylines make sense with real people
 
+### Legal & Consent Requirements:
+**CRITICAL: Before assigning any real battler to battles:**
+
+1. **Explicit Consent Required**
+   - Written agreement to participate
+   - Understanding of platform terms
+   - Consent to recording and distribution
+   - Agreement to judging system
+
+2. **Legal Agreements**
+   - Platform participation agreement
+   - Image and likeness rights
+   - Content licensing agreement
+   - NexCoin wallet terms acceptance
+   - Wagering system acknowledgment
+
+3. **Rights Management**
+   - Battler retains performance rights
+   - Platform receives distribution license
+   - Echo™ royalty split documented
+   - NFT ownership terms clear
+   - Exit clauses defined
+
+4. **Age & Identity Verification**
+   - 18+ verification completed
+   - Government ID verified
+   - Geographic eligibility confirmed
+   - Payment information validated
+
+5. **Disclosure Requirements**
+   - Judging system explained
+   - Monetization model transparent
+   - Risks and benefits disclosed
+   - Dispute resolution process clear
+
+**No battler should be assigned without completing all legal requirements.**
+
 ### Safety Considerations:
 - No battler assigned without explicit consent
 - All participants complete age verification
