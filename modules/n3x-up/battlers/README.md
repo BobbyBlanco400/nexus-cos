@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Battlers System manages battler profiles, statistics, tier progression, and identity within The Cypher Dome™. It tracks performance history, style preferences, rivalry threads, and progression through the ranking tiers.
+The Battlers System manages battler profiles, statistics, tier progression, and identity within N3X-UP: The Cypher Dome™. It tracks performance history, style preferences, rivalry threads, and progression through the ranking tiers.
 
 **NEW in Phase 3**: Multi-dimensional **Layered Progression System** - Battlers evolve across 5 interconnected layers that update simultaneously with each battle.
 

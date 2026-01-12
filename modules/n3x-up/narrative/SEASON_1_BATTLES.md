@@ -382,7 +382,7 @@ preparation:
 - Culminates in inter-regional championship
 
 ### Thread 2: Style Wars
-- Which style dominates The Cypher Dome™?
+- Which style dominates N3X-UP: The Cypher Dome™?
 - Style championship qualification
 - Meta evolution based on results
 

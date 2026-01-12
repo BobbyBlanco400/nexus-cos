@@ -329,7 +329,7 @@ All belt history permanently stored on Neon Vault:
 - Every legendary moment
 - Complete lineage
 
-This creates an immutable championship record spanning the entire history of The Cypher Dome™.
+This creates an immutable championship record spanning the entire history of N3X-UP: The Cypher Dome™.
 
 ---
 

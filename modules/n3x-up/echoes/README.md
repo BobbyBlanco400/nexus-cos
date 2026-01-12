@@ -423,7 +423,7 @@ Monetization Active
 
 Echoes create a permanent, searchable, monetizable archive of battle rap history. Every bar, every moment, every legend is preserved forever.
 
-**This is The Cypher Dome™ legacy.**
+**This is N3X-UP: The Cypher Dome™ legacy.**
 
 ---
 
