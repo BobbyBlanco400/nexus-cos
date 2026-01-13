@@ -30,13 +30,13 @@ fi
 
 if [ -f "$TENANTS_FILE" ]; then
   TENANT_COUNT=$(grep -o '"id"' "$TENANTS_FILE" | wc -l)
-  if [ "$TENANT_COUNT" -ne 12 ]; then
+  if [ "$TENANT_COUNT" -ne 13 ]; then
     echo "❌ BLOCKED: Invalid tenant count"
-    echo "   Expected: 12"
+    echo "   Expected: 13"
     echo "   Got: $TENANT_COUNT"
     exit 1
   fi
-  echo "✅ Tenant count verified: 12"
+  echo "✅ Tenant count verified: 13"
 fi
 
 echo "✅ PASSED: Handshake gate check"

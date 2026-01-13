@@ -74,7 +74,7 @@ fi
 echo "✅ Guardrails file found"
 
 # Check key guardrail settings
-if ! grep -q 'canonical_count: 12' "$GUARDRAILS_FILE"; then
+if ! grep -q 'canonical_count: 13' "$GUARDRAILS_FILE"; then
   echo "❌ FAILED: Canonical count not set to 12 in guardrails"
   exit 1
 fi

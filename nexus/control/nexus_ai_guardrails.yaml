@@ -20,7 +20,7 @@ handshake_requirement:
   degraded_mode: false
 
 tenant_guardrails:
-  canonical_count: 12
+  canonical_count: 13
   allow_add: false
   allow_remove: false
   allow_modify: false
@@ -152,7 +152,7 @@ validation_gates:
   - name: tenant_count_gate
     required: true
     failure_action: block
-    expected_count: 12
+    expected_count: 13
   
   - name: revenue_split_gate
     required: true
