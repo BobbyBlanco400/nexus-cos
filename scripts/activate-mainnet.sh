@@ -15,12 +15,16 @@ if [ ! -f "config/genesis.lock.json" ]; then
     exit 1
 fi
 
+# Create secure temporary file
+TEMP_FILE=$(mktemp)
+trap "rm -f $TEMP_FILE" EXIT
+
 # Update genesis lock file - set both activated and state
 jq '.activated = true | .state = "MAINNET_ACTIVE" | .mainnet_activated_at = now | .mainnet_activated_at |= todate' \
-  config/genesis.lock.json > /tmp/genesis.lock.json
+  config/genesis.lock.json > "$TEMP_FILE"
 
 # Move the updated file back
-mv /tmp/genesis.lock.json config/genesis.lock.json
+mv "$TEMP_FILE" config/genesis.lock.json
 
 echo "✅ MAINNET IS NOW LIVE"
 echo ""

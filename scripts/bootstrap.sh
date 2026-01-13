@@ -24,7 +24,7 @@ echo "✅ Genesis lock file found"
 # Start core services with docker compose
 if command -v docker &> /dev/null; then
     echo "🐳 Starting core services..."
-    docker compose --profile core up -d || echo "⚠️  Docker services not started (may not be configured yet)"
+    docker compose --profile core up -d || echo "⚠️  Docker services failed to start. Check Docker status and configuration."
 fi
 
 # Display system status
@@ -35,4 +35,3 @@ bash scripts/system-status.sh
 echo ""
 echo "✅ Bootstrap complete"
 echo "   Run 'bash scripts/system-status.sh' to check system state"
-echo ""
