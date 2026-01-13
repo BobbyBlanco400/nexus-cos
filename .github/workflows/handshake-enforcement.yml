@@ -1,0 +1,156 @@
+name: 🔴 Handshake 55-45-17 Enforcement
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  enforce-handshake:
+    name: 🔴 Enforce N3XUS Handshake
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: 🔴 Set Genesis Lock Environment
+        run: |
+          echo "NEXUS_HANDSHAKE=55-45-17" >> $GITHUB_ENV
+          echo "GENESIS_LOCK_ENABLED=true" >> $GITHUB_ENV
+          echo "🔴 Environment configured for Genesis Lock"
+      
+      - name: 🔴 Verify Genesis Lock Files
+        run: |
+          echo "🔴 Checking Genesis Lock files..."
+          
+          if [ ! -f "core/genesis-lock/lock.enabled" ]; then
+            echo "❌ Genesis Lock not enabled"
+            exit 1
+          fi
+          
+          if [ ! -f "core/genesis-lock/genesis-lock-validator.sh" ]; then
+            echo "❌ Genesis Lock validator missing"
+            exit 1
+          fi
+          
+          echo "✅ Genesis Lock files verified"
+      
+      - name: 🔴 Run Handshake Enforcer
+        run: |
+          echo "🔴 Running N3XUS Handshake Enforcer..."
+          chmod +x nexus-handshake-enforcer.sh
+          export NEXUS_HANDSHAKE="55-45-17"
+          export GENESIS_LOCK_ENABLED="true"
+          ./nexus-handshake-enforcer.sh || exit 1
+          echo "✅ Handshake enforcement passed"
+      
+      - name: 🔴 Run Genesis Lock Validator
+        run: |
+          echo "🔴 Running Genesis Lock Validator..."
+          chmod +x core/genesis-lock/genesis-lock-validator.sh
+          export NEXUS_HANDSHAKE="55-45-17"
+          export GENESIS_LOCK_ENABLED="true"
+          ./core/genesis-lock/genesis-lock-validator.sh || exit 1
+          echo "✅ Genesis Lock validation passed"
+      
+      - name: 🔴 Validate Tenant Count
+        run: |
+          echo "🔴 Validating tenant count..."
+          
+          if [ ! -f "nexus/tenants/canonical_tenants.json" ]; then
+            echo "❌ Tenant registry not found"
+            exit 1
+          fi
+          
+          TENANT_COUNT=$(grep -o '"id"' nexus/tenants/canonical_tenants.json | wc -l)
+          
+          if [ "$TENANT_COUNT" -ne 13 ]; then
+            echo "❌ Expected 13 tenants, found $TENANT_COUNT"
+            exit 1
+          fi
+          
+          echo "✅ Tenant count validated: 13"
+      
+      - name: 🔴 Validate Revenue Split
+        run: |
+          echo "🔴 Validating revenue split..."
+          
+          if ! grep -q '"split": "80/20"' nexus/tenants/canonical_tenants.json; then
+            echo "❌ Revenue split not set to 80/20"
+            exit 1
+          fi
+          
+          echo "✅ Revenue split validated: 80/20"
+      
+      - name: 🔴 Validate Governance Charter
+        run: |
+          echo "🔴 Validating governance charter..."
+          
+          if [ ! -f "GOVERNANCE_CHARTER_55_45_17.md" ]; then
+            echo "❌ Governance charter missing"
+            exit 1
+          fi
+          
+          if ! grep -q "55-45-17" GOVERNANCE_CHARTER_55_45_17.md; then
+            echo "❌ Handshake not found in governance charter"
+            exit 1
+          fi
+          
+          echo "✅ Governance charter validated"
+      
+      - name: 🔴 Validate Master PR Documentation
+        run: |
+          echo "🔴 Validating Master PR documentation..."
+          
+          if [ ! -f "N3XUS_vCOS_MasterPR_FullStack_Launch.md" ]; then
+            echo "❌ Master PR documentation missing"
+            exit 1
+          fi
+          
+          if ! grep -q "55-45-17" N3XUS_vCOS_MasterPR_FullStack_Launch.md; then
+            echo "❌ Handshake not found in Master PR documentation"
+            exit 1
+          fi
+          
+          echo "✅ Master PR documentation validated"
+      
+      - name: 🔴 Validate Codespaces Configuration
+        run: |
+          echo "🔴 Validating Codespaces configuration..."
+          
+          if [ ! -f ".devcontainer/devcontainer.json" ]; then
+            echo "❌ Codespaces configuration missing"
+            exit 1
+          fi
+          
+          if ! grep -q "55-45-17" .devcontainer/devcontainer.json; then
+            echo "❌ Handshake not found in Codespaces config"
+            exit 1
+          fi
+          
+          echo "✅ Codespaces configuration validated"
+      
+      - name: 🔴 Final Enforcement Report
+        run: |
+          echo ""
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║  ✅ HANDSHAKE ENFORCEMENT COMPLETE                          ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "Status Summary:"
+          echo "  ✅ Handshake: 55-45-17 ENFORCED"
+          echo "  ✅ Genesis Lock: ACTIVE"
+          echo "  ✅ Tenants: 13 VERIFIED"
+          echo "  ✅ Revenue Split: 80/20 LOCKED"
+          echo "  ✅ Governance: COMPLIANT"
+          echo "  ✅ Documentation: VALIDATED"
+          echo "  ✅ Codespaces: CONFIGURED"
+          echo ""
+          echo "🔴 System safety mechanism: ENGAGED"
+          echo "🔴 Silent failure mode: ENABLED"
+          echo ""

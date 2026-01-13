@@ -1,0 +1,141 @@
+{
+  "name": "N3XUS COS Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "1.21"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "golang.go",
+        "redhat.vscode-yaml",
+        "ms-vscode.makefile-tools",
+        "usernamehw.errorlens",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/dist/**": true,
+          "**/.git/**": true
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [
+    3000,
+    3100,
+    3401,
+    4000,
+    5432,
+    6379,
+    8080,
+    9000
+  ],
+
+  "portsAttributes": {
+    "3000": {
+      "label": "PUABO API",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    },
+    "3100": {
+      "label": "Auth Service",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    },
+    "3401": {
+      "label": "PUABO AI Hybrid",
+      "onAutoForward": "silent",
+      "protocol": "http"
+    },
+    "4000": {
+      "label": "StreamCore",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "silent",
+      "protocol": "tcp"
+    },
+    "6379": {
+      "label": "Redis",
+      "onAutoForward": "silent",
+      "protocol": "tcp"
+    },
+    "8080": {
+      "label": "NGINX Gateway",
+      "onAutoForward": "openBrowser",
+      "protocol": "http"
+    },
+    "9000": {
+      "label": "N.E.X.U.S AI Control Panel",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  
+  "remoteUser": "node",
+  
+  "mounts": [
+    "source=${localWorkspaceFolder}/.env,target=/workspaces/nexus-cos/.env,type=bind,consistency=cached"
+  ],
+
+  "containerEnv": {
+    "NEXUS_HANDSHAKE": "55-45-17",
+    "GENESIS_LOCK_ENABLED": "true",
+    "NODE_ENV": "development",
+    "CODESPACES_ENV": "true"
+  },
+
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/workspaces/nexus-cos/scripts:/workspaces/nexus-cos/nexus-ai/verify"
+  },
+
+  "postStartCommand": "echo '🔴 N3XUS COS Codespaces Environment Ready. Run ./nexus-handshake-enforcer.sh to verify Genesis Lock.'",
+  
+  "waitFor": "postCreateCommand",
+  
+  "updateContentCommand": "echo '🔴 Updating dependencies...' && npm install --silent || true",
+  
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  }
+}
