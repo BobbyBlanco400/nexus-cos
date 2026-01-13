@@ -13,12 +13,8 @@ if [ ! -f "config/genesis.lock.json" ]; then
     exit 1
 fi
 
-# Read state from genesis lock file
-STATE=$(jq -r '.state' config/genesis.lock.json)
-ACTIVATED=$(jq -r '.activated' config/genesis.lock.json)
-PHASE_1=$(jq -r '.phases.phase_1' config/genesis.lock.json)
-PHASE_2=$(jq -r '.phases.phase_2' config/genesis.lock.json)
-PHASE_2_5=$(jq -r '.phases.phase_2_5' config/genesis.lock.json)
+# Read all values from genesis lock file in a single jq call
+read -r STATE ACTIVATED PHASE_1 PHASE_2 PHASE_2_5 < <(jq -r '[.state, .activated, .phases.phase_1, .phases.phase_2, .phases.phase_2_5] | @tsv' config/genesis.lock.json)
 
 echo "╔══════════════════════════════════════════════════════════════╗"
 echo "║  N3XUS COS System Status                                    ║"
