@@ -1,0 +1,91 @@
+name: Mainnet Guard
+
+on: [push]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Prevent Genesis Mutation
+        run: |
+          # Check if genesis lock is immutable
+          IMMUTABLE=$(jq -r '.immutable' config/genesis.lock.json)
+          
+          if [ "$IMMUTABLE" != "true" ]; then
+            echo "❌ Genesis lock file is not marked as immutable"
+            exit 1
+          fi
+          
+          # Allow activation changes (activated and state fields)
+          # But prevent changes to immutable core fields
+          SYSTEM=$(jq -r '.system' config/genesis.lock.json)
+          LOCK_VERSION=$(jq -r '.lock_version' config/genesis.lock.json)
+          
+          if [ "$SYSTEM" != "N3XUS-COS" ]; then
+            echo "❌ System field has been mutated"
+            exit 1
+          fi
+          
+          if [ "$LOCK_VERSION" != "1.0.0" ]; then
+            echo "❌ Lock version has been mutated"
+            exit 1
+          fi
+          
+          echo "✅ Genesis lock integrity verified"
+          echo "   Immutable: $IMMUTABLE"
+          echo "   System: $SYSTEM"
+          echo "   Version: $LOCK_VERSION"
+      
+      - name: Verify Genesis Lock Integrity
+        run: |
+          # Verify required fields exist
+          jq -e '.system' config/genesis.lock.json > /dev/null
+          jq -e '.state' config/genesis.lock.json > /dev/null
+          jq -e '.activated' config/genesis.lock.json > /dev/null
+          jq -e '.phases' config/genesis.lock.json > /dev/null
+          
+          echo "✅ Genesis lock file integrity verified"
+      
+      - name: Verify Phase Status
+        run: |
+          PHASE_1=$(jq -r '.phases.phase_1' config/genesis.lock.json)
+          PHASE_2=$(jq -r '.phases.phase_2' config/genesis.lock.json)
+          PHASE_2_5=$(jq -r '.phases.phase_2_5' config/genesis.lock.json)
+          
+          echo "Phase 1: $PHASE_1"
+          echo "Phase 2: $PHASE_2"
+          echo "Phase 2.5: $PHASE_2_5"
+          
+          if [ "$PHASE_1" = "COMPLETE" ] && [ "$PHASE_2" = "COMPLETE" ] && [ "$PHASE_2_5" = "SEALED" ]; then
+            echo "✅ All phases verified"
+          else
+            echo "❌ Phase status verification failed"
+            exit 1
+          fi
+      
+      - name: Report System Status
+        run: |
+          STATE=$(jq -r '.state' config/genesis.lock.json)
+          ACTIVATED=$(jq -r '.activated' config/genesis.lock.json)
+          
+          echo ""
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║  N3XUS COS System Status                                    ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "🧠 SYSTEM STATE: $STATE"
+          echo "🔥 MAINNET ACTIVE: $ACTIVATED"
+          echo ""
+          
+          if [ "$STATE" = "GENESIS_LOCKED" ] && [ "$ACTIVATED" = "false" ]; then
+            echo "📊 Status: Launched, not ignited"
+          elif [ "$STATE" = "MAINNET_ACTIVE" ] && [ "$ACTIVATED" = "true" ]; then
+            echo "📊 Status: 🟢 LIVE"
+          fi

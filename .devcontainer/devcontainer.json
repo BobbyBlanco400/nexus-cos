@@ -108,7 +108,7 @@
     }
   },
 
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "bash scripts/bootstrap.sh",
   
   "remoteUser": "node",
   
@@ -127,7 +127,7 @@
     "PATH": "${containerEnv:PATH}:/workspaces/nexus-cos/scripts:/workspaces/nexus-cos/nexus-ai/verify"
   },
 
-  "postStartCommand": "echo '🔴 N3XUS COS Codespaces Environment Ready. Run ./nexus-handshake-enforcer.sh to verify Genesis Lock.'",
+  "postStartCommand": "bash scripts/system-status.sh",
   
   "waitFor": "postCreateCommand",
   
