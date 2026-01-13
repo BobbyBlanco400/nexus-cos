@@ -11,6 +11,8 @@ jobs:
   enforce-handshake:
     name: 🔴 Enforce N3XUS Handshake
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout Repository

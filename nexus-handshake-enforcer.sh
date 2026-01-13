@@ -75,7 +75,7 @@ echo "✅ Guardrails file found"
 
 # Check key guardrail settings
 if ! grep -q 'canonical_count: 13' "$GUARDRAILS_FILE"; then
-  echo "❌ FAILED: Canonical count not set to 12 in guardrails"
+  echo -e "${RED}❌ FAILED: Canonical count not set to 13 in guardrails${NC}"
   exit 1
 fi
 
@@ -89,10 +89,10 @@ if ! grep -q 'split_ratio: "80/20"' "$GUARDRAILS_FILE"; then
   exit 1
 fi
 
-echo "✅ Guardrails validated"
-echo "  - Tenant count: 12"
-echo "  - Handshake: 55-45-17"
-echo "  - Revenue split: 80/20"
+echo -e "${GREEN}✅ Guardrails validated${NC}"
+echo -e "${GREEN}  - Tenant count: 13${NC}"
+echo -e "${GREEN}  - Handshake: 55-45-17${NC}"
+echo -e "${GREEN}  - Revenue split: 80/20${NC}"
 
 # 4. Run Health Gate
 echo ""
@@ -149,7 +149,7 @@ echo -e "${YELLOW}Platform Truth:${NC}"
 echo -e "${YELLOW}  - 78 container-ready services${NC}"
 echo -e "${YELLOW}  - 8 embedded engines${NC}"
 echo -e "${YELLOW}  - 24 platform layers${NC}"
-echo -e "${YELLOW}  - 13 independent streaming mini platforms${NC}"
+echo -e "${YELLOW}  - ${TENANT_COUNT} independent streaming mini platforms${NC}"
 echo ""
 echo -e "${RED}Enforcement Mode: STRICT${NC}"
 echo -e "${RED}Bypass Allowed: NO${NC}"
