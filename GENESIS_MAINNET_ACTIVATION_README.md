@@ -78,10 +78,14 @@ set -e
 
 echo "🚀 Activating Mainnet..."
 
-jq '.activated = true | .state = "MAINNET_ACTIVE" | .mainnet_activated_at = now | .mainnet_activated_at |= todate' \
-  config/genesis.lock.json > /tmp/genesis.lock.json
+# Create secure temporary file
+TEMP_FILE=$(mktemp)
+trap 'rm -f "$TEMP_FILE"' EXIT
 
-mv /tmp/genesis.lock.json config/genesis.lock.json
+jq '.activated = true | .state = "MAINNET_ACTIVE" | .mainnet_activated_at = now | .mainnet_activated_at |= todate' \
+  config/genesis.lock.json > "$TEMP_FILE"
+
+mv "$TEMP_FILE" config/genesis.lock.json
 
 echo "✅ MAINNET IS NOW LIVE"
 ```

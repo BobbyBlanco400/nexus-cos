@@ -17,7 +17,7 @@ fi
 
 # Create secure temporary file
 TEMP_FILE=$(mktemp)
-trap "rm -f $TEMP_FILE" EXIT
+trap 'rm -f "$TEMP_FILE"' EXIT
 
 # Update genesis lock file - set both activated and state
 jq '.activated = true | .state = "MAINNET_ACTIVE" | .mainnet_activated_at = now | .mainnet_activated_at |= todate' \
