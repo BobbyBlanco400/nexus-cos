@@ -206,13 +206,15 @@ Enter N3XUS shipping address:
 ```
 Bobby Blanco
 N3XUS v-COS Headquarters
-[Your Address Line 1]
-[Your Address Line 2]
-[City, State ZIP]
+[Replace with actual street address]
+[Replace with suite/unit number if applicable]
+[Replace with City, State ZIP]
 United States
-Phone: [Your Phone Number]
+Phone: [Replace with contact phone number]
 Email: bobby@n3xuscos.com
 ```
+
+**Note:** Replace all bracketed placeholders with actual shipping information before submission.
 
 ### Step 2: Shipping Method
 

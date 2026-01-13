@@ -235,7 +235,7 @@ function HoloSnap() {
             <h4 style={{ marginTop: 0 }}>Physical</h4>
             <ul style={{ paddingLeft: '20px', fontSize: '14px' }}>
               <li>45mm × 30mm × 15mm</li>
-              <li>Weight: &lt; 50g</li>
+              <li>Weight: {'<'} 50g</li>
               <li>Aluminum housing</li>
               <li>Matte black finish</li>
               <li>Universal clip mount</li>

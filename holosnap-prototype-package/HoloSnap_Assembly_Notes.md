@@ -179,12 +179,13 @@ This document provides detailed instructions for assembling HoloSnap v1 devices.
 
 3. **Program Device ID:**
    - Assign unique ID per unit
-   - Format: `HSNAP-W[X]-[SERIAL]`
-   - Flash to EEPROM:
+   - Format: `HSNAP-W[X]-[SERIAL]` (e.g., HSNAP-W1-001, HSNAP-W2-015)
+   - Flash to EEPROM (replace DEVICE_ID with actual unique ID):
    ```bash
    esptool.py --chip esp32s3 --port /dev/ttyUSB0 \
-     write_flash 0x3FC000 device_id_HSNAP-W1-001.bin
+     write_flash 0x3FC000 device_id_${DEVICE_ID}.bin
    ```
+   **Note:** Each device must have a unique ID programmed during manufacturing.
 
 4. **Verify Boot:**
    - Power cycle device

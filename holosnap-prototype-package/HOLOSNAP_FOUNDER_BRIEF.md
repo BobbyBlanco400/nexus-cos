@@ -299,7 +299,7 @@ End Users (Activation)
 **Contact Information:**
 - **Founder:** Bobby Blanco
 - **Email:** bobby@n3xuscos.com
-- **Phone:** [Your Phone Number]
+- **Phone:** [Replace with actual contact phone number]
 - **Company Website:** https://n3xuscos.online
 
 **Response Time:** We'll respond within 24 hours to any questions or issues.
