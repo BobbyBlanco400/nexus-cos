@@ -1,12 +1,26 @@
+version: "3.9"
+
 networks:
   cos-net:
     driver: bridge
 
 services:
+  # Core Services Profile
+  core:
+    image: n3xus/core:latest
+    container_name: nexus-core
+    profiles: ["core"]
+    environment:
+      NEXUS_HANDSHAKE: "55-45-17"
+      GENESIS_LOCK_ENABLED: "true"
+    networks:
+      - cos-net
+
   # PostgreSQL Database - Required for API
   postgres:
     image: postgres:15-alpine
     container_name: nexus-postgres
+    profiles: ["core"]
     environment:
       POSTGRES_DB: ${DATABASE_NAME:-nexus_db}
       POSTGRES_USER: ${DATABASE_USER:-nexus_user}
@@ -28,6 +42,7 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nexus-nginx
+    profiles: ["core"]
     ports:
       - "80:80"
     volumes:
@@ -53,6 +68,7 @@ services:
   api:
     build: .
     container_name: puabo-api
+    profiles: ["core"]
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -82,6 +98,28 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  # Tenant Alpha Profile
+  tenant_alpha:
+    image: n3xus/tenant:latest
+    container_name: nexus-tenant-alpha
+    profiles: ["tenant-alpha"]
+    environment:
+      TENANT_ID: alpha
+      NEXUS_HANDSHAKE: "55-45-17"
+    networks:
+      - cos-net
+
+  # Tenant Beta Profile
+  tenant_beta:
+    image: n3xus/tenant:latest
+    container_name: nexus-tenant-beta
+    profiles: ["tenant-beta"]
+    environment:
+      TENANT_ID: beta
+      NEXUS_HANDSHAKE: "55-45-17"
+    networks:
+      - cos-net
 
 volumes:
   nginx_logs:
