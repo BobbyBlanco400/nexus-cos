@@ -294,12 +294,102 @@ echo "🔴 AI Control Panel: http://localhost:9000"
 
 ---
 
-## 🔴 **TENANT-AWARE COMPOSE PROFILES**
+## 🔴 **TENANT REGISTRY & TIER STRUCTURE**
 
 ### Overview
-Docker Compose profiles enable tenant-specific service orchestration, ensuring proper isolation and resource allocation for the 13 canonical mini-platforms.
+N3XUS COS operates with a multi-tier tenant structure:
+
+### 🔴 **Tier 5: Permanent Resident Mini-Platforms (13 Slots)**
+**Status:** LOCKED | CANON-GATED | 80/20 REVENUE SPLIT
+
+The **13 Permanent Resident mini-platforms** are the foundational tenant stacks with:
+- ✅ **Permanent Status**: Irrevocable residency
+- ✅ **80/20 Revenue Split**: 80% Tenant / 20% Platform (LOCKED)
+- ✅ **Full Platform Stack**: Independent streaming, ledger, data isolation
+- ✅ **Governance Rights**: Voting and stewardship authority
+- ✅ **Promotion Only**: Can only be reached via Tier 4 → Tier 5 promotion with Canon approval
+
+**Registry Location:** `nexus/tenants/canonical_tenants.json`
+
+### 🔴 **Tier 4: Digi-Renter–Micro Tenant**
+**Status:** RENTER TIER | SCALABLE
+
+Tier 4 represents **renter-tenants** (Digi-Renter–Micro Tenants) who:
+- ✅ Have micro-tenant status with lease obligations
+- ✅ Can scale horizontally (not limited to 13)
+- ✅ Pay subscription/lease fees
+- ✅ Can be promoted to Tier 5 with Canon approval
+- ✅ Demonstrated performance and tenure required for promotion
+
+### 🔴 **Tier 3: Enterprise**
+- Paid tier with enhanced features
+- White-label options
+- Custom branding
+- Team collaboration
+
+### 🔴 **Tier 2: Pro**
+- Paid tier with advanced modules
+- Enhanced upload limits
+- Priority rendering
+
+### 🔴 **Tier 1: Basic**
+- Free tier
+- Core module access
+- Community support
+
+---
+
+## 🔴 **CRITICAL DISTINCTION**
+
+### Permanent vs Renter Tenants
+
+```
+╔═══════════════════════════════════════════════════════════╗
+║  TIER 5: PERMANENT RESIDENT MINI-PLATFORMS (13 SLOTS)   ║
+║  Status: PERMANENT | 80/20 LOCKED | GOVERNANCE RIGHTS   ║
+╚═══════════════════════════════════════════════════════════╝
+                            ↑
+                  (Canon-Approved Promotion)
+                            ↑
+╔═══════════════════════════════════════════════════════════╗
+║  TIER 4: DIGI-RENTER–MICRO TENANT (SCALABLE)            ║
+║  Status: RENTER | LEASE OBLIGATIONS | PROMOTION PATH    ║
+╚═══════════════════════════════════════════════════════════╝
+                            ↑
+                     (Payment/Subscription)
+                            ↑
+╔═══════════════════════════════════════════════════════════╗
+║  TIER 1-3: BASIC / PRO / ENTERPRISE                      ║
+║  Status: USER TIERS | NEXCOIN UPGRADES                   ║
+╚═══════════════════════════════════════════════════════════╝
+```
+
+### Key Points
+
+1. **13 Permanent Mini-Platforms** (Tier 5):
+   - LOCKED to 13 slots
+   - 80/20 revenue split
+   - Full platform capabilities
+   - Governance rights
+   - Irrevocable status
+
+2. **Renter-Tenants** (Tier 4):
+   - Scalable (not limited to 13)
+   - Lease-based model
+   - Can be promoted to Tier 5
+   - Micro-tenant capabilities
+
+3. **User Tiers** (Tiers 1-3):
+   - Basic, Pro, Enterprise users
+   - Not tenant platforms
+   - Content creators and consumers
+   - NexCoin-based upgrades
+
+---
 
 ### Profile Structure
+
+**NOTE:** Tenant profiles (tenant-1 through tenant-13) represent the 13 **Permanent Resident mini-platforms (Tier 5)** only. Additional **Tier 4 renter-tenants** are managed separately and can scale beyond 13.
 
 ```yaml
 # docker-compose.pf-master.yml (Enhanced)
@@ -317,25 +407,31 @@ profiles:
   - phase2.5:
       services: [casino-nexus-api, avatar-ms, world-engine-ms, puabo-nexus-ai]
   
-  # Tenant Profiles (1-13)
+  # Permanent Resident Profiles (Tier 5: 1-13 slots)
   - tenant-1:
       services: [tenant-1-instance]
       environment:
         TENANT_ID: "tenant-1"
         TENANT_NAME: "PUABO Universe"
+        TENANT_TIER: "tier_5_permanent"
         REVENUE_SPLIT: "80/20"
         HANDSHAKE_REQUIRED: "55-45-17"
   
-  # ... (tenant-2 through tenant-13 similarly configured)
+  # ... (tenant-2 through tenant-13 similarly configured for Tier 5 Permanent Residents)
 ```
 
 ### Tenant Isolation Rules
+
+**Applies to Tier 5 Permanent Residents (13 slots) and Tier 4 Renter-Tenants:**
 
 1. **Separate Instances**: Each tenant gets isolated service instances
 2. **Resource Limits**: CPU/Memory limits enforced per tenant
 3. **Network Isolation**: Dedicated network segments
 4. **Data Separation**: Isolated database schemas
 5. **Handshake Validation**: All tenant requests validated
+6. **Tier-Specific Rules**: 
+   - Tier 5: 80/20 revenue split, governance rights, permanent status
+   - Tier 4: Lease obligations, promotion pathway to Tier 5
 
 ### 🔴 **TENANT PROFILE COMMANDS:**
 
