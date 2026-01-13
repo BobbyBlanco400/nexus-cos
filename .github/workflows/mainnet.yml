@@ -13,12 +13,33 @@ jobs:
       
       - name: Prevent Genesis Mutation
         run: |
-          if jq -e '.immutable == true' config/genesis.lock.json; then
-            echo "✅ Genesis locked"
-          else
-            echo "❌ Genesis lock file is not immutable"
+          # Check if genesis lock is immutable
+          IMMUTABLE=$(jq -r '.immutable' config/genesis.lock.json)
+          
+          if [ "$IMMUTABLE" != "true" ]; then
+            echo "❌ Genesis lock file is not marked as immutable"
             exit 1
           fi
+          
+          # Allow activation changes (activated and state fields)
+          # But prevent changes to immutable core fields
+          SYSTEM=$(jq -r '.system' config/genesis.lock.json)
+          LOCK_VERSION=$(jq -r '.lock_version' config/genesis.lock.json)
+          
+          if [ "$SYSTEM" != "N3XUS-COS" ]; then
+            echo "❌ System field has been mutated"
+            exit 1
+          fi
+          
+          if [ "$LOCK_VERSION" != "1.0.0" ]; then
+            echo "❌ Lock version has been mutated"
+            exit 1
+          fi
+          
+          echo "✅ Genesis lock integrity verified"
+          echo "   Immutable: $IMMUTABLE"
+          echo "   System: $SYSTEM"
+          echo "   Version: $LOCK_VERSION"
       
       - name: Verify Genesis Lock Integrity
         run: |

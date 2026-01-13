@@ -78,7 +78,7 @@ set -e
 
 echo "🚀 Activating Mainnet..."
 
-jq '.activated = true | .state = "MAINNET_ACTIVE"' \
+jq '.activated = true | .state = "MAINNET_ACTIVE" | .mainnet_activated_at = now | .mainnet_activated_at |= todate' \
   config/genesis.lock.json > /tmp/genesis.lock.json
 
 mv /tmp/genesis.lock.json config/genesis.lock.json
