@@ -13,14 +13,14 @@ A placeholder N3XUS COS logo has been uploaded to allow system operation.
 
 ### Final Logo Upload (Optional)
 
-**Note:** The file `6f65c21d-8980-4b14-ac6c-893cc6d7598b.png` referenced in the original requirements is a placeholder identifier. A working PNG logo has been placed at this location. If you have a specific official logo to use instead, follow the instructions below.
+**Current Status:** A working PNG logo is in place and the system is operational.
 
-If you have a specific official logo file to replace the placeholder:
+If you would like to replace it with a different official logo:
 
-**Source:** `6f65c21d-8980-4b14-ac6c-893cc6d7598b.png`  
+**Source:** Your official logo file  
 **Target:** `branding/official/N3XUS-vCOS.png`
 
-To replace the placeholder with the official logo:
+To replace the current logo:
 1. Obtain the official logo file `6f65c21d-8980-4b14-ac6c-893cc6d7598b.png`
 2. Replace the current `N3XUS-vCOS.png` with the official version
 3. Ensure the file meets requirements:
