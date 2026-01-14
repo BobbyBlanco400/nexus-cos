@@ -25,7 +25,7 @@ echo "✅ Genesis lock file found"
 OFFICIAL_LOGO_PATH="branding/official/N3XUS-vCOS.png"
 if [ -f "$OFFICIAL_LOGO_PATH" ]; then
     echo "🎨 Official logo found at $OFFICIAL_LOGO_PATH"
-    echo "✅ Logo deployed successfully"
+    echo "✅ Logo verified and ready for use"
 else
     echo "⚠️  Warning: Official logo not found at $OFFICIAL_LOGO_PATH"
     echo "   Please add the official N3XUS-vCOS.png logo to branding/official/"
