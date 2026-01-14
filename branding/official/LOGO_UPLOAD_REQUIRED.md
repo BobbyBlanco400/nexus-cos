@@ -38,7 +38,7 @@ bash scripts/bootstrap.sh
 Expected output:
 ```
 🎨 Official logo found at branding/official/N3XUS-vCOS.png
-✅ Logo deployed successfully
+✅ Logo verified and ready for use
 ```
 
 ### Configuration
