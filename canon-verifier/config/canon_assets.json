@@ -1,19 +1,19 @@
 {
-  "OfficialLogo": "branding/official/N3XUS-vCOS.svg",
+  "OfficialLogo": "branding/official/N3XUS-vCOS.png",
   "VerificationTimestamp": "",
   "AssetRegistry": {
     "logos": {
-      "official": "",
+      "official": "branding/official/N3XUS-vCOS.png",
       "alternate": []
     },
     "branding": {
-      "colors": "",
-      "theme": ""
+      "colors": "branding/colors.env",
+      "theme": "branding/theme.css"
     }
   },
   "VerificationRules": {
     "logoRequired": true,
-    "logoFormats": ["svg", "png"],
+    "logoFormats": ["png", "svg"],
     "minLogoSize": 1024,
     "maxLogoSize": 10485760
   }
