@@ -30,6 +30,8 @@ A complete operating system featuring 17 integrated modules, 51 microservices, a
 
 **⚡ QUICK SUMMARY:** [N3XUS_COS_QUICK_SUMMARY.md](./N3XUS_COS_QUICK_SUMMARY.md) - Fast reference guide with key metrics, status, and achievements.
 
+**🎨 BRANDING:** Official N3XUS COS logo is located at `branding/official/N3XUS-vCOS.png` (PNG format per N3XUS LAW). See [branding/official/README.md](./branding/official/README.md) for branding guidelines.
+
 ---
 
 ## 🔒 **Phase-2 SEALED — Production Ready**
