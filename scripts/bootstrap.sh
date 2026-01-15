@@ -36,6 +36,20 @@ echo "✅ N3XUS LAW compliant - Logo enforcement active"
 # Start core services with docker compose
 if command -v docker &> /dev/null; then
     echo "🐳 Starting core services..."
+    # Clean up conflicting containers to ensure smooth start
+    docker rm -f nexus-nginx nexus-api nexus-postgres nexus-core 2>/dev/null || true
+
+    # Stop conflicting host web servers and free ports
+    if command -v systemctl &> /dev/null; then
+        systemctl stop nginx 2>/dev/null || true
+        systemctl stop apache2 2>/dev/null || true
+    fi
+    # Aggressively free port 80/443 if still in use
+    if command -v fuser &> /dev/null; then
+        fuser -k 80/tcp 2>/dev/null || true
+        fuser -k 443/tcp 2>/dev/null || true
+    fi
+
     docker compose --profile core up -d || echo "⚠️  Docker services failed to start. Check Docker status and configuration."
 fi
 
