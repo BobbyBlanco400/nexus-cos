@@ -124,7 +124,7 @@ app.post('/api/v1/inference', (req, res) => {
         result: {
             message: 'HF inference endpoint ready',
             note: 'No hard model coupling - ready for Phase 6+ integration',
-            mock_result: `[Future inference result for: ${inputs.substring(0, 50)}...]`
+            mock_result: `[Future inference result for: ${String(inputs).substring(0, 50)}...]`
         },
         timestamp: new Date().toISOString()
     });
