@@ -90,7 +90,7 @@ services:
     volumes:
       - ./nginx.conf.docker:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./ssl:/etc/ssl/ionos:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - nginx_logs:/var/log/nginx
     depends_on:
       puabo-api:
