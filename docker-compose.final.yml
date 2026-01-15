@@ -1,0 +1,337 @@
+version: "3.9"
+
+# N3XUS v-COS Master Compose
+# Phases 3-12: Complete Sovereign Stack
+# N3XUS_HANDSHAKE=55-45-17 ENFORCED GLOBALLY
+
+services:
+  # ===== PHASE 3-4: CORE + AI =====
+  
+  v-supercore:
+    build:
+      context: ./services/v-supercore
+      args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-supercore
+    environment:
+      - X_N3XUS_HANDSHAKE=55-45-17
+      - PORT=8080
+    ports:
+      - "3001:8080"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  puabo_api_ai_hf:
+    build:
+      context: ./services/puabo_api_ai_hf
+      args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-api-ai-hf
+    environment:
+      - X_N3XUS_HANDSHAKE=55-45-17
+      - PORT=3401
+    ports:
+      - "3002:3401"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3401/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 5-6: FEDERATION SPINE =====
+
+  federation-spine:
+    build:
+      context: ./services/federation-spine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: federation-spine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=3000
+    ports:
+      - "3010:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  identity-registry:
+    build:
+      context: ./services/identity-registry
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: identity-registry
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3011:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  federation-gateway:
+    build:
+      context: ./services/federation-gateway
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: federation-gateway
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3012:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  attestation-service:
+    build:
+      context: ./services/attestation-service
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: attestation-service
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3013:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 7: CASINO ENGINE =====
+
+  casino-core:
+    build:
+      context: ./services/casino-core
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: casino-core
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=3000
+    ports:
+      - "3020:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 8: LEDGER & IDENTITY =====
+
+  ledger-engine:
+    build:
+      context: ./services/ledger-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: ledger-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3030:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 9: WALLETS & TREASURY =====
+
+  wallet-engine:
+    build:
+      context: ./services/wallet-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: wallet-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3040:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  treasury-core:
+    build:
+      context: ./services/treasury-core
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: treasury-core
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3041:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 10: CREATOR PAYOUTS =====
+
+  payout-engine:
+    build:
+      context: ./services/payout-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: payout-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3050:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  earnings-oracle:
+    build:
+      context: ./services/earnings-oracle
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: earnings-oracle
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3051:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 11: MEDIA ENGINE (PMMG) =====
+
+  pmmg-media-engine:
+    build:
+      context: ./services/pmmg-media-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: pmmg-media-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=3000
+    ports:
+      - "3060:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  royalty-engine:
+    build:
+      context: ./services/royalty-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: royalty-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3061:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ===== PHASE 12: GOVERNANCE & DAO =====
+
+  governance-core:
+    build:
+      context: ./services/governance-core
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: governance-core
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3070:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  constitution-engine:
+    build:
+      context: ./services/constitution-engine
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: constitution-engine
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    ports:
+      - "3071:3000"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+# Named network for all services
+networks:
+  nexus-network:
+    driver: bridge
+    name: nexus-sovereign-network
