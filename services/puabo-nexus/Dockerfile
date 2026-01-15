@@ -11,12 +11,12 @@ RUN if [ "$N3XUS_HANDSHAKE" != "55-45-17" ]; then \
     echo "❌ N3XUS HANDSHAKE VIOLATION" && exit 1; \
     fi
 
-# Install dependencies
+# Copy fleet-manager subdirectory contents
 COPY fleet-manager/package*.json ./
 RUN npm ci --omit=dev
 
-# Copy application
-COPY fleet-manager/ .
+# Copy fleet-manager application
+COPY fleet-manager/*.js ./
 
 EXPOSE 3000
 

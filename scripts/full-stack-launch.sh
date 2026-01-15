@@ -59,8 +59,9 @@ fi
 echo -e "${GREEN}✅ Docker $DOCKER_VERSION${NC}"
 
 # Check Docker Compose
-if ! command_exists docker; then
-    echo -e "${RED}❌ Docker Compose is not available${NC}"
+if ! docker compose version >/dev/null 2>&1; then
+    echo -e "${RED}❌ Docker Compose v2+ is not available${NC}"
+    echo "Please install Docker Compose: https://docs.docker.com/compose/install/"
     exit 1
 fi
 
