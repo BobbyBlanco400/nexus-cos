@@ -21,15 +21,17 @@ fi
 
 echo "✅ Genesis lock file found"
 
-# Check for official logo and deploy if present
+# N3XUS LAW: Hard-verify canonical PNG logo presence
 OFFICIAL_LOGO_PATH="branding/official/N3XUS-vCOS.png"
-if [ -f "$OFFICIAL_LOGO_PATH" ]; then
-    echo "🎨 Official logo found at $OFFICIAL_LOGO_PATH"
-    echo "✅ Logo verified and ready for use"
-else
-    echo "⚠️  Warning: Official logo not found at $OFFICIAL_LOGO_PATH"
-    echo "   Please add the official N3XUS-vCOS.png logo to branding/official/"
+if [ ! -f "$OFFICIAL_LOGO_PATH" ]; then
+    echo "❌ FATAL: N3XUS LAW VIOLATION - Canonical logo not found"
+    echo "   Required: $OFFICIAL_LOGO_PATH"
+    echo "   Non-compliant environments cannot start"
+    exit 1
 fi
+
+echo "🎨 Official logo verified at $OFFICIAL_LOGO_PATH"
+echo "✅ N3XUS LAW compliant - Logo enforcement active"
 
 # Start core services with docker compose
 if command -v docker &> /dev/null; then
