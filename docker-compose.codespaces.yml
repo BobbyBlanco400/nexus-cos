@@ -1,36 +1,64 @@
 version: '3.9'
 
+# Phase 5 Master PR: Runtime Core Activation
+# N3XUS Handshake 55-45-17 ENFORCED at ALL layers
+# No Handshake → No Build → No Boot → No Service
+
 services:
-  v-supercore-codespaces:
-    build: ./services/v-supercore
-    container_name: v-supercore-codespaces
+  # 1️⃣ v-supercore: Sovereign Runtime Brain / Governance Authority
+  # Stack: FastAPI + Uvicorn
+  # Role: Enforce N3XUS Law, validate handshake, root authority
+  v-supercore:
+    build:
+      context: ./services/v-supercore
+      args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-supercore-phase5
     ports:
       - "3001:8080"
     environment:
-      - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && node dist/index.js"
+      - PORT=8080
+      - HOST=0.0.0.0
+      - PYTHONUNBUFFERED=1
     networks:
       - nexus-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
 
-  puabo_api_ai_hf-codespaces:
-    build: ./services/puabo_api_ai_hf
-    container_name: puabo_api_ai_hf-codespaces
+  # 2️⃣ puabo_api_ai_hf: AI / Inference Gateway
+  # Stack: Node.js + Express
+  # Role: Handshake-gated AI access, future inference routing
+  puabo_api_ai_hf:
+    build:
+      context: ./services/puabo_api_ai_hf
+      args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-api-ai-hf-phase5
     ports:
       - "3002:3401"
     environment:
-      - PYTHONUNBUFFERED=1
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && python server.py"
+      - PORT=3401
+      - HOST=0.0.0.0
+      - NODE_ENV=production
     networks:
       - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3401/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
 
+  # Legacy services retained for backward compatibility
+  # Will be migrated in future phases
   ledger-mgr:
     build: ./services/ledger-mgr
     container_name: ledger-mgr
@@ -39,10 +67,6 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
@@ -55,10 +79,6 @@ services:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
       - PORT=3200
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
@@ -70,10 +90,6 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
@@ -85,10 +101,6 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
@@ -100,10 +112,6 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
@@ -115,13 +123,11 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
-    command:
-      - sh
-      - -c
-      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 
+# Named network with explicit configuration
 networks:
   nexus-network:
     driver: bridge
+    name: nexus-phase5-network
