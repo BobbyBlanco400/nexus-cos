@@ -1,0 +1,101 @@
+version: '3.9'
+
+services:
+  v-supercore-codespaces:
+    build: ./services/v-supercore
+    container_name: v-supercore-codespaces
+    ports:
+      - "3001:8080"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && node dist/index.js"
+    networks:
+      - nexus-network
+
+  puabo_api_ai_hf-codespaces:
+    build: ./services/puabo_api_ai_hf
+    container_name: puabo_api_ai_hf-codespaces
+    ports:
+      - "3002:3401"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && python server.py"
+    networks:
+      - nexus-network
+
+  ledger-mgr:
+    build: ./services/ledger-mgr
+    container_name: ledger-mgr
+    ports:
+      - "3112:3112"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
+    networks:
+      - nexus-network
+
+  founding-creatives:
+    build: ./founding-creatives
+    container_name: founding-creatives
+    ports:
+      - "3200:3200"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    networks:
+      - nexus-network
+
+  puabo-nexus-driver-app-backend:
+    build: ./services/puabo-nexus-driver-app-backend
+    container_name: puabo-nexus-driver-app-backend
+    ports:
+      - "3301:3000"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
+    networks:
+      - nexus-network
+
+  puaboverse-v2:
+    build: ./services/puaboverse-v2
+    container_name: puaboverse-v2
+    ports:
+      - "3400:3000"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
+    networks:
+      - nexus-network
+
+  puabo-nuki-inventory-mgr:
+    build: ./services/puabo-nuki-inventory-mgr
+    container_name: puabo-nuki-inventory-mgr
+    ports:
+      - "3500:3000"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
+    networks:
+      - nexus-network
+
+  puabo-dsp-metadata-mgr:
+    build: ./services/puabo-dsp-metadata-mgr
+    container_name: puabo-dsp-metadata-mgr
+    ports:
+      - "3600:3000"
+    environment:
+      - NODE_ENV=production
+      - X_N3XUS_HANDSHAKE=55-45-17
+    command: sh -c "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
+    networks:
+      - nexus-network
+
+networks:
+  nexus-network:
+    driver: bridge
