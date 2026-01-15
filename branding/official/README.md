@@ -58,14 +58,20 @@ branding/
 
 ### Bootstrap Enforcement
 
-`scripts/bootstrap.sh` now enforces hard-verification of the canonical PNG logo:
+`scripts/bootstrap.sh` enforces hard-verification of the canonical PNG logo:
 
 ```bash
 # N3XUS LAW: Hard-verify canonical PNG logo presence
-if [ ! -f "branding/official/N3XUS-vCOS.png" ]; then
-    echo "❌ FATAL: N3XUS LAW VIOLATION"
+OFFICIAL_LOGO_PATH="branding/official/N3XUS-vCOS.png"
+if [ ! -f "$OFFICIAL_LOGO_PATH" ]; then
+    echo "❌ FATAL: N3XUS LAW VIOLATION - Canonical logo not found"
+    echo "   Required: $OFFICIAL_LOGO_PATH"
+    echo "   Non-compliant environments cannot start"
     exit 1
 fi
+
+echo "🎨 Official logo verified at $OFFICIAL_LOGO_PATH"
+echo "✅ N3XUS LAW compliant - Logo enforcement active"
 ```
 
 **Non-compliant environments cannot start.** Codespaces launches are law-compliant by default.
@@ -120,7 +126,7 @@ All `LOGO_*` variables reference PNG-only paths.
 ✅ N3XUS LAW Compliance  
 
 **System Identity:** Locked  
-**Branding Drift:** Impossible  
+**Branding Verification:** Bootstrap-Time Enforcement  
 **Codespaces:** Launch-Ready  
-**Future Updates:** Overwrite-Safe  
+**Future Updates:** Overwrite-Safe (update canonical source to propagate)  
 **Law Enforcement:** Active
