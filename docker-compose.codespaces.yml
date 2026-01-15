@@ -54,6 +54,11 @@ services:
     environment:
       - NODE_ENV=production
       - X_N3XUS_HANDSHAKE=55-45-17
+      - PORT=3200
+    command:
+      - sh
+      - -c
+      - "echo 'X-N3XUS-Handshake: 55-45-17' && npm start"
     networks:
       - nexus-network
 

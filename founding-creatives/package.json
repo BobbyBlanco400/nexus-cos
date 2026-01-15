@@ -1,0 +1,12 @@
+{
+  "name": "founding-creatives",
+  "version": "1.0.0",
+  "description": "Founding Creatives Service for N3XUS v-COS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
