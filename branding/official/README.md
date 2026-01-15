@@ -9,8 +9,9 @@ This directory contains the official canonical branding assets for N3XUS COS. Th
 ```
 branding/
 ├── official/           # Canonical official assets
-│   └── N3XUS-vCOS.svg  # Official logo (placed here during VPS setup)
-├── logo.svg            # Default logo
+│   ├── N3XUS-vCOS.png  # Official logo (Primary - N3XUS LAW Compliant)
+│   └── N3XUS-vCOS.svg  # Legacy logo (Backward Compatibility)
+├── logo.png            # Default logo (deployed from official)
 ├── colors.env          # Brand colors
 ├── theme.css           # Brand theme
 └── favicon.ico         # Favicon
@@ -18,9 +19,9 @@ branding/
 
 ## Official Logo Placement
 
-During VPS deployment, the official logo should be placed at:
+Per N3XUS LAW, the official logo MUST be placed at:
 ```
-branding/official/N3XUS-vCOS.svg
+branding/official/N3XUS-vCOS.png
 ```
 
 This location is validated by the canon-verifier during the GO/NO-GO check.
@@ -28,9 +29,9 @@ This location is validated by the canon-verifier during the GO/NO-GO check.
 ## Verification Process
 
 The canon-verifier (`canon-verifier/trae_go_nogo.py`) checks:
-1. Logo file exists at the canonical path
+1. Logo file exists at the canonical path (PNG required)
 2. File size is within acceptable range (1KB - 10MB)
-3. File format is valid (SVG or PNG)
+3. File format is valid (PNG preferred, SVG legacy)
 4. Configuration is properly set in `canon-verifier/config/canon_assets.json`
 
 ## Atomic VPS Deployment Command

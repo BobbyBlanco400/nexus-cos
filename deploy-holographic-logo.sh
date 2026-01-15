@@ -6,12 +6,12 @@
 echo "🎨 N3XUS v-COS Holographic Logo Deployment"
 echo "=========================================="
 
-SOURCE_LOGO="assets/svg/logo.svg"
+SOURCE_LOGO="branding/official/N3XUS-vCOS.png"
 DESTINATIONS=(
-    "branding/logo.svg"
-    "admin/public/assets/branding/logo.svg"
-    "creator-hub/public/assets/branding/logo.svg"
-    "frontend/public/assets/branding/logo.svg"
+    "branding/logo.png"
+    "admin/public/assets/branding/logo.png"
+    "creator-hub/public/assets/branding/logo.png"
+    "frontend/public/assets/branding/logo.png"
 )
 
 # Check if source exists

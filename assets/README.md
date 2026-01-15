@@ -48,17 +48,17 @@ The gradient flows horizontally from neon cyan to violet plasma, creating a futu
 
 ## 🚀 Quick Start
 
-### 1. Using the SVG Logo
+### 1. Using the PNG Logo
 
-The holographic SVG logo is automatically deployed at:
-- `branding/logo.svg`
-- `admin/public/assets/branding/logo.svg`
-- `creator-hub/public/assets/branding/logo.svg`
-- `frontend/public/assets/branding/logo.svg`
+The holographic PNG logo is automatically deployed at:
+- `branding/logo.png`
+- `admin/public/assets/branding/logo.png`
+- `creator-hub/public/assets/branding/logo.png`
+- `frontend/public/assets/branding/logo.png`
 
 Simply reference it in your HTML:
 ```html
-<img src="/assets/branding/logo.svg" alt="N3XUS v-COS" />
+<img src="/assets/branding/logo.png" alt="N3XUS v-COS" />
 ```
 
 ### 2. WebGL Demo (Three.js)

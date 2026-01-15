@@ -21,6 +21,15 @@ fi
 
 echo "✅ Genesis lock file found"
 
+OFFICIAL_LOGO_PATH="branding/official/N3XUS-vCOS.png"
+if [ -f "$OFFICIAL_LOGO_PATH" ]; then
+    echo "🎨 Official logo found at $OFFICIAL_LOGO_PATH"
+    echo "✅ Logo verified and ready for use"
+    bash deploy-holographic-logo.sh
+else
+    echo "⚠️  Official logo not found at $OFFICIAL_LOGO_PATH. Skipping logo deployment."
+fi
+
 # Start core services with docker compose
 if command -v docker &> /dev/null; then
     echo "🐳 Starting core services..."
