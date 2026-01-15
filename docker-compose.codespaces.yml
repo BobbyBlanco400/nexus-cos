@@ -126,6 +126,109 @@ services:
     networks:
       - nexus-network
 
+  # ===== NUISANCE SERVICES =====
+  # Payment, Jurisdiction, Responsible Gaming, Legal Entity, Explicit Opt-In
+
+  payment-partner:
+    build:
+      context: ./services/nuisance/payment-partner
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: payment-partner-codespaces
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=4001
+    ports:
+      - "4001:4001"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  jurisdiction-rules:
+    build:
+      context: ./services/nuisance/jurisdiction-rules
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: jurisdiction-rules-codespaces
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=4002
+    ports:
+      - "4002:4002"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  responsible-gaming:
+    build:
+      context: ./services/nuisance/responsible-gaming
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: responsible-gaming-codespaces
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=4003
+    ports:
+      - "4003:4003"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  legal-entity:
+    build:
+      context: ./services/nuisance/legal-entity
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: legal-entity-codespaces
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=4004
+    ports:
+      - "4004:4004"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  explicit-opt-in:
+    build:
+      context: ./services/nuisance/explicit-opt-in
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: explicit-opt-in-codespaces
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=4005
+    ports:
+      - "4005:4005"
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
 # Named network with explicit configuration
 networks:
   nexus-network:

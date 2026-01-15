@@ -1,5 +1,5 @@
 # 🧾 MASTER PR — N3XUS v-COS
-## Phase 3 → Phase 12 | Sovereign Stack (Codespaces-Native)
+## Phase 3 → Phase 12 + Nuisance Services | Sovereign Stack (Codespaces-Native)
 
 **Target Repo**: N3XUS-vCOS  
 **Execution Target**: GitHub Codespaces  
@@ -27,11 +27,12 @@ N3XUS_HANDSHAKE=55-45-17
 
 ```
 .
-├─ docker-compose.codespaces.yml    # Phase 3-5 (Core + AI)
-├─ docker-compose.final.yml          # Phase 3-12 (Complete Stack)
+├─ docker-compose.codespaces.yml    # Phase 3-5 + Nuisance
+├─ docker-compose.final.yml          # Complete Stack + Nuisance
 ├─ .env.example                      # Environment template
 ├─ PHASE_5_README.md                 # Phase 5 documentation
 ├─ MASTER_PR_README.md               # This file
+├─ NUISANCE_SERVICES_README.md       # Nuisance services guide
 ├─ SECURITY_SUMMARY_PHASE5.md        # Security audit
 ├─ verify-phase5.sh                  # Phase 5 verification
 │
@@ -43,7 +44,10 @@ N3XUS_HANDSHAKE=55-45-17
 │  ├─ bootstrap-media.sh             # Media/PMMG bootstrap
 │  ├─ bootstrap-wallets.sh           # Wallets & Treasury bootstrap
 │  ├─ bootstrap-payouts.sh           # Creator Payouts bootstrap
-│  └─ bootstrap-governance.sh        # Governance & DAO bootstrap
+│  ├─ bootstrap-governance.sh        # Governance & DAO bootstrap
+│  ├─ bootstrap-nuisance.sh          # Nuisance services bootstrap
+│  ├─ nuisance-launch.sh             # Launch nuisance services
+│  └─ verify-nuisance.sh             # Verify nuisance services
 │
 └─ services/
    ├─ v-supercore/                   # Phase 3-4: Sovereign Brain (FastAPI)
@@ -61,7 +65,13 @@ N3XUS_HANDSHAKE=55-45-17
    ├─ federation-gateway/            # Phase 6: Gateway (FastAPI)
    ├─ attestation-service/           # Phase 6: Attestation (FastAPI)
    ├─ governance-core/               # Phase 12: Governance (FastAPI)
-   └─ constitution-engine/           # Phase 12: Constitution (FastAPI)
+   ├─ constitution-engine/           # Phase 12: Constitution (FastAPI)
+   └─ nuisance/
+      ├─ payment-partner/            # Payment verification (Node.js)
+      ├─ jurisdiction-rules/         # Jurisdiction compliance (Python/Flask)
+      ├─ responsible-gaming/         # Gaming limits (Node.js)
+      ├─ legal-entity/               # Legal entity verification (Python/Flask)
+      └─ explicit-opt-in/            # Consent management (Node.js)
 ```
 
 ---
@@ -258,8 +268,16 @@ curl http://localhost:3010/health
 | **10** | Creator Payouts | ✅ Complete |
 | **11** | Media / PMMG Engine | ✅ Complete |
 | **12** | DAO / Governance Overlay | ✅ Complete |
+| **Nuisance** | Compliance Services (5 services) | ✅ Complete |
 
-**Total: 16 Services, All Handshake-Enforced, All Operational**
+**Total: 21 Services, All Handshake-Enforced, All Operational**
+
+### Nuisance Services (Compliance Layer)
+- **Payment Partner** - Payment verification and method management
+- **Jurisdiction Rules** - Geographic and regulatory compliance
+- **Responsible Gaming** - Player protection and gaming limits
+- **Legal Entity** - Legal entity verification and compliance
+- **Explicit Opt-In** - Consent and opt-in management
 
 ---
 
@@ -283,6 +301,11 @@ curl http://localhost:3010/health
 | royalty-engine | 3061 | 11 |
 | governance-core | 3070 | 12 |
 | constitution-engine | 3071 | 12 |
+| **payment-partner** | **4001** | **Nuisance** |
+| **jurisdiction-rules** | **4002** | **Nuisance** |
+| **responsible-gaming** | **4003** | **Nuisance** |
+| **legal-entity** | **4004** | **Nuisance** |
+| **explicit-opt-in** | **4005** | **Nuisance** |
 
 ---
 

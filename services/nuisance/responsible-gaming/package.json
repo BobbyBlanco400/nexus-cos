@@ -1,0 +1,17 @@
+{
+  "name": "responsible-gaming",
+  "version": "1.0.0",
+  "description": "Responsible Gaming Nuisance Service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
