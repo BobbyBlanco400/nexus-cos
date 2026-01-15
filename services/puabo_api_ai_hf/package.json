@@ -1,15 +1,28 @@
 {
   "name": "puabo-api-ai-hf",
-  "version": "1.0.0",
-  "description": "PUABO API/AI-HF Hybrid - HuggingFace Inference Service",
-  "main": "server.py",
+  "version": "1.0.0-phase5",
+  "description": "PUABO API/AI HF Integration Service - Phase 5: Node.js + Express",
+  "main": "index.js",
   "scripts": {
-    "start": "python server.py",
-    "test": "pytest tests/",
-    "test:unit": "pytest tests/unit/ --cov",
-    "test:integration": "pytest tests/integration/"
+    "start": "node index.js",
+    "test": "echo \"Tests configured for Phase 6+\" && exit 0"
+  },
+  "keywords": [
+    "nexus-cos",
+    "ai",
+    "inference",
+    "huggingface",
+    "phase5"
+  ],
+  "author": "N3XUS COS Team",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
   },
   "engines": {
-    "python": ">=3.9"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }

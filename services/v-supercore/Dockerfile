@@ -1,38 +1,56 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Phase 5: v-SuperCore - FastAPI + Uvicorn
+# N3XUS Handshake 55-45-17 ENFORCED at ALL layers
+# Rule: No Handshake → No Build → No Boot → No Service
+
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci --only=production
+# N3XUS Handshake enforcement at BUILD time
+ARG X_N3XUS_HANDSHAKE
+RUN if [ "$X_N3XUS_HANDSHAKE" != "55-45-17" ]; then \
+        echo "❌ BUILD DENIED: Invalid or missing N3XUS Handshake"; \
+        echo "❌ Required: --build-arg X_N3XUS_HANDSHAKE=55-45-17"; \
+        exit 1; \
+    fi && \
+    echo "✅ Build-time handshake validated: $X_N3XUS_HANDSHAKE"
 
-COPY tsconfig.json ./
-COPY src ./src
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
 
-RUN npm run build
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Production stage
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
-
-# Copy dependencies and built files
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY package.json ./
+# Copy application code
+COPY app ./app
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+RUN useradd -m -u 1001 -s /bin/bash nexus && \
+    chown -R nexus:nexus /app
 
-USER nodejs
+USER nexus
 
-EXPOSE 8080 9090 9091
+# Expose ports
+EXPOSE 8080
 
-ENV NODE_ENV=production
+# Health check with handshake validation
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
 
-ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", "dist/index.js"]
+# Environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PORT=8080
+
+# ENTRYPOINT with runtime handshake validation
+# Validates X_N3XUS_HANDSHAKE environment variable before starting service
+ENTRYPOINT ["/bin/bash", "-c", "\
+    if [ \"$X_N3XUS_HANDSHAKE\" != \"55-45-17\" ]; then \
+        echo '❌ RUNTIME DENIED: Invalid or missing X_N3XUS_HANDSHAKE'; \
+        exit 1; \
+    fi && \
+    echo '✅ Runtime handshake validated' && \
+    python -m app.main"]
