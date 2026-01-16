@@ -21,6 +21,7 @@ This is a special launch/teaser page for the N3XUS v-COS Founders Program featur
   - Memory usage (1.5GB/3.8GB)
   - Server load (< 2.0)
   - VPS IP address (72.62.86.217)
+  - *Note: Stats are currently hardcoded for demo purposes. In production, these should be dynamically fetched from server APIs.*
 - **CTA Button**: "Join the Founders Program" with pulsing glow effect
 
 ### Animations
@@ -68,6 +69,18 @@ The glitch effect is achieved through:
 
 ## Usage
 
+### Configuration
+
+The page includes a `CONFIG` object at the top of the JavaScript section for easy customization:
+
+```javascript
+const CONFIG = {
+    COUNTDOWN_INTERVAL: 15000,  // Milliseconds between countdown updates (15s for demo, 86400000 for daily)
+    PARTICLE_COUNT: 30,          // Number of floating particles
+    FOUNDERS_URL: 'https://github.com/BobbyBlanco400/N3XUS-vCOS'  // CTA button destination
+};
+```
+
 ### Local Testing
 ```bash
 cd web/launch
@@ -113,4 +126,4 @@ The design intentionally evokes a cyberpunk/futuristic aesthetic aligned with th
 
 ## License
 
-© 2025 Nexus COS. All rights reserved.
+© 2025 N3XUS v-COS. All rights reserved.

@@ -286,15 +286,22 @@
             Powered by VPS-72.62.86.217 | 13 Services | Phase 3-9
         </div>
         
-        <button class="cta" onclick="alert('Visit github.com/BobbyBlanco400/N3XUS-vCOS to join the Founders Program!')">
+        <button class="cta" id="ctaButton">
             Join the Founders Program
         </button>
     </div>
     
     <script>
+        // Configuration
+        const CONFIG = {
+            COUNTDOWN_INTERVAL: 15000, // 15 seconds for demo, set to 86400000 for daily in production
+            PARTICLE_COUNT: 30,
+            FOUNDERS_URL: 'https://github.com/BobbyBlanco400/N3XUS-vCOS'
+        };
+        
         // Generate particles
         function createParticles() {
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + 'vw';
@@ -321,13 +328,24 @@
                     countdownEl.textContent = 'LIVE';
                     countdownEl.style.color = '#00ff00';
                 }
-            }, 15000); // Every 15 seconds for demo (would be daily in production)
+            }, CONFIG.COUNTDOWN_INTERVAL);
+        }
+        
+        // CTA Button Handler
+        function handleCTAClick() {
+            window.location.href = CONFIG.FOUNDERS_URL;
         }
         
         // Initialize
         window.addEventListener('load', () => {
             createParticles();
             animateCountdown();
+            
+            // Attach CTA button handler
+            const ctaButton = document.getElementById('ctaButton');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', handleCTAClick);
+            }
         });
         
         // Auto-play audio cue (optional - commented out for now)
