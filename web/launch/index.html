@@ -293,6 +293,7 @@
     
     <script>
         // Configuration
+        // NOTE: Update COUNTDOWN_INTERVAL to 86400000 (24 hours) for production deployment
         const CONFIG = {
             COUNTDOWN_INTERVAL: 15000, // 15 seconds for demo, set to 86400000 for daily in production
             PARTICLE_COUNT: 30,
@@ -301,14 +302,18 @@
         
         // Generate particles
         function createParticles() {
+            const fragment = document.createDocumentFragment();
+            
             for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                document.body.appendChild(particle);
+                fragment.appendChild(particle);
             }
+            
+            document.body.appendChild(fragment);
         }
         
         // Countdown animation
@@ -316,17 +321,18 @@
             const countdownEl = document.getElementById('countdown-days');
             let days = 3;
             
-            setInterval(() => {
+            const intervalId = setInterval(() => {
                 if (days > 0) {
                     days--;
                     countdownEl.textContent = days;
                     countdownEl.style.animation = 'none';
-                    setTimeout(() => {
-                        countdownEl.style.animation = 'pulse 2s infinite';
-                    }, 10);
+                    // Force reflow to restart animation
+                    void countdownEl.offsetWidth;
+                    countdownEl.style.animation = 'pulse 2s infinite';
                 } else {
                     countdownEl.textContent = 'LIVE';
                     countdownEl.style.color = '#00ff00';
+                    clearInterval(intervalId); // Stop interval when countdown reaches 0
                 }
             }, CONFIG.COUNTDOWN_INTERVAL);
         }
