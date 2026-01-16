@@ -13,16 +13,16 @@ cp /path/to/your/new-logo.png branding/official/N3XUS-vCOS.png && bash scripts/d
 
 ```powershell
 # Upload and deploy in one step
-scp "C:\path\to\your\logo.png" root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp "C:\path\to\your\logo.png" user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 ### Production VPS - Mac/Linux/WSL
 
 ```bash
 # Upload and deploy in one step
-scp /path/to/your/logo.png root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png && \
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp /path/to/your/logo.png user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png && \
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 ---

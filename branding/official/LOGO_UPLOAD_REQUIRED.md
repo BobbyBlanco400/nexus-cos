@@ -41,14 +41,14 @@ cp /path/to/your/new-logo.png branding/official/N3XUS-vCOS.png
 ```powershell
 # Upload to VPS canonical location
 scp "C:\path\to\your\logo.png" ^
-    root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
+    user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
 ```
 
 **Option B - Production VPS (from Mac/Linux):**
 ```bash
 # Upload to VPS canonical location
 scp /path/to/your/logo.png \
-    root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
+    user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
 ```
 
 #### Step 3: Deploy to All Verticals
@@ -62,7 +62,7 @@ bash scripts/deploy-holographic-logo.sh
 
 **Production VPS:**
 ```bash
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 #### Step 4: Verify Deployment
@@ -86,13 +86,13 @@ Upload and deploy in a single command:
 
 **PowerShell (Windows):**
 ```powershell
-scp "C:\Users\wecon\Downloads\nexus-cos-main\branding\official\N3XUS-vCOS.png" root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png ; ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp "C:\Users\username\path\to\logo.png" user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png ; ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 **Bash (Mac/Linux/WSL):**
 ```bash
-scp /path/to/your/logo.png root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png && \
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp /path/to/your/logo.png user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png && \
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 ---

@@ -178,15 +178,15 @@ bash scripts/verify-logo-deployment.sh
 #### Production VPS (PowerShell)
 ```powershell
 # Upload and deploy in one command
-scp "C:\path\to\logo.png" root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp "C:\path\to\logo.png" user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 #### Production VPS (Bash)
 ```bash
 # Upload and deploy in one command
-scp /path/to/logo.png root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png && \
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp /path/to/logo.png user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png && \
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 ---

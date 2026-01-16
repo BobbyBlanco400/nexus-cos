@@ -27,12 +27,26 @@ fi
 echo -e "${GREEN}✅ Canonical logo found: $CANONICAL_LOGO${NC}"
 
 # Get canonical logo info
-CANONICAL_SIZE=$(stat -f%z "$CANONICAL_LOGO" 2>/dev/null || stat -c%s "$CANONICAL_LOGO" 2>/dev/null)
-CANONICAL_MD5=$(md5sum "$CANONICAL_LOGO" | awk '{print $1}')
+CANONICAL_SIZE=$(stat -f%z "$CANONICAL_LOGO" 2>/dev/null || stat -c%s "$CANONICAL_LOGO" 2>/dev/null || echo "unknown")
+CANONICAL_MD5=$(md5sum "$CANONICAL_LOGO" 2>/dev/null | awk '{print $1}' || md5 -q "$CANONICAL_LOGO" 2>/dev/null || echo "unknown")
 
-echo "   Size: $(numfmt --to=iec-i --suffix=B $CANONICAL_SIZE 2>/dev/null || echo $CANONICAL_SIZE bytes)"
+if [ "$CANONICAL_SIZE" = "unknown" ]; then
+    echo "   Size: Unable to determine"
+else
+    # Try to format size nicely, fallback to raw bytes
+    FORMATTED_SIZE=$(numfmt --to=iec-i --suffix=B "$CANONICAL_SIZE" 2>/dev/null || echo "${CANONICAL_SIZE} bytes")
+    echo "   Size: $FORMATTED_SIZE"
+fi
+
 echo "   MD5: $CANONICAL_MD5"
 echo ""
+
+# Exit if we couldn't get MD5
+if [ "$CANONICAL_MD5" = "unknown" ]; then
+    echo -e "${RED}❌ FATAL: Could not calculate MD5 checksum${NC}"
+    echo "   Please ensure md5sum or md5 command is available"
+    exit 1
+fi
 
 # Define all deployment targets
 declare -a TARGETS=(
@@ -55,9 +69,13 @@ for TARGET in "${TARGETS[@]}"; do
         echo -e "${RED}❌ MISSING: $TARGET${NC}"
         MISSING=$((MISSING + 1))
     else
-        TARGET_MD5=$(md5sum "$TARGET" | awk '{print $1}')
+        TARGET_MD5=$(md5sum "$TARGET" 2>/dev/null | awk '{print $1}' || md5 -q "$TARGET" 2>/dev/null || echo "unknown")
         
-        if [ "$TARGET_MD5" = "$CANONICAL_MD5" ]; then
+        if [ "$TARGET_MD5" = "unknown" ]; then
+            echo -e "${YELLOW}⚠️  CANNOT VERIFY: $TARGET${NC}"
+            echo "   Could not calculate MD5 checksum"
+            MISMATCH=$((MISMATCH + 1))
+        elif [ "$TARGET_MD5" = "$CANONICAL_MD5" ]; then
             echo -e "${GREEN}✅ VERIFIED: $TARGET${NC}"
             VERIFIED=$((VERIFIED + 1))
         else
@@ -88,8 +106,12 @@ if [ $MISSING -eq 0 ] && [ $MISMATCH -eq 0 ]; then
     if [ -f "scripts/bootstrap.sh" ]; then
         echo "Running bootstrap verification..."
         echo ""
-        # Just check the logo verification part
-        bash scripts/bootstrap.sh 2>&1 | grep -A2 "Official logo" || true
+        # Just check the logo verification part, ignore service startup
+        if bash scripts/bootstrap.sh 2>&1 | grep -q "Official logo verified"; then
+            bash scripts/bootstrap.sh 2>&1 | grep -A2 "Official logo" | head -3 || true
+        else
+            echo "⚠️  Bootstrap script did not verify logo as expected"
+        fi
     fi
     
     exit 0

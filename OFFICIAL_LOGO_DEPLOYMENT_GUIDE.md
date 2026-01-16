@@ -53,7 +53,7 @@ The canonical logo is automatically deployed to:
 
 ### Prerequisites
 
-- Access to the repository at `/root/nexus-cos` or your local clone
+- Access to the repository at `/path/to/nexus-cos` or your local clone
 - PNG logo file meeting the requirements (see below)
 - SSH access to VPS (if deploying to production)
 
@@ -166,7 +166,7 @@ Using SCP from your local machine:
 ```powershell
 # Windows PowerShell
 scp "C:\path\to\your\logo.png" ^
-    root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
+    user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
 ```
 
 Or using Unix/Linux/Mac:
@@ -174,17 +174,17 @@ Or using Unix/Linux/Mac:
 ```bash
 # Unix/Linux/Mac
 scp /path/to/your/logo.png \
-    root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
+    user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
 ```
 
 #### 2. SSH into VPS and Deploy
 
 ```bash
 # Connect to VPS
-ssh root@72.62.86.217
+ssh user@YOUR_VPS_IP
 
 # Navigate to repository
-cd /root/nexus-cos
+cd /path/to/nexus-cos
 
 # Deploy logo to all verticals
 bash scripts/deploy-holographic-logo.sh
@@ -199,15 +199,15 @@ Execute this single command from your local machine:
 
 ```bash
 # Upload logo and deploy in one step
-scp /path/to/your/logo.png root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png && \
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp /path/to/your/logo.png user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png && \
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 PowerShell version:
 
 ```powershell
-scp "C:\path\to\your\logo.png" root@72.62.86.217:/root/nexus-cos/branding/official/N3XUS-vCOS.png
-ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-logo.sh'
+scp "C:\path\to\your\logo.png" user@YOUR_VPS_IP:/path/to/nexus-cos/branding/official/N3XUS-vCOS.png
+ssh user@YOUR_VPS_IP 'cd /path/to/nexus-cos && bash scripts/deploy-holographic-logo.sh'
 ```
 
 ### Option C: Propagate Across Full Stack (Advanced)
@@ -215,8 +215,8 @@ ssh root@72.62.86.217 'cd /root/nexus-cos && bash scripts/deploy-holographic-log
 For complete stack-wide propagation:
 
 ```bash
-ssh root@72.62.86.217 '
-  cd /root/nexus-cos
+ssh user@YOUR_VPS_IP '
+  cd /path/to/nexus-cos
   CANON=branding/official/N3XUS-vCOS.png
   
   # Deploy to all standard targets
@@ -341,11 +341,11 @@ N3XUS LAW is the governance framework that enforces:
 
 ```bash
 # 1. Upload new logo to temporary location
-scp new-logo.png root@72.62.86.217:/tmp/new-logo.png
+scp new-logo.png user@YOUR_VPS_IP:/tmp/new-logo.png
 
 # 2. SSH and perform atomic swap
-ssh root@72.62.86.217 '
-  cd /root/nexus-cos
+ssh user@YOUR_VPS_IP '
+  cd /path/to/nexus-cos
   # Backup current
   cp branding/official/N3XUS-vCOS.png branding/official/N3XUS-vCOS.png.old
   # Swap in new
