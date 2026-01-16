@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N3XUS v-COS | The Wait Is Over</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .scene {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            font-size: 6rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                         0.025em 0.04em 0 #fffc00;
+            animation: glitch 725ms infinite;
+        }
+        
+        .glitch span {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .glitch span:first-child {
+            animation: glitch 500ms infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-0.04em, -0.03em);
+            opacity: 0.75;
+        }
+        
+        .glitch span:last-child {
+            animation: glitch 375ms infinite;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(0.04em, 0.03em);
+            opacity: 0.75;
+        }
+        
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            15% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            16% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            49% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            50% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            99% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            100% { text-shadow: -0.05em 0 0 #00fffc, -0.025em -0.04em 0 #fc00ff, -0.04em -0.025em 0 #fffc00; }
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: slideUp 1s 2s forwards;
+            color: #00fffc;
+            text-align: center;
+            padding: 0 2rem;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .badge {
+            position: absolute;
+            bottom: 8rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            opacity: 0;
+            animation: slideUp 1s 4s forwards;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .cta {
+            position: absolute;
+            bottom: 3rem;
+            background: #fc00ff;
+            color: #000;
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0;
+            animation: pulse 2s 5s infinite, slideUp 1s 5s forwards;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        
+        .cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #fc00ff;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px #fc00ff; }
+            50% { box-shadow: 0 0 40px #fc00ff, 0 0 60px #fc00ff; }
+        }
+        
+        /* Scanlines effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.05) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+            animation: scanline 8s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Grid background */
+        .grid {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 252, 0.05) 25%, rgba(0, 255, 252, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 252, 0.05) 75%, rgba(0, 255, 252, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 252, 0.05) 25%, rgba(0, 255, 252, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 252, 0.05) 75%, rgba(0, 255, 252, 0.05) 76%, transparent 77%, transparent);
+            background-size: 80px 80px;
+            animation: gridMove 20s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(80px, 80px); }
+        }
+        
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00fffc;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+        
+        .logo-ascii {
+            font-size: 0.8rem;
+            line-height: 1;
+            color: #00fffc;
+            opacity: 0;
+            animation: slideUp 1s 1s forwards;
+            white-space: pre;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .countdown {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            font-size: 3rem;
+            color: #fffc00;
+            opacity: 0;
+            animation: slideUp 1s 3s forwards;
+            text-align: right;
+        }
+        
+        .countdown-label {
+            font-size: 1rem;
+            color: #fff;
+            margin-top: 0.5rem;
+        }
+        
+        .stats {
+            position: absolute;
+            top: 3rem;
+            left: 3rem;
+            font-size: 0.9rem;
+            opacity: 0;
+            animation: slideUp 1s 3.5s forwards;
+            text-align: left;
+            line-height: 1.6;
+        }
+        
+        .stats div {
+            margin: 0.3rem 0;
+        }
+        
+        .stats .label {
+            color: #00fffc;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .stats .value {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid"></div>
+    <div class="scanlines"></div>
+    
+    <div class="stats">
+        <div><span class="label">STATUS:</span> <span class="value" style="color: #00ff00;">DEPLOYED</span></div>
+        <div><span class="label">SERVICES:</span> <span class="value">13/13</span></div>
+        <div><span class="label">MEMORY:</span> <span class="value">1.5GB/3.8GB</span></div>
+        <div><span class="label">LOAD:</span> <span class="value">&lt; 2.0</span></div>
+        <div><span class="label">VPS:</span> <span class="value">72.62.86.217</span></div>
+    </div>
+    
+    <div class="countdown">
+        <div id="countdown-days">3</div>
+        <div class="countdown-label">DAYS UNTIL LAUNCH</div>
+    </div>
+    
+    <div class="scene">
+        <div class="logo-ascii">
+███╗   ██╗██████╗ ██╗  ██╗██╗   ██╗███████╗
+████╗  ██║╚════██╗╚██╗██╔╝██║   ██║██╔════╝
+██╔██╗ ██║ █████╔╝ ╚███╔╝ ██║   ██║███████╗
+██║╚██╗██║ ╚═══██╗ ██╔██╗ ██║   ██║╚════██║
+██║ ╚████║██████╔╝██╔╝ ██╗╚██████╔╝███████║
+╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+        </div>
+        
+        <h1 class="glitch" data-text="N3XUS v-COS">
+            N3XUS v-COS
+            <span aria-hidden="true">N3XUS v-COS</span>
+            <span aria-hidden="true">N3XUS v-COS</span>
+        </h1>
+        
+        <div class="subtitle">
+            For Creatives Old and New
+        </div>
+        
+        <div class="badge">
+            Powered by VPS-72.62.86.217 | 13 Services | Phase 3-9
+        </div>
+        
+        <button class="cta" onclick="alert('Visit github.com/BobbyBlanco400/N3XUS-vCOS to join the Founders Program!')">
+            Join the Founders Program
+        </button>
+    </div>
+    
+    <script>
+        // Generate particles
+        function createParticles() {
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Countdown animation
+        function animateCountdown() {
+            const countdownEl = document.getElementById('countdown-days');
+            let days = 3;
+            
+            setInterval(() => {
+                if (days > 0) {
+                    days--;
+                    countdownEl.textContent = days;
+                    countdownEl.style.animation = 'none';
+                    setTimeout(() => {
+                        countdownEl.style.animation = 'pulse 2s infinite';
+                    }, 10);
+                } else {
+                    countdownEl.textContent = 'LIVE';
+                    countdownEl.style.color = '#00ff00';
+                }
+            }, 15000); // Every 15 seconds for demo (would be daily in production)
+        }
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            createParticles();
+            animateCountdown();
+        });
+        
+        // Auto-play audio cue (optional - commented out for now)
+        // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // function playTone() {
+        //     const oscillator = audioCtx.createOscillator();
+        //     const gainNode = audioCtx.createGain();
+        //     oscillator.connect(gainNode);
+        //     gainNode.connect(audioCtx.destination);
+        //     oscillator.frequency.value = 440;
+        //     oscillator.type = 'sine';
+        //     gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        //     gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        //     oscillator.start(audioCtx.currentTime);
+        //     oscillator.stop(audioCtx.currentTime + 0.5);
+        // }
+    </script>
+</body>
+</html>
