@@ -71,7 +71,7 @@ The canonical logo is automatically deployed to:
 
 ```bash
 # Navigate to repository
-cd /home/runner/work/nexus-cos/nexus-cos
+cd /path/to/nexus-cos
 
 # Backup current logo (optional)
 cp branding/official/N3XUS-vCOS.png branding/official/N3XUS-vCOS.png.backup

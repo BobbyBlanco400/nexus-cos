@@ -106,9 +106,10 @@ if [ $MISSING -eq 0 ] && [ $MISMATCH -eq 0 ]; then
     if [ -f "scripts/bootstrap.sh" ]; then
         echo "Running bootstrap verification..."
         echo ""
-        # Just check the logo verification part, ignore service startup
-        if bash scripts/bootstrap.sh 2>&1 | grep -q "Official logo verified"; then
-            bash scripts/bootstrap.sh 2>&1 | grep -A2 "Official logo" | head -3 || true
+        # Capture output once and check for logo verification
+        BOOTSTRAP_OUTPUT=$(bash scripts/bootstrap.sh 2>&1)
+        if echo "$BOOTSTRAP_OUTPUT" | grep -q "Official logo verified"; then
+            echo "$BOOTSTRAP_OUTPUT" | grep -A2 "Official logo" | head -3 || true
         else
             echo "⚠️  Bootstrap script did not verify logo as expected"
         fi

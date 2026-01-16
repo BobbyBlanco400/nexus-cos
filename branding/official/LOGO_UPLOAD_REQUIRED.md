@@ -31,7 +31,7 @@ Ensure your logo meets these requirements:
 **Option A - Local Development:**
 ```bash
 # Navigate to repository
-cd /home/runner/work/nexus-cos/nexus-cos
+cd /path/to/nexus-cos
 
 # Replace the canonical logo
 cp /path/to/your/new-logo.png branding/official/N3XUS-vCOS.png
