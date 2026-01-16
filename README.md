@@ -133,6 +133,89 @@ bash scripts/deploy-holographic-logo.sh
 
 ---
 
+## 🚀 **N3XUS v-COS Full Stack – Canonical Rollout (Phases 3–12 + Extended)**
+
+**NEW: Complete 98+ Service Orchestration with Full N3XUS LAW Enforcement**
+
+The N3XUS v-COS Full Stack deployment provides production-ready orchestration of all phases 3-12 plus extended, compliance, and sandbox services. All services enforce N3XUS LAW 55-45-17 at build-time, runtime, and request-time.
+
+### Quick Start - Full Stack Deployment
+
+```bash
+# 1. Bootstrap environment
+bash scripts/bootstrap.sh
+
+# 2. Launch all 98+ services
+bash scripts/full-stack-launch.sh
+
+# 3. Verify deployment
+bash scripts/verify-launch.sh
+```
+
+### Services Architecture
+
+**Phase 3-4 – Core Runtime** (Ports 3001-3002)
+- v-supercore, puabo-api-ai-hf
+
+**Phase 5-6 – Federation** (Ports 3010-3013)
+- federation-spine, identity-registry, federation-gateway, attestation-service
+
+**Phase 7-8 – Casino Domain** (Ports 3020-3021)
+- casino-core, ledger-engine
+
+**Phase 9 – Financial Core** (Ports 3030-3032)
+- wallet-engine, treasury-core, payout-engine
+
+**Phase 10 – Earnings & Media** (Ports 3040-3042)
+- earnings-oracle, pmmg-media-engine, royalty-engine
+
+**Phase 11-12 – Governance** (Ports 3050-3051)
+- governance-core, constitution-engine
+
+**Compliance / Nuisance** (Ports 4001-4005)
+- payment-partner, jurisdiction-rules, responsible-gaming, legal-entity, explicit-opt-in
+
+**Extended / Sandbox** (Ports 4051-4099)
+- PUABO Universe, V-Suite, and 40+ additional services
+
+### N3XUS LAW 55-45-17 Enforcement
+
+**Layer 1**: Build-time ARG validation - exits if handshake invalid  
+**Layer 2**: Runtime service verification - terminates on boot if handshake missing  
+**Layer 3**: Request middleware - HTTP 451 for invalid handshake  
+**Health Exemptions**: `/health`, `/metrics` accessible without handshake
+
+### Phase-Specific Deployment
+
+```bash
+# Launch specific phases
+bash scripts/phase3-4-ignite.sh    # Core Runtime
+bash scripts/phase5-6-ignite.sh    # Federation
+bash scripts/phase7-8-ignite.sh    # Casino Domain
+bash scripts/phase9-ignite.sh      # Financial Core
+bash scripts/phase10-ignite.sh     # Earnings & Media
+bash scripts/phase11-12-ignite.sh  # Governance
+```
+
+### Health Checks & Validation
+
+```bash
+# Health endpoint (no handshake required)
+curl http://localhost:3001/health
+
+# Service endpoint with valid handshake
+curl -H 'X-N3XUS-Handshake: 55-45-17' http://localhost:3001/
+
+# Invalid handshake (returns HTTP 451)
+curl http://localhost:3001/
+```
+
+**📘 Complete Documentation:** [FULL_STACK_CANONICAL_ROLLOUT.md](./FULL_STACK_CANONICAL_ROLLOUT.md)
+
+**Status**: ✅ Production Ready | **Services**: 98+ Orchestrated | **N3XUS LAW**: ✅ Enforced
+
+---
+
 ## 📘 **Master Blueprint**
 
 **🎯 COMPLETE SYSTEM DOCUMENTATION**
