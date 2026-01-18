@@ -2,24 +2,25 @@
 
 **Created:** 2025-10-05  
 **Status:** ✅ Production Ready  
-**Target VPS:** 74.208.155.161 (n3xuscos.online)
+**Target VPS:** 72.62.86.217 (n3xuscos.online)
 
 ---
 
 ## 🚀 Enhanced Production One-Liner
 
 This enhanced one-liner command handles the complete deployment from your current state to full beta/production launch.
+**N3XUS LAW COMPLIANT: Uses Hostinger VPS + Let's Encrypt + Handshake 55-45-17**
 
 ### PowerShell Variable (for Windows/PS)
 
 ```powershell
-$oneLiner = 'ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://n3xuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"'
+$oneLiner = 'ssh -o StrictHostKeyChecking=no root@72.62.86.217 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://n3xuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"'
 ```
 
 ### Bash Variable (for Linux/Mac)
 
 ```bash
-oneLiner='ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://n3xuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"'
+oneLiner='ssh -o StrictHostKeyChecking=no root@72.62.86.217 "cd /opt/nexus-cos && git pull origin main && cp .env.pf .env && docker compose -f docker-compose.pf.yml down && docker compose -f docker-compose.pf.yml up -d --build --remove-orphans && sleep 15 && for p in 4000 3002 3041; do echo \"Testing port \${p}...\" && curl -fsS http://localhost:\${p}/health || { echo \"PORT_\${p}_FAILED\"; exit 1; }; done && echo \"Local health checks passed\" && curl -fsS https://n3xuscos.online/v-suite/prompter/health && echo \"✅ PF_DEPLOY_SUCCESS - All systems operational\" || { echo \"❌ DEPLOYMENT_FAILED - Collecting diagnostics...\"; docker compose -f docker-compose.pf.yml ps; echo \"--- Gateway API Logs ---\"; docker logs --tail 200 puabo-api; echo \"--- PV Keys Logs ---\"; docker logs --tail 200 nexus-cos-pv-keys; echo \"--- AI SDK Logs ---\"; docker logs --tail 200 nexus-cos-puaboai-sdk; exit 1; }"'
 ```
 
 ---
@@ -28,7 +29,7 @@ oneLiner='ssh -o StrictHostKeyChecking=no root@74.208.155.161 "cd /opt/nexus-cos
 
 ### 1. **Connect to VPS**
 - Uses SSH with `StrictHostKeyChecking=no` for automation
-- Connects to root@74.208.155.161 (n3xuscos.online)
+- Connects to root@72.62.86.217 (n3xuscos.online)
 
 ### 2. **Update Repository**
 ```bash

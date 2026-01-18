@@ -54,6 +54,9 @@ export NEXUS_REPO_PATH="/var/www/nexus-cos"
 export NEXUS_LOG_DIR="/var/log/nexus-cos"
 export NEXUS_LOCK_DIR="/var/lock"
 export NEXUS_CONFIG_DIR="${NEXUS_REPO_PATH}/config"
+export N3XUS_HANDSHAKE="55-45-17"
+export NEXUS_HANDSHAKE="55-45-17"
+export X_N3XUS_HANDSHAKE="55-45-17"
 
 # Logging
 LOGFILE="${NEXUS_LOG_DIR}/nexus-master-$(date +%F_%T).log"
@@ -234,12 +237,18 @@ else
     log_success "Repository cloned"
 fi
 
+if [ ! -f "${NEXUS_REPO_PATH}/docker-compose.final.yml" ]; then
+    log_error "docker-compose.final.yml not found in ${NEXUS_REPO_PATH}"
+    log_error "Aborting deployment. Ensure the canonical stack file exists."
+    exit 1
+fi
+
 # ---------------------------
 # DATABASE INITIALIZATION
 # ---------------------------
 log_step "STEP 3/12: Database Initialization"
 log_info "Starting PostgreSQL container..."
-docker-compose up -d postgres
+docker-compose -f docker-compose.final.yml up -d postgres
 
 log_info "Waiting for PostgreSQL to be ready..."
 for i in {1..30}; do
@@ -558,7 +567,7 @@ fi
 log_step "STEP 7/12: Docker Stack Deployment"
 log_info "Starting all services..."
 cd "${NEXUS_REPO_PATH}"
-docker-compose up -d
+docker-compose -f docker-compose.final.yml up -d
 log_success "Docker stack deployed"
 
 # ---------------------------
@@ -735,11 +744,11 @@ case "$1" in
         ;;
     restart)
         echo "=== Restarting Services ==="
-        cd /var/www/nexus-cos && docker-compose restart
+        cd /var/www/nexus-cos && docker-compose -f docker-compose.final.yml restart
         ;;
     scale)
         echo "=== Scaling Service: $2 to $3 replicas ==="
-        docker-compose up -d --scale "$2=$3"
+        docker-compose -f docker-compose.final.yml up -d --scale "$2=$3"
         ;;
     deploy)
         echo "=== Redeploying ==="
@@ -759,6 +768,13 @@ log_success "Control panel installed: nexus-control"
 # DEPLOYMENT SUMMARY
 # ---------------------------
 log_step "STEP 12/12: Deployment Summary"
+log_step "N3XUS LAW 55-45-17 Verification"
+if [ -x "${NEXUS_REPO_PATH}/scripts/verify-handshake.sh" ]; then
+    cd "${NEXUS_REPO_PATH}" && ./scripts/verify-handshake.sh
+fi
+if [ -x "${NEXUS_REPO_PATH}/nexus/handshake/verify_55-45-17.sh" ]; then
+    cd "${NEXUS_REPO_PATH}" && ./nexus/handshake/verify_55-45-17.sh
+fi
 log_header "
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║

@@ -170,40 +170,31 @@ The first users define what a platform becomes.
 
 ---
 
-## WHAT TO EXPECT (7-DAY STRUCTURE)
+## WHAT TO EXPECT (72-HOUR STRUCTURE)
 
-### Day 1: Casino Nexus
+### Hours 0-24: Casino Nexus & Core
 Access skill-based gaming.  
 Test wallet synchronization.  
 Verify real-time updates.
 
-### Day 2: PuaboVerse / Metaverse
+### Hours 24-48: PuaboVerse / Metaverse
 Enter immersive environments.  
 Verify avatar and spatial presence.  
 Test Casino → Metaverse transitions.
 
-### Day 3: NFT & Economy
+### Hours 48-72: NFT, Economy & Integration
 Access the marketplace.  
 Purchase NFTs with NexCoin.  
-Verify assets persist across environments.
+Verify assets persist across environments.  
+Verify cross-module continuity.
 
-### Day 4: AI Identity (CORRECTED)
+### Throughout: AI Identity & Creator Hub
 Interact with your **PUABO AI-HF** powered identity.  
 Test MetaTwin memory and traits.  
-Verify HoloCore embodied behavior.  
+Access V-Caster Pro and test streaming.  
 *Note: kei-ai is not used in identity creation.*
 
-### Day 5: Creator Hub & Streaming
-Access V-Caster Pro.  
-Start a test stream.  
-Verify content attaches to your profile.
-
-### Day 6: Integration Testing
-Move freely across all modules.  
-Verify continuity under stress.  
-Test multi-environment workflows.
-
-### Day 7: Feedback & Governance
+### Hour 72: Feedback & Governance
 Share observations.  
 Identify issues and opportunities.  
 Participate in governance discussions.
