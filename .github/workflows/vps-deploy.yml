@@ -1,0 +1,87 @@
+name: VPS Deploy - N3XUS v-COS
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: 'main'
+      environment:
+        description: 'Target environment label (for logs only)'
+        required: false
+        default: 'production'
+
+env:
+  VPS_HOST: ${{ secrets.VPS_HOST || 'n3xuscos.online' }}
+  VPS_USER: ${{ secrets.VPS_USER || 'root' }}
+  VPS_TARGET_DIR: ${{ secrets.VPS_TARGET_DIR || '/var/www/nexus-cos' }}
+  HANDSHAKE: '55-45-17'
+
+jobs:
+  vps-deploy:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+      - name: Add VPS host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Ensure target directory exists on VPS
+        run: |
+          ssh "${VPS_USER}@${VPS_HOST}" "sudo mkdir -p '${VPS_TARGET_DIR}' && sudo chown -R ${VPS_USER}:${VPS_USER} '${VPS_TARGET_DIR}'"
+
+      - name: Sync core services and configs to VPS
+        run: |
+          rsync -az --delete \
+            services/v-supercore \
+            services/puabo_api_ai_hf \
+            n3xus-holofabric-core \
+            docker-compose.codespaces.yml \
+            launch_vps_stack.sh \
+            "${VPS_USER}@${VPS_HOST}:${VPS_TARGET_DIR}/"
+
+      - name: Normalize launch script and compose on VPS
+        run: |
+          ssh "${VPS_USER}@${VPS_HOST}" "cd '${VPS_TARGET_DIR}' && \
+            sed -i 's/\r$//' launch_vps_stack.sh || true && \
+            chmod +x launch_vps_stack.sh && \
+            if [ -f docker-compose.codespaces.yml ]; then \
+              sed -i '/^version:/d' docker-compose.codespaces.yml; \
+            fi"
+
+      - name: Launch N3XUS v-COS stack on VPS
+        run: |
+          ssh "${VPS_USER}@${VPS_HOST}" "cd '${VPS_TARGET_DIR}' && HANDSHAKE='${HANDSHAKE}' ./launch_vps_stack.sh"
+
+      - name: Verify service health endpoints
+        run: |
+          ssh "${VPS_USER}@${VPS_HOST}" "set -euo pipefail; \
+            echo 'Verifying v-supercore on 3001...'; \
+            curl -fsS -H \"X-N3XUS-Handshake: ${HANDSHAKE}\" http://localhost:3001/health >/dev/null; \
+            echo 'Verifying puabo_api_ai_hf on 3002...'; \
+            curl -fsS -H \"X-N3XUS-Handshake: ${HANDSHAKE}\" http://localhost:3002/health >/dev/null; \
+            echo 'Verifying holofabric-runtime on 3700...'; \
+            curl -fsS -H \"X-N3XUS-Handshake: ${HANDSHAKE}\" http://localhost:3700/health >/dev/null; \
+            echo 'All core services healthy under N3XUS Handshake ${HANDSHAKE}.'"
+
+      - name: Download notarization file from VPS
+        run: |
+          ssh "${VPS_USER}@${VPS_HOST}" "cd '${VPS_TARGET_DIR}' && cat LAUNCH_NOTARIZED_VPS.txt" > LAUNCH_NOTARIZED_VPS.txt
+
+      - name: Upload notarization artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vps-launch-notarization
+          path: LAUNCH_NOTARIZED_VPS.txt

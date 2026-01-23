@@ -14,13 +14,13 @@ This directory contains operational documentation for deploying, managing, and e
 
 ## 📁 OPERATIONAL PACKAGES
 
-### 7-Day Founder Beta
+### 72-Hour Codespaces Launch (Founder Beta)
 
-**Location:** `operational/7DAY_FOUNDER_BETA/`  
+**Location:** `operational/72HOUR_CODESPACES_LAUNCH/`  
 **Status:** READY FOR EXECUTION  
 **Owner:** TRAE SOLO CODER (Head Dev/Engineer)
 
-Complete operational package for executing the 7-Day Founder Beta launch:
+Complete operational package for executing the 72-Hour Codespaces Launch founder beta:
 
 - **README.md** - Execution guide for TRAE SOLO CODER
 - **FOUNDER_BETA_VERIFICATION_CHECKLIST.md** - Internal verification checklist
@@ -28,14 +28,14 @@ Complete operational package for executing the 7-Day Founder Beta launch:
 - **FOUNDER_ONBOARDING_SCRIPT.md** - Founder onboarding script (non-public)
 
 **Key Features:**
-- Day-by-day verification workflow
+- Hour-by-hour verification workflow (Hours 0–72)
 - Operational commands and health checks
-- Critical correction: DAY 4 uses PUABO AI-HF (NOT kei-ai)
+- Critical correction: AI identity uses PUABO AI-HF (NOT kei-ai) throughout
 - Complete success criteria and sign-off procedures
 
 **Quick Start:**
 ```bash
-cd operational/7DAY_FOUNDER_BETA
+cd operational/72HOUR_CODESPACES_LAUNCH
 cat README.md
 ```
 
@@ -70,8 +70,8 @@ These existing documents complement the operational packages:
 
 ### Starting Points by Task
 
-**Executing 7-Day Founder Beta:**
-→ Start here: `operational/7DAY_FOUNDER_BETA/README.md`
+**Executing 72-Hour Codespaces Launch:**
+→ Start here: `operational/72HOUR_CODESPACES_LAUNCH/README.md`
 
 **Validating Production Launch:**
 → Start here: `PF_MASTER_LAUNCH_GATE_README.md`
@@ -106,12 +106,12 @@ curl -X GET https://n3xuscos.online/api/system/health
 
 ```bash
 # Navigate to operational package
-cd operational/7DAY_FOUNDER_BETA
+cd operational/72HOUR_CODESPACES_LAUNCH
 
 # Review execution guide
 cat README.md
 
-# Follow day-by-day workflow
+# Follow hour-by-hour workflow (0–72 hours)
 # Use FOUNDER_BETA_VERIFICATION_CHECKLIST.md for tracking
 ```
 
@@ -176,7 +176,7 @@ If re-authentication required → critical failure, investigate immediately.
 
 ### For TRAE SOLO CODER
 
-- **7-Day Founder Beta:** Follow operational/7DAY_FOUNDER_BETA/README.md
+- **72-Hour Codespaces Launch:** Follow operational/72HOUR_CODESPACES_LAUNCH/README.md
 - **Technical Blockers:** Use health check commands for diagnostics
 - **Launch Decision:** Complete verification checklist, obtain sign-offs
 
@@ -188,7 +188,7 @@ If re-authentication required → critical failure, investigate immediately.
 nexus-cos/
 ├── operational/
 │   ├── README.md (this file)
-│   └── 7DAY_FOUNDER_BETA/
+│   └── 72HOUR_CODESPACES_LAUNCH/
 │       ├── README.md
 │       ├── FOUNDER_BETA_VERIFICATION_CHECKLIST.md
 │       ├── FINAL_LAUNCH_DECLARATION.md
@@ -206,7 +206,7 @@ nexus-cos/
 
 ## ✅ DOCUMENT STATUS
 
-- ✅ **7-Day Founder Beta Package** - COMPLETE & READY
+- ✅ **72-Hour Codespaces Launch Package** - COMPLETE & READY
 - ✅ **Launch Gate Validation** - COMPLETE & READY
 - ✅ **Health Check Procedures** - COMPLETE & READY
 - ✅ **Deployment Guides** - COMPLETE & READY

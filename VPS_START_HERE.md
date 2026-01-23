@@ -3,7 +3,7 @@
 ## The Bulletproofed Command
 
 ```bash
-ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | sudo bash -s"
+ssh root@72.62.86.217 "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | sudo bash -s"
 ```
 
 **Replace `YOUR_VPS_IP` with your actual server IP address.**

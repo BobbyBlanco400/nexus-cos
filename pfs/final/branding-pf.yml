@@ -7,7 +7,7 @@ branding:
   domain: "n3xuscos.online"
   
   assets:
-    logo: "/branding/logo.svg"
+    logo: "/branding/logo.png"
     favicon: "/branding/favicon.ico"
     colors:
       primary: "#2563eb"

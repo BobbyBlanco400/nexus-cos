@@ -1,0 +1,16 @@
+{
+  "scene_id": "casino_blackjack_v1",
+  "requires": {
+    "law_handshake": true,
+    "entitlement": "casino_access",
+    "wallet_bound": true
+  },
+  "anchors": [
+    { "type": "table", "persistent": true },
+    { "type": "dealer_position", "locked": true }
+  ],
+  "rules": {
+    "jurisdiction_check": true,
+    "age_gate": true
+  }
+}

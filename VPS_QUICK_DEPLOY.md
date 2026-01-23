@@ -11,7 +11,7 @@ ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco40
 ### Example with real IP:
 
 ```bash
-ssh root@74.208.155.161 "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | bash"
+ssh root@72.62.86.217 "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | bash"
 ```
 
 ---

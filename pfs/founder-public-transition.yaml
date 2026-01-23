@@ -8,9 +8,9 @@ transition_type: "phased_rollout"
 transition_phases:
   founder:
     active: true
-    name: "Founder Beta"
+    name: "Founder Beta (Codespaces Launch)"
     access_level: "full"
-    duration: "7_days_minimum"
+    duration: "72_hours_maximum"
     
     features:
       casino_access: "all_games"

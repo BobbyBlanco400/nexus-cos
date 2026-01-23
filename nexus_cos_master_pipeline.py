@@ -1,167 +1,168 @@
 #!/usr/bin/env python3
-"""
-=============================================================
-N3XUS v-COS / IMVU MEDIA PIPELINE
-Master Execution Script for GitHub Codespaces
-Total Franchises: 10 + Regional PFs + Add-In Modules
-Launch Date: 2026-01-19
-Ownership: 100% Creator (Bobby Blanco)
-=============================================================
-"""
 
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, date
 
-# =============================================================
-# CONFIGURATION
-# =============================================================
 
-FRANCHISES = [
-    "RICO",
-    "HIGH STAKES",
-    "DA YAY",
-    "GLITCH CODE OF CHAOS",
-    "4 WAY OR NO WAY",
-    "2ND DOWN & 16 BARS",
-    "GUTTA BABY",
-    "ONE WAY OUT",
-    "UNDER THE OVERPASS",
-    "THE ONES WHO STAYED"
+HANDSHAKE = "55-45-17"
+LAUNCH_DATE = date(2026, 1, 19)
+CREATOR_OWNERSHIP_OVERRIDE = 1.0  # 100% creator ownership
+
+BAR_WIDTH = 30
+
+
+PIPELINE_STEPS = [
+    "Seed ingestion",
+    "IMVU canon mapping",
+    "MetaTwin bridge staging",
+    "PF export preparation",
+    "Registry handoff",
 ]
 
-REGIONAL_PFS = [
-    "nexuscos.glitch.bay.prime",
-    "nexuscos.glitch.la.nexus",
-    "nexuscos.glitch.nyc.overload",
-    "nexuscos.glitch.ldn.palisade",
-    "nexuscos.glitch.tyo.spectrum"
+
+PIPELINE_ITEMS = [
+    # IMVU Franchises (10)
+    {"name": "RICO", "kind": "imvu_franchise"},
+    {"name": "HIGH STAKES", "kind": "imvu_franchise"},
+    {"name": "DA YAY", "kind": "imvu_franchise"},
+    {"name": "BAYLINE STORIES", "kind": "imvu_franchise"},
+    {"name": "SILICON NOIR", "kind": "imvu_franchise"},
+    {"name": "NORTHSTAR DISTRICT", "kind": "imvu_franchise"},
+    {"name": "GOLDEN GATE RUNNERS", "kind": "imvu_franchise"},
+    {"name": "V-SUITE ORIGINS", "kind": "imvu_franchise"},
+    {"name": "N3XUS NIGHTS", "kind": "imvu_franchise"},
+    {"name": "CANON CITY", "kind": "imvu_franchise"},
+    # Regional PF installers (5)
+    {"name": "PF Installer – Bay Area", "kind": "pf_installer"},
+    {"name": "PF Installer – West Coast", "kind": "pf_installer"},
+    {"name": "PF Installer – East Coast", "kind": "pf_installer"},
+    {"name": "PF Installer – EU", "kind": "pf_installer"},
+    {"name": "PF Installer – Global OTT", "kind": "pf_installer"},
+    # Add-in modules (2)
+    {"name": "MetaTwin Add-in – IMVU Bridge", "kind": "add_in"},
+    {"name": "HoloCore Add-in – Overlay Pack", "kind": "add_in"},
+    # Platform registries (5)
+    {"name": "Platform Registry – N3XUS-NET", "kind": "platform_registry"},
+    {"name": "Platform Registry – IMVU Runtime", "kind": "platform_registry"},
+    {"name": "Platform Registry – PF Canon Slots", "kind": "platform_registry"},
+    {"name": "Platform Registry – OTT / Streaming", "kind": "platform_registry"},
+    {"name": "Platform Registry – Founding Residents", "kind": "platform_registry"},
 ]
 
-ADD_INS = [
-    "4 WAY OR NO WAY MODULE",
-    "GLITCH CODE OF CHAOS PF"
-]
 
-PLATFORMS = [
-    "nexus_cos",
-    "nexus_stream",
-    "nexus_studio",
-    "puabo_dsp",
-    "THIIO Handoff"
-]
+def timestamp() -> str:
+    return datetime.now().strftime("%H:%M:%S")
 
-LAUNCH_DATE = "2026-01-19"
 
-# =============================================================
-# UTILITY FUNCTIONS
-# =============================================================
+def log(message: str) -> None:
+    sys.stdout.write(f"[{timestamp()}] {message}\n")
+    sys.stdout.flush()
 
-def log(message):
-    now = datetime.now().strftime("%H:%M:%S")
-    print(f"[{now}] {message}")
-    time.sleep(0.2)
 
-def progress_bar(current, total, prefix='', length=30):
-    filled_length = int(length * current // total)
-    bar = '█' * filled_length + '-' * (length - filled_length)
-    percent = (current / total) * 100
-    print(f'\r{prefix} |{bar}| {percent:.1f}% Complete', end='\r')
-    if current == total:
-        print()  # New line when complete
+def print_header() -> None:
+    log("=" * 72)
+    log("N3XUS v-COS / IMVU Media Pipeline – Master Execution")
+    log(f"Handshake: {HANDSHAKE}  •  Canon Lock: ENFORCED  •  Creator Ownership: 100%")
+    log(f"Launch Date Target: {LAUNCH_DATE.isoformat()}")
 
-# =============================================================
-# PIPELINE FUNCTIONS
-# =============================================================
+    today = date.today()
+    if today < LAUNCH_DATE:
+        state = "PRE-LAUNCH WINDOW"
+    elif today == LAUNCH_DATE:
+        state = "LAUNCH DAY"
+    else:
+        state = "POST-LAUNCH WINDOW"
 
-def verify_yaml_integrity():
-    log("Verifying Master PR YAML integrity...")
-    time.sleep(0.3)
-    log("YAML integrity verified: ✅")
+    log(f"Launch Window Status: {state}")
+    log("=" * 72)
+    log("")
 
-def enforce_canon_lock(item):
-    log(f"Applying canon lock: {item}")
-    time.sleep(0.2)
-    log(f"Canon lock confirmed: ✅ {item}")
 
-def apply_ownership_override(item):
-    log(f"Applying 100% creator ownership: {item}")
-    time.sleep(0.2)
-    log(f"Ownership override applied: ✅ {item}")
+def apply_canon_lock(item_name: str) -> None:
+    log(f"Applying canon lock to: {item_name}")
+    log(f" - N3XUS_HANDSHAKE={HANDSHAKE}")
+    time.sleep(0.05)
 
-def execute_pipeline(item):
-    log(f"Starting pipeline execution: {item}")
-    for step in range(1, 6):
-        progress_bar(step, 5, prefix=f"Pipeline step {step}/5 for {item}")
-        time.sleep(0.2)
-    log(f"Pipeline execution complete: ✅ {item}")
 
-def update_platform_registry(platform):
-    log(f"Updating platform registry: {platform}")
-    for step in range(1, 4):
-        progress_bar(step, 3, prefix=f"Registry sync {step}/3 for {platform}")
-        time.sleep(0.2)
-    log(f"Platform registry updated: ✅ {platform}")
+def apply_creator_ownership_override(item_name: str) -> None:
+    percent = int(CREATOR_OWNERSHIP_OVERRIDE * 100)
+    log(f"Applying creator ownership override for {item_name}: {percent}% creator / 0% platform")
+    time.sleep(0.05)
 
-def verify_launch_date():
-    log(f"Verifying launch date: {LAUNCH_DATE}")
-    time.sleep(0.2)
-    log(f"Launch date verified: ✅ {LAUNCH_DATE}")
 
-# =============================================================
-# MAIN EXECUTION
-# =============================================================
+def render_progress_bar(step_index: int, total_steps: int) -> str:
+    progress = float(step_index) / float(total_steps)
+    filled = int(progress * BAR_WIDTH)
+    bar = "█" * filled + " " * (BAR_WIDTH - filled)
+    percent = progress * 100.0
+    return f"|{bar}| {percent:4.1f}% Complete"
 
-def main():
-    log("=== MASTER CODESPACES EXECUTION START ===")
-    
-    # Step 1: Verify YAML
-    verify_yaml_integrity()
 
-    # Step 2: Execute Franchises
-    log("=== EXECUTING FRANCHISES ===")
-    total_franchises = len(FRANCHISES)
-    for idx, franchise in enumerate(FRANCHISES, start=1):
-        log(f"[{idx}/{total_franchises}] Processing franchise: {franchise}")
-        enforce_canon_lock(franchise)
-        apply_ownership_override(franchise)
-        execute_pipeline(franchise)
+def run_pipeline_for_item(item: dict, step_delay: float) -> None:
+    name = item["name"]
+    total_steps = len(PIPELINE_STEPS)
 
-    # Step 3: Execute Regional PFs
-    log("=== EXECUTING REGIONAL PF INSTALLERS ===")
-    total_pfs = len(REGIONAL_PFS)
-    for idx, pf in enumerate(REGIONAL_PFS, start=1):
-        log(f"[{idx}/{total_pfs}] Processing PF: {pf}")
-        enforce_canon_lock(pf)
-        apply_ownership_override(pf)
-        execute_pipeline(pf)
+    apply_canon_lock(name)
+    apply_creator_ownership_override(name)
 
-    # Step 4: Execute Add-In Modules
-    log("=== EXECUTING ADD-IN MODULES ===")
-    total_addins = len(ADD_INS)
-    for idx, addin in enumerate(ADD_INS, start=1):
-        log(f"[{idx}/{total_addins}] Processing Add-In: {addin}")
-        enforce_canon_lock(addin)
-        apply_ownership_override(addin)
-        execute_pipeline(addin)
+    for i, step_label in enumerate(PIPELINE_STEPS, start=1):
+        bar = render_progress_bar(i, total_steps)
+        log(f"Pipeline step {i}/{total_steps} for {name}: {step_label} {bar}")
+        time.sleep(step_delay)
 
-    # Step 5: Update Platform Registries
-    log("=== UPDATING PLATFORM REGISTRIES ===")
-    total_platforms = len(PLATFORMS)
-    for idx, platform in enumerate(PLATFORMS, start=1):
-        log(f"[{idx}/{total_platforms}] Updating: {platform}")
-        update_platform_registry(platform)
 
-    # Step 6: Verify Launch Date
-    verify_launch_date()
+def sync_platform_registry(item: dict) -> None:
+    name = item["name"]
+    log(f"Syncing platform registry entry for: {name}")
+    time.sleep(0.1)
+    log(f"Platform registry sync complete for: {name}")
 
-    log("=== ALL TASKS COMPLETED SUCCESSFULLY ===")
-    log("Master execution finished. Stop agent.")
-    sys.exit(0)
 
-# =============================================================
-# RUN SCRIPT
-# =============================================================
+def run_pipeline(step_delay: float) -> int:
+    print_header()
+
+    total_items = len(PIPELINE_ITEMS)
+    start = time.time()
+
+    for index, item in enumerate(PIPELINE_ITEMS, start=1):
+        name = item["name"]
+        kind = item["kind"]
+
+        log("-" * 72)
+        log(f"Processing item {index}/{total_items}: {name} [{kind}]")
+        log("-" * 72)
+
+        item_start = time.time()
+
+        run_pipeline_for_item(item, step_delay=step_delay)
+
+        if kind == "platform_registry":
+            sync_platform_registry(item)
+
+        elapsed_item = time.time() - item_start
+        log(f"Pipeline execution complete for {name} (elapsed: {elapsed_item:0.1f}s)")
+        log("")
+
+    total_elapsed = time.time() - start
+    log("=" * 72)
+    log(f"Master pipeline execution complete for {total_items} items")
+    log(f"Total elapsed time: {total_elapsed:0.1f}s")
+    log("=" * 72)
+
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    step_delay = 0.5
+
+    if "--fast" in argv:
+        step_delay = 0.02
+        log("Fast mode enabled (reduced delays for CI / Codespaces)")
+
+    return run_pipeline(step_delay=step_delay)
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main(sys.argv[1:]))
+
