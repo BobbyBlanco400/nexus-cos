@@ -48,7 +48,7 @@ jobs:
           # Verify required fields exist
           jq -e '.system' config/genesis.lock.json > /dev/null
           jq -e '.state' config/genesis.lock.json > /dev/null
-          jq -e '.activated' config/genesis.lock.json > /dev/null
+          jq -e 'has("activated")' config/genesis.lock.json > /dev/null
           jq -e '.phases' config/genesis.lock.json > /dev/null
           
           echo "✅ Genesis lock file integrity verified"
