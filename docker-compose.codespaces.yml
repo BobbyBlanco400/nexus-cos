@@ -13,11 +13,14 @@ services:
       context: ./services/v-supercore
       args:
         X_N3XUS_HANDSHAKE: "55-45-17"
+        N3XUS_HANDSHAKE: "55-45-17"
     container_name: v-supercore-phase5
     ports:
       - "3001:8080"
     environment:
       - X_N3XUS_HANDSHAKE=55-45-17
+      - N3XUS_HANDSHAKE=55-45-17
+      - NEXUS_HANDSHAKE=55-45-17
       - PORT=8080
       - HOST=0.0.0.0
       - PYTHONUNBUFFERED=1
@@ -39,11 +42,14 @@ services:
       context: ./services/puabo_api_ai_hf
       args:
         X_N3XUS_HANDSHAKE: "55-45-17"
+        N3XUS_HANDSHAKE: "55-45-17"
     container_name: puabo-api-ai-hf-phase5
     ports:
       - "3002:3401"
     environment:
       - X_N3XUS_HANDSHAKE=55-45-17
+      - N3XUS_HANDSHAKE=55-45-17
+      - NEXUS_HANDSHAKE=55-45-17
       - PORT=3401
       - HOST=0.0.0.0
       - NODE_ENV=production
@@ -51,6 +57,34 @@ services:
       - nexus-network
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3401/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  # 3. holofabric-runtime: Sovereign Spatial Runtime
+  # NOW LINKED TO: n3xus-holofabric-core (Canonical)
+  holofabric-runtime:
+    build:
+      context: ./n3xus-holofabric-core/apps/runtime
+      args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: holofabric-runtime-phase5
+    ports:
+      - "3700:3700"
+    environment:
+      - X_N3XUS_HANDSHAKE=55-45-17
+      - N3XUS_HANDSHAKE=55-45-17
+      - NEXUS_HANDSHAKE=55-45-17
+      - PORT=3700
+      - HOST=0.0.0.0
+      - NODE_ENV=production
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3700/health"]
       interval: 30s
       timeout: 10s
       retries: 3

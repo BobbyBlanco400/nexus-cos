@@ -183,8 +183,8 @@ export class FounderTierManager {
 
   constructor(betaEndDate?: number) {
     this.members = new Map();
-    // Default beta period: 90 days
-    this.betaEndDate = betaEndDate || Date.now() + (90 * 24 * 60 * 60 * 1000);
+    // Default beta period: 72 hours (Codespaces Launch)
+    this.betaEndDate = betaEndDate || Date.now() + (72 * 60 * 60 * 1000);
   }
 
   /**
@@ -368,11 +368,11 @@ export class FounderTierManager {
   }
 
   /**
-   * Get days remaining in beta
+   * Get hours remaining in beta
    */
-  getDaysRemaining(): number {
+  getHoursRemaining(): number {
     const diff = this.betaEndDate - Date.now();
-    return Math.max(0, Math.ceil(diff / (24 * 60 * 60 * 1000)));
+    return Math.max(0, Math.ceil(diff / (60 * 60 * 1000)));
   }
 }
 

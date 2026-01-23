@@ -1,7 +1,7 @@
-# 🔍 FOUNDER BETA VERIFICATION CHECKLIST (INTERNAL)
+# 🔍 72-HOUR CODESPACES LAUNCH VERIFICATION CHECKLIST (INTERNAL)
 
 **Version:** v2025.12.23  
-**Duration:** 7-Day Founder Beta  
+**Duration:** 72-Hour Founder Beta  
 **Status:** OPERATIONAL  
 **Classification:** INTERNAL OPS USE
 
@@ -9,7 +9,7 @@
 
 ## PURPOSE
 
-To verify that the Nexus COS stack is operating as a single continuous ecosystem through NexusVision during the 7-Day Founder Beta.
+To verify that the Nexus COS stack is operating as a single continuous ecosystem through NexusVision during the 72-Hour Founder Beta (Codespaces Launch).
 
 **This checklist is used by:**
 - Internal Ops
@@ -120,7 +120,7 @@ curl -X GET https://n3xuscos.online/api/nexusvision/session/{session_id}/health
 
 ---
 
-## C. CASINO NEXUS (DAY 1 CORE)
+## C. CASINO NEXUS (HOURS 0-24 CORE)
 
 ### Verification Steps
 
@@ -166,7 +166,7 @@ curl -X GET https://n3xuscos.online/api/wallet/{founder_uuid}/balance
 
 ---
 
-## D. PUABOVERSE / METAVERSE (DAY 2 CORE)
+## D. PUABOVERSE / METAVERSE (HOURS 24-48 CORE)
 
 ### Verification Steps
 
@@ -210,7 +210,7 @@ curl -X GET https://n3xuscos.online/api/holocore/presence/{founder_uuid}
 
 ---
 
-## E. NFT & ECONOMY (DAY 3 CORE)
+## E. NFT & ECONOMY (HOURS 48-72 CORE)
 
 ### Verification Steps
 
@@ -255,7 +255,7 @@ curl -X GET https://n3xuscos.online/api/economy/assets/{founder_uuid}/cross-env-
 
 ---
 
-## F. AI IDENTITY — DAY 4 (CORRECTED)
+## F. AI IDENTITY — THROUGHOUT (CORRECTED)
 
 ### ⚠️ IMPORTANT: kei-ai is NOT used
 
@@ -314,7 +314,7 @@ curl -X GET https://n3xuscos.online/api/ai/service-chain | grep -v "kei-ai" || e
 
 ---
 
-## G. CREATOR HUB & STREAMING (DAY 5 CORE)
+## G. CREATOR HUB & STREAMING (THROUGHOUT)
 
 ### Verification Steps
 
