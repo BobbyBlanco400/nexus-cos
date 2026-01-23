@@ -29,3 +29,6 @@ jobs:
       
       - name: Run tests
         run: npm test || true
+
+      - name: Run N3XUS v-COS master pipeline
+        run: python3 nexus_cos_master_pipeline.py --fast

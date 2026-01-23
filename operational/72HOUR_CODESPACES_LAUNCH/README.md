@@ -1,4 +1,4 @@
-# 📋 7-DAY FOUNDER BETA — OPERATIONAL PACKAGE
+# 📋 72-HOUR CODESPACES LAUNCH — OPERATIONAL PACKAGE
 
 **Version:** v2025.12.23  
 **Status:** READY FOR EXECUTION  
@@ -9,7 +9,7 @@
 
 ## 🎯 PURPOSE
 
-This operational package contains **three critical deliverables** for executing the 7-Day Founder Beta launch of Nexus COS. These documents are production-ready, canon-aligned, and designed for immediate deployment.
+This operational package contains **three critical deliverables** for executing the 72-Hour Codespaces Launch of Nexus COS. These documents are production-ready, canon-aligned, and designed for immediate deployment.
 
 ---
 
@@ -19,21 +19,21 @@ This operational package contains **three critical deliverables** for executing 
 
 **Purpose:** Internal operational checklist for verifying ecosystem continuity  
 **Who uses it:** Internal Ops, Founders (guided), Pre-launch verification  
-**When to use:** Throughout 7-day beta period, final pre-launch validation
+**When to use:** Throughout 72-hour launch period, final pre-launch validation
 
 **Key Sections:**
 - A. Access & Identity Verification
 - B. NexusVision Runtime Verification
-- C. Casino Nexus (Day 1 Core)
-- D. PuaboVerse/Metaverse (Day 2 Core)
-- E. NFT & Economy (Day 3 Core)
-- F. AI Identity — Day 4 (CORRECTED: PUABO AI-HF, NOT kei-ai)
-- G. Creator Hub & Streaming (Day 5 Core)
+- C. Casino Nexus (Hour 0-24 Core)
+- D. PuaboVerse/Metaverse (Hour 24-48 Core)
+- E. NFT & Economy (Hour 48-72 Core)
+- F. AI Identity — Throughout (CORRECTED: PUABO AI-HF, NOT kei-ai)
+- G. Creator Hub & Streaming (Throughout)
 - H. Club Saditty (Tenant Platform)
 - I. System Health
 
 **Critical Correction:**
-- ⚠️ **DAY 4:** Uses PUABO AI-HF for AI identity, NOT kei-ai
+- ⚠️ **AI IDENTITY:** Uses PUABO AI-HF for AI identity, NOT kei-ai
 - Includes verification commands to confirm kei-ai is NOT in service chain
 
 ---
@@ -70,7 +70,7 @@ This operational package contains **three critical deliverables** for executing 
 - Experience overview (one identity, one wallet, one session, multiple worlds)
 - NexusVision explanation
 - Founder role definition
-- 7-day structure outline
+- 72-hour structure outline
 - Technical notes and expectations
 
 **Key Message:**
@@ -82,7 +82,7 @@ This operational package contains **three critical deliverables** for executing 
 
 ### Pre-Execution Checklist
 
-Before deploying the 7-Day Founder Beta:
+Before deploying the 72-Hour Codespaces Launch:
 
 - [ ] **All three documents reviewed and approved**
 - [ ] **Nexus COS platform deployed and operational**
@@ -110,7 +110,7 @@ Before deploying the 7-Day Founder Beta:
 
 ### Execution Workflow
 
-#### Phase 1: Pre-Launch (Day -1)
+#### Phase 1: Pre-Launch (Hour -1)
 
 1. **System Validation**
    ```bash
@@ -136,7 +136,7 @@ Before deploying the 7-Day Founder Beta:
    - Provide FOUNDER_BETA_VERIFICATION_CHECKLIST.md to ops team
    - Hold FINAL_LAUNCH_DECLARATION.md for post-validation
 
-#### Phase 2: Launch (Day 0)
+#### Phase 2: Launch (Hour 0)
 
 1. **Founder Onboarding Sessions**
    - Use FOUNDER_ONBOARDING_SCRIPT.md as guide
@@ -148,49 +148,39 @@ Before deploying the 7-Day Founder Beta:
    - Document results for each section
    - Track pass/fail conditions
 
-#### Phase 3: 7-Day Beta (Days 1-7)
+#### Phase 3: 72-Hour Launch (Hours 0-72)
 
-**Day 1: Casino Nexus**
+**Hours 0-24: Casino Nexus & Core**
 - Guide founders through Casino access
 - Verify wallet real-time sync
 - Complete Section C of checklist
 
-**Day 2: PuaboVerse/Metaverse**
+**Hours 24-48: PuaboVerse/Metaverse**
 - Enable metaverse access
 - Test Casino → PuaboVerse transitions
 - Complete Section D of checklist
 
-**Day 3: NFT & Economy**
+**Hours 48-72: NFT, Economy & Integration**
 - Open NFT marketplace
 - Test NexCoin transactions
 - Verify cross-environment asset persistence
 - Complete Section E of checklist
-
-**Day 4: AI Identity (CRITICAL)**
-- **VERIFY PUABO AI-HF, NOT kei-ai**
-- Test MetaTwin memory and traits
-- Confirm HoloCore behavior consistency
-- Complete Section F of checklist
-- Run kei-ai exclusion verification
-
-**Day 5: Creator Hub & Streaming**
-- Enable V-Caster Pro access
-- Test streaming from VR and browser
-- Verify content persistence
-- Complete Section G of checklist
-
-**Day 6: Integration Testing**
 - Full ecosystem navigation tests
 - Multi-environment workflow validation
-- Stress testing under load
 
-**Day 7: Feedback & Governance**
+**Throughout: AI Identity & Creator Hub**
+- **VERIFY PUABO AI-HF, NOT kei-ai**
+- Test MetaTwin memory and traits
+- Enable V-Caster Pro access
+- Test streaming from VR and browser
+
+**Hour 72: Feedback & Governance**
 - Collect founder feedback
 - Complete all checklist sections
 - Final system health validation
 - Complete Section I of checklist
 
-#### Phase 4: Post-Beta (Day 8+)
+#### Phase 4: Post-Launch (Hour 72+)
 
 1. **Verification Sign-Off**
    - Complete all sections of FOUNDER_BETA_VERIFICATION_CHECKLIST.md
@@ -200,12 +190,13 @@ Before deploying the 7-Day Founder Beta:
 2. **Launch Declaration**
    - If all pass conditions met → READY FOR LAUNCH
    - Distribute FINAL_LAUNCH_DECLARATION.md to stakeholders
-   - Proceed to next phase (expanded founder cohort or public launch)
+   - Proceed to next phase (3-Day Rest Period)
 
-3. **Lessons Learned**
-   - Document issues encountered
-   - Update operational procedures
-   - Refine verification checklist for next cycle
+3. **3-Day Rest Period**
+   - System maintenance and log review
+   - Performance analysis
+   - Founder feedback consolidation
+   - Prepare for next cohort
 
 ---
 
@@ -332,15 +323,26 @@ If identity drifts or requires re-authentication:
 
 ---
 
+**When to use:** Throughout 72-hour launch period, final pre-launch validation
+**Who uses it:** Founder, Core Team
+**Output:** Pass/Fail for each system component
+
 ## 📁 FILE LOCATIONS
 
 ```
-operational/7DAY_FOUNDER_BETA/
+operational/72HOUR_CODESPACES_LAUNCH/
 ├── README.md (this file)
 ├── FOUNDER_BETA_VERIFICATION_CHECKLIST.md
 ├── FINAL_LAUNCH_DECLARATION.md
 └── FOUNDER_ONBOARDING_SCRIPT.md
 ```
+
+## 📋 CHECKLIST SECTIONS
+- A. Core Systems (Hour 0-24)
+- B. Casino Operations (Hour 24-48)
+- C. AI Identity & Interactions (Throughout)
+- D. Founder Benefits (Hour 0-72)
+- E. NFT & Economy (Hour 48-72 Core)
 
 ---
 
@@ -363,7 +365,7 @@ operational/7DAY_FOUNDER_BETA/
 ## ✅ STATUS: COMPLETE
 
 All three deliverables are:
-- ✅ Corrected (DAY 4 uses PUABO AI-HF, NOT kei-ai)
+- ✅ Corrected (Throughout uses PUABO AI-HF, NOT kei-ai)
 - ✅ Canon-aligned (matches Nexus COS architecture)
 - ✅ Launch-safe (production-ready documentation)
 - ✅ Founder-ready (appropriate tone and content)
@@ -375,7 +377,7 @@ All three deliverables are:
 1. **Review all three documents** in this directory
 2. **Validate system readiness** using operational commands
 3. **Provision founder accounts** with correct tier and balance
-4. **Execute 7-day beta** following day-by-day workflow
+4. **Execute 72-hour beta** following hour-by-hour workflow
 5. **Complete verification checklist** with pass/fail for each section
 6. **Obtain sign-offs** from required authorities
 7. **Issue launch declaration** if all criteria met

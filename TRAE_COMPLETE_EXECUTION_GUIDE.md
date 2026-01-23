@@ -17,6 +17,8 @@ This guide provides TRAE with a complete, bulletproof workflow for verifying and
 
 Both layers have been verified and are operational on VPS 72.62.86.217 as confirmed in your execution report.
 
+For the live platform rollout on the VPS (which services and verticals should be running at each stage), see the canonical phase overview in `VPS_DEPLOYMENT_GUIDE.md` under “Canonical Platform Rollout Phases (Phase 1, Phase 2, Phase 2.5, Phase 3)”. TRAE’s 10-phase verification should treat that section as the execution target when deciding GO/NO-GO for Phase 1/2/2.5/3.
+
 ---
 
 ## ✅ Pre-Verified Status (From Your Report)

@@ -1,163 +1,142 @@
-# N3XUS v-COS / IMVU Media Pipeline - Master Execution Script
+# N3XUS v-COS Master Pipeline – IMVU Media Execution Script
 
-## Overview
-
-The **N3XUS v-COS / IMVU Media Pipeline Master Execution Script** is a comprehensive Python script designed for GitHub Codespaces that provides a professional "launch pipeline" experience with full live logging, progress bars, timestamps, and cinematic execution flow.
-
-## Features
-
-✅ **All 10 IMVU Franchises Integrated**
-- RICO
-- HIGH STAKES
-- DA YAY
-- GLITCH CODE OF CHAOS
-- 4 WAY OR NO WAY
-- 2ND DOWN & 16 BARS
-- GUTTA BABY
-- ONE WAY OUT
-- UNDER THE OVERPASS
-- THE ONES WHO STAYED
-
-✅ **Regional PF Installers**
-- nexuscos.glitch.bay.prime (Bay Area)
-- nexuscos.glitch.la.nexus (Los Angeles)
-- nexuscos.glitch.nyc.overload (New York City)
-- nexuscos.glitch.ldn.palisade (London)
-- nexuscos.glitch.tyo.spectrum (Tokyo)
-
-✅ **Add-In Cinematic Modules**
-- 4 WAY OR NO WAY MODULE
-- GLITCH CODE OF CHAOS PF
-
-✅ **Platform Registry Updates**
-- nexus_cos
-- nexus_stream
-- nexus_studio
-- puabo_dsp
-- THIIO Handoff
-
-✅ **Advanced Pipeline Features**
-- **Live Logging with Timestamps** - Every action is logged with precise HH:MM:SS timestamps
-- **Progress Bars** - Visual progress indicators for pipeline execution steps
-- **Canon Locks** - Enforces canonical ownership per franchise/PF/add-in
-- **100% Creator Ownership Override** - Applies full creator rights to all assets
-- **Launch Date Verification** - Validates the official launch date (2026-01-19)
-- **Cinematic Execution Flow** - Professional pipeline feedback with visual indicators
-- **Self-Contained** - No external dependencies beyond Python standard library
-
-## Usage
-
-### Prerequisites
-
-- Python 3.6 or higher
-- GitHub Codespaces environment (recommended) or any Unix-like system
-
-### Running the Script
-
-```bash
-# Make script executable (if not already)
-chmod +x nexus_cos_master_pipeline.py
-
-# Execute the master pipeline
-./nexus_cos_master_pipeline.py
-```
-
-Or:
-
-```bash
-python3 nexus_cos_master_pipeline.py
-```
-
-### Expected Output
-
-The script will display:
-
-1. **Master Execution Start** - Initialization message
-2. **YAML Integrity Verification** - Validates master PR configuration
-3. **Franchise Processing** - Processes all 10 IMVU franchises with:
-   - Canon lock application
-   - 100% creator ownership override
-   - 5-step pipeline execution with progress bars
-4. **Regional PF Processing** - Deploys regional platform installers
-5. **Add-In Module Processing** - Executes add-in modules
-6. **Platform Registry Updates** - Syncs all platform registries
-7. **Launch Date Verification** - Confirms launch date (2026-01-19)
-8. **Completion Message** - Final success confirmation
-
-### Sample Output
-
-```
-[02:29:01] === MASTER CODESPACES EXECUTION START ===
-[02:29:01] Verifying Master PR YAML integrity...
-[02:29:01] YAML integrity verified: ✅
-[02:29:02] === EXECUTING FRANCHISES ===
-[02:29:02] [1/10] Processing franchise: RICO
-[02:29:02] Applying canon lock: RICO
-[02:29:02] Canon lock confirmed: ✅ RICO
-[02:29:03] Applying 100% creator ownership: RICO
-[02:29:03] Ownership override applied: ✅ RICO
-[02:29:03] Starting pipeline execution: RICO
-Pipeline step 5/5 for RICO |██████████████████████████████| 100.0% Complete
-[02:29:04] Pipeline execution complete: ✅ RICO
-...
-[02:29:57] === ALL TASKS COMPLETED SUCCESSFULLY ===
-[02:29:57] Master execution finished. Stop agent.
-```
-
-## Architecture
-
-### Configuration Section
-- Defines all franchises, regional PFs, add-ins, and platforms
-- Sets launch date constant
-
-### Utility Functions
-- `log()` - Timestamped logging with 0.2s delay for readability
-- `progress_bar()` - Visual progress indicator with percentage
-
-### Pipeline Functions
-- `verify_yaml_integrity()` - Validates YAML configuration
-- `enforce_canon_lock()` - Applies canonical ownership locks
-- `apply_ownership_override()` - Sets 100% creator ownership
-- `execute_pipeline()` - Runs 5-step execution pipeline with progress
-- `update_platform_registry()` - Syncs platform registries
-- `verify_launch_date()` - Validates launch date
-
-### Main Execution Flow
-1. YAML integrity check
-2. Franchise pipeline execution (10 items)
-3. Regional PF installation (5 items)
-4. Add-in module deployment (2 items)
-5. Platform registry updates (5 platforms)
-6. Launch date verification
-7. Success confirmation and exit
-
-## Technical Details
-
-- **Language**: Python 3
-- **Dependencies**: Standard library only (sys, time, datetime)
-- **Execution Time**: Approximately 1 minute (56 seconds)
-- **Total Items Processed**: 22 (10 franchises + 5 PFs + 2 add-ins + 5 platforms)
-- **Exit Code**: 0 (success)
-
-## Integration
-
-This script is designed to integrate with:
-- GitHub Codespaces automated workflows
-- CI/CD pipelines
-- Manual execution for verification
-- Agent orchestration systems
-
-## Ownership & License
-
-- **Creator**: Bobby Blanco
-- **Ownership**: 100% Creator Rights
-- **Launch Date**: 2026-01-19
-- **System**: N3XUS v-COS / IMVU Media Pipeline
-
-## Support
-
-For issues or questions, refer to the main N3XUS v-COS documentation or repository maintainers.
+**File:** `nexus_cos_master_pipeline.py`  
+**Scope:** N3XUS v-COS / IMVU Media Pipeline (22 items)  
+**Handshake:** `55-45-17` (enforced in logs)  
+**Launch Date Target:** `2026-01-19`
 
 ---
 
-**Status**: ✅ Production Ready | Self-Contained | Fully Tested
+## Overview
+
+The master pipeline script provides a self-contained, cinematic execution flow for the N3XUS v-COS / IMVU Media Pipeline, designed to run cleanly in GitHub Codespaces and on your VPS.
+
+The script:
+- Processes **22 pipeline items**:
+  - 10 IMVU franchises  
+  - 5 regional PF installers  
+  - 2 add-in modules  
+  - 5 platform registries
+- Emits **timestamped logs** in `[HH:MM:SS]` format
+- Shows **ASCII progress bars** per pipeline step
+- Enforces **canon lock** and **100% creator ownership override** per item
+- Verifies the **launch date** (`2026-01-19`) and logs launch window status
+- Has **zero external dependencies** (only `sys`, `time`, `datetime`)
+
+---
+
+## Execution Flow
+
+For each of the 22 items, the script executes:
+
+1. **Canon Lock Application**
+   - Logs `N3XUS_HANDSHAKE=55-45-17`
+   - Marks the item as canon-locked for this run
+
+2. **Creator Ownership Override**
+   - Logs a 100% creator / 0% platform ownership override
+
+3. **5-Step Pipeline Execution with Progress Bars**
+   - Steps:
+     1. Seed ingestion  
+     2. IMVU canon mapping  
+     3. MetaTwin bridge staging  
+     4. PF export preparation  
+     5. Registry handoff  
+   - Each step prints a progress bar:
+     - Example:  
+       `Pipeline step 5/5 for RICO: Registry handoff |██████████████████████████████| 100.0% Complete`
+
+4. **Platform Registry Sync (Platform Registries Only)**
+   - For items of kind `platform_registry`:
+     - Logs a registry sync action
+     - Confirms completion per registry
+
+5. **Per-Item Completion Summary**
+   - Logs item-level elapsed time
+
+6. **Master Summary**
+   - At the end of all 22 items:
+     - Logs total items processed
+     - Logs total elapsed runtime
+
+---
+
+## Pipeline Inventory
+
+### IMVU Franchises (10)
+- RICO  
+- HIGH STAKES  
+- DA YAY  
+- BAYLINE STORIES  
+- SILICON NOIR  
+- NORTHSTAR DISTRICT  
+- GOLDEN GATE RUNNERS  
+- V-SUITE ORIGINS  
+- N3XUS NIGHTS  
+- CANON CITY  
+
+### Regional PF Installers (5)
+- PF Installer – Bay Area  
+- PF Installer – West Coast  
+- PF Installer – East Coast  
+- PF Installer – EU  
+- PF Installer – Global OTT  
+
+### Add-in Modules (2)
+- MetaTwin Add-in – IMVU Bridge  
+- HoloCore Add-in – Overlay Pack  
+
+### Platform Registries (5)
+- Platform Registry – N3XUS-NET  
+- Platform Registry – IMVU Runtime  
+- Platform Registry – PF Canon Slots  
+- Platform Registry – OTT / Streaming  
+- Platform Registry – Founding Residents  
+
+---
+
+## Launch Date Enforcement
+
+The script is aware of the **target launch date**:
+
+- `LAUNCH_DATE = 2026-01-19`
+
+At startup it logs the current window:
+- `PRE-LAUNCH WINDOW` if today is before the launch date  
+- `LAUNCH DAY` if today is the launch date  
+- `POST-LAUNCH WINDOW` if today is after the launch date  
+
+This is informational only and does **not block** execution; it documents the temporal context of the run.
+
+---
+
+## Runtime Characteristics
+
+- **Default mode:**
+  - Uses a moderate delay per step to give a cinematic flow
+  - Intended for manual runs from Codespaces or VPS shells
+
+- **Fast mode (`--fast`):**
+  - Greatly reduced delays for CI or quick verification
+  - Produces the exact same log structure and progress bars
+
+---
+
+## Exit Codes
+
+- Exit code `0`: Successful completion of all 22 items  
+- Non-zero exit code: Only used if the script fails unexpectedly (for example, an internal Python error)
+
+The script itself does not raise domain-specific failures; it is a deterministic orchestrator/visualization layer around the IMVU Media Pipeline.
+
+---
+
+## File Location
+
+The script lives at the repository root:
+
+- `nexus_cos_master_pipeline.py`
+
+Run it directly from that directory.
+

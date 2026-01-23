@@ -32,7 +32,7 @@ ssh root@YOUR_VPS_IP 'bash -s' < <(curl -fsSL https://raw.githubusercontent.com/
 
 ```bash
 # The Ultimate One-Liner: SSH + Clone + Deploy + Verify (DevOps Grade)
-ssh root@YOUR_VPS_IP "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | sudo bash -s"
+ssh root@72.62.86.217 "curl -fsSL https://raw.githubusercontent.com/BobbyBlanco400/nexus-cos/main/VPS_BULLETPROOF_ONE_LINER.sh | sudo bash -s"
 ```
 
 **What this does in one shot:**

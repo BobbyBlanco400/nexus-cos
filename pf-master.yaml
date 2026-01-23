@@ -15,11 +15,19 @@ metadata:
   issued: "2025-12-22"
   status: production_ready
   compliance: soc2_ready
+  owner: "PUABO Holdings LLC"
+
+handshake:
+  protocol: "55-45-17"
+  enforcement: active
+  bypass_allowed: false
+  degraded_mode: false
+  header: "X-N3XUS-Handshake"
   
 inventory:
   tenants: 12
-  services: 78
-  engines: 8
+  services: 79
+  engines: 9
   layers: 24
 
 # -------------------------------
@@ -28,201 +36,75 @@ inventory:
 
 tiers:
   tier_0_foundation:
-    immutable: true
-    priority: 1
-    description: "Core infrastructure and authentication services"
+    description: "Core Infrastructure (DB, Cache, Auth, API Gateway)"
     services:
-      - name: backend-api
-        port: 3000
-        health: /health
-        replicas: 3
-        
-      - name: auth-service
-        version: v2
-        port: 3001
-        health: /auth/health
-        replicas: 2
-        
-      - name: key-service
-        component: pv-keys
-        port: 3002
-        health: /keys/health
-        replicas: 2
-        
-      - name: postgres
-        type: database
-        port: 5432
-        persistent: true
-        encrypted: true
-        
-      - name: redis
-        type: cache
-        port: 6379
-        persistent: true
-        
-      - name: streamcore
-        port: 3100
-        health: /stream/health
-        replicas: 3
-        
-      - name: puaboai-sdk
-        port: 3200
-        health: /ai/health
-        replicas: 2
+      - nexus-cos-postgres
+      - nexus-cos-redis
+      - puabo-api
+      - ai-service
+      - key-service
+      - license-service
 
   tier_1_economic_core:
-    priority: 2
-    description: "Economic engine and financial services"
-    depends_on:
-      - tier_0_foundation
+    description: "Financial, Authentication, and Commerce Engines"
     services:
-      - name: ledger-mgr
-        port: 4000
-        health: /ledger/health
-        replicas: 3
-        features:
-          - platform_fee_enforcement
-          - audit_logging
-          - immutable_records
-          
-      - name: wallet-ms
-        port: 4001
-        health: /wallet/health
-        replicas: 2
-        
-      - name: invoice-gen
-        port: 4002
-        health: /invoice/health
-        replicas: 2
-        
-      - name: token-mgr
-        port: 4003
-        health: /token/health
-        replicas: 2
-        
-    rules:
-      platform_fee: "20_percent"
-      tenant_isolation: true
-      audit: immutable
-      
-  tier_2_platform_services:
-    priority: 3
-    description: "Core platform services and content management"
-    depends_on:
-      - tier_0_foundation
-      - tier_1_economic_core
+      - auth-service
+      - pv-keys
+      - puabo-blac-loan
+      - puabo-blac-risk
+      - puabo-nuki-inventory
+      - puabo-nuki-orders
+      - puabo-nuki-catalog
+      - puabo-nuki-shipping
+      - ledger-mgr
+      - invoice-gen
+
+  tier_2_business_services:
+    description: "Business Logic, Content, and Fleet Management"
     services:
-      - name: license-service
-        port: 5000
-        health: /license/health
-        replicas: 2
-        
-      - name: musicchain-ms
-        port: 5001
-        health: /musicchain/health
-        replicas: 2
-        
-      - name: puabomusicchain
-        port: 5002
-        health: /puabo/musicchain/health
-        replicas: 2
-        
-      - name: dsp-api
-        port: 5003
-        health: /dsp/health
-        replicas: 3
-        features:
-          - royalty_distribution
-          - content_delivery
-          
-      - name: content-management
-        port: 5004
-        health: /content/health
-        replicas: 2
-        
-      - name: pmmg-nexus-recordings
-        port: 5005
-        health: /recordings/health
-        replicas: 3
-        description: "Replaces nexus-studio-ai + puabo_studio fully"
-        features:
-          - daw_capabilities
-          - ai_mastering
-          - collaboration_rooms
+      - backend-api
+      - content-management
+      - creator-hub
+      - user-auth
+      - puabo-nexus-ai-dispatch
+      - puabo-nexus-driver-app
+      - puabo-nexus-fleet-manager
+      - puabo-nexus-route-optimizer
+      - puaboai-sdk
+      - puabomusicchain
 
   tier_3_streaming_extensions:
-    priority: 4
-    description: "Streaming services with full parity for 12 tenants"
-    depends_on:
-      - tier_0_foundation
-      - tier_2_platform_services
-    requirements:
-      full_streaming_parity: true
-      tenants: 12
+    description: "High-Performance Streaming and DSP Layers"
     services:
-      - name: streaming-service-v2
-        port: 6000
-        health: /streaming/health
-        replicas: 5
-        autoscaling:
-          min: 5
-          max: 25
-          
-      - name: chat-stream-ms
-        port: 6001
-        health: /chat/health
-        replicas: 3
-        
-      - name: ott-api
-        port: 6002
-        health: /ott/health
-        replicas: 3
-        
-  tier_4_virtual_gaming:
-    priority: 5
-    description: "Virtual worlds, avatars, and gaming services"
-    depends_on:
-      - tier_0_foundation
-      - tier_1_economic_core
+      - streamcore
+      - streaming-service
+      - glitch
+      - puabo-dsp-metadata
+      - puabo-dsp-streaming
+      - puabo-dsp-upload
+      - boom-boom-room
+      - scheduler
+      - session-mgr
+      - token-mgr
+
+  tier_4_virtual_casino_ai:
+    description: "Metaverse, AI Personalities, and Virtual Production"
     services:
-      - name: avatar-ms
-        port: 7000
-        health: /avatar/health
-        replicas: 2
-        
-      - name: world-engine-ms
-        port: 7001
-        health: /world/health
-        replicas: 3
-        
-      - name: gamecore-ms
-        port: 7002
-        health: /game/health
-        replicas: 3
-        
-      - name: casino-nexus-api
-        version: "V5-V6"
-        port: 7003
-        health: /casino/health
-        replicas: 4
-        features:
-          - live_gaming
-          - rewards_integration
-          
-      - name: rewards-ms
-        port: 7004
-        health: /rewards/health
-        replicas: 2
-        
-      - name: skill-games-ms
-        port: 7005
-        health: /skills/health
-        replicas: 2
-        
-      - name: puabo-nexus-ai-dispatch
-        port: 7006
-        health: /dispatch/health
-        replicas: 3
+      - metatwin
+      - nexus-studio-ai
+      - puaboverse
+      - holofabric-runtime
+      - v-caster-pro
+      - v-prompter-pro
+      - v-screen-pro
+      - vscreen-hollywood
+      - puabo-api-ai-hf
+      - casino-nexus-api
+      - nexcoin-ms
+      - nft-marketplace-ms
+      - skill-games-ms
+      - rewards-ms
+      - vr-world-ms
 
 # -------------------------------
 # Docker Compose Configuration

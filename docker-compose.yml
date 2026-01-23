@@ -6,15 +6,15 @@ networks:
 
 services:
   # Core Services Profile
-  # core:
-  #   image: n3xus/core:latest
-  #   container_name: nexus-core
-  #   profiles: ["core"]
-  #   environment:
-  #     NEXUS_HANDSHAKE: "55-45-17"
-  #     GENESIS_LOCK_ENABLED: "true"
-  #   networks:
-  #     - cos-net
+  core:
+    image: n3xus/core:latest
+    container_name: nexus-core
+    profiles: ["core"]
+    environment:
+      NEXUS_HANDSHAKE: "55-45-17"
+      GENESIS_LOCK_ENABLED: "true"
+    networks:
+      - cos-net
 
   # PostgreSQL Database - Required for API
   postgres:

@@ -103,7 +103,7 @@ This ensures PostgreSQL is fully initialized before application services connect
 ## 🎬 Step 6: Launch All Application Services
 
 ```bash
-docker compose -f docker-compose.pf.yml up -d
+docker compose --env-file .env.pf -f docker-compose.pf.yml up -d --build
 ```
 
 **Expected Output:**
