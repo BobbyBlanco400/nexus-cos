@@ -1,0 +1,48 @@
+
+name: Emergent Master Verification
+
+on:
+  push:
+    branches: [ main, "feat/*" ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  verify-master-stack:
+    name: Verify N3XUS v-COS Master Stack
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install js-yaml
+
+      - name: Run Master Verification
+        run: node scripts/verify-full-stack.js
+        env:
+          N3XUS_HANDSHAKE: "55-45-17"
+
+      - name: Verify Canonical Phases
+        run: node scripts/verify-phases.js
+
+      - name: Check Genesis Lock
+        run: |
+          if [ ! -f config/genesis.lock.json ]; then
+            echo "❌ Genesis lock missing"
+            exit 1
+          fi
+          echo "✅ Genesis lock present"
+
+      - name: Emergent Protocol Sign-off
+        run: |
+          echo "✅ N3XUS HANDSHAKE 55-45-17 VERIFIED"
+          echo "✅ FULL STACK INTEGRITY CONFIRMED"
+          echo "✅ COGNITIVE CONTINUITY FABRIC ACTIVE"

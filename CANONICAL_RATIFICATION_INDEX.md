@@ -68,6 +68,36 @@ The following systems are now canon-registered and active:
 4. **N3XUS-SYSTEM-NBA** - Narrative-Backed Assets
 5. **N3XUS-SYSTEM-INTENT-STREAMING** - Intent-based streaming
 
+### Phase 4 ICCF Additions (PUABO Holdings LLC)
+
+6. **N3XUS-SYSTEM-ICCF** - IMVU Creative & Commerce Fabric (Phase 4)
+   - Canon object type: IMVU (IMVU / IMVU-L / IMVU-S)
+   - Schema authority: `canon/register.imvu.ts`
+   - Wallet binding primitive: `fintech/bind.imvu.wallet.ts`
+   - Runtime services (handshake 55-45-17):
+     - `iccf-imvu-core` (core IMVU runtime)
+     - `iccf-imvu-l` (long-form IMVU-L flows)
+     - `iccf-imvu-s` (short-form IMVU-S events)
+     - `iccf-franchise-dna` (franchise DNA and lineage)
+     - `iccf-fintech-binding` (IMVU ↔ wallet binding)
+     - `iccf-ai-operators` (ICCF AI operator control plane)
+
+**Ownership:** PUABO Holdings LLC  
+**Lock Status:** Canonical | Non-revocable without PUABO authority  
+**Phase:** 4 (IMVU Creative & Commerce Fabric + Auto Desk Flow)
+
+### Phase 11 Media Engine (PUABO Holdings LLC)
+
+7. **N3XUS-SYSTEM-PMMG** - PMMG N3XUS R3CORDINGS M3DIA 3NGIN3
+   - Canon object type: MEDIA (BROWSER-ONLY)
+   - Schema authority: `canon/register.pmmg.ts`
+   - Runtime modality: WebAudio + WebRTC (browser execution only)
+   - Lawful media engine: sole media engine under N3XUS LAW
+
+**Ownership:** PUABO Holdings LLC  
+**Lock Status:** Canonical | Non-revocable without PUABO authority  
+**Phase:** 11 (PMMG N3XUS R3CORDINGS M3DIA 3NGIN3)
+
 **Note:** Phase 1 and Phase 2 systems remain intact with `deferredActivation: true`
 
 ---

@@ -266,7 +266,7 @@ curl http://localhost:3010/health
 | **8** | Ledger & Identity | ✅ Complete |
 | **9** | Wallets & Treasury | ✅ Complete |
 | **10** | Creator Payouts | ✅ Complete |
-| **11** | Media / PMMG Engine | ✅ Complete |
+| **11** | Media / PMMG Engine (sole lawful media engine: PMMG N3XUS R3CORDINGS) | ✅ Complete |
 | **12** | DAO / Governance Overlay | ✅ Complete |
 | **Nuisance** | Compliance Services (5 services) | ✅ Complete |
 

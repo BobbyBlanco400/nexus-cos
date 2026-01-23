@@ -1,0 +1,30 @@
+name: N3XUS Canon Verification
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  canon-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Verify Canon Phases
+        run: |
+          echo "🔍 Verifying N3XUS v-COS Canon..."
+          node scripts/verify-phases.js
+
+      - name: Canon Verification Complete
+        run: echo "✅ Canon verified. Phase 5 active. Phases 6–9 inert."
