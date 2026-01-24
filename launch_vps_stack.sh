@@ -61,8 +61,8 @@ docker-compose -f "${COMPOSE_FILE}" up -d --remove-orphans
 # ------------------------------------------------------------------------------
 # 4. HEALTH CHECK
 # ------------------------------------------------------------------------------
-echo "🏥 [4/5] Verifying Health (Wait 30s)..."
-sleep 30
+echo "🏥 [4/5] Verifying Health (Wait 60s for cold start)..."
+sleep 60
 
 check_health() {
     name="$1"
@@ -72,7 +72,9 @@ check_health() {
     if curl -fsS -m 5 "${url}" >/dev/null 2>&1; then
         echo "     ✅ ${name}: HEALTHY"
     else
-        echo "     ⚠️ ${name}: UNREACHABLE (Check logs)"
+        echo "     ⚠️ ${name}: UNREACHABLE"
+        echo "        Last 5 logs:"
+        docker logs --tail 5 "${name}" 2>/dev/null | sed 's/^/        /'
     fi
 }
 

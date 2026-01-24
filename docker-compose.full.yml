@@ -65,6 +65,7 @@ services:
       - "3001:8080"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
+      - X_N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
       - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
       - REDIS_URL=redis://redis:6379
@@ -92,6 +93,7 @@ services:
       - "3002:3401"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
+      - X_N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
       - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
     networks:
@@ -100,7 +102,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3401/health"]
       interval: 30s
       timeout: 10s
       retries: 3
