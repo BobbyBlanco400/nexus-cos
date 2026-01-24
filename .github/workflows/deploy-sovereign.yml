@@ -1,0 +1,52 @@
+name: Deploy to Sovereign VPS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docker-compose.full.yml'
+      - 'launch_vps_stack.sh'
+      - '.github/workflows/deploy-sovereign.yml'
+
+jobs:
+  deploy:
+    name: 🦅 Sovereign Launch
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Verify Notarization
+      run: |
+        if [ ! -f "NOTARIZED_DIGITAL_COPY.md" ]; then
+          echo "❌ Notarization missing! Deployment Aborted."
+          exit 1
+        fi
+        echo "✅ Notarization Verified."
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+      continue-on-error: true
+
+    - name: Deploy to Hostinger (72.62.86.217)
+      if: ${{ secrets.VPS_SSH_KEY != '' }}
+      run: |
+        echo "🚀 Connecting to Sovereign VPS..."
+        ssh -o StrictHostKeyChecking=no root@72.62.86.217 << 'EOF'
+          cd /root/nexus-cos
+          git pull origin main
+          chmod +x launch_vps_stack.sh
+          ./launch_vps_stack.sh
+        EOF
+      
+    - name: Manual Deployment Fallback
+      if: ${{ secrets.VPS_SSH_KEY == '' }}
+      run: |
+        echo "⚠️  SSH Key not found in secrets.VPS_SSH_KEY"
+        echo "📝 MANUAL DEPLOYMENT REQUIRED:"
+        echo "1. SSH into 72.62.86.217"
+        echo "2. Run: cd /root/nexus-cos && git pull && ./launch_vps_stack.sh"
