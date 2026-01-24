@@ -31,22 +31,32 @@ fi
 echo "   ✅ Notarized Certificate Verified."
 
 # ------------------------------------------------------------------------------
-# 2. BUILD
+# 2. PREPARATION & UPDATE
 # ------------------------------------------------------------------------------
-echo "🏗️  [2/5] Building Sovereign Stack (50+ Services)..."
+echo "🔄 [2/5] Syncing with Master Verification Lock..."
+git checkout main
+git pull origin main
+
+# ------------------------------------------------------------------------------
+# 3. BUILD
+# ------------------------------------------------------------------------------
+echo "🏗️  [3/5] Building Sovereign Stack (51 Services)..."
 echo "   ℹ️  Enforcing N3XUS_HANDSHAKE=${HANDSHAKE}"
+echo "   ℹ️  Resource Strategy: Sequential Build (Low Memory Optimization)"
 
 # Export for Compose Interpolation
 export N3XUS_HANDSHAKE="${HANDSHAKE}"
 export POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-nexus_pass}"
+export COMPOSE_PARALLEL_LIMIT=1
 
 docker-compose -f "${COMPOSE_FILE}" build \
-    --build-arg N3XUS_HANDSHAKE="${HANDSHAKE}"
+    --build-arg N3XUS_HANDSHAKE="${HANDSHAKE}" \
+    --build-arg X_N3XUS_HANDSHAKE="${HANDSHAKE}"
 
 # ------------------------------------------------------------------------------
-# 3. DEPLOY
+# 4. DEPLOY
 # ------------------------------------------------------------------------------
-echo "🚀 [3/5] Deploying Containers..."
+echo "🚀 [4/5] Deploying Containers..."
 docker-compose -f "${COMPOSE_FILE}" up -d --remove-orphans
 
 # ------------------------------------------------------------------------------
