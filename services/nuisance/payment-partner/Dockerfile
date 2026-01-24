@@ -11,7 +11,7 @@ RUN if [ "$N3XUS_HANDSHAKE" != "55-45-17" ]; then \
     fi
 
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --only=production
 
 COPY . .
 

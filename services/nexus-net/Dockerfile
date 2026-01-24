@@ -13,7 +13,7 @@ RUN if [ "$N3XUS_HANDSHAKE" != "55-45-17" ]; then \
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 # Copy application
 COPY . .
