@@ -18,7 +18,7 @@ RUN EFFECTIVE_HANDSHAKE="${X_N3XUS_HANDSHAKE:-$N3XUS_HANDSHAKE}" && \
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --only=production
 
 # Copy application code
 COPY index.js ./
