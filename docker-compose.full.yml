@@ -58,6 +58,7 @@ services:
       context: ./services/v-supercore
       dockerfile: Dockerfile
       args:
+        X_N3XUS_HANDSHAKE: "55-45-17"
         N3XUS_HANDSHAKE: "55-45-17"
     container_name: v-supercore
     ports:
