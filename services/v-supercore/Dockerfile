@@ -53,4 +53,4 @@ ENTRYPOINT ["/bin/bash", "-c", "\
         exit 1; \
     fi && \
     echo '✅ Runtime handshake validated' && \
-    python -m uvicorn app.main:app --host 0.0.0.0 --port 8080"]
+    /usr/local/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8080"]
