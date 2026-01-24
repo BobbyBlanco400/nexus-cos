@@ -65,6 +65,7 @@ services:
       - "3001:3000"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
+      - X_N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
       - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
       - REDIS_URL=redis://redis:6379
