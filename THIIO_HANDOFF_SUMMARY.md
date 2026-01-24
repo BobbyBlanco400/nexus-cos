@@ -81,7 +81,8 @@
 ### Services (43)
 Located in `services/`:
 - Core Services: backend-api, auth-service, auth-service-v2, user-auth, session-mgr, token-mgr, key-service
-- AI Services: ai-service, kei-ai, nexus-cos-studio-ai, puabo-nexus-ai-dispatch
+- AI Services: ai-service, kei-ai, puabo-nexus-ai-dispatch
+- Media Engine: pmmg-n3xus-r3cordings (Replaces nexus-cos-studio-ai - DEPRECATED)
 - Banking: puabo-blac-loan-processor, puabo-blac-risk-assessment, ledger-mgr, billing-service, invoice-gen
 - Streaming: streamcore, streaming-service-v2, boom-boom-room-live
 - DSP: puabo-dsp-metadata-mgr, puabo-dsp-streaming-api, puabo-dsp-upload-mgr

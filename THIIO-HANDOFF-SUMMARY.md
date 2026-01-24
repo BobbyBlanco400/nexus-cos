@@ -145,7 +145,7 @@ All 16 modules documented in `docs/THIIO-HANDOFF/modules/`:
 1. Authentication Domain (5): auth-service, auth-service-v2, user-auth, session-mgr, token-mgr
 2. Content Domain (6): streaming-service-v2, streamcore, content-management, puabo-dsp-streaming-api, puabo-dsp-metadata-mgr, puabo-dsp-upload-mgr
 3. Commerce Domain (4): puabo-nuki-product-catalog, puabo-nuki-inventory-mgr, puabo-nuki-order-processor, puabo-nuki-shipping-service
-4. AI Domain (5): kei-ai, ai-service, nexus-cos-studio-ai, puaboai-sdk, puabo-nexus-ai-dispatch
+4. AI Domain (5): kei-ai, ai-service, nexus-cos-studio-ai (historical, deprecated in favor of PMMG N3XUS R3CORDINGS M3DIA 3NGIN3), puaboai-sdk, puabo-nexus-ai-dispatch
 5. Finance Domain (2): puabo-blac-loan-processor, puabo-blac-risk-assessment
 6. Logistics Domain (3): puabo-nexus-driver-app-backend, puabo-nexus-fleet-manager, puabo-nexus-route-optimizer
 7. Entertainment Domain (5): boom-boom-room-live, vscreen-hollywood, v-caster-pro, v-prompter-pro, v-screen-pro
@@ -159,7 +159,7 @@ All 16 modules documented in `docs/THIIO-HANDOFF/modules/`:
 3. core-os
 4. gamecore
 5. musicchain
-6. nexus-studio-ai
+6. nexus-studio-ai (historical, deprecated in favor of PMMG N3XUS R3CORDINGS M3DIA 3NGIN3)
 7. puabo-blac
 8. puabo-dsp
 9. puabo-nexus

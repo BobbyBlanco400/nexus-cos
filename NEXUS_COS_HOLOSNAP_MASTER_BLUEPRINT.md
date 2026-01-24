@@ -937,6 +937,115 @@ Transform any VR/AR headset into a spatial computing powerhouse with N3XUS COS i
 
 ---
 
+## 1️⃣4️⃣.1 Official HoloSnap ↔ HOLOFABRIC™ Runtime Binding (PUABO Holdings LLC)
+
+### Legal Status
+
+- This section is the **official binding record** between:
+  - **HoloSnap v1 hardware**, and
+  - The **HOLOFABRIC™ sovereign spatial runtime** operated under **PUABO Holdings LLC**.
+- It documents how **HOLOFABRIC™ Canonical Specification (v1.0)** is implemented by concrete N3XUS v-COS services and endpoints.
+- All mappings below are subject to **N3XUS LAW** and **Handshake 55-45-17** per the Governance Charter.
+
+### Reference Documents
+
+- HOLOFABRIC™ Canonical Specification: `n3xus-holofabric-core/spec/HOLOFABRIC_SPEC.md`
+- Vendor Independence Statement: `n3xus-holofabric-core/docs/VENDOR_INDEPENDENCE.md`
+- HoloSnap Technical Specification: `docs/HOLOSNAP_TECHNICAL_SPECIFICATION.md`
+- HoloSnap Submission Package: `HOLOSNAP_SUBMISSION_PACKAGE_SUMMARY.md`
+
+### Runtime Property → Service Mapping
+
+1. WebXR + WebGPU Compatible
+- Browser and headset-facing rendering is provided by:
+  - **NexusVision™**:
+    - AR Demo: `https://n3xuscos.online/nexusvision/experiences/ar-demo.html`
+    - VR Demo: `https://n3xuscos.online/nexusvision/experiences/vr-demo.html`
+  - **HoloCore™**:
+    - 3D Viewer: `https://n3xuscos.online/holocore/viewer.html`
+    - AR Experience: `https://n3xuscos.online/holocore/ar-experience.html`
+  - Holographic logo and GPU shader assets:
+    - WebGL/WebGPU demos and shaders in `assets/` and related demo packages.
+- HOLOFABRIC™ treats these as **rendering surfaces** for scenes whose identity and law constraints are enforced server-side by the runtime and LAW layer.
+
+2. Markerless Spatial Anchoring
+- Anchoring and manifest semantics are defined in HOLOFABRIC™ assets:
+  - Example casino scene manifest at:
+    - `n3xus-holofabric-core/apps/casino/manifests/blackjack.scene.json`
+  - Anchors such as tables and dealer positions are declared with persistent and locked flags.
+- Binding and enforcement are handled by:
+  - `n3xus-holofabric-core/apps/casino/bindings/holofabric.bind.ts`
+    - Uses `@n3xus/manifest-engine` and `@n3xus/anchor-core` (conceptual packages) to validate and bind scenes.
+- In the running stack, HoloSnap devices consume these manifests via sessions opened against the holofabric runtime session endpoint (see below).
+
+3. Deterministic Scene Manifests
+- Determinism is enforced at the manifest and LAW layer:
+  - Scene manifests are validated through the HOLOFABRIC™ manifest engine and bindings.
+  - Example manifest: `casino_blackjack_v1` with explicit requirements:
+    - `law_handshake`, `entitlement`, `wallet_bound`, `jurisdiction_check`, `age_gate`.
+- Runtime session creation does not mutate manifest content; instead it returns a session bound to an existing canonical scene definition.
+
+4. LAW-Gated Runtime Execution
+- HOLOFABRIC™ LAW status and enforcement are exposed through:
+  - HOLOFABRIC Runtime (core implementation):
+    - Service: `holofabric-runtime` (internal)
+    - Port: `3700` inside the cluster, mapped via Docker Compose and Nginx upstream `holofabric_runtime`.
+    - Endpoints:
+      - `GET /health`
+      - `GET /law/status`
+      - `POST /runtime/session`
+  - Handshake enforcement:
+    - All non-health and non-status endpoints require a valid `X-N3XUS-Handshake` header matching the active key (default `55-45-17`).
+    - Requests without a valid handshake receive `HANDSHAKE_REQUIRED` responses and are rejected.
+- LAW gateway and status routes:
+  - Law gateway handshake rotation logic at:
+    - `n3xus-holofabric-core/apps/law-gateway/rotation.ts`
+  - Public LAW status route at:
+    - `n3xus-holofabric-core/apps/status/routes.ts` exposing `/law/status`.
+
+5. Wallet / Device / Node Binding
+- Wallet and financial core services in `docker-compose.full.yml` provide the binding substrate:
+  - `wallet-engine` (`wallet-engine:3000`, external `3030`):
+    - Implements wallet account storage and transaction binding for NexCoin.
+  - `treasury-core`, `payout-engine`, and `earnings-oracle`:
+    - Provide treasury, payout, and earnings calculation for scenes and sessions.
+- Device and tenant binding:
+  - HoloSnap firmware exposes device identity and connects to N3XUS backend APIs (via HoloSnap Firmware API stub).
+  - Runtime sessions created at HOLOFABRIC endpoints include:
+    - `tenant_id`, `scene_id`, and derived `session_id`.
+  - Scenes that require wallet-bound execution (for example casino or monetized overlays) must present entitlements and wallet linkage before activation.
+
+6. Pre-Order Safe Deployment Model
+- Pre-order and entitlement model is implemented through:
+  - Neon Vault and ledger components referenced in HoloSnap manufacturing docs and casino architecture.
+  - Wallet and ledger engines in the full stack:
+    - `wallet-engine`, `ledger-engine`, and related financial services.
+- HOLOFABRIC™ scenes can be activated in:
+  - **Investor demo mode (read-only)** per `PHASE_1_MVP.md`, or
+  - **Full entitlement mode**, where LAW and wallet checks must succeed before runtime sessions are considered canonical and monetizable.
+
+### Official HOLOFABRIC Runtime Endpoints (N3XUS v-COS Stack)
+
+The following endpoints are recognized as the **official HOLOFABRIC runtime surface** for HoloSnap v1 within the N3XUS v-COS stack, subject to N3XUS LAW and Handshake 55-45-17:
+
+- Service: `holofabric-runtime`
+  - Internal port: `3700`
+  - Expected upstream: `holofabric_runtime` in Nginx, bound under the N3XUS domain.
+  - Endpoints:
+    - `GET /health` — service health.
+    - `GET /law/status` — LAW enforcement status and runtime identity.
+    - `POST /runtime/session` — create HOLOFABRIC runtime sessions for specific `tenant_id` and `scene_id`.
+
+- HoloCore / NexusVision Access Surfaces (Rendering)
+  - `GET /nexusvision/experiences/ar-demo.html`
+  - `GET /nexusvision/experiences/vr-demo.html`
+  - `GET /holocore/viewer.html`
+  - `GET /holocore/ar-experience.html`
+
+These endpoints together satisfy the HOLOFABRIC™ canonical requirements as applied to HoloSnap v1 and are hereby recorded as the **official binding** for PUABO Holdings LLC.
+
+---
+
 ## 1️⃣5️⃣ N3XUS COS GOVERNANCE CHARTER
 
 ### Article 1 — Sovereignty

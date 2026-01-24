@@ -1,0 +1,1283 @@
+# N3XUS v-COS Full Stack - Docker Compose Configuration
+# Phases 3-12 + Extended / Compliance / Sandbox
+# 98+ Services with N3XUS LAW 55-45-17 Enforcement
+# Port Assignments:
+#   Phases 3-12: 3001-3071
+#   Compliance & Nuisance: 4001-4050+
+#   Sandbox / Extended: 4051-4099
+
+networks:
+  nexus-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+
+services:
+  # ============================================================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================================================
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: nexus-postgres
+    environment:
+      POSTGRES_DB: nexus_db
+      POSTGRES_USER: nexus_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nexus_pass}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: nexus-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # PHASE 3-4: CORE RUNTIME
+  # ============================================================================
+
+  v-supercore:
+    build:
+      context: ./services/v-supercore
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+        X_N3XUS_HANDSHAKE: "55-45-17"
+        X_N3XUS_HANDSHAKE: "55-45-17"
+        X_N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-supercore
+    ports:
+      - "3001:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+      - REDIS_URL=redis://redis:6379
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  holofabric-runtime:
+    build:
+      context: ./n3xus-holofabric-core/apps/runtime
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: holofabric-runtime
+    ports:
+      - "3035:3700"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - PORT=3700
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3700/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-api-ai-hf:
+    build:
+      context: ./services/puabo_api_ai_hf
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-api-ai-hf
+    ports:
+      - "3002:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-imvu-core:
+    build:
+      context: ./services/iccf/imvu-core
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-imvu-core
+    ports:
+      - "3014:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-imvu-l:
+    build:
+      context: ./services/iccf/imvu-l
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-imvu-l
+    ports:
+      - "3015:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-imvu-s:
+    build:
+      context: ./services/iccf/imvu-s
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-imvu-s
+    ports:
+      - "3016:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-franchise-dna:
+    build:
+      context: ./services/iccf/franchise-dna
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-franchise-dna
+    ports:
+      - "3017:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-fintech-binding:
+    build:
+      context: ./services/iccf/fintech-binding
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-fintech-binding
+    ports:
+      - "3018:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iccf-ai-operators:
+    build:
+      context: ./services/iccf/ai-operators
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: iccf-ai-operators
+    ports:
+      - "3019:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # PHASE 5-6: FEDERATION
+  # ============================================================================
+
+  federation-spine:
+    build:
+      context: ./services/federation-spine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: federation-spine
+    ports:
+      - "3010:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  identity-registry:
+    build:
+      context: ./services/identity-registry
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: identity-registry
+    ports:
+      - "3011:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  federation-gateway:
+    build:
+      context: ./services/federation-gateway
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: federation-gateway
+    ports:
+      - "3012:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  attestation-service:
+    build:
+      context: ./services/attestation-service
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: attestation-service
+    ports:
+      - "3013:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # PHASE 7-8: CASINO DOMAIN
+  # ============================================================================
+
+  casino-core:
+    build:
+      context: ./services/casino-core
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: casino-core
+    ports:
+      - "3020:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ledger-engine:
+    build:
+      context: ./services/ledger-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: ledger-engine
+    ports:
+      - "3021:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # PHASE 9: FINANCIAL CORE
+  # ============================================================================
+
+  wallet-engine:
+    build:
+      context: ./services/wallet-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: wallet-engine
+    ports:
+      - "3030:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  treasury-core:
+    build:
+      context: ./services/treasury-core
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: treasury-core
+    ports:
+      - "3031:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  payout-engine:
+    build:
+      context: ./services/payout-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: payout-engine
+    ports:
+      - "3032:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # PHASE 10: EARNINGS & MEDIA
+  # ============================================================================
+
+  earnings-oracle:
+    build:
+      context: ./services/earnings-oracle
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: earnings-oracle
+    ports:
+      - "3040:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pmmg-media-engine:
+    build:
+      context: ./services/pmmg-media-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: pmmg-media-engine
+    ports:
+      - "3041:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  royalty-engine:
+    build:
+      context: ./services/royalty-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: royalty-engine
+    ports:
+      - "3042:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # PHASE 11-12: GOVERNANCE
+  # ============================================================================
+
+  governance-core:
+    build:
+      context: ./services/governance-core
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: governance-core
+    ports:
+      - "3050:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  constitution-engine:
+    build:
+      context: ./services/constitution-engine
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: constitution-engine
+    ports:
+      - "3051:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # COMPLIANCE / NUISANCE MODULES (Ports 4001-4050)
+  # ============================================================================
+
+  payment-partner:
+    build:
+      context: ./services/nuisance/payment-partner
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: payment-partner
+    ports:
+      - "4001:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  jurisdiction-rules:
+    build:
+      context: ./services/nuisance/jurisdiction-rules
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: jurisdiction-rules
+    ports:
+      - "4002:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  responsible-gaming:
+    build:
+      context: ./services/nuisance/responsible-gaming
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: responsible-gaming
+    ports:
+      - "4003:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  legal-entity:
+    build:
+      context: ./services/nuisance/legal-entity
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: legal-entity
+    ports:
+      - "4004:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  explicit-opt-in:
+    build:
+      context: ./services/nuisance/explicit-opt-in
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: explicit-opt-in
+    ports:
+      - "4005:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # EXTENDED / SANDBOX SERVICES (Ports 4051-4099)
+  # ============================================================================
+
+  # Additional existing services from the repository
+  
+  backend-api:
+    build:
+      context: ./services/backend-api
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: backend-api
+    ports:
+      - "4051:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: auth-service
+    ports:
+      - "4052:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+      - REDIS_URL=redis://redis:6379
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puaboverse-v2:
+    build:
+      context: ./services/puaboverse-v2
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puaboverse-v2
+    ports:
+      - "4053:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  streamcore:
+    build:
+      context: ./services/streamcore
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: streamcore
+    ports:
+      - "4054:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  metatwin:
+    build:
+      context: ./services/metatwin
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: metatwin
+    ports:
+      - "4055:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PUABO Nexus Services
+  puabo-nexus:
+    build:
+      context: ./services/puabo-nexus
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nexus
+    ports:
+      - "4056:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nexus-ai-dispatch:
+    build:
+      context: ./services/puabo-nexus-ai-dispatch
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nexus-ai-dispatch
+    ports:
+      - "4057:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nexus-driver-app:
+    build:
+      context: ./services/puabo-nexus-driver-app-backend
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nexus-driver-app
+    ports:
+      - "4058:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nexus-fleet-manager:
+    build:
+      context: ./services/puabo-nexus-fleet-manager
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nexus-fleet-manager
+    ports:
+      - "4059:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nexus-route-optimizer:
+    build:
+      context: ./services/puabo-nexus-route-optimizer
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nexus-route-optimizer
+    ports:
+      - "4060:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PUABO DSP Services
+  puabo-dsp-upload-mgr:
+    build:
+      context: ./services/puabo-dsp-upload-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-dsp-upload-mgr
+    ports:
+      - "4061:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-dsp-metadata-mgr:
+    build:
+      context: ./services/puabo-dsp-metadata-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-dsp-metadata-mgr
+    ports:
+      - "4062:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-dsp-streaming-api:
+    build:
+      context: ./services/puabo-dsp-streaming-api
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-dsp-streaming-api
+    ports:
+      - "4063:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PUABO BLAC Services
+  puabo-blac-loan-processor:
+    build:
+      context: ./services/puabo-blac-loan-processor
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-blac-loan-processor
+    ports:
+      - "4064:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-blac-risk-assessment:
+    build:
+      context: ./services/puabo-blac-risk-assessment
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-blac-risk-assessment
+    ports:
+      - "4065:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PUABO NUKI Services
+  puabo-nuki-inventory-mgr:
+    build:
+      context: ./services/puabo-nuki-inventory-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nuki-inventory-mgr
+    ports:
+      - "4066:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nuki-order-processor:
+    build:
+      context: ./services/puabo-nuki-order-processor
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nuki-order-processor
+    ports:
+      - "4067:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nuki-product-catalog:
+    build:
+      context: ./services/puabo-nuki-product-catalog
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nuki-product-catalog
+    ports:
+      - "4068:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  puabo-nuki-shipping-service:
+    build:
+      context: ./services/puabo-nuki-shipping-service
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabo-nuki-shipping-service
+    ports:
+      - "4069:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # V-Suite Services
+  v-caster-pro:
+    build:
+      context: ./services/v-caster-pro
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-caster-pro
+    ports:
+      - "4070:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-prompter-pro:
+    build:
+      context: ./services/v-prompter-pro
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-prompter-pro
+    ports:
+      - "4071:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  v-screen-pro:
+    build:
+      context: ./services/v-screen-pro
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-screen-pro
+    ports:
+      - "4072:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  vscreen-hollywood:
+    build:
+      context: ./services/vscreen-hollywood
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: vscreen-hollywood
+    ports:
+      - "4073:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Additional Services
+  puabomusicchain:
+    build:
+      context: ./services/puabomusicchain
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: puabomusicchain
+    ports:
+      - "4074:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ledger-mgr:
+    build:
+      context: ./services/ledger-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: ledger-mgr
+    ports:
+      - "4075:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - DATABASE_URL=postgresql://nexus_user:${POSTGRES_PASSWORD:-nexus_pass}@postgres:5432/nexus_db
+    networks:
+      - nexus-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  session-mgr:
+    build:
+      context: ./services/session-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: session-mgr
+    ports:
+      - "4076:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - REDIS_URL=redis://redis:6379
+    networks:
+      - nexus-net
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  token-mgr:
+    build:
+      context: ./services/token-mgr
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: token-mgr
+    ports:
+      - "4077:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - REDIS_URL=redis://redis:6379
+    networks:
+      - nexus-net
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
