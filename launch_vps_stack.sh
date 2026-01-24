@@ -87,6 +87,24 @@ check_health "federation-spine" 3010
 check_health "casino-core" 3020
 check_health "wallet-engine" 3030
 
+# Gateway Tier
+echo "   → Checking Nginx Gateway on port 8080..."
+if curl -fsS -m 5 "http://localhost:8080/health" >/dev/null 2>&1; then
+    echo "     ✅ Nginx Gateway: HEALTHY"
+else
+    echo "     ⚠️ Nginx Gateway: UNREACHABLE - Attempting Restart..."
+    docker-compose -f "${COMPOSE_FILE}" restart nginx
+    sleep 5
+    if curl -fsS -m 5 "http://localhost:8080/health" >/dev/null 2>&1; then
+        echo "     ✅ Nginx Gateway: RECOVERED"
+    else
+        echo "     ❌ Nginx Gateway: FAILED"
+        echo "        Last 10 logs:"
+        docker logs --tail 10 "nexus-nginx" 2>/dev/null | sed 's/^/        /'
+    fi
+fi
+
+
 # ------------------------------------------------------------------------------
 # 5. FINAL REPORT
 # ------------------------------------------------------------------------------
