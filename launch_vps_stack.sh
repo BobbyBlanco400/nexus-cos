@@ -7,6 +7,7 @@ set -euo pipefail
 # AUTHORITY: TRAE SOLO CODER
 # TARGET: SOVEREIGN VPS (Hostinger)
 # PROTOCOL: N3XUS HANDSHAKE 55-45-17
+# VERSION: 1.2 (Fix Applied)
 # ==============================================================================
 
 HANDSHAKE="55-45-17"
@@ -17,6 +18,7 @@ echo "╔═══════════════════════�
 echo "║  🦅 N3XUS v-COS SOVEREIGN LAUNCH SEQUENCE                            ║"
 echo "║  Target: 72.62.86.217 (Hostinger)                                    ║"
 echo "║  Protocol: Handshake $HANDSHAKE                                      ║"
+echo "║  Version:  1.2 (Fixes: Handshake + Port + Wait)                      ║"
 echo "╚══════════════════════════════════════════════════════════════════════╝"
 echo ""
 

@@ -8,6 +8,7 @@ echo "=================================================="
 echo "   EMERGENT MASTER VERIFICATION PROTOCOL"
 echo "   N3XUS v-COS PLATFORM STACK"
 echo "   TIMESTAMP: $(date -u)"
+echo "   VERSION: 1.2"
 echo "=================================================="
 echo ""
 
