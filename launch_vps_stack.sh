@@ -31,11 +31,10 @@ fi
 echo "   ✅ Notarized Certificate Verified."
 
 # ------------------------------------------------------------------------------
-# 2. PREPARATION & UPDATE
+# 2. PREPARATION
 # ------------------------------------------------------------------------------
-echo "🔄 [2/5] Syncing with Master Verification Lock..."
-git checkout main
-git pull origin main
+echo "🔄 [2/5] Preparing Environment..."
+# Skipped self-update to prevent lock issues. User must pull manually.
 
 # ------------------------------------------------------------------------------
 # 3. BUILD
