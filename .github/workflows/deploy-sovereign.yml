@@ -26,27 +26,36 @@ jobs:
         fi
         echo "✅ Notarization Verified."
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
-      continue-on-error: true
-
-    - name: Deploy to Hostinger (72.62.86.217)
-      if: ${{ secrets.VPS_SSH_KEY != '' }}
+    - name: Deploy to Hostinger
+      id: deploy
+      env:
+        SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
       run: |
-        echo "🚀 Connecting to Sovereign VPS..."
-        ssh -o StrictHostKeyChecking=no root@72.62.86.217 << 'EOF'
+        if [ -z "$SSH_KEY" ]; then
+          echo "⚠️  SSH Key not found in secrets.VPS_SSH_KEY"
+          echo "⏭️  Skipping automated deployment."
+          exit 1
+        fi
+
+        mkdir -p ~/.ssh
+        echo "$SSH_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        
+        echo "🚀 Connecting to Sovereign VPS (72.62.86.217)..."
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@72.62.86.217 << 'EOF'
+          cd /root/nexus-cos || git clone https://github.com/BobbyBlanco400/nexus-cos.git /root/nexus-cos
           cd /root/nexus-cos
+          git checkout main
           git pull origin main
           chmod +x launch_vps_stack.sh
           ./launch_vps_stack.sh
         EOF
-      
-    - name: Manual Deployment Fallback
-      if: ${{ secrets.VPS_SSH_KEY == '' }}
+      continue-on-error: true
+
+    - name: Deployment Status
+      if: steps.deploy.outcome != 'success'
       run: |
-        echo "⚠️  SSH Key not found in secrets.VPS_SSH_KEY"
-        echo "📝 MANUAL DEPLOYMENT REQUIRED:"
+        echo "⚠️  AUTOMATED DEPLOYMENT SKIPPED OR FAILED"
+        echo "📝 MANUAL ACTION REQUIRED:"
         echo "1. SSH into 72.62.86.217"
         echo "2. Run: cd /root/nexus-cos && git pull && ./launch_vps_stack.sh"
