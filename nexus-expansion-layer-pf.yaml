@@ -1,0 +1,369 @@
+# ===============================
+# NEXUS COS - EXPANSION LAYER MASTER PF
+# Add-In Package: All 5 Expansion Components
+# One-Shot Deployment
+# ===============================
+
+pf_version: "expansion-layer-v1.0"
+pf_name: "nexus-expansion-layer"
+platform: "Nexus COS"
+issued: "2025-12-24"
+status: live_ready
+attach_to: existing_stack
+
+# Core Principle
+principle: "Extension layer, not a rewrite"
+
+# Deployment Rules
+deployment_rules:
+  do_not_rebuild_core: true
+  do_not_change_wallets: true
+  do_not_touch_dns: true
+  apply_as_overlay: true
+  verify_via_health: true
+  verify_via_ui_cards: true
+
+# Included Components
+includes:
+  - name: jurisdiction_engine
+    file: config/jurisdiction-engine.yaml
+    description: "Runtime jurisdiction toggle system"
+    priority: 1
+    
+  - name: marketplace_phase_2
+    file: config/marketplace-phase2.yaml
+    description: "Marketplace activation (gated for Phase 3)"
+    priority: 2
+    
+  - name: ai_dealer_expansion
+    file: config/ai-dealers.yaml
+    description: "PUABO AI-HF dealer personalities"
+    priority: 3
+    
+  - name: casino_federation
+    file: config/casino-federation.yaml
+    description: "Vegas Strip multi-casino system"
+    priority: 4
+
+# Stack Alignment Confirmation
+stack_alignment:
+  platform: "Nexus COS"
+  casino_core: "Casino-Nexus (skill-based, closed-loop)"
+  economy: "NexCoin (internal utility credit)"
+  ai: "PUABO AI-HF + MetaTwin + HoloCore"
+  vr: "NexusVision (software layer, headset-agnostic)"
+  deployment: "Docker / Compose / Add-In PFs"
+  governance: "PUABO Holdings IP ownership"
+
+# Executive Summary
+executive_summary:
+  vision: "World's first browser-native immersive operating system"
+  differentiators:
+    - browser_first_immersion
+    - skill_based_interaction
+    - ai_personality_systems
+    - closed_loop_economy
+    - modular_jurisdiction_compliance
+  
+  legal_posture:
+    - "Software platform, not a betting operator"
+    - "Does not custody fiat"
+    - "Does not offer gambling"
+    - "No native apps or hardware lock-in"
+  
+  revenue_streams:
+    - nexcoin_access_packages
+    - vr_lounge_licenses
+    - high_roller_suite_access
+    - creator_streaming_tools
+    - marketplace_transaction_fees_phase2
+    
+  moat:
+    - "Software-defined VR (no hardware dependence)"
+    - "AI MetaTwin personalities"
+    - "Modular casino federation"
+    - "Runtime jurisdiction toggling"
+
+# Services Configuration
+services:
+  casino_nexus_api:
+    name: casino-nexus-api
+    port: 7003
+    health: /casino/health
+    enhancements:
+      - federation_support
+      - ai_dealer_integration
+      - jurisdiction_awareness
+      
+  nexcoin_ms:
+    name: nexcoin-ms
+    port: 7004
+    health: /nexcoin/health
+    enhancements:
+      - marketplace_integration
+      - cross_casino_transfers
+      - jurisdiction_rules
+      
+  nft_marketplace_ms:
+    name: nft-marketplace-ms
+    port: 7007
+    health: /marketplace/health
+    status: phase_2_ready
+    
+  puaboai_sdk:
+    name: puaboai-sdk
+    port: 3200
+    health: /ai/health
+    enhancements:
+      - dealer_personalities
+      - metatwin_integration
+      - holocore_integration
+      
+  vr_world_ms:
+    name: vr-world-ms
+    port: 7001
+    health: /world/health
+    enhancements:
+      - multi_casino_environments
+      - strip_navigation
+      - casino_portals
+
+# API Gateway Extensions
+api_gateway:
+  nginx_config: /etc/nginx/nexus-expansion.conf
+  
+  new_routes:
+    - path: /api/jurisdiction/*
+      upstream: backend-api
+      description: "Jurisdiction toggle API"
+      
+    - path: /api/marketplace/*
+      upstream: nft-marketplace-ms
+      description: "Marketplace Phase-2 API"
+      
+    - path: /api/ai-dealers/*
+      upstream: puaboai-sdk
+      description: "AI Dealer API"
+      
+    - path: /api/casino-federation/*
+      upstream: casino-nexus-api
+      description: "Casino Federation API"
+
+# Frontend Extensions
+frontend:
+  react_components:
+    - name: JurisdictionToggle
+      path: /frontend/components/JurisdictionToggle
+      description: "Region selection UI"
+      
+    - name: MarketplaceBrowser
+      path: /frontend/components/MarketplaceBrowser
+      description: "Asset browsing and purchase UI"
+      
+    - name: CasinoStripNavigator
+      path: /frontend/components/CasinoStripNavigator
+      description: "Virtual strip navigation"
+      
+    - name: AIDealer
+      path: /frontend/components/AIDealer
+      description: "AI dealer interface"
+      
+  feature_flags:
+    path: /frontend/config/features.json
+    flags:
+      - jurisdiction_toggle
+      - marketplace_phase2
+      - ai_dealers
+      - casino_federation
+
+# Database Extensions
+database:
+  migrations_required: false
+  schema_extensions:
+    - table: jurisdictions
+      columns:
+        - user_id
+        - region
+        - features_enabled
+        - created_at
+        
+    - table: marketplace_assets
+      columns:
+        - asset_id
+        - creator_id
+        - asset_type
+        - price_nexcoin
+        - status
+        
+    - table: casino_federation
+      columns:
+        - casino_id
+        - operator_id
+        - casino_type
+        - status
+        
+    - table: ai_dealer_sessions
+      columns:
+        - session_id
+        - dealer_id
+        - player_id
+        - game_type
+        - started_at
+
+# Health Check Endpoints
+health_checks:
+  jurisdiction_engine:
+    endpoint: /api/jurisdiction/health
+    expected_status: 200
+    
+  marketplace:
+    endpoint: /api/marketplace/health
+    expected_status: 200
+    
+  ai_dealers:
+    endpoint: /api/ai-dealers/health
+    expected_status: 200
+    
+  casino_federation:
+    endpoint: /api/casino-federation/health
+    expected_status: 200
+
+# UI Verification Cards
+ui_cards:
+  - name: "Jurisdiction Toggle"
+    path: /admin/jurisdiction
+    verification: "Check region selection dropdown"
+    
+  - name: "Marketplace Phase-2"
+    path: /marketplace
+    verification: "Browse assets, verify Phase-3 gate"
+    
+  - name: "AI Dealers"
+    path: /casino/tables
+    verification: "Interact with AI dealer"
+    
+  - name: "Casino Federation"
+    path: /casino-strip
+    verification: "Navigate between casinos"
+
+# Deployment Script
+deployment:
+  script: deploy-nexus-expansion-layer.sh
+  steps:
+    - name: Validate existing stack
+      command: verify-nexus-stack.sh
+      
+    - name: Load jurisdiction engine config
+      command: kubectl apply -f config/jurisdiction-engine.yaml
+      
+    - name: Load marketplace config
+      command: kubectl apply -f config/marketplace-phase2.yaml
+      
+    - name: Load AI dealer config
+      command: kubectl apply -f config/ai-dealers.yaml
+      
+    - name: Load casino federation config
+      command: kubectl apply -f config/casino-federation.yaml
+      
+    - name: Update nginx configuration
+      command: reload-nginx-config.sh
+      
+    - name: Update frontend feature flags
+      command: update-feature-flags.sh
+      
+    - name: Verify health checks
+      command: verify-expansion-health.sh
+      
+    - name: Validate UI cards
+      command: test-expansion-ui.sh
+
+# Rollback Procedure
+rollback:
+  enabled: true
+  steps:
+    - name: Disable feature flags
+      command: disable-expansion-flags.sh
+      
+    - name: Revert nginx config
+      command: restore-nginx-config.sh
+      
+    - name: Clear service cache
+      command: clear-service-cache.sh
+
+# Monitoring
+monitoring:
+  enabled: true
+  dashboards:
+    - name: Jurisdiction Toggle Metrics
+      metrics:
+        - region_selections
+        - feature_usage_by_region
+        
+    - name: Marketplace Metrics
+      metrics:
+        - asset_views
+        - purchases
+        - creator_uploads
+        
+    - name: AI Dealer Metrics
+      metrics:
+        - dealer_sessions
+        - player_interactions
+        - satisfaction_scores
+        
+    - name: Casino Federation Metrics
+      metrics:
+        - active_casinos
+        - cross_casino_movement
+        - jackpot_activity
+
+# Compliance
+compliance:
+  jurisdiction_toggle:
+    - "Runtime region detection"
+    - "Feature gating per region"
+    - "No gambling in any region"
+    
+  marketplace:
+    - "NexCoin only, no fiat"
+    - "No withdrawals"
+    - "Utility value only"
+    
+  ai_dealers:
+    - "Transparent AI disclosure"
+    - "No manipulation"
+    - "Entertainment only"
+    
+  casino_federation:
+    - "Skill-based only"
+    - "Closed-loop economy"
+    - "No chance-based wagering"
+
+# Final Declaration
+final_declaration:
+  status: "Nexus COS is no longer just a casino"
+  now_is:
+    - "A browser-based immersive OS"
+    - "A virtual Vegas strip"
+    - "A closed-loop digital economy"
+    - "An AI-powered experience platform"
+    - "A jurisdiction-adaptive system"
+  
+  differentiators:
+    - "No one else has this stack"
+    - "No one else built it this way"
+    - "Launch-ready"
+
+# Verification
+verification:
+  command: verify-nexus-expansion.sh
+  checks:
+    - jurisdiction_toggle_working
+    - marketplace_browsable
+    - ai_dealers_responsive
+    - casino_federation_navigable
+    - health_checks_passing
+    - ui_cards_visible
+    - no_core_changes
+    - no_wallet_changes
+    - no_dns_changes
