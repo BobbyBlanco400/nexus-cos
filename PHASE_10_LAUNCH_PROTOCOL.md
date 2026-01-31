@@ -1,7 +1,7 @@
 # PHASE 10 LAUNCH PROTOCOL: EARNINGS & MEDIA SETTLEMENT
 
 **Launch Date:** Feb 1, 2026
-**Target:** Sovereign VPS (72.62.86.217)
+**Target:** Local Sovereign System (Own System)
 **Handshake:** 55-45-17
 
 ## LAUNCH CODE
@@ -14,19 +14,17 @@
 
 ## Execution Instructions
 
-To activate Phase 10 (Earnings Oracle, PMMG Media Engine, Royalty Engine), execute the following on the VPS:
+To activate Phase 10 (Earnings Oracle, PMMG Media Engine, Royalty Engine), execute the following on your system terminal:
 
 ```bash
-# 1. Access the Sovereign Server
-ssh root@72.62.86.217
+# 1. Open your Terminal (PowerShell or Bash)
+# Navigate to your project root
+cd /path/to/nexus-cos-main
 
-# 2. Navigate to Nexus Directory
-cd /opt/nexus
-
-# 3. Ignite Phase 10 Services
+# 2. Ignite Phase 10 Services
 docker-compose -f docker-compose.full.yml up -d earnings-oracle pmmg-media-engine royalty-engine
 
-# 4. Verify Activation
+# 3. Verify Activation
 curl -v http://localhost:3040/health
 curl -v http://localhost:3041/health
 curl -v http://localhost:3042/health

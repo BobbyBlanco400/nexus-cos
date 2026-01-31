@@ -1,7 +1,7 @@
 #!/bin/bash
 # VERIFY_PHASES_1_10.sh
 # N3XUS v-COS Verification Script for Phases 1-10
-# Target: Sovereign VPS (72.62.86.217) or Localhost
+# Target: Local Sovereign System (localhost)
 
 TARGET_HOST=${1:-localhost}
 
