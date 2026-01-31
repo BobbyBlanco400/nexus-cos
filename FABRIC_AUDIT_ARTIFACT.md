@@ -5,7 +5,8 @@
 **Protocol:** N3XUS v-COS V5.1
 
 ## 1. Infrastructure Topology
-- **Target Host:** Local Sovereign System (Own System)
+- **Target Host:** Sovereign VPS (72.62.86.217)
+- **Domain:** `n3xuscos.online`
 - **Network Mode:** Bridge (`nexus-net`)
 - **Gateway:** Nginx (Port 8080 -> 80)
 - **Database:** PostgreSQL 15-Alpine (Volume: `postgres-data`)
@@ -25,9 +26,9 @@
 | **V-Suite** | PASS | 4 | 55-45-17 |
 
 ## 3. Sovereign Compliance Checks
-- [x] **Data Sovereignty:** All persistent data resides on `postgres-data` and `redis-data` volumes within the local system. No external cloud dependencies.
+- [x] **Data Sovereignty:** All persistent data resides on `postgres-data` and `redis-data` volumes within the VPS. No external cloud dependencies.
 - [x] **Code Sovereignty:** All services built from local Dockerfiles (`./services/*`). No external image pulls for core logic.
-- [x] **Access Sovereignty:** System access restricted to local administrator.
+- [x] **Access Sovereignty:** Root access restricted to SSH key pairs.
 - [x] **Fiscal Sovereignty:** Treasury and Payout engines operate on internal ledger logic.
 
 ## 4. Anomaly Detection

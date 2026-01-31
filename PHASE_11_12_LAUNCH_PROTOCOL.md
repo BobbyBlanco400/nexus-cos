@@ -1,7 +1,7 @@
 # PHASE 11 & 12 LAUNCH PROTOCOL: GOVERNANCE & CONSTITUTION
 
 **Launch Date:** Feb 1, 2026
-**Target:** Local Sovereign System (Own System)
+**Target:** Sovereign VPS (72.62.86.217)
 **Handshake:** 55-45-17
 
 ## LAUNCH CODES
@@ -32,17 +32,19 @@
 
 ## Execution Instructions
 
-To activate Phases 11 & 12 (Governance Core, Constitution Engine), execute the following on your system terminal:
+To activate Phases 11 & 12 (Governance Core, Constitution Engine), execute the following on the VPS:
 
 ```bash
-# 1. Open your Terminal (PowerShell or Bash)
-# Navigate to your project root
-cd /path/to/nexus-cos-main
+# 1. Access the Sovereign Server
+ssh root@72.62.86.217
 
-# 2. Ignite Governance Services
+# 2. Navigate to Nexus Directory
+cd /opt/nexus
+
+# 3. Ignite Governance Services
 docker-compose -f docker-compose.full.yml up -d governance-core constitution-engine
 
-# 3. Verify Activation
+# 4. Verify Activation
 curl -v http://localhost:3050/health
 curl -v http://localhost:3051/health
 ```
