@@ -58,8 +58,8 @@ services:
       context: ./services/v-supercore
       dockerfile: Dockerfile
       args:
-        N3XUS_HANDSHAKE: "55-45-17"
         X_N3XUS_HANDSHAKE: "55-45-17"
+        N3XUS_HANDSHAKE: "55-45-17"
     container_name: v-supercore
     ports:
       - "3001:8080"
@@ -988,7 +988,7 @@ services:
         N3XUS_HANDSHAKE: "55-45-17"
     container_name: v-caster-pro
     ports:
-      - "4070:3000"
+      - "4170:3000"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
@@ -1030,7 +1030,7 @@ services:
         N3XUS_HANDSHAKE: "55-45-17"
     container_name: v-screen-pro
     ports:
-      - "4072:3000"
+      - "4172:3000"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
@@ -1051,7 +1051,7 @@ services:
         N3XUS_HANDSHAKE: "55-45-17"
     container_name: vscreen-hollywood
     ports:
-      - "4073:3000"
+      - "4173:3000"
     environment:
       - N3XUS_HANDSHAKE=55-45-17
       - NODE_ENV=production
@@ -1157,6 +1157,44 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  # ============================================================================
+  # MISSING SERVICES: V-PROMPTER LITE & MIC BRIDGE
+  # ============================================================================
+
+  v-prompter-lite:
+    build:
+      context: ./services/v-prompter-lite
+      dockerfile: Dockerfile
+      args:
+        N3XUS_HANDSHAKE: "55-45-17"
+    container_name: v-prompter-lite
+    ports:
+      - "3504:3000"
+    environment:
+      - N3XUS_HANDSHAKE=55-45-17
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - nexus-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  remote-mic-bridge:
+    image: python:3.11-slim
+    container_name: remote-mic-bridge
+    command: python -m http.server 8081
+    ports:
+      - "8081:8081"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    networks:
+      - nexus-net
+    restart: unless-stopped
 
   # ============================================================================
   # GATEWAY
