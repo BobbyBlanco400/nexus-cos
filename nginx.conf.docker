@@ -21,7 +21,7 @@ http {
     # Main HTTP server
     server {
         listen 80;
-        server_name nexuscos.online www.nexuscos.online localhost;
+        server_name n3xuscos.online www.n3xuscos.online nexuscos.online www.nexuscos.online localhost;
 
         # Security Headers (N3XUS Handshake)
         add_header X-Frame-Options "SAMEORIGIN" always;
