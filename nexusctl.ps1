@@ -1,4 +1,4 @@
-param (
+﻿param (
     [string]$command,
     [string]$phase,
     [string]$scope,
@@ -34,6 +34,15 @@ if ($command -eq "activate") {
         Write-Host "   Target: Sovereign Fabric (Modular OS)"
         Write-Host "   Domain: n3xuscos.online"
         Write-Host ">> SUCCESS: Global Launch Active."
+    } elseif ($mode -eq "live") {
+        Write-Host ">> Initiating PUABO UNSIGN3D Live Show Launch..."
+        Write-Host "   Series: PUABO UNSIGN3D"
+        Write-Host "   Episode: 1 - 'THE COME UP'"
+        Write-Host "   Host: Bobby Blanco"
+        Write-Host "   Live Mic Code: N3XLIV3-PUABO424"
+        Write-Host "   V-Prompter: CONNECTED (Port 3502)"
+        Write-Host "   StreamCore: ACTIVE (Port 4054)"
+        Write-Host ">> SUCCESS: Live Show ON AIR "
     }
 } else {
     Write-Host "Usage: nexusctl [command] [options]"
