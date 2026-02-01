@@ -1,0 +1,25 @@
+# PUABO UNSIGN3D - MASTER TEMPLATE
+
+## 1. SHOW STRUCTURE
+- **Host:** Bobby Blanco
+- **Duration:** 60 Min
+- **Slots:** 6 Open Mic Spots (5 min each)
+
+## 2. SEGMENT BLOCK
+1. **Intro (0-5m):** Monologue + Hook
+2. **Culture (5-15m):** Educational/Industry Rant
+3. **Open Mic (15-45m):** 6 Guests x 5 Min
+4. **Reality Check (45-55m):** Recap & Tough Love
+5. **Outro (55-60m):** Sign-off & CTA
+
+## 3. ASSETS REQUIRED
+- [ ] Script (.txt)
+- [ ] Lower Thirds (.png)
+- [ ] Intro/Outro Music (.mp3)
+- [ ] Live Mic Code (Unique per episode)
+
+## 4. CLIP MARKERS
+- [ ] Intro Hook
+- [ ] Key Rant
+- [ ] Best Guest Performance
+- [ ] Reality Check Quote

@@ -110,9 +110,23 @@ app.get("/api/puaboverse/status", (req, res) => {
   });
 });
 
+// Service List Endpoint for Frontend Dashboard
+app.get("/api/services", (req, res) => {
+  res.json([
+    { id: "auth", name: "Authentication", status: "active", version: "1.0.0", category: "Core" },
+    { id: "creator-hub", name: "Creator Hub", status: "active", version: "2.1.0", category: "Module" },
+    { id: "v-suite", name: "V-Suite", status: "active", version: "3.0.0", category: "Module" },
+    { id: "puaboverse", name: "PuaboVerse", status: "active", version: "1.5.0", category: "Module" },
+    { id: "fleet", name: "Puabo Fleet", status: "active", version: "1.2.0", category: "Logistics" },
+    { id: "nuki", name: "Nuki E-Commerce", status: "active", version: "1.1.0", category: "Commerce" },
+    { id: "dsp", name: "Puabo DSP", status: "active", version: "1.0.0", category: "Media" },
+    { id: "ai", name: "Core AI", status: "active", version: "1.0.0", category: "Intelligence" }
+  ]);
+});
+
 // Routes
-const authRoutes = require("../../routes/auth");
-const userRoutes = require("../../routes/user");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -139,9 +153,9 @@ app.get("/api", (req, res) => {
   });
 });
 
-// Catch-all route to prevent 404 errors
+// Catch-all route to prevent 404 errors (JSON response)
 app.use((req, res) => {
-  res.status(200).send('Nexus COS is running!');
+  res.status(404).json({ error: "Route not found", path: req.path });
 });
 
 // Start server

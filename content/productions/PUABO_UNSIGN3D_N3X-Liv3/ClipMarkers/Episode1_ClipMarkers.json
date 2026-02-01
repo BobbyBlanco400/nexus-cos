@@ -1,0 +1,85 @@
+{
+  "episode": "PUABO UNSIGN3D - Episode 1",
+  "markers": [
+    {
+      "id": "clip_01",
+      "timecode_in": "00:00:00",
+      "timecode_out": "00:01:30",
+      "label": "Opening Hype",
+      "description": "Bobby Blanco Intro - 'Unsigned don't mean unready'",
+      "tags": ["intro", "monologue", "hype"]
+    },
+    {
+      "id": "clip_02",
+      "timecode_in": "00:05:00",
+      "timecode_out": "00:07:30",
+      "label": "Culture & Game Lesson",
+      "description": "Discipline > Talent Rant",
+      "tags": ["education", "rant", "advice"]
+    },
+    {
+      "id": "clip_03",
+      "timecode_in": "00:15:00",
+      "timecode_out": "00:20:00",
+      "label": "Guest 1 Performance",
+      "description": "First Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_04",
+      "timecode_in": "00:20:00",
+      "timecode_out": "00:25:00",
+      "label": "Guest 2 Performance",
+      "description": "Second Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_05",
+      "timecode_in": "00:25:00",
+      "timecode_out": "00:30:00",
+      "label": "Guest 3 Performance",
+      "description": "Third Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_06",
+      "timecode_in": "00:30:00",
+      "timecode_out": "00:35:00",
+      "label": "Guest 4 Performance",
+      "description": "Fourth Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_07",
+      "timecode_in": "00:35:00",
+      "timecode_out": "00:40:00",
+      "label": "Guest 5 Performance",
+      "description": "Fifth Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_08",
+      "timecode_in": "00:40:00",
+      "timecode_out": "00:45:00",
+      "label": "Guest 6 Performance",
+      "description": "Sixth Open Mic Slot",
+      "tags": ["performance", "music", "live"]
+    },
+    {
+      "id": "clip_09",
+      "timecode_in": "00:45:00",
+      "timecode_out": "00:50:00",
+      "label": "Reality Check Highlight",
+      "description": "Host Recap - 'Talent is everywhere, Discipline is rare'",
+      "tags": ["recap", "advice", "highlight"]
+    },
+    {
+      "id": "clip_10",
+      "timecode_in": "00:55:00",
+      "timecode_out": "01:00:00",
+      "label": "Closing Tagline",
+      "description": "Outro - 'Same mic. Same rules.'",
+      "tags": ["outro", "branding", "closing"]
+    }
+  ]
+}

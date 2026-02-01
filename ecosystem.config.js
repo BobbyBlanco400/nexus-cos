@@ -755,6 +755,22 @@ module.exports = {
       error_file: './logs/v-screen-pro-error.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
     },
+    {
+      name: 'v-prompter-lite',
+      script: './services/v-prompter-lite/server.js',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '256M',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3504
+      },
+      log_file: './logs/v-prompter-lite.log',
+      out_file: './logs/v-prompter-lite-out.log',
+      error_file: './logs/v-prompter-lite-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
 
     // ========================================
     // PHASE 6: META-TWIN AI PERSONALITY ENGINE (Priority: HIGH)
@@ -778,6 +794,23 @@ module.exports = {
       log_file: './logs/metatwin.log',
       out_file: './logs/metatwin-out.log',
       error_file: './logs/metatwin-error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
+    },
+    // ========================================
+    // PHASE 8-9: MOBILE BRIDGE (Priority: HIGH)
+    // ========================================
+    {
+      name: 'remote-mic-bridge',
+      script: 'python',
+      args: ['-m', 'http.server', '8081'],
+      cwd: './',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '128M',
+      log_file: './logs/remote-mic-bridge.log',
+      out_file: './logs/remote-mic-bridge-out.log',
+      error_file: './logs/remote-mic-bridge-error.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
     }
   ]

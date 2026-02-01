@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N3XUS COS • 72-Hour Launch</title>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, #020617 0, #000000 45%, #020617 100%);
+  color: #f9fafb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+.shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  box-sizing: border-box;
+}
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(15,23,42,0.65) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.65) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.grid::before {
+  content: "";
+  position: absolute;
+  inset: -200px;
+  background: conic-gradient(from 180deg, rgba(56,189,248,0.1), rgba(94,234,212,0.3), rgba(129,140,248,0.2), rgba(56,189,248,0.1));
+  opacity: 0.4;
+  filter: blur(140px);
+}
+.scanline {
+  position: absolute;
+  inset-inline: 0;
+  height: 14%;
+  background: linear-gradient(to bottom, rgba(148,163,184,0) 0%, rgba(148,163,184,0.35) 50%, rgba(148,163,184,0) 100%);
+  animation: scan 14s ease-in-out infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+@keyframes scan {
+  0% { transform: translateY(-20%); opacity: 0; }
+  10% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(96,165,250,0), rgba(96,165,250,0.8));
+  opacity: 0.7;
+  animation: fall 8s linear infinite;
+}
+@keyframes fall {
+  0% { transform: translate3d(0, -40vh, 0); opacity: 0; }
+  5% { opacity: 0.9; }
+  70% { opacity: 0.9; }
+  100% { transform: translate3d(0, 120vh, 0); opacity: 0; }
+}
+@keyframes framePulse {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  35% {
+    transform: translate3d(0, -4px, 0) scale(1.02);
+  }
+  55% {
+    transform: translate3d(0, 2px, 0) scale(1.01);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.frame {
+  position: relative;
+  width: min(960px, 100%);
+  max-width: 960px;
+  border-radius: 28px;
+  padding: 32px 32px 24px;
+  backdrop-filter: blur(32px);
+  background: radial-gradient(circle at top left, rgba(59,130,246,0.25), rgba(15,23,42,0.95) 52%, rgba(8,47,73,0.98) 100%);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.25),
+    0 22px 60px rgba(15,23,42,0.95),
+    0 0 120px rgba(56,189,248,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: framePulse 18s ease-in-out infinite;
+}
+.frame-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-orb {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #e5e7eb, #38bdf8 40%, #0f172a 100%);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.5),
+    0 0 22px rgba(56,189,248,0.85),
+    0 0 70px rgba(59,130,246,0.9);
+}
+.brand-title {
+  font-size: 18px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+.brand-sub {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.95);
+}
+.status-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bbf7d0;
+  background: radial-gradient(circle at 0 0, rgba(74,222,128,0.3), rgba(21,128,61,0.65));
+  box-shadow:
+    0 0 18px rgba(74,222,128,0.7),
+    0 0 0 1px rgba(34,197,94,0.8);
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ecfdf3, #4ade80 60%, #14532d 100%);
+  box-shadow: 0 0 14px rgba(74,222,128,0.9);
+}
+.frame-body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 24px;
+}
+@media (max-width: 880px) {
+  .frame {
+    padding: 24px 20px 20px;
+  }
+  .frame-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.sequence {
+  position: relative;
+  min-height: 170px;
+}
+.sequence-main {
+  font-size: clamp(26px, 3vw + 10px, 36px);
+  line-height: 1.05;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f9fafb;
+  text-shadow:
+    0 0 24px rgba(37,99,235,0.8),
+    0 0 70px rgba(56,189,248,0.9);
+  transform-origin: center;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+.sequence-sub {
+  margin-top: 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.98);
+  opacity: 0;
+  transform: translateY(8px);
+}
+.line-active {
+  animation: focusIn 820ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+.sub-active {
+  animation: subIn 860ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+@keyframes focusIn {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(14px) scale(0.94);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1.02);
+  }
+  70% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes subIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  45% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
+.sequence-trail {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.trail-pill {
+  position: absolute;
+  inset-inline: 0;
+  height: 40px;
+  margin: auto;
+  max-width: 360px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.35);
+  background: radial-gradient(circle at 20% 0, rgba(148,163,184,0.22), rgba(15,23,42,0.7));
+  filter: blur(8px);
+  opacity: 0.8;
+}
+.sequence-footer {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.9);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sequence-footer span {
+  white-space: nowrap;
+}
+.sequence-footer strong {
+  color: #e5e7eb;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.counter {
+  border-radius: 18px;
+  padding: 10px 14px;
+  background: radial-gradient(circle at top right, rgba(37,99,235,0.45), rgba(15,23,42,0.95));
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,0.65),
+    0 0 30px rgba(37,99,235,0.8);
+}
+.counter-label {
+  font-size: 11px;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: rgba(191,219,254,0.9);
+}
+.counter-value {
+  margin-top: 6px;
+  font-size: 18px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #f9fafb;
+}
+.counter-ticks {
+  margin-top: 6px;
+  display: flex;
+  gap: 4px;
+}
+.tick {
+  flex: 1;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, rgba(37,99,235,0.15), rgba(96,165,250,0.75));
+  opacity: 0.45;
+}
+.tick-active {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(56,189,248,0.9);
+}
+.cta {
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: radial-gradient(circle at top left, rgba(59,130,246,0.4), rgba(30,64,175,0.96));
+  box-shadow:
+    0 0 0 1px rgba(129,140,248,0.75),
+    0 16px 40px rgba(30,64,175,0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cta-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(219,234,254,0.95);
+}
+.cta-button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cta-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #0b1020;
+  background: radial-gradient(circle at 20% 0, #f9fafb, #93c5fd);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,1),
+    0 16px 34px rgba(15,23,42,0.95),
+    0 0 50px rgba(191,219,254,0.9);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+.cta-button:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow:
+    0 0 0 1px rgba(30,64,175,1),
+    0 20px 40px rgba(15,23,42,0.98),
+    0 0 90px rgba(191,219,254,1);
+  filter: brightness(1.03);
+}
+.cta-meta {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(191,219,254,0.9);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.95);
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(248,250,252,0.9);
+}
+.creator-nav {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.creator-nav-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.95);
+}
+.creator-nav-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.creator-chip {
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: radial-gradient(circle at 20% 0, rgba(148,163,184,0.3), rgba(15,23,42,0.9));
+  color: rgba(226,232,240,0.95);
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.6),
+    0 10px 24px rgba(15,23,42,0.9);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+.creator-chip:hover {
+  transform: translateY(-1px) scale(1.02);
+  background: radial-gradient(circle at 20% 0, rgba(191,219,254,0.5), rgba(15,23,42,0.9));
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,0.9),
+    0 16px 28px rgba(15,23,42,0.98);
+}
+.legend-dot.core {
+  background: radial-gradient(circle at 30% 30%, #f9fafb, #38bdf8 60%, #0f172a 100%);
+}
+.legend-dot.beta {
+  background: radial-gradient(circle at 30% 30%, #f9fafb, #a855f7 60%, #1f2937 100%);
+}
+.legend-dot.founders {
+  background: radial-gradient(circle at 30% 30%, #fef9c3, #f97316 60%, #1c1917 100%);
+}
+.footer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.95);
+  gap: 10px;
+}
+.footer span {
+  white-space: nowrap;
+}
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.glitch::before {
+  color: #38bdf8;
+  transform: translate(0, 0);
+}
+.glitch::after {
+  color: #f97316;
+  transform: translate(0, 0);
+}
+.glitch-active::before {
+  animation: glitchShift 420ms steps(2, end) 1;
+}
+.glitch-active::after {
+  animation: glitchShiftAlt 420ms steps(2, end) 1;
+}
+@keyframes glitchShift {
+  0% { opacity: 0; transform: translate(0,0); }
+  10% { opacity: 1; transform: translate(-2px,-1px); }
+  40% { transform: translate(2px,1px); }
+  70% { transform: translate(-1px,1px); }
+  100% { opacity: 0; transform: translate(0,0); }
+}
+@keyframes glitchShiftAlt {
+  0% { opacity: 0; transform: translate(0,0); }
+  15% { opacity: 1; transform: translate(2px,1px); }
+  45% { transform: translate(-2px,-2px); }
+  80% { transform: translate(1px,0); }
+  100% { opacity: 0; transform: translate(0,0); }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="grid"></div>
+  <div class="scanline"></div>
+  <div class="particles" id="particles"></div>
+  <div class="frame">
+    <div class="frame-header">
+      <div>
+        <div class="brand-lockup">
+          <div class="brand-orb"></div>
+          <div>
+            <div class="brand-title">N3XUS COS</div>
+            <div class="brand-sub">The Creative Operating System</div>
+          </div>
+        </div>
+      </div>
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>72-Hour Launch Sequence • Live</span>
+      </div>
+    </div>
+    <div class="frame-body">
+      <div class="sequence">
+        <div class="sequence-trail">
+          <div class="trail-pill"></div>
+        </div>
+        <div id="sequence-main" class="sequence-main glitch"></div>
+        <div id="sequence-sub" class="sequence-sub"></div>
+        <div class="sequence-footer">
+          <span><strong id="sequence-time">00:00</strong> • <span id="sequence-label">45-Second Kinetic Intro</span></span>
+          <span>Creators First • Founders Go Live Before Mainnet</span>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="counter">
+          <div class="counter-label">Countdown Lock</div>
+          <div class="counter-value">72 Hours To Launch</div>
+          <div class="counter-ticks" id="counter-ticks"></div>
+        </div>
+        <div class="cta">
+          <div class="cta-label">Founders Program Entry</div>
+          <div class="cta-button-row">
+            <button class="cta-button" id="founders-cta">Join The Founder&apos;s Program</button>
+          </div>
+          <div class="cta-meta">
+            <span>Canonical URL • beta.n3xuscos.online</span>
+            <span>Opens In New Tab • No Fallback</span>
+          </div>
+        </div>
+        <div class="legend">
+          <span><span class="legend-dot core"></span>Core OS</span>
+          <span><span class="legend-dot beta"></span>72-Hour Beta</span>
+          <span><span class="legend-dot founders"></span>Founders Only</span>
+        </div>
+        <div class="creator-nav">
+          <div class="creator-nav-label">Creator Index</div>
+          <div class="creator-nav-grid">
+            <button class="creator-chip" data-target="Ashanti&apos;s Munch &amp; Mingle">Ashanti&apos;s Munch &amp; Mingle</button>
+            <button class="creator-chip" data-target="Club Saditty">Club Saditty</button>
+            <button class="creator-chip" data-target="Faith Through Fitness">Faith Through Fitness</button>
+            <button class="creator-chip" data-target="Ro Ro&apos;s Gamers Lounge">Ro Ro&apos;s Gamers Lounge</button>
+            <button class="creator-chip" data-target="IDH-Live">IDH-Live</button>
+            <button class="creator-chip" data-target="Clocking T. Wit Ya Gurl P">Clocking T.</button>
+            <button class="creator-chip" data-target="Tyshawn&apos;s V-Dance Studio">Tyshawn&apos;s V-Dance</button>
+            <button class="creator-chip" data-target="Fayeloni-Kreations">Fayeloni-Kreations</button>
+            <button class="creator-chip" data-target="Sassie Lashes">Sassie Lashes</button>
+            <button class="creator-chip" data-target="Nee Nee &amp; Kids">Nee Nee &amp; Kids</button>
+            <button class="creator-chip" data-target="Headwina&apos;s Comedy Club">Headwina&apos;s Comedy</button>
+            <button class="creator-chip" data-target="Rise Sacramento 916">Rise Sacramento 916</button>
+            <button class="creator-chip" data-target="Sheda Shay&apos;s Butter Bar">Sheda Shay&apos;s Butter Bar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>World&apos;s First Creative Operating System</span>
+      <span>Handshake 55-45-17 • 72-Hour Codespaces Launch</span>
+    </div>
+  </div>
+</div>
+<script>
+var mainEl = document.getElementById("sequence-main");
+var subEl = document.getElementById("sequence-sub");
+var timeEl = document.getElementById("sequence-time");
+var labelEl = document.getElementById("sequence-label");
+var ticksEl = document.getElementById("counter-ticks");
+var ctaEl = document.getElementById("founders-cta");
+var particlesEl = document.getElementById("particles");
+var sequenceFull45 = [
+  { t: 0, main: "N3XUS COS", sub: "Not a platform. Not a network. An Operating System." },
+  { t: 5500, main: "FOR CREATORS", sub: "13 Independent Platforms • One OS" },
+  { t: 11500, main: "Club Saditty", sub: "Saditty of Club Saditty • luxe nights • mini platform stack live." },
+  { t: 17500, main: "Ro Ro&apos;s Gamers Lounge", sub: "Ro Ro&apos;s mini platform • Pushba on IDH-Live • Paris on Clocking T." },
+  { t: 23500, main: "Tyshawn&apos;s V-Dance Studio", sub: "Tyshawn&apos;s stack • choreography, glam • Nuki of Fayeloni-Kreations." },
+  { t: 29500, main: "Nee Nee & Kids", sub: "Nee Nee&apos;s mini world • Sassie lashes • Edwina & Rasheda close by." },
+  { t: 35500, main: "One Command", sub: "One Deployment • One System • Infinite Creators" },
+  { t: 41000, main: "72 HOURS TO LAUNCH", sub: "Founders Go First • beta.n3xuscos.online" }
+];
+var sequenceFull60 = [
+  { t: 0, main: "N3XUS COS", sub: "The Creative Operating System" },
+  { t: 6000, main: "FOR CREATORS", sub: "Every resident is a world. Every world is live." },
+  { t: 12000, main: "Ashanti&apos;s Munch & Mingle", sub: "Soul food, soft light, real conversations at the table." },
+  { t: 20000, main: "Ashanti&apos;s Munch & Mingle", sub: "You bring your story. Ashanti keeps the room warm." },
+  { t: 28000, main: "Club Saditty", sub: "Saditty of Club Saditty • luxury lounge • Ro Ro&apos;s game-night orbit." },
+  { t: 34000, main: "IDH-Live! • Clocking T.", sub: "Live talk with Pushba • Paris on Clocking T. • Tyshawn&apos;s V-Dance • Nuki." },
+  { t: 40000, main: "Sassie Lashes • Nee Nee & Kids", sub: "Sassie of Sassie Lashes • Nee Nee&apos;s family stack • Edwina & Rasheda." },
+  { t: 48000, main: "One Command", sub: "One Deployment • One System • Infinite Creators" },
+  { t: 54000, main: "72 HOURS TO LAUNCH", sub: "Founders Go First • beta.n3xuscos.online" }
+];
+var sequenceCut15 = [
+  { t: 0, main: "N3XUS COS", sub: "The Creative Operating System" },
+  { t: 4000, main: "FOR CREATORS", sub: "13 Independent Platforms • One OS" },
+  { t: 8000, main: "72 HOURS TO LAUNCH", sub: "Founders Go First • beta.n3xuscos.online" },
+  { t: 12000, main: "JOIN THE FOUNDERS", sub: "Secure Your Seat Before Mainnet" }
+];
+var sequenceFull70 = [
+  { t: 0, main: "N3XUS COS", sub: "The Creative Operating System" },
+  { t: 6000, main: "FOR CREATORS", sub: "Every resident is a world. Every world is live." },
+  { t: 12000, main: "Ashanti&apos;s Munch & Mingle", sub: "Ashanti hosts the table • food, light, and real stories." },
+  { t: 18000, main: "Ashanti&apos;s Munch & Mingle", sub: "Founders meet here first • the room stays warm." },
+  { t: 24000, main: "Club Saditty", sub: "Saditty&apos;s luxe lounge • night energy in a mini platform stack." },
+  { t: 30000, main: "Ro Ro&apos;s Gamers Lounge", sub: "Ro Ro&apos;s orbit • controllers up • founders side-by-side." },
+  { t: 36000, main: "Faith Through Fitness", sub: "Big Wood coaches the room • faith and sweat in one flow." },
+  { t: 42000, main: "Rise Sacramento 916", sub: "KWAMAY turns the city into a channel • 916 on broadcast." },
+  { t: 48000, main: "IDH-Live • Clocking T.", sub: "Pushba and Paris trade the mic • live talk in motion." },
+  { t: 54000, main: "Nee Nee & Kids • Sassie Lashes", sub: "Family stack and glam • Nee Nee, Sassie, Edwina, Rasheda close." },
+  { t: 60000, main: "Headwina&apos;s Comedy • Sheda Shay&apos;s Butter Bar", sub: "Laughs and butter bar glow • everyone in one operating system." },
+  { t: 64000, main: "MetaTwin Integration", sub: "13 founding mini platforms linked into MT-IM mesh." },
+  { t: 70000, main: "72 HOURS TO LAUNCH", sub: "Founders Go First • beta.n3xuscos.online" }
+];
+function getMode() {
+  var search = window.location.search || "";
+  var hash = window.location.hash || "";
+  var params;
+  try {
+    params = new URLSearchParams(search);
+  } catch (e) {
+    params = null;
+  }
+  if (params && (params.get("cut") === "15" || params.get("mode") === "cut15")) {
+    return "cut15";
+  }
+  if (params && (params.get("cut") === "60" || params.get("mode") === "60" || params.get("mode") === "full60")) {
+    return "full60";
+  }
+   if (params && (params.get("cut") === "70" || params.get("mode") === "70" || params.get("mode") === "full70")) {
+     return "full70";
+   }
+  if (hash === "#cut15" || hash === "#15" || hash === "#short") {
+    return "cut15";
+  }
+  if (hash === "#60" || hash === "#full60") {
+    return "full60";
+  }
+  if (hash === "#70" || hash === "#full70" || hash === "#metatwin") {
+    return "full70";
+  }
+  return "full45";
+}
+var mode = getMode();
+var sequence;
+var totalDuration;
+if (mode === "cut15") {
+  sequence = sequenceCut15;
+  totalDuration = 15000;
+} else if (mode === "full60") {
+  sequence = sequenceFull60;
+  totalDuration = 60000;
+} else if (mode === "full70") {
+  sequence = sequenceFull70;
+  totalDuration = 70000;
+} else {
+  sequence = sequenceFull45;
+  totalDuration = 45000;
+}
+if (labelEl) {
+  if (mode === "cut15") {
+    labelEl.textContent = "15-Second Social Cut";
+  } else if (mode === "full60") {
+    labelEl.textContent = "60-Second Resident Feature";
+  } else if (mode === "full70") {
+    labelEl.textContent = "70-Second MetaTwin Feature";
+  } else {
+    labelEl.textContent = "45-Second Kinetic Intro";
+  }
+}
+var activeIndex = -1;
+var timelineStart = null;
+function formatTime(ms) {
+  var sec = Math.floor(ms / 1000);
+  if (sec < 0) sec = 0;
+  var max = 45;
+  if (mode === "cut15") {
+    max = 15;
+  } else if (mode === "full60") {
+    max = 60;
+  } else if (mode === "full70") {
+    max = 70;
+  }
+  if (sec > max) sec = max;
+  var s = sec.toString().padStart(2, "0");
+  return "00:" + s;
+}
+function applyFrame(idx) {
+  var frame = sequence[idx];
+  mainEl.classList.remove("line-active", "glitch-active");
+  subEl.classList.remove("sub-active");
+  void mainEl.offsetWidth;
+  mainEl.textContent = "";
+  subEl.textContent = "";
+  mainEl.setAttribute("data-text", frame.main);
+  mainEl.textContent = frame.main;
+  subEl.textContent = frame.sub;
+  mainEl.classList.add("line-active", "glitch-active");
+  subEl.classList.add("sub-active");
+  setTimeout(function () {
+    mainEl.classList.remove("glitch-active");
+    void mainEl.offsetWidth;
+    mainEl.classList.add("glitch-active");
+  }, 420);
+}
+function updateTimeline() {
+  if (timelineStart === null) {
+    timelineStart = performance.now();
+  }
+  function step(now) {
+    var elapsed = now - timelineStart;
+    if (elapsed > totalDuration) elapsed = totalDuration;
+    timeEl.textContent = formatTime(elapsed);
+    for (var i = sequence.length - 1; i >= 0; i--) {
+      if (elapsed >= sequence[i].t && activeIndex !== i) {
+        activeIndex = i;
+        applyFrame(i);
+        break;
+      }
+    }
+    var progress = elapsed / totalDuration;
+    var tickCount = ticksEl.children.length;
+    var activeTicks = Math.round(progress * tickCount);
+    for (var j = 0; j < tickCount; j++) {
+      var child = ticksEl.children[j];
+      if (j < activeTicks) {
+        child.classList.add("tick-active");
+      } else {
+        child.classList.remove("tick-active");
+      }
+    }
+    if (elapsed < totalDuration) {
+      requestAnimationFrame(step);
+    }
+  }
+  requestAnimationFrame(step);
+}
+function createTicks() {
+  var n = 18;
+  for (var i = 0; i < n; i++) {
+    var t = document.createElement("div");
+    t.className = "tick";
+    ticksEl.appendChild(t);
+  }
+}
+function createParticles() {
+  var count = 90;
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  for (var i = 0; i < count; i++) {
+    var p = document.createElement("div");
+    p.className = "particle";
+    var left = Math.random() * w;
+    var delay = Math.random() * -10;
+    var dur = 7 + Math.random() * 7;
+    var width = 1 + Math.random() * 2;
+    var height = 10 + Math.random() * 22;
+    p.style.left = left + "px";
+    p.style.width = width + "px";
+    p.style.height = height + "px";
+    p.style.animationDuration = dur + "s";
+    p.style.animationDelay = delay + "s";
+    particlesEl.appendChild(p);
+  }
+}
+function seekToTarget(target) {
+  if (!sequence || !sequence.length) return;
+  var key = (target || "").toLowerCase();
+  if (!key) return;
+  var index = -1;
+  for (var i = 0; i < sequence.length; i++) {
+    var frame = sequence[i];
+    var mainText = (frame.main || "").toLowerCase();
+    var subText = (frame.sub || "").toLowerCase();
+    if (mainText.indexOf(key) !== -1 || subText.indexOf(key) !== -1) {
+      index = i;
+      break;
+    }
+  }
+  if (index === -1) return;
+  activeIndex = index;
+  applyFrame(index);
+  var ms = sequence[index].t || 0;
+  if (ms < 0) ms = 0;
+  if (ms > totalDuration) ms = totalDuration;
+  timelineStart = performance.now() - ms;
+  timeEl.textContent = formatTime(ms);
+  var progress = ms / totalDuration;
+  var tickCount = ticksEl.children.length;
+  var activeTicks = Math.round(progress * tickCount);
+  for (var j = 0; j < tickCount; j++) {
+    var child = ticksEl.children[j];
+    if (j < activeTicks) {
+      child.classList.add("tick-active");
+    } else {
+      child.classList.remove("tick-active");
+    }
+  }
+}
+var metaTwinLinkRegistry = {
+  "Ashanti's Munch & Mingle": "mt-link://ashanti/meta_ashanti?mode=host",
+  "Club Saditty": "mt-link://clubsaditty/meta_saditty?mode=viphost",
+  "Faith Through Fitness": "mt-link://faith/meta_bigwood?mode=coach",
+  "Ro Ro's Gamers Lounge": "mt-link://roro/meta_roro?mode=host",
+  "IDH-Live": "mt-link://idh/meta_pushba?mode=host",
+  "Clocking T. Wit Ya Gurl P": "mt-link://clockingt/meta_paris?mode=anchor",
+  "Tyshawn's V-Dance Studio": "mt-link://tyshawn/meta_tyshawn?mode=coach",
+  "Fayeloni-Kreations": "mt-link://fayeloni/meta_nuki?mode=host",
+  "Sassie Lashes": "mt-link://sassie/meta_sassie?mode=host",
+  "Nee Nee & Kids": "mt-link://neenee/meta_neenee?mode=host",
+  "Headwina's Comedy Club": "mt-link://headwina/meta_edwina?mode=host",
+  "Rise Sacramento 916": "mt-link://rise916/meta_kwamay?mode=host",
+  "Sheda Shay's Butter Bar": "mt-link://shedashay/meta_rasheda?mode=host"
+};
+function triggerMetaTwinLink(target) {
+  if (!target) return;
+  var link = metaTwinLinkRegistry[target];
+  if (!link) return;
+  var modulePart = null;
+  var idPart = null;
+  var modePart = null;
+  var schemeSplit = link.split("://");
+  if (schemeSplit.length > 1) {
+    var rest = schemeSplit[1];
+    var pathSplit = rest.split("/");
+    modulePart = pathSplit[0] || null;
+    if (pathSplit.length > 1) {
+      var idAndQuery = pathSplit[1].split("?");
+      idPart = idAndQuery[0] || null;
+      if (idAndQuery.length > 1) {
+        var query = idAndQuery[1];
+        var modeIndex = query.indexOf("mode=");
+        if (modeIndex !== -1) {
+          modePart = query.substring(modeIndex + 5).split("&")[0] || null;
+        }
+      }
+    }
+  }
+  if (!modulePart || !idPart) return;
+  var payload = {
+    mtid: idPart,
+    module: modulePart,
+    mode: modePart || "default",
+    context: { link: link }
+  };
+  var url = "/metatwin/api/metatwin/link";
+  try {
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }).then(function () {}).catch(function () {});
+  } catch (e) {}
+}
+if (ctaEl) {
+  ctaEl.addEventListener("click", function () {
+    window.open(
+      "https://beta.n3xuscos.online/?utm_source=founders_video&utm_medium=cta&utm_campaign=72h_codespaces_launch",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  });
+}
+var creatorChips = document.querySelectorAll(".creator-chip");
+if (creatorChips && creatorChips.length) {
+  for (var k = 0; k < creatorChips.length; k++) {
+    creatorChips[k].addEventListener("click", function (e) {
+      var target = e.currentTarget.getAttribute("data-target") || "";
+      seekToTarget(target);
+      triggerMetaTwinLink(target);
+    });
+  }
+}
+createTicks();
+createParticles();
+updateTimeline();
+</script>
+</body>
+</html>

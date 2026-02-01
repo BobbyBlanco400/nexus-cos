@@ -1,0 +1,118 @@
+#!/bin/bash
+set -e
+
+# ========================================================
+# N3XUS v-COS PRODUCTION LAUNCHER
+# Target: Hostinger VPS (72.62.86.217)
+# Phase: 1-10 FULL LAUNCH
+# ========================================================
+
+echo "🚀 INITIATING N3XUS v-COS PRODUCTION LAUNCH..."
+echo "📅 Date: $(date)"
+echo "🔒 Lock ID: N3XUS-LOCK-20260129-FINAL"
+
+# 1. ENVIRONMENT CHECK
+echo "--------------------------------------------------------"
+echo "🔍 CHECKING ENVIRONMENT..."
+
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker not found. Installing..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+    rm get-docker.sh
+else
+    echo "✅ Docker installed"
+fi
+
+if ! command -v npm &> /dev/null; then
+    echo "❌ Node/NPM not found. Installing Node 18..."
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+else
+    echo "✅ Node installed"
+fi
+
+if ! command -v pm2 &> /dev/null; then
+    echo "❌ PM2 not found. Installing..."
+    sudo npm install -g pm2
+else
+    echo "✅ PM2 installed"
+fi
+
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python3 not found. Installing..."
+    sudo apt-get update && sudo apt-get install -y python3
+else
+    echo "✅ Python3 installed"
+fi
+
+# 2. CORE INFRASTRUCTURE LAUNCH (DOCKER)
+echo "--------------------------------------------------------"
+echo "🏗️ LAUNCHING CORE INFRASTRUCTURE (DOCKER)..."
+echo "   - Database (Postgres)"
+echo "   - Gateway (Nginx)"
+echo "   - Core API"
+
+# Ensure log directories exist
+mkdir -p logs nginx_logs postgres_data
+
+# Start Docker Compose
+sudo docker-compose -f docker-compose.full.yml up -d
+
+echo "⏳ Waiting for Core Services to stabilize (15s)..."
+sleep 15
+
+# Verify Docker
+if [ $(sudo docker ps | wc -l) -gt 3 ]; then
+    echo "✅ Core Infrastructure ACTIVE"
+else
+    echo "⚠️ WARNING: Some Docker containers failed to start. Checking logs..."
+    sudo docker-compose logs --tail=20
+fi
+
+# 3. MICROSERVICES LAUNCH (PM2)
+echo "--------------------------------------------------------"
+echo "🧠 LAUNCHING MICROSERVICES (PM2)..."
+echo "   - Ecosystem: Phases 1-10"
+echo "   - Includes: V-Prompter Lite, Mic Bridge, MetaTwin"
+
+# Install dependencies (Fast Mode - assumes package-lock.json is good)
+echo "📦 Installing Dependencies (Root)..."
+npm install --production
+
+# Start Ecosystem
+pm2 start ecosystem.config.js
+
+# Save PM2 list
+pm2 save
+pm2 startup | tail -n 1 > startup_script.sh && chmod +x startup_script.sh && ./startup_script.sh && rm startup_script.sh
+
+echo "✅ Microservices ACTIVE"
+
+# 4. FINAL VERIFICATION
+echo "--------------------------------------------------------"
+echo "🔎 FINAL SYSTEM VERIFICATION..."
+
+# Check Critical Ports
+PORTS=(3000 3001 3010 3504 8081 80)
+FAILED=0
+
+for PORT in "${PORTS[@]}"; do
+    if lsof -i :$PORT > /dev/null || curl -s http://localhost:$PORT > /dev/null; then
+        echo "   [PASS] Port $PORT is listening"
+    else
+        echo "   [FAIL] Port $PORT is NOT responding"
+        FAILED=1
+    fi
+done
+
+echo "--------------------------------------------------------"
+if [ $FAILED -eq 0 ]; then
+    echo "🏆 MISSION COMPLETE: N3XUS v-COS IS LIVE!"
+    echo "🌍 Access Public: http://72.62.86.217"
+    echo "🎤 Mic Bridge:    http://72.62.86.217:8081"
+    echo "📱 Prompter:      http://72.62.86.217:3504"
+else
+    echo "⚠️ SYSTEM LAUNCHED WITH WARNINGS. CHECK LOGS."
+fi
+echo "========================================================"

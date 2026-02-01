@@ -13,9 +13,9 @@ http {
     # This header is injected on all proxied requests for governance enforcement
     proxy_set_header X-N3XUS-Handshake "55-45-17";
     
-    # API Gateway - Maps to the puabo-api container on port 3000
+    # API Gateway - Maps to the v-supercore container on port 8080
     upstream api_gateway {
-        server puabo-api:3000;
+        server v-supercore:8080;
     }
 
     # Main HTTP server

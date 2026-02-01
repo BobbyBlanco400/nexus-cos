@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 3403;
 
 // N3XUS Handshake Middleware (55-45-17)
-const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, '../../middleware/handshake-validator'));
+const { setHandshakeResponse, validateHandshakeConditional } = require(path.join(__dirname, './middleware/handshake-validator'));
 
 app.use(express.json());
 
