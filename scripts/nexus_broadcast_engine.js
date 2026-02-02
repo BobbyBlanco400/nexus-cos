@@ -13,18 +13,39 @@ console.log(`>> Status: ONLINE`);
 console.log(`>> Grid:   ${CHANNELS.length} Active Channels`);
 console.log(`>> Mode:   10X SCALING (Auto-Pilot)`);
 
-// Simulate Time-Based Execution
-const DAYS = ['MON', 'WED', 'FRI', 'SAT'];
+// 🗓️ SCHEDULE LOGIC
+// 1. Check for SPECIAL OVERRIDES first (Teasers, Live Events)
+// 2. Fallback to REGULAR WEEKLIES (Mon/Wed/Fri)
+
 const TODAY = 'MON'; // Simulating Monday
+const SPECIAL_EVENT_OVERRIDE = process.env.SPECIAL_EVENT; // e.g. "TEASER_LAUNCH"
 
 CHANNELS.forEach(channel => {
     console.log(`\n📺 TUNING: ${channel}...`);
-    const weekliesPath = path.join(NETWORK_GRID, channel, 'weeklies');
     
+    // 1️⃣ CHECK FOR SPECIALS
+    if (SPECIAL_EVENT_OVERRIDE) {
+        const specialPath = path.join(NETWORK_GRID, channel, 'specials', SPECIAL_EVENT_OVERRIDE);
+        if (fs.existsSync(specialPath)) {
+             console.log(`   🚨 SPECIAL EVENT DETECTED: ${SPECIAL_EVENT_OVERRIDE}`);
+             console.log(`   ⏩ INTERRUPTING REGULAR SCHEDULE...`);
+             
+             const files = fs.readdirSync(specialPath);
+             const script = files.find(f => f.endsWith('.md'));
+             if (script) {
+                 console.log(`   📜 SCRIPT: ${script}`);
+                 console.log(`   🚀 ACTION: Broadcasting SPECIAL to Port 4070 (V-Caster)...`);
+                 return; // STOP HERE. Do not play regular episode.
+             }
+        }
+    }
+
+    // 2️⃣ REGULAR SEASON (FALLBACK)
+    const weekliesPath = path.join(NETWORK_GRID, channel, 'weeklies');
     if (fs.existsSync(weekliesPath)) {
         const todaysShow = path.join(weekliesPath, TODAY);
         if (fs.existsSync(todaysShow)) {
-            console.log(`   ✅ SCHEDULE FOUND: ${TODAY}`);
+            console.log(`   ✅ REGULAR SCHEDULE: ${TODAY}`);
             
             // Read the script
             const files = fs.readdirSync(todaysShow);
@@ -35,7 +56,6 @@ CHANNELS.forEach(channel => {
                 console.log(`   📜 SCRIPT: ${script}`);
                 console.log(`   ⚙️  CONFIG: ${config}`);
                 console.log(`   🚀 ACTION: Broadcasting to Port 4070 (V-Caster)...`);
-                // In a real browser env, this would push WebSocket frames
             } else {
                 console.log(`   ⚠️  MISSING ASSETS: Script or Config not found.`);
             }
@@ -43,8 +63,7 @@ CHANNELS.forEach(channel => {
             console.log(`   💤 OFF-AIR: No programming for ${TODAY}. Switching to GLOBAL_AD_INSERTS loop.`);
         }
     } else {
-        console.log(`   ❌ ERROR: No 'weeklies' structure found. Auto-generating...`);
-        // Self-Healing Logic could go here
+        console.log(`   ❌ ERROR: No 'weeklies' structure found.`);
     }
 });
 
