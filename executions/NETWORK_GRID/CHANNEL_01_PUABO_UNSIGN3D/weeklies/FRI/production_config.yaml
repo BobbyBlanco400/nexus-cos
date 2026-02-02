@@ -1,0 +1,15 @@
+host: Bobby Blanco
+live_mic_code: N3XLIV3-PUABO424
+mode: Real Life
+stack: N3XSTR3AM + N3XUS v-COS
+franchise: 11th PUABO v-STUDIOS Franchise
+schedule:
+  MON: 60 min
+  WED: 60 min
+  FRI: 60 min
+  SAT: 120 min (Spotlight)
+systems:
+  v_prompter_lite: 3502
+  v_prompter_pro: 4071
+  v_caster_pro: 4070
+  stream_core: 4054

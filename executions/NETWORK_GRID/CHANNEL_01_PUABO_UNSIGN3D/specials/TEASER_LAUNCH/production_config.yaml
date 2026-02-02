@@ -1,0 +1,17 @@
+event_type: SPECIAL_TEASER
+title: "The Awakening"
+host: Bobby Blanco
+duration_min: 30
+mode: LIVE_TEST
+systems:
+  v_prompter: ACTIVE
+  v_caster: ACTIVE
+  stream_core: ACTIVE
+  meta_twin: STANDBY
+assets:
+  intro_music: "low_rumble_tension.mp3"
+  graphics: "n3xus_logo_overlay.png"
+  lower_thirds: "bobby_blanco_host.png"
+broadcast:
+  channel: CHANNEL_01
+  mic_code: N3XLIV3-TEASER
