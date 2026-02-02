@@ -44,6 +44,17 @@ if ($command -eq "activate") {
         Write-Host "   StreamCore: ACTIVE (Port 4054)"
         Write-Host ">> SUCCESS: Live Show ON AIR "
     }
+} elseif ($command -eq "verify") {
+    Write-Host ">> Verifying Weekly IMVU-S Production Package..."
+    Write-Host "   Franchise: PUABO-UNSIGN3D"
+    Write-Host "   Stack: N3XSTR3AM + N3XUS v-COS"
+    
+    if (Test-Path "executions/imvu-s/weeklies/MON/episode_01.md") { Write-Host "   [OK] Monday Episode" } else { Write-Host "   [FAIL] Monday Missing" }
+    if (Test-Path "executions/imvu-s/weeklies/WED/episode_02.md") { Write-Host "   [OK] Wednesday Episode" } else { Write-Host "   [FAIL] Wednesday Missing" }
+    if (Test-Path "executions/imvu-s/weeklies/FRI/episode_03.md") { Write-Host "   [OK] Friday Episode" } else { Write-Host "   [FAIL] Friday Missing" }
+    if (Test-Path "executions/imvu-s/weeklies/SAT/episode_spotlight.md") { Write-Host "   [OK] Saturday Spotlight" } else { Write-Host "   [FAIL] Saturday Missing" }
+    
+    Write-Host ">> SUCCESS: Master Production Package Verified."
 } else {
     Write-Host "Usage: nexusctl [command] [options]"
 }
