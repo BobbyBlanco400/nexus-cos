@@ -403,12 +403,21 @@
             });
 
             try {
-                // 2. Call Backend
                 const response = await fetch(`${API_URL}/spin`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ playerId: PLAYER_ID, bet: 10 })
                 });
+
+                // Check if response is OK and is JSON
+                const contentType = response.headers.get("content-type");
+                if (!response.ok || !contentType || !contentType.includes("application/json")) {
+                    // Try to get text for debugging
+                    const text = await response.text();
+                    console.error("Non-JSON Response:", text);
+                    throw new Error("Server returned invalid response (HTML instead of JSON). Service may be restarting.");
+                }
+
                 const data = await response.json();
 
                 // 3. Sequential Stop Animation (Vegas Style)
