@@ -435,7 +435,19 @@
         }
 
         function action(type) {
-            alert('Action: ' + type.toUpperCase() + ' submitted to Federation Server.');
+            // alert('Action: ' + type.toUpperCase() + ' submitted to Federation Server.');
+            
+            // Visual Feedback only (No Alert)
+            const btn = document.querySelector(`.action-btn.${type}`);
+            if(btn) {
+                const originalText = btn.innerText;
+                btn.innerText = "SENT...";
+                btn.style.opacity = "0.5";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.opacity = "1";
+                }, 1000);
+            }
         }
 
         function dealFlop() {
