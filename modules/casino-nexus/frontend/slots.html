@@ -160,14 +160,14 @@
             pointer-events: none;
         }
 
-        /* ANIMATION CLASS - TURBO BLUR & SCALE */
+        /* ANIMATION CLASS - VEGAS MOTION BLUR */
         .spinning {
-            filter: blur(8px) grayscale(50%);
-            transform: scale(0.85);
-            opacity: 0.7;
-            background: rgba(0,0,0,0.8) !important; /* Darken reel while spinning */
-            border: 2px solid var(--neon-blue);
-            transition: all 0.05s linear; /* Faster visual update */
+            filter: blur(4px); /* Realistic motion blur, not "ghostly" */
+            transform: scale(0.95);
+            opacity: 0.9;
+            background: rgba(0,0,0,0.5) !important; 
+            border: 2px solid var(--gold); /* Gold border while spinning */
+            transition: all 0.06s linear; 
         }
 
         /* DASHBOARD / CONTROLS */
@@ -393,13 +393,13 @@
             sounds.spin.currentTime = 0;
             sounds.spin.play().catch(() => {});
 
-            // 1. Start Visual Spin (Turbo Mode: 20ms)
-            // We use individual intervals so we can stop them one by one
+            // 1. Start Visual Spin (Ultra-Realistic Vegas Speed: 60ms)
+            // Modern IGT/Aristocrat machines spin at approx 10-15 symbols/sec
             const spinIntervals = reels.map((reel) => {
                 return setInterval(() => {
                     reel.textContent = getRandomSymbol();
                     reel.classList.add('spinning'); 
-                }, 20); // SUPER FAST (20ms)
+                }, 60); // 60ms = ~16 frames/sec (Smooth Blur)
             });
 
             try {
@@ -435,7 +435,7 @@
                             if (i === reels.length - 1) {
                                 handleResult(data);
                             }
-                        }, 400 + (i * 300)); // Base delay + 300ms per reel
+                        }, 200 + (i * 400)); // Adjusted Timing: 400ms delay per reel (Vegas Standard)
                     });
                 } else {
                     throw new Error("Invalid data");
