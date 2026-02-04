@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Poker Federation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --neon-purple: #bc13fe;
+            --neon-blue: #00f3ff;
+            --neon-red: #ff0055;
+            --neon-green: #00ff00;
+            --dark-bg: #0a0a12;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1) 0%, transparent 60%),
+                linear-gradient(0deg, #050505 0%, #101015 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* FEDERATION HEADER */
+        .federation-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #1a1a1a, #000);
+            border-bottom: 1px solid var(--gold);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            margin-right: 20px;
+        }
+        .back-link:hover { color: white; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        /* LOBBY TABLE LIST */
+        .lobby-panel {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--gold);
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 20px;
+            border-bottom: 1px solid #222;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .table-row:hover {
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .table-name {
+            font-weight: bold;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .stakes {
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .players {
+            color: #aaa;
+        }
+
+        .status {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .join-btn {
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .join-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .join-btn.full {
+            border-color: #444;
+            color: #444;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .join-btn.full:hover { background: transparent; color: #444; }
+
+
+        /* POKER TABLE VIEW */
+        .poker-room {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            height: calc(100vh - 70px);
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #1a2a1a 0%, #000 80%);
+        }
+
+        .poker-table {
+            width: 900px;
+            height: 450px;
+            background: #0b3d20;
+            border-radius: 250px;
+            border: 15px solid #3e2723;
+            position: relative;
+            box-shadow: 
+                inset 0 0 100px rgba(0,0,0,0.8),
+                0 0 0 5px #222,
+                0 0 50px rgba(0, 255, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .table-logo {
+            font-family: 'Cinzel', serif;
+            color: rgba(255,255,255,0.1);
+            font-size: 48px;
+            pointer-events: none;
+        }
+
+        .pot-display {
+            position: absolute;
+            top: 35%;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 15px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .community-cards {
+            position: absolute;
+            top: 50%;
+            display: flex;
+            gap: 10px;
+        }
+
+        .card {
+            width: 50px;
+            height: 75px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .card.red { color: #d00; }
+        .card.black { color: #000; }
+
+        .player-seat {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border: 2px solid #555;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .player-seat.active { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
+        .player-seat.opponent { border-color: var(--neon-red); }
+
+        .seat-name { font-size: 10px; color: #aaa; margin-top: 5px; }
+        .seat-chips { font-size: 10px; color: var(--gold); font-family: 'Orbitron'; }
+
+        /* Positioning Seats */
+        .seat-1 { bottom: -40px; left: 50%; transform: translateX(-50%); } /* User */
+        .seat-2 { bottom: 20px; left: -40px; }
+        .seat-3 { top: 20px; left: -40px; }
+        .seat-4 { top: -40px; left: 50%; transform: translateX(-50%); }
+        .seat-5 { top: 20px; right: -40px; }
+        .seat-6 { bottom: 20px; right: -40px; }
+
+        .action-bar {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            padding: 15px 40px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .action-btn.fold { border-color: var(--neon-red); color: var(--neon-red); }
+        .action-btn.check { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .action-btn.raise { border-color: var(--gold); color: var(--gold); background: rgba(255, 215, 0, 0.1); }
+
+        .action-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="federation-bar">
+        <div class="brand">
+            <a href="index.html" class="back-link">❮ LOBBY</a>
+            <span>♠️</span> NEXUS POKER FEDERATION
+        </div>
+        <div style="font-family:'Orbitron'; color:var(--gold);">
+            <span id="user-display">GUEST</span>
+        </div>
+    </div>
+
+    <!-- LOBBY VIEW -->
+    <div class="container" id="lobby-view">
+        <h1>Tournament Lobby</h1>
+        
+        <div class="lobby-panel">
+            <div class="table-header">
+                <div>TABLE DESIGNATION</div>
+                <div>STAKES (NC)</div>
+                <div>OCCUPANCY</div>
+                <div>STATUS</div>
+                <div>ACCESS</div>
+            </div>
+
+            <!-- Table Rows -->
+            <div class="table-row">
+                <div class="table-name">WHALE POD ALPHA</div>
+                <div class="stakes">5K / 10K</div>
+                <div class="players">5 / 6</div>
+                <div class="status" style="color:var(--neon-green)">ACTIVE</div>
+                <div><button class="join-btn" onclick="enterRoom('WHALE POD ALPHA', 5000)">JOIN</button></div>
+            </div>
+
+            <div class="table-row">
+                <div class="table-name">HIGH ROLLER II</div>
+                <div class="stakes">1K / 2K</div>
+                <div class="players">3 / 6</div>
+                <div class="status" style="color:var(--neon-green)">ACTIVE</div>
+                <div><button class="join-btn" onclick="enterRoom('HIGH ROLLER II', 1000)">JOIN</button></div>
+            </div>
+
+            <div class="table-row">
+                <div class="table-name">FEDERATION QUALIFIER</div>
+                <div class="stakes">100 / 200</div>
+                <div class="players">6 / 6</div>
+                <div class="status" style="color:var(--neon-red)">FULL</div>
+                <div><button class="join-btn full">LOCKED</button></div>
+            </div>
+
+            <div class="table-row">
+                <div class="table-name">PRACTICE ARENA</div>
+                <div class="stakes">10 / 20</div>
+                <div class="players">1 / 6</div>
+                <div class="status" style="color:#aaa">WAITING</div>
+                <div><button class="join-btn" onclick="enterRoom('PRACTICE ARENA', 10)">JOIN</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROOM VIEW -->
+    <div class="poker-room" id="room-view">
+        <div style="margin-bottom:20px; font-family:'Orbitron'; color:#aaa;">
+            <span id="room-title">TABLE NAME</span> // BLINDS: <span id="room-stakes">0</span>
+        </div>
+
+        <div class="poker-table">
+            <div class="table-logo">NEXUS</div>
+            
+            <div class="pot-display">POT: <span id="pot-size">0</span> NC</div>
+
+            <div class="community-cards" id="community-cards">
+                <!-- Cards will be dealt here -->
+                <div class="card" style="opacity:0.1"></div>
+                <div class="card" style="opacity:0.1"></div>
+                <div class="card" style="opacity:0.1"></div>
+            </div>
+
+            <!-- Seats -->
+            <div class="player-seat seat-1 active">
+                <div style="font-size:20px;">👤</div>
+                <div class="seat-name">YOU</div>
+                <div class="seat-chips">100k</div>
+                <!-- Hole Cards -->
+                <div style="position:absolute; top:-30px; display:flex; gap:5px;">
+                    <div class="card red" style="width:30px; height:45px; font-size:12px;">A♥</div>
+                    <div class="card black" style="width:30px; height:45px; font-size:12px;">K♠</div>
+                </div>
+            </div>
+
+            <div class="player-seat seat-2 opponent">
+                <div style="font-size:20px;">🤖</div>
+                <div class="seat-name">BOT-01</div>
+                <div class="seat-chips">45k</div>
+            </div>
+
+            <div class="player-seat seat-3 opponent">
+                <div style="font-size:20px;">🤖</div>
+                <div class="seat-name">BOT-02</div>
+                <div class="seat-chips">22k</div>
+            </div>
+            
+            <div class="player-seat seat-4 opponent" style="opacity:0.3; border-color:#333;">
+                <div style="font-size:20px; color:#333;">?</div>
+                <div class="seat-name">EMPTY</div>
+            </div>
+
+            <div class="player-seat seat-5 opponent">
+                <div style="font-size:20px;">🤖</div>
+                <div class="seat-name">BOT-03</div>
+                <div class="seat-chips">80k</div>
+            </div>
+
+             <div class="player-seat seat-6 opponent" style="opacity:0.3; border-color:#333;">
+                <div style="font-size:20px; color:#333;">?</div>
+                <div class="seat-name">EMPTY</div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="action-btn fold" onclick="leaveRoom()">FOLD / LEAVE</button>
+            <button class="action-btn check" onclick="action('check')">CHECK</button>
+            <button class="action-btn raise" onclick="action('raise')">RAISE 2BB</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        const userDisplay = document.getElementById('user-display');
+        const username = localStorage.getItem('nexus_user') || 'GUEST';
+        userDisplay.textContent = username;
+
+        function enterRoom(name, stakes) {
+            document.getElementById('lobby-view').style.display = 'none';
+            document.getElementById('room-view').style.display = 'flex';
+            document.getElementById('room-title').textContent = name;
+            document.getElementById('room-stakes').textContent = stakes;
+            
+            // Initial Animation
+            setTimeout(() => dealFlop(), 1000);
+        }
+
+        function leaveRoom() {
+            document.getElementById('room-view').style.display = 'none';
+            document.getElementById('lobby-view').style.display = 'block';
+            resetTable();
+        }
+
+        function action(type) {
+            // alert('Action: ' + type.toUpperCase() + ' submitted to Federation Server.');
+            
+            // Visual Feedback only (No Alert)
+            const btn = document.querySelector(`.action-btn.${type}`);
+            if(btn) {
+                const originalText = btn.innerText;
+                btn.innerText = "SENT...";
+                btn.style.opacity = "0.5";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.opacity = "1";
+                }, 1000);
+            }
+        }
+
+        function dealFlop() {
+            const cards = document.getElementById('community-cards');
+            cards.innerHTML = `
+                <div class="card red" style="animation: popIn 0.3s">10♦</div>
+                <div class="card black" style="animation: popIn 0.3s 0.1s backwards">J♣</div>
+                <div class="card red" style="animation: popIn 0.3s 0.2s backwards">7♥</div>
+            `;
+            document.getElementById('pot-size').textContent = "1,500";
+        }
+
+        function resetTable() {
+            const cards = document.getElementById('community-cards');
+            cards.innerHTML = `
+                <div class="card" style="opacity:0.1"></div>
+                <div class="card" style="opacity:0.1"></div>
+                <div class="card" style="opacity:0.1"></div>
+            `;
+            document.getElementById('pot-size').textContent = "0";
+        }
+
+        // Add style for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes popIn {
+                0% { transform: scale(0); opacity: 0; }
+                80% { transform: scale(1.1); opacity: 1; }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>
