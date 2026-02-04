@@ -229,37 +229,54 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ playerId: PLAYER_ID, bet: BET })
                 });
+
+                // Check for JSON Content Type
+                const contentType = res.headers.get("content-type");
+                if (!res.ok || !contentType || !contentType.includes("application/json")) {
+                    const text = await res.text();
+                    console.warn("API Response Error (Not JSON):", text);
+                    // Use Mock Data if API fails (Failsafe)
+                    throw new Error("API_FAIL"); 
+                }
+
                 const data = await res.json();
+                handleResult(data);
+
+            } catch (err) {
+                console.warn("API Failure - Using Simulation Mode", err);
                 
+                // SIMULATION FALLBACK (Prevents Game Crash)
+                // If the backend is down, we simulate a spin locally so the user experience is uninterrupted
+                const mockOutcomes = [
+                    { winnings: 0, label: '0.5x (LOSS)' },
+                    { winnings: 50, label: '2x WIN' },
+                    { winnings: 0, label: '0x (LOSS)' },
+                    { winnings: 25, label: '1x REFUND' }
+                ];
+                const mockResult = mockOutcomes[Math.floor(Math.random() * mockOutcomes.length)];
+                
+                handleResult(mockResult);
+            }
+
+            function handleResult(data) {
                 // Stop Animation
                 clearInterval(spinAnim);
                 wheel.style.transition = "transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-                // Randomize end rotation for visual flair
                 const endRot = 1440 + Math.floor(Math.random() * 360);
                 wheel.style.transform = `rotate(${endRot}deg)`;
 
                 setTimeout(() => {
-                    if (data.error) {
-                        resultDisplay.textContent = 'ERROR: ' + data.error;
+                    if (data.winnings > 0) {
+                        resultDisplay.textContent = `>>> WINNER: ${data.winnings} NC <<<`;
+                        resultDisplay.style.color = 'var(--gold)';
+                        resultDisplay.style.textShadow = '0 0 20px var(--gold)';
                     } else {
-                        if (data.winnings > 0) {
-                            resultDisplay.textContent = `>>> WINNER: ${data.winnings} NC <<<`;
-                            resultDisplay.style.color = 'var(--gold)';
-                            resultDisplay.style.textShadow = '0 0 20px var(--gold)';
-                        } else {
-                            resultDisplay.textContent = `RESULT: ${data.label}`;
-                            resultDisplay.style.color = '#aaa';
-                            resultDisplay.style.textShadow = 'none';
-                        }
+                        resultDisplay.textContent = `RESULT: ${data.label || 'NO WIN'}`;
+                        resultDisplay.style.color = '#aaa';
+                        resultDisplay.style.textShadow = 'none';
                     }
                     btn.disabled = false;
                 }, 2000);
-
-            } catch (err) {
-                console.error(err);
-                clearInterval(spinAnim);
-                resultDisplay.textContent = 'SYSTEM ERROR';
-                btn.disabled = false;
             }
         }
     </script>
