@@ -1,0 +1,6 @@
+:root { --gold: #d4af37; --obsidian: #0a0a0a; --glow: rgba(212, 175, 55, 0.4); }
+body { background: var(--obsidian) !important; color: #eee !important; font-family: sans-serif; border: 1px solid var(--gold); margin: 0; padding: 0; }
+.nc-balance, .portfolio-value, .jackpot-amount { color: var(--gold) !important; text-shadow: 0 0 12px var(--gold); font-weight: bold; }
+button, .action-btn { background: var(--gold) !important; color: #000 !important; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { box-shadow: 0 0 20px var(--glow); transform: scale(1.02); }
+.vault-box, .game-table { border: 1px solid var(--gold); background: #111; box-shadow: 0 0 15px rgba(0,0,0,0.5); }

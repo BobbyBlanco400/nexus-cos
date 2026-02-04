@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>N3X-RTC | SOVEREIGN CONSOLE</title>
+    <style>
+        body { margin: 0; background: #000; color: #0f0; font-family: monospace; overflow: hidden; }
+        #header { height: 40px; border-bottom: 1px solid #0f0; display: flex; align-items: center; padding: 0 20px; justify-content: space-between; }
+        #status { font-weight: bold; }
+        iframe { width: 100vw; height: calc(100vh - 40px); border: none; }
+    </style>
+<link rel=stylesheet href=/assets/css/sovereign-theme.css><script src=/assets/js/n3xus-core.js></script></head>
+<body>
+    <div id="header">
+        <span>N3XUS v-COS | n3x-rtc PHASE 12</span>
+        <span id="status">STATUS: SOVEREIGN RUNTIME (BRIDGED)</span>
+    </div>
+    
+    <!-- 
+        SOVEREIGN NOTE: 
+        Currently bridging to the canonical distribution. 
+        To go 100% AIR-GAPPED: Download VDO.Ninja source and extract to /public/ 
+        Then change src to "public/index.html"
+    -->
+    <iframe src="https://vdo.ninja/?clean&push=n3xus_director" allow="camera;microphone;display-capture;autoplay"></iframe>
+</body>
+</html>

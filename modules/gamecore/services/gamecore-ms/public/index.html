@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Virtual Soccer League</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #00ff88;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .status-panel {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .match-display {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .btn {
+            background-color: #00ff88;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #00cc6a;
+        }
+    </style>
+<link rel=stylesheet href=/assets/css/sovereign-theme.css><script src=/assets/js/n3xus-core.js></script></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nexus Virtual Soccer League</h1>
+            <p>Phase 2 Expansion - Live Match Engine</p>
+        </header>
+
+        <div class="status-panel">
+            <h2>League Status</h2>
+            <div id="status">Loading...</div>
+            <button class="btn" onclick="fetchStatus()">Refresh Status</button>
+        </div>
+
+        <div class="status-panel">
+            <h2>Active Federations</h2>
+            <div id="federations" class="match-display">Loading Federations...</div>
+        </div>
+
+        <div class="status-panel">
+            <h2>Live Match</h2>
+            <div class="match-display">
+                <span id="home-team">Nexus United</span>
+                vs
+                <span id="away-team">Cyber City FC</span>
+                <br>
+                <span style="font-size: 2em; color: #00ff88;">0 - 0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/league/status');
+                const data = await response.json();
+                document.getElementById('status').innerHTML = `
+                    <strong>Season:</strong> ${data.season}<br>
+                    <strong>Status:</strong> <span style="color: #00ff88">${data.status}</span><br>
+                    <strong>Matches Played:</strong> ${data.matches_played}<br>
+                    <strong>Federations:</strong> ${data.active_federations}
+                `;
+
+                const fedResponse = await fetch('/league/federations');
+                const fedData = await fedResponse.json();
+                const fedHtml = fedData.federations.map(f => `<div>${f.name} (Tier ${f.tier})</div>`).join('');
+                document.getElementById('federations').innerHTML = fedHtml;
+
+            } catch (error) {
+                document.getElementById('status').innerText = 'System Offline';
+                console.error('Error:', error);
+            }
+        }
+
+        // Initial load
+        fetchStatus();
+    </script>
+</body>
+</html>

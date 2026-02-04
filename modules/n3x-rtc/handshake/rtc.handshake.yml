@@ -1,0 +1,28 @@
+module: n3x-rtc
+type: rtc-signaling
+phase: 10
+
+handshake:
+  id: 55-45-17
+  enforcement: strict
+  scope:
+    - signaling
+    - session-negotiation
+
+constraints:
+  - no-third-party-runtime
+  - no-vps
+  - no-media-relay
+  - no-auth-authority
+
+audit:
+  provenance: required
+  immutable: true
+  replayable: true
+
+future:
+  phase_11:
+    - media-routing
+    - spatial-streams
+  phase_12:
+    - full broadcast fabric

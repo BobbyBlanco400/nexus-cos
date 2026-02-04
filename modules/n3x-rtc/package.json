@@ -1,0 +1,21 @@
+{
+  "name": "n3x-rtc",
+  "version": "1.0.0",
+  "description": "N3XUS Real-Time Communication Module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nexus",
+    "rtc",
+    "webrtc",
+    "signaling"
+  ],
+  "author": "N3XUS COS",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.13.0"
+  }
+}
