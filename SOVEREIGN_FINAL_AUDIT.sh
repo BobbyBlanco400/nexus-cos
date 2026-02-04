@@ -22,8 +22,8 @@ pm2 list | grep -E "nexus-app|creator-hub|puaboverse|v-suite|vr-world-ms"
 echo -e "\n\e[34m--- PORT READINESS ---\e[0m"
 PORTS=(4070 8088 4071 4055 3050)
 for port in "${PORTS[@]}"; do
-    (echo > /dev/tcp/127.0.0.1/$port) >/dev/null 2>&1 && STATUS="\e[32m[READY]\e[0m" || STATUS="\e[31m[WAITING]\e[0m"
-    echo -e "Port $port: $STATUS"
+    (echo > /dev/tcp/127.0.0.1/$port) >/dev/null 2>&1 && STATUS="\e[32m[READY]\e[0m" || STATUS="\e[31m[WAITING]\e[0m" 
+    echo -e "Port $port: $STATUS" 
 done
 
 echo -e "\n\e[35m--- AUDIT COMPLETE: AWAITING GEMINI SIGN-OFF ---\e[0m"
