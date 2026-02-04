@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21X Blackjack Federation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --neon-purple: #bc13fe;
+            --neon-blue: #00f3ff;
+            --neon-green: #00ff00;
+            --neon-red: #ff0055;
+            --dark-bg: #0a0a12;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 50% 100%, rgba(0, 255, 0, 0.1) 0%, transparent 60%),
+                linear-gradient(0deg, #050505 0%, #101015 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* FEDERATION HEADER */
+        .federation-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #1a1a1a, #000);
+            border-bottom: 1px solid var(--gold);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            margin-right: 20px;
+        }
+        .back-link:hover { color: white; }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .game-table {
+            background: #0f3460;
+            background-image: radial-gradient(circle at 50% 50%, #1a4a2e 0%, #0a2a1a 100%);
+            border-radius: 150px;
+            padding: 60px;
+            box-shadow: 
+                inset 0 0 100px rgba(0,0,0,0.8),
+                0 0 0 15px #3e2723,
+                0 0 0 20px #222,
+                0 0 50px rgba(0, 255, 0, 0.2);
+            border: 2px solid var(--gold);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .table-logo {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-size: 64px;
+            color: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .hand-area {
+            margin-bottom: 30px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hand-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            min-height: 140px;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100px;
+            height: 150px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            animation: deal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes deal {
+            from { transform: translateY(-200px) rotateY(180deg) scale(0.5); opacity: 0; }
+            to { transform: translateY(0) rotateY(0) scale(1); opacity: 1; }
+        }
+
+        .card.red { color: #c41e3a; }
+        .card.black { color: #000; }
+
+        .card.hidden {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid var(--gold);
+        }
+        .card.hidden::after {
+            content: "⚜";
+            color: var(--gold);
+            font-size: 40px;
+        }
+
+        .score-bubble {
+            background: var(--gold);
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: -10px;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 16px;
+            font-family: 'Orbitron', sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #111;
+            color: #fff;
+        }
+
+        .btn-hit { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .btn-hit:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 20px var(--neon-blue); }
+
+        .btn-stand { border-color: var(--neon-red); color: var(--neon-red); }
+        .btn-stand:hover { background: var(--neon-red); color: #fff; box-shadow: 0 0 20px var(--neon-red); }
+
+        .btn-start {
+            background: linear-gradient(45deg, var(--gold), #ffaa00);
+            color: #000;
+            border: none;
+            font-size: 20px;
+            padding: 20px 60px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(255, 215, 0, 0.5); }
+
+        .status-message {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin: 20px 0;
+            min-height: 36px;
+            color: var(--gold);
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            z-index: 10;
+        }
+
+        .bet-info {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- HEADER -->
+    <div class="federation-bar">
+        <div class="brand">
+            <a href="index.html" class="back-link">❮ LOBBY</a>
+            <span>🃏</span> 21X BLACKJACK FEDERATION
+        </div>
+        <div style="font-family:'Orbitron'; color:var(--gold);">
+            <span id="user-display">GUEST</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="game-table">
+            <div class="table-logo">NEXUS 21</div>
+
+            <div class="bet-info">
+                <span>BET:</span>
+                <span id="bet-amount" style="color:white; font-size:1.2em;">100</span> NC
+            </div>
+
+            <!-- Dealer Area -->
+            <div class="hand-area">
+                <div class="hand-title">HOUSE DEALER</div>
+                <div class="cards" id="dealer-cards">
+                    <div class="card hidden"></div>
+                    <div class="card hidden"></div>
+                </div>
+                <div class="score-bubble" id="dealer-score">?</div>
+            </div>
+
+            <div class="status-message" id="status-message">WAITING FOR WAGER...</div>
+
+            <!-- Player Area -->
+            <div class="hand-area">
+                <div class="hand-title">PLAYER HAND</div>
+                <div class="cards" id="player-cards"></div>
+                <div class="score-bubble" id="player-score">0</div>
+            </div>
+
+            <div class="controls" id="game-controls" style="display:none;">
+                <button class="btn-hit" onclick="hit()">HIT CARD</button>
+                <button class="btn-stand" onclick="stand()">STAND</button>
+            </div>
+            
+            <div class="controls" id="start-controls">
+                <button class="btn-start" onclick="startGame()">DEAL HAND</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        const API_URL = `${CONFIG.SKILL_GAMES_API}/games/21x-blackjack`;
+        let currentGameId = null;
+        const PLAYER_ID = localStorage.getItem('nexus_user') || 'GUEST_PLAYER';
+        const DEFAULT_BET = 100;
+
+        // UI Elements
+        document.getElementById('user-display').textContent = PLAYER_ID;
+        const dealerCardsEl = document.getElementById('dealer-cards');
+        const playerCardsEl = document.getElementById('player-cards');
+        const dealerScoreEl = document.getElementById('dealer-score');
+        const playerScoreEl = document.getElementById('player-score');
+        const statusMessageEl = document.getElementById('status-message');
+        const gameControls = document.getElementById('game-controls');
+        const startControls = document.getElementById('start-controls');
+        const hitBtn = document.querySelector('.btn-hit');
+        const standBtn = document.querySelector('.btn-stand');
+
+        function init() {
+            resetBoard();
+            toggleControls(false);
+        }
+
+        function resetBoard() {
+            dealerCardsEl.innerHTML = '<div class="card hidden"></div><div class="card hidden"></div>';
+            playerCardsEl.innerHTML = '';
+            dealerScoreEl.textContent = '?';
+            playerScoreEl.textContent = '0';
+            statusMessageEl.textContent = 'WAITING FOR WAGER...';
+            statusMessageEl.style.color = 'var(--gold)';
+            startControls.style.display = 'flex';
+            gameControls.style.display = 'none';
+        }
+
+        function toggleControls(active) {
+            if (active) {
+                startControls.style.display = 'none';
+                gameControls.style.display = 'flex';
+                hitBtn.disabled = false;
+                standBtn.disabled = false;
+            } else {
+                startControls.style.display = 'flex';
+                gameControls.style.display = 'none';
+            }
+        }
+
+        function renderCard(card) {
+            const el = document.createElement('div');
+            el.className = `card ${['H', 'D'].includes(card.suit) ? 'red' : 'black'}`;
+            
+            if (card.value === '?') {
+                el.className += ' hidden';
+            } else {
+                const suitSymbols = { 'H': '♥', 'D': '♦', 'C': '♣', 'S': '♠' };
+                el.textContent = `${card.value}${suitSymbols[card.suit]}`;
+            }
+            return el;
+        }
+
+        function updateState(state) {
+            currentGameId = state.gameId;
+
+            // Update Status
+            statusMessageEl.textContent = state.message.toUpperCase();
+
+            // Update Hands
+            dealerCardsEl.innerHTML = '';
+            state.dealerHand.forEach(card => {
+                dealerCardsEl.appendChild(renderCard(card));
+            });
+
+            playerCardsEl.innerHTML = '';
+            state.playerHand.forEach(card => {
+                playerCardsEl.appendChild(renderCard(card));
+            });
+
+            // Update Scores
+            dealerScoreEl.textContent = state.dealerScore;
+            playerScoreEl.textContent = state.playerScore;
+
+            // Check Game Status
+            if (state.status !== 'active') {
+                toggleControls(false);
+                if (state.winnings > 0) {
+                    statusMessageEl.textContent += ` (+${state.winnings} NC)`;
+                    statusMessageEl.style.color = 'var(--neon-green)';
+                } else if (state.message.includes('Bust') || state.message.includes('Lose')) {
+                    statusMessageEl.style.color = 'var(--neon-red)';
+                }
+            } else {
+                toggleControls(true);
+                statusMessageEl.style.color = 'var(--gold)';
+            }
+        }
+
+        async function startGame() {
+            try {
+                const res = await fetch(`${API_URL}/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: PLAYER_ID, bet: DEFAULT_BET })
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                updateState(data);
+            } catch (err) {
+                console.error(err);
+                statusMessageEl.textContent = 'SYSTEM ERROR: CONNECTION FAILED';
+                statusMessageEl.style.color = 'red';
+            }
+        }
+
+        async function hit() {
+            try {
+                const res = await fetch(`${API_URL}/hit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ gameId: currentGameId })
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                updateState(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function stand() {
+            try {
+                const res = await fetch(`${API_URL}/stand`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ gameId: currentGameId })
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                updateState(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>

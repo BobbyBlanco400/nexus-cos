@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Casino World - Federation Link</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --neon-green: #00ff00;
+            --neon-blue: #00f3ff;
+            --dark-bg: #0a0a12;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FEDERATION HEADER */
+        .federation-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #1a1a1a, #000);
+            border-bottom: 1px solid var(--neon-green);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            margin-right: 20px;
+        }
+        .back-link:hover { color: white; }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .monitor {
+            border: 2px solid var(--neon-green);
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.1), inset 0 0 100px rgba(0, 20, 0, 0.8);
+            background: rgba(0, 10, 0, 0.9);
+            position: relative;
+        }
+
+        .monitor::before {
+            content: "SYSTEM LINK ESTABLISHED";
+            position: absolute;
+            top: -15px; left: 50%; transform: translateX(-50%);
+            background: #000;
+            padding: 0 20px;
+            color: var(--neon-green);
+            font-family: 'Orbitron';
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'Orbitron';
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            border: 1px solid #004400;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 50, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            font-family: 'Orbitron';
+            font-size: 10px;
+            color: #00aa00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+            font-family: 'Orbitron';
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .control-panel {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #004400;
+            padding-top: 30px;
+        }
+
+        #launch-btn {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            padding: 20px 50px;
+            font-family: 'Orbitron';
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        #launch-btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.6);
+        }
+
+        #launch-btn:disabled {
+            filter: grayscale(1);
+            cursor: not-allowed;
+        }
+
+        .blink { animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="federation-bar">
+        <div class="brand">
+            <a href="index.html" class="back-link">❮ LOBBY</a>
+            <span>🏙️</span> VR METAVERSE LINK
+        </div>
+        <div style="font-family:'Orbitron'; color:var(--neon-green);">
+            SECURE CHANNEL: 9505
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="monitor">
+            <h1>VR World Control <span class="blink">●</span></h1>
+            <p style="text-align: center; color:#00aa00; font-family:'Orbitron'; font-size:12px;">Connected to Unreal Engine 5 Server (Port 9505)</p>
+    
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Active Sector</div>
+                    <div class="stat-value" id="world-name">INITIALIZING...</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Citizens Online</div>
+                    <div class="stat-value" id="player-count">--</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Link Status</div>
+                    <div class="stat-value" id="server-status">SCANNING</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Render Load</div>
+                    <div class="stat-value">12%</div>
+                </div>
+            </div>
+    
+            <div class="control-panel">
+                <p style="color:#00aa00; font-size:12px; margin-bottom:10px;">Requires Installed Desktop Client v5.0+</p>
+                <button id="launch-btn" onclick="launchClient()">INITIATE VR CLIENT</button>
+                <p id="launch-status" style="margin-top: 20px; font-family:'Orbitron'; font-size: 14px; height:20px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        const API_URL = CONFIG.VR_WORLD_API;
+
+        async function launchClient() {
+            const btn = document.getElementById('launch-btn');
+            const status = document.getElementById('launch-status');
+            
+            btn.disabled = true;
+            btn.innerHTML = "EXECUTING SCRIPT...";
+            status.textContent = ">> SENDING LAUNCH COMMAND TO LOCAL SHELL...";
+            status.style.color = "#00ff00";
+
+            try {
+                const response = await fetch(`${CONFIG.VR_WORLD_API}/client/launch`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = ">> SUCCESS: CLIENT PROCESS SPAWNED. CHECK TASKBAR.";
+                    setTimeout(() => {
+                        btn.textContent = "INITIATE VR CLIENT";
+                        btn.disabled = false;
+                    }, 5000);
+                } else {
+                    throw new Error(data.message || 'Launch failed');
+                }
+            } catch (error) {
+                console.error(error);
+                status.textContent = ">> ERROR: " + error.message;
+                status.style.color = "red";
+                btn.textContent = "INITIATE VR CLIENT";
+                btn.disabled = false;
+            }
+        }
+
+        async function fetchStats() {
+            try {
+                const response = await fetch(`${API_URL}/worlds/casino-nexus-city`);
+                const data = await response.json();
+                
+                document.getElementById('world-name').textContent = 'CASINO CITY';
+                document.getElementById('player-count').textContent = data.activePlayers || 42; 
+                document.getElementById('server-status').textContent = 'ONLINE';
+                document.getElementById('server-status').style.color = '#00ff00';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('server-status').textContent = 'OFFLINE';
+                document.getElementById('server-status').style.color = 'red';
+            }
+        }
+
+        fetchStats();
+        setInterval(fetchStats, 5000); // Live updates
+    </script>
+</body>
+</html>

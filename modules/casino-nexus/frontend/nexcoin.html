@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexCoin Vault - Federation Reserve</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --neon-blue: #00f3ff;
+            --dark-bg: #0a0a12;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%),
+                linear-gradient(0deg, #050505 0%, #101015 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FEDERATION HEADER */
+        .federation-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #1a1a1a, #000);
+            border-bottom: 1px solid var(--gold);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            margin-right: 20px;
+        }
+        .back-link:hover { color: white; }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .vault-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 
+                0 0 0 5px #222,
+                0 0 0 10px var(--gold),
+                0 0 50px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vault-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--gold), #fff, var(--gold));
+        }
+
+        .balance-header { 
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em; 
+            color: #888; 
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .balance-amount { 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em; 
+            font-weight: 900; 
+            color: var(--gold); 
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .token-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .token-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+        .info-row:last-child { border-bottom: none; }
+
+        .info-label { color: #888; }
+        .info-value { color: #fff; font-family: 'Orbitron', sans-serif; }
+
+        .secure-badge {
+            text-align: center;
+            margin-top: 30px;
+            color: #444;
+            font-size: 10px;
+            font-family: 'Orbitron';
+            letter-spacing: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="federation-bar">
+        <div class="brand">
+            <a href="index.html" class="back-link">❮ LOBBY</a>
+            <span>💰</span> NEXCOIN RESERVE
+        </div>
+        <div style="font-family:'Orbitron'; color:var(--gold);">
+            VAULT STATUS: SECURE
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="vault-card">
+            <div class="balance-header">ESTIMATED PORTFOLIO VALUE</div>
+            <div class="balance-amount">LOADING...</div>
+            
+            <div class="token-info">
+                <h3>System Tokenomics // Live Chain Data</h3>
+                <div id="stats-container">
+                    <div style="text-align:center; color:#555;">Connecting to Blockchain Node...</div>
+                </div>
+            </div>
+
+            <div class="secure-badge">🔒 ENCRYPTED FEDERATION LEDGER // 256-BIT SECURE</div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        const API_URL = CONFIG.NEXCOIN_API;
+
+        async function fetchTokenomics() {
+            try {
+                const response = await fetch(`${API_URL}/tokenomics`);
+                const data = await response.json();
+                
+                // Update Balance (Simulated for demo view)
+                document.querySelector('.balance-amount').textContent = "1,000,000 NC";
+                
+                // Update Stats
+                const container = document.getElementById('stats-container');
+                container.innerHTML = `
+                    <div class="info-row">
+                        <span class="info-label">ASSET TICKER</span>
+                        <span class="info-value">${data.ticker || 'NEX'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">TOTAL CIRCULATION</span>
+                        <span class="info-value">${(data.totalSupply || 0).toLocaleString()}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">BLOCKCHAIN NET</span>
+                        <span class="info-value">${data.blockchain || 'N3XUS-CHAIN'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">DEFLATIONARY MECH</span>
+                        <span class="info-value">${data.deflationMechanism || 'BURN_ON_LOSS'}</span>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                document.querySelector('.balance-amount').textContent = "OFFLINE";
+                document.querySelector('.balance-amount').style.color = "red";
+                document.getElementById('stats-container').innerHTML = `<div style="text-align:center; color:red;">CONNECTION FAILED</div>`;
+            }
+        }
+
+        fetchTokenomics();
+    </script>
+</body>
+</html>

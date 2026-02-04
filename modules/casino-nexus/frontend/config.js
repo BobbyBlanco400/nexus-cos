@@ -10,11 +10,11 @@ let CONFIG = {};
 if (HOST === 'n3xuscos.online' || HOST === 'www.n3xuscos.online') {
     // PRODUCTION CONFIGURATION (Sovereign Mesh)
     CONFIG = {
-        NEXCOIN_API: `https://n3xuscos.online/api/nexcoin`,
-        SKILL_GAMES_API: `https://n3xuscos.online/api/skill-games`,
-        NFT_API: `https://n3xuscos.online/api/nft`,
-        VR_WORLD_API: `https://n3xuscos.online/api/vr-world`,
-        REWARDS_API: `https://n3xuscos.online/api/rewards`
+        NEXCOIN_API: `https://n3xuscos.online/api/nexcoin/api`,
+        SKILL_GAMES_API: `https://n3xuscos.online/api/skill-games/api`,
+        NFT_API: `https://n3xuscos.online/api/nft/api`,
+        VR_WORLD_API: `https://n3xuscos.online/api/vr-world/api`,
+        REWARDS_API: `https://n3xuscos.online/api/rewards/api`
     };
     console.log('🔒 PRODUCTION MODE DETECTED: Using Secure Sovereign APIs');
 } else {
