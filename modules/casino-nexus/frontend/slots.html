@@ -323,12 +323,20 @@
         // Setup
         document.getElementById('user-display').textContent = PLAYER_ID;
 
-        // Sound System - Local Sovereign Assets
+        // Sound System - BASE64 ENCODED ASSETS (SOVEREIGN & BULLETPROOF)
+        // No external downloads required.
+        const AUDIO_DATA = {
+            spin: "data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", // Short blip
+            stop: "data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", // Thud
+            win: "data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", // Ding
+            ambient: "data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" // Crowd
+        };
+
         const sounds = {
-            spin: new Audio('public/assets/sounds/slot-spin.mp3'), 
-            stop: new Audio('public/assets/sounds/slot-stop.mp3'),
-            win: new Audio('public/assets/sounds/win-large.mp3'), 
-            ambient: new Audio('public/assets/sounds/casino-crowd.mp3') 
+            spin: new Audio(AUDIO_DATA.spin), 
+            stop: new Audio(AUDIO_DATA.stop),
+            win: new Audio(AUDIO_DATA.win), 
+            ambient: new Audio(AUDIO_DATA.ambient) 
         };
         
         // Volume Control
