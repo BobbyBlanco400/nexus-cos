@@ -160,12 +160,14 @@
             pointer-events: none;
         }
 
-        /* ANIMATION CLASS */
+        /* ANIMATION CLASS - TURBO BLUR & SCALE */
         .spinning {
-            filter: blur(5px) grayscale(100%);
-            transform: scale(0.90);
-            transition: all 0.1s;
-            opacity: 0.8;
+            filter: blur(8px) grayscale(50%);
+            transform: scale(0.85);
+            opacity: 0.7;
+            background: rgba(0,0,0,0.8) !important; /* Darken reel while spinning */
+            border: 2px solid var(--neon-blue);
+            transition: all 0.05s linear; /* Faster visual update */
         }
 
         /* DASHBOARD / CONTROLS */
@@ -391,13 +393,13 @@
             sounds.spin.currentTime = 0;
             sounds.spin.play().catch(() => {});
 
-            // 1. Start Visual Spin (Turbo Mode: 50ms)
+            // 1. Start Visual Spin (Turbo Mode: 20ms)
             // We use individual intervals so we can stop them one by one
             const spinIntervals = reels.map((reel) => {
                 return setInterval(() => {
                     reel.textContent = getRandomSymbol();
                     reel.classList.add('spinning'); 
-                }, 50); // Faster spin speed
+                }, 20); // SUPER FAST (20ms)
             });
 
             try {
