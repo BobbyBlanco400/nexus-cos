@@ -19,9 +19,17 @@
 <body>
     <div style="text-align: center;">
         <h1 class="glitch">REMOTE MIC BRIDGE</h1>
-        <div class="controls">
-            <button class="btn" onclick="initAudio()">1. START SYSTEM</button>
-            <button class="btn" style="border-color: var(--neon-pink); color: var(--neon-pink);" onclick="connectMic()">2. CONNECT PHONE MIC</button>
+        <div class="controls" style="flex-direction: column; align-items: center;">
+            <div style="margin-bottom: 10px;">
+                <select id="audioSource" class="btn" style="border-color: #fff; color: #fff; max-width: 300px; padding: 10px;">
+                    <option value="">Detecting Microphones...</option>
+                </select>
+                <button class="btn" style="padding: 10px;" onclick="getDevices()">↻</button>
+            </div>
+            <div style="display: flex; gap: 20px;">
+                <button class="btn" onclick="initAudio()">1. START SYSTEM</button>
+                <button class="btn" style="border-color: var(--neon-pink); color: var(--neon-pink);" onclick="connectMic()">2. CONNECT SELECTED MIC</button>
+            </div>
         </div>
         <div id="status" style="margin-top: 1rem; color: #aaa;">READY FOR HANDSHAKE</div>
         <div id="mic-monitor"><div id="mic-level"></div></div>
@@ -29,13 +37,55 @@
 
     <script>
         let audioCtx, analyzer;
+        
+        async function getDevices() {
+            try {
+                // Request permission first to ensure we get labels
+                await navigator.mediaDevices.getUserMedia({ audio: true }).then(s => s.getTracks().forEach(t => t.stop())).catch(e => console.log("Perm check"));
+                
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioSelect = document.getElementById('audioSource');
+                audioSelect.innerHTML = '';
+                
+                const audioInputs = devices.filter(device => device.kind === 'audioinput');
+                
+                if (audioInputs.length === 0) {
+                     const option = document.createElement('option');
+                     option.text = "No microphones found";
+                     audioSelect.appendChild(option);
+                     return;
+                }
+
+                audioInputs.forEach(deviceInfo => {
+                    const option = document.createElement('option');
+                    option.value = deviceInfo.deviceId;
+                    option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
+                    audioSelect.appendChild(option);
+                });
+            } catch (e) {
+                console.error("Error fetching devices:", e);
+                const audioSelect = document.getElementById('audioSource');
+                audioSelect.innerHTML = '<option>Error detecting devices</option>';
+            }
+        }
+        
+        window.onload = getDevices;
+
         async function initAudio() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             document.getElementById('status').innerText = "SYSTEM ONLINE - WAITING FOR MIC";
+            // Refresh devices in case permissions changed
+            getDevices();
         }
         async function connectMic() {
             if (!audioCtx) await initAudio();
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            
+            const audioSource = document.getElementById('audioSource').value;
+            const constraints = {
+                audio: { deviceId: audioSource ? { exact: audioSource } : undefined }
+            };
+            
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             const source = audioCtx.createMediaStreamSource(stream);
             
             // SHURE MV7 PROCESSING
