@@ -30,13 +30,16 @@
                 <button class="btn" onclick="initAudio()">1. START SYSTEM</button>
                 <button class="btn" style="border-color: var(--neon-pink); color: var(--neon-pink);" onclick="connectMic()">2. CONNECT SELECTED MIC</button>
             </div>
+            <div style="margin-top: 10px;">
+                <button class="btn" style="border-color: #00ff00; color: #00ff00; padding: 10px;" onclick="toggleOutput()">3. ENABLE AUDIO OUTPUT</button>
+            </div>
         </div>
         <div id="status" style="margin-top: 1rem; color: #aaa;">READY FOR HANDSHAKE</div>
         <div id="mic-monitor"><div id="mic-level"></div></div>
     </div>
 
     <script>
-        let audioCtx, analyzer;
+        let audioCtx, analyzer, outGain;
         
         async function getDevices() {
             try {
@@ -96,6 +99,12 @@
             analyzer = audioCtx.createAnalyser();
             source.connect(hp).connect(boost).connect(comp).connect(analyzer);
             
+            // Output path (Muted by default to prevent feedback)
+            outGain = audioCtx.createGain();
+            outGain.gain.value = 0;
+            comp.connect(outGain);
+            outGain.connect(audioCtx.destination);
+            
             document.getElementById('status').innerText = "MIC CONNECTED - BROADCASTING";
             updateLevel();
             
@@ -107,6 +116,18 @@
                 }
             }, 1500);
         }
+
+        function toggleOutput() {
+            if(!outGain) return alert("Connect Mic First!");
+            if(outGain.gain.value === 0) {
+                outGain.gain.value = 1;
+                alert("AUDIO OUTPUT ENABLED. If you hear feedback, mute immediately.");
+            } else {
+                outGain.gain.value = 0;
+                alert("AUDIO OUTPUT MUTED.");
+            }
+        }
+
         function updateLevel() {
             const data = new Uint8Array(analyzer.frequencyBinCount);
             analyzer.getByteFrequencyData(data);
