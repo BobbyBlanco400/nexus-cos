@@ -13,6 +13,11 @@ app.use(express.json());
 // Serve static files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Explicit Route for Live Studio - Bypass static fallback
+app.get('/studio-v1', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'live-studio.html'));
+});
+
 // X-Nexus-Handshake Header Middleware - Line 201 equivalent
 // This middleware adds the security handshake header to all responses
 app.use((req, res, next) => {
