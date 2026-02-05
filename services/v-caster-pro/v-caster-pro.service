@@ -1,0 +1,15 @@
+[Unit]
+Description=N3XUS V-Caster Pro Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/nexus-cos/services/v-caster-pro
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+Environment=PORT=3047
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
