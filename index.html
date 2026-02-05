@@ -201,18 +201,32 @@
 
         async function getMics() {
             try {
-                await navigator.mediaDevices.getUserMedia({ audio: true }); // Request perm
+                await navigator.mediaDevices.getUserMedia({ audio: true }); // Request GENERIC perm first
+                
+                // Get fresh list
                 const devices = await navigator.mediaDevices.enumerateDevices();
                 const inputs = devices.filter(d => d.kind === 'audioinput');
                 const select = document.getElementById('micSelect');
                 select.innerHTML = '';
                 
+                if(inputs.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.text = "NO MICS FOUND - CHECK WINDOWS SETTINGS";
+                    select.appendChild(opt);
+                    return;
+                }
+
                 inputs.forEach(d => {
                     const opt = document.createElement('option');
                     opt.value = d.deviceId;
-                    opt.text = d.label || `Mic ${select.length + 1}`;
+                    opt.text = d.label || `Microphone ${select.length + 1}`;
                     select.appendChild(opt);
                 });
+
+                // Auto-select the first one
+                select.value = inputs[0].deviceId;
+                alert("Devices Found: " + inputs.length + "\nSelected: " + inputs[0].label);
+
             } catch(e) { 
                 console.error(e); 
                 alert("Device Scan Error: " + e.message + "\n\nPlease ensure you clicked 'Allow' for microphone permissions.");
