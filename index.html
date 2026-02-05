@@ -181,11 +181,13 @@
                 <span class="status-led" id="led"></span> STUDIO CONTROL
             </div>
             
+            <button class="btn-live" style="margin-bottom: 10px; border-color: #00f3ff; color: #00f3ff;" onclick="getMics()">1. SCAN DEVICES</button>
+
             <select id="micSelect" class="mic-select">
-                <option value="">Detecting Mics...</option>
+                <option value="">Step 1: Click Scan Devices</option>
             </select>
 
-            <button class="btn-live" id="goLiveBtn" onclick="toggleLive()">GO LIVE (MIC ON)</button>
+            <button class="btn-live" id="goLiveBtn" onclick="toggleLive()">2. GO LIVE (MIC ON)</button>
             
             <div class="vu-meter"><div class="vu-bar" id="vuBar"></div></div>
             <div style="color:#666; font-size:10px; margin-top:5px;">AUDIO OUTPUT: SYSTEM DEFAULT</div>
@@ -211,10 +213,14 @@
                     opt.text = d.label || `Mic ${select.length + 1}`;
                     select.appendChild(opt);
                 });
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e); 
+                alert("Device Scan Error: " + e.message + "\n\nPlease ensure you clicked 'Allow' for microphone permissions.");
+            }
         }
 
-        getMics();
+        // Removed auto-execution. User must click.
+        // getMics();
 
         async function toggleLive() {
             const btn = document.getElementById('goLiveBtn');
