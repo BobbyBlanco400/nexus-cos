@@ -6,7 +6,12 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3047;
 
+const path = require('path');
+
 app.use(express.json());
+
+// Serve static files from 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // X-Nexus-Handshake Header Middleware - Line 201 equivalent
 // This middleware adds the security handshake header to all responses
