@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino N3XUS - LIVE STUDIO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --dark-glass: rgba(0, 0, 0, 0.85);
+            --live-red: #ff0000;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- STUDIO CONTAINER --- */
+        .studio-container {
+            width: 1920px;
+            height: 1080px;
+            position: relative;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        /* --- VISUAL OVERLAY LAYER (Copied from Silent Launch) --- */
+        .overlay-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through */
+            z-index: 10;
+        }
+
+        .pinned-comment {
+            position: absolute;
+            bottom: 250px;
+            left: 50px;
+            width: 400px;
+            background: var(--dark-glass);
+            border-left: 4px solid var(--gold);
+            padding: 20px;
+            border-radius: 8px;
+            color: #fff;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .lower-third-container {
+            position: absolute;
+            bottom: 80px;
+            left: 50px;
+        }
+
+        .lt-bar {
+            height: 80px;
+            background: linear-gradient(90deg, #000 0%, #1a1a1a 100%);
+            border-left: 6px solid var(--neon-purple);
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 400px;
+            color: white;
+        }
+
+        .lt-title { font-family: 'Cinzel', serif; font-size: 24px; color: #fff; }
+        .lt-subtitle { font-family: 'Orbitron', sans-serif; font-size: 14px; color: var(--neon-blue); letter-spacing: 4px; }
+
+        /* --- AUDIO CONTROLS LAYER --- */
+        .audio-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--gold);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .status-led {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .status-led.live { background: var(--live-red); box-shadow: 0 0 15px var(--live-red); }
+
+        .btn-live {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-live:hover { background: var(--gold); color: #000; }
+        
+        .mic-select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+        }
+
+        .vu-meter {
+            width: 100%;
+            height: 10px;
+            background: #333;
+            margin-top: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .vu-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, lime, yellow, red);
+            transition: width 0.05s linear;
+        }
+
+        @keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="studio-container">
+        <!-- VISUALS -->
+        <div class="overlay-layer">
+            <div class="pinned-comment">
+                <div style="color:var(--gold); font-weight:bold; margin-bottom:5px;">📌 HOST MESSAGE</div>
+                Welcome to the N3XUS Live Studio.<br>
+                Mic is active. Visuals are ready.
+            </div>
+
+            <div class="lower-third-container">
+                <div class="lt-bar">
+                    <div class="lt-title">CASINO N3XUS</div>
+                    <div class="lt-subtitle">LIVE BROADCAST</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="audio-controls">
+            <div style="margin-bottom:15px; font-family:'Orbitron'; color:white;">
+                <span class="status-led" id="led"></span> STUDIO CONTROL
+            </div>
+            
+            <select id="micSelect" class="mic-select">
+                <option value="">Detecting Mics...</option>
+            </select>
+
+            <button class="btn-live" id="goLiveBtn" onclick="toggleLive()">GO LIVE (MIC ON)</button>
+            
+            <div class="vu-meter"><div class="vu-bar" id="vuBar"></div></div>
+            <div style="color:#666; font-size:10px; margin-top:5px;">AUDIO OUTPUT: SYSTEM DEFAULT</div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx, source, analyzer, gainNode;
+        let isLive = false;
+        let animationId;
+
+        async function getMics() {
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true }); // Request perm
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const inputs = devices.filter(d => d.kind === 'audioinput');
+                const select = document.getElementById('micSelect');
+                select.innerHTML = '';
+                
+                inputs.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.deviceId;
+                    opt.text = d.label || `Mic ${select.length + 1}`;
+                    select.appendChild(opt);
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        getMics();
+
+        async function toggleLive() {
+            const btn = document.getElementById('goLiveBtn');
+            const led = document.getElementById('led');
+
+            if (!isLive) {
+                // START
+                try {
+                    const deviceId = document.getElementById('micSelect').value;
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        audio: { deviceId: deviceId ? { exact: deviceId } : undefined } 
+                    });
+
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    source = audioCtx.createMediaStreamSource(stream);
+                    analyzer = audioCtx.createAnalyser();
+                    gainNode = audioCtx.createGain();
+
+                    // Connect Graph: Source -> Analyzer -> Gain -> Destination (Speakers)
+                    source.connect(analyzer);
+                    analyzer.connect(gainNode);
+                    gainNode.connect(audioCtx.destination); // THIS HEARS YOURSELF
+
+                    // Visuals
+                    isLive = true;
+                    btn.innerText = "STOP BROADCAST";
+                    btn.style.borderColor = "red";
+                    btn.style.color = "red";
+                    led.classList.add('live');
+                    
+                    drawVu();
+
+                } catch(e) { alert("Mic Error: " + e.message); }
+
+            } else {
+                // STOP
+                if(source) source.disconnect();
+                if(gainNode) gainNode.disconnect();
+                if(audioCtx) audioCtx.close();
+                cancelAnimationFrame(animationId);
+                
+                isLive = false;
+                btn.innerText = "GO LIVE (MIC ON)";
+                btn.style.borderColor = "#ffd700";
+                btn.style.color = "#ffd700";
+                led.classList.remove('live');
+                document.getElementById('vuBar').style.width = '0%';
+            }
+        }
+
+        function drawVu() {
+            if(!isLive) return;
+            const data = new Uint8Array(analyzer.frequencyBinCount);
+            analyzer.getByteFrequencyData(data);
+            
+            // Average volume
+            let sum = 0;
+            for(let i=0; i<data.length; i++) sum += data[i];
+            const avg = sum / data.length;
+            
+            // Scale to 0-100%
+            const pct = Math.min(100, avg * 2); 
+            document.getElementById('vuBar').style.width = pct + '%';
+            
+            animationId = requestAnimationFrame(drawVu);
+        }
+    </script>
+</body>
+</html>
